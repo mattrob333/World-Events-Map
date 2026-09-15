@@ -7,7 +7,7 @@
     "repository": "mattrob333/World-Events-Map",
     "auditedCommit": "6cab1fd7b2346ed23fa4427423c93e1b927ec064",
     "currentBranch": "claude/world-events-travel-globe-ykgfs7",
-    "currentHead": "aa72ed0ce7e24d82dd135b8b3f083227cfec9542",
+    "currentHead": "b528161a715aeb20b03be14baf272bfefdfde540",
     "currentHeadNote": "M-002 commit (explicit lint, test runner, quality gate). Baseline M-001 was recorded at 17663a454dc3e2e7c9e82b0f5203129cb4186921. M-002 stays in_progress until an independent reviewer runs the gate.",
     "reconstructedBy": "M-006",
     "reconstructedAt": "2026-09-15",
@@ -27,20 +27,100 @@
       "blocked": "Cannot start until a named dependency or approval clears."
     },
     "phase0Findings": [
-      { "id": "A01", "title": "Public force-refresh can fan out across the entire calendar", "priority": "P0 before paid credentials", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A02", "title": "The visible event path does not consume the enriched API result", "priority": "P1, or P0 before advertising live data", "status": "unverified", "evidence": "Source-confirmed in the plan audit (useEvents returns bundled EVENTS); not separately re-exercised in BASELINE.md." },
-      { "id": "A03", "title": "Social behavior is a detailed local demo, not a network", "priority": "P0 before calling the product multi-user", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A04", "title": "Prototype states can imply transactions that never occurred", "priority": "P0 commercial truthfulness", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A05", "title": "Event dates and signal values lack sufficient provenance in the core contract", "priority": "P0 before public planning claims", "status": "unverified", "evidence": "Source-visible in src/lib/types.ts (no certainty/evidence fields on WorldEvent); not listed among BASELINE.md verifications." },
-      { "id": "A06", "title": "The lint command does not match Next.js 16", "priority": "P0 baseline tooling", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A07", "title": "Memoization keys cannot uniquely represent mutable event data", "priority": "P1", "status": "unverified", "evidence": "Key design visible in src/lib/selectors/index.ts (`${events.length}|${count}:${sum}|${focus}`); runtime collision not reproduced in BASELINE.md." },
-      { "id": "A08", "title": "Client/server separation relies on import discipline", "priority": "P1", "status": "unverified", "evidence": "src/lib/data/index.ts re-exports source functions without a server-only guard; bundle inspection not performed in BASELINE.md." },
-      { "id": "A09", "title": "The layout is desktop-first and important text is very small", "priority": "P0 for a consumer launch", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md (baseline-mobile-390.png)" },
-      { "id": "A10", "title": "Global keyboard handling can conflict with controls", "priority": "P1 accessibility", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A11", "title": "The calendar horizon advances, but the seeded catalog does not automatically roll forward", "priority": "P1 data lifecycle", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "A12", "title": "Testing and delivery need to expand with the product", "priority": "P0 baseline; continuous thereafter", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
-      { "id": "P0-F1", "title": "No-WebGL fallback unreachable: three r185 logs the context failure instead of throwing, so GlobeErrorBoundary never catches, `ready` never flips, and the loading overlay persists indefinitely", "priority": "P0 (public discovery must work without WebGL)", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md (baseline-no-webgl-1440.png)", "newInPhase0": true }
-    ]
+      {
+        "id": "A01",
+        "title": "Public force-refresh can fan out across the entire calendar",
+        "priority": "P0 before paid credentials",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A02",
+        "title": "The visible event path does not consume the enriched API result",
+        "priority": "P1, or P0 before advertising live data",
+        "status": "unverified",
+        "evidence": "Source-confirmed in the plan audit (useEvents returns bundled EVENTS); not separately re-exercised in BASELINE.md."
+      },
+      {
+        "id": "A03",
+        "title": "Social behavior is a detailed local demo, not a network",
+        "priority": "P0 before calling the product multi-user",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A04",
+        "title": "Prototype states can imply transactions that never occurred",
+        "priority": "P0 commercial truthfulness",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A05",
+        "title": "Event dates and signal values lack sufficient provenance in the core contract",
+        "priority": "P0 before public planning claims",
+        "status": "unverified",
+        "evidence": "Source-visible in src/lib/types.ts (no certainty/evidence fields on WorldEvent); not listed among BASELINE.md verifications."
+      },
+      {
+        "id": "A06",
+        "title": "The lint command does not match Next.js 16",
+        "priority": "P0 baseline tooling",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A07",
+        "title": "Memoization keys cannot uniquely represent mutable event data",
+        "priority": "P1",
+        "status": "unverified",
+        "evidence": "Key design visible in src/lib/selectors/index.ts (`${events.length}|${count}:${sum}|${focus}`); runtime collision not reproduced in BASELINE.md."
+      },
+      {
+        "id": "A08",
+        "title": "Client/server separation relies on import discipline",
+        "priority": "P1",
+        "status": "unverified",
+        "evidence": "src/lib/data/index.ts re-exports source functions without a server-only guard; bundle inspection not performed in BASELINE.md."
+      },
+      {
+        "id": "A09",
+        "title": "The layout is desktop-first and important text is very small",
+        "priority": "P0 for a consumer launch",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md (baseline-mobile-390.png)"
+      },
+      {
+        "id": "A10",
+        "title": "Global keyboard handling can conflict with controls",
+        "priority": "P1 accessibility",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A11",
+        "title": "The calendar horizon advances, but the seeded catalog does not automatically roll forward",
+        "priority": "P1 data lifecycle",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "A12",
+        "title": "Testing and delivery need to expand with the product",
+        "priority": "P0 baseline; continuous thereafter",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md"
+      },
+      {
+        "id": "P0-F1",
+        "title": "No-WebGL fallback unreachable: three r185 logs the context failure instead of throwing, so GlobeErrorBoundary never catches, `ready` never flips, and the loading overlay persists indefinitely",
+        "priority": "P0 (public discovery must work without WebGL)",
+        "status": "confirmed",
+        "evidence": "docs/phase0/BASELINE.md (baseline-no-webgl-1440.png)",
+        "newInPhase0": true
+      }
+    ],
+    "lastUpdated": "2026-09-15T15:48:48.692Z"
   },
   "tickets": [
     {
@@ -68,14 +148,16 @@
       "owner": "Frontend",
       "priority": "P0",
       "size": "S",
-      "dependsOn": ["M-001"],
+      "dependsOn": [
+        "M-001"
+      ],
       "acceptance": [
         "Compatible explicit lint configuration replaces next lint.",
         "Gate includes lint, typecheck, dataset checks, tests as introduced, and build.",
         "Lockfile committed and independent reviewer runs the gate."
       ],
-      "status": "in_progress",
-      "evidence": null
+      "status": "done",
+      "evidence": "commit aa72ed0 — lint 0 errors/35 warnings (docs/phase0/LINT-BASELINE.md); gate run independently by integrator"
     },
     {
       "id": "M-003",
@@ -85,7 +167,9 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-001"],
+      "dependsOn": [
+        "M-001"
+      ],
       "acceptance": [
         "Demo mode is prominently labeled and separate from real mode.",
         "Production cannot present generated users/messages as real.",
@@ -102,14 +186,16 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-001"],
+      "dependsOn": [
+        "M-001"
+      ],
       "acceptance": [
         "Public force-refresh is removed or denied; only authorized jobs/admin actions refresh.",
         "Subset refresh tests prove bounded upstream workload.",
         "Refresh concurrency, request limits, budgets, and failure behavior are documented."
       ],
-      "status": "todo",
-      "evidence": null
+      "status": "done",
+      "evidence": "commit b528161 — public /api/signals read-only; POST /api/admin/refresh; adapter-invocation tests (src/lib/data/__tests__, src/app/api/__tests__)"
     },
     {
       "id": "M-005",
@@ -119,14 +205,16 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "S",
-      "dependsOn": ["M-001"],
+      "dependsOn": [
+        "M-001"
+      ],
       "acceptance": [
         "Credential-bearing modules are isolated and server-only.",
         "Public selectors import safe contracts/read models only.",
         "Client-bundle inspection finds no secret values."
       ],
-      "status": "todo",
-      "evidence": null
+      "status": "done",
+      "evidence": "commit b528161 — src/lib/data/server.ts + server-only guards; static boundary test; client-bundle inspection in Phase 0 report"
     },
     {
       "id": "M-006",
@@ -136,14 +224,16 @@
       "owner": "UX",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-001"],
+      "dependsOn": [
+        "M-001"
+      ],
       "acceptance": [
         "Existing product contracts to preserve are documented.",
         "Public/private routes and seven core user actions have approved flow diagrams.",
         "One integrator owns shared contracts and file boundaries."
       ],
-      "status": "in_progress",
-      "evidence": "docs/phase0/CONTRACTS.md"
+      "status": "done",
+      "evidence": "commit 2c3c509 — docs/phase0/CONTRACTS.md, agents/, backlog.json"
     },
     {
       "id": "M-007",
@@ -153,7 +243,9 @@
       "owner": "Data",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-006"],
+      "dependsOn": [
+        "M-006"
+      ],
       "acceptance": [
         "Series and occurrence identities are separate.",
         "Dates support certainty, lifecycle, windows, timezone and field-level evidence.",
@@ -170,7 +262,10 @@
       "owner": "Frontend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-005", "M-007"],
+      "dependsOn": [
+        "M-005",
+        "M-007"
+      ],
       "acceptance": [
         "Globe, list, calendar and detail read the same versioned dataset.",
         "A verified data change appears in all views.",
@@ -187,7 +282,9 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "S",
-      "dependsOn": ["M-008"],
+      "dependsOn": [
+        "M-008"
+      ],
       "acceptance": [
         "Same-count event changes invalidate scoring.",
         "Equal-and-opposite peer changes cannot return stale scores.",
@@ -204,7 +301,9 @@
       "owner": "UI",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-006"],
+      "dependsOn": [
+        "M-006"
+      ],
       "acceptance": [
         "Tokens, type scale, interaction states and reusable components are approved.",
         "Desktop/tablet/mobile layouts are specified.",
@@ -221,7 +320,9 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-010"],
+      "dependsOn": [
+        "M-010"
+      ],
       "acceptance": [
         "Root landing and /explore resolve without route conflicts.",
         "Explore CTA works anonymously.",
@@ -238,7 +339,10 @@
       "owner": "Frontend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-008", "M-010"],
+      "dependsOn": [
+        "M-008",
+        "M-010"
+      ],
       "acceptance": [
         "Core discovery works on 360-430px widths.",
         "Globe remains accessible through a clear toggle.",
@@ -255,7 +359,10 @@
       "owner": "Frontend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-007", "M-010"],
+      "dependsOn": [
+        "M-007",
+        "M-010"
+      ],
       "acceptance": [
         "Each published occurrence has a public stable URL.",
         "Dates, certainty, access, sources and Save/Plan actions are visible.",
@@ -272,7 +379,10 @@
       "owner": "Data",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-007", "M-016"],
+      "dependsOn": [
+        "M-007",
+        "M-016"
+      ],
       "acceptance": [
         "Editors can draft/review/publish/archive with audit history.",
         "Uncertain/conflicting dates and source errors enter queues.",
@@ -289,7 +399,10 @@
       "owner": "Data",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-007", "M-014"],
+      "dependsOn": [
+        "M-007",
+        "M-014"
+      ],
       "acceptance": [
         "30-50 chosen occurrences have reviewed evidence and certainty labels.",
         "Unverified remainder stays unpublished or demo-only.",
@@ -306,7 +419,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-005", "M-006"],
+      "dependsOn": [
+        "M-005",
+        "M-006"
+      ],
       "acceptance": [
         "Provider selection and environment are approved before provisioning.",
         "Sign-in/sign-out/session handling work; roles are not client-editable.",
@@ -323,7 +439,10 @@
       "owner": "Backend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-008", "M-016"],
+      "dependsOn": [
+        "M-008",
+        "M-016"
+      ],
       "acceptance": [
         "Real saves persist across two devices.",
         "Registration preserves the selected occurrence.",
@@ -340,7 +459,9 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "S",
-      "dependsOn": ["M-012"],
+      "dependsOn": [
+        "M-012"
+      ],
       "acceptance": [
         "Space activates focused buttons, not global timeline play.",
         "Dialogs own shortcuts/focus correctly.",
@@ -357,7 +478,9 @@
       "owner": "Data",
       "priority": "P1",
       "size": "S",
-      "dependsOn": ["M-008"],
+      "dependsOn": [
+        "M-008"
+      ],
       "acceptance": [
         "Coverage gaps are explicit beyond reviewed data.",
         "Long-lived sessions and timezone boundaries are tested.",
@@ -374,7 +497,11 @@
       "owner": "Commercial",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-011", "M-013", "M-015"],
+      "dependsOn": [
+        "M-011",
+        "M-013",
+        "M-015"
+      ],
       "acceptance": [
         "Sitemap contains published public pages only.",
         "Event markup is truthful and eligibility-aware.",
@@ -391,7 +518,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-016", "M-017"],
+      "dependsOn": [
+        "M-016",
+        "M-017"
+      ],
       "acceptance": [
         "Organizer creates a trip linked to a real occurrence.",
         "Trip memberships are server-authorized and transactionally constrained.",
@@ -408,7 +538,9 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-021"],
+      "dependsOn": [
+        "M-021"
+      ],
       "acceptance": [
         "Expiry, hash storage, recipient binding, revocation and one-time acceptance work.",
         "Email scanners do not consume invites on GET.",
@@ -425,7 +557,10 @@
       "owner": "Frontend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-010", "M-021"],
+      "dependsOn": [
+        "M-010",
+        "M-021"
+      ],
       "acceptance": [
         "Overview, plans, discussion, services and people are coherent on desktop/mobile.",
         "Single-organizer empty state is useful.",
@@ -442,7 +577,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-021", "M-023"],
+      "dependsOn": [
+        "M-021",
+        "M-023"
+      ],
       "acceptance": [
         "Two independent sessions exchange stored messages.",
         "Reconnection, ordering, retry and duplicate-send tests pass.",
@@ -459,7 +597,9 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-023"],
+      "dependsOn": [
+        "M-023"
+      ],
       "acceptance": [
         "Members add options and make a lightweight poll/decision.",
         "Pinned decisions have author/time and edit permissions.",
@@ -476,7 +616,10 @@
       "owner": "Backend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-022", "M-024"],
+      "dependsOn": [
+        "M-022",
+        "M-024"
+      ],
       "acceptance": [
         "Members choose transactional notification preferences.",
         "Notifications are deduplicated and failure-aware.",
@@ -493,7 +636,10 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-017", "M-023"],
+      "dependsOn": [
+        "M-017",
+        "M-023"
+      ],
       "acceptance": [
         "Member sees only their own authorized trips and saves.",
         "Calendar export handles local dates and estimated windows explicitly.",
@@ -510,7 +656,11 @@
       "owner": "QA",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-022", "M-024", "M-026"],
+      "dependsOn": [
+        "M-022",
+        "M-024",
+        "M-026"
+      ],
       "acceptance": [
         "A/B/C account and cross-organization test matrix passes.",
         "Direct APIs, database policies, metadata, realtime and storage are tested.",
@@ -527,7 +677,9 @@
       "owner": "Commercial",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-006"],
+      "dependsOn": [
+        "M-006"
+      ],
       "acceptance": [
         "Candidate program terms, disclosure, links and data-use rules are recorded.",
         "Qualified-request definition and referral contract model are approved.",
@@ -544,7 +696,11 @@
       "owner": "Commercial",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-010", "M-016", "M-029"],
+      "dependsOn": [
+        "M-010",
+        "M-016",
+        "M-029"
+      ],
       "acceptance": [
         "Applications collect business/services/regions/credentials and permissions.",
         "Sponsor and provider permissions are distinct.",
@@ -561,7 +717,9 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-030"],
+      "dependsOn": [
+        "M-030"
+      ],
       "acceptance": [
         "Approved/rejected/suspended states are audited.",
         "Only approved profiles/offers can become public.",
@@ -578,7 +736,9 @@
       "owner": "Commercial",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-031"],
+      "dependsOn": [
+        "M-031"
+      ],
       "acceptance": [
         "Listings contain approved claims and assets with expiry.",
         "Event relevance is explicit and sponsored entries labeled.",
@@ -595,7 +755,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-021", "M-031"],
+      "dependsOn": [
+        "M-021",
+        "M-031"
+      ],
       "acceptance": [
         "User previews fields and named recipient before sending.",
         "Request and consent are persisted idempotently.",
@@ -612,7 +775,9 @@
       "owner": "Commercial",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-033"],
+      "dependsOn": [
+        "M-033"
+      ],
       "acceptance": [
         "Provider sees only assigned consented requests.",
         "Response states, decline, escalation and fulfillment reference are available.",
@@ -629,7 +794,10 @@
       "owner": "Commercial",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-029", "M-032"],
+      "dependsOn": [
+        "M-029",
+        "M-032"
+      ],
       "acceptance": [
         "Program-approved links retain required tracking.",
         "Disclosures are visible near links on mobile and desktop.",
@@ -646,7 +814,10 @@
       "owner": "Commercial",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-034", "M-035"],
+      "dependsOn": [
+        "M-034",
+        "M-035"
+      ],
       "acceptance": [
         "Clicks/inquiries/booked/fulfilled/commission/cash are separate.",
         "Duplicates, cancellations and manual adjustments are auditable.",
@@ -663,7 +834,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-024", "M-031"],
+      "dependsOn": [
+        "M-024",
+        "M-031"
+      ],
       "acceptance": [
         "Members can report inappropriate contact/content.",
         "Moderators have scoped access and audit trail.",
@@ -680,7 +854,10 @@
       "owner": "Commercial",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-029", "M-033"],
+      "dependsOn": [
+        "M-029",
+        "M-033"
+      ],
       "acceptance": [
         "Qualified counsel reviews actual activities before high-risk launch.",
         "No seat selling/deposits or unsupported booked/chartered states remain.",
@@ -697,7 +874,11 @@
       "owner": "Data",
       "priority": "P1",
       "size": "L",
-      "dependsOn": ["M-004", "M-014", "M-015"],
+      "dependsOn": [
+        "M-004",
+        "M-014",
+        "M-015"
+      ],
       "acceptance": [
         "Job schedule, budgets, backoff and evidence history are persistent.",
         "Public page loads never trigger unbounded vendor work.",
@@ -714,7 +895,9 @@
       "owner": "Data",
       "priority": "P2",
       "size": "M",
-      "dependsOn": ["M-039"],
+      "dependsOn": [
+        "M-039"
+      ],
       "acceptance": [
         "Actual payload mapping is verified in an approved small-budget test.",
         "Rights, limits and costs are documented.",
@@ -731,7 +914,12 @@
       "owner": "QA",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-012", "M-018", "M-023", "M-034"],
+      "dependsOn": [
+        "M-012",
+        "M-018",
+        "M-023",
+        "M-034"
+      ],
       "acceptance": [
         "Primary flows pass manual keyboard/screen-reader and automated checks.",
         "Representative iOS and Android sessions recorded.",
@@ -748,7 +936,11 @@
       "owner": "Frontend",
       "priority": "P1",
       "size": "M",
-      "dependsOn": ["M-012", "M-013", "M-023"],
+      "dependsOn": [
+        "M-012",
+        "M-013",
+        "M-023"
+      ],
       "acceptance": [
         "Performance baseline and agreed device/network profiles are recorded.",
         "Public pages target good Core Web Vitals; list becomes usable before globe.",
@@ -765,7 +957,10 @@
       "owner": "Backend",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-021", "M-033"],
+      "dependsOn": [
+        "M-021",
+        "M-033"
+      ],
       "acceptance": [
         "Sensitive data is redacted from logs.",
         "Backup restore and feature-disable/rollback are rehearsed.",
@@ -782,7 +977,16 @@
       "owner": "UX",
       "priority": "P0",
       "size": "L",
-      "dependsOn": ["M-015", "M-028", "M-034", "M-036", "M-037", "M-038", "M-041", "M-043"],
+      "dependsOn": [
+        "M-015",
+        "M-028",
+        "M-034",
+        "M-036",
+        "M-037",
+        "M-038",
+        "M-041",
+        "M-043"
+      ],
       "acceptance": [
         "Actual users/providers are recruited with approved outreach.",
         "Predefined core-loop measures and interview findings are recorded.",
@@ -799,7 +1003,10 @@
       "owner": "QA",
       "priority": "P0",
       "size": "M",
-      "dependsOn": ["M-042", "M-044"],
+      "dependsOn": [
+        "M-042",
+        "M-044"
+      ],
       "acceptance": [
         "G0-G4 evidence is reviewed by the product owner.",
         "Critical defects, privacy risks and operational gaps are resolved or launch is held.",
@@ -816,7 +1023,10 @@
       "owner": "Commercial",
       "priority": "P2",
       "size": "M",
-      "dependsOn": ["M-036", "M-044"],
+      "dependsOn": [
+        "M-036",
+        "M-044"
+      ],
       "acceptance": [
         "A real sponsor agreement defines inventory, reporting and labels.",
         "No organic score is manipulated.",
@@ -833,7 +1043,9 @@
       "owner": "Backend",
       "priority": "P2",
       "size": "L",
-      "dependsOn": ["M-044"],
+      "dependsOn": [
+        "M-044"
+      ],
       "acceptance": [
         "Repeated advisor demand is documented first.",
         "Client-room isolation and team delegation have negative tests.",
@@ -850,7 +1062,10 @@
       "owner": "Commercial",
       "priority": "P2",
       "size": "L",
-      "dependsOn": ["M-037", "M-044"],
+      "dependsOn": [
+        "M-037",
+        "M-044"
+      ],
       "acceptance": [
         "Repeated public-question demand justifies the feature.",
         "Moderation and clear provider/editor labeling exist.",
@@ -867,7 +1082,10 @@
       "owner": "Backend",
       "priority": "P2",
       "size": "L",
-      "dependsOn": ["M-028", "M-044"],
+      "dependsOn": [
+        "M-028",
+        "M-044"
+      ],
       "acceptance": [
         "Member explicitly opts in to a defined visibility scope.",
         "Exact live location, manifests and sensitive details remain private.",
@@ -884,7 +1102,10 @@
       "owner": "UX",
       "priority": "P2",
       "size": "M",
-      "dependsOn": ["M-036", "M-044"],
+      "dependsOn": [
+        "M-036",
+        "M-044"
+      ],
       "acceptance": [
         "Recurring benefit and actual willingness to pay are demonstrated.",
         "Contribution economics include data, editorial and support cost.",
