@@ -7,7 +7,7 @@
     "repository": "mattrob333/World-Events-Map",
     "auditedCommit": "6cab1fd7b2346ed23fa4427423c93e1b927ec064",
     "currentBranch": "claude/world-events-travel-globe-ykgfs7",
-    "currentHead": "b528161a715aeb20b03be14baf272bfefdfde540",
+    "currentHead": "77ea3937d9409469df993e4257c8da25a70f1ec6",
     "currentHeadNote": "M-002 commit (explicit lint, test runner, quality gate). Baseline M-001 was recorded at 17663a454dc3e2e7c9e82b0f5203129cb4186921. M-002 stays in_progress until an independent reviewer runs the gate.",
     "reconstructedBy": "M-006",
     "reconstructedAt": "2026-09-15",
@@ -120,7 +120,7 @@
         "newInPhase0": true
       }
     ],
-    "lastUpdated": "2026-09-15T15:48:48.692Z"
+    "lastUpdated": "2026-09-15T15:53:42.641Z"
   },
   "tickets": [
     {
@@ -175,8 +175,8 @@
         "Production cannot present generated users/messages as real.",
         "Existing demo interactions remain reviewable and no local real drafts are silently erased."
       ],
-      "status": "todo",
-      "evidence": null
+      "status": "done",
+      "evidence": "commit 77ea393 — src/lib/flags.ts + src/lib/demo gate; 26 tests (src/lib/demo/__tests__, src/lib/social/__tests__); browser evidence docs/phase0/demo-{on,off}-*.png"
     },
     {
       "id": "M-004",
