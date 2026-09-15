@@ -1,0 +1,897 @@
+{
+  "meta": {
+    "product": "MERIDIAN",
+    "planTitle": "MERIDIAN: Product Plan and Source Audit",
+    "planDate": "2026-09-15",
+    "planOwner": "Matt Roberson",
+    "repository": "mattrob333/World-Events-Map",
+    "auditedCommit": "6cab1fd7b2346ed23fa4427423c93e1b927ec064",
+    "currentBranch": "claude/world-events-travel-globe-ykgfs7",
+    "currentHead": "aa72ed0ce7e24d82dd135b8b3f083227cfec9542",
+    "currentHeadNote": "M-002 commit (explicit lint, test runner, quality gate). Baseline M-001 was recorded at 17663a454dc3e2e7c9e82b0f5203129cb4186921. M-002 stays in_progress until an independent reviewer runs the gate.",
+    "reconstructedBy": "M-006",
+    "reconstructedAt": "2026-09-15",
+    "schemaNote": "Tickets are transcribed verbatim from the plan's Roadmap and Prioritized Backlog (Phase 0-5). Sizes S/M/L are relative complexity, not durations. Phase order describes dependencies, not promised dates.",
+    "gates": {
+      "G0": "Safe foundation: baseline recorded; explicit lint and checks; demo boundary; paid-refresh containment; no new critical regression.",
+      "G1": "Trustworthy discovery: reviewed catalog, date certainty, consistent event query, public routes, mobile list fallback, usable event details.",
+      "G2": "Real collaboration: two-device trip/message/invite demonstration; cross-account negative tests; revocation and notification handling.",
+      "G3": "Commercial pilot: approved provider flow, scoped consent, real request delivery, disclosures, attribution definitions, an operational owner.",
+      "G4": "Public release: accessibility/performance evidence, backup/restore rehearsal, policies reviewed, moderation/support coverage, controlled pilot results.",
+      "G5": "Expansion: measured repeat use, provider outcomes and economics justify the next feature; no unresolved trust regressions."
+    },
+    "statusLegend": {
+      "done": "Acceptance met with recorded evidence.",
+      "in_progress": "Actively being worked in the current Phase 0 cycle.",
+      "todo": "Not started.",
+      "blocked": "Cannot start until a named dependency or approval clears."
+    },
+    "phase0Findings": [
+      { "id": "A01", "title": "Public force-refresh can fan out across the entire calendar", "priority": "P0 before paid credentials", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A02", "title": "The visible event path does not consume the enriched API result", "priority": "P1, or P0 before advertising live data", "status": "unverified", "evidence": "Source-confirmed in the plan audit (useEvents returns bundled EVENTS); not separately re-exercised in BASELINE.md." },
+      { "id": "A03", "title": "Social behavior is a detailed local demo, not a network", "priority": "P0 before calling the product multi-user", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A04", "title": "Prototype states can imply transactions that never occurred", "priority": "P0 commercial truthfulness", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A05", "title": "Event dates and signal values lack sufficient provenance in the core contract", "priority": "P0 before public planning claims", "status": "unverified", "evidence": "Source-visible in src/lib/types.ts (no certainty/evidence fields on WorldEvent); not listed among BASELINE.md verifications." },
+      { "id": "A06", "title": "The lint command does not match Next.js 16", "priority": "P0 baseline tooling", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A07", "title": "Memoization keys cannot uniquely represent mutable event data", "priority": "P1", "status": "unverified", "evidence": "Key design visible in src/lib/selectors/index.ts (`${events.length}|${count}:${sum}|${focus}`); runtime collision not reproduced in BASELINE.md." },
+      { "id": "A08", "title": "Client/server separation relies on import discipline", "priority": "P1", "status": "unverified", "evidence": "src/lib/data/index.ts re-exports source functions without a server-only guard; bundle inspection not performed in BASELINE.md." },
+      { "id": "A09", "title": "The layout is desktop-first and important text is very small", "priority": "P0 for a consumer launch", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md (baseline-mobile-390.png)" },
+      { "id": "A10", "title": "Global keyboard handling can conflict with controls", "priority": "P1 accessibility", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A11", "title": "The calendar horizon advances, but the seeded catalog does not automatically roll forward", "priority": "P1 data lifecycle", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "A12", "title": "Testing and delivery need to expand with the product", "priority": "P0 baseline; continuous thereafter", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md" },
+      { "id": "P0-F1", "title": "No-WebGL fallback unreachable: three r185 logs the context failure instead of throwing, so GlobeErrorBoundary never catches, `ready` never flips, and the loading overlay persists indefinitely", "priority": "P0 (public discovery must work without WebGL)", "status": "confirmed", "evidence": "docs/phase0/BASELINE.md (baseline-no-webgl-1440.png)", "newInPhase0": true }
+    ]
+  },
+  "tickets": [
+    {
+      "id": "M-001",
+      "title": "Establish reproducible baseline",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "QA",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": [],
+      "acceptance": [
+        "Fresh lockfile installation and declared Node version recorded.",
+        "Typecheck, dataset validator, build, lint and browser checks have actual pass/fail/blocked evidence.",
+        "Original globe/selection/date/filter flows captured."
+      ],
+      "status": "done",
+      "evidence": "docs/phase0/BASELINE.md"
+    },
+    {
+      "id": "M-002",
+      "title": "Repair lint and explicit quality gate",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "Frontend",
+      "priority": "P0",
+      "size": "S",
+      "dependsOn": ["M-001"],
+      "acceptance": [
+        "Compatible explicit lint configuration replaces next lint.",
+        "Gate includes lint, typecheck, dataset checks, tests as introduced, and build.",
+        "Lockfile committed and independent reviewer runs the gate."
+      ],
+      "status": "in_progress",
+      "evidence": null
+    },
+    {
+      "id": "M-003",
+      "title": "Isolate simulated social activity",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-001"],
+      "acceptance": [
+        "Demo mode is prominently labeled and separate from real mode.",
+        "Production cannot present generated users/messages as real.",
+        "Existing demo interactions remain reviewable and no local real drafts are silently erased."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-004",
+      "title": "Contain forced vendor refresh and fan-out",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-001"],
+      "acceptance": [
+        "Public force-refresh is removed or denied; only authorized jobs/admin actions refresh.",
+        "Subset refresh tests prove bounded upstream workload.",
+        "Refresh concurrency, request limits, budgets, and failure behavior are documented."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-005",
+      "title": "Define safe server/client boundaries",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "S",
+      "dependsOn": ["M-001"],
+      "acceptance": [
+        "Credential-bearing modules are isolated and server-only.",
+        "Public selectors import safe contracts/read models only.",
+        "Client-bundle inspection finds no secret values."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-006",
+      "title": "Approve flow, route and contract map",
+      "phase": 0,
+      "gate": "G0",
+      "owner": "UX",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-001"],
+      "acceptance": [
+        "Existing product contracts to preserve are documented.",
+        "Public/private routes and seven core user actions have approved flow diagrams.",
+        "One integrator owns shared contracts and file boundaries."
+      ],
+      "status": "in_progress",
+      "evidence": "docs/phase0/CONTRACTS.md"
+    },
+    {
+      "id": "M-007",
+      "title": "Add event occurrence and evidence schema",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Data",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-006"],
+      "acceptance": [
+        "Series and occurrence identities are separate.",
+        "Dates support certainty, lifecycle, windows, timezone and field-level evidence.",
+        "Compatibility view model preserves current Beacon mapping."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-008",
+      "title": "Integrate a single versioned event query",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-005", "M-007"],
+      "acceptance": [
+        "Globe, list, calendar and detail read the same versioned dataset.",
+        "A verified data change appears in all views.",
+        "Public reads do not call vendors directly."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-009",
+      "title": "Replace lossy score cache keys",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "S",
+      "dependsOn": ["M-008"],
+      "acceptance": [
+        "Same-count event changes invalidate scoring.",
+        "Equal-and-opposite peer changes cannot return stale scores.",
+        "Focus-date behavior remains consistent with characterization tests."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-010",
+      "title": "Specify responsive visual design system",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "UI",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-006"],
+      "acceptance": [
+        "Tokens, type scale, interaction states and reusable components are approved.",
+        "Desktop/tablet/mobile layouts are specified.",
+        "Globe palette is preserved; reading sizes and touch behavior improve."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-011",
+      "title": "Create landing and route shell",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-010"],
+      "acceptance": [
+        "Root landing and /explore resolve without route conflicts.",
+        "Explore CTA works anonymously.",
+        "No fake social proof or full WebGL dependency on landing."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-012",
+      "title": "Build responsive explorer and list fallback",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-008", "M-010"],
+      "acceptance": [
+        "Core discovery works on 360-430px widths.",
+        "Globe remains accessible through a clear toggle.",
+        "No-WebGL users can search, filter, select and proceed to planning."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-013",
+      "title": "Create canonical event briefing pages",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-007", "M-010"],
+      "acceptance": [
+        "Each published occurrence has a public stable URL.",
+        "Dates, certainty, access, sources and Save/Plan actions are visible.",
+        "Private member data is absent from public HTML and metadata."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-014",
+      "title": "Build editorial review administration",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Data",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-007", "M-016"],
+      "acceptance": [
+        "Editors can draft/review/publish/archive with audit history.",
+        "Uncertain/conflicting dates and source errors enter queues.",
+        "Unauthorized accounts cannot publish."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-015",
+      "title": "Verify pilot event catalog",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Data",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-007", "M-014"],
+      "acceptance": [
+        "30-50 chosen occurrences have reviewed evidence and certainty labels.",
+        "Unverified remainder stays unpublished or demo-only.",
+        "Material change and cancellation fixtures pass validation."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-016",
+      "title": "Provision auth and least-privilege roles in approved environment",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-005", "M-006"],
+      "acceptance": [
+        "Provider selection and environment are approved before provisioning.",
+        "Sign-in/sign-out/session handling work; roles are not client-editable.",
+        "Exposed data has tested RLS and secret separation."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-017",
+      "title": "Add saved events and selective local import",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Backend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-008", "M-016"],
+      "acceptance": [
+        "Real saves persist across two devices.",
+        "Registration preserves the selected occurrence.",
+        "Import only genuinely user-authored saves after consent; no synthetic data."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-018",
+      "title": "Repair keyboard and focus ownership",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "S",
+      "dependsOn": ["M-012"],
+      "acceptance": [
+        "Space activates focused buttons, not global timeline play.",
+        "Dialogs own shortcuts/focus correctly.",
+        "Escape, arrows and tab navigation pass manual keyboard checks."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-019",
+      "title": "Add coverage and clock lifecycle handling",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Data",
+      "priority": "P1",
+      "size": "S",
+      "dependsOn": ["M-008"],
+      "acceptance": [
+        "Coverage gaps are explicit beyond reviewed data.",
+        "Long-lived sessions and timezone boundaries are tested.",
+        "Unknown annual dates are not automatically invented."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-020",
+      "title": "Add public metadata and eligible structured data",
+      "phase": 1,
+      "gate": "G1",
+      "owner": "Commercial",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-011", "M-013", "M-015"],
+      "acceptance": [
+        "Sitemap contains published public pages only.",
+        "Event markup is truthful and eligibility-aware.",
+        "Demo, drafts and private trips have no public indexable output."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-021",
+      "title": "Implement private trip persistence and membership",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-016", "M-017"],
+      "acceptance": [
+        "Organizer creates a trip linked to a real occurrence.",
+        "Trip memberships are server-authorized and transactionally constrained.",
+        "Unrelated users fail read/write negative tests."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-022",
+      "title": "Implement secure invitation delivery and acceptance",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-021"],
+      "acceptance": [
+        "Expiry, hash storage, recipient binding, revocation and one-time acceptance work.",
+        "Email scanners do not consume invites on GET.",
+        "Delivery failures and retry states are honest and idempotent."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-023",
+      "title": "Build private trip-room interface",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Frontend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-010", "M-021"],
+      "acceptance": [
+        "Overview, plans, discussion, services and people are coherent on desktop/mobile.",
+        "Single-organizer empty state is useful.",
+        "Privacy and member controls are visible."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-024",
+      "title": "Implement real text conversation and reconnect",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-021", "M-023"],
+      "acceptance": [
+        "Two independent sessions exchange stored messages.",
+        "Reconnection, ordering, retry and duplicate-send tests pass.",
+        "Revoked members lose future data access and channel permissions."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-025",
+      "title": "Add planning options and simple decisions",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-023"],
+      "acceptance": [
+        "Members add options and make a lightweight poll/decision.",
+        "Pinned decisions have author/time and edit permissions.",
+        "Selected services do not falsely change booking status."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-026",
+      "title": "Add notifications and communication preferences",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Backend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-022", "M-024"],
+      "acceptance": [
+        "Members choose transactional notification preferences.",
+        "Notifications are deduplicated and failure-aware.",
+        "No private message or token leaks into logs/analytics."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-027",
+      "title": "Build trip/saved overview and safe export",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-017", "M-023"],
+      "acceptance": [
+        "Member sees only their own authorized trips and saves.",
+        "Calendar export handles local dates and estimated windows explicitly.",
+        "Private export/share behavior is reviewed and revocable where applicable."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-028",
+      "title": "Verify multi-account isolation and revocation",
+      "phase": 2,
+      "gate": "G2",
+      "owner": "QA",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-022", "M-024", "M-026"],
+      "acceptance": [
+        "A/B/C account and cross-organization test matrix passes.",
+        "Direct APIs, database policies, metadata, realtime and storage are tested.",
+        "Critical access failures block the collaboration gate."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-029",
+      "title": "Define provider and affiliate contracts",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-006"],
+      "acceptance": [
+        "Candidate program terms, disclosure, links and data-use rules are recorded.",
+        "Qualified-request definition and referral contract model are approved.",
+        "No claimed partner enrollment without actual approval."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-030",
+      "title": "Build provider and sponsor application pages",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-010", "M-016", "M-029"],
+      "acceptance": [
+        "Applications collect business/services/regions/credentials and permissions.",
+        "Sponsor and provider permissions are distinct.",
+        "Application does not automatically publish a listing."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-031",
+      "title": "Implement partner approval administration",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-030"],
+      "acceptance": [
+        "Approved/rejected/suspended states are audited.",
+        "Only approved profiles/offers can become public.",
+        "Partner organization roles are server-controlled."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-032",
+      "title": "Publish relevant provider profiles and offers",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-031"],
+      "acceptance": [
+        "Listings contain approved claims and assets with expiry.",
+        "Event relevance is explicit and sponsored entries labeled.",
+        "No unsupported availability or guaranteed access claims."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-033",
+      "title": "Implement consent-scoped service requests",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-021", "M-031"],
+      "acceptance": [
+        "User previews fields and named recipient before sending.",
+        "Request and consent are persisted idempotently.",
+        "Other providers cannot read it or the private trip."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-034",
+      "title": "Build provider inbox and response workflow",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-033"],
+      "acceptance": [
+        "Provider sees only assigned consented requests.",
+        "Response states, decline, escalation and fulfillment reference are available.",
+        "Unanswered-request process has a named operating owner."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-035",
+      "title": "Add approved affiliate links and click attribution",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-029", "M-032"],
+      "acceptance": [
+        "Program-approved links retain required tracking.",
+        "Disclosures are visible near links on mobile and desktop.",
+        "No open redirect or PII in tracking parameters."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-036",
+      "title": "Reconcile conversion and referral outcomes",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-034", "M-035"],
+      "acceptance": [
+        "Clicks/inquiries/booked/fulfilled/commission/cash are separate.",
+        "Duplicates, cancellations and manual adjustments are auditable.",
+        "Dashboard never presents GMV as MERIDIAN revenue."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-037",
+      "title": "Add reports, block controls and moderation queue",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-024", "M-031"],
+      "acceptance": [
+        "Members can report inappropriate contact/content.",
+        "Moderators have scoped access and audit trail.",
+        "Rate limiting and escalation coverage are tested."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-038",
+      "title": "Review policy and aviation launch boundary",
+      "phase": 3,
+      "gate": "G3",
+      "owner": "Commercial",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-029", "M-033"],
+      "acceptance": [
+        "Qualified counsel reviews actual activities before high-risk launch.",
+        "No seat selling/deposits or unsupported booked/chartered states remain.",
+        "Privacy, terms, disclosure, complaint and data-retention decisions are approved."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-039",
+      "title": "Operationalize durable editorial refresh jobs",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "Data",
+      "priority": "P1",
+      "size": "L",
+      "dependsOn": ["M-004", "M-014", "M-015"],
+      "acceptance": [
+        "Job schedule, budgets, backoff and evidence history are persistent.",
+        "Public page loads never trigger unbounded vendor work.",
+        "Unconfigured/error/stale/empty outcomes remain distinct."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-040",
+      "title": "Contract-test one optional live adapter",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "Data",
+      "priority": "P2",
+      "size": "M",
+      "dependsOn": ["M-039"],
+      "acceptance": [
+        "Actual payload mapping is verified in an approved small-budget test.",
+        "Rights, limits and costs are documented.",
+        "Failure cannot corrupt published facts or mimic zero demand."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-041",
+      "title": "Complete accessibility and actual-device checks",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "QA",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-012", "M-018", "M-023", "M-034"],
+      "acceptance": [
+        "Primary flows pass manual keyboard/screen-reader and automated checks.",
+        "Representative iOS and Android sessions recorded.",
+        "Contrast, text scaling, mobile keyboard and no-WebGL paths pass."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-042",
+      "title": "Measure and improve public/explorer performance",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "Frontend",
+      "priority": "P1",
+      "size": "M",
+      "dependsOn": ["M-012", "M-013", "M-023"],
+      "acceptance": [
+        "Performance baseline and agreed device/network profiles are recorded.",
+        "Public pages target good Core Web Vitals; list becomes usable before globe.",
+        "Globe quality and motion degrade gracefully without breaking tasks."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-043",
+      "title": "Implement observability, backup and rollback operations",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "Backend",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-021", "M-033"],
+      "acceptance": [
+        "Sensitive data is redacted from logs.",
+        "Backup restore and feature-disable/rollback are rehearsed.",
+        "Source/provider/notification failures reach a responsible owner."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-044",
+      "title": "Run controlled traveler/provider pilot",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "UX",
+      "priority": "P0",
+      "size": "L",
+      "dependsOn": ["M-015", "M-028", "M-034", "M-036", "M-037", "M-038", "M-041", "M-043"],
+      "acceptance": [
+        "Actual users/providers are recruited with approved outreach.",
+        "Predefined core-loop measures and interview findings are recorded.",
+        "No fake activity or changed goalposts substitutes for evidence."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-045",
+      "title": "Prepare public launch decision",
+      "phase": 4,
+      "gate": "G4",
+      "owner": "QA",
+      "priority": "P0",
+      "size": "M",
+      "dependsOn": ["M-042", "M-044"],
+      "acceptance": [
+        "G0-G4 evidence is reviewed by the product owner.",
+        "Critical defects, privacy risks and operational gaps are resolved or launch is held.",
+        "Production release is explicitly approved."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-046",
+      "title": "Test sponsor placement with measured inventory",
+      "phase": 5,
+      "gate": "G5",
+      "owner": "Commercial",
+      "priority": "P2",
+      "size": "M",
+      "dependsOn": ["M-036", "M-044"],
+      "acceptance": [
+        "A real sponsor agreement defines inventory, reporting and labels.",
+        "No organic score is manipulated.",
+        "Renewal discussion uses actual outcomes, not invented reach."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-047",
+      "title": "Pilot advisor multi-client workspace",
+      "phase": 5,
+      "gate": "G5",
+      "owner": "Backend",
+      "priority": "P2",
+      "size": "L",
+      "dependsOn": ["M-044"],
+      "acceptance": [
+        "Repeated advisor demand is documented first.",
+        "Client-room isolation and team delegation have negative tests.",
+        "Pricing experiment and support cost are measured."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-048",
+      "title": "Add moderated public event questions only if warranted",
+      "phase": 5,
+      "gate": "G5",
+      "owner": "Commercial",
+      "priority": "P2",
+      "size": "L",
+      "dependsOn": ["M-037", "M-044"],
+      "acceptance": [
+        "Repeated public-question demand justifies the feature.",
+        "Moderation and clear provider/editor labeling exist.",
+        "Private plans and member attendance are never exposed by default."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-049",
+      "title": "Add opt-in overlap discovery only if safe and demanded",
+      "phase": 5,
+      "gate": "G5",
+      "owner": "Backend",
+      "priority": "P2",
+      "size": "L",
+      "dependsOn": ["M-028", "M-044"],
+      "acceptance": [
+        "Member explicitly opts in to a defined visibility scope.",
+        "Exact live location, manifests and sensitive details remain private.",
+        "Blocking, reporting and revocation work before release."
+      ],
+      "status": "todo",
+      "evidence": null
+    },
+    {
+      "id": "M-050",
+      "title": "Evaluate subscription and selective expansion",
+      "phase": 5,
+      "gate": "G5",
+      "owner": "UX",
+      "priority": "P2",
+      "size": "M",
+      "dependsOn": ["M-036", "M-044"],
+      "acceptance": [
+        "Recurring benefit and actual willingness to pay are demonstrated.",
+        "Contribution economics include data, editorial and support cost.",
+        "Next investment is approved based on evidence; aviation transactions remain separately gated."
+      ],
+      "status": "todo",
+      "evidence": null
+    }
+  ]
+}

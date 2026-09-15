@@ -1,0 +1,63 @@
+# Phase 0 baseline — commit 17663a454dc3e2e7c9e82b0f5203129cb4186921 — 2026-09-15T15:24:52Z
+node v22.22.2 npm 10.9.7
+
+=== $ npm ci ===
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 10.9.7 -> 12.0.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+npm notice To update run: npm install -g npm@12.0.2
+npm notice
+=== exit 0 ===
+
+=== $ npm run typecheck ===
+
+> meridian@0.1.0 typecheck
+> tsc --noEmit
+
+=== exit 0 ===
+
+=== $ npm run data:validate ===
+  [33mwarn[0m [2m[six-senses-zighy-bay-programme][0m: spans 134 days — is that intentional?
+  [33mwarn[0m [2m[antarctica-early-season][0m: nearest jet port SAWH is 1154km from the venue
+  [33mwarn[0m [2m[antarctica-peak-season][0m: nearest jet port SCCI is 1396km from the venue
+  [33mwarn[0m [2m[kamalaya-koh-samui-retreat][0m: nearest jet port VTBD is 503km from the venue
+  [33mwarn[0m [2m[sharjah-biennial-17][0m: spans 143 days — is that intentional?
+  [33mwarn[0m [2m[baja-grey-whale-lagoon][0m: nearest jet port MMSD is 540km from the venue
+  [33mwarn[0m [2m[yala-leopard-season][0m: spans 149 days — is that intentional?
+  [33mwarn[0m [2m[torres-del-paine-puma][0m: spans 137 days — is that intentional?
+  [33mwarn[0m [2m[sabi-sand-leopards][0m: spans 123 days — is that intentional?
+  [33mwarn[0m [2m[palmwag-desert-rhino][0m: nearest jet port FYWE is 445km from the venue
+
+[32m[1mALL CHECKS PASSED[0m [2m(12 warning(s))[0m
+=== exit 0 ===
+
+=== $ npm run build ===
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/events
+├ ƒ /api/signals
+├ ƒ /api/sources
+└ ○ /icon.svg
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+=== exit 0 ===
+
+=== $ npm run lint ===
+
+> meridian@0.1.0 lint
+> next lint
+
+Invalid project directory provided, no such directory: /home/user/ringfall/lint
+=== exit 1 ===
+
