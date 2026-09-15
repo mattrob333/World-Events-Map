@@ -154,8 +154,6 @@ export const DURATION = {
 // Formatting
 // ─────────────────────────────────────────────────────────────────────────────
 
-const UTC = { timeZone: 'UTC' } as const;
-
 const parse = (iso: string): Date => new Date(`${iso}T00:00:00Z`);
 
 /**

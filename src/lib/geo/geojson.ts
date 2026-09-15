@@ -35,7 +35,7 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
-import { GLOBE_RADIUS, angularDistanceRad } from './projection';
+import { GLOBE_RADIUS } from './projection';
 
 /**
  * Maximum angular span of a rendered edge, in degrees. Below this the chord

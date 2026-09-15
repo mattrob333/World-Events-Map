@@ -11,7 +11,6 @@ import {
   EGPN,
   EINN,
   KAGS,
-  KHOU,
   KADS,
   KMRY,
   KPWK,

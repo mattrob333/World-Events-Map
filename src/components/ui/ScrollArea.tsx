@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode, UIEvent } from 'react';
+import type { ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from './cn';
 
@@ -58,10 +58,7 @@ export function ScrollArea({
     return () => ro.disconnect();
   }, [measure]);
 
-  const onScroll = useCallback(
-    (_e: UIEvent<HTMLDivElement>) => measure(),
-    [measure],
-  );
+  const onScroll = useCallback(() => measure(), [measure]);
 
   const maskStops = [
     edges.top ? `transparent 0, #000 ${fade}px` : '#000 0',
