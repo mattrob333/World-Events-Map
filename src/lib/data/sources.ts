@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * MERIDIAN — source registry and merge policy.
  *
@@ -102,7 +104,9 @@ export const anyLiveConfigured = (): boolean =>
 
 /**
  * Ask every configured live source for signal patches and fold them together
- * in precedence order.
+ * in precedence order. The caller supplies the exact subset to fetch; this
+ * function never loads the calendar or expands that subset. The server facade
+ * caps subset calls; only its explicit sweep passes the whole calendar.
  *
  * Sources run in parallel — they hit unrelated vendors and there is no reason
  * to serialise — but they are *folded* in registry order, so the outcome is
@@ -139,8 +143,10 @@ export async function collectSignalPatches(
   );
 
   // Fold in registry order, not completion order.
+  const requested = new Set(events.map((event) => event.id));
   for (const patchMap of settled) {
     for (const [eventId, patch] of patchMap) {
+      if (!requested.has(eventId)) continue;
       const existing = merged.get(eventId);
       merged.set(eventId, existing ? { ...existing, ...patch } : { ...patch });
     }

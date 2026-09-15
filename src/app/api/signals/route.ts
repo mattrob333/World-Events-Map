@@ -1,31 +1,29 @@
 /**
  * GET /api/signals?ids=a,b,c
  *
- * Refreshed `Partial<BuzzSignals>` patches for specific events — what the
- * dossier calls when a member opens an event and we want its numbers to be
- * current without re-shipping the whole calendar.
+ * Read-only `Partial<BuzzSignals>` patches from the existing 10-minute TTL
+ * cache. Cold or expired entries return no patch, leaving the curated baseline
+ * already shipped with the events. Source health reports actual adapter state.
  *
- * `?force=1` bypasses the 10-minute TTL cache. Guarded by `MAX_IDS` so a
- * crafted query cannot turn one request into a full six-vendor sweep on repeat.
+ * This public route never fetches vendors or starts/waits for a refresh.
+ * Legacy `force` parameters are ignored so existing deep links keep working.
+ * MAX_IDS bounds response size; authorization on POST /api/admin/refresh
+ * contains upstream work, and its subset limit also bounds adapter input.
  *
  * Dynamic by necessity (it reads `searchParams`); freshness is owned by the
- * shared TTL cache in `@/lib/data`. `Cache-Control: no-store` because the
+ * shared TTL cache in `@/lib/data/server`. `Cache-Control: no-store` because the
  * response varies per id list and the useful caching already happened upstream.
  *
- * With zero env vars set this returns `{ signals: {} }` — correct, not an
- * error: there is nothing to sharpen, and the curated baseline already shipped
- * with the events.
+ * On a cold cache this returns `{ signals: {} }`: the curated baseline already
+ * shipped with the events, even when vendor credentials are configured.
  */
 
 import { NextResponse } from 'next/server';
-import { getEventById, refreshSignals } from '@/lib/data';
-import { getSourceHealth } from '@/lib/data/sources';
+import { getEventById } from '@/lib/data';
+import { getCachedSignalPatches, getSourceHealth, MAX_IDS } from '@/lib/data/server';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-
-/** Enough for a viewport's worth of beacons; refuses to be a fan-out amplifier. */
-const MAX_IDS = 60;
 
 export async function GET(request: Request) {
   try {
@@ -51,9 +49,7 @@ export async function GET(request: Request) {
     const known = ids.filter((id) => getEventById(id) !== undefined);
     const unknownIds = ids.filter((id) => !known.includes(id));
 
-    const signals = await refreshSignals(known, {
-      force: url.searchParams.get('force') === '1',
-    });
+    const signals = Object.fromEntries(getCachedSignalPatches(known));
 
     return NextResponse.json(
       { signals, unknownIds, sources: getSourceHealth() },

@@ -21,7 +21,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { dataMeta, getEnrichedEvents } from '@/lib/data';
+import { dataMeta, getEnrichedEvents } from '@/lib/data/server';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';

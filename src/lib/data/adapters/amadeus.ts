@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * MERIDIAN — Amadeus adapter (hotel scarcity).
  *

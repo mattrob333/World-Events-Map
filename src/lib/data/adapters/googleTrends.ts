@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * MERIDIAN — Google Trends adapter, via SerpAPI.
  *

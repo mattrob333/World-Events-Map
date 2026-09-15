@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * MERIDIAN — X (Twitter) API v2 adapter.
  *

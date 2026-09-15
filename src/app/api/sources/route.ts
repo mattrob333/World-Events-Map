@@ -13,8 +13,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getSourceHealth } from '@/lib/data/sources';
-import { signalCacheAgeMs, SIGNAL_TTL_MS } from '@/lib/data';
+import { getSourceHealth, signalCacheAgeMs, SIGNAL_TTL_MS } from '@/lib/data/server';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';

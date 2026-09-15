@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * MERIDIAN — shared adapter plumbing.
  *
