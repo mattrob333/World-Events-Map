@@ -22,7 +22,7 @@
 
 ## Positive control
 
-The control used in this run (`getEventsByIds`) is only referenced from server modules, so its absence from client chunks is expected and does not validate the grep. The final gate build for the Phase 0 report re-runs the inspection with a known event id (`monaco-grand-prix`) as the positive control; see `PHASE0-REPORT.md`.
+The control used in the first run (`getEventsByIds`) is only referenced from server modules, so its absence from client chunks was uninformative. The inspection was re-run on the final gate build at `9f36a21` with a known event id as the control: `monaco-grand-prix` is present in 1 client chunk (the grep sees client code), while all seven credential names and all server fingerprints (`collectSignalPatches`, `sweepAllSignals`, `timingSafeEqual`, `serpapi.com`) remain at 0 across 13 chunks.
 
 ## What this does and does not show
 
