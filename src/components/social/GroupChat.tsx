@@ -26,12 +26,13 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
 import { Button, cn, EmptyState, formatDayMonth, guardAppKeys } from '@/components/ui';
 import { countUnread, mergeThread, type ChatMessage } from '@/lib/social/chat';
-import { MEMBER_INDEX } from '@/lib/social/members';
+import { getMember } from '@/lib/social/members';
 import { useGroupPresence } from '@/lib/social/presence';
 import { useOpenProfile } from '@/lib/social/profileStore';
 import { useSocialStore } from '@/lib/social/useSocialStore';
 import type { TravelGroup } from '@/lib/types';
 import { Avatar } from './Avatar';
+import { useSocialGroups } from './hooks';
 import { TypingDots } from './TypingDots';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -136,7 +137,7 @@ export interface GroupChatProps {
 }
 
 export function GroupChat({ groupId, group, maxHeight = 320, className }: GroupChatProps) {
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const meId = useSocialStore((s) => s.currentMember.id);
   const sendMessage = useSocialStore((s) => s.sendMessage);
   const myAvatarSeed = useSocialStore((s) => s.currentMember.avatarSeed);
@@ -158,7 +159,7 @@ export function GroupChat({ groupId, group, maxHeight = 320, className }: GroupC
   const messages = useThread(groupId);
   const blocks = useMemo(() => toBlocks(messages, meId), [messages, meId]);
   const { typingId } = useGroupPresence(groupId, memberIds);
-  const typist = typingId && typingId !== meId ? MEMBER_INDEX.get(typingId) : undefined;
+  const typist = typingId && typingId !== meId ? getMember(typingId) : undefined;
 
   // ── Scroll ────────────────────────────────────────────────────────────
   const scroller = useRef<HTMLDivElement | null>(null);
@@ -393,7 +394,7 @@ function MessageRun({
   myAvatarSeed: string;
   myPhotoUrl?: string;
 }) {
-  const member = MEMBER_INDEX.get(run.memberId);
+  const member = getMember(run.memberId);
   const first = run.messages[0]!;
   const name = run.mine ? 'You' : (member?.name ?? 'Member');
 

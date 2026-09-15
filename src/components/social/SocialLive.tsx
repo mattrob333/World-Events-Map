@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { getDemoWorld } from '@/lib/demo';
 
 import { startDrip } from '@/lib/social/simulation';
 import { useSocialHydration, useSocialStore } from '@/lib/social/useSocialStore';
@@ -10,6 +11,21 @@ export interface SocialLiveProps {
   paused?: boolean;
   minMs?: number;
   maxMs?: number;
+}
+
+/** Effect lifecycle, also callable without mounting React for timer checks. */
+export function startSocialLive({
+  paused = false,
+  hydrated,
+  minMs,
+  maxMs,
+}: SocialLiveProps & { hydrated: boolean }): (() => void) | undefined {
+  if (paused || !hydrated || getDemoWorld().dripQueue.length === 0) return;
+  const controller = startDrip(() => useSocialStore.getState().revealNextPeer(), {
+    ...(minMs !== undefined ? { minMs } : {}),
+    ...(maxMs !== undefined ? { maxMs } : {}),
+  });
+  return () => controller.stop();
 }
 
 /**
@@ -26,14 +42,10 @@ export interface SocialLiveProps {
 export function SocialLive({ paused = false, minMs, maxMs }: SocialLiveProps) {
   const hydrated = useSocialHydration();
 
-  useEffect(() => {
-    if (paused || !hydrated) return;
-    const controller = startDrip(() => useSocialStore.getState().revealNextPeer(), {
-      ...(minMs !== undefined ? { minMs } : {}),
-      ...(maxMs !== undefined ? { maxMs } : {}),
-    });
-    return () => controller.stop();
-  }, [paused, hydrated, minMs, maxMs]);
+  useEffect(
+    () => startSocialLive({ paused, hydrated, minMs, maxMs }),
+    [paused, hydrated, minMs, maxMs],
+  );
 
   return null;
 }

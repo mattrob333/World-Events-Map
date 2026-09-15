@@ -24,7 +24,7 @@
 
 import { quoteCharter } from './charter';
 import type { Member, TravelGroup, WorldEvent } from '@/lib/types';
-import { MEMBER_INDEX } from './members';
+import { getMember } from './members';
 import { makeRng } from './rng';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -343,7 +343,7 @@ function cabinParagraph(
   const filled = group.members.length;
   const seatsLeft = Math.max(0, group.capacity - filled);
   const host = group.members.find((m) => m.role === 'host');
-  const hostMember = host ? MEMBER_INDEX.get(host.memberId) : undefined;
+  const hostMember = host ? getMember(host.memberId) : undefined;
   const hosting = hostMember?.handle === from.handle;
   const out = weekdayOf(event.start);
 
@@ -361,11 +361,10 @@ function cabinParagraph(
     perSeat = quote.costPerSeat;
   }
 
-  // Only name the airframe when one is actually held. "In a chartered cabin"
-  // is filler, and the absence of metal is itself the useful fact.
+  // Name an aircraft preference without implying availability or a booking.
   const metal = group.jet?.aircraft ?? (group.jet ? undefined : hostMember?.aircraft);
-  const inMetal = metal ? ` in a ${metal}` : '';
-  const tail = metal ? '' : ' The aircraft is not held yet.';
+  const inMetal = metal ? `, with a preference for a ${metal}` : '';
+  const tail = metal ? '' : ' No aircraft preference is set yet.';
   const lines: string[] = [];
 
   // Half the simulated cabins are named after their departure field, and
@@ -388,8 +387,8 @@ function cabinParagraph(
     lines.push('');
     lines.push(
       seatsLeft > 0
-        ? `${usd(perSeat)} a seat at that count, and it falls with every person who joins. ${seatsLeft} ${seatsLeft === 1 ? 'seat' : 'seats'} left.`
-        : `${usd(perSeat)} a seat. The manifest is full as it stands, but people drop and I would put you first.`,
+        ? `Estimated ${usd(perSeat)} a seat at that count. ${seatsLeft} planning places left. Not a quote or a booking.`
+        : `Estimated ${usd(perSeat)} a seat. Manifest closed (preference). Not a quote or a booking.`,
     );
   }
 

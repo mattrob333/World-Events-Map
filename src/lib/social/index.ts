@@ -18,6 +18,7 @@ export { MEMBERS, MEMBER_INDEX } from './members';
 export { quoteCharter, JETS } from './charter';
 
 // ── The rest of the layer, for anyone who wants it ──────────────────────────
+export { getDemoWorld, isDemo } from '@/lib/demo';
 export { getMember, MEMBER_BY_HANDLE, JET_OWNERS, YOU, HOME_BASE_OPTIONS } from './members';
 export {
   JET_INDEX,
@@ -30,6 +31,8 @@ export {
 } from './charter';
 export type { CharterBreakdown, CharterQuoteDetail, QuoteOptions } from './charter';
 
+// Generator exports remain available for design tooling. Product reads use
+// getDemoWorld and the gated selectors; raw fixtures are never a real network.
 export {
   buildSimulation,
   computePeerCounts,

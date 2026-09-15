@@ -6,11 +6,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Button, cn, formatDateRange, Rule } from '@/components/ui';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { buildSharePayload, buildTripLink, readTripLink } from '@/lib/social/invite';
-import { MEMBER_INDEX } from '@/lib/social/members';
+import { getMember } from '@/lib/social/members';
 import { useProfileUiStore } from '@/lib/social/profileStore';
 import { useSocialHydration, useSocialStore } from '@/lib/social/useSocialStore';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { InviteDialog } from './InviteDialog';
+import { useSocialGroups } from './hooks';
 
 export interface ShareTripProps {
   eventId: string;
@@ -72,7 +73,7 @@ export function ShareTrip({ eventId, groupId, className, compact = false }: Shar
     const event = EVENT_INDEX.get(eventId);
     if (!event) return;
     const group = groupId
-      ? useSocialStore.getState().groups.find((g) => g.id === groupId)
+      ? useSocialStore.getState().groupsFor(eventId).find((g) => g.id === groupId)
       : undefined;
     try {
       await navigator.share(buildSharePayload(event, group));
@@ -186,7 +187,7 @@ function InvitationStrip() {
   const invitation = useProfileUiStore((s) => s.invitation);
   const dismissed = useProfileUiStore((s) => s.invitationDismissed);
   const dismiss = useProfileUiStore((s) => s.dismissInvitation);
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const meId = useSocialStore((s) => s.currentMember.id);
   const joinGroup = useSocialStore((s) => s.joinGroup);
 
@@ -195,7 +196,7 @@ function InvitationStrip() {
   const show = hydrated && Boolean(invitation?.groupId) && !dismissed && Boolean(group && event);
 
   const host = group?.members.find((m) => m.role === 'host');
-  const hostMember = host ? MEMBER_INDEX.get(host.memberId) : undefined;
+  const hostMember = host ? getMember(host.memberId) : undefined;
   const aboard = Boolean(group?.members.some((m) => m.memberId === meId));
   const seatsLeft = group ? Math.max(0, group.capacity - group.members.length) : 0;
 
@@ -244,7 +245,7 @@ function InvitationStrip() {
                     dismiss();
                   }}
                 >
-                  {seatsLeft === 0 ? 'Manifest closed' : `Take a seat — ${seatsLeft} left`}
+                  {seatsLeft === 0 ? 'Manifest closed (preference)' : `Take a seat — ${seatsLeft} left`}
                 </Button>
               )}
             </div>

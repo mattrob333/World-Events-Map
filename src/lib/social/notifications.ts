@@ -5,7 +5,7 @@
  *
  * What the member missed while they were not looking: somebody new signalling
  * on a fixture they are watching, somebody landing on a cabin they are on, a
- * group reaching quorum, an aircraft being held.
+ * group reaching quorum, an aircraft preference being set.
  *
  * ── Two design rules ────────────────────────────────────────────────────────
  *
@@ -29,9 +29,9 @@
 import { useMemo } from 'react';
 
 import { EVENT_INDEX } from '@/lib/data/events';
+import { getDemoWorld, isDemo } from '@/lib/demo';
 import type { InterestSignal, TravelGroup } from '@/lib/types';
-import { MEMBER_INDEX } from './members';
-import { getSimulation } from './simulation';
+import { getMember } from './members';
 import { useSocialStore } from './useSocialStore';
 
 export type NotificationKind =
@@ -41,7 +41,7 @@ export type NotificationKind =
   | 'seat-interest'
   /** A cabin you are on has enough people to be viable. */
   | 'group-quorum'
-  /** A cabin you are on has the aircraft held. */
+  /** A cabin you are on has an aircraft preference. */
   | 'group-chartered'
   /** A cabin you are on is full. */
   | 'group-full';
@@ -79,6 +79,9 @@ const MAX_FEED = 24;
  * of cabins the member is actually on.
  */
 export function buildActivityFeed(input: ActivityInput): ActivityNotification[] {
+  // All current notifications are simulated arrivals or inferred demo facts.
+  // There is no real delivery/event stream to report yet.
+  if (!isDemo()) return [];
   const { currentMemberId, interests, groups, dripRevealed, readIds } = input;
   const read = new Set(readIds);
   const out: ActivityNotification[] = [];
@@ -88,7 +91,7 @@ export function buildActivityFeed(input: ActivityInput): ActivityNotification[] 
   const myGroupsByEvent = new Map(myGroups.map((g) => [g.eventId, g]));
 
   // ── Arrivals, from the live drip ───────────────────────────────────────
-  const world = getSimulation();
+  const world = getDemoWorld();
   const released = world.dripQueue.slice(0, Math.max(0, dripRevealed));
   released.forEach((signal, index) => {
     if (signal.memberId === currentMemberId) return;
@@ -96,7 +99,7 @@ export function buildActivityFeed(input: ActivityInput): ActivityNotification[] 
     const cabin = myGroupsByEvent.get(signal.eventId);
     if (!onMyEvent && !cabin) return;
 
-    const member = MEMBER_INDEX.get(signal.memberId);
+    const member = world.memberIndex.get(signal.memberId);
     if (!member) return;
 
     // Somebody committing to an event where you have seats going is a
@@ -160,7 +163,7 @@ export interface NotificationCopy {
 /** House voice: state the fact, name the person, name the place. */
 export function describeNotification(n: ActivityNotification): NotificationCopy {
   const event = EVENT_INDEX.get(n.eventId);
-  const member = n.memberId ? MEMBER_INDEX.get(n.memberId) : undefined;
+  const member = n.memberId ? getMember(n.memberId) : undefined;
   const eventName = event?.name ?? 'an event';
   const where = event ? `${event.city} · ${event.start.slice(0, 10)}` : '';
 
@@ -180,17 +183,17 @@ export function describeNotification(n: ActivityNotification): NotificationCopy 
     case 'group-quorum':
       return {
         title: `Your cabin to ${eventName} has quorum`,
-        detail: 'Enough people to justify the charter. The aircraft is the next decision',
+        detail: 'Enough people to plan a shared cabin. The aircraft preference is the next decision',
       };
     case 'group-chartered':
       return {
-        title: `The aircraft is held for ${eventName}`,
-        detail: 'Your cabin is chartered. Per-seat is fixed from here',
+        title: `Aircraft preference set for ${eventName}`,
+        detail: 'Planning estimate only. No quote or booking exists',
       };
     case 'group-full':
       return {
         title: `Your cabin to ${eventName} is full`,
-        detail: 'Manifest closed',
+        detail: 'Manifest closed (preference)',
       };
   }
 }

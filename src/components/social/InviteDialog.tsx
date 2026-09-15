@@ -14,10 +14,12 @@ import {
 } from '@/components/ui';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { buildInviteEmail, isValidEmail, parseEmails } from '@/lib/social/invite';
-import { MEMBERS, MEMBER_INDEX } from '@/lib/social/members';
+import { getDemoWorld } from '@/lib/demo';
+import { getMember } from '@/lib/social/members';
 import { useSocialHydration, useSocialStore } from '@/lib/social/useSocialStore';
 import type { MemberDossier } from '@/lib/social/members';
 import { Avatar } from './Avatar';
+import { useSocialGroups } from './hooks';
 import { MemberTierMark } from './MemberTierMark';
 
 export interface InviteDialogProps {
@@ -95,7 +97,7 @@ interface InviteBodyProps {
 function InviteBody({ eventId, groupId, preselectedMemberIds, onClose }: InviteBodyProps) {
   const hydrated = useSocialHydration();
   const me = useSocialStore((s) => s.currentMember);
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const contacts = useSocialStore((s) => s.contacts);
   const asks = useSocialStore((s) => s.asks);
   const invitesRemaining = useSocialStore((s) => s.invitesRemaining);
@@ -156,7 +158,7 @@ function InviteBody({ eventId, groupId, preselectedMemberIds, onClose }: InviteB
   );
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const pool = MEMBERS.filter((m) => !alreadyOn.has(m.id));
+    const pool = getDemoWorld().members.filter((m) => m.id !== me.id && !alreadyOn.has(m.id));
     if (!q) {
       // No query: the members most likely to say yes — open to sharing, and
       // already signalling on something in the same category.
@@ -172,14 +174,14 @@ function InviteBody({ eventId, groupId, preselectedMemberIds, onClose }: InviteB
           .includes(q),
       )
       .slice(0, 10);
-  }, [query, alreadyOn, event.category]);
+  }, [query, alreadyOn, event.category, me.id]);
 
   const askMembers = (): void => {
     if (picked.length === 0) return;
     noteAsks(picked, eventId, groupId);
     if (groupId) {
       const names = picked
-        .map((id) => MEMBER_INDEX.get(id)?.name)
+        .map((id) => getMember(id)?.name)
         .filter((n): n is string => Boolean(n));
       if (names.length > 0) {
         try {

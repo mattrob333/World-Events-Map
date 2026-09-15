@@ -51,7 +51,7 @@ export function GroupList({ eventId, className }: GroupListProps) {
       {ordered.length === 0 && !composing && (
         <EmptyState
           title="No cabin yet"
-          body="Nobody has put a group together for this. Start one and the members watching it will see it."
+          body="No group has been created here yet. Start a cabin to save your plans on this device."
           action={
             <Button variant="brass" size="sm" onClick={() => setComposing(true)}>
               Start a cabin

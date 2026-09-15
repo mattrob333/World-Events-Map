@@ -98,7 +98,7 @@ export function CharterPanel({ eventId, seats, className }: CharterPanelProps) {
       <div className="flex items-end justify-between gap-4">
         <div className="min-w-0">
           <p className="label-sm text-ink-faint">
-            Per seat at {hydrated ? Math.max(1, Math.min(filled, capacity)) : 1}
+            Estimate per seat at {hydrated ? Math.max(1, Math.min(filled, capacity)) : 1}
           </p>
           <motion.p
             key={quote.costPerSeat}
@@ -115,6 +115,11 @@ export function CharterPanel({ eventId, seats, className }: CharterPanelProps) {
           <p className="tabular mt-1.5 text-[13px] text-ink-muted">{formatUsd(quote.totalCost)}</p>
         </div>
       </div>
+
+      <p className="mt-2.5 text-[11px] leading-[17px] text-ink-faint">
+        Planning estimate. Not a quote or a booking. Excludes winds aloft, peak-date
+        surcharge, slot and ramp availability, de-icing and ground transfers.
+      </p>
 
       {/* The argument, in one sentence */}
       <p className="mt-3 text-[12px] leading-[18px] text-ink-muted">
@@ -168,13 +173,13 @@ export function CharterPanel({ eventId, seats, className }: CharterPanelProps) {
         <p className="mt-2.5 border-l border-alert/60 pl-2.5 text-[11px] leading-4 text-ink-muted">
           No airframe in the catalogue reaches {event.nearestJetPort.code} nonstop with{' '}
           {capacity} aboard — {quote.jet.aircraft} usable range is{' '}
-          {usableRangeNm(quote.jet).toLocaleString('en-US')} nm. Quoted with{' '}
+          {usableRangeNm(quote.jet).toLocaleString('en-US')} nm. Estimated with{' '}
           {quote.techStops} technical stop{quote.techStops > 1 ? 's' : ''} each way.
         </p>
       )}
       {quote.aircraftCount > 1 && (
         <p className="mt-2.5 border-l border-alert/60 pl-2.5 text-[11px] leading-4 text-ink-muted">
-          Quoted as {quote.aircraftCount} aircraft — {capacity} will not fit one cabin.
+          Estimated as {quote.aircraftCount} aircraft — {capacity} will not fit one cabin.
         </p>
       )}
 
@@ -204,7 +209,7 @@ export function CharterPanel({ eventId, seats, className }: CharterPanelProps) {
             selected={group.jet?.id === quote.jet.id}
             onClick={() => useSocialStore.getState().chooseJet(group.id, quote.jet)}
           >
-            Hold this aircraft
+            Set aircraft preference
           </Button>
         )}
       </div>
@@ -222,13 +227,6 @@ export function CharterPanel({ eventId, seats, className }: CharterPanelProps) {
               <span>{a}</span>
             </li>
           ))}
-          <li className="mt-2 flex gap-2">
-            <span className="text-ink-ghost">·</span>
-            <span>
-              Indicative only. Excludes winds aloft, peak-date surcharge, slot and ramp
-              availability, de-icing and ground transfers.
-            </span>
-          </li>
         </motion.ul>
       )}
     </div>

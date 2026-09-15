@@ -25,6 +25,7 @@
  */
 
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { getDemoWorld } from '@/lib/demo';
 
 import { hashSeed } from './rng';
 import { startDrip, type DripController } from './simulation';
@@ -66,6 +67,8 @@ const unit = (key: string): number => (hashSeed(key) % 100_000) / 100_000;
  * the ones the product keeps telling you about are the ones who answer.
  */
 export function isOnline(memberId: string, tick: number, sharer = false): boolean {
+  const world = getDemoWorld();
+  if (world.members.length <= 1 || !world.memberIndex.has(memberId)) return false;
   const window = Math.floor(tick / ONLINE_HOLD);
   const rate = sharer ? ONLINE_RATE_SHARER : ONLINE_RATE;
   return unit(`${PRESENCE_SEED}:on:${memberId}:${window}`) < rate;
@@ -82,6 +85,9 @@ export function typingIn(
   memberIds: readonly string[],
   tick: number,
 ): string | null {
+  const world = getDemoWorld();
+  if (world.members.length <= 1) return null;
+  memberIds = memberIds.filter((id) => world.memberIndex.has(id));
   if (tick <= 0 || memberIds.length === 0) return null;
   const phase = Math.floor(tick / TYPING_HOLD);
   const roll = hashSeed(`${PRESENCE_SEED}:type:${groupId}:${phase}`);
@@ -101,6 +107,7 @@ let paused = false;
 const listeners = new Set<() => void>();
 
 function ensureRunning(): void {
+  if (getDemoWorld().dripQueue.length === 0) return;
   if (controller || paused || listeners.size === 0) return;
   controller = startDrip(
     () => {
@@ -118,6 +125,7 @@ function halt(): void {
 
 /** Subscribe to the tick. Starts the timer on the first subscriber. */
 export function subscribePresence(onChange: () => void): () => void {
+  if (getDemoWorld().dripQueue.length === 0) return () => {};
   listeners.add(onChange);
   ensureRunning();
   return () => {
@@ -126,7 +134,7 @@ export function subscribePresence(onChange: () => void): () => void {
   };
 }
 
-export const getPresenceTick = (): number => tick;
+export const getPresenceTick = (): number => getDemoWorld().dripQueue.length === 0 ? 0 : tick;
 
 /** The server, and the first client render, always see zero. */
 const getServerTick = (): number => 0;

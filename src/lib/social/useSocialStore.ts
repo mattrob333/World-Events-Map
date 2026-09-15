@@ -3,13 +3,9 @@
 /**
  * MERIDIAN — the social store.
  *
- * Local-first, and only local-first. There is no backend and there is not going
- * to be one, so `localStorage` is the system of record for everything the user
- * authored: who they are, what they have signalled interest in, and which
- * cabins they are on. Everything else — the peers, their signals, the groups
- * they host — is regenerated deterministically from `simulation.ts` on every
- * load and is never persisted. That keeps the payload small and means the
- * simulated world can be improved without stranding anyone's saved state.
+ * User-authored drafts live in localStorage. Simulated peers, signals and
+ * groups enter only through `getDemoWorld()` and are never persisted. In real
+ * mode the same local drafts load without generating a social network.
  *
  * ── Hydration ───────────────────────────────────────────────────────────────
  * `skipHydration: true`. Nothing reads `localStorage` during the server render
@@ -24,6 +20,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { EVENT_INDEX } from '@/lib/data/events';
+import { getDemoWorld, isDemo } from '@/lib/demo';
 import type {
   EventCategory,
   InterestLevel,
@@ -39,8 +36,8 @@ import {
   readWatermark,
   type ChatMessage,
 } from './chat';
-import { MEMBER_INDEX, YOU, type MemberDossier } from './members';
-import { deriveStatus, getSimulation } from './simulation';
+import { YOU, type MemberDossier } from './members';
+import { deriveStatus } from './simulation';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Local view types
@@ -107,6 +104,15 @@ export const INVITE_ALLOWANCE = 3;
 
 const isUserGroup = (g: TravelGroup): boolean => g.id.startsWith(USER_GROUP_PREFIX);
 
+/** Apply the current boundary even to a snapshot retained from a demo session. */
+export function groupsInWorld(
+  groups: readonly TravelGroup[],
+  world = getDemoWorld(),
+): TravelGroup[] {
+  const allowed = new Set(world.groups.map((group) => group.id));
+  return groups.filter((group) => isUserGroup(group) || allowed.has(group.id));
+}
+
 const clampInt = (v: number, lo: number, hi: number): number =>
   Math.max(lo, Math.min(hi, Math.round(v)));
 
@@ -133,6 +139,8 @@ interface SocialState {
   interests: InterestSignal[];
   /** Simulated groups (with the user's joins applied) plus user-created ones. */
   groups: TravelGroup[];
+  /** Retain saved demo joins while their groups are hidden in real mode. */
+  joinedGroupIds: string[];
   /** How many withheld peer signals the live drip has released this session. */
   dripRevealed: number;
 
@@ -374,7 +382,7 @@ function composeGroups(
   userGroups: readonly TravelGroup[],
 ): TravelGroup[] {
   const joined = new Set(joinedGroupIds);
-  const base = getSimulation().groups.map((g) => {
+  const base = getDemoWorld().groups.map((g) => {
     if (!joined.has(g.id)) return { ...g, members: [...g.members] };
     if (g.members.some((m) => m.memberId === currentMember.id)) {
       return { ...g, members: [...g.members] };
@@ -393,7 +401,7 @@ function composeGroups(
 function revealedDrip(count: number): Map<string, InterestSignal[]> {
   const out = new Map<string, InterestSignal[]>();
   if (count <= 0) return out;
-  const queue = getSimulation().dripQueue;
+  const queue = getDemoWorld().dripQueue;
   for (let i = 0; i < Math.min(count, queue.length); i++) {
     const s = queue[i]!;
     const list = out.get(s.eventId);
@@ -413,7 +421,7 @@ const daysFromToday = (iso: string): number =>
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const useSocialStore = create<SocialState>()(
-  persist(
+  persist<SocialState, [], [], Persisted>(
     (set, get) => ({
       hydrated: false,
       currentMember: YOU,
@@ -421,6 +429,7 @@ export const useSocialStore = create<SocialState>()(
       // Built lazily on first read of the simulation. On the server this is the
       // same value the client computes, so the initial render matches.
       groups: composeGroups(YOU, [], []),
+      joinedGroupIds: [],
       dripRevealed: 0,
       myMessages: [],
       lastReadAt: {},
@@ -631,7 +640,7 @@ export const useSocialStore = create<SocialState>()(
 
       revealNextPeer: () =>
         set((s) => ({
-          dripRevealed: Math.min(s.dripRevealed + 1, getSimulation().dripQueue.length),
+          dripRevealed: Math.min(s.dripRevealed + 1, getDemoWorld().dripQueue.length),
         })),
 
       reset: () =>
@@ -639,6 +648,7 @@ export const useSocialStore = create<SocialState>()(
           currentMember: YOU,
           interests: [],
           groups: composeGroups(YOU, [], []),
+          joinedGroupIds: [],
           dripRevealed: 0,
           myMessages: [],
           lastReadAt: {},
@@ -690,7 +700,7 @@ export const useSocialStore = create<SocialState>()(
         get().interests.find((i) => i.eventId === eventId)?.level ?? null,
 
       peerSignalsFor: (eventId) => {
-        const base = getSimulation().signalsByEvent.get(eventId) ?? [];
+        const base = getDemoWorld().signalsByEvent.get(eventId) ?? [];
         const extra = revealedDrip(get().dripRevealed).get(eventId) ?? [];
         return extra.length ? [...extra, ...base] : [...base];
       },
@@ -704,17 +714,17 @@ export const useSocialStore = create<SocialState>()(
         for (const s of get().peerSignalsFor(eventId)) {
           if (s.memberId === me || seen.has(s.memberId)) continue;
           seen.add(s.memberId);
-          const m = MEMBER_INDEX.get(s.memberId);
+          const m = getDemoWorld().memberIndex.get(s.memberId);
           if (m) out.push(m);
         }
         return out;
       },
 
-      groupsFor: (eventId) => get().groups.filter((g) => g.eventId === eventId),
+      groupsFor: (eventId) => groupsInWorld(get().groups).filter((g) => g.eventId === eventId),
 
       myGroupFor: (eventId) => {
         const me = get().currentMember.id;
-        return get().groups.find(
+        return groupsInWorld(get().groups).find(
           (g) => g.eventId === eventId && g.members.some((m) => m.memberId === me),
         );
       },
@@ -722,8 +732,7 @@ export const useSocialStore = create<SocialState>()(
       isInGroup: (groupId) => {
         const me = get().currentMember.id;
         return Boolean(
-          get()
-            .groups.find((g) => g.id === groupId)
+          groupsInWorld(get().groups).find((g) => g.id === groupId)
             ?.members.some((m) => m.memberId === me),
         );
       },
@@ -747,7 +756,7 @@ export const useSocialStore = create<SocialState>()(
           });
         }
 
-        for (const g of groups) {
+        for (const g of groupsInWorld(groups)) {
           if (!g.members.some((m) => m.memberId === currentMember.id)) continue;
           const e = EVENT_INDEX.get(g.eventId);
           if (!e) continue;
@@ -795,9 +804,11 @@ export const useSocialStore = create<SocialState>()(
         currentMember: s.currentMember,
         interests: s.interests,
         userGroups: s.groups.filter(isUserGroup),
-        joinedGroupIds: s.groups
-          .filter((g) => !isUserGroup(g) && g.members.some((m) => m.memberId === s.currentMember.id))
-          .map((g) => g.id),
+        joinedGroupIds: isDemo()
+          ? s.groups
+              .filter((g) => !isUserGroup(g) && g.members.some((m) => m.memberId === s.currentMember.id))
+              .map((g) => g.id)
+          : s.joinedGroupIds,
         myMessages: s.myMessages,
         lastReadAt: s.lastReadAt,
         contacts: s.contacts,
@@ -842,7 +853,7 @@ export const useSocialStore = create<SocialState>()(
           ...base,
           currentMember: sanitizePhoto(base.currentMember),
           // v2 and older simply had no conversation. Empty is correct, not a
-          // loss — the seeded side of every thread comes back regardless.
+          // loss — the seeded side is available only in demo mode.
           myMessages: version < 3 ? [] : sanitizeMessages(p.myMessages),
           lastReadAt: version < 3 ? {} : sanitizeReads(p.lastReadAt),
           // v3 and older had no invitations. Nothing to carry forward; the
@@ -865,7 +876,7 @@ export const useSocialStore = create<SocialState>()(
 
       /**
        * Rebuild the live state from the persisted deltas. The simulated world
-       * is always regenerated, never restored.
+       * is regenerated only in demo mode, never restored from storage.
        */
       merge: (persisted, current): SocialState => {
         const p = (persisted ?? {}) as Partial<PersistedV4>;
@@ -875,6 +886,7 @@ export const useSocialStore = create<SocialState>()(
           currentMember,
           interests: p.interests ?? [],
           groups: composeGroups(currentMember, p.joinedGroupIds ?? [], p.userGroups ?? []),
+          joinedGroupIds: p.joinedGroupIds ?? [],
           myMessages: sanitizeMessages(p.myMessages),
           lastReadAt: sanitizeReads(p.lastReadAt),
           contacts: sanitizeContacts(p.contacts),

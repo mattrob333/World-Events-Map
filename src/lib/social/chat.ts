@@ -27,11 +27,12 @@
  */
 
 import { EVENT_INDEX } from '@/lib/data/events';
+import { getDemoWorld } from '@/lib/demo';
 import { greatCircleDistanceNm } from '@/lib/geo/projection';
 import type { GroupStatus, Member, TravelGroup, WorldEvent } from '@/lib/types';
 import { MEMBER_INDEX } from './members';
 import { clamp, makeRng, type Rng } from './rng';
-import { getSimulation, WORLD_SEED } from './simulation';
+import { WORLD_SEED } from './simulation';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Shape
@@ -228,7 +229,7 @@ const LINES: Record<Topic, readonly Line[]> = {
         `Down for it. Same as last year, assuming last year is the benchmark and not the warning.`,
     },
     {
-      say: (t) => `Confirmed. The ${t.c.dayBack} return suits me — I have kept the week after clear.`,
+      say: (t) => `My preference is the ${t.c.dayBack} return — I have kept the week after clear.`,
     },
     { say: () => `In, and I am bringing nobody. Learned that lesson.` },
     {
@@ -239,7 +240,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     {
       ok: offHub,
       say: (t) =>
-        `Booked out of ${t.me.homeBase.homeJetPort} already, so consider me committed whether or not the slot moves.`,
+        `Planning to leave from ${t.me.homeBase.homeJetPort}, with the departure time still to be arranged.`,
     },
     {
       say: () => `Put me down. I have not been in three years and I have run out of excuses.`,
@@ -304,7 +305,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     },
     {
       say: (t) =>
-        `Rooms in ${t.c.city} are gone from the ${t.c.day} — I checked this morning. If you have not booked, tell me and I will make a call.`,
+        `Rooms in ${t.c.city} from the ${t.c.day} still need checking. Tell me your preferences and I will make a list.`,
     },
     {
       ok: named,
@@ -337,7 +338,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     },
     {
       say: (t) =>
-        `Booked the usual place in ${t.c.city} for the ${t.c.day}. Six of us. It is not a discussion, it is a booking.`,
+        `My preference is the usual place in ${t.c.city} for the ${t.c.day}. Six of us, subject to availability.`,
     },
     {
       say: () =>
@@ -409,7 +410,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     },
     {
       say: (t) =>
-        `Customs at ${t.c.port} took forty minutes last year. Build it into whatever you have booked for the afternoon.`,
+        `Customs at ${t.c.port} took forty minutes last year. Build it into whatever you plan for the afternoon.`,
     },
   ],
 
@@ -430,7 +431,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     },
     {
       ok: (t) => !held(t),
-      say: () => `Is the aircraft actually held, or are we still hoping. I ask because I have been caught before.`,
+      say: () => `Have we set an aircraft preference yet? The planning estimate depends on it.`,
     },
     {
       ok: held,
@@ -481,7 +482,7 @@ const LINES: Record<Topic, readonly Line[]> = {
     },
     {
       ok: settled,
-      say: () => `Everything is booked. I am not answering anything else until we are airborne.`,
+      say: () => `Preferences are set. Availability and booking arrangements still need checking.`,
     },
     {
       say: (t) => `That is us. ${t.c.hub}, ${t.c.day}, and the aircraft leaves whether or not you are on it.`,
@@ -502,9 +503,9 @@ const LINES: Record<Topic, readonly Line[]> = {
 const systemJoin = (m: Member): string => `${m.name} joined the manifest`;
 const systemQuorum = (c: ThreadCtx): string =>
   `Quorum reached — ${c.quorum} of ${c.capacity} seats committed`;
-const systemJet = (c: ThreadCtx): string => `${c.jetName} held out of ${c.hub}`;
+const systemJet = (c: ThreadCtx): string => `Aircraft preference set — ${c.jetName} out of ${c.hub}`;
 const systemClosed = (c: ThreadCtx): string =>
-  `Manifest closed at ${c.capacity} of ${c.capacity}`;
+  `Manifest closed (preference) at ${c.capacity} of ${c.capacity}`;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Timeline
@@ -797,9 +798,11 @@ let threadCache: Map<string, readonly ChatMessage[]> | null = null;
 
 /** Every seeded thread in the world, built once per process. */
 export function getThreads(): ReadonlyMap<string, readonly ChatMessage[]> {
+  const world = getDemoWorld();
+  if (world.groups.length === 0) return EMPTY_THREADS;
   if (threadCache) return threadCache;
   const out = new Map<string, readonly ChatMessage[]>();
-  for (const group of getSimulation().groups) {
+  for (const group of world.groups) {
     const event = EVENT_INDEX.get(group.eventId);
     if (!event) continue;
     out.set(group.id, Object.freeze(buildThread(group, event)));
@@ -817,6 +820,7 @@ export function getThread(groupId: string): readonly ChatMessage[] {
 }
 
 const EMPTY: readonly ChatMessage[] = Object.freeze([]);
+const EMPTY_THREADS: ReadonlyMap<string, readonly ChatMessage[]> = new Map();
 
 /** Drop the memo. Only the verification script has a reason to call this. */
 export function resetThreads(): void {

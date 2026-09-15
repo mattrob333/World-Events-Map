@@ -39,13 +39,13 @@ const RUNGS: readonly Rung[] = [
     level: 'interested',
     title: 'Interested',
     consequence:
-      'Visible to members on this event. You count toward quorum on forming cabins.',
+      'Interest saved on this device. No invitation is sent.',
   },
   {
     level: 'committed',
     title: 'Committed',
     consequence:
-      'You are on the manifest. Charter cost is split across the cabin, and the split is binding once the aircraft is held.',
+      'Your intention to go is saved on this device. Aircraft choices are preferences; costs are planning estimates with no booking or payment commitment.',
   },
 ];
 

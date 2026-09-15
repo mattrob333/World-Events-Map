@@ -1,10 +1,8 @@
 /**
  * MERIDIAN — the simulated club.
  *
- * A map with nobody on it is a mockup. This module is the difference between
- * MERIDIAN reading as a product and reading as a demo: it decides, for every
- * event in the dataset, which members are watching it, which are going, and who
- * has already put a cabin together.
+ * Generators for the explicitly labelled demo. Product reads enter through
+ * `getDemoWorld()`; production without the demo flag never builds this world.
  *
  * Three properties matter more than realism:
  *
@@ -27,6 +25,7 @@
  */
 
 import { EVENTS } from '@/lib/data/events';
+import { getDemoWorld } from '@/lib/demo';
 import { greatCircleDistanceNm } from '@/lib/geo/projection';
 import type {
   EventCategory,
@@ -213,11 +212,11 @@ const NOTES_BY_LEVEL: Record<InterestLevel, readonly string[]> = {
     'Keen. Less keen on the hotel situation',
   ],
   committed: [
-    'Booked. Two seats spare if the timing suits anyone',
+    'Planning to go. Two places in mind if the timing suits anyone',
     'Going regardless. Cabin has room',
-    'Confirmed — same arrangement as last year',
+    'My preference — same plan as last year',
     'In. Bringing the same three people and no others',
-    'Done. Wheels up Thursday morning',
+    'Thursday morning departure is my preference',
   ],
 };
 
@@ -278,7 +277,7 @@ const PREMISES: readonly ((c: PremiseCtx) => string)[] = [
   (c) => `Ground arrangements are handled from the Tuesday before. The flight is the only part left to organise.`,
   (c) => `Splitting a ${c.jet} from ${c.hub}. Bring nothing that needs its own seat.`,
   (c) => `${c.event} and nothing else. No dinners, no introductions, no one taking meetings.`,
-  (c) => `Booked the ramp slot already, which was the hard part. ${c.seats} seats out of ${c.hub}.`,
+  (c) => `Planning a ramp slot request. ${c.seats} places in mind out of ${c.hub}.`,
 ];
 
 interface PremiseCtx {
@@ -514,7 +513,7 @@ function buildGroup(args: GroupBuildArgs): TravelGroup | null {
     }
   }
 
-  // A group that has reached quorum usually has the aircraft held.
+  // A group that has reached quorum may have an aircraft preference.
   const jet =
     members.length >= quorum && rng.chance(0.45)
       ? (hostJet ?? JET_INDEX.get(capacity >= 13 ? 'f8x' : capacity >= 9 ? 'praetor600' : 'cj3plus'))
@@ -540,7 +539,7 @@ function buildGroup(args: GroupBuildArgs): TravelGroup | null {
   const premiseCtx: PremiseCtx = {
     ...nameCtx,
     event: event.name,
-    jet: hostJet?.aircraft ?? host.aircraft ?? 'chartered cabin',
+    jet: hostJet?.aircraft ?? host.aircraft ?? 'proposed cabin',
     hours,
   };
 
@@ -580,6 +579,7 @@ export function startDrip(
   onTick: () => void,
   opts: { minMs?: number; maxMs?: number } = {},
 ): DripController {
+  if (getDemoWorld().dripQueue.length === 0) return { stop() {} };
   const minMs = opts.minMs ?? 20_000;
   const maxMs = opts.maxMs ?? 45_000;
   let timer: ReturnType<typeof setTimeout> | null = null;
@@ -641,10 +641,12 @@ const countsCache = new Map<number, Readonly<Record<string, number>>>();
  * every beacon rebuild.
  */
 export function computePeerCounts(dripRevealed = 0): Readonly<Record<string, number>> {
+  const world = getDemoWorld();
+  // Check the gate before the memo: a warmed demo cache must not leak counts.
+  if (dripRevealed <= 0 || world.dripQueue.length === 0) return world.peerCounts;
   const hit = countsCache.get(dripRevealed);
   if (hit) return hit;
 
-  const world = getSimulation();
   const out: Record<string, number> = { ...world.peerCounts };
   const n = Math.min(dripRevealed, world.dripQueue.length);
   for (let i = 0; i < n; i++) {

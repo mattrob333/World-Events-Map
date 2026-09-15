@@ -24,9 +24,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
 import { Button, cn, EASE_SETTLE, Rule } from '@/components/ui';
 import { EVENT_INDEX } from '@/lib/data/events';
+import { isDemo } from '@/lib/demo';
 import { formatUsd, quoteCharter } from '@/lib/social/charter';
 import { formatUnread } from '@/lib/social/chat';
-import { MEMBER_INDEX } from '@/lib/social/members';
+import { getMember } from '@/lib/social/members';
 import { useGroupPresence } from '@/lib/social/presence';
 import { useOpenProfile } from '@/lib/social/profileStore';
 import { useSocialStore } from '@/lib/social/useSocialStore';
@@ -40,9 +41,9 @@ import { MemberBadge } from './MemberBadge';
 
 const STATUS_COPY: Record<GroupStatus, { label: string; note: string }> = {
   forming: { label: 'Forming', note: 'Open to anyone' },
-  quorum: { label: 'Quorum', note: 'Viable — aircraft not yet held' },
-  chartered: { label: 'Chartered', note: 'Aircraft held' },
-  locked: { label: 'Locked', note: 'Manifest closed' },
+  quorum: { label: 'Quorum', note: 'Viable — aircraft preference not yet set' },
+  chartered: { label: 'Aircraft preference set', note: 'Planning estimate only' },
+  locked: { label: 'Manifest closed (preference)', note: 'Planning estimate only' },
 };
 
 const TABS = [
@@ -104,7 +105,7 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
       group.members
         .filter((m) => m.memberId !== meId && m.role !== 'host')
         .slice(0, FACE_LIMIT)
-        .map((m) => MEMBER_INDEX.get(m.memberId))
+        .map((m) => getMember(m.memberId))
         .filter((m): m is NonNullable<typeof m> => m !== undefined),
     [group.members, meId],
   );
@@ -174,6 +175,9 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
             <span className="label-sm mt-1.5 block text-ink-faint">
               {group.departureHub} · {STATUS_COPY[group.status].note}
             </span>
+            {isDemo() && group.members.some((member) => member.memberId !== meId) && (
+              <span className="label mt-1.5 block text-ink-faint">Simulated for review</span>
+            )}
           </span>
           <span className="flex shrink-0 items-center gap-2">
             {unread > 0 && (
@@ -296,7 +300,7 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
         {/* ── The money, and the two things you can do about it ──────────── */}
         <footer className="mt-3.5 flex items-end justify-between gap-3">
           <div className="min-w-0">
-            <p className="label-sm text-ink-faint">Per seat at {filled}</p>
+            <p className="label-sm text-ink-faint">Estimate per seat at {filled}</p>
             <p className="font-display mt-1 text-[20px] leading-6 text-ink">
               {perSeat === null ? '—' : formatUsd(perSeat)}
             </p>
@@ -313,7 +317,7 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
                 Leave
               </Button>
             ) : closed ? (
-              <span className="label text-ink-ghost">Manifest closed</span>
+              <span className="label text-ink-ghost">Manifest closed (preference)</span>
             ) : (
               <Button
                 variant={urgent ? 'brass' : 'ghost'}

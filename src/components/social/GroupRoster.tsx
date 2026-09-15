@@ -16,12 +16,13 @@
 import { useMemo } from 'react';
 
 import { Button, cn, Rule } from '@/components/ui';
-import { MEMBER_INDEX, type MemberDossier } from '@/lib/social/members';
+import { getMember, type MemberDossier } from '@/lib/social/members';
 import { useGroupPresence } from '@/lib/social/presence';
 import { useOpenProfile } from '@/lib/social/profileStore';
 import { useSocialStore } from '@/lib/social/useSocialStore';
 import type { GroupMembership, TravelGroup } from '@/lib/types';
 import { Avatar } from './Avatar';
+import { useSocialGroups } from './hooks';
 import { MemberTierMark } from './MemberTierMark';
 
 export interface GroupRosterProps {
@@ -40,7 +41,7 @@ interface Seat {
 }
 
 export function GroupRoster({ groupId, group, className }: GroupRosterProps) {
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const meId = useSocialStore((s) => s.currentMember.id);
   const myName = useSocialStore((s) => s.currentMember.name);
   const myAvatarSeed = useSocialStore((s) => s.currentMember.avatarSeed);
@@ -57,7 +58,7 @@ export function GroupRoster({ groupId, group, className }: GroupRosterProps) {
     if (!cabin) return [];
     return cabin.members
       .map((membership) => {
-        const member = MEMBER_INDEX.get(membership.memberId);
+        const member = getMember(membership.memberId);
         if (!member) return null;
         return {
           membership,
@@ -80,7 +81,7 @@ export function GroupRoster({ groupId, group, className }: GroupRosterProps) {
   const seatsLeft = Math.max(0, cabin.capacity - filled);
   const mine = cabin.members.some((m) => m.memberId === meId);
   // The signed-in member is not in the simulated roster, so they never resolve
-  // through MEMBER_INDEX. Draw them explicitly rather than dropping them.
+  // through the peer roster. Draw them explicitly rather than dropping them.
   const meMissing = mine && !seats.some((s) => s.isMe);
   const sharers = seats.filter((s) => s.member.openToJetShare && !s.isHost).length;
   const closed = cabin.status === 'locked' || seatsLeft === 0;
@@ -124,7 +125,7 @@ export function GroupRoster({ groupId, group, className }: GroupRosterProps) {
           </p>
           <p className="mt-1.5 text-[11px] leading-4 text-ink-muted">
             {closed
-              ? 'Manifest closed'
+              ? 'Manifest closed (preference)'
               : sharers > 0
                 ? `${sharers} of them regularly share a cabin`
                 : `${filled} on the manifest, ${cabin.quorum} needed for quorum`}

@@ -22,6 +22,7 @@
  */
 
 import { AIRPORTS } from '@/lib/data/events/airports';
+import { getDemoWorld } from '@/lib/demo';
 import { greatCircleDistanceNm } from '@/lib/geo/projection';
 import type { Airport, EventCategory, GeoPoint, Member, MemberTier } from '@/lib/types';
 import { hashSeed, mulberry32 } from './rng';
@@ -959,15 +960,20 @@ export const MEMBER_BY_HANDLE: ReadonlyMap<string, MemberDossier> = new Map(
   MEMBERS.map((m) => [m.handle, m]),
 );
 
-/** Never throws — returns `undefined` for an unknown id, callers decide. */
-export const getMember = (id: string): MemberDossier | undefined => MEMBER_INDEX.get(id);
+/** Peer lookup. The current member's editable profile remains store-owned. */
+export function getMember(id: string): MemberDossier | undefined {
+  const world = getDemoWorld();
+  return id === world.currentMember.id ? undefined : world.memberIndex.get(id);
+}
 
 /**
  * Resolve a `verifiedBy` value back to a member. Returns `undefined` for the
  * founding committee, which is a body rather than a person.
  */
 export const resolveVoucher = (verifiedBy: string | undefined): MemberDossier | undefined =>
-  verifiedBy?.startsWith('@') ? MEMBER_BY_HANDLE.get(verifiedBy.slice(1)) : undefined;
+  verifiedBy?.startsWith('@')
+    ? getDemoWorld().members.find((member) => member.handle === verifiedBy.slice(1))
+    : undefined;
 
 /** Members who own an aircraft and will put strangers in the back of it. */
 export const JET_OWNERS: readonly MemberDossier[] = MEMBERS.filter(

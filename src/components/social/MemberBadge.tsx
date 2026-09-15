@@ -1,8 +1,9 @@
 'use client';
 
 import { cn, Tooltip } from '@/components/ui';
-import { MEMBER_INDEX } from '@/lib/social/members';
+import { getMember } from '@/lib/social/members';
 import { useOpenProfile } from '@/lib/social/profileStore';
+import { useSocialStore } from '@/lib/social/useSocialStore';
 import { Avatar } from './Avatar';
 import { MemberTierMark } from './MemberTierMark';
 
@@ -64,7 +65,8 @@ export function MemberBadge({
   interactive = false,
 }: MemberBadgeProps) {
   const openProfile = useOpenProfile();
-  const member = MEMBER_INDEX.get(memberId);
+  const currentMember = useSocialStore((s) => s.currentMember);
+  const member = memberId === currentMember.id ? currentMember : getMember(memberId);
   if (!member) return null;
 
   const px = AVATAR_PX[size];

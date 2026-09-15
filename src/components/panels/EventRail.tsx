@@ -112,12 +112,9 @@ export function EventRail({ className }: EventRailProps) {
             <span className="text-ink-muted"> ranked</span>
           </span>
         </div>
-        {peersInView > 0 && (
-          <p className="mt-2 text-[11px] leading-4 text-ink-muted">
-            <span className="tabular text-ink">{peersInView}</span> member signals
-            across this window
-          </p>
-        )}
+        <p className="mt-2 text-[11px] leading-4 text-ink-muted">
+          {peersInView > 0 ? <><span className="tabular text-ink">{peersInView}</span> member signals across this window</> : 'No member activity yet'}
+        </p>
         <Rule variant="brass" className="mt-3" />
       </header>
 

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 
 import { cn } from '@/components/ui';
-import { MEMBER_INDEX } from '@/lib/social/members';
+import { getMember } from '@/lib/social/members';
 import type { Member } from '@/lib/types';
 import { Avatar } from './Avatar';
 import { usePeers } from './hooks';
@@ -56,13 +56,7 @@ export function PeerStack({
     };
   }, [peers, limit]);
 
-  if (peers.length === 0) {
-    return bare ? null : (
-      <p className={cn('text-[11px] leading-4 text-ink-faint', className)}>
-        No members have signalled on this yet.
-      </p>
-    );
-  }
+  if (peers.length === 0) return null;
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
@@ -158,7 +152,7 @@ function PeerPlate({ member, size, index, active, dimmed, onHover }: PeerPlatePr
 }
 
 function HoveredLine({ memberId }: { memberId: string }) {
-  const m = MEMBER_INDEX.get(memberId);
+  const m = getMember(memberId);
   if (!m) return null;
   return (
     <span className="flex items-center gap-2">

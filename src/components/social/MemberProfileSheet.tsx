@@ -19,7 +19,7 @@ import { EVENT_INDEX } from '@/lib/data/events';
 import {
   distanceToGateway,
   gatewayFor,
-  MEMBER_INDEX,
+  getMember,
   nearestGateway,
   resolveVoucher,
   searchGateways,
@@ -33,7 +33,7 @@ import {
   type ActivityNotification,
 } from '@/lib/social/notifications';
 import { useProfileUiStore } from '@/lib/social/profileStore';
-import { getSimulation } from '@/lib/social/simulation';
+import { getDemoWorld, isDemo } from '@/lib/demo';
 import {
   INVITE_ALLOWANCE,
   socialSnapshot,
@@ -44,6 +44,7 @@ import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { EVENT_CATEGORIES } from '@/lib/types';
 import type { EventCategory, InterestLevel, Member, TravelGroup, WorldEvent } from '@/lib/types';
 import { InviteDialog } from './InviteDialog';
+import { useSocialGroups } from './hooks';
 import { MemberPortrait, PortraitField } from './MemberPortrait';
 import { MEMBER_TIER_LABEL, MemberTierMark } from './MemberTierMark';
 import { TripLinkReader } from './ShareTrip';
@@ -70,7 +71,7 @@ export interface MemberProfileSheetProps {
 export function MemberProfileSheet({ memberId, open, onClose }: MemberProfileSheetProps) {
   const meId = useSocialStore((s) => s.currentMember.id);
   const isSelf = memberId === meId;
-  const member = isSelf ? undefined : MEMBER_INDEX.get(memberId);
+  const member = isSelf ? undefined : getMember(memberId);
 
   return (
     <Sheet
@@ -117,7 +118,7 @@ function ProfileBody({ member, onClose }: ProfileBodyProps) {
   const drip = useSocialStore((s) => s.dripRevealed);
   const myInterests = useSocialStore((s) => s.interests);
   const me = useSocialStore((s) => s.currentMember);
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const select = useGlobeStore((s) => s.select);
   const flyTo = useGlobeStore((s) => s.flyTo);
   const [asking, setAsking] = useState<{ eventId: string; groupId?: string } | null>(null);
@@ -129,7 +130,7 @@ function ProfileBody({ member, onClose }: ProfileBodyProps) {
   // already happened, soonest first. Read from the simulation rather than any
   // per-event hook, because this is the one view that is by member.
   const theirEvents = useMemo(() => {
-    const world = getSimulation();
+    const world = getDemoWorld();
     const released = world.dripQueue.slice(0, drip);
     const today = new Date().toISOString().slice(0, 10);
     const rows: Array<{ event: WorldEvent; level: InterestLevel }> = [];
@@ -181,6 +182,7 @@ function ProfileBody({ member, onClose }: ProfileBodyProps) {
   return (
     <>
       <ScrollArea className="h-full" contentClassName="flex flex-col gap-5 p-5 pb-8">
+        {isDemo() && <p className="label text-ink-faint">Simulated for review</p>}
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <header className="flex gap-4">
           <MemberPortrait
@@ -589,7 +591,7 @@ function SelfProfileBody({ onClose }: { onClose: () => void }) {
   const hydrated = useSocialHydration();
   const me = useSocialStore((s) => s.currentMember);
   const interests = useSocialStore((s) => s.interests);
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const drip = useSocialStore((s) => s.dripRevealed);
   const invitesRemaining = useSocialStore((s) => s.invitesRemaining);
   const select = useGlobeStore((s) => s.select);
@@ -663,7 +665,7 @@ function SelfProfileBody({ onClose }: { onClose: () => void }) {
               {MEMBER_TIER_LABEL[me.tier]} · {me.homeBase.city} · {me.homeBase.homeJetPort}
             </span>
           </div>
-          {me.verifiedBy && (
+          {isDemo() && me.verifiedBy && (
             <p className="mt-2 text-[11px] leading-4 text-ink-faint">
               Vouched in by{' '}
               {voucher ? (
@@ -824,7 +826,7 @@ function ActivitySection({
   const openProfile = useProfileUiStore((s) => s.openProfile);
   const unread = feed.filter((n) => !n.read).length;
 
-  if (!hydrated || feed.length === 0) return null;
+  if (!hydrated) return null;
 
   const act = (n: ActivityNotification): void => {
     markActivityRead([n.id]);
@@ -855,10 +857,14 @@ function ActivitySection({
         )}
       </div>
 
+      {feed.length === 0 && (
+        <EmptyState className="px-0 py-4" title="No member activity yet" />
+      )}
+
       <ul className="mt-3 flex flex-col">
         {feed.slice(0, 8).map((n, i) => {
           const copy = describeNotification(n);
-          const member = n.memberId ? MEMBER_INDEX.get(n.memberId) : undefined;
+          const member = n.memberId ? getMember(n.memberId) : undefined;
           return (
             <li key={n.id}>
               {i > 0 && <Rule variant="ghost" />}
@@ -1098,7 +1104,7 @@ function HomeBaseField({
       </p>
       <p className="mt-1.5 text-[11px] leading-4 text-ink-faint">
         {current ? `${current.fboQuality} FBO · ` : ''}
-        Every charter quote in the product is priced from here.
+        Every aircraft planning estimate starts from here.
       </p>
 
       {editing && (

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Rule, cn, formatDateFull } from '@/components/ui';
 import { CurrentMemberChip } from '@/components/social';
+import { DEMO_LABEL, isDemoMode } from '@/lib/flags';
 import { useTimelineStore } from '@/lib/stores/useTimelineStore';
 
 export interface TopBarProps {
@@ -49,18 +50,26 @@ export function TopBar({ className }: TopBarProps) {
   return (
     <header
       className={cn('glass flex h-12 w-full items-center gap-6 px-5', className)}
+      data-demo={isDemoMode() ? 'true' : 'false'}
     >
       {/* ── Wordmark ────────────────────────────────────────────────── */}
-      <div className="flex shrink-0 items-baseline gap-3">
-        <span
-          className="font-display text-[17px] leading-none text-ink"
-          style={{ letterSpacing: '0.42em' }}
-        >
-          MERIDIAN
-        </span>
-        <span className="label-sm hidden text-ink-muted lg:inline">
-          Private Travel Intelligence
-        </span>
+      <div className="flex shrink-0 flex-col gap-1">
+        <div className="flex items-baseline gap-3">
+          <span
+            className="font-display text-[17px] leading-none text-ink"
+            style={{ letterSpacing: '0.42em' }}
+          >
+            MERIDIAN
+          </span>
+          <span className="label-sm hidden text-ink-muted lg:inline">
+            Private Travel Intelligence
+          </span>
+        </div>
+        {isDemoMode() && (
+          <span className="label border-l border-brass-deep pl-2 text-brass">
+            {DEMO_LABEL}
+          </span>
+        )}
       </div>
 
       <Rule variant="brass" className="hidden max-w-40 flex-1 xl:block" />

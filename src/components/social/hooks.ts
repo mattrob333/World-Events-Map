@@ -2,7 +2,8 @@
 
 import { useMemo } from 'react';
 
-import { socialSnapshot, useSocialStore } from '@/lib/social/useSocialStore';
+import { getDemoWorld } from '@/lib/demo';
+import { groupsInWorld, socialSnapshot, useSocialStore } from '@/lib/social/useSocialStore';
 import type { InterestLevel, Member, TravelGroup } from '@/lib/types';
 
 /**
@@ -36,13 +37,13 @@ export function usePeerCount(eventId: string): number {
 
 /** Every cabin on an event — simulated and user-created. */
 export function useGroupsFor(eventId: string): TravelGroup[] {
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   return useMemo(() => groups.filter((g) => g.eventId === eventId), [groups, eventId]);
 }
 
 /** The cabin the user is on for this event, if any. */
 export function useMyGroupFor(eventId: string): TravelGroup | undefined {
-  const groups = useSocialStore((s) => s.groups);
+  const groups = useSocialGroups();
   const meId = useSocialStore((s) => s.currentMember.id);
   return useMemo(
     () =>
@@ -51,6 +52,13 @@ export function useMyGroupFor(eventId: string): TravelGroup | undefined {
       ),
     [groups, eventId, meId],
   );
+}
+
+/** Shared group read for rosters, profiles, invitations and event hooks. */
+export function useSocialGroups(): TravelGroup[] {
+  const groups = useSocialStore((s) => s.groups);
+  const world = getDemoWorld();
+  return useMemo(() => groupsInWorld(groups, world), [groups, world]);
 }
 
 /** The user's own commitment level on an event. */
