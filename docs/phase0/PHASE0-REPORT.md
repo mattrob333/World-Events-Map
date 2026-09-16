@@ -72,6 +72,19 @@ None.
 8. **Tooling:** ESLint pinned to 9.x because `eslint-config-next@16`'s transitive `typescript-eslint` does not support 10 yet.
 9. Browser evidence is headless software-GL; no real-device, screen-reader, or performance measurement has been taken (Phase 1/4 tickets).
 
+## Deployment (added 2026-09-16)
+
+**Live:** https://world-events-map-onq7.vercel.app — Vercel project `world-events-map-onq7` on team *matt's projects*, git-linked to `mattrob333/World-Events-Map`, production branch `main`.
+**Deployed commit:** `28a8de2`. GitHub commit status `Vercel – world-events-map-onq7: success`.
+
+Verified against the live URL (headless Chromium, `--ignore-certificate-errors` for this container's proxy CA):
+`<title>` "MERIDIAN — Private Travel Intelligence"; globe canvas mounted; no stuck loading overlay; `data-demo="true"`; masthead label rendered; 241 ranked; **0 console errors**. Screenshot: `live-production.png`.
+API: `GET /api/events` 200 (241 events, 0.4s) · `GET /api/signals?ids=…&force=1` 200 in 0.25–0.75s with `signals: {}` (cold cache, `force` ignored) · `GET /api/sources` 200 (6 sources) · `POST /api/admin/refresh` with no token → **503 "Refresh is not configured"** (honest disabled state). Geo assets all 200.
+
+**Demo mode in production:** the first build (`d6d4564`) shipped real mode — `.env.production` was in the commit but was not applied by the host; the cause was not determined from this environment. `28a8de2` makes the labelled demo the code default (`NEXT_PUBLIC_MERIDIAN_DEMO=0` is the only off switch) so production no longer depends on env-file semantics.
+
+**Housekeeping for the owner:** two additional Vercel projects in the personal account (`meridian`, `world-events-map`) were created by earlier linking attempts and are also git-linked to this repo, so every push triggers three builds. Delete both from the dashboard. The Vercel MCP connection used here is scoped to a single pre-existing project, which is why it could not see or administer `world-events-map-onq7`; custom-domain attachment therefore happens in the dashboard.
+
 ## Next smallest reviewable task
 
 **P0-F1 fix (S):** detect WebGL context creation failure in `Globe.tsx` (three does not throw) and render the existing "unsupported" fallback — one component, one browser test using `--disable-3d-apis`. Then **M-007** (occurrence + evidence schema, additive, compatibility view-model preserving `Beacon`), which unblocks M-008, M-013, M-014 and M-015.

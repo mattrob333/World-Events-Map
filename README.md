@@ -10,6 +10,8 @@ group forms the charter maths turns a $140,000 aeroplane into $17,500 a seat.
 
 ---
 
+**Live:** https://world-events-map-onq7.vercel.app (labelled demo; real accounts arrive in Phase 2)
+
 ## Running it
 
 ```bash
