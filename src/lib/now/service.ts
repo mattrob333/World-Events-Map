@@ -144,17 +144,22 @@ export async function executeNow(request: NowRequest): Promise<NowResult> {
   const deterministic = rankNowCandidates({ request, candidates });
   const shortlist = deterministic.slice(0, 12).map((item) => item.candidate);
   const judgment = await optionalJudgments(request, shortlist, warnings);
+
+  // If TypeSafe is used, only compare candidates that received the same
+  // judgment treatment. Candidates outside the shortlist remain viable facts,
+  // but cannot outrank evaluated options merely because they avoided a model
+  // adjustment.
   const ranked = judgment.judgments
-    ? rankNowCandidates({ request, candidates, judgments: judgment.judgments })
+    ? rankNowCandidates({ request, candidates: shortlist, judgments: judgment.judgments })
     : deterministic;
 
-  if (ranked.length === 0) {
+  if (deterministic.length === 0) {
     warnings.push('No venue met the current hard constraints. Widen the radius or loosen a filter.');
   }
 
   return {
     picks: selectNowPicks(ranked),
-    candidateCount: ranked.length,
+    candidateCount: deterministic.length,
     venueSource: 'besttime',
     judgmentSource: judgment.source,
     generatedAt: new Date().toISOString(),
