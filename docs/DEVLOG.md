@@ -2,6 +2,30 @@
 
 This file records product and architecture decisions that are easy to lose across agent sessions.
 
+## 2026-09-17 - NOW production hardening and cost discipline
+
+### Durable paid-provider accounting
+
+A process-local "global" provider quota is not global on a serverless host. Multiple Vercel isolates could each mint their own allowance, so the paid-provider ceiling has moved into Postgres.
+
+`004_now_provider_budget.sql` owns an atomic shared ten-minute window for outbound BestTime/TypeSafe calls. Each real outbound paid-provider call claims one unit immediately before the provider request. Venue-cache hits do not consume budget. Required BestTime work fails closed if durable accounting is unavailable; optional TypeSafe judgment degrades to deterministic ranking instead.
+
+The process-local limiter remains useful only as an early per-client abuse speed bump. It is not described as the spend ledger.
+
+### NOW browser boundary
+
+The public NOW route now requires same-origin `application/json`, streams and cancels request bodies above 20 KB, rejects malformed provider containers, and never exposes precise location as persistent profile data.
+
+### Cost-aware agent workflow
+
+MERIDIAN development now distinguishes three task classes in `AGENTS.md`:
+
+- `CHEAP_OK` for bounded mechanical work
+- `REVIEW_REQUIRED` for meaningful behavior changes
+- `HIGH_CAPABILITY_ONLY` for architecture, migrations, RLS/auth, security, provider contracts and privacy-sensitive code
+
+The goal is to use lower-cost coding agents for grunt work without handing them product or security authority. A high-capability integrated review remains required. Astra is the preferred senior release reviewer when it is actually available in the orchestration environment. GitHub/Codex review remains an independent second opinion. No workflow may claim Astra reviewed a change when that review did not run.
+
 ## 2026-09-17 - Productionization and identity direction
 
 ### Merge strategy

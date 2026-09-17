@@ -24,6 +24,7 @@ export function PlatformShell({
         </Link>
         <div className={styles.links}>
           <Link href="/">Pulse</Link>
+          <Link href="/now">Now</Link>
           <Link href="/constellation">Constellation</Link>
           <Link href="/community">Travel circles</Link>
           <Link href="/account">Your profile</Link>
@@ -72,8 +73,8 @@ export function SignInCard() {
         <strong>Membership is not connected yet.</strong>
         <p>
           Profiles, travel modes, circles and partner requests need the membership
-          service. Pulse still works while the service is being connected. No
-          account or request will be created here until it is available.
+          service. Pulse and NOW can still work without a member session when their
+          data providers are configured.
         </p>
       </section>
     );
