@@ -107,12 +107,10 @@ export class HealthTracker {
   }
 
   markError(err: unknown): void {
-    this.lastError =
-      err instanceof HttpError
-        ? `${err.message}${err.body ? ` — ${err.body}` : ''}`
-        : err instanceof Error
-          ? err.message
-          : String(err);
+    // Health is public. Vendor URLs/query strings and response bodies can contain keys.
+    this.lastError = err instanceof HttpError
+      ? `Source returned HTTP ${err.status}. Check credentials and API access.`
+      : 'Source request failed. Check service availability and configuration.';
   }
 
   health(): SourceHealth {

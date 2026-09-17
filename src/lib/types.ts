@@ -92,6 +92,8 @@ export interface SpendEstimate {
 }
 
 export interface WorldEvent {
+  /** Approved provider submission; unmeasured demand and costs stay undisclosed. */
+  providerId?: string;
   /** Stable slug, e.g. "monaco-grand-prix" */
   id: string;
   name: string;

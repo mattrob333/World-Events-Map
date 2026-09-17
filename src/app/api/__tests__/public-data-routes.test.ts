@@ -16,8 +16,8 @@ describe('public calendar and source contracts', () => {
 
     const events = await eventsRoute.GET();
     expect(events.status).toBe(200);
-    expect(events.headers.get('Cache-Control')).toBe('public, s-maxage=600, stale-while-revalidate=1800');
-    expect(await events.json()).toEqual({ events: EVENTS, meta: server.dataMeta() });
+    expect(events.headers.get('Cache-Control')).toBe('no-store');
+    expect(await events.json()).toEqual({ events: EVENTS, meta: { ...server.dataMeta(), partnerStatus: 'available' } });
 
     const sources = await sourcesRoute.GET();
     expect(sources.status).toBe(200);

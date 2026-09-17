@@ -5,17 +5,15 @@ afterEach(() => vi.unstubAllEnvs());
 
 describe('demo flag', () => {
   it.each([
-    // The only thing that turns demo off is an explicit 0. NODE_ENV is irrelevant:
-    // the first Vercel build shipped real mode because the host ignored the env
-    // file, so the default must not depend on the environment at all.
+    // Simulation must be explicitly enabled, in every environment.
     ['0', 'production', false],
     ['0', 'development', false],
     ['1', 'production', true],
     ['1', 'development', true],
-    [undefined, 'production', true],
-    [undefined, 'development', true],
-    ['', 'production', true],
-    ['', 'test', true],
+    [undefined, 'production', false],
+    [undefined, 'development', false],
+    ['', 'production', false],
+    ['', 'test', false],
   ] as const)('flag=%s, NODE_ENV=%s → %s', (flag, nodeEnv, expected) => {
     vi.stubEnv('NEXT_PUBLIC_MERIDIAN_DEMO', flag);
     vi.stubEnv('NODE_ENV', nodeEnv);

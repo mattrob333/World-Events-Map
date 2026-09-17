@@ -1,118 +1,123 @@
 # MERIDIAN
 
-**Private travel intelligence.** A live index of where the world is worth being,
-rendered as an obsidian planet you scrub through time.
+**Know where the world is gathering. Find your people. Know what to do next.**
 
-Slide the scrubber to three weeks out and the globe shows you what is burning
-that week — festivals, races, regattas, powder, openings, the closed rooms.
-Mark interest, see which other members are circling the same week, and once a
-group forms the charter maths turns a $140,000 aeroplane into $17,500 a seat.
+MERIDIAN is a social travel intelligence platform. It starts with real-world event demand, connects travelers through context-aware affinity, helps groups form around trips, and becomes a local decision engine after arrival.
 
----
+The product is organized around four surfaces:
 
-**Live:** https://world-events-map-onq7.vercel.app (labelled demo; real accounts arrive in Phase 2)
+1. **PULSE** - where the world is gathering and which events are heating up.
+2. **CIRCLES** - who is relevant to this trip, not just who looks similar on a static profile.
+3. **ACCESS** - partner opportunities for stays, aviation, access, transportation and experiences.
+4. **NOW** - the day-of decision engine for answering "where should we go right now?"
 
-## Running it
+The core thesis is simple: travel recommendations get dramatically better when MERIDIAN understands the event, the trip context, the people involved, the available opportunities and the current local conditions at the same time.
 
-```bash
-npm install
-npm run dev          # http://localhost:3000
+## Product architecture
+
+MERIDIAN joins three graphs:
+
+- **World Graph**: events, cities, buzz, venues, seasons and live demand signals.
+- **People Graph**: members, travel modes, interests, home bases, circles and relationships.
+- **Opportunity Graph**: stays, flights, empty legs, access, venues and partner inventory.
+
+A person does not have one permanent traveler identity. The same member can have a Family Ski mode, Solo Weekend mode, Work Layover mode and Couples mode. Matching is therefore trip-contextual, not profile-global.
+
+The first implementation of that idea lives in the **Constellation** experience. It visualizes people, interests and circles as a navigable 3D affinity graph and lets a member switch between travel modes to change the graph.
+
+## What is implemented
+
+The current codebase includes:
+
+- Responsive 3D globe discovery with searchable Pulse, Now and future-date planning.
+- Curated event calendar plus optional external signal enrichment.
+- Supabase email sign-in and private-by-default member profiles.
+- Saved events, travel circles, host approval and private circle chat.
+- Partner applications, approved offers, event submissions and traveler inquiries.
+- Server-side demand enrichment with durable snapshots and scheduled refresh.
+- A transparent buzz model with named signals and documented weights.
+- Affinity graph foundation: travel modes, weighted interests, context-aware matching and the Constellation explorer.
+- CI covering lint, TypeScript, dataset validation, tests, SQL/RLS execution and production build.
+
+## Run locally
+
+Node 24 and npm 10+ are recommended.
+
+```sh
+npm ci
+npm run dev -- --hostname localhost --port 3127
 ```
 
-Use `localhost`, not `127.0.0.1` — Next 16 blocks cross-origin dev asset
-requests, and a mismatched host silently prevents the globe's chunk from
-loading.
+Open `http://localhost:3127`.
 
-```bash
-npm run build && npm start   # production
-npm run gate                 # typecheck + dataset validation + build
+Without credentials, the curated event discovery experience still works. Account-backed member, affinity and partner features require Supabase.
+
+## Supabase
+
+Copy `.env.example` to `.env.local`, then apply migrations in order:
+
+1. `supabase/migrations/001_platform.sql`
+2. `supabase/migrations/002_live_signals.sql`
+3. `supabase/migrations/003_affinity_graph.sql`
+
+Set:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-Requires Node ≥ 22.12. There are no API keys to configure and no backend to
-stand up; it runs fully offline.
+Read [docs/LIVE-SETUP.md](docs/LIVE-SETUP.md) for external feed configuration.
 
----
+## Main routes
 
-## What it's made of
+| Route | Purpose |
+|---|---|
+| `/` | PULSE: event discovery and globe |
+| `/constellation` | affinity graph and travel-mode explorer |
+| `/community` | circles and partner opportunities |
+| `/account` | profile, home base, interests and travel modes |
+| `/partners` | provider application and offer studio |
 
-| Layer | Path | What it does |
-|---|---|---|
-| Domain contract | `src/lib/types.ts` | Frozen. Every subsystem shares it. |
-| Globe | `src/components/globe`, `src/lib/geo` | Vector Earth, beacons, camera |
-| Dataset | `src/lib/data/events` | 241 real events, 170 real jet ports |
-| Buzz engine | `src/lib/buzz`, `src/lib/selectors` | Scoring, relevance, the bridge |
-| Feeds | `src/lib/data/adapters`, `src/app/api` | Live signal adapters |
-| Interface | `src/components/{ui,chrome,timeline,panels}` | Design system, scrubber, dossier |
-| Social | `src/lib/social`, `src/components/social` | Members, groups, charter maths |
+## Development docs
 
-### The globe is vector, not textured
+Start here:
 
-There is no satellite imagery anywhere in this repo. Country geometry is real
-Natural Earth data, baked to GeoJSON at setup (`npm run geo:build`) and
-triangulated onto the sphere at runtime. That avoids the licensing and payload
-cost of imagery, renders identically offline, and frankly suits the product
-better — an obsidian planet with cities burning on it reads better than a photo
-of Earth with pins stuck in it.
+- [Product direction](docs/PRODUCT.md)
+- [System architecture](docs/ARCHITECTURE.md)
+- [Developer log](docs/DEVLOG.md)
+- [Repo wiki index](docs/wiki/README.md)
+- [Affinity graph model](docs/wiki/AFFINITY-GRAPH.md)
+- [Live feed setup](docs/LIVE-SETUP.md)
+- [Partner setup](docs/partner-setup.md)
 
-Two things that were harder than they look, both fixed and both commented in
-`src/lib/geo/geojson.ts`: Natural Earth rings that cross the antimeridian
-triangulate into a garbage band across the Pacific unless longitudes are
-unwrapped first, and earcut happily runs a 37° diagonal across Antarctica that
-sags well below the sphere's surface unless the triangulation is refined.
+## Validation
 
-### The scoring model
+```sh
+npm run gate
+```
 
-`src/lib/buzz/scoring.ts` turns six demand signals into a 0–100 score. Weights
-sum to 1.0, the weighted components sum to the score as an enforced invariant,
-and heavy-tailed signals use a floored log — a plain log compresses 1k and 10k
-mentions to nearly the same value, solving the outlier problem by destroying
-all discrimination.
+`npm run gate` runs lint, TypeScript, data validation, tests and the production build.
 
-Measured across the real dataset: supernova 4.6%, blazing 10.4%, hot 19.9%,
-warm 29.5%, smoldering 35.7%. The thresholds were fitted to produce that
-distribution, not guessed.
+## Product boundaries
 
-**Buzz is evaluated at the scrubber's position, not at today.** This matters.
-Monaco GP has the strongest intrinsic signal profile of all 241 events, but
-anchored to today it sits at rank 131 because it is 313 days out — so scrubbing
-to its weekend would show a dim beacon, which is a broken product. Scoring at
-the focus date means proximity still applies in full within every pass, the
-opening view is unchanged, and Monaco is rank 1 when you go looking for it.
+- Event buzz is modeled demand, not live attendance.
+- Partner offers create inquiries, not confirmed reservations or inventory locks.
+- Charter calculations are planning estimates, not quotes.
+- Member discovery is opt-in. Profiles remain private by default.
+- Travel modes can remain private even when a profile is visible.
+- MERIDIAN never invents live members, bookings or partner availability in real mode.
+- External aviation and venue providers are adapters, not assumptions baked into the product model.
 
-### Live data is a switch, not a rewrite
+## Near-term build order
 
-Adapters for PredictHQ, Ticketmaster, X, Google Trends (via SerpAPI) and
-Amadeus are written against their real endpoints and live in
-`src/lib/data/adapters`. Each reports `unconfigured` until its key exists, and
-the Sources panel shows the state of all six. Add a key to `.env.local`
-(see `.env.example`) and that adapter starts sharpening the curated baselines
-on the next sync — no code change.
+1. Finish the affinity and Constellation foundation.
+2. Make travel modes first-class throughout circle discovery.
+3. Add the NOW decision-engine adapter layer for BestTime and TypeSafe/Jev.
+4. Add an aviation opportunity provider interface, then qualify Avinode or broker integrations behind it.
+5. Feed outcome signals back into affinity so recommendations improve from actual behavior instead of profile copy alone.
 
-Keys are read server-side only, in `src/app/api`. They never reach the browser.
+MERIDIAN should answer five questions better than a collection of disconnected travel apps:
 
----
-
-## Honest limitations
-
-- **Live adapters are structurally verified, not exercised.** Their URLs, auth
-  shapes and failure handling are correct — a bogus X token was confirmed to
-  produce a 403, degrade to `status: 'error'`, and leave the app serving. But
-  with no real keys, response *parsing* has never run against a real payload.
-  Expect to fix field mappings the day you add credentials.
-- **Members are simulated.** Local-first was a deliberate choice, so the 80
-  members, 2,557 interest signals and 122 groups are generated deterministically
-  from a seed. Real multi-user presence needs a backend.
-- **~40% of 2027 dates are established windows, not published dates.** Many 2027
-  schedules aren't out yet. Where a date is inferred it follows the event's
-  reliable rule (Wimbledon opens the Monday nearest 28 June). The weakest are
-  noted in the agent report; La Liste and San Sebastián Gastronomika are the
-  softest.
-- **Charter quotes are a model, not a broker.** Short-haul European legs land
-  inside the real band; the ultra-long-range routes sit at the top of it and are
-  likely 20–30% high. Assumptions are documented in `src/lib/social/charter.ts`.
-- **Coordinates are verified by bounding box, not survey.** All 241 sit inside
-  their declared country; 178 were additionally checked against a hand-verified
-  city gazetteer at 75km tolerance. The remainder are remote or seasonal
-  locations where a city centroid doesn't apply.
-- **Desktop only.** Laid out for ≥1280px and degrades to ~900px by measurement.
-  There is no phone layout.
+**Where should I go? Who should I go with? How should we get there? Where should we stay? What should we do right now?**

@@ -1,27 +1,7 @@
-/**
- * GET /api/events
- *
- * The curated calendar with any live signal patches merged in, plus source
- * health so the client can render the Signal Integrity panel from one round
- * trip.
- *
- * **Caching (Next 16).** This handler is dynamic: it must reflect a newly added
- * API key without a rebuild, so it opts out of the static route cache with
- * `dynamic = 'force-dynamic'`. Freshness is instead owned by the module-scope
- * TTL cache in `@/lib/data` (10 minutes, shared across every request the
- * process serves) and advertised downstream via `Cache-Control:
- * s-maxage=600, stale-while-revalidate=1800` for any CDN in front of us.
- * Rationale for not using `export const revalidate`: ISR revalidation is
- * per-route-cache-entry and would still stampede all six upstream vendors on
- * every cold entry; the in-process cache plus in-flight de-duplication gives us
- * one sweep per ten minutes per instance regardless of traffic shape.
- *
- * Works with zero env vars set — that path returns the curated baseline and
- * every live source reporting `unconfigured`.
- */
-
+/** Public read-only calendar. Fresh cached demand and approved partner events; no vendor calls. CDN caching is disabled so expired signals and moderation changes do not linger. */
 import { NextResponse } from 'next/server';
 import { dataMeta, getEnrichedEvents } from '@/lib/data/server';
+import { getProviderEvents } from '@/lib/data/provider-events';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -29,11 +9,14 @@ export const runtime = 'nodejs';
 export async function GET() {
   try {
     const events = await getEnrichedEvents();
+    let partnerStatus = 'available';
+    let partnerEvents: Awaited<ReturnType<typeof getProviderEvents>> = [];
+    try { partnerEvents = await getProviderEvents(); } catch { partnerStatus = 'unavailable'; }
     return NextResponse.json(
-      { events, meta: dataMeta() },
+      { events: [...events, ...partnerEvents], meta: { ...dataMeta(), partnerStatus } },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1800',
+          'Cache-Control': 'no-store',
         },
       },
     );

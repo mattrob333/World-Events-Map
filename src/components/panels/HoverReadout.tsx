@@ -139,7 +139,7 @@ export function HoverReadout({ className }: HoverReadoutProps) {
             <span className="flex items-center gap-1.5">
               <HeatDot heat={event.buzz.heat} />
               <span className="tabular text-[11px] leading-none text-ink">
-                {formatScore(event.buzz.score)}
+                {event.providerId ? 'Partner event · unranked' : formatScore(event.buzz.score)}
               </span>
             </span>
             <span className="tabular text-[11px] leading-none text-ink-muted">
