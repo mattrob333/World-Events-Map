@@ -25,9 +25,10 @@ export function PlatformShell({
         <div className={styles.links}>
           <Link href="/">Pulse</Link>
           <Link href="/constellation">Constellation</Link>
-          <Link href="/community">Travel circles</Link>
-          <Link href="/account">Your profile</Link>
-          <Link href="/partners">For partners</Link>
+          <Link href="/community">Circles</Link>
+          <Link href="/hype">Hypeboard</Link>
+          <Link href="/profile">Profile</Link>
+          <Link href="/partners">Partners</Link>
         </div>
       </nav>
       <header className={styles.hero}>
@@ -71,9 +72,9 @@ export function SignInCard() {
       <section className={styles.notice}>
         <strong>Membership is not connected yet.</strong>
         <p>
-          Profiles, travel modes, circles and partner requests need the membership
-          service. Pulse still works while the service is being connected. No
-          account or request will be created here until it is available.
+          Profiles, Travel Modes, Circles and Hypeboards need the membership service.
+          Pulse still works while the service is being connected. No account or request
+          will be created here until it is available.
         </p>
       </section>
     );
@@ -107,8 +108,8 @@ export function SignInCard() {
     <section className={styles.card}>
       <h2>Your next good connection.</h2>
       <p className={styles.muted}>
-        Sign in to introduce yourself, use Constellation, request a place in a travel circle,
-        or ask a partner about an offer.
+        Sign in to build your traveler profile, switch Travel Modes, join a Circle,
+        share a Hypeboard, or ask a partner about an offer.
       </p>
       <form onSubmit={submit} className={styles.form}>
         <label>
