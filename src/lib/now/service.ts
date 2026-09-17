@@ -5,9 +5,10 @@ import { TypeSafeJudgmentProvider } from '@/lib/opportunities/typesafe';
 import type { CandidateJudgment, GeoPoint, JudgmentInput, VenueCandidate } from '@/lib/opportunities';
 import { rankNowCandidates, selectNowPicks } from './engine';
 import {
-  consumeNowProviderBudget,
+  NowProviderBudgetExceededError,
+  NowProviderBudgetUnavailableError,
   requireNowProviderBudget,
-} from './rateLimit';
+} from './providerBudget';
 import type { NowRequest, NowResult } from './types';
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -68,8 +69,9 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
   if (cached) venueCache.delete(key);
 
   // This is the point at which MERIDIAN is actually about to make a paid
-  // external request. Cache hits above never consume the shared provider budget.
-  requireNowProviderBudget(now);
+  // external request. The claim is atomic in shared Postgres, so serverless
+  // scale-out cannot mint additional provider budget. Cache hits above are free.
+  await requireNowProviderBudget();
   const provider = new BestTimeVenueProvider();
   const venues = await provider.search({
     location: request.location,
@@ -140,10 +142,19 @@ async function optionalJudgments(
     return { source: 'meridian-deterministic', degraded: true };
   }
 
-  const providerBudget = consumeNowProviderBudget();
-  if (!providerBudget.allowed) {
-    warnings.push('Structured judgment was skipped because the external-provider budget is temporarily at capacity.');
-    return { source: 'meridian-deterministic', degraded: true };
+  try {
+    await requireNowProviderBudget();
+  } catch (cause) {
+    if (
+      cause instanceof NowProviderBudgetExceededError ||
+      cause instanceof NowProviderBudgetUnavailableError
+    ) {
+      warnings.push(
+        'Structured judgment was skipped because the shared provider budget is unavailable; MERIDIAN used deterministic ranking.',
+      );
+      return { source: 'meridian-deterministic', degraded: true };
+    }
+    throw cause;
   }
 
   try {
