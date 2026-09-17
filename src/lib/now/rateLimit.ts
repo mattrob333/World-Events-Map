@@ -51,8 +51,9 @@ function prune(now: number) {
  *
  * This is intentionally a second line of defense, not a claim of globally
  * durable rate limiting. A distributed limiter belongs in front of the route
- * before broad production traffic. The global bucket still limits damage when
- * a client IP cannot be trusted or identified on one server instance.
+ * before broad production traffic. The global bucket limits provider-eligible
+ * work on one server instance, while the client bucket stops one caller from
+ * consuming that shared allowance after they have already been blocked.
  */
 export function consumeNowRateLimit(
   request: Request,
@@ -60,17 +61,21 @@ export function consumeNowRateLimit(
 ): { allowed: boolean; retryAfterSeconds: number } {
   prune(now);
 
+  const key = clientKey(request);
+  const current = clientBuckets.get(key) ?? freshBucket(now);
+  const client = consume(current, PER_CLIENT_LIMIT, now);
+  clientBuckets.set(key, client.bucket);
+  if (!client.allowed) {
+    return { allowed: false, retryAfterSeconds: client.retryAfterSeconds };
+  }
+
   const global = consume(globalBucket, GLOBAL_WARM_INSTANCE_LIMIT, now);
   globalBucket = global.bucket;
   if (!global.allowed) {
     return { allowed: false, retryAfterSeconds: global.retryAfterSeconds };
   }
 
-  const key = clientKey(request);
-  const current = clientBuckets.get(key) ?? freshBucket(now);
-  const client = consume(current, PER_CLIENT_LIMIT, now);
-  clientBuckets.set(key, client.bucket);
-  return { allowed: client.allowed, retryAfterSeconds: client.retryAfterSeconds };
+  return { allowed: true, retryAfterSeconds: 0 };
 }
 
 export function resetNowRateLimitsForTests() {
