@@ -21,7 +21,10 @@ function probabilities(value: unknown): Record<string, number> {
   return Object.fromEntries(
     Object.entries(source)
       .map(([key, raw]) => [key, number(raw)] as const)
-      .filter((entry): entry is [string, number] => entry[1] !== undefined),
+      .filter(
+        (entry): entry is [string, number] =>
+          entry[1] !== undefined && entry[1] >= 0 && entry[1] <= 1,
+      ),
   );
 }
 
@@ -93,33 +96,54 @@ export class TypeSafeJudgmentProvider implements JudgmentProvider {
       accum.set(candidate.id, { total: 0, count: 0, confidence: 0, confidenceCount: 0, reasons: [] });
     }
 
+    let usableQuestions = 0;
     for (const question of input.questions) {
       const answer = record(answers[question.id]);
       if (!answer) continue;
       const distribution = probabilities(answer.probabilities);
-      const confidence = number(answer.confidence);
-      const highest = Math.max(0, ...Object.values(distribution));
+      const values = candidates.map((candidate) => distribution[candidate.id]);
+      if (values.some((value) => value === undefined)) continue;
+      const sum = values.reduce((total, value) => total + (value ?? 0), 0);
+      // Choice probabilities are documented to sum to 1. Treat a materially
+      // incomplete distribution as provider failure rather than inventing a
+      // neutral score and pretending structured judgment succeeded.
+      if (sum <= 0 || Math.abs(sum - 1) > 0.02) continue;
+
+      const highest = Math.max(...(values as number[]));
+      if (highest <= 0) continue;
+      usableQuestions += 1;
+      const rawConfidence = number(answer.confidence);
+      const confidence =
+        rawConfidence !== undefined && rawConfidence >= 0 && rawConfidence <= 1
+          ? rawConfidence
+          : undefined;
 
       for (const candidate of candidates) {
-        const value = distribution[candidate.id];
-        if (value === undefined) continue;
+        const value = distribution[candidate.id]!;
         const item = accum.get(candidate.id)!;
-        const relative = highest > 0 ? value / highest : 0.5;
+        const relative = value / highest;
         item.total += Math.max(0, Math.min(1, relative)) * 100;
         item.count += 1;
         if (confidence !== undefined) {
           item.confidence += confidence;
           item.confidenceCount += 1;
         }
-        if (highest > 0 && value >= highest * 0.75) item.reasons.push(question.prompt);
+        if (value >= highest * 0.75) item.reasons.push(question.prompt);
       }
+    }
+
+    if (usableQuestions === 0) {
+      throw new Error('TypeSafe returned no usable candidate probability distributions.');
     }
 
     return candidates.map((candidate) => {
       const item = accum.get(candidate.id)!;
+      if (item.count !== usableQuestions) {
+        throw new Error('TypeSafe returned an incomplete candidate probability distribution.');
+      }
       return {
         candidateId: candidate.id,
-        score: item.count ? item.total / item.count : 50,
+        score: item.total / item.count,
         confidence: item.confidenceCount ? item.confidence / item.confidenceCount : undefined,
         reasons: item.reasons.slice(0, 3),
       };
