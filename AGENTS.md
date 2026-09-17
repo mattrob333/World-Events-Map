@@ -2,68 +2,103 @@
 
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+This version has breaking changes - APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+This block is written and re-added by `next dev` - verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
 
 # MERIDIAN engineering rules
 
-MERIDIAN is no longer a throwaway prototype. Preserve product truth, privacy and replaceable architecture before optimizing for demo speed.
+MERIDIAN began as a vibe-coded prototype and is now being treated as a real product. Preserve product integrity, privacy boundaries, and provider truth even when a faster shortcut appears easier.
 
-## Read before material changes
+## Task classes
 
-For product or architecture work, read these first:
+Before coding, classify the task.
 
-1. `README.md`
-2. `docs/PRODUCT.md`
-3. `docs/ARCHITECTURE.md`
-4. `docs/DEVLOG.md`
-5. the relevant page under `docs/wiki/`
+### CHEAP_OK
 
-For NOW changes also read `docs/NOW-ENGINE.md`.
+Suitable for lower-cost implementation agents when the goal, files, and acceptance tests are explicit:
 
-## Non-negotiable product boundaries
+- CSS and responsive polish
+- copy and documentation updates
+- fixtures and test scaffolding
+- repetitive form fields and display components
+- mechanical renames or isolated refactors
+- small components behind already-defined interfaces
 
-- Never invent members, bookings, provider availability, live busyness, prices or external feed freshness in real mode.
-- Keep modeled/forecast values labeled as modeled/forecast values. Do not relabel expected foot traffic as live traffic.
-- Precise current location is request context, not a People Graph attribute. Do not persist it to profiles or Travel Modes without an explicit new privacy design.
-- External services such as BestTime, TypeSafe/Jev, Avinode and future vendors must sit behind MERIDIAN provider interfaces. Do not leak vendor-specific shapes through the app domain model.
-- Partner approval is not inventory confirmation. An opportunity is not a reservation.
-- Charter math is an estimate until a real provider confirms it.
+Cheap agents do not get authority to reinterpret architecture or privacy rules.
 
-## Data and security
+### REVIEW_REQUIRED
 
-- All new account-backed data requires explicit ownership/visibility rules and PostgreSQL RLS tests.
-- Database changes go through numbered Supabase migrations. Do not edit production state by assuming a migration has already run.
-- Prefer transactional database functions when a user action spans multiple dependent writes.
-- Never place private provider credentials in `NEXT_PUBLIC_` variables, client components, fixtures, screenshots or docs.
-- Paid provider routes need validation, bounded input, timeouts, cost controls and failure behavior before merge.
-- A provider failure must not silently become fabricated data.
+Can be implemented by a lower-cost agent only when a stronger reviewer will inspect the integrated diff:
 
-## Code quality
+- ranking changes
+- caching behavior
+- public API routes
+- state-management changes
+- significant user-flow changes
+- new third-party adapters using an established provider contract
 
-Before declaring a feature ready:
+### HIGH_CAPABILITY_ONLY
 
-```sh
-npm run gate
+Do not delegate these to unsupervised grunt passes:
+
+- database migrations
+- RLS, authentication, authorization, or privacy boundaries
+- security controls and abuse/cost protections
+- payment, booking, inventory, or quote semantics
+- provider contracts and source-of-truth decisions
+- architecture or data-model changes
+- precise-location handling
+- production migrations or destructive changes
+
+## Cheap-agent implementation contract
+
+A bounded implementation task should be handed off in this form:
+
+```text
+TASK CLASS: CHEAP_OK
+GOAL: <one mechanical outcome>
+FILES YOU MAY CHANGE: <explicit list>
+DO NOT CHANGE: architecture, migrations, RLS, provider contracts, auth, security boundaries
+ACCEPTANCE TESTS:
+- <test 1>
+- <test 2>
+- npm run gate must pass
+OUTPUT:
+- concise summary
+- files changed
+- tests added/changed
+- any assumption you could not verify
 ```
 
-The gate must pass lint, TypeScript, data validation, tests and production build. New persistence or ranking behavior needs tests at the layer where the invariant actually lives.
+## Review contract
 
-Prefer deterministic, inspectable ranking before adding model judgment. When model judgment is used, preserve the deterministic constraints and expose enough reasons to debug the outcome.
+Meaningful integrated work requires a high-capability release review after implementation. When Astra is available in the orchestration environment, Astra is the preferred senior release reviewer. Do not claim Astra reviewed a change unless that review actually ran.
 
-## Product UX
+The final reviewer should inspect the whole diff, not only snippets, and prioritize:
 
-- Constellation is an exploration surface. Normal cards/forms remain the execution surface.
-- NOW is a decision engine, not a directory. Return a small set of differentiated choices.
-- Mobile behavior is first-class for NOW and travel-day workflows.
-- Empty states must tell the truth. Do not seed fake social liquidity in production.
+1. product requirement coverage
+2. privacy, RLS, and authorization
+3. provider truth and API-contract assumptions
+4. data integrity and transactional behavior
+5. race, concurrency, and cache behavior
+6. abuse and cost exposure on paid APIs
+7. mobile UX regressions
+8. fake/live-data confusion
+9. missing regression tests
+10. architecture drift or needless duplication
 
-## Working practice
+Codex/GitHub code and security reviews remain a useful independent second opinion for meaningful PRs, especially public APIs, auth, location, external providers, and database work.
 
-- Use feature branches and PRs for material work. Keep `main` releasable.
-- Update `docs/DEVLOG.md` when a meaningful architecture or product decision changes.
-- Update the README/wiki when adding a route, migration, provider or required environment variable.
-- Resolve review findings before merge. If a finding exposes a missing invariant, fix it at the persistence/domain boundary rather than only hiding the symptom in UI code.
+## Merge gate
+
+Do not merge material work unless:
+
+- `npm run gate` passes
+- relevant PostgreSQL/PGlite migration/RLS tests pass
+- blocking review findings are resolved
+- provider failure states are honest and tested
+- security/privacy changes have had a high-capability review
+- any required external Astra review is either completed or explicitly documented as unavailable rather than implied
