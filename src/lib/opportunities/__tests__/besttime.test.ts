@@ -48,6 +48,23 @@ describe('parseBestTimeVenue', () => {
     expect(open?.metadata?.openStatusResolution).toBe('current-hour');
   });
 
+  it('honors the day-level 24-hour flag', () => {
+    const parsed = parseBestTimeVenue(
+      fixture({
+        day_info: {
+          venue_open_close_v2: {
+            open_24h: true,
+            '24h': [],
+          },
+        },
+      }),
+      origin,
+      3,
+    );
+
+    expect(parsed?.openNow).toBe(true);
+  });
+
   it('handles opening periods that cross midnight', () => {
     const overnight = fixture({
       day_info: {
