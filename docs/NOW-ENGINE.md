@@ -51,13 +51,15 @@ It uses BestTime's venue filter endpoint with the current location, radius, broa
 
 MERIDIAN does not label expected traffic as live traffic. Historical/current-hour forecast data is stored as `expectedBusyness`; `liveBusyness` is only populated if a provider actually returns a live measurement.
 
+BestTime's filter response supplies opening periods plus the current local hour. The adapter therefore makes a conservative current-hour opening determination: it marks a venue closed only when the entire current hour is outside every published opening period. It does not pretend to know the exact current local minute when the response does not provide it.
+
 ### Hard filters
 
 Code removes candidates that are impossible or violate explicit constraints before any judgment model is called.
 
 Current hard filters:
 
-- explicitly closed venue
+- venue known to be closed during the current local hour
 - outside requested radius
 - above maximum price level
 - below minimum rating when a rating exists
@@ -87,7 +89,7 @@ The adapter asks several atomic Choice questions against the same candidate set 
 - requested social energy
 - trip context/interests
 
-Candidate probability distributions are converted into a relative judgment score, then blended with the deterministic baseline. The model cannot erase factual constraints.
+Candidate probability distributions are normalized relative to the strongest candidate for each question, converted into a judgment score, then blended with the deterministic baseline. The model cannot erase factual constraints.
 
 If TypeSafe is not configured or temporarily fails, the request degrades to deterministic MERIDIAN ranking and the response carries a warning.
 
@@ -120,7 +122,9 @@ BestTime is required for the first live NOW implementation. TypeSafe is optional
 
 Venue retrieval is cached in-memory for five minutes using rounded location, radius and intent as the key. This reduces duplicate provider calls during repeated decisions on a warm server instance without pretending the cache is globally durable.
 
-Future production hardening should move provider-call accounting and rate limits into durable infrastructure if traffic justifies it.
+The API route also has a warm-instance cost guard: 12 NOW requests per client per ten-minute window and a broader warm-instance cap. Oversized request bodies are rejected before provider work begins.
+
+These are baseline defenses, not globally durable limits. Before broad production traffic, move provider-call accounting and distributed rate limiting into durable shared infrastructure.
 
 ## Travel Mode context
 
