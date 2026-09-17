@@ -27,6 +27,9 @@ beforeAll(async () => {
   await db.exec(readFileSync('supabase/migrations/005_profile_identity.sql', 'utf8'));
   await db.exec(readFileSync('supabase/migrations/006_profile_connections.sql', 'utf8'));
   await db.exec(`insert into auth.users values('${a}'),('${b}'),('${c}');`);
+
+  await asUser(b);
+  await db.exec(`update profiles set is_public=true,handle='traveler_b' where id='${b}';`);
 }, 30000);
 
 afterAll(async () => {
@@ -34,7 +37,7 @@ afterAll(async () => {
 });
 
 describe('traveler connection RLS', () => {
-  it('lets a member request a connection but not forge another requester', async () => {
+  it('lets a member request a public traveler but not forge another requester', async () => {
     await asUser(a);
     await db.exec(
       `insert into profile_connections(requester_id,addressee_id) values('${a}','${b}');`,
@@ -42,6 +45,15 @@ describe('traveler connection RLS', () => {
     await expect(
       db.exec(
         `insert into profile_connections(requester_id,addressee_id) values('${c}','${b}');`,
+      ),
+    ).rejects.toThrow(/row-level security|policy/i);
+  });
+
+  it('does not let a member create a connection to a private profile', async () => {
+    await asUser(a);
+    await expect(
+      db.exec(
+        `insert into profile_connections(requester_id,addressee_id) values('${a}','${c}');`,
       ),
     ).rejects.toThrow(/row-level security|policy/i);
   });
