@@ -7,6 +7,7 @@ import { rankNowCandidates, selectNowPicks } from './engine';
 import type { NowRequest, NowResult } from './types';
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
+const MAX_CACHE_ENTRIES = 500;
 const venueCache = new Map<string, { expiresAt: number; venues: VenueCandidate[] }>();
 
 function cacheKey(request: NowRequest): string {
@@ -18,20 +19,34 @@ function cacheKey(request: NowRequest): string {
   ].join(':');
 }
 
+function pruneVenueCache(now: number) {
+  for (const [key, value] of venueCache) {
+    if (value.expiresAt <= now) venueCache.delete(key);
+  }
+  while (venueCache.size >= MAX_CACHE_ENTRIES) {
+    const oldest = venueCache.keys().next().value as string | undefined;
+    if (!oldest) break;
+    venueCache.delete(oldest);
+  }
+}
+
 async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
   const key = cacheKey(request);
+  const now = Date.now();
   const cached = venueCache.get(key);
-  if (cached && cached.expiresAt > Date.now()) return cached.venues;
+  if (cached && cached.expiresAt > now) return cached.venues;
+  if (cached) venueCache.delete(key);
 
   const provider = new BestTimeVenueProvider();
   const venues = await provider.search({
     location: request.location,
     radiusMeters: request.radiusMeters,
-    at: new Date().toISOString(),
+    at: new Date(now).toISOString(),
     categories: [request.intent],
-    limit: 36,
+    limit: 24,
   });
-  venueCache.set(key, { expiresAt: Date.now() + CACHE_TTL_MS, venues });
+  pruneVenueCache(now);
+  venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
   return venues;
 }
 
