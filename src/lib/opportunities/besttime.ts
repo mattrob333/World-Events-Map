@@ -1,0 +1,149 @@
+import 'server-only';
+
+import type { VenueFactsProvider } from './providers';
+import type { VenueCandidate, VenueSearchInput } from './types';
+
+type UnknownRecord = Record<string, unknown>;
+
+const TYPE_MAP: Record<string, string[]> = {
+  food: ['RESTAURANT', 'CAFE', 'FOOD_AND_DRINK', 'BAKERY'],
+  drinks: ['BAR', 'CLUBS', 'BREWERY', 'CAFE', 'WINERY'],
+  music: ['CONCERT_HALL', 'PERFORMING_ARTS', 'EVENT_VENUE', 'CLUBS', 'BAR'],
+  experience: ['MUSEUM', 'ARTS', 'MARKET', 'PARK', 'TOURIST_DESTINATION', 'EVENT_VENUE'],
+  surprise: ['RESTAURANT', 'BAR', 'CAFE', 'MUSEUM', 'ARTS', 'MARKET', 'EVENT_VENUE'],
+};
+
+function record(value: unknown): UnknownRecord | undefined {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+    ? (value as UnknownRecord)
+    : undefined;
+}
+
+function text(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function number(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function firstNumber(value: unknown): number | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return value.find((item): item is number => typeof item === 'number' && Number.isFinite(item));
+}
+
+function haversineMeters(a: VenueSearchInput['location'], b: VenueSearchInput['location']): number {
+  const radius = 6_371_000;
+  const radians = (degrees: number) => (degrees * Math.PI) / 180;
+  const dLat = radians(b.lat - a.lat);
+  const dLng = radians(b.lng - a.lng);
+  const lat1 = radians(a.lat);
+  const lat2 = radians(b.lat);
+  const root =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return Math.round(radius * 2 * Math.atan2(Math.sqrt(root), Math.sqrt(1 - root)));
+}
+
+function requestedTypes(categories?: string[]): string[] {
+  const types = new Set<string>();
+  for (const category of categories ?? []) {
+    const key = category.toLocaleLowerCase();
+    for (const type of TYPE_MAP[key] ?? [category.toUpperCase()]) types.add(type);
+  }
+  return [...types];
+}
+
+export function parseBestTimeVenue(
+  raw: unknown,
+  origin: VenueSearchInput['location'],
+): VenueCandidate | null {
+  const venue = record(raw);
+  if (!venue) return null;
+  const info = record(venue.venue_info);
+  const id = text(venue.venue_id) ?? text(info?.venue_id);
+  const name = text(venue.venue_name) ?? text(info?.venue_name);
+  const lat = number(venue.venue_lat) ?? number(info?.venue_lat);
+  const lng = number(venue.venue_lng) ?? number(info?.venue_lng);
+  if (!id || !name || lat === undefined || lng === undefined) return null;
+
+  const dwellMin = number(venue.venue_dwell_time_min) ?? number(info?.venue_dwell_time_min);
+  const dwellMax = number(venue.venue_dwell_time_max) ?? number(info?.venue_dwell_time_max);
+  const dwellMinutes = dwellMax && dwellMax > 0
+    ? dwellMax
+    : dwellMin && dwellMin > 0
+      ? dwellMin
+      : undefined;
+
+  const rating = number(venue.rating) ?? number(info?.rating);
+  const reviewCount = number(venue.reviews) ?? number(info?.reviews);
+  const priceLevel = number(venue.price_level) ?? number(info?.price_level);
+  const expectedBusyness = firstNumber(venue.day_raw);
+
+  return {
+    id,
+    provider: 'besttime',
+    name,
+    category: text(venue.venue_type) ?? text(info?.venue_type) ?? 'OTHER',
+    location: { lat, lng },
+    address: text(venue.venue_address) ?? text(info?.venue_address),
+    distanceMeters: haversineMeters(origin, { lat, lng }),
+    rating: rating && rating > 0 ? rating : undefined,
+    reviewCount: reviewCount && reviewCount > 0 ? reviewCount : undefined,
+    priceLevel: priceLevel && priceLevel > 0 ? priceLevel : undefined,
+    expectedBusyness,
+    dwellMinutes,
+    metadata: {
+      forecast: venue.forecast,
+      dayInt: venue.day_int,
+    },
+  };
+}
+
+export class BestTimeVenueProvider implements VenueFactsProvider {
+  readonly id = 'besttime';
+
+  constructor(private readonly apiKey = process.env.BESTTIME_API_KEY_PRIVATE ?? '') {}
+
+  async search(input: VenueSearchInput): Promise<VenueCandidate[]> {
+    if (!this.apiKey) throw new Error('BestTime is not configured.');
+
+    const params = new URLSearchParams({
+      api_key_private: this.apiKey,
+      lat: input.location.lat.toFixed(3),
+      lng: input.location.lng.toFixed(3),
+      radius: String(Math.max(250, Math.min(25_000, Math.round(input.radiusMeters)))),
+      now: 'true',
+      foot_traffic: 'both',
+      own_venues_only: 'false',
+      order_by: 'reviews',
+      order: 'desc',
+      limit: String(Math.max(1, Math.min(50, input.limit ?? 30))),
+      page: '0',
+    });
+
+    const types = requestedTypes(input.categories);
+    if (types.length) params.set('types', types.join(','));
+
+    const response = await fetch(`https://besttime.app/api/v1/venues/filter?${params}`, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10_000),
+    });
+
+    if (!response.ok) throw new Error(`BestTime request failed with status ${response.status}.`);
+    const payload: unknown = await response.json();
+    const root = record(payload);
+    if (!root) throw new Error('BestTime returned an invalid response.');
+    if (text(root.status)?.toLocaleLowerCase() === 'error') {
+      throw new Error(text(root.message) ?? 'BestTime could not complete the venue request.');
+    }
+
+    const venues = Array.isArray(root.venues) ? root.venues : [];
+    return venues
+      .map((venue) => parseBestTimeVenue(venue, input.location))
+      .filter((venue): venue is VenueCandidate => venue !== null)
+      .slice(0, input.limit ?? 30);
+  }
+}
