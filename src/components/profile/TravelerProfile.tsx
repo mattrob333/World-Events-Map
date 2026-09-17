@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { PlatformShell } from '@/components/community/PlatformShell';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import {
@@ -20,6 +20,13 @@ const ACCENTS = {
   rose: '#ff93b6',
 } as const;
 
+type ConnectionRow = {
+  id: string;
+  requester_id: string;
+  addressee_id: string;
+  status: 'pending' | 'accepted' | 'declined';
+};
+
 function initials(name: string) {
   return name
     .split(/\s+/)
@@ -35,6 +42,12 @@ function linkLabel(kind: string, label: string) {
   if (kind === 'youtube') return 'YouTube';
   if (kind === 'website') return 'Website';
   return 'Link';
+}
+
+function explain(cause: unknown) {
+  if (cause instanceof Error) return cause.message;
+  if (cause && typeof cause === 'object' && 'message' in cause) return String(cause.message);
+  return 'Something went wrong. Please try again.';
 }
 
 function ModuleFrame({
@@ -58,9 +71,12 @@ function ModuleFrame({
 export function TravelerProfile({ handle }: { handle: string }) {
   const { client, user } = usePlatformAuth();
   const [profile, setProfile] = useState<PublicTravelerProfile | null>(null);
+  const [connection, setConnection] = useState<ConnectionRow | null>(null);
   const [loading, setLoading] = useState(Boolean(client));
+  const [relationshipBusy, setRelationshipBusy] = useState(false);
   const [error, setError] = useState('');
   const [shareNotice, setShareNotice] = useState('');
+  const [relationshipNotice, setRelationshipNotice] = useState('');
 
   useEffect(() => {
     if (!client) {
@@ -88,6 +104,30 @@ export function TravelerProfile({ handle }: { handle: string }) {
       active = false;
     };
   }, [client, handle]);
+
+  const refreshConnection = useCallback(async () => {
+    if (!client || !user || !profile || user.id === profile.id) {
+      setConnection(null);
+      return;
+    }
+    const { data, error: failure } = await client
+      .from('profile_connections')
+      .select('id,requester_id,addressee_id,status')
+      .or(`requester_id.eq.${profile.id},addressee_id.eq.${profile.id}`)
+      .maybeSingle();
+    if (failure) throw failure;
+    setConnection((data as ConnectionRow | null) ?? null);
+  }, [client, profile, user]);
+
+  useEffect(() => {
+    let active = true;
+    void refreshConnection().catch((cause) => {
+      if (active) setError(explain(cause));
+    });
+    return () => {
+      active = false;
+    };
+  }, [refreshConnection]);
 
   const moduleOrder = useMemo<ProfileModule[]>(() => {
     if (!profile) return [];
@@ -142,6 +182,12 @@ export function TravelerProfile({ handle }: { handle: string }) {
   const accent = ACCENTS[profile.theme_accent] ?? ACCENTS.gold;
   const themeStyle = { '--profile-accent': accent } as CSSProperties;
   const ownProfile = user?.id === profile.id;
+  const inboundPending = Boolean(
+    user && connection?.status === 'pending' && connection.addressee_id === user.id,
+  );
+  const outboundPending = Boolean(
+    user && connection?.status === 'pending' && connection.requester_id === user.id,
+  );
 
   async function shareProfile() {
     const url = window.location.href;
@@ -159,6 +205,68 @@ export function TravelerProfile({ handle }: { handle: string }) {
       }
     } catch {
       // User cancellation is not an error state worth surfacing.
+    }
+  }
+
+  async function requestConnection() {
+    if (!client || !user || ownProfile) return;
+    setRelationshipBusy(true);
+    setRelationshipNotice('');
+    setError('');
+    try {
+      const { error: failure } = await client.from('profile_connections').insert({
+        requester_id: user.id,
+        addressee_id: profile.id,
+        status: 'pending',
+      });
+      if (failure) throw failure;
+      setRelationshipNotice('Connection request sent.');
+      await refreshConnection();
+    } catch (cause) {
+      setError(explain(cause));
+    } finally {
+      setRelationshipBusy(false);
+    }
+  }
+
+  async function respondToConnection(status: 'accepted' | 'declined') {
+    if (!client || !user || !connection || !inboundPending) return;
+    setRelationshipBusy(true);
+    setRelationshipNotice('');
+    setError('');
+    try {
+      const { error: failure } = await client
+        .from('profile_connections')
+        .update({ status })
+        .eq('id', connection.id)
+        .eq('addressee_id', user.id);
+      if (failure) throw failure;
+      setRelationshipNotice(status === 'accepted' ? 'You are connected.' : 'Connection request declined.');
+      await refreshConnection();
+    } catch (cause) {
+      setError(explain(cause));
+    } finally {
+      setRelationshipBusy(false);
+    }
+  }
+
+  async function removeConnection() {
+    if (!client || !user || !connection) return;
+    setRelationshipBusy(true);
+    setRelationshipNotice('');
+    setError('');
+    try {
+      const { error: failure } = await client
+        .from('profile_connections')
+        .delete()
+        .eq('id', connection.id);
+      if (failure) throw failure;
+      setRelationshipNotice('Connection removed.');
+      await refreshConnection();
+    } catch (cause) {
+      setError(explain(cause));
+    } finally {
+      setRelationshipBusy(false);
     }
   }
 
@@ -270,6 +378,34 @@ export function TravelerProfile({ handle }: { handle: string }) {
                 </div>
                 <div className={styles.actions}>
                   {ownProfile && <Link href="/account" className={styles.secondaryAction}>Edit profile</Link>}
+                  {!ownProfile && user && !connection && (
+                    <button type="button" className={styles.primaryAction} disabled={relationshipBusy} onClick={() => void requestConnection()}>
+                      Connect
+                    </button>
+                  )}
+                  {!ownProfile && user && outboundPending && (
+                    <button type="button" className={styles.secondaryAction} disabled>Request sent</button>
+                  )}
+                  {!ownProfile && user && inboundPending && (
+                    <>
+                      <button type="button" className={styles.primaryAction} disabled={relationshipBusy} onClick={() => void respondToConnection('accepted')}>
+                        Accept connection
+                      </button>
+                      <button type="button" className={styles.secondaryAction} disabled={relationshipBusy} onClick={() => void respondToConnection('declined')}>
+                        Decline
+                      </button>
+                    </>
+                  )}
+                  {!ownProfile && user && connection?.status === 'accepted' && (
+                    <button type="button" className={styles.secondaryAction} disabled={relationshipBusy} onClick={() => void removeConnection()}>
+                      Connected · remove
+                    </button>
+                  )}
+                  {!ownProfile && user && connection?.status === 'declined' && (
+                    <button type="button" className={styles.secondaryAction} disabled={relationshipBusy} onClick={() => void removeConnection()}>
+                      Clear request
+                    </button>
+                  )}
                   <button type="button" className={styles.secondaryAction} onClick={() => void shareProfile()}>
                     Share
                   </button>
@@ -280,9 +416,12 @@ export function TravelerProfile({ handle }: { handle: string }) {
                 {profile.home_city && <span>Home · {profile.home_city}</span>}
                 {profile.home_airport && <span>Airport · {profile.home_airport}</span>}
                 <span>{profile.travel_modes.length} featured mode{profile.travel_modes.length === 1 ? '' : 's'}</span>
+                {connection?.status === 'accepted' && <span>Connected</span>}
               </div>
               {profile.bio && <p className={styles.bio}>{profile.bio}</p>}
               {shareNotice && <p className={styles.notice}>{shareNotice}</p>}
+              {relationshipNotice && <p className={styles.notice}>{relationshipNotice}</p>}
+              {error && <p className={styles.error}>{error}</p>}
             </div>
           </div>
         </section>
