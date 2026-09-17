@@ -56,6 +56,69 @@ describe('TypeSafeJudgmentProvider', () => {
     expect(Object.keys(body.questions.fit.criteria)).toEqual(['a', 'b']);
   });
 
+  it('rejects a response without a complete usable probability distribution', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          model: 'jev-latest',
+          answers: {
+            fit: {
+              type: 'choice',
+              choice: 'a',
+              probabilities: { a: 1 },
+              confidence: 1,
+            },
+          },
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      ),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const provider = new TypeSafeJudgmentProvider('secret');
+    await expect(
+      provider.judge({
+        context: {},
+        questions: [{ id: 'fit', prompt: 'Which place fits?' }],
+        candidates: [
+          { id: 'a', facts: { name: 'A' } },
+          { id: 'b', facts: { name: 'B' } },
+        ],
+      }),
+    ).rejects.toThrow(/no usable candidate probability distributions/);
+  });
+
+  it('rejects probabilities that do not form a valid distribution', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          answers: {
+            fit: {
+              type: 'choice',
+              choice: 'a',
+              probabilities: { a: 0.2, b: 0.2 },
+              confidence: 0.1,
+            },
+          },
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      ),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const provider = new TypeSafeJudgmentProvider('secret');
+    await expect(
+      provider.judge({
+        context: {},
+        questions: [{ id: 'fit', prompt: 'Which place fits?' }],
+        candidates: [
+          { id: 'a', facts: { name: 'A' } },
+          { id: 'b', facts: { name: 'B' } },
+        ],
+      }),
+    ).rejects.toThrow(/no usable candidate probability distributions/);
+  });
+
   it('does not call the provider when only one viable candidate remains', async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
