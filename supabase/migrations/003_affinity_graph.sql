@@ -177,6 +177,86 @@ using (
   )
 );
 
+-- Create the mode and its interests in one transaction. If validation or either
+-- insert fails, PostgreSQL rolls the entire function call back, so the UI cannot
+-- leave a half-created mode behind.
+create function public.create_travel_mode(
+  p_name text,
+  p_description text default '',
+  p_party_type text default 'solo',
+  p_origin_city text default '',
+  p_origin_airport text default '',
+  p_destination text default '',
+  p_start_date date default null,
+  p_end_date date default null,
+  p_visibility text default 'private',
+  p_interests text[] default '{}'
+)
+returns uuid
+language plpgsql
+security invoker
+set search_path=public
+as $$
+declare
+  new_mode_id uuid;
+  cleaned_interests text[];
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication is required';
+  end if;
+
+  select coalesce(array_agg(value order by value), '{}')
+    into cleaned_interests
+  from (
+    select distinct trim(raw_interest) as value
+    from unnest(coalesce(p_interests, '{}')) raw_interest
+    where trim(raw_interest) <> ''
+  ) cleaned;
+
+  if cardinality(cleaned_interests) > 12 then
+    raise exception 'A travel mode can have at most 12 interests';
+  end if;
+
+  if exists (
+    select 1 from unnest(cleaned_interests) interest
+    where length(interest) > 80
+  ) then
+    raise exception 'Each travel-mode interest must be 80 characters or fewer';
+  end if;
+
+  insert into public.travel_modes(
+    user_id,
+    name,
+    description,
+    party_type,
+    origin_city,
+    origin_airport,
+    destination,
+    start_date,
+    end_date,
+    visibility
+  ) values (
+    auth.uid(),
+    trim(p_name),
+    trim(coalesce(p_description, '')),
+    p_party_type,
+    trim(coalesce(p_origin_city, '')),
+    upper(trim(coalesce(p_origin_airport, ''))),
+    trim(coalesce(p_destination, '')),
+    p_start_date,
+    p_end_date,
+    p_visibility
+  )
+  returning id into new_mode_id;
+
+  insert into public.travel_mode_interests(mode_id, interest, weight)
+  select new_mode_id, interest, 3
+  from unnest(cleaned_interests) interest;
+
+  return new_mode_id;
+end
+$$;
+
 create index travel_modes_user on public.travel_modes(user_id, updated_at desc);
 create index travel_modes_discovery on public.travel_modes(visibility, party_type);
 create index travel_mode_interests_interest on public.travel_mode_interests(lower(interest));
@@ -184,6 +264,9 @@ create index circles_affinity on public.circles(party_type, start_date, end_date
 
 revoke all on function public.can_read_travel_mode(uuid) from public;
 grant execute on function public.can_read_travel_mode(uuid) to authenticated;
+
+revoke all on function public.create_travel_mode(text,text,text,text,text,text,date,date,text,text[]) from public;
+grant execute on function public.create_travel_mode(text,text,text,text,text,text,date,date,text,text[]) to authenticated;
 
 grant select,insert,update,delete on public.travel_modes to authenticated;
 grant select,insert,update,delete on public.travel_mode_interests to authenticated;
