@@ -27,9 +27,27 @@ function number(value: unknown): number | undefined {
   return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
 }
 
-function firstNumber(value: unknown): number | undefined {
-  if (!Array.isArray(value)) return undefined;
-  return value.find((item): item is number => typeof item === 'number' && Number.isFinite(item));
+function numericSeries(value: unknown): number[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is number => typeof item === 'number' && Number.isFinite(item));
+}
+
+function currentTrafficSample(value: unknown, localIndex?: number): number | undefined {
+  const values = numericSeries(value);
+  if (values.length === 0) return undefined;
+  // With `now=true`, BestTime documents a one-element `day_raw` containing the
+  // current local hour. If a wider array is ever returned, honor the provider's
+  // explicit `time_local_index` instead of silently taking midnight/first hour.
+  if (values.length === 1) return values[0];
+  if (
+    localIndex !== undefined &&
+    Number.isInteger(localIndex) &&
+    localIndex >= 0 &&
+    localIndex < values.length
+  ) {
+    return values[localIndex];
+  }
+  return undefined;
 }
 
 function haversineMeters(a: VenueSearchInput['location'], b: VenueSearchInput['location']): number {
@@ -60,7 +78,7 @@ function overlapsMinuteRange(
   periodStart: number,
   periodEnd: number,
 ): boolean {
-  return periodStart <= windowEnd && periodEnd >= windowStart;
+  return periodStart <= windowEnd && periodEnd > windowStart;
 }
 
 /**
@@ -80,7 +98,7 @@ function openDuringLocalHour(venue: UnknownRecord, localHour?: number): boolean 
   if (rawPeriods.length === 0) return false;
 
   const hourStart = Math.floor(localHour) * 60;
-  const hourEnd = hourStart + 59;
+  const hourEnd = hourStart + 60;
   let sawUsablePeriod = false;
 
   for (const rawPeriod of rawPeriods) {
@@ -114,6 +132,7 @@ export function parseBestTimeVenue(
   raw: unknown,
   origin: VenueSearchInput['location'],
   localHour?: number,
+  localIndex?: number,
 ): VenueCandidate | null {
   const venue = record(raw);
   if (!venue) return null;
@@ -135,7 +154,7 @@ export function parseBestTimeVenue(
   const rating = number(venue.rating) ?? number(info?.rating);
   const reviewCount = number(venue.reviews) ?? number(info?.reviews);
   const priceLevel = number(venue.price_level) ?? number(info?.price_level);
-  const expectedBusyness = firstNumber(venue.day_raw);
+  const expectedBusyness = currentTrafficSample(venue.day_raw, localIndex);
 
   return {
     id,
@@ -155,6 +174,7 @@ export function parseBestTimeVenue(
       forecast: venue.forecast,
       dayInt: venue.day_int,
       openStatusResolution: localHour === undefined ? 'unknown' : 'current-hour',
+      trafficSampleIndex: expectedBusyness === undefined ? undefined : localIndex,
     },
   };
 }
@@ -199,10 +219,12 @@ export class BestTimeVenueProvider implements VenueFactsProvider {
       throw new Error(text(root.message) ?? 'BestTime could not complete the venue request.');
     }
 
-    const localHour = number(record(root.window)?.time_local);
+    const window = record(root.window);
+    const localHour = number(window?.time_local);
+    const localIndex = number(window?.time_local_index);
     const venues = Array.isArray(root.venues) ? root.venues : [];
     return venues
-      .map((venue) => parseBestTimeVenue(venue, input.location, localHour))
+      .map((venue) => parseBestTimeVenue(venue, input.location, localHour, localIndex))
       .filter((venue): venue is VenueCandidate => venue !== null)
       .slice(0, input.limit ?? 30);
   }
