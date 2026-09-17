@@ -1,6 +1,5 @@
 const WINDOW_MS = 10 * 60 * 1000;
 const PER_CLIENT_LIMIT = 12;
-const GLOBAL_WARM_INSTANCE_LIMIT = 120;
 const MAX_TRACKED_CLIENTS = 5000;
 
 type Bucket = {
@@ -9,17 +8,6 @@ type Bucket = {
 };
 
 const clientBuckets = new Map<string, Bucket>();
-let globalBucket: Bucket = { count: 0, resetAt: 0 };
-
-export class NowProviderBudgetExceededError extends Error {
-  readonly retryAfterSeconds: number;
-
-  constructor(retryAfterSeconds: number) {
-    super('NOW paid-provider budget is temporarily exhausted.');
-    this.name = 'NowProviderBudgetExceededError';
-    this.retryAfterSeconds = retryAfterSeconds;
-  }
-}
 
 function freshBucket(now: number): Bucket {
   return { count: 0, resetAt: now + WINDOW_MS };
@@ -62,9 +50,9 @@ function ensureClientSlot(key: string) {
 }
 
 /**
- * Per-client admission guard. Run this before parsing the body so one noisy
- * caller cannot consume unbounded CPU. This is separate from paid-provider
- * accounting because cache hits should not consume the shared provider budget.
+ * Per-client warm-instance abuse guard. This intentionally is not the paid-call
+ * budget. Paid-provider accounting lives in providerBudget.ts and is durable in
+ * Postgres so it remains valid across serverless scale-out.
  */
 export function consumeNowClientRateLimit(
   request: Request,
@@ -79,27 +67,6 @@ export function consumeNowClientRateLimit(
   return { allowed: client.allowed, retryAfterSeconds: client.retryAfterSeconds };
 }
 
-/**
- * Shared warm-instance cost guard for actual outbound provider calls. Callers
- * must invoke this immediately before an external paid-provider request, not at
- * the HTTP route boundary, so cache-only requests are free from this budget.
- */
-export function consumeNowProviderBudget(
-  now = Date.now(),
-): { allowed: boolean; retryAfterSeconds: number } {
-  const global = consume(globalBucket, GLOBAL_WARM_INSTANCE_LIMIT, now);
-  globalBucket = global.bucket;
-  return { allowed: global.allowed, retryAfterSeconds: global.retryAfterSeconds };
-}
-
-export function requireNowProviderBudget(now = Date.now()) {
-  const result = consumeNowProviderBudget(now);
-  if (!result.allowed) {
-    throw new NowProviderBudgetExceededError(result.retryAfterSeconds);
-  }
-}
-
 export function resetNowRateLimitsForTests() {
   clientBuckets.clear();
-  globalBucket = { count: 0, resetAt: 0 };
 }
