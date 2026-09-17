@@ -105,6 +105,7 @@ Rules:
 4. External venue providers necessarily receive enough geographic context to answer the venue query.
 5. The response is `Cache-Control: no-store` at the MERIDIAN HTTP boundary.
 6. Server-side provider credentials are never exposed through `NEXT_PUBLIC_` variables.
+7. Browser requests must be same-origin `application/json`; cross-site form/no-cors style calls are rejected before provider work.
 
 ## Provider configuration
 
@@ -118,13 +119,27 @@ TYPESAFE_MODEL=jev-latest
 
 BestTime is required for the first live NOW implementation. TypeSafe is optional because MERIDIAN has a deterministic fallback.
 
+Live provider work also requires:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+and migration `004_now_provider_budget.sql`. The service-role key is never exposed to the browser.
+
 ## Caching and cost control
 
-Venue retrieval is cached in-memory for five minutes using rounded location, radius and intent as the key. This reduces duplicate provider calls during repeated decisions on a warm server instance without pretending the cache is globally durable.
+Venue retrieval is cached in-memory for five minutes using rounded location, radius and intent as the key. This reduces duplicate BestTime calls during repeated decisions on a warm server instance. Distances are recomputed from the exact request origin on every read so rounded cache cells cannot leak stale distance calculations into hard filters.
 
-The API route also has a warm-instance cost guard: 12 NOW requests per client per ten-minute window and a broader warm-instance cap. Oversized request bodies are rejected before provider work begins.
+There are two different protections because they solve different problems:
 
-These are baseline defenses, not globally durable limits. Before broad production traffic, move provider-call accounting and distributed rate limiting into durable shared infrastructure.
+1. **Warm-instance client admission**: one client is limited to 12 NOW requests per ten-minute window before expensive work begins. The local identity map is hard-capped to prevent memory growth. This is an abuse-speed bump, not the spend ledger.
+2. **Durable paid-provider budget**: every actual outbound BestTime or TypeSafe call atomically claims one unit from `meridian_now_provider_budget` in Postgres. The shared cap is 120 external provider calls per ten-minute window across every server instance. Cache hits consume no provider budget.
+
+The durable budget exists specifically because serverless scale-out makes a process-local "global" counter dishonest. If the Postgres budget or service-role configuration is unavailable, required BestTime work fails closed. Optional TypeSafe judgment degrades to deterministic ranking rather than risking uncontrolled provider spend.
+
+Request bodies are streamed and cancelled once they exceed 20 KB, so the nominal body limit is enforced before the entire payload is buffered.
 
 ## Travel Mode context
 
