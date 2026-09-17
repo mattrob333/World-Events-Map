@@ -68,6 +68,12 @@ with check (
   requester_id = auth.uid()
   and addressee_id <> auth.uid()
   and status = 'pending'
+  and exists (
+    select 1
+    from public.profiles destination
+    where destination.id = addressee_id
+      and destination.is_public = true
+  )
 );
 
 create policy profile_connections_respond
