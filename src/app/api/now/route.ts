@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   consumeNowClientRateLimit,
-  consumeNowProviderBudget,
+  NowProviderBudgetExceededError,
 } from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
 import { validateNowRequest } from '@/lib/now/validation';
@@ -24,6 +24,54 @@ function jsonError(
     { error, code },
     { status, headers: { ...NO_STORE, ...headers } },
   );
+}
+
+function expectedOrigin(request: Request): string {
+  const url = new URL(request.url);
+  const protocol = request.headers.get('x-forwarded-proto') ?? url.protocol.replace(':', '');
+  const host =
+    request.headers.get('x-forwarded-host') ??
+    request.headers.get('host') ??
+    url.host;
+  return `${protocol}://${host}`;
+}
+
+function validateRequestBoundary(request: Request): Response | null {
+  const mediaType = request.headers
+    .get('content-type')
+    ?.split(';')[0]
+    ?.trim()
+    .toLocaleLowerCase();
+  if (mediaType !== 'application/json') {
+    return jsonError(
+      415,
+      'NOW_JSON_REQUIRED',
+      'NOW accepts same-origin application/json requests only.',
+    );
+  }
+
+  const origin = request.headers.get('origin');
+  let normalizedOrigin = '';
+  if (origin) {
+    try {
+      normalizedOrigin = new URL(origin).origin;
+    } catch {
+      normalizedOrigin = '';
+    }
+  }
+
+  const fetchSite = request.headers.get('sec-fetch-site');
+  const sameOrigin = normalizedOrigin === expectedOrigin(request);
+  const browserSaysSameOrigin = fetchSite === 'same-origin';
+  if (!sameOrigin || (fetchSite && !browserSaysSameOrigin)) {
+    return jsonError(
+      403,
+      'NOW_SAME_ORIGIN_REQUIRED',
+      'NOW requests must come from the MERIDIAN app.',
+    );
+  }
+
+  return null;
 }
 
 async function readBodyWithLimit(request: Request): Promise<string> {
@@ -58,6 +106,9 @@ async function readBodyWithLimit(request: Request): Promise<string> {
 }
 
 export async function POST(request: Request) {
+  const boundaryFailure = validateRequestBoundary(request);
+  if (boundaryFailure) return boundaryFailure;
+
   if (!process.env.BESTTIME_API_KEY_PRIVATE) {
     return jsonError(
       503,
@@ -87,24 +138,19 @@ export async function POST(request: Request) {
     }
 
     const input = validateNowRequest(body);
-
-    // Charge the shared provider-work budget only after the request is proven
-    // valid and is about to execute paid external work.
-    const providerBudget = consumeNowProviderBudget();
-    if (!providerBudget.allowed) {
-      return jsonError(
-        429,
-        'NOW_RATE_LIMITED',
-        'NOW is temporarily at capacity. Wait a few minutes and try again.',
-        { 'Retry-After': String(providerBudget.retryAfterSeconds) },
-      );
-    }
-
     const result = await executeNow(input);
     return NextResponse.json(result, { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) {
       return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
+    }
+    if (cause instanceof NowProviderBudgetExceededError) {
+      return jsonError(
+        429,
+        'NOW_RATE_LIMITED',
+        'NOW is temporarily at capacity. Wait a few minutes and try again.',
+        { 'Retry-After': String(cause.retryAfterSeconds) },
+      );
     }
 
     const message = cause instanceof Error ? cause.message : 'NOW could not complete this request.';
