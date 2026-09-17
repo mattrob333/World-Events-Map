@@ -83,9 +83,7 @@ describe('affinity graph RLS against PostgreSQL', () => {
 
   it('prevents another member from mutating someone else travel modes', async () => {
     await asUser(b);
-    await expect(
-      db.exec(`update travel_modes set name='Hijacked' where id='${publicMode}'`),
-    ).resolves.not.toThrow();
+    await db.exec(`update travel_modes set name='Hijacked' where id='${publicMode}'`);
 
     await asUser(a);
     const result = await db.query<{ name: string }>(
