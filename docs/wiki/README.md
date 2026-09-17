@@ -7,6 +7,7 @@ This directory is the in-repo product and engineering wiki. It is versioned with
 - [Product direction](../PRODUCT.md)
 - [System architecture](../ARCHITECTURE.md)
 - [Affinity Graph](AFFINITY-GRAPH.md)
+- [NOW decision engine](../NOW-ENGINE.md)
 
 ## Operations
 
@@ -22,7 +23,7 @@ This directory is the in-repo product and engineering wiki. It is versioned with
 
 **ACCESS**: partner opportunities for transport, stays, access and experiences.
 
-**NOW**: the local day-of decision engine.
+**NOW**: the local day-of decision engine that combines current venue facts, hard traveler constraints and contextual judgment into a small decision set.
 
 **Travel Mode**: a contextual identity used for matching and recommendation, such as Family Ski, Solo Weekend or Work Layover.
 
@@ -31,3 +32,5 @@ This directory is the in-repo product and engineering wiki. It is versioned with
 **Affinity**: an explainable score describing how strongly a member's active Travel Mode overlaps another member, mode or Circle.
 
 **Opportunity**: an actionable but not necessarily confirmed travel option, such as an empty leg, provider stay or local venue candidate.
+
+**Best Match / Most Alive / Wildcard**: the three decision roles returned by NOW after hard filters remove impossible choices.
