@@ -4,6 +4,10 @@ import { BestTimeVenueProvider } from '@/lib/opportunities/besttime';
 import { TypeSafeJudgmentProvider } from '@/lib/opportunities/typesafe';
 import type { CandidateJudgment, GeoPoint, JudgmentInput, VenueCandidate } from '@/lib/opportunities';
 import { rankNowCandidates, selectNowPicks } from './engine';
+import {
+  consumeNowProviderBudget,
+  requireNowProviderBudget,
+} from './rateLimit';
 import type { NowRequest, NowResult } from './types';
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -63,6 +67,9 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
   }
   if (cached) venueCache.delete(key);
 
+  // This is the point at which MERIDIAN is actually about to make a paid
+  // external request. Cache hits above never consume the shared provider budget.
+  requireNowProviderBudget(now);
   const provider = new BestTimeVenueProvider();
   const venues = await provider.search({
     location: request.location,
@@ -72,8 +79,6 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
     limit: 24,
   });
   pruneVenueCache(now);
-  // Cache provider facts and venue coordinates, but never trust the cached
-  // distance for a second request that merely rounded into the same cell.
   venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
   return distancesForOrigin(venues, request.location);
 }
@@ -124,8 +129,20 @@ async function optionalJudgments(
   shortlist: VenueCandidate[],
   warnings: string[],
 ): Promise<{ judgments?: CandidateJudgment[]; source: string; degraded: boolean }> {
+  // No external judgment is useful for zero/one candidates. Keep this local and
+  // preserve paid-provider budget for decisions where a comparison exists.
+  if (shortlist.length <= 1) {
+    return { source: 'meridian-deterministic', degraded: false };
+  }
+
   if (!process.env.TYPESAFE_API_KEY) {
     warnings.push('Structured judgment is not configured; MERIDIAN used deterministic ranking.');
+    return { source: 'meridian-deterministic', degraded: true };
+  }
+
+  const providerBudget = consumeNowProviderBudget();
+  if (!providerBudget.allowed) {
+    warnings.push('Structured judgment was skipped because the external-provider budget is temporarily at capacity.');
     return { source: 'meridian-deterministic', degraded: true };
   }
 
@@ -149,10 +166,6 @@ export async function executeNow(request: NowRequest): Promise<NowResult> {
   const shortlist = deterministic.slice(0, 12).map((item) => item.candidate);
   const judgment = await optionalJudgments(request, shortlist, warnings);
 
-  // If TypeSafe is used, only compare candidates that received the same
-  // judgment treatment. Candidates outside the shortlist remain viable facts,
-  // but cannot outrank evaluated options merely because they avoided a model
-  // adjustment.
   const ranked = judgment.judgments
     ? rankNowCandidates({ request, candidates: shortlist, judgments: judgment.judgments })
     : deterministic;
