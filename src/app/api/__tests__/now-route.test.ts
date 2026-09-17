@@ -18,6 +18,17 @@ function validBody() {
   });
 }
 
+function request(body: string, ip = '203.0.113.10') {
+  return new Request('http://localhost/api/now', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-vercel-forwarded-for': ip,
+    },
+    body,
+  });
+}
+
 afterEach(() => {
   vi.unstubAllEnvs();
   mockedExecuteNow.mockReset();
@@ -27,12 +38,7 @@ afterEach(() => {
 describe('POST /api/now', () => {
   it('fails closed when the required venue provider is not configured', async () => {
     vi.stubEnv('BESTTIME_API_KEY_PRIVATE', '');
-    const response = await POST(
-      new Request('http://localhost/api/now', {
-        method: 'POST',
-        body: JSON.stringify({}),
-      }),
-    );
+    const response = await POST(request(JSON.stringify({})));
     expect(response.status).toBe(503);
     expect(await response.json()).toMatchObject({ code: 'NOW_PROVIDER_NOT_CONFIGURED' });
   });
@@ -40,33 +46,47 @@ describe('POST /api/now', () => {
   it('rejects malformed location and constraints before calling providers', async () => {
     vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
     const response = await POST(
-      new Request('http://localhost/api/now', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      request(
+        JSON.stringify({
           location: { lat: 190, lng: 0 },
           intent: 'food',
           vibe: 'social',
           radiusMeters: 3000,
         }),
-      }),
+      ),
     );
     expect(response.status).toBe(400);
     expect(mockedExecuteNow).not.toHaveBeenCalled();
   });
 
-  it('rejects oversized request bodies before provider work', async () => {
+  it('rejects oversized chunked-style bodies before buffering provider work', async () => {
     vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
-    const response = await POST(
-      new Request('http://localhost/api/now', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ padding: 'x'.repeat(21_000) }),
-      }),
-    );
+    const response = await POST(request(JSON.stringify({ padding: 'x'.repeat(21_000) })));
     expect(response.status).toBe(413);
     expect(await response.json()).toMatchObject({ code: 'NOW_REQUEST_TOO_LARGE' });
     expect(mockedExecuteNow).not.toHaveBeenCalled();
+  });
+
+  it('does not let invalid requests consume the shared provider-work budget', async () => {
+    vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
+    mockedExecuteNow.mockResolvedValue({
+      picks: [],
+      candidateCount: 0,
+      venueSource: 'besttime',
+      judgmentSource: 'meridian-deterministic',
+      generatedAt: '2026-09-17T18:00:00.000Z',
+      degraded: true,
+      warnings: [],
+    });
+
+    for (let index = 0; index < 120; index += 1) {
+      const response = await POST(request('{bad json', `203.0.113.${index + 1}`));
+      expect(response.status).toBe(400);
+    }
+
+    const valid = await POST(request(validBody(), '198.51.100.50'));
+    expect(valid.status).toBe(200);
+    expect(mockedExecuteNow).toHaveBeenCalledTimes(1);
   });
 
   it('rate limits a warm-instance client before paid provider work', async () => {
@@ -83,16 +103,7 @@ describe('POST /api/now', () => {
 
     let response: Response | undefined;
     for (let index = 0; index < 13; index += 1) {
-      response = await POST(
-        new Request('http://localhost/api/now', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-forwarded-for': '203.0.113.10',
-          },
-          body: validBody(),
-        }),
-      );
+      response = await POST(request(validBody(), '203.0.113.10'));
     }
 
     expect(response?.status).toBe(429);
@@ -112,13 +123,7 @@ describe('POST /api/now', () => {
       warnings: ['No venue met the current hard constraints.'],
     });
 
-    const response = await POST(
-      new Request('http://localhost/api/now', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: validBody(),
-      }),
-    );
+    const response = await POST(request(validBody()));
 
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('no-store');
