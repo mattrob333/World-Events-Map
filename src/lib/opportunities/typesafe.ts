@@ -104,7 +104,8 @@ export class TypeSafeJudgmentProvider implements JudgmentProvider {
         const value = distribution[candidate.id];
         if (value === undefined) continue;
         const item = accum.get(candidate.id)!;
-        item.total += value * 100;
+        const relative = highest > 0 ? value / highest : 0.5;
+        item.total += Math.max(0, Math.min(1, relative)) * 100;
         item.count += 1;
         if (confidence !== undefined) {
           item.confidence += confidence;
