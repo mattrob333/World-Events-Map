@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import {
-  consumeNowClientRateLimit,
   NowProviderBudgetExceededError,
-} from '@/lib/now/rateLimit';
+  NowProviderBudgetUnavailableError,
+} from '@/lib/now/providerBudget';
+import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
 import { validateNowRequest } from '@/lib/now/validation';
 
@@ -150,6 +151,13 @@ export async function POST(request: Request) {
         'NOW_RATE_LIMITED',
         'NOW is temporarily at capacity. Wait a few minutes and try again.',
         { 'Retry-After': String(cause.retryAfterSeconds) },
+      );
+    }
+    if (cause instanceof NowProviderBudgetUnavailableError) {
+      return jsonError(
+        503,
+        'NOW_BUDGET_UNAVAILABLE',
+        'NOW provider accounting is unavailable, so paid venue intelligence is paused.',
       );
     }
 
