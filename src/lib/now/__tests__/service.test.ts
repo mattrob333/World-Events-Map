@@ -1,10 +1,11 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
 const mocks = vi.hoisted(() => ({
   search: vi.fn(),
   judge: vi.fn(),
+  budget: vi.fn(),
 }));
 
 vi.mock('@/lib/opportunities/besttime', () => ({
@@ -21,19 +22,31 @@ vi.mock('@/lib/opportunities/typesafe', () => ({
   },
 }));
 
-import {
-  consumeNowProviderBudget,
-  resetNowRateLimitsForTests,
-} from '../rateLimit';
+vi.mock('../providerBudget', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../providerBudget')>();
+  return {
+    ...actual,
+    requireNowProviderBudget: mocks.budget,
+  };
+});
+
 import { executeNow, resetNowVenueCacheForTests } from '../service';
 import type { NowRequest } from '../types';
+
+beforeEach(() => {
+  mocks.budget.mockResolvedValue({
+    allowed: true,
+    retry_after_seconds: 0,
+    remaining: 119,
+  });
+});
 
 afterEach(() => {
   vi.unstubAllEnvs();
   mocks.search.mockReset();
   mocks.judge.mockReset();
+  mocks.budget.mockReset();
   resetNowVenueCacheForTests();
-  resetNowRateLimitsForTests();
 });
 
 function request(lat: number): NowRequest {
@@ -63,7 +76,7 @@ function fixtureVenue() {
   };
 }
 
-describe('executeNow venue cache', () => {
+describe('executeNow venue cache and provider budget', () => {
   it('reuses provider facts but recomputes distance for each precise origin', async () => {
     vi.stubEnv('TYPESAFE_API_KEY', '');
     mocks.search.mockResolvedValue([fixtureVenue()]);
@@ -72,6 +85,7 @@ describe('executeNow venue cache', () => {
     const second = await executeNow(request(40.7504));
 
     expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(mocks.budget).toHaveBeenCalledTimes(1);
     const firstDistance = first.picks[0]?.candidate.distanceMeters;
     const secondDistance = second.picks[0]?.candidate.distanceMeters;
     expect(firstDistance).toBeDefined();
@@ -81,7 +95,7 @@ describe('executeNow venue cache', () => {
     expect(secondDistance).not.toBe(firstDistance);
   });
 
-  it('does not charge the shared paid-provider budget for cache-only reads', async () => {
+  it('does not claim durable paid-provider budget for cache-only reads', async () => {
     vi.stubEnv('TYPESAFE_API_KEY', '');
     mocks.search.mockResolvedValue([fixtureVenue()]);
 
@@ -91,13 +105,29 @@ describe('executeNow venue cache', () => {
     }
 
     expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(mocks.budget).toHaveBeenCalledTimes(1);
+  });
 
-    // The first cache miss consumed one of 120 provider-call slots. Cache hits
-    // consumed none, so exactly 119 additional claims remain available.
-    for (let index = 0; index < 119; index += 1) {
-      expect(consumeNowProviderBudget(1_000).allowed).toBe(true);
-    }
-    expect(consumeNowProviderBudget(1_000).allowed).toBe(false);
+  it('claims separate durable budget for BestTime and TypeSafe calls', async () => {
+    vi.stubEnv('TYPESAFE_API_KEY', 'test-key');
+    mocks.search.mockResolvedValue([
+      fixtureVenue(),
+      { ...fixtureVenue(), id: 'venue-2', name: 'Second Bar', location: { lat: 40.751, lng: -73.981 } },
+    ]);
+    mocks.judge.mockImplementation(async (input: { candidates: { id: string }[] }) =>
+      input.candidates.map((candidate) => ({
+        candidateId: candidate.id,
+        score: 80,
+        confidence: 0.8,
+        reasons: ['Context fit'],
+      })),
+    );
+
+    await executeNow(request(40.75));
+
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(mocks.judge).toHaveBeenCalledTimes(1);
+    expect(mocks.budget).toHaveBeenCalledTimes(2);
   });
 
   it('never lets an unevaluated candidate outrank the TypeSafe shortlist', async () => {
@@ -130,6 +160,7 @@ describe('executeNow venue cache', () => {
 
     expect(result.candidateCount).toBe(13);
     expect(mocks.judge).toHaveBeenCalledTimes(1);
+    expect(mocks.budget).toHaveBeenCalledTimes(2);
     const judgedIds = new Set(
       (mocks.judge.mock.calls[0]?.[0] as { candidates: { id: string }[] }).candidates.map(
         (candidate) => candidate.id,
