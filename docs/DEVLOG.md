@@ -2,86 +2,46 @@
 
 This file records product and architecture decisions that are easy to lose across agent sessions.
 
-## 2026-09-17 - NOW vertical slice
+## 2026-09-17 - NOW production hardening and cost discipline
 
-### Why NOW is the next build
+### Durable paid-provider accounting
 
-The World Graph and People Graph are now substantial enough that MERIDIAN needs a repeat-use travel-day workflow, not only long-range event discovery. NOW is the first Opportunity Graph decision surface.
+A process-local "global" provider quota is not global on a serverless host. Multiple Vercel isolates could each mint their own allowance, so the paid-provider ceiling has moved into Postgres.
 
-It answers one narrow question:
+`004_now_provider_budget.sql` owns an atomic shared ten-minute window for outbound BestTime/TypeSafe calls. Each real outbound paid-provider call claims one unit immediately before the provider request. Venue-cache hits do not consume budget. Required BestTime work fails closed if durable accounting is unavailable; optional TypeSafe judgment degrades to deterministic ranking instead.
 
-`Where should I go right now?`
+The process-local limiter remains useful only as an early per-client abuse speed bump. It is not described as the spend ledger.
 
-The output is intentionally small:
+### NOW browser boundary
 
-- Best Match
-- Most Alive
-- Wildcard
+The public NOW route now requires same-origin `application/json`, streams and cancels request bodies above 20 KB, rejects malformed provider containers, and never exposes precise location as persistent profile data.
 
-### Facts, constraints and judgment are separate
+### Cost-aware agent workflow
 
-NOW is deliberately not implemented as one model prompt.
+MERIDIAN development now distinguishes three task classes in `AGENTS.md`:
 
-The request pipeline is:
+- `CHEAP_OK` for bounded mechanical work
+- `REVIEW_REQUIRED` for meaningful behavior changes
+- `HIGH_CAPABILITY_ONLY` for architecture, migrations, RLS/auth, security, provider contracts and privacy-sensitive code
 
-1. Retrieve current venue facts through a `VenueFactsProvider`.
-2. Apply deterministic hard constraints in MERIDIAN code.
-3. Compute an inspectable MERIDIAN baseline score.
-4. Optionally ask a `JudgmentProvider` several atomic questions.
-5. Blend contextual judgment with the deterministic baseline.
-6. Select three differentiated actions.
-
-This prevents a judgment model from overriding explicit radius, price, time or known-closed constraints.
-
-### First providers
-
-- BestTime is the first `VenueFactsProvider` adapter.
-- TypeSafe/Jev is the first `JudgmentProvider` adapter.
-- TypeSafe remains optional; failure falls back to deterministic ranking.
-- BestTime is required for the first live venue implementation. Missing/failing facts do not become fake venues.
-
-Expected/current-hour BestTime traffic remains labeled expected. Opening-hour information is interpreted conservatively at current-hour resolution because the filter response supplies the local hour rather than an exact local minute.
-
-### Privacy decision
-
-Precise device location is ephemeral request context for NOW. It is not persisted to the profile or Travel Mode tables and does not become a discoverable People Graph edge.
-
-### Cost and abuse controls
-
-The first slice includes:
-
-- bounded request body
-- input validation
-- provider timeouts
-- provider-neutral parsing
-- five-minute warm-instance venue cache
-- per-client warm-instance rate limit
-- global warm-instance provider-call guard
-
-These are not a substitute for durable distributed rate accounting before broad anonymous traffic.
-
-### Production rule
-
-The code can ship before provider credentials are configured because it fails closed and does not fabricate results. It should not be marketed as live until credentialed BestTime and TypeSafe payloads have been exercised in multiple cities and the provider cost envelope is understood.
+The goal is to use lower-cost coding agents for grunt work without handing them product or security authority. A high-capability integrated review remains required. Astra is the preferred senior release reviewer when it is actually available in the orchestration environment. GitHub/Codex review remains an independent second opinion. No workflow may claim Astra reviewed a change when that review did not run.
 
 ## 2026-09-17 - Productionization and identity direction
 
 ### Merge strategy
 
-The social-travel and affinity/Constellation work was consolidated onto `main` instead of leaving stacked experimental PRs. A follow-up hardening PR then moved Travel Mode creation to a single PostgreSQL transaction and kept Circle date integrity at the database boundary.
+The affinity branch now supersedes the original social-travel PR and should land as the first consolidated MERIDIAN product baseline on `main` after CI passes. This avoids temporarily shipping review findings from the older branch that are already corrected here.
 
-`main` is now treated as a releasable product baseline. Material work should branch from it and return through reviewed PRs.
+### Reliability fixes before main
 
-### Reliability fixes before continuing feature work
-
-Codex review found two useful edge cases and both were addressed at the persistence boundary:
+Codex review found two useful edge cases and both were addressed before merge:
 
 1. Undated Travel Modes could create undated Circles, while the legacy Circle list assumed dates always existed. New Circle writes now require both start and end dates at the database boundary. Travel Modes may remain aspirational and undated.
-2. A second-step Travel Mode interest insert could fail after the mode row had already committed. Travel Mode creation now runs through `create_travel_mode(...)`, a single PostgreSQL transaction that validates and commits the mode plus its interests together or rolls the entire action back.
+2. A second-step travel-mode interest insert could fail after the mode row had already committed. The editor now validates each interest before persistence and rolls the newly created mode back if interest persistence still fails.
 
 ### Profile is now a first-class product surface
 
-The member profile is no longer treated as a small Settings form. A future product slice should turn it into a public, customizable traveler identity that members can be proud to build and share.
+The member profile is no longer treated as a small Settings form. The next product slice will turn it into a public, customizable traveler identity that members can be proud to build and share.
 
 Working principles:
 
