@@ -75,6 +75,25 @@ describe('NOW decision engine', () => {
     expect(far?.score).toBeLessThan(100);
   });
 
+  it('lets confidence control how much structured judgment can move the baseline', () => {
+    const candidate = venue('candidate', { distanceMeters: 4200, expectedBusyness: 48 });
+    const baseline = rankNowCandidates({ request, candidates: [candidate] })[0]?.score ?? 0;
+    const lowConfidence = rankNowCandidates({
+      request,
+      candidates: [candidate],
+      judgments: [{ candidateId: 'candidate', score: 100, confidence: 0.1, reasons: [] }],
+    })[0]?.score ?? 0;
+    const highConfidence = rankNowCandidates({
+      request,
+      candidates: [candidate],
+      judgments: [{ candidateId: 'candidate', score: 100, confidence: 1, reasons: [] }],
+    })[0]?.score ?? 0;
+
+    expect(lowConfidence).toBeGreaterThan(baseline);
+    expect(highConfidence).toBeGreaterThan(lowConfidence);
+    expect(highConfidence).toBeLessThan(100);
+  });
+
   it('returns distinct Best Match, Most Alive and Wildcard picks', () => {
     const scored = rankNowCandidates({
       request,
