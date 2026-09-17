@@ -11,6 +11,7 @@ This directory is the in-repo product and engineering wiki. It is versioned with
 
 ## Operations
 
+- [Production readiness](../PRODUCTION-READINESS.md)
 - [Live data setup](../LIVE-SETUP.md)
 - [Partner setup](../partner-setup.md)
 - [Developer log](../DEVLOG.md)
