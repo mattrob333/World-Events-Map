@@ -25,7 +25,7 @@ declare
   budget_name constant text := 'global';
   max_calls constant integer := 120;
   window_length constant interval := interval '10 minutes';
-  current_time timestamptz := clock_timestamp();
+  claim_time timestamptz := clock_timestamp();
   started_at timestamptz;
   current_count integer;
   reset_at timestamptz;
@@ -37,7 +37,7 @@ begin
     call_count,
     updated_at
   )
-  values (budget_name, current_time, 0, current_time)
+  values (budget_name, claim_time, 0, claim_time)
   on conflict (name) do nothing;
 
   select window_started_at, call_count
@@ -48,11 +48,11 @@ begin
 
   reset_at := started_at + window_length;
 
-  if reset_at <= current_time then
+  if reset_at <= claim_time then
     update public.meridian_now_provider_budget
-    set window_started_at = current_time,
+    set window_started_at = claim_time,
         call_count = 1,
-        updated_at = current_time
+        updated_at = claim_time
     where name = budget_name;
 
     return jsonb_build_object(
@@ -65,7 +65,7 @@ begin
   if current_count >= max_calls then
     retry_seconds := greatest(
       1,
-      ceil(extract(epoch from (reset_at - current_time)))::integer
+      ceil(extract(epoch from (reset_at - claim_time)))::integer
     );
 
     return jsonb_build_object(
@@ -78,7 +78,7 @@ begin
   current_count := current_count + 1;
   update public.meridian_now_provider_budget
   set call_count = current_count,
-      updated_at = current_time
+      updated_at = claim_time
   where name = budget_name;
 
   return jsonb_build_object(
