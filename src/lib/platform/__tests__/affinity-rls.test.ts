@@ -92,6 +92,64 @@ describe('affinity graph RLS against PostgreSQL', () => {
     expect(result.rows[0]?.name).toBe('Family Ski');
   });
 
+  it('creates a travel mode and its interests atomically', async () => {
+    await asUser(a);
+    const before = await db.query<{ count: number }>(
+      'select count(*)::int as count from travel_modes',
+    );
+
+    const created = await db.query<{ id: string }>(`
+      select public.create_travel_mode(
+        'Atomic Solo',
+        'A mode created through one database transaction',
+        'solo',
+        'Atlanta',
+        'KATL',
+        'Paris',
+        null,
+        null,
+        'private',
+        array['food','nightlife']
+      ) as id;
+    `);
+
+    expect(created.rows[0]?.id).toBeTruthy();
+    expect(
+      (
+        await db.query(
+          `select * from travel_mode_interests where mode_id='${created.rows[0]?.id}' order by interest`,
+        )
+      ).rows,
+    ).toHaveLength(2);
+
+    const afterValid = await db.query<{ count: number }>(
+      'select count(*)::int as count from travel_modes',
+    );
+    expect(afterValid.rows[0]?.count).toBe((before.rows[0]?.count ?? 0) + 1);
+
+    await expect(
+      db.query(`
+        select public.create_travel_mode(
+          'Broken Atomic Mode',
+          '',
+          'solo',
+          '',
+          '',
+          '',
+          null,
+          null,
+          'private',
+          array[repeat('x',81)]
+        );
+      `),
+    ).rejects.toThrow(/80 characters or fewer/);
+
+    const afterFailure = await db.query<{ count: number }>(
+      'select count(*)::int as count from travel_modes',
+    );
+    expect(afterFailure.rows[0]?.count).toBe(afterValid.rows[0]?.count);
+  });
+
   it('rejects new circles without both dates at the persistence boundary', async () => {
     await asUser(a);
     await expect(
