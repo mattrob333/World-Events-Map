@@ -110,48 +110,19 @@ export function TravelModesEditor() {
     setError('');
     setNotice('');
     try {
-      const { data, error: modeError } = await client
-        .from('travel_modes')
-        .insert({
-          user_id: user.id,
-          name: name.trim(),
-          description: description.trim(),
-          party_type: partyType,
-          origin_city: originCity.trim(),
-          origin_airport: originAirport.trim().toUpperCase(),
-          destination: destination.trim(),
-          start_date: startDate || null,
-          end_date: endDate || null,
-          visibility: discoverable ? 'discoverable' : 'private',
-        })
-        .select('id')
-        .single();
+      const { error: modeError } = await client.rpc('create_travel_mode', {
+        p_name: name.trim(),
+        p_description: description.trim(),
+        p_party_type: partyType,
+        p_origin_city: originCity.trim(),
+        p_origin_airport: originAirport.trim().toUpperCase(),
+        p_destination: destination.trim(),
+        p_start_date: startDate || null,
+        p_end_date: endDate || null,
+        p_visibility: discoverable ? 'discoverable' : 'private',
+        p_interests: cleanInterests,
+      });
       if (modeError) throw modeError;
-
-      if (cleanInterests.length > 0) {
-        const { error: interestError } = await client
-          .from('travel_mode_interests')
-          .insert(
-            cleanInterests.map((interest) => ({
-              mode_id: data.id,
-              interest,
-              weight: 3,
-            })),
-          );
-        if (interestError) {
-          const { error: rollbackError } = await client
-            .from('travel_modes')
-            .delete()
-            .eq('id', data.id)
-            .eq('user_id', user.id);
-          if (rollbackError) {
-            throw new Error(
-              `Travel mode interests failed to save, and cleanup also failed: ${rollbackError.message}`,
-            );
-          }
-          throw interestError;
-        }
-      }
 
       setName('');
       setDescription('');
@@ -237,104 +208,47 @@ export function TravelModesEditor() {
         <div className={styles.split}>
           <label>
             Mode name
-            <input
-              required
-              maxLength={80}
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Family Ski"
-            />
+            <input required maxLength={80} value={name} onChange={(event) => setName(event.target.value)} placeholder="Family Ski" />
           </label>
           <label>
             Traveling as
-            <select
-              value={partyType}
-              onChange={(event) => setPartyType(event.target.value as PartyType)}
-            >
-              {PARTY_TYPES.map((type) => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
+            <select value={partyType} onChange={(event) => setPartyType(event.target.value as PartyType)}>
+              {PARTY_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}
             </select>
           </label>
         </div>
-
         <label>
           What does this mode mean?
-          <textarea
-            maxLength={500}
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="School-break ski trips with the family. Good terrain, other families, strong food scene."
-          />
+          <textarea maxLength={500} value={description} onChange={(event) => setDescription(event.target.value)} placeholder="School-break ski trips with the family. Good terrain, other families, strong food scene." />
         </label>
-
         <div className={styles.split}>
           <label>
             Origin city
-            <input
-              maxLength={120}
-              value={originCity}
-              onChange={(event) => setOriginCity(event.target.value)}
-              placeholder="Atlanta"
-            />
+            <input maxLength={120} value={originCity} onChange={(event) => setOriginCity(event.target.value)} placeholder="Atlanta" />
           </label>
           <label>
             Origin airport
-            <input
-              maxLength={4}
-              value={originAirport}
-              onChange={(event) => setOriginAirport(event.target.value.toUpperCase())}
-              placeholder="KATL"
-            />
+            <input maxLength={4} value={originAirport} onChange={(event) => setOriginAirport(event.target.value.toUpperCase())} placeholder="KATL" />
           </label>
         </div>
-
         <label>
           Destination intent
-          <input
-            maxLength={120}
-            value={destination}
-            onChange={(event) => setDestination(event.target.value)}
-            placeholder="Aspen, Colorado or leave blank for anywhere"
-          />
+          <input maxLength={120} value={destination} onChange={(event) => setDestination(event.target.value)} placeholder="Aspen, Colorado or leave blank for anywhere" />
         </label>
-
         <div className={styles.split}>
-          <label>
-            Start date
-            <input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} />
-          </label>
-          <label>
-            End date
-            <input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
-          </label>
+          <label>Start date<input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} /></label>
+          <label>End date<input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} /></label>
         </div>
-
         <label>
           Interests for this mode
-          <input
-            maxLength={400}
-            value={interests}
-            onChange={(event) => setInterests(event.target.value)}
-            placeholder="Skiing, family travel, food, mountains"
-          />
-          <span className={styles.small}>Separate interests with commas. New interests start at medium weight.</span>
+          <input maxLength={400} value={interests} onChange={(event) => setInterests(event.target.value)} placeholder="Skiing, family travel, food, mountains" />
+          <span className={styles.small}>Separate interests with commas. Up to 12, 80 characters each. New interests start at medium weight.</span>
         </label>
-
         <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={discoverable}
-            onChange={(event) => setDiscoverable(event.target.checked)}
-          />
+          <input type="checkbox" checked={discoverable} onChange={(event) => setDiscoverable(event.target.checked)} />
           Let other signed-in members discover this travel mode when my profile is public
         </label>
-
-        <button className={styles.button} disabled={busy}>
-          {busy ? 'Saving…' : 'Create travel mode'}
-        </button>
+        <button className={styles.button} disabled={busy}>{busy ? 'Saving…' : 'Create travel mode'}</button>
       </form>
 
       {notice && <p className={styles.notice}>{notice}</p>}
