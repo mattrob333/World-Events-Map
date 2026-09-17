@@ -115,6 +115,9 @@ function buildReasons(
   const reasons: string[] = [];
   const busyness = currentBusyness(candidate);
 
+  for (const reason of judgment?.reasons ?? []) {
+    if (!reasons.includes(reason)) reasons.push(reason);
+  }
   if (dimensions.intent >= 90 && request.intent !== 'surprise') {
     reasons.push(`Strong ${request.intent} fit`);
   }
@@ -129,10 +132,7 @@ function buildReasons(
     const km = candidate.distanceMeters / 1000;
     reasons.push(km < 1 ? `${Math.max(1, Math.round(candidate.distanceMeters))} m away` : `${km.toFixed(1)} km away`);
   }
-  for (const reason of judgment?.reasons ?? []) {
-    if (!reasons.includes(reason)) reasons.push(reason);
-  }
-  return reasons.slice(0, 4);
+  return [...new Set(reasons)].slice(0, 4);
 }
 
 function scoreOne(
