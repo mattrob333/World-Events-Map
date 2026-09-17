@@ -21,13 +21,14 @@ vi.mock('@/lib/opportunities/typesafe', () => ({
   },
 }));
 
-import { executeNow } from '../service';
+import { executeNow, resetNowVenueCacheForTests } from '../service';
 import type { NowRequest } from '../types';
 
 afterEach(() => {
   vi.unstubAllEnvs();
   mocks.search.mockReset();
   mocks.judge.mockReset();
+  resetNowVenueCacheForTests();
 });
 
 function request(lat: number): NowRequest {
