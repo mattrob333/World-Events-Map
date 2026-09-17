@@ -23,20 +23,26 @@ MERIDIAN joins three graphs:
 
 A person does not have one permanent traveler identity. The same member can have a Family Ski mode, Solo Weekend mode, Work Layover mode and Couples mode. Matching is therefore trip-contextual, not profile-global.
 
-The first implementation of that idea lives in the **Constellation** experience. It visualizes people, interests and circles as a navigable 3D affinity graph and lets a member switch between travel modes to change the graph.
+The first People Graph interface is **Constellation**, a navigable 3D affinity graph that reorganizes around the member's active Travel Mode.
+
+The first Opportunity decision interface is **NOW**, which combines provider facts, hard constraints and optional structured judgment to return three distinct choices instead of a search-results directory.
 
 ## What is implemented
 
 The current codebase includes:
 
-- Responsive 3D globe discovery with searchable Pulse, Now and future-date planning.
+- Responsive 3D globe discovery with searchable Pulse and future-date planning.
 - Curated event calendar plus optional external signal enrichment.
 - Supabase email sign-in and private-by-default member profiles.
 - Saved events, travel circles, host approval and private circle chat.
 - Partner applications, approved offers, event submissions and traveler inquiries.
 - Server-side demand enrichment with durable snapshots and scheduled refresh.
 - A transparent buzz model with named signals and documented weights.
-- Affinity graph foundation: travel modes, weighted interests, context-aware matching and the Constellation explorer.
+- Affinity graph foundation: Travel Modes, weighted interests, context-aware matching and the Constellation explorer.
+- NOW decision engine with browser-location input, hard deterministic filters, Best Match / Most Alive / Wildcard selection and Travel Mode context.
+- Provider-neutral interfaces for venue facts, structured judgment and aviation opportunities.
+- BestTime venue-facts adapter and TypeSafe/Jev structured-judgment adapter, both server-only.
+- Graceful deterministic NOW fallback when the optional judgment provider is unavailable.
 - CI covering lint, TypeScript, dataset validation, tests, SQL/RLS execution and production build.
 
 ## Run locally
@@ -50,7 +56,7 @@ npm run dev -- --hostname localhost --port 3127
 
 Open `http://localhost:3127`.
 
-Without credentials, the curated event discovery experience still works. Account-backed member, affinity and partner features require Supabase.
+Without credentials, the curated event discovery experience still works. Account-backed member, affinity and partner features require Supabase. Live NOW venue intelligence requires a BestTime private API key.
 
 ## Supabase
 
@@ -70,14 +76,29 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 Read [docs/LIVE-SETUP.md](docs/LIVE-SETUP.md) for external feed configuration.
 
+## NOW providers
+
+The first live NOW stack uses server-only credentials:
+
+```text
+BESTTIME_API_KEY_PRIVATE=
+TYPESAFE_API_KEY=
+TYPESAFE_MODEL=jev-latest
+```
+
+BestTime supplies venue and foot-traffic facts. TypeSafe/Jev is optional and supplies contextual judgment. When TypeSafe is absent or fails, MERIDIAN falls back to its deterministic ranking model rather than failing the request.
+
+Read [docs/NOW-ENGINE.md](docs/NOW-ENGINE.md) for the full pipeline, privacy rules and provider boundaries.
+
 ## Main routes
 
 | Route | Purpose |
 |---|---|
 | `/` | PULSE: event discovery and globe |
-| `/constellation` | affinity graph and travel-mode explorer |
+| `/now` | NOW: day-of local decision engine |
+| `/constellation` | affinity graph and Travel Mode explorer |
 | `/community` | circles and partner opportunities |
-| `/account` | profile, home base, interests and travel modes |
+| `/account` | profile, home base, interests and Travel Modes |
 | `/partners` | provider application and offer studio |
 
 ## Development docs
@@ -86,6 +107,7 @@ Start here:
 
 - [Product direction](docs/PRODUCT.md)
 - [System architecture](docs/ARCHITECTURE.md)
+- [NOW engine](docs/NOW-ENGINE.md)
 - [Developer log](docs/DEVLOG.md)
 - [Repo wiki index](docs/wiki/README.md)
 - [Affinity graph model](docs/wiki/AFFINITY-GRAPH.md)
@@ -103,20 +125,23 @@ npm run gate
 ## Product boundaries
 
 - Event buzz is modeled demand, not live attendance.
+- Expected foot traffic is not labeled as live busyness.
 - Partner offers create inquiries, not confirmed reservations or inventory locks.
 - Charter calculations are planning estimates, not quotes.
 - Member discovery is opt-in. Profiles remain private by default.
-- Travel modes can remain private even when a profile is visible.
+- Travel Modes can remain private even when a profile is visible.
+- Precise current location is used for a NOW request but is not written into the People Graph.
 - MERIDIAN never invents live members, bookings or partner availability in real mode.
-- External aviation and venue providers are adapters, not assumptions baked into the product model.
+- External aviation, venue and judgment providers are adapters, not assumptions baked into the product model.
 
 ## Near-term build order
 
-1. Finish the affinity and Constellation foundation.
-2. Make travel modes first-class throughout circle discovery.
-3. Add the NOW decision-engine adapter layer for BestTime and TypeSafe/Jev.
-4. Add an aviation opportunity provider interface, then qualify Avinode or broker integrations behind it.
-5. Feed outcome signals back into affinity so recommendations improve from actual behavior instead of profile copy alone.
+1. Exercise NOW against real BestTime and TypeSafe credentials in multiple cities and layover scenarios.
+2. Add outcome events such as opened-in-maps, went, skipped and saved so ranking can learn from behavior.
+3. Make Travel Modes first-class throughout Circle discovery and NOW defaults.
+4. Add travel-time constraints to NOW so a hard return-by time includes transit, not just venue dwell time.
+5. Qualify Avinode or broker integrations behind the existing aviation opportunity interface.
+6. Add durable provider-call accounting and rate limits before broad production traffic.
 
 MERIDIAN should answer five questions better than a collection of disconnected travel apps:
 
