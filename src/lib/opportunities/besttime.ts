@@ -54,9 +54,64 @@ function requestedTypes(categories?: string[]): string[] {
   return [...types];
 }
 
+function overlapsMinuteRange(
+  windowStart: number,
+  windowEnd: number,
+  periodStart: number,
+  periodEnd: number,
+): boolean {
+  return periodStart <= windowEnd && periodEnd >= windowStart;
+}
+
+/**
+ * BestTime's Venue Filter returns the current local hour, not the current local
+ * minute. Avoid pretending we know more than the source does: a venue is marked
+ * closed only when its entire current-hour window falls outside every published
+ * opening period. If the hour overlaps a period at all, it stays viable.
+ */
+function openDuringLocalHour(venue: UnknownRecord, localHour?: number): boolean | undefined {
+  if (localHour === undefined || localHour < 0 || localHour > 23) return undefined;
+  const dayInfo = record(venue.day_info);
+  const schedule = record(dayInfo?.venue_open_close_v2);
+  const rawPeriods = schedule?.['24h'];
+  if (!Array.isArray(rawPeriods)) return undefined;
+  if (rawPeriods.length === 0) return false;
+
+  const hourStart = Math.floor(localHour) * 60;
+  const hourEnd = hourStart + 59;
+  let sawUsablePeriod = false;
+
+  for (const rawPeriod of rawPeriods) {
+    const period = record(rawPeriod);
+    if (!period) continue;
+    if (period.open_24h === true) return true;
+
+    const opens = number(period.opens);
+    const closes = number(period.closes);
+    if (opens === undefined || closes === undefined) continue;
+    sawUsablePeriod = true;
+
+    const start = Math.max(0, Math.min(1439, opens * 60 + (number(period.opens_minutes) ?? 0)));
+    const end = Math.max(0, Math.min(1440, closes * 60 + (number(period.closes_minutes) ?? 0)));
+    const crossesMidnight = period.crosses_midnight === true || end <= start;
+
+    if (!crossesMidnight && overlapsMinuteRange(hourStart, hourEnd, start, end)) return true;
+    if (
+      crossesMidnight &&
+      (overlapsMinuteRange(hourStart, hourEnd, start, 1440) ||
+        overlapsMinuteRange(hourStart, hourEnd, 0, end))
+    ) {
+      return true;
+    }
+  }
+
+  return sawUsablePeriod ? false : undefined;
+}
+
 export function parseBestTimeVenue(
   raw: unknown,
   origin: VenueSearchInput['location'],
+  localHour?: number,
 ): VenueCandidate | null {
   const venue = record(raw);
   if (!venue) return null;
@@ -87,6 +142,7 @@ export function parseBestTimeVenue(
     category: text(venue.venue_type) ?? text(info?.venue_type) ?? 'OTHER',
     location: { lat, lng },
     address: text(venue.venue_address) ?? text(info?.venue_address),
+    openNow: openDuringLocalHour(venue, localHour),
     distanceMeters: haversineMeters(origin, { lat, lng }),
     rating: rating && rating > 0 ? rating : undefined,
     reviewCount: reviewCount && reviewCount > 0 ? reviewCount : undefined,
@@ -96,6 +152,7 @@ export function parseBestTimeVenue(
     metadata: {
       forecast: venue.forecast,
       dayInt: venue.day_int,
+      openStatusResolution: localHour === undefined ? 'unknown' : 'current-hour',
     },
   };
 }
@@ -140,9 +197,10 @@ export class BestTimeVenueProvider implements VenueFactsProvider {
       throw new Error(text(root.message) ?? 'BestTime could not complete the venue request.');
     }
 
+    const localHour = number(record(root.window)?.time_local);
     const venues = Array.isArray(root.venues) ? root.venues : [];
     return venues
-      .map((venue) => parseBestTimeVenue(venue, input.location))
+      .map((venue) => parseBestTimeVenue(venue, input.location, localHour))
       .filter((venue): venue is VenueCandidate => venue !== null)
       .slice(0, input.limit ?? 30);
   }
