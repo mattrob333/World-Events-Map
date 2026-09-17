@@ -23,7 +23,8 @@ export function PlatformShell({
           MERIDIAN
         </Link>
         <div className={styles.links}>
-          <Link href="/">Explore the world</Link>
+          <Link href="/">Pulse</Link>
+          <Link href="/constellation">Constellation</Link>
           <Link href="/community">Travel circles</Link>
           <Link href="/account">Your profile</Link>
           <Link href="/partners">For partners</Link>
@@ -70,8 +71,8 @@ export function SignInCard() {
       <section className={styles.notice}>
         <strong>Membership is not connected yet.</strong>
         <p>
-          Profiles, travel circles and partner requests need the membership
-          service. Explore the globe while the service is being connected. No
+          Profiles, travel modes, circles and partner requests need the membership
+          service. Pulse still works while the service is being connected. No
           account or request will be created here until it is available.
         </p>
       </section>
@@ -106,8 +107,8 @@ export function SignInCard() {
     <section className={styles.card}>
       <h2>Your next good connection.</h2>
       <p className={styles.muted}>
-        Sign in to introduce yourself, request a place in a travel circle, or
-        ask a partner about an offer.
+        Sign in to introduce yourself, use Constellation, request a place in a travel circle,
+        or ask a partner about an offer.
       </p>
       <form onSubmit={submit} className={styles.form}>
         <label>
