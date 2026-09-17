@@ -209,7 +209,7 @@ export function EventDossier({ className }: EventDossierProps) {
                   {event.accessNote}
                 </p>
                 <p className="mt-2 text-[11px] leading-4 text-ink-muted">
-                  {event.providerId ? 'Approved submission · availability confirmed by the host' : TIER_NOTE[event.tier]}
+                  {event.providerId ? 'Approved submission · confirm access and availability with the host' : TIER_NOTE[event.tier]}
                 </p>
               </div>
             </Section>
@@ -338,7 +338,7 @@ export function EventDossier({ className }: EventDossierProps) {
               <GroupList eventId={event.id} />
             </Section>}
 
-            {!event.providerId && <Section label="Charter · planning estimates">
+            {isDemoMode() && !event.providerId && <Section label="Charter · planning estimates">
               <CharterPanel eventId={event.id} />
             </Section>}
           </ScrollArea>
