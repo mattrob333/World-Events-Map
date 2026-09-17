@@ -218,12 +218,14 @@ export class BestTimeVenueProvider implements VenueFactsProvider {
     if (text(root.status)?.toLocaleLowerCase() === 'error') {
       throw new Error(text(root.message) ?? 'BestTime could not complete the venue request.');
     }
+    if (!Array.isArray(root.venues)) {
+      throw new Error('BestTime returned an invalid venue container.');
+    }
 
     const window = record(root.window);
     const localHour = number(window?.time_local);
     const localIndex = number(window?.time_local_index);
-    const venues = Array.isArray(root.venues) ? root.venues : [];
-    return venues
+    return root.venues
       .map((venue) => parseBestTimeVenue(venue, input.location, localHour, localIndex))
       .filter((venue): venue is VenueCandidate => venue !== null)
       .slice(0, input.limit ?? 30);
