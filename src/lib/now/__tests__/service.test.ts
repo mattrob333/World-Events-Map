@@ -21,6 +21,10 @@ vi.mock('@/lib/opportunities/typesafe', () => ({
   },
 }));
 
+import {
+  consumeNowProviderBudget,
+  resetNowRateLimitsForTests,
+} from '../rateLimit';
 import { executeNow, resetNowVenueCacheForTests } from '../service';
 import type { NowRequest } from '../types';
 
@@ -29,6 +33,7 @@ afterEach(() => {
   mocks.search.mockReset();
   mocks.judge.mockReset();
   resetNowVenueCacheForTests();
+  resetNowRateLimitsForTests();
 });
 
 function request(lat: number): NowRequest {
@@ -41,25 +46,27 @@ function request(lat: number): NowRequest {
   };
 }
 
+function fixtureVenue() {
+  return {
+    id: 'venue-1',
+    provider: 'besttime',
+    name: 'Cache Test Bar',
+    category: 'BAR',
+    location: { lat: 40.7509, lng: -73.98 },
+    openNow: true,
+    distanceMeters: 99999,
+    rating: 4.7,
+    reviewCount: 500,
+    priceLevel: 2,
+    expectedBusyness: 65,
+    dwellMinutes: 90,
+  };
+}
+
 describe('executeNow venue cache', () => {
   it('reuses provider facts but recomputes distance for each precise origin', async () => {
     vi.stubEnv('TYPESAFE_API_KEY', '');
-    mocks.search.mockResolvedValue([
-      {
-        id: 'venue-1',
-        provider: 'besttime',
-        name: 'Cache Test Bar',
-        category: 'BAR',
-        location: { lat: 40.7509, lng: -73.98 },
-        openNow: true,
-        distanceMeters: 99999,
-        rating: 4.7,
-        reviewCount: 500,
-        priceLevel: 2,
-        expectedBusyness: 65,
-        dwellMinutes: 90,
-      },
-    ]);
+    mocks.search.mockResolvedValue([fixtureVenue()]);
 
     const first = await executeNow(request(40.7501));
     const second = await executeNow(request(40.7504));
@@ -72,6 +79,25 @@ describe('executeNow venue cache', () => {
     expect(firstDistance).not.toBe(99999);
     expect(secondDistance).not.toBe(99999);
     expect(secondDistance).not.toBe(firstDistance);
+  });
+
+  it('does not charge the shared paid-provider budget for cache-only reads', async () => {
+    vi.stubEnv('TYPESAFE_API_KEY', '');
+    mocks.search.mockResolvedValue([fixtureVenue()]);
+
+    await executeNow(request(40.7501));
+    for (let index = 0; index < 20; index += 1) {
+      await executeNow(request(40.7501));
+    }
+
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+
+    // The first cache miss consumed one of 120 provider-call slots. Cache hits
+    // consumed none, so exactly 119 additional claims remain available.
+    for (let index = 0; index < 119; index += 1) {
+      expect(consumeNowProviderBudget(1_000).allowed).toBe(true);
+    }
+    expect(consumeNowProviderBudget(1_000).allowed).toBe(false);
   });
 
   it('never lets an unevaluated candidate outrank the TypeSafe shortlist', async () => {
