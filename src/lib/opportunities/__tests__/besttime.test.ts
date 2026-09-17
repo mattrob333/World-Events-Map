@@ -39,13 +39,34 @@ function fixture(overrides: Record<string, unknown> = {}) {
 
 describe('parseBestTimeVenue', () => {
   it('maps current-hour opening data without claiming minute-level precision', () => {
-    const open = parseBestTimeVenue(fixture(), origin, 20);
-    const closed = parseBestTimeVenue(fixture(), origin, 3);
+    const open = parseBestTimeVenue(fixture(), origin, 20, 0);
+    const closed = parseBestTimeVenue(fixture(), origin, 3, 0);
 
     expect(open?.openNow).toBe(true);
     expect(closed?.openNow).toBe(false);
     expect(open?.expectedBusyness).toBe(72);
     expect(open?.metadata?.openStatusResolution).toBe('current-hour');
+  });
+
+  it('uses BestTime time_local_index if a wider traffic array is returned', () => {
+    const parsed = parseBestTimeVenue(
+      fixture({ day_raw: [5, 12, 28, 67, 90] }),
+      origin,
+      20,
+      3,
+    );
+
+    expect(parsed?.expectedBusyness).toBe(67);
+  });
+
+  it('does not guess a current sample from a wider array without a valid provider index', () => {
+    const parsed = parseBestTimeVenue(
+      fixture({ day_raw: [5, 12, 28, 67, 90] }),
+      origin,
+      20,
+    );
+
+    expect(parsed?.expectedBusyness).toBeUndefined();
   });
 
   it('honors the day-level 24-hour flag', () => {
@@ -60,6 +81,7 @@ describe('parseBestTimeVenue', () => {
       }),
       origin,
       3,
+      0,
     );
 
     expect(parsed?.openNow).toBe(true);
@@ -82,9 +104,29 @@ describe('parseBestTimeVenue', () => {
       },
     });
 
-    expect(parseBestTimeVenue(overnight, origin, 23)?.openNow).toBe(true);
-    expect(parseBestTimeVenue(overnight, origin, 1)?.openNow).toBe(true);
-    expect(parseBestTimeVenue(overnight, origin, 12)?.openNow).toBe(false);
+    expect(parseBestTimeVenue(overnight, origin, 23, 0)?.openNow).toBe(true);
+    expect(parseBestTimeVenue(overnight, origin, 1, 0)?.openNow).toBe(true);
+    expect(parseBestTimeVenue(overnight, origin, 12, 0)?.openNow).toBe(false);
+  });
+
+  it('treats a venue closing at the start of the hour as closed for that hour', () => {
+    const closesAtEleven = fixture({
+      day_info: {
+        venue_open_close_v2: {
+          '24h': [
+            {
+              opens: 18,
+              opens_minutes: 0,
+              closes: 23,
+              closes_minutes: 0,
+              crosses_midnight: false,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(parseBestTimeVenue(closesAtEleven, origin, 23, 0)?.openNow).toBe(false);
   });
 
   it('leaves open status unknown when the source omits a usable schedule', () => {
@@ -92,6 +134,7 @@ describe('parseBestTimeVenue', () => {
       fixture({ day_info: { venue_open_close_v2: { '24h': [{ note: 'unknown' }] } } }),
       origin,
       20,
+      0,
     );
 
     expect(parsed?.openNow).toBeUndefined();
