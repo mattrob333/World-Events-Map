@@ -66,11 +66,7 @@ export function NowExperience() {
   const [result, setResult] = useState<NowResult | null>(null);
 
   useEffect(() => {
-    if (!client || !user) {
-      setModes([]);
-      setSelectedModeId('');
-      return;
-    }
+    if (!client || !user) return;
     let active = true;
     void Promise.all([
       client
@@ -100,9 +96,10 @@ export function NowExperience() {
     };
   }, [client, user]);
 
+  const visibleModes = user ? modes : [];
   const selectedMode = useMemo(
-    () => modes.find((mode) => mode.id === selectedModeId),
-    [modes, selectedModeId],
+    () => visibleModes.find((mode) => mode.id === selectedModeId),
+    [visibleModes, selectedModeId],
   );
 
   function locate() {
@@ -165,6 +162,8 @@ export function NowExperience() {
     }
   }
 
+  const hasModes = visibleModes.length > 0;
+
   return (
     <PlatformShell
       eyebrow="NOW · local decision engine"
@@ -178,7 +177,7 @@ export function NowExperience() {
             <button type="button" className={styles.primary} onClick={locate} disabled={locating}>
               {locating ? 'Finding you…' : lat && lng ? 'Refresh my location' : 'Use my location'}
             </button>
-            <p className={styles.privacy}>Your precise location is sent for this decision and is not written to your member profile.</p>
+            <p className={styles.privacy}>Your precise location is used for this decision and is not written to your member profile.</p>
             <details className={styles.manual}>
               <summary>Enter coordinates instead</summary>
               <div className={styles.twoCol}>
@@ -188,19 +187,19 @@ export function NowExperience() {
             </details>
           </section>
 
-          {modes.length > 0 && (
+          {hasModes && (
             <section className={styles.block}>
               <span className={styles.kicker}>02 · Who you are tonight</span>
               <select value={selectedModeId} onChange={(e) => setSelectedModeId(e.target.value)}>
                 <option value="">No travel mode</option>
-                {modes.map((mode) => <option key={mode.id} value={mode.id}>{mode.name}</option>)}
+                {visibleModes.map((mode) => <option key={mode.id} value={mode.id}>{mode.name}</option>)}
               </select>
               {selectedMode?.interests.length ? <p className={styles.context}>{selectedMode.interests.join(' · ')}</p> : null}
             </section>
           )}
 
           <section className={styles.block}>
-            <span className={styles.kicker}>{modes.length ? '03' : '02'} · What you want</span>
+            <span className={styles.kicker}>{hasModes ? '03' : '02'} · What you want</span>
             <div className={styles.choiceGrid}>
               {INTENTS.map((option) => (
                 <button key={option.value} type="button" className={intent === option.value ? styles.selected : styles.choice} onClick={() => setIntent(option.value)}>
@@ -211,7 +210,7 @@ export function NowExperience() {
           </section>
 
           <section className={styles.block}>
-            <span className={styles.kicker}>{modes.length ? '04' : '03'} · Vibe</span>
+            <span className={styles.kicker}>{hasModes ? '04' : '03'} · Vibe</span>
             <div className={styles.pills}>
               {VIBES.map((option) => (
                 <button key={option.value} type="button" className={vibe === option.value ? styles.pillSelected : styles.pill} onClick={() => setVibe(option.value)}>{option.label}</button>
@@ -220,7 +219,7 @@ export function NowExperience() {
           </section>
 
           <section className={styles.block}>
-            <span className={styles.kicker}>{modes.length ? '05' : '04'} · Constraints</span>
+            <span className={styles.kicker}>{hasModes ? '05' : '04'} · Constraints</span>
             <div className={styles.twoCol}>
               <label>Search radius<select value={radiusMeters} onChange={(e) => setRadiusMeters(Number(e.target.value))}><option value={1000}>1 km</option><option value={3000}>3 km</option><option value={5000}>5 km</option><option value={10000}>10 km</option></select></label>
               <label>Time available<select value={availableMinutes} onChange={(e) => setAvailableMinutes(Number(e.target.value))}><option value={90}>90 min</option><option value={180}>3 hours</option><option value={360}>6 hours</option><option value={720}>All day / night</option></select></label>
