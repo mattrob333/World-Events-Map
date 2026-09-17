@@ -42,6 +42,7 @@ The current codebase includes:
 - NOW decision engine with browser-location input, hard deterministic filters, Best Match / Most Alive / Wildcard selection and Travel Mode context.
 - Provider-neutral interfaces for venue facts, structured judgment and aviation opportunities.
 - BestTime venue-facts adapter and TypeSafe/Jev structured-judgment adapter, both server-only.
+- Durable Postgres accounting for NOW paid-provider calls so serverless scale-out cannot mint additional budget.
 - Graceful deterministic NOW fallback when the optional judgment provider is unavailable.
 - CI covering lint, TypeScript, dataset validation, tests, SQL/RLS execution and production build.
 
@@ -56,7 +57,7 @@ npm run dev -- --hostname localhost --port 3127
 
 Open `http://localhost:3127`.
 
-Without credentials, the curated event discovery experience still works. Account-backed member, affinity and partner features require Supabase. Live NOW venue intelligence requires a BestTime private API key.
+Without credentials, the curated event discovery experience still works. Account-backed member, affinity and partner features require Supabase. Live NOW venue intelligence requires a BestTime private API key plus durable Supabase provider accounting.
 
 ## Supabase
 
@@ -65,6 +66,7 @@ Copy `.env.example` to `.env.local`, then apply migrations in order:
 1. `supabase/migrations/001_platform.sql`
 2. `supabase/migrations/002_live_signals.sql`
 3. `supabase/migrations/003_affinity_graph.sql`
+4. `supabase/migrations/004_now_provider_budget.sql`
 
 Set:
 
@@ -73,6 +75,8 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
+
+The service-role key stays server-only. NOW deliberately fails closed if the durable provider-budget function is unavailable rather than exposing unbounded paid API calls.
 
 Read [docs/LIVE-SETUP.md](docs/LIVE-SETUP.md) for external feed configuration.
 
@@ -137,11 +141,11 @@ npm run gate
 ## Near-term build order
 
 1. Exercise NOW against real BestTime and TypeSafe credentials in multiple cities and layover scenarios.
-2. Add outcome events such as opened-in-maps, went, skipped and saved so ranking can learn from behavior.
-3. Make Travel Modes first-class throughout Circle discovery and NOW defaults.
-4. Add travel-time constraints to NOW so a hard return-by time includes transit, not just venue dwell time.
-5. Qualify Avinode or broker integrations behind the existing aviation opportunity interface.
-6. Add durable provider-call accounting and rate limits before broad production traffic.
+2. Build first-class public traveler profiles and route Constellation/Circle identity through them.
+3. Add Circle anticipation/research boards for YouTube, Instagram links, articles, places and collaborative trip inspiration.
+4. Add outcome events such as opened-in-maps, went, skipped and saved so ranking can learn from behavior.
+5. Add travel-time constraints to NOW so a hard return-by time includes transit, not just venue dwell time.
+6. Qualify Avinode or broker integrations behind the existing aviation opportunity interface.
 
 MERIDIAN should answer five questions better than a collection of disconnected travel apps:
 
