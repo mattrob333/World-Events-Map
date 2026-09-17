@@ -159,9 +159,6 @@ function scoreOne(
   const judgmentScore = judgment ? clamp(judgment.score) : undefined;
   if (judgmentScore !== undefined) dimensions.judgment = round(judgmentScore);
 
-  // Structured judgment is supplemental. TypeSafe exposes confidence as 0..1,
-  // so a flat/uncertain Choice distribution should have less influence than a
-  // confident one. Providers that omit confidence get the original 35% cap.
   const judgmentWeight = judgmentScore === undefined
     ? 0
     : 0.35 * (judgment?.confidence === undefined ? 1 : clamp01(judgment.confidence));
@@ -203,9 +200,12 @@ function asPick(label: NowPickLabel, venue: ScoredVenue): NowPick {
 }
 
 function chooseMostAlive(remaining: ScoredVenue[]): ScoredVenue | undefined {
-  return [...remaining].sort((a, b) => {
-    const busyA = currentBusyness(a.candidate) ?? -1;
-    const busyB = currentBusyness(b.candidate) ?? -1;
+  const withTraffic = remaining.filter(
+    (venue) => currentBusyness(venue.candidate) !== undefined,
+  );
+  return [...withTraffic].sort((a, b) => {
+    const busyA = currentBusyness(a.candidate) ?? 0;
+    const busyB = currentBusyness(b.candidate) ?? 0;
     return busyB - busyA || b.score - a.score;
   })[0];
 }
