@@ -8,6 +8,7 @@ import {
 } from '@/components/community/PlatformShell';
 import styles from '@/components/community/community.module.css';
 import { SavedEvents } from './SavedEvents';
+import { TravelModesEditor } from './TravelModesEditor';
 
 export function Account({ initialEvent = '' }: { initialEvent?: string }) {
   const { user } = usePlatformAuth();
@@ -20,6 +21,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
   const { client, user } = usePlatformAuth();
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
+  const [homeAirport, setHomeAirport] = useState('');
   const [interests, setInterests] = useState('');
   const [bio, setBio] = useState('');
   const [visible, setVisible] = useState(false);
@@ -32,7 +34,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
     let active = true;
     void client
       .from('profiles')
-      .select('display_name,home_city,interests,bio,is_public')
+      .select('display_name,home_city,home_airport,interests,bio,is_public')
       .eq('id', user.id)
       .maybeSingle()
       .then(({ data, error: failure }) => {
@@ -43,6 +45,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
         }
         setName(data?.display_name ?? '');
         setCity(data?.home_city ?? '');
+        setHomeAirport(data?.home_airport ?? '');
         setInterests((data?.interests ?? []).join(', '));
         setBio(data?.bio ?? '');
         setVisible(data?.is_public === true);
@@ -62,6 +65,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
       id: user.id,
       display_name: name.trim(),
       home_city: city.trim(),
+      home_airport: homeAirport.trim().toUpperCase(),
       interests: [
         ...new Set(
           interests
@@ -81,7 +85,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
     <PlatformShell
       eyebrow="Your place in the world"
       title="Travel is better with your people."
-      description="Tell us what draws you out into the world. Choose how much of your profile other members can see."
+      description="Tell MERIDIAN who you are, then create different travel modes for the different ways you move through the world."
     >
       <div className={styles.grid}>
         <div className={styles.stack}>
@@ -100,25 +104,36 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
                     autoComplete="name"
                   />
                 </label>
+                <div className={styles.split}>
+                  <label>
+                    Home city
+                    <input
+                      maxLength={120}
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="Atlanta, Georgia"
+                    />
+                  </label>
+                  <label>
+                    Home airport
+                    <input
+                      maxLength={4}
+                      value={homeAirport}
+                      onChange={(e) => setHomeAirport(e.target.value.toUpperCase())}
+                      placeholder="KATL"
+                    />
+                  </label>
+                </div>
                 <label>
-                  Home city
-                  <input
-                    maxLength={120}
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="London, United Kingdom"
-                  />
-                </label>
-                <label>
-                  Your interests
+                  Your broad interests
                   <input
                     maxLength={400}
                     value={interests}
                     onChange={(e) => setInterests(e.target.value)}
-                    placeholder="Art, sailing, food, live music"
+                    placeholder="Art, skiing, food, Formula 1"
                   />
                   <span className={styles.small}>
-                    Separate interests with commas. Up to 12.
+                    Keep these broad. Travel modes below capture the context for a specific kind of trip.
                   </span>
                 </label>
                 <label>
@@ -136,12 +151,10 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
                     checked={visible}
                     onChange={(e) => setVisible(e.target.checked)}
                   />
-                  Share my introduction with signed-in members
+                  Let signed-in members discover my introduction
                 </label>
                 <p className={styles.small}>
-                  Your email is not part of your member profile. Circle hosts
-                  can see your introduction when you request to join their
-                  circle.
+                  Your email is never part of your member profile. Travel modes have their own visibility control, so a public introduction does not automatically expose trip intent.
                 </p>
                 <button className={styles.button} disabled={busy || !ready}>
                   {busy ? 'Saving…' : 'Save your profile'}
@@ -159,22 +172,22 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
               )}
             </section>
           )}
+          <TravelModesEditor />
           <SavedEvents initialEvent={initialEvent} />
         </div>
         <aside className={styles.card}>
-          <span className={styles.eyebrow}>
-            A good introduction goes a long way
-          </span>
-          <h2>Shared interests. New horizons.</h2>
+          <span className={styles.eyebrow}>One person. Different trips.</span>
+          <h2>Choose the lens before MERIDIAN chooses the people.</h2>
           <p className={styles.muted}>
-            Your home city helps circle hosts understand where you are
-            travelling from. Your interests help you make a better introduction.
+            Family ski, solo weekend and work layover should produce completely different circles and recommendations. Travel modes let you switch context without pretending you only have one traveler identity.
           </p>
           <p className={styles.muted}>
-            Profiles are private by default. Joining a circle is a social plan,
-            not a travel booking or a payment commitment.
+            Your home airport also becomes the source for future aviation matching. MERIDIAN will not show a personalized charter estimate until the actual origin is known.
           </p>
-          <a href="/community" className={styles.button}>
+          <a href="/constellation" className={styles.button}>
+            Open Constellation
+          </a>
+          <a href="/community" className={`${styles.button} ${styles.secondary}`}>
             Explore travel circles
           </a>
         </aside>
