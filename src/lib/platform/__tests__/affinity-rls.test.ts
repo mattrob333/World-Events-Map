@@ -91,4 +91,20 @@ describe('affinity graph RLS against PostgreSQL', () => {
     );
     expect(result.rows[0]?.name).toBe('Family Ski');
   });
+
+  it('rejects new circles without both dates at the persistence boundary', async () => {
+    await asUser(a);
+    await expect(
+      db.exec(
+        `insert into circles(host_id,name,destination,description,start_date,end_date)
+         values('${a}','Undated circle','Aspen','Should never persist',null,null);`,
+      ),
+    ).rejects.toThrow(/requires both start and end dates/);
+
+    await db.exec(
+      `insert into circles(host_id,name,destination,description,start_date,end_date)
+       values('${a}','Dated circle','Aspen','Valid dated circle','2027-02-12','2027-02-18');`,
+    );
+    expect((await db.query("select * from circles where name='Dated circle'")).rows).toHaveLength(1);
+  });
 });
