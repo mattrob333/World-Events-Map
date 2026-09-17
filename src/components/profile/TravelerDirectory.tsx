@@ -49,24 +49,25 @@ export function TravelerDirectory() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!client) {
-      setLoading(false);
-      return;
-    }
+    if (!client) return;
     let active = true;
-    setLoading(true);
-    void client
-      .rpc('list_public_traveler_profiles', { p_limit: 80 })
-      .then(({ data, error: failure }) => {
-        if (!active) return;
-        if (failure) {
-          setError(failure.message);
-          setProfiles([]);
-        } else {
-          setProfiles(Array.isArray(data) ? data.filter(isDirectoryProfile) : []);
-        }
-        setLoading(false);
+    void (async () => {
+      await Promise.resolve();
+      if (!active) return;
+      setLoading(true);
+      setError('');
+      const { data, error: failure } = await client.rpc('list_public_traveler_profiles', {
+        p_limit: 80,
       });
+      if (!active) return;
+      if (failure) {
+        setError(failure.message);
+        setProfiles([]);
+      } else {
+        setProfiles(Array.isArray(data) ? data.filter(isDirectoryProfile) : []);
+      }
+      setLoading(false);
+    })();
     return () => {
       active = false;
     };
