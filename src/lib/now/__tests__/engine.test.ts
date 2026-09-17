@@ -94,7 +94,7 @@ describe('NOW decision engine', () => {
     expect(highConfidence).toBeLessThan(100);
   });
 
-  it('returns distinct Best Match, Most Alive and Wildcard picks', () => {
+  it('returns distinct Best Match, Most Alive and Wildcard picks when traffic exists', () => {
     const scored = rankNowCandidates({
       request,
       candidates: [
@@ -122,6 +122,29 @@ describe('NOW decision engine', () => {
       'wildcard',
     ]);
     expect(new Set(picks.map((pick) => pick.candidate.id)).size).toBe(3);
+  });
+
+  it('does not fabricate a Most Alive pick when traffic is unavailable', () => {
+    const scored = rankNowCandidates({
+      request,
+      candidates: [
+        venue('a', { expectedBusyness: undefined, liveBusyness: undefined }),
+        venue('b', {
+          category: 'wine bar',
+          expectedBusyness: undefined,
+          liveBusyness: undefined,
+        }),
+        venue('c', {
+          category: 'gallery bar',
+          expectedBusyness: undefined,
+          liveBusyness: undefined,
+        }),
+      ],
+    });
+    const picks = selectNowPicks(scored);
+
+    expect(picks.some((pick) => pick.label === 'most_alive')).toBe(false);
+    expect(picks.map((pick) => pick.label)).toEqual(['best_match', 'wildcard']);
   });
 
   it('does not fabricate busyness when the provider did not return it', () => {
