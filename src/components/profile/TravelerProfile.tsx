@@ -79,27 +79,27 @@ export function TravelerProfile({ handle }: { handle: string }) {
   const [relationshipNotice, setRelationshipNotice] = useState('');
 
   useEffect(() => {
-    if (!client) {
-      setLoading(false);
-      return;
-    }
+    if (!client) return;
     let active = true;
-    setLoading(true);
-    setError('');
-    void client
-      .rpc('get_public_traveler_profile', { p_handle: handle })
-      .then(({ data, error: failure }) => {
-        if (!active) return;
-        if (failure) {
-          setError(failure.message);
-          setProfile(null);
-        } else if (isPublicTravelerProfile(data)) {
-          setProfile(data);
-        } else {
-          setProfile(null);
-        }
-        setLoading(false);
+    void (async () => {
+      await Promise.resolve();
+      if (!active) return;
+      setLoading(true);
+      setError('');
+      const { data, error: failure } = await client.rpc('get_public_traveler_profile', {
+        p_handle: handle,
       });
+      if (!active) return;
+      if (failure) {
+        setError(failure.message);
+        setProfile(null);
+      } else if (isPublicTravelerProfile(data)) {
+        setProfile(data);
+      } else {
+        setProfile(null);
+      }
+      setLoading(false);
+    })();
     return () => {
       active = false;
     };
@@ -107,6 +107,7 @@ export function TravelerProfile({ handle }: { handle: string }) {
 
   const refreshConnection = useCallback(async () => {
     if (!client || !user || !profile || user.id === profile.id) {
+      await Promise.resolve();
       setConnection(null);
       return;
     }
@@ -121,9 +122,13 @@ export function TravelerProfile({ handle }: { handle: string }) {
 
   useEffect(() => {
     let active = true;
-    void refreshConnection().catch((cause) => {
-      if (active) setError(explain(cause));
-    });
+    void (async () => {
+      try {
+        await refreshConnection();
+      } catch (cause) {
+        if (active) setError(explain(cause));
+      }
+    })();
     return () => {
       active = false;
     };
