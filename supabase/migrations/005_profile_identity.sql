@@ -34,7 +34,7 @@ as $$
 declare
   allowed_modules constant text[] := array['travel_modes','interests','places','links'];
   cleaned_handle text;
-  module_name text;
+  current_module text;
 begin
   if new.handle is not null then
     cleaned_handle := lower(trim(new.handle));
@@ -60,17 +60,17 @@ begin
 
   if (
     select count(*)
-    from unnest(new.module_order) module_name
+    from unnest(new.module_order) as modules(value)
   ) <> (
-    select count(distinct module_name)
-    from unnest(new.module_order) module_name
+    select count(distinct value)
+    from unnest(new.module_order) as modules(value)
   ) then
     raise exception 'Profile module order cannot contain duplicates';
   end if;
 
-  foreach module_name in array new.module_order loop
-    if not (module_name = any(allowed_modules)) then
-      raise exception 'Unknown profile module: %', module_name;
+  foreach current_module in array new.module_order loop
+    if not (current_module = any(allowed_modules)) then
+      raise exception 'Unknown profile module: %', current_module;
     end if;
   end loop;
 
