@@ -29,6 +29,7 @@ const PICK_LABEL = {
 
 type TravelModeOption = {
   id: string;
+  userId: string;
   name: string;
   interests: string[];
 };
@@ -71,7 +72,7 @@ export function NowExperience() {
     void Promise.all([
       client
         .from('travel_modes')
-        .select('id,name')
+        .select('id,user_id,name')
         .eq('user_id', user.id)
         .order('updated_at', { ascending: false }),
       client.from('travel_mode_interests').select('mode_id,interest,weight'),
@@ -85,6 +86,7 @@ export function NowExperience() {
       }
       const next = (modeResult.data ?? []).map((mode) => ({
         id: mode.id,
+        userId: mode.user_id,
         name: mode.name,
         interests: interestMap.get(mode.id) ?? [],
       }));
@@ -96,7 +98,7 @@ export function NowExperience() {
     };
   }, [client, user]);
 
-  const visibleModes = user ? modes : [];
+  const visibleModes = user ? modes.filter((mode) => mode.userId === user.id) : [];
   const selectedMode = useMemo(
     () => visibleModes.find((mode) => mode.id === selectedModeId),
     [visibleModes, selectedModeId],
