@@ -1,8 +1,8 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
-import { parseBestTimeVenue } from '../besttime';
+import { BestTimeVenueProvider, parseBestTimeVenue } from '../besttime';
 
 const origin = { lat: 40.75, lng: -73.98 };
 
@@ -36,6 +36,10 @@ function fixture(overrides: Record<string, unknown> = {}) {
     ...overrides,
   };
 }
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('parseBestTimeVenue', () => {
   it('maps current-hour opening data without claiming minute-level precision', () => {
@@ -138,5 +142,51 @@ describe('parseBestTimeVenue', () => {
     );
 
     expect(parsed?.openNow).toBeUndefined();
+  });
+});
+
+describe('BestTimeVenueProvider', () => {
+  it('treats a malformed venues container as provider failure, not an empty result', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ status: 'OK', venues: null }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      ),
+    );
+
+    const provider = new BestTimeVenueProvider('private-key');
+    await expect(
+      provider.search({
+        location: origin,
+        radiusMeters: 3000,
+        at: '2026-09-17T20:00:00.000Z',
+        categories: ['drinks'],
+      }),
+    ).rejects.toThrow(/invalid venue container/i);
+  });
+
+  it('accepts a valid empty venues array as a truthful empty result', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ status: 'OK', venues: [], window: { time_local: 20 } }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      ),
+    );
+
+    const provider = new BestTimeVenueProvider('private-key');
+    await expect(
+      provider.search({
+        location: origin,
+        radiusMeters: 3000,
+        at: '2026-09-17T20:00:00.000Z',
+        categories: ['drinks'],
+      }),
+    ).resolves.toEqual([]);
   });
 });
