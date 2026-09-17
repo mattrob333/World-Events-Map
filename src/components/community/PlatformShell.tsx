@@ -25,6 +25,7 @@ export function PlatformShell({
         <div className={styles.links}>
           <Link href="/">Pulse</Link>
           <Link href="/now">Now</Link>
+          <Link href="/people">Travelers</Link>
           <Link href="/constellation">Constellation</Link>
           <Link href="/community">Travel circles</Link>
           <Link href="/account">Your profile</Link>
@@ -108,8 +109,8 @@ export function SignInCard() {
     <section className={styles.card}>
       <h2>Your next good connection.</h2>
       <p className={styles.muted}>
-        Sign in to introduce yourself, use Constellation, request a place in a travel circle,
-        or ask a partner about an offer.
+        Sign in to build your traveler profile, use Constellation, connect with other travelers,
+        request a place in a travel circle, or ask a partner about an offer.
       </p>
       <form onSubmit={submit} className={styles.form}>
         <label>
