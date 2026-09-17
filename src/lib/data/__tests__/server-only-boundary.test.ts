@@ -36,11 +36,14 @@ describe('server-only boundary', () => {
   const guarded = [
     'server.ts',
     'sources.ts',
+    'durable.ts',
+    'provider-events.ts',
+    'social-feed.ts',
     ...readdirSync(resolve(root, 'adapters'))
       .filter((name) => name.endsWith('.ts') && name !== 'curated.ts')
       .map((name) => `adapters/${name}`),
   ];
   it.each(guarded)('%s begins with the server-only guard', (file) => {
-    expect(read(resolve(root, file)).split('\n')[0]).toBe("import 'server-only';");
+    expect(read(resolve(root, file)).split(/\r?\n/)[0]).toBe("import 'server-only';");
   });
 });

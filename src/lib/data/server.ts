@@ -4,6 +4,7 @@ import 'server-only';
 import type { BuzzSignals, WorldEvent } from '@/lib/types';
 import { EVENTS, getEventsByIds } from './index';
 import { applySignalPatches, collectSignalPatches, getSourceHealth } from './sources';
+import { persistSnapshots, readSnapshots, signalDatabase } from './durable';
 
 export { getSourceHealth, getSourceHealth as sourceHealth } from './sources';
 export { SOURCES, LIVE_SOURCES, anyLiveConfigured } from './sources';
@@ -21,6 +22,21 @@ interface SignalCacheEntry {
 // Each event owns its TTL: refreshing one subset cannot warm another subset.
 const signalCache = new Map<string, SignalCacheEntry>();
 let lastFetchedAt: number | null = null;
+let storageStatus: 'unconfigured' | 'connected' | 'error' = 'unconfigured';
+
+async function hydrateSnapshots() {
+  try {
+    const rows = await readSnapshots(SIGNAL_TTL_MS);
+    storageStatus = signalDatabase() ? 'connected' : 'unconfigured';
+    for (const row of rows) {
+      const fetchedAt = Date.parse(row.fetched_at);
+      if (Number.isFinite(fetchedAt) && fetchedAt > (signalCache.get(row.event_id)?.fetchedAt ?? 0)) {
+        signalCache.set(row.event_id, { patch: row.patch, fetchedAt });
+        lastFetchedAt = Math.max(lastFetchedAt ?? 0, fetchedAt);
+      }
+    }
+  } catch { storageStatus = 'error'; }
+}
 
 /**
  * Overlapping ids share the same pending collection promise, including forced
@@ -73,6 +89,10 @@ async function refreshEvents(
           signalCache.set(event.id, { patch: patches.get(event.id), fetchedAt });
         }
         lastFetchedAt = fetchedAt;
+        try {
+          await persistSnapshots(missing.map((event) => ({ event_id: event.id, patch: patches.get(event.id) ?? {}, fetched_at: new Date(fetchedAt).toISOString() })));
+          storageStatus = signalDatabase() ? 'connected' : 'unconfigured';
+        } catch { storageStatus = 'error'; }
       } finally {
         for (const event of missing) inFlight.delete(event.id);
       }
@@ -111,6 +131,7 @@ export async function sweepAllSignals(): Promise<Record<string, Partial<BuzzSign
 
 /** Curated calendar enriched from fresh cached patches; never fetches vendors. */
 export async function getEnrichedEvents(): Promise<WorldEvent[]> {
+  await hydrateSnapshots();
   return applySignalPatches(EVENTS, getCachedSignalPatches(EVENTS.map((event) => event.id)));
 }
 
@@ -122,6 +143,11 @@ export function signalCacheAgeMs(): number | null {
 /** Diagnostics payload shared by `/api/events` and `/api/sources`. */
 export function dataMeta() {
   return {
+    enrichedAt: [...signalCache.values()].filter((entry) => entry.patch && Object.keys(entry.patch).length && Date.now() - entry.fetchedAt < SIGNAL_TTL_MS).reduce<string | null>((latest, entry) => {
+      const time = new Date(entry.fetchedAt).toISOString();
+      return !latest || time > latest ? time : latest;
+    }, null),
+    storageStatus,
     eventCount: EVENTS.length,
     signalCacheAgeMs: signalCacheAgeMs(),
     signalTtlMs: SIGNAL_TTL_MS,

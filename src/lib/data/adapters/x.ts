@@ -46,7 +46,7 @@ import 'server-only';
 import type { BuzzSignals, EventSource, SourceHealth, WorldEvent } from '@/lib/types';
 import { HealthTracker, env, getJSON, mapLimit, mergePatch } from './http';
 
-const ENDPOINT = 'https://api.twitter.com/2/tweets/counts/recent';
+const ENDPOINT = 'https://api.x.com/2/tweets/counts/recent';
 /** X rate limits app-only counts hard (300 req / 15 min on Basic). */
 const CONCURRENCY = 2;
 

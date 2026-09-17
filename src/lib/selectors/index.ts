@@ -70,7 +70,7 @@ import type {
   EventTier,
   WorldEvent,
 } from '@/lib/types';
-import { EVENTS } from '@/lib/data';
+import { useLiveCalendar } from '@/lib/data/live-store';
 import { scoreEvent, scoreEvents } from '@/lib/buzz/scoring';
 import { computeRelevance, daysUntil as daysUntilFocus } from '@/lib/buzz/relevance';
 import { daysBetween } from '@/lib/buzz/dates';
@@ -146,7 +146,8 @@ export function useBuzzMap(): Map<string, BuzzScore> {
   const events = useEvents();
   const { counts, signature } = usePeerData();
   const focus = useTimelineStore((s) => s.focus);
-  const key = `${events.length}|${signature}|${focus}`;
+  const revision = useLiveCalendar((s) => s.revision);
+  const key = `${revision}|${events.length}|${signature}|${focus}`;
   return useMemo(
     () => computeBuzzMap(events, counts, focus, key),
     // `key` fully determines the result; `events`/`counts` are inputs to it.
@@ -169,7 +170,7 @@ export function useBuzzMap(): Map<string, BuzzScore> {
  * live sweep can only ever sharpen numbers the member is already looking at.
  */
 export function useEvents(): WorldEvent[] {
-  return EVENTS;
+  return useLiveCalendar((s) => s.events);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -431,7 +432,8 @@ export function useHeatByDay(): HeatDay[] {
   const rangeStart = useTimelineStore((s) => s.rangeStart);
   const rangeEnd = useTimelineStore((s) => s.rangeEnd);
 
-  const key = `${rangeStart}|${rangeEnd}|${events.length}|${signature}`;
+  const revision = useLiveCalendar((s) => s.revision);
+  const key = `${revision}|${rangeStart}|${rangeEnd}|${events.length}|${signature}`;
 
   return useMemo(
     () => computeHeatByDay(events, counts, rangeStart, rangeEnd, key),

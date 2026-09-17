@@ -28,12 +28,14 @@ import {
 import {
   CharterPanel,
   GroupList,
-  InterestControl,
   PeerStack,
 } from '@/components/social';
 import { useEventById } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import type { BuzzSignals } from '@/lib/types';
+import { VenueMap } from './VenueMap';
+import { isDemoMode } from '@/lib/flags';
+import { EventSaveButton } from '@/components/community/EventSaveButton';
 
 /** Plain English for the six raw signals. The engine's field names are not copy. */
 const SIGNAL_LABEL: Record<keyof BuzzSignals, string> = {
@@ -119,11 +121,11 @@ export function EventDossier({ className }: EventDossierProps) {
             // and clear of the ranked rail on the right. The centre stays open.
             // The top offset is `--chrome-h`, measured and published by the
             // shell — the scrubber collapses, so no constant could be right.
-            'glass-deep fixed bottom-4 left-4 z-40 flex w-[min(30rem,36vw)]',
+            'glass-deep fixed bottom-4 left-4 right-4 z-40 flex md:right-auto md:w-[min(32rem,46vw)]',
             'flex-col rounded-[3px] outline-none',
             className,
           )}
-          style={{ top: 'calc(var(--chrome-h) + 0.75rem)' }}
+          style={{ top: '1rem', maxHeight: 'calc(100dvh - 2rem)' }}
           initial={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
@@ -135,10 +137,10 @@ export function EventDossier({ className }: EventDossierProps) {
               <div className="flex min-w-0 flex-col gap-2.5">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                   <span className="tabular text-[11px] leading-none text-brass">
-                    {String(event.buzz.rank).padStart(2, '0')}
+                    {event.providerId ? 'PARTNER EVENT' : String(event.buzz.rank).padStart(2, '0')}
                   </span>
                   <span className="h-2.5 w-px bg-ink/15" aria-hidden />
-                  <TierMark tier={event.tier} withLabel size={9} />
+                  {!event.providerId && <TierMark tier={event.tier} withLabel size={9} />}
                   <span className="h-2.5 w-px bg-ink/15" aria-hidden />
                   <span className="flex items-center gap-1.5">
                     <CategoryGlyph category={event.category} size={11} className="text-ink-muted" />
@@ -151,7 +153,7 @@ export function EventDossier({ className }: EventDossierProps) {
                 <h1 className="font-display text-[27px] leading-[1.1] text-ink">
                   {event.name}
                 </h1>
-                <p className="text-[12px] leading-4 text-ink-muted">{event.tagline}</p>
+                <p className="text-sm leading-5 text-ink-muted">{event.tagline}</p>
               </div>
 
               <IconButton label="Close briefing" variant="ghost" onClick={close}>
@@ -164,6 +166,12 @@ export function EventDossier({ className }: EventDossierProps) {
           </header>
 
           <ScrollArea contentClassName="flex flex-col gap-6 px-5 pb-6">
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <a className="rounded-xl bg-brass px-3 py-3 text-center font-medium text-void" href={`/community?event=${encodeURIComponent(event.id)}&tab=offers`}>Find access & stays ↗</a>
+              <a className="rounded-xl border border-brass/40 px-3 py-3 text-center text-brass-bright" href={`/community?event=${encodeURIComponent(event.id)}`}>Find a circle ↗</a>
+            </div>
+            <EventSaveButton eventId={event.id} />
+            <VenueMap event={event} />
             {/* ── When and where ─────────────────────────────────────── */}
             <div className="grid grid-cols-2 gap-x-5 gap-y-4">
               <Stat
@@ -187,8 +195,8 @@ export function EventDossier({ className }: EventDossierProps) {
               />
               <Stat
                 label="Spend, per person"
-                value={`${formatMoney(event.estimatedSpend.min)} – ${formatMoney(event.estimatedSpend.max)}`}
-                note="excluding charter"
+                value={event.providerId ? 'Ask the host' : `${formatMoney(event.estimatedSpend.min)} – ${formatMoney(event.estimatedSpend.max)}`}
+                note={event.providerId ? 'No estimate provided' : 'excluding charter'}
                 size="sm"
                 align="end"
               />
@@ -201,7 +209,7 @@ export function EventDossier({ className }: EventDossierProps) {
                   {event.accessNote}
                 </p>
                 <p className="mt-2 text-[11px] leading-4 text-ink-muted">
-                  {TIER_NOTE[event.tier]}
+                  {event.providerId ? 'Approved submission · availability confirmed by the host' : TIER_NOTE[event.tier]}
                 </p>
               </div>
             </Section>
@@ -236,7 +244,7 @@ export function EventDossier({ className }: EventDossierProps) {
               </ul>
             </Section>
 
-            <Section label="Nearest jet port">
+            <Section label={event.providerId ? 'Closest indexed airport · verify routing' : 'Nearest jet port'}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 flex-col gap-1">
                   <span className="tabular text-[13px] leading-none text-ink">
@@ -252,12 +260,12 @@ export function EventDossier({ className }: EventDossierProps) {
               </div>
             </Section>
 
-            <Section label="Spend index">
+            {!event.providerId && <Section label="Spend index">
               <PriceIndex value={event.priceIndex} size={12} withLabel />
-            </Section>
+            </Section>}
 
             {/* ── Why the index rates it ─────────────────────────────── */}
-            <Section label="Signal">
+            {!event.providerId && <Section label="Signal">
               <div className="flex items-end justify-between gap-4 pb-3">
                 <div className="flex items-baseline gap-2.5">
                   <HeatDot heat={event.buzz.heat} size="md" glow />
@@ -309,7 +317,7 @@ export function EventDossier({ className }: EventDossierProps) {
                   Peer interest lifted this score by {event.buzz.peerLift.toFixed(1)}.
                 </p>
               )}
-            </Section>
+            </Section>}
 
             {event.tags.length > 0 && (
               <Section label="Tags">
@@ -322,21 +330,17 @@ export function EventDossier({ className }: EventDossierProps) {
             {/* ── Who else ───────────────────────────────────────────── */}
             <Rule variant="brass" />
 
-            <Section label="Your position">
-              <InterestControl eventId={event.id} />
-            </Section>
-
-            <Section label="Members overlapping">
+            {isDemoMode() && <Section label="Preview: members overlapping">
               <PeerStack eventId={event.id} limit={12} />
-            </Section>
+            </Section>}
 
-            <Section label="Groups forming">
+            {isDemoMode() && <Section label="Preview: groups forming">
               <GroupList eventId={event.id} />
-            </Section>
+            </Section>}
 
-            <Section label="Charter">
+            {!event.providerId && <Section label="Charter · planning estimates">
               <CharterPanel eventId={event.id} />
-            </Section>
+            </Section>}
           </ScrollArea>
         </motion.article>
       )}

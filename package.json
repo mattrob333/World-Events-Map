@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "MERIDIAN — private travel intelligence. A 3D world-events globe for people who move on their own schedule.",
-  "engines": { "node": ">=22.12" },
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -18,9 +20,10 @@
   "dependencies": {
     "@react-three/drei": "10.7.7",
     "@react-three/fiber": "9.6.1",
+    "@supabase/supabase-js": "^2.116.0",
     "d3-geo": "3.1.1",
     "motion": "12.42.2",
-    "next": "16.2.12",
+    "next": "^16.3.5",
     "postprocessing": "6.39.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -29,6 +32,7 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@tailwindcss/postcss": "4.3.3",
     "@types/d3-geo": "3.1.0",
     "@types/geojson": "7946.0.16",
@@ -38,7 +42,7 @@
     "@types/three": "0.185.1",
     "@types/topojson-client": "3.1.5",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.2.12",
+    "eslint-config-next": "^16.3.5",
     "tailwindcss": "4.3.3",
     "topojson-client": "3.1.0",
     "tsx": "4.23.1",

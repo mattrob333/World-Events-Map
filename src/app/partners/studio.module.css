@@ -1,0 +1,217 @@
+.page {
+  min-height: 100dvh;
+  background: #10151b;
+  color: #eee9df;
+  padding: 28px clamp(20px, 5vw, 90px);
+  font:
+    15px/1.6 Arial,
+    sans-serif;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+.header > a {
+  font-family: Georgia, serif;
+  letter-spacing: 0.22em;
+  font-weight: bold;
+}
+.header span {
+  font:
+    10px Arial,
+    sans-serif;
+  letter-spacing: 0.14em;
+  color: #beab89;
+}
+.header nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.page a {
+  color: inherit;
+  text-decoration: none;
+}
+.intro {
+  max-width: 850px;
+  padding: 70px 0 35px;
+}
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  color: #d1ad70;
+}
+.intro h1 {
+  font:
+    clamp(32px, 5vw, 62px)/1.1 Georgia,
+    serif;
+  margin: 20px 0;
+}
+.intro > p:last-child {
+  max-width: 660px;
+  color: #b9b8b3;
+  font-size: 18px;
+}
+.card {
+  border: 1px solid #343b43;
+  background: #171e25;
+  border-radius: 16px;
+  padding: 26px;
+  margin: 20px 0;
+}
+.card h2,
+.page h2 {
+  font:
+    28px/1.25 Georgia,
+    serif;
+  margin: 0 0 14px;
+}
+.card h3 {
+  font:
+    24px/1.2 Georgia,
+    serif;
+  margin: 12px 0;
+}
+.card p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.page form {
+  display: grid;
+  gap: 17px;
+  max-width: 740px;
+}
+.page label {
+  display: grid;
+  gap: 7px;
+  color: #cbc9c1;
+  font-size: 13px;
+}
+.page input,
+.page textarea,
+.page select {
+  width: 100%;
+  border: 1px solid #47515c;
+  border-radius: 7px;
+  background: #10161c;
+  padding: 12px;
+  color: #f1ece3;
+  font:
+    15px Arial,
+    sans-serif;
+  box-sizing: border-box;
+}
+.page textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.page button {
+  padding: 11px 18px;
+  border: 1px solid #59616b;
+  background: transparent;
+  color: #eee9df;
+  border-radius: 6px;
+  cursor: pointer;
+  font:
+    13px Arial,
+    sans-serif;
+}
+.page button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.page button.primary {
+  background: #d7b87d;
+  border-color: #d7b87d;
+  color: #182029;
+}
+.page button:hover:not(:disabled) {
+  border-color: #e0c895;
+}
+.page :focus-visible {
+  outline: 2px solid #e5c581;
+  outline-offset: 3px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.actions,
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.row {
+  justify-content: space-between;
+}
+.muted {
+  color: #a7afb6;
+  font-size: 13px;
+}
+.error,
+.notice {
+  padding: 15px 20px;
+  border-radius: 8px;
+}
+.error {
+  background: #46272b;
+  color: #ffd6d3;
+}
+.notice {
+  background: #223d36;
+  color: #cfeddf;
+}
+.inquiry {
+  border-top: 1px solid #39424c;
+  padding: 22px 0;
+}
+.inquiry label {
+  margin: 16px 0;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #a7afb6;
+  padding: 45px 0 20px;
+}
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    align-items: flex-start;
+  }
+  .header nav {
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .header span {
+    display: block;
+    margin-top: 8px;
+  }
+  .intro {
+    padding-top: 45px;
+  }
+  .fields {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 20px;
+  }
+  .footer {
+    flex-direction: column;
+  }
+}
