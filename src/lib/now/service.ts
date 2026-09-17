@@ -10,6 +10,10 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
 const venueCache = new Map<string, { expiresAt: number; venues: VenueCandidate[] }>();
 
+export function resetNowVenueCacheForTests() {
+  venueCache.clear();
+}
+
 function cacheKey(request: NowRequest): string {
   return [
     request.location.lat.toFixed(3),
