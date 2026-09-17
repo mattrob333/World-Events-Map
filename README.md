@@ -92,6 +92,8 @@ TYPESAFE_MODEL=jev-latest
 
 BestTime supplies venue and foot-traffic facts. TypeSafe/Jev is optional and supplies contextual judgment. When TypeSafe is absent or fails, MERIDIAN falls back to its deterministic ranking model rather than failing the request.
 
+Every actual outbound BestTime or TypeSafe call claims the shared provider budget in Postgres immediately before the request. Cache-only reads do not consume that budget.
+
 Read [docs/NOW-ENGINE.md](docs/NOW-ENGINE.md) for the full pipeline, privacy rules and provider boundaries.
 
 ## Main routes
