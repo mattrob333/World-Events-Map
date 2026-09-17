@@ -32,50 +32,54 @@ function consume(bucket: Bucket, limit: number, now: number) {
   };
 }
 
-function clientKey(request: Request): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const firstForwarded = forwarded?.split(',')[0]?.trim();
-  return firstForwarded || request.headers.get('x-real-ip') || 'unknown';
+function trustedClientKey(request: Request): string {
+  // Vercel documents x-vercel-forwarded-for as the platform-controlled public
+  // client IP header. Prefer it so a caller cannot create arbitrary limiter
+  // identities by supplying their own X-Forwarded-For value.
+  const vercelForwarded = request.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim();
+  const realIp = request.headers.get('x-real-ip')?.trim();
+  const key = vercelForwarded || realIp || 'anonymous';
+  return key.slice(0, 128);
 }
 
-function prune(now: number) {
-  if (clientBuckets.size < MAX_TRACKED_CLIENTS) return;
-  for (const [key, bucket] of clientBuckets) {
-    if (bucket.resetAt <= now) clientBuckets.delete(key);
-    if (clientBuckets.size < MAX_TRACKED_CLIENTS) break;
-  }
+function ensureClientSlot(key: string) {
+  if (clientBuckets.has(key) || clientBuckets.size < MAX_TRACKED_CLIENTS) return;
+
+  // Hard-cap the warm-instance map. Map preserves insertion order, so evict the
+  // oldest tracked identity in O(1) rather than scanning thousands of entries
+  // on every attack request.
+  const oldestKey = clientBuckets.keys().next().value as string | undefined;
+  if (oldestKey) clientBuckets.delete(oldestKey);
 }
 
 /**
- * Warm-instance cost guard for paid NOW providers.
- *
- * This is intentionally a second line of defense, not a claim of globally
- * durable rate limiting. A distributed limiter belongs in front of the route
- * before broad production traffic. The global bucket limits provider-eligible
- * work on one server instance, while the client bucket stops one caller from
- * consuming that shared allowance after they have already been blocked.
+ * Per-client admission guard. Run this before parsing or validating the body so
+ * one noisy caller cannot consume unbounded CPU, but do not charge the global
+ * paid-provider budget here.
  */
-export function consumeNowRateLimit(
+export function consumeNowClientRateLimit(
   request: Request,
   now = Date.now(),
 ): { allowed: boolean; retryAfterSeconds: number } {
-  prune(now);
+  const key = trustedClientKey(request);
+  ensureClientSlot(key);
 
-  const key = clientKey(request);
   const current = clientBuckets.get(key) ?? freshBucket(now);
   const client = consume(current, PER_CLIENT_LIMIT, now);
   clientBuckets.set(key, client.bucket);
-  if (!client.allowed) {
-    return { allowed: false, retryAfterSeconds: client.retryAfterSeconds };
-  }
+  return { allowed: client.allowed, retryAfterSeconds: client.retryAfterSeconds };
+}
 
+/**
+ * Shared warm-instance budget for work that is actually about to reach paid
+ * providers. Call this only after body parsing and request validation succeed.
+ */
+export function consumeNowProviderBudget(
+  now = Date.now(),
+): { allowed: boolean; retryAfterSeconds: number } {
   const global = consume(globalBucket, GLOBAL_WARM_INSTANCE_LIMIT, now);
   globalBucket = global.bucket;
-  if (!global.allowed) {
-    return { allowed: false, retryAfterSeconds: global.retryAfterSeconds };
-  }
-
-  return { allowed: true, retryAfterSeconds: 0 };
+  return { allowed: global.allowed, retryAfterSeconds: global.retryAfterSeconds };
 }
 
 export function resetNowRateLimitsForTests() {
