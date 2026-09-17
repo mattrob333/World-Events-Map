@@ -110,48 +110,19 @@ export function TravelModesEditor() {
     setError('');
     setNotice('');
     try {
-      const { data, error: modeError } = await client
-        .from('travel_modes')
-        .insert({
-          user_id: user.id,
-          name: name.trim(),
-          description: description.trim(),
-          party_type: partyType,
-          origin_city: originCity.trim(),
-          origin_airport: originAirport.trim().toUpperCase(),
-          destination: destination.trim(),
-          start_date: startDate || null,
-          end_date: endDate || null,
-          visibility: discoverable ? 'discoverable' : 'private',
-        })
-        .select('id')
-        .single();
+      const { error: modeError } = await client.rpc('create_travel_mode', {
+        p_name: name.trim(),
+        p_description: description.trim(),
+        p_party_type: partyType,
+        p_origin_city: originCity.trim(),
+        p_origin_airport: originAirport.trim().toUpperCase(),
+        p_destination: destination.trim(),
+        p_start_date: startDate || null,
+        p_end_date: endDate || null,
+        p_visibility: discoverable ? 'discoverable' : 'private',
+        p_interests: cleanInterests,
+      });
       if (modeError) throw modeError;
-
-      if (cleanInterests.length > 0) {
-        const { error: interestError } = await client
-          .from('travel_mode_interests')
-          .insert(
-            cleanInterests.map((interest) => ({
-              mode_id: data.id,
-              interest,
-              weight: 3,
-            })),
-          );
-        if (interestError) {
-          const { error: rollbackError } = await client
-            .from('travel_modes')
-            .delete()
-            .eq('id', data.id)
-            .eq('user_id', user.id);
-          if (rollbackError) {
-            throw new Error(
-              `Travel mode interests failed to save, and cleanup also failed: ${rollbackError.message}`,
-            );
-          }
-          throw interestError;
-        }
-      }
 
       setName('');
       setDescription('');
@@ -320,7 +291,9 @@ export function TravelModesEditor() {
             onChange={(event) => setInterests(event.target.value)}
             placeholder="Skiing, family travel, food, mountains"
           />
-          <span className={styles.small}>Separate interests with commas. New interests start at medium weight.</span>
+          <span className={styles.small}>
+            Separate interests with commas. Up to 12, 80 characters each. New interests start at medium weight.
+          </span>
         </label>
 
         <label className={styles.check}>
