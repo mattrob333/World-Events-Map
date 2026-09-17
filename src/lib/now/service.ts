@@ -2,7 +2,7 @@ import 'server-only';
 
 import { BestTimeVenueProvider } from '@/lib/opportunities/besttime';
 import { TypeSafeJudgmentProvider } from '@/lib/opportunities/typesafe';
-import type { CandidateJudgment, JudgmentInput, VenueCandidate } from '@/lib/opportunities';
+import type { CandidateJudgment, GeoPoint, JudgmentInput, VenueCandidate } from '@/lib/opportunities';
 import { rankNowCandidates, selectNowPicks } from './engine';
 import type { NowRequest, NowResult } from './types';
 
@@ -17,6 +17,26 @@ function cacheKey(request: NowRequest): string {
     request.radiusMeters,
     request.intent,
   ].join(':');
+}
+
+function distanceMeters(a: GeoPoint, b: GeoPoint): number {
+  const radius = 6_371_000;
+  const radians = (degrees: number) => (degrees * Math.PI) / 180;
+  const dLat = radians(b.lat - a.lat);
+  const dLng = radians(b.lng - a.lng);
+  const lat1 = radians(a.lat);
+  const lat2 = radians(b.lat);
+  const root =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return Math.round(radius * 2 * Math.atan2(Math.sqrt(root), Math.sqrt(1 - root)));
+}
+
+function distancesForOrigin(venues: VenueCandidate[], origin: GeoPoint): VenueCandidate[] {
+  return venues.map((venue) => ({
+    ...venue,
+    distanceMeters: distanceMeters(origin, venue.location),
+  }));
 }
 
 function pruneVenueCache(now: number) {
@@ -34,7 +54,9 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
   const key = cacheKey(request);
   const now = Date.now();
   const cached = venueCache.get(key);
-  if (cached && cached.expiresAt > now) return cached.venues;
+  if (cached && cached.expiresAt > now) {
+    return distancesForOrigin(cached.venues, request.location);
+  }
   if (cached) venueCache.delete(key);
 
   const provider = new BestTimeVenueProvider();
@@ -46,8 +68,10 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
     limit: 24,
   });
   pruneVenueCache(now);
+  // Cache provider facts and venue coordinates, but never trust the cached
+  // distance for a second request that merely rounded into the same cell.
   venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
-  return venues;
+  return distancesForOrigin(venues, request.location);
 }
 
 function judgmentInput(request: NowRequest, candidates: VenueCandidate[]): JudgmentInput {
