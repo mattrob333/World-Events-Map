@@ -28,6 +28,8 @@ beforeAll(async () => {
   await db.exec(readFileSync('supabase/migrations/006_profile_connections.sql', 'utf8'));
   await db.exec(`insert into auth.users values('${a}'),('${b}'),('${c}');`);
 
+  await asUser(a);
+  await db.exec(`update profiles set is_public=true,handle='traveler_a' where id='${a}';`);
   await asUser(b);
   await db.exec(`update profiles set is_public=true,handle='traveler_b' where id='${b}';`);
 }, 30000);
