@@ -26,6 +26,7 @@ const ENERGY_TARGET: Record<NowRequest['vibe'], number | null> = {
 const clamp = (value: number, min = 0, max = 100) =>
   Math.min(max, Math.max(min, value));
 
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const round = (value: number) => Math.round(value * 10) / 10;
 
 function normalizedCategory(candidate: VenueCandidate): string {
@@ -158,9 +159,16 @@ function scoreOne(
   const judgmentScore = judgment ? clamp(judgment.score) : undefined;
   if (judgmentScore !== undefined) dimensions.judgment = round(judgmentScore);
 
-  const score = judgmentScore === undefined
-    ? deterministic
-    : deterministic * 0.65 + judgmentScore * 0.35;
+  // Structured judgment is supplemental. TypeSafe exposes confidence as 0..1,
+  // so a flat/uncertain Choice distribution should have less influence than a
+  // confident one. Providers that omit confidence get the original 35% cap.
+  const judgmentWeight = judgmentScore === undefined
+    ? 0
+    : 0.35 * (judgment?.confidence === undefined ? 1 : clamp01(judgment.confidence));
+  const score =
+    judgmentScore === undefined
+      ? deterministic
+      : deterministic * (1 - judgmentWeight) + judgmentScore * judgmentWeight;
 
   return {
     candidate,
