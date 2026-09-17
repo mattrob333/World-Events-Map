@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
-import { consumeNowRateLimit } from '@/lib/now/rateLimit';
+import {
+  consumeNowClientRateLimit,
+  consumeNowProviderBudget,
+} from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
 import { validateNowRequest } from '@/lib/now/validation';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const MAX_BODY_CHARS = 20_000;
+const MAX_BODY_BYTES = 20_000;
 const NO_STORE = { 'Cache-Control': 'no-store' };
+
+class RequestTooLargeError extends Error {}
 
 function jsonError(
   status: number,
@@ -21,6 +26,37 @@ function jsonError(
   );
 }
 
+async function readBodyWithLimit(request: Request): Promise<string> {
+  const declaredLength = Number(request.headers.get('content-length') ?? 0);
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
+    throw new RequestTooLargeError('NOW request body is too large.');
+  }
+
+  if (!request.body) return '';
+
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder();
+  let totalBytes = 0;
+  let text = '';
+
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_BODY_BYTES) {
+        await reader.cancel();
+        throw new RequestTooLargeError('NOW request body is too large.');
+      }
+      text += decoder.decode(value, { stream: true });
+    }
+    text += decoder.decode();
+    return text;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 export async function POST(request: Request) {
   if (!process.env.BESTTIME_API_KEY_PRIVATE) {
     return jsonError(
@@ -30,26 +66,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const limit = consumeNowRateLimit(request);
-  if (!limit.allowed) {
+  const clientLimit = consumeNowClientRateLimit(request);
+  if (!clientLimit.allowed) {
     return jsonError(
       429,
       'NOW_RATE_LIMITED',
       'Too many NOW requests. Wait a few minutes and try again.',
-      { 'Retry-After': String(limit.retryAfterSeconds) },
+      { 'Retry-After': String(clientLimit.retryAfterSeconds) },
     );
   }
 
-  const declaredLength = Number(request.headers.get('content-length') ?? 0);
-  if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_CHARS) {
-    return jsonError(413, 'NOW_REQUEST_TOO_LARGE', 'NOW request body is too large.');
-  }
-
   try {
-    const raw = await request.text();
-    if (raw.length > MAX_BODY_CHARS) {
-      return jsonError(413, 'NOW_REQUEST_TOO_LARGE', 'NOW request body is too large.');
-    }
+    const raw = await readBodyWithLimit(request);
 
     let body: unknown;
     try {
@@ -59,9 +87,26 @@ export async function POST(request: Request) {
     }
 
     const input = validateNowRequest(body);
+
+    // Charge the shared provider-work budget only after the request is proven
+    // valid and is about to execute paid external work.
+    const providerBudget = consumeNowProviderBudget();
+    if (!providerBudget.allowed) {
+      return jsonError(
+        429,
+        'NOW_RATE_LIMITED',
+        'NOW is temporarily at capacity. Wait a few minutes and try again.',
+        { 'Retry-After': String(providerBudget.retryAfterSeconds) },
+      );
+    }
+
     const result = await executeNow(input);
     return NextResponse.json(result, { headers: NO_STORE });
   } catch (cause) {
+    if (cause instanceof RequestTooLargeError) {
+      return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
+    }
+
     const message = cause instanceof Error ? cause.message : 'NOW could not complete this request.';
     const validation =
       message.includes('must be') ||
