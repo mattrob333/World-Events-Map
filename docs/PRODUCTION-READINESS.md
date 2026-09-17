@@ -31,6 +31,7 @@ Current migrations:
 1. `001_platform.sql`
 2. `002_live_signals.sql`
 3. `003_affinity_graph.sql`
+4. `004_now_provider_budget.sql`
 
 ## 2. Secrets and configuration
 
@@ -61,6 +62,8 @@ Before production:
 Do not describe NOW as live until all of these are true:
 
 - BestTime private credentials are configured server-side.
+- Supabase service-role access is configured server-side and migration `004_now_provider_budget.sql` is applied.
+- The durable provider-budget RPC is verified against the hosted production database, including exhaustion and window reset behavior.
 - A real request succeeds in at least three materially different cities.
 - Food, drinks and experience intents each return plausible candidates.
 - Closed venues are excluded when opening-hour data makes that determination possible.
@@ -69,9 +72,9 @@ Do not describe NOW as live until all of these are true:
 - TypeSafe failure produces a deterministic fallback rather than a failed trip decision.
 - Provider timeouts and error responses do not leak credentials or upstream payloads to the browser.
 - Paid-provider usage is observed during testing so a realistic cost envelope is known.
-- Rate limiting is moved to durable shared infrastructure before broad anonymous traffic.
+- Same-origin JSON enforcement is verified through the deployed proxy/host headers.
 
-The current warm-instance rate limiter is a protective baseline, not the final distributed control.
+MERIDIAN uses two separate protections: a warm-instance per-client abuse guard and a durable Postgres paid-provider ledger. The durable ledger is the actual spend ceiling across server instances. If it is unavailable, required paid provider work fails closed.
 
 ## 4. Provider truth rules
 
@@ -117,7 +120,7 @@ For every network dependency:
 - define degraded behavior
 - test the degraded behavior
 
-NOW currently treats BestTime as required for live venue facts and TypeSafe/Jev as optional. TypeSafe failure degrades to deterministic ranking. BestTime failure returns a transparent service error rather than invented venues.
+NOW currently treats BestTime as required for live venue facts and TypeSafe/Jev as optional. TypeSafe failure degrades to deterministic ranking. BestTime failure returns a transparent service error rather than invented venues. Failure to claim durable spend budget also prevents required provider work rather than silently falling back to a process-local counter.
 
 ## 7. Observability
 
@@ -125,6 +128,7 @@ Before meaningful production traffic, add durable telemetry for:
 
 - API request count and latency by route
 - provider request count, latency, failures and estimated cost
+- durable provider-budget utilization and exhaustion
 - NOW candidate count before and after hard filters
 - fallback frequency from structured judgment to deterministic ranking
 - Supabase auth failures
@@ -182,8 +186,9 @@ Document any migration that cannot safely coexist with the previous application 
 ## Current next production work
 
 1. Complete CI and review for the first NOW vertical slice.
-2. Exercise BestTime and TypeSafe with real credentials and capture representative provider fixtures for regression tests.
-3. Add durable provider usage/rate accounting before broad traffic.
-4. Add outcome-event infrastructure for recommendation evaluation.
-5. Add travel-time/return-by constraints to the NOW engine.
-6. Qualify aviation providers behind the existing opportunity interface rather than coupling the product to one vendor.
+2. Apply and verify the NOW durable-budget migration in the hosted environment before enabling paid provider credentials.
+3. Exercise BestTime and TypeSafe with real credentials and capture representative provider fixtures for regression tests.
+4. Build the first-class traveler profile surface and privacy model.
+5. Build the Circle anticipation/research layer.
+6. Add outcome-event infrastructure and travel-time/return-by constraints.
+7. Qualify aviation providers behind the existing opportunity interface rather than coupling the product to one vendor.
