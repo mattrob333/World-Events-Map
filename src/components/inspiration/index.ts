@@ -1,0 +1,1 @@
+export { Hypeboard } from './Hypeboard';
