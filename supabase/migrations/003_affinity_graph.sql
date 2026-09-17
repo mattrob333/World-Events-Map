@@ -11,6 +11,29 @@ alter table public.circles
   add column if not exists party_type text not null default 'mixed'
     check (party_type in ('solo','family','couple','friends','work','mixed'));
 
+-- Circles are actionable trip plans. Unlike Travel Modes, which may be aspirational
+-- and intentionally undated, a persisted Circle must always have a real date range.
+-- Enforce this on new writes without assuming legacy rows are already complete.
+create function public.guard_circle_dates()
+returns trigger
+language plpgsql
+set search_path=public
+as $$
+begin
+  if new.start_date is null or new.end_date is null then
+    raise exception 'A travel circle requires both start and end dates';
+  end if;
+  if new.end_date < new.start_date then
+    raise exception 'Circle end date must be on or after the start date';
+  end if;
+  return new;
+end
+$$;
+
+create trigger guard_circle_dates
+before insert or update of start_date,end_date on public.circles
+for each row execute function public.guard_circle_dates();
+
 create table public.travel_modes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users on delete cascade,
