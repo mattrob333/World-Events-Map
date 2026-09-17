@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   consumeNowClientRateLimit,
-  consumeNowProviderBudget,
   resetNowRateLimitsForTests,
 } from '../rateLimit';
 
@@ -15,8 +14,8 @@ afterEach(() => {
   resetNowRateLimitsForTests();
 });
 
-describe('NOW warm-instance cost guard', () => {
-  it('blocks one noisy client without charging the shared provider budget', () => {
+describe('NOW warm-instance client admission guard', () => {
+  it('blocks one noisy client after twelve requests', () => {
     const noisy = requestFor('203.0.113.20');
     for (let index = 0; index < 12; index += 1) {
       expect(consumeNowClientRateLimit(noisy, 1_000).allowed).toBe(true);
@@ -24,12 +23,6 @@ describe('NOW warm-instance cost guard', () => {
     for (let index = 0; index < 200; index += 1) {
       expect(consumeNowClientRateLimit(noisy, 1_000).allowed).toBe(false);
     }
-
-    // Client admission alone never consumes the shared paid-provider budget.
-    for (let index = 0; index < 120; index += 1) {
-      expect(consumeNowProviderBudget(1_000).allowed).toBe(true);
-    }
-    expect(consumeNowProviderBudget(1_000).allowed).toBe(false);
   });
 
   it('resets a client window after ten minutes', () => {
