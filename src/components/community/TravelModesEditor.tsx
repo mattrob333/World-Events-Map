@@ -95,6 +95,17 @@ export function TravelModesEditor() {
   async function createMode(event: FormEvent) {
     event.preventDefault();
     if (!client || !user || !name.trim()) return;
+
+    const invalidInterest = cleanInterests.find((interest) => interest.length > 80);
+    if (invalidInterest) {
+      setError('Each travel-mode interest must be 80 characters or fewer.');
+      return;
+    }
+    if (startDate && endDate && endDate < startDate) {
+      setError('Choose an end date on or after the start date.');
+      return;
+    }
+
     setBusy(true);
     setError('');
     setNotice('');
@@ -127,7 +138,19 @@ export function TravelModesEditor() {
               weight: 3,
             })),
           );
-        if (interestError) throw interestError;
+        if (interestError) {
+          const { error: rollbackError } = await client
+            .from('travel_modes')
+            .delete()
+            .eq('id', data.id)
+            .eq('user_id', user.id);
+          if (rollbackError) {
+            throw new Error(
+              `Travel mode interests failed to save, and cleanup also failed: ${rollbackError.message}`,
+            );
+          }
+          throw interestError;
+        }
       }
 
       setName('');
