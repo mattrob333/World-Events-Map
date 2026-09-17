@@ -73,7 +73,9 @@ function openDuringLocalHour(venue: UnknownRecord, localHour?: number): boolean 
   if (localHour === undefined || localHour < 0 || localHour > 23) return undefined;
   const dayInfo = record(venue.day_info);
   const schedule = record(dayInfo?.venue_open_close_v2);
-  const rawPeriods = schedule?.['24h'];
+  if (!schedule) return undefined;
+  if (schedule.open_24h === true) return true;
+  const rawPeriods = schedule['24h'];
   if (!Array.isArray(rawPeriods)) return undefined;
   if (rawPeriods.length === 0) return false;
 
