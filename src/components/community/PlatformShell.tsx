@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import styles from './community.module.css';
@@ -18,19 +17,6 @@ export function PlatformShell({
 }) {
   return (
     <main className={styles.page}>
-      <nav className={styles.nav} aria-label="Main navigation">
-        <Link href="/" className={styles.brand}>
-          MERIDIAN
-        </Link>
-        <div className={styles.links}>
-          <Link href="/">Pulse</Link>
-          <Link href="/now">Now</Link>
-          <Link href="/constellation">Constellation</Link>
-          <Link href="/community">Travel circles</Link>
-          <Link href="/account">Your profile</Link>
-          <Link href="/partners">For partners</Link>
-        </div>
-      </nav>
       <header className={styles.hero}>
         <span className={styles.eyebrow}>{eyebrow}</span>
         <h1>{title}</h1>
