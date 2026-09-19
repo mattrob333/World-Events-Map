@@ -18,12 +18,12 @@ The core thesis is simple: travel recommendations get dramatically better when M
 MERIDIAN joins three graphs:
 
 - **World Graph**: events, cities, buzz, venues, seasons and live demand signals.
-- **People Graph**: members, travel modes, interests, home bases, circles and relationships.
+- **People Graph**: members, traveler profiles, Travel Modes, interests, home bases, Circles and relationships.
 - **Opportunity Graph**: stays, flights, empty legs, access, venues and partner inventory.
 
-A person does not have one permanent traveler identity. The same member can have a Family Ski mode, Solo Weekend mode, Work Layover mode and Couples mode. Matching is therefore trip-contextual, not profile-global.
+A Profile is the canonical person. A Travel Mode is the version of that person relevant to a specific trip context. A Circle is a shared trip relationship. The same member can have a Family Ski mode, Solo Weekend mode, Work Layover mode and Couples mode without making all of that trip intent part of one public identity.
 
-The first People Graph interface is **Constellation**, a navigable 3D affinity graph that reorganizes around the member's active Travel Mode.
+The first People Graph exploration interface is **Constellation**, a navigable 3D affinity graph that reorganizes around the member's active Travel Mode.
 
 The first Opportunity decision interface is **NOW**, which combines provider facts, hard constraints and optional structured judgment to return three distinct choices instead of a search-results directory.
 
@@ -33,7 +33,8 @@ The current codebase includes:
 
 - Responsive 3D globe discovery with searchable Pulse and future-date planning.
 - Curated event calendar plus optional external signal enrichment.
-- Supabase email sign-in and private-by-default member profiles.
+- Supabase email sign-in and private-by-default member identities.
+- First-class public traveler profile foundation with unique handles, controlled themes, hero/avatar imagery, favorite places, social links, featured Travel Modes and traveler connections.
 - Saved events, travel circles, host approval and private circle chat.
 - Partner applications, approved offers, event submissions and traveler inquiries.
 - Server-side demand enrichment with durable snapshots and scheduled refresh.
@@ -67,6 +68,8 @@ Copy `.env.example` to `.env.local`, then apply migrations in order:
 2. `supabase/migrations/002_live_signals.sql`
 3. `supabase/migrations/003_affinity_graph.sql`
 4. `supabase/migrations/004_now_provider_budget.sql`
+5. `supabase/migrations/005_profile_identity.sql`
+6. `supabase/migrations/006_profile_connections.sql`
 
 Set:
 
@@ -79,6 +82,18 @@ SUPABASE_SERVICE_ROLE_KEY=
 The service-role key stays server-only. NOW deliberately fails closed if the durable provider-budget function is unavailable rather than exposing unbounded paid API calls.
 
 Read [docs/LIVE-SETUP.md](docs/LIVE-SETUP.md) for external feed configuration.
+
+## Traveler identity
+
+The public identity route is:
+
+```text
+/people/[handle]
+```
+
+Profiles are private by default. The public page is assembled through a sanitized RPC rather than granting anonymous SELECT access to profile tables. A public profile can include controlled theme choices, hero/avatar imagery, bio, selected home-base fields, broad interests, public favorite places, public links, and Travel Modes that are both discoverable and explicitly featured.
+
+Read [docs/PROFILE-IDENTITY.md](docs/PROFILE-IDENTITY.md) for the privacy and relationship model.
 
 ## NOW providers
 
@@ -104,7 +119,8 @@ Read [docs/NOW-ENGINE.md](docs/NOW-ENGINE.md) for the full pipeline, privacy rul
 | `/now` | NOW: day-of local decision engine |
 | `/constellation` | affinity graph and Travel Mode explorer |
 | `/community` | circles and partner opportunities |
-| `/account` | profile, home base, interests and Travel Modes |
+| `/account` | identity editor, Travel Modes and saved events |
+| `/people/[handle]` | canonical public traveler profile |
 | `/partners` | provider application and offer studio |
 
 ## Development docs
@@ -113,6 +129,7 @@ Start here:
 
 - [Product direction](docs/PRODUCT.md)
 - [System architecture](docs/ARCHITECTURE.md)
+- [Traveler identity](docs/PROFILE-IDENTITY.md)
 - [NOW engine](docs/NOW-ENGINE.md)
 - [Developer log](docs/DEVLOG.md)
 - [Repo wiki index](docs/wiki/README.md)
@@ -135,6 +152,7 @@ npm run gate
 - Partner offers create inquiries, not confirmed reservations or inventory locks.
 - Charter calculations are planning estimates, not quotes.
 - Member discovery is opt-in. Profiles remain private by default.
+- Publishing a Profile does not publish private Travel Modes or private Circle details.
 - Travel Modes can remain private even when a profile is visible.
 - Precise current location is used for a NOW request but is not written into the People Graph.
 - MERIDIAN never invents live members, bookings or partner availability in real mode.
@@ -142,8 +160,8 @@ npm run gate
 
 ## Near-term build order
 
-1. Exercise NOW against real BestTime and TypeSafe credentials in multiple cities and layover scenarios.
-2. Build first-class public traveler profiles and route Constellation/Circle identity through them.
+1. Finish public profile routing from Constellation and Circle member surfaces.
+2. Exercise NOW against real BestTime and TypeSafe credentials in multiple cities and layover scenarios.
 3. Add Circle anticipation/research boards for YouTube, Instagram links, articles, places and collaborative trip inspiration.
 4. Add outcome events such as opened-in-maps, went, skipped and saved so ranking can learn from behavior.
 5. Add travel-time constraints to NOW so a hard return-by time includes transit, not just venue dwell time.

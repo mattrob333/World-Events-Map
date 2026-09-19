@@ -14,7 +14,10 @@ const PARTY_TYPES: { value: PartyType; label: string }[] = [
   { value: 'mixed', label: 'Mixed / flexible' },
 ];
 
-type ModeWithInterests = TravelModeRecord & { interests: string[] };
+type ModeWithInterests = TravelModeRecord & {
+  interests: string[];
+  is_featured: boolean;
+};
 
 export function TravelModesEditor() {
   const { client, user } = usePlatformAuth();
@@ -38,7 +41,7 @@ export function TravelModesEditor() {
     const [modeResult, interestResult] = await Promise.all([
       client
         .from('travel_modes')
-        .select('id,user_id,name,description,party_type,origin_city,origin_airport,destination,start_date,end_date,visibility')
+        .select('id,user_id,name,description,party_type,origin_city,origin_airport,destination,start_date,end_date,visibility,is_featured')
         .eq('user_id', user.id)
         .order('updated_at', { ascending: false }),
       client.from('travel_mode_interests').select('mode_id,interest,weight'),
@@ -56,8 +59,9 @@ export function TravelModesEditor() {
 
     setModes(
       (modeResult.data ?? []).map((mode) => ({
-        ...(mode as TravelModeRecord),
+        ...(mode as TravelModeRecord & { is_featured: boolean }),
         interests: interestMap.get(mode.id) ?? [],
+        is_featured: mode.is_featured === true,
       })),
     );
   }, [client, user]);
@@ -70,7 +74,7 @@ export function TravelModesEditor() {
       setError(
         cause instanceof Error
           ? cause.message
-          : 'Travel modes could not be loaded. Apply the affinity migration first.',
+          : 'Travel modes could not be loaded. Apply the affinity and profile migrations first.',
       );
     });
     return () => {
@@ -142,10 +146,36 @@ export function TravelModesEditor() {
     }
   }
 
+  async function updateMode(
+    modeId: string,
+    changes: { visibility?: 'private' | 'discoverable'; is_featured?: boolean },
+    success: string,
+  ) {
+    if (!client || !user) return;
+    setBusy(true);
+    setError('');
+    setNotice('');
+    try {
+      const { error: failure } = await client
+        .from('travel_modes')
+        .update(changes)
+        .eq('id', modeId)
+        .eq('user_id', user.id);
+      if (failure) throw failure;
+      setNotice(success);
+      await refresh();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Travel mode could not be updated.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function removeMode(modeId: string) {
     if (!client || !user) return;
     setBusy(true);
     setError('');
+    setNotice('');
     try {
       const { error: failure } = await client
         .from('travel_modes')
@@ -166,8 +196,7 @@ export function TravelModesEditor() {
       <span className={styles.eyebrow}>Context changes the match</span>
       <h2>Your travel modes</h2>
       <p className={styles.muted}>
-        Create different lenses for the different ways you travel. A family ski trip should not
-        match the same people or places as a solo layover.
+        Create different lenses for the different ways you travel. A family ski trip should not match the same people or places as a solo layover. You decide which modes are discoverable and which of those deserve a place on your public profile.
       </p>
 
       {modes.length > 0 && (
@@ -180,6 +209,7 @@ export function TravelModesEditor() {
                     <strong>{mode.name}</strong>
                     <span className={styles.tag}>{mode.party_type}</span>
                     <span className={styles.tag}>{mode.visibility}</span>
+                    {mode.is_featured && <span className={styles.tag}>featured</span>}
                   </div>
                   <p className={styles.small}>
                     {[mode.origin_city || mode.origin_airport, mode.destination]
@@ -190,14 +220,45 @@ export function TravelModesEditor() {
                     <p className={styles.small}>{mode.interests.join(' · ')}</p>
                   )}
                 </div>
-                <button
-                  type="button"
-                  className={`${styles.button} ${styles.secondary}`}
-                  disabled={busy}
-                  onClick={() => void removeMode(mode.id)}
-                >
-                  Remove
-                </button>
+                <div className={styles.row}>
+                  {mode.visibility === 'private' ? (
+                    <button
+                      type="button"
+                      className={`${styles.button} ${styles.secondary}`}
+                      disabled={busy}
+                      onClick={() => void updateMode(
+                        mode.id,
+                        { visibility: 'discoverable' },
+                        `${mode.name} is now discoverable. It is still not featured on your profile until you choose to feature it.`,
+                      )}
+                    >
+                      Make discoverable
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`${styles.button} ${styles.secondary}`}
+                      disabled={busy}
+                      onClick={() => void updateMode(
+                        mode.id,
+                        { is_featured: !mode.is_featured },
+                        mode.is_featured
+                          ? `${mode.name} was removed from your public profile.`
+                          : `${mode.name} is now featured on your public profile.`,
+                      )}
+                    >
+                      {mode.is_featured ? 'Remove from profile' : 'Feature on profile'}
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={`${styles.button} ${styles.secondary}`}
+                    disabled={busy}
+                    onClick={() => void removeMode(mode.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </article>
           ))}

@@ -1,0 +1,127 @@
+.editorCard {
+  overflow: hidden;
+}
+
+.headingRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.headingRow > div:first-child {
+  max-width: 760px;
+}
+
+.handleInput {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.handleInput > span {
+  padding-left: 12px;
+  color: rgba(238, 238, 232, 0.52);
+  font-weight: 700;
+}
+
+.handleInput input {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 5px !important;
+}
+
+.privacyRow {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.subgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.subpanel {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.022);
+  padding: 20px;
+}
+
+.subpanel h3 {
+  margin: 6px 0 16px;
+  color: #f2f0e9;
+  font-size: 20px;
+}
+
+.items {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+  padding: 11px 12px;
+}
+
+.item > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.item strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #eeeDE6;
+  font-size: 13px;
+}
+
+.item span {
+  color: rgba(238, 238, 232, 0.5);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.item button {
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 160, 160, 0.86);
+  font: inherit;
+  font-size: 11px;
+}
+
+.item button:disabled {
+  cursor: wait;
+  opacity: 0.45;
+}
+
+@media (max-width: 800px) {
+  .headingRow {
+    display: grid;
+  }
+
+  .subgrid {
+    grid-template-columns: 1fr;
+  }
+}
