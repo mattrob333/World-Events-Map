@@ -199,6 +199,13 @@ function CameraRigImpl({
     };
 
     const onWheel = (e: WheelEvent) => {
+      // The globe sits inside a scrollable dashboard. A plain mouse-wheel
+      // gesture belongs to the page, not the globe. Only an explicit zoom
+      // gesture takes ownership here. Trackpad pinch is reported as ctrl+wheel
+      // by Chromium/WebKit, and Ctrl/Cmd + wheel gives mouse users the same
+      // deliberate interaction without trapping page scrolling.
+      if (!e.ctrlKey && !e.metaKey) return;
+
       e.preventDefault();
       stopAuto();
       // Exponential so a notch feels the same at every distance.
