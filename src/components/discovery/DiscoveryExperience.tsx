@@ -18,6 +18,8 @@ import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
 import styles from './discovery.module.css';
 import { LivePulse } from '@/components/panels/LivePulse';
 import { isHappeningToday } from '@/lib/data/scene-time';
+import { greatCircleDistanceKm } from '@/lib/geo/projection';
+import { useViewerLocation } from '@/lib/location/useViewerLocation';
 
 const dateLabel = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', {
@@ -49,8 +51,8 @@ export function DiscoveryExperience() {
   const [showAll, setShowAll] = useState(false);
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
-  const introduced = useRef(false);
   const calendar = useLiveCalendar((s) => s.events);
+  const viewer = useViewerLocation();
   useEffect(() => {
     const tick = () => setClock(Date.now());
     const initial = window.setTimeout(tick, 0);
@@ -75,7 +77,28 @@ export function DiscoveryExperience() {
     () => events.filter((event) => event.start > focus).slice(0, 4),
     [events, focus],
   );
-  const spotlight = scenes[0];
+  const nearbyScenes = useMemo(() => {
+    const coords = viewer.coords;
+    if (!coords) return [];
+    return scenes
+      .map((event) => ({
+        event,
+        distanceKm: greatCircleDistanceKm(coords, event.coords),
+      }))
+      .sort((a, b) => a.distanceKm - b.distanceKm);
+  }, [scenes, viewer.coords]);
+
+  const worldHeat = useMemo(
+    () => [...scenes].sort((a, b) => a.buzz.rank - b.buzz.rank),
+    [scenes],
+  );
+
+  const pulseScenes = planMode ? scenes : worldHeat;
+  const spotlight = planMode ? scenes[0] : (nearbyScenes[0]?.event ?? worldHeat[0]);
+  const spotlightDistance =
+    !planMode && nearbyScenes[0]?.event.id === spotlight?.id
+      ? nearbyScenes[0].distanceKm
+      : null;
   const destinations = new Set(
     scenes.map((event) => `${event.city},${event.country}`),
   ).size;
@@ -91,10 +114,9 @@ export function DiscoveryExperience() {
         beacon.focused || (!selected && beacon.eventId === spotlight?.id),
     }));
   useEffect(() => {
-    if (introduced.current || linkedEventId || !spotlight) return;
-    introduced.current = true;
-    flyTo(spotlight.coords);
-  }, [spotlight, flyTo, linkedEventId]);
+    if (viewer.status !== 'granted' || !viewer.coords || linkedEventId) return;
+    flyTo(viewer.coords, 3.9);
+  }, [viewer.status, viewer.coords, linkedEventId, flyTo]);
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
@@ -150,7 +172,7 @@ export function DiscoveryExperience() {
           >
             Plan a trip
           </button>
-          <Link href="/community">Find your people</Link>
+          <Link href="/community">Circles</Link>
         </nav>
         <div className={styles.account}>
           <Link href="/partners">For partners ↗</Link>
@@ -163,14 +185,19 @@ export function DiscoveryExperience() {
       <div className={styles.toolbar}>
         <div className={styles.status}>
           <i />
-          {planMode ? 'YOUR NEXT CHAPTER' : 'THE WORLD IS CALLING'}
+          {planMode ? 'YOUR NEXT CHAPTER' : 'YOUR WORLD, RIGHT NOW'}
           <span>
             {signalStatus === 'enriched'
               ? 'Updated signals'
               : signalStatus === 'offline'
                 ? 'Curated calendar · offline'
                 : 'Curated calendar'}{' '}
-            · {dateLabel(focus)}
+            · {dateLabel(focus)} ·{' '}
+            {viewer.status === 'granted'
+              ? 'Centered near you'
+              : viewer.status === 'locating'
+                ? 'Locating you'
+                : 'Regional view'}
           </span>
         </div>
         <label className={styles.search}>
@@ -187,6 +214,17 @@ export function DiscoveryExperience() {
             </button>
           )}
         </label>
+        <button
+          className={styles.locationButton}
+          onClick={viewer.retry}
+          disabled={viewer.status === 'locating'}
+        >
+          {viewer.status === 'granted'
+            ? 'Recenter near me'
+            : viewer.status === 'locating'
+              ? 'Finding your position…'
+              : 'Use my location'}
+        </button>
         <button
           className={styles.dateButton}
           onClick={planMode ? now : beginPlanning}
@@ -224,13 +262,20 @@ export function DiscoveryExperience() {
 
       <section className={styles.world} aria-label="World discovery">
         <div className={styles.globe}>
-          <GlobeStage beacons={visibleBeacons} />
+          {viewer.coords ? (
+            <GlobeStage beacons={visibleBeacons} initialView={viewer.coords} />
+          ) : (
+            <div className={styles.globeBoot}>
+              <span />
+              <strong>Opening your part of the world…</strong>
+            </div>
+          )}
         </div>
         <div className={styles.worldHeading}>
           <span className={styles.eyebrow}>
             {planMode
               ? 'MAKE ROOM FOR SOMETHING EXTRAORDINARY'
-              : 'GOOD COMPANY. GREAT PLACES.'}
+              : 'THE WORLD, SORTED BY ENERGY'}
           </span>
           <h1>
             {planMode ? (
@@ -241,16 +286,16 @@ export function DiscoveryExperience() {
               </>
             ) : (
               <>
-                Somewhere,
+                Your world,
                 <br />
-                <em>it’s happening.</em>
+                <em>right now.</em>
               </>
             )}
           </h1>
           <p>
             {planMode
               ? 'Follow the season. Find your scene. Make it a trip.'
-              : 'Discover the places, occasions and people worth going for.'}
+              : 'Start near you, then scan the places pulling people in from everywhere.'}
           </p>
         </div>
 
@@ -270,7 +315,7 @@ export function DiscoveryExperience() {
           </div>
           <div className={styles.eyebrow}>
             <span className={styles.spark}>✦</span>{' '}
-            {planMode ? 'IN YOUR TRAVEL WINDOW' : 'TODAY’S SPOTLIGHT'}
+            {planMode ? 'IN YOUR TRAVEL WINDOW' : 'NEAREST SCENE ON THE BOARD'}
           </div>
           {spotlight ? (
             <>
@@ -284,19 +329,25 @@ export function DiscoveryExperience() {
               <p>{spotlight.tagline}</p>
               <div className={styles.sceneDates}>
                 {dateLabel(spotlight.start)} — {dateLabel(spotlight.end)}
-                <span>{planMode ? 'In season' : 'On the calendar today'}</span>
+                <span>
+                  {planMode
+                    ? 'In season'
+                    : spotlightDistance != null
+                      ? `≈${Math.round(spotlightDistance).toLocaleString()} km away · on the calendar today`
+                      : 'On the calendar today'}
+                </span>
               </div>
               <button
                 className={styles.primary}
                 onClick={() => explore(spotlight)}
               >
-                Explore the scene <span>↗</span>
+                Explore this place <span>↗</span>
               </button>
               <Link
                 className={styles.textLink}
                 href={`/community?event=${spotlight.id}`}
               >
-                Find your people here →
+                Start a Circle here →
               </Link>
             </>
           ) : (
@@ -325,17 +376,17 @@ export function DiscoveryExperience() {
         <aside className={styles.pulse} aria-label="The world pulse">
           <div className={styles.pulseHeading}>
             <div>
-              <span className={styles.eyebrow}>THE PULSE</span>
-              <h2>{planMode ? 'On your horizon' : 'Around the world'}</h2>
+              <span className={styles.eyebrow}>{planMode ? 'THE PULSE' : 'WORLD HEAT'}</span>
+              <h2>{planMode ? 'On your horizon' : 'Where the FOMO is building'}</h2>
             </div>
-            <span className={styles.curated}>CURATED</span>
+            <span className={styles.curated}>{signalStatus === 'enriched' ? 'UPDATED SIGNALS' : 'MODELED'}</span>
           </div>
           <p className={styles.pulseIntro}>
             {planMode
               ? 'Standout occasions around your chosen dates.'
-              : 'A few places to have on your radar today.'}
+              : 'The strongest current travel-demand signals, regardless of distance.'}
           </p>
-          {scenes.slice(0, 4).map((event, index) => (
+          {pulseScenes.slice(0, 4).map((event, index) => (
             <button
               key={event.id}
               className={styles.pulseItem}
@@ -346,13 +397,15 @@ export function DiscoveryExperience() {
                 <strong>{event.city}</strong>
                 <span>{event.name}</span>
                 <small>
-                  {event.category} · {dateLabel(event.start)}
+                  {planMode
+                    ? `${event.category} · ${dateLabel(event.start)}`
+                    : `${event.buzz.heat} · heat ${Math.round(event.buzz.score)}/100`}
                 </small>
               </span>
               <span className={styles.arrow}>↗</span>
             </button>
           ))}
-          {scenes.length === 0 && (
+          {pulseScenes.length === 0 && (
             <p className={styles.noResults}>
               No matching events. Change your dates or search to explore more of
               the calendar.
