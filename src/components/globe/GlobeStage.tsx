@@ -10,7 +10,7 @@
  */
 
 import dynamic from 'next/dynamic';
-import type { Beacon } from '@/lib/types';
+import type { Beacon, GeoPoint } from '@/lib/types';
 import { GlobeFallback } from './GlobeFallback';
 
 const Globe = dynamic(() => import('./Globe'), {
@@ -21,12 +21,17 @@ const Globe = dynamic(() => import('./Globe'), {
 export interface GlobeStageProps {
   beacons: Beacon[];
   className?: string;
+  initialView?: GeoPoint;
 }
 
-export function GlobeStage({ beacons, className }: GlobeStageProps) {
+export function GlobeStage({
+  beacons,
+  className,
+  initialView,
+}: GlobeStageProps) {
   return (
     <div className={`relative h-full w-full ${className ?? ''}`}>
-      <Globe beacons={beacons} />
+      <Globe beacons={beacons} initialView={initialView} />
     </div>
   );
 }
