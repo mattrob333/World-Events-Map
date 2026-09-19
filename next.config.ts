@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@react-three/drei', 'motion'],
   },
+  allowedDevOrigins: ['127.0.0.1', 'localhost'],
 };
 
 export default nextConfig;

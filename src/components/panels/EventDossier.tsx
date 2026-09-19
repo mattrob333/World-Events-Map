@@ -36,6 +36,9 @@ import type { BuzzSignals } from '@/lib/types';
 import { VenueMap } from './VenueMap';
 import { isDemoMode } from '@/lib/flags';
 import { EventSaveButton } from '@/components/community/EventSaveButton';
+import { getDestinationByEventId } from '@/lib/pulse';
+import { EVENTS } from '@/lib/data/events';
+import Link from 'next/link';
 
 /** Plain English for the six raw signals. The engine's field names are not copy. */
 const SIGNAL_LABEL: Record<keyof BuzzSignals, string> = {
@@ -105,6 +108,7 @@ export function EventDossier({ className }: EventDossierProps) {
     const max = Math.max(...rows.map((r) => r.value), 0.001);
     return rows.map((r) => ({ ...r, ratio: r.value / max }));
   }, [event]);
+  const destination = event ? getDestinationByEventId(EVENTS, event.id) : undefined;
 
   return (
     <AnimatePresence>
@@ -121,11 +125,13 @@ export function EventDossier({ className }: EventDossierProps) {
             // and clear of the ranked rail on the right. The centre stays open.
             // The top offset is `--chrome-h`, measured and published by the
             // shell — the scrubber collapses, so no constant could be right.
-            'glass-deep fixed bottom-4 left-4 right-4 z-40 flex md:right-auto md:w-[min(32rem,46vw)]',
+            'glass-deep fixed left-4 right-4 z-30 flex overflow-hidden md:right-auto md:w-[min(32rem,46vw)] md:z-40',
+            // Phone bottom nav is h-14 (3.5rem). Keep the briefing clear of it.
+            'bottom-[4.75rem] max-h-[calc(100dvh-8.25rem)] md:bottom-4 md:max-h-[calc(100dvh-5rem)]',
             'flex-col rounded-[3px] outline-none',
             className,
           )}
-          style={{ top: '1rem', maxHeight: 'calc(100dvh - 2rem)' }}
+          style={{ top: '3.5rem' }}
           initial={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
@@ -167,8 +173,21 @@ export function EventDossier({ className }: EventDossierProps) {
 
           <ScrollArea contentClassName="flex flex-col gap-6 px-5 pb-6">
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <a className="rounded-xl bg-brass px-3 py-3 text-center font-medium text-void" href={`/community?event=${encodeURIComponent(event.id)}&tab=offers`}>Find access & stays ↗</a>
-              <a className="rounded-xl border border-brass/40 px-3 py-3 text-center text-brass-bright" href={`/community?event=${encodeURIComponent(event.id)}`}>Find a circle ↗</a>
+              {destination && (
+                <Link
+                  className="col-span-2 rounded-[2px] border border-commit/40 px-3 py-3 text-center text-commit"
+                  href={`/destinations/${destination.slug}`}
+                >
+                  Open {event.city} destination →
+                </Link>
+              )}
+              <Link className="rounded-[2px] bg-brass/90 px-3 py-3 text-center font-medium text-void" href="/access">Find access & stays ↗</Link>
+              <Link
+                className="rounded-[2px] border border-brass/40 px-3 py-3 text-center text-brass-bright"
+                href={destination ? `/circles?destination=${destination.slug}` : '/circles'}
+              >
+                Find a circle ↗
+              </Link>
             </div>
             <EventSaveButton eventId={event.id} />
             <VenueMap event={event} />

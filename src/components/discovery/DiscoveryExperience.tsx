@@ -8,7 +8,7 @@ import { EventDossier, HoverReadout } from '@/components/panels';
 import { SocialLive } from '@/components/social';
 import { GlobeControls } from '@/components/chrome';
 import { Timeline } from '@/components/timeline';
-import { useBeacons, useScoredEvents, type ScoredEvent } from '@/lib/selectors';
+import { useBeacons, useScoredEvents } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { useChromeStore } from '@/lib/stores/useChromeStore';
@@ -20,6 +20,9 @@ import { LivePulse } from '@/components/panels/LivePulse';
 import { isHappeningToday } from '@/lib/data/scene-time';
 import { greatCircleDistanceKm } from '@/lib/geo/projection';
 import { useViewerLocation } from '@/lib/location/useViewerLocation';
+import { EVENTS } from '@/lib/data/events';
+import { indexDestinations } from '@/lib/pulse';
+import { track } from '@/lib/analytics';
 
 const dateLabel = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', {
@@ -94,6 +97,14 @@ export function DiscoveryExperience() {
   );
 
   const pulseScenes = planMode ? scenes : worldHeat;
+  const destinationsIndex = useMemo(() => indexDestinations(EVENTS), []);
+  const destinationHref = (eventId: string) => {
+    const destination = destinationsIndex.byEventId.get(eventId);
+    return destination ? `/destinations/${destination.slug}` : `/?event=${eventId}`;
+  };
+  useEffect(() => {
+    track('world_opened', { surface: 'pulse' });
+  }, []);
   const spotlight = planMode ? scenes[0] : (nearbyScenes[0]?.event ?? worldHeat[0]);
   const spotlightDistance =
     !planMode && nearbyScenes[0]?.event.id === spotlight?.id
@@ -143,10 +154,6 @@ export function DiscoveryExperience() {
     flyTo(event.coords);
   }, [linkedEventId, calendar, rangeStart, setFocus, reset, select, flyTo]);
 
-  const explore = (event: ScoredEvent) => {
-    select(event.id);
-    flyTo(event.coords);
-  };
   const beginPlanning = () => {
     setPlanning(true);
     useChromeStore.getState().setTimelineCollapsed(false);
@@ -158,30 +165,6 @@ export function DiscoveryExperience() {
 
   return (
     <main className={styles.page} style={{ ['--chrome-h' as string]: '5rem' }}>
-      <header className={styles.header}>
-        <Link href="/" className={styles.brand}>
-          MERIDIAN<span>THE WORLD, WELL LIVED.</span>
-        </Link>
-        <nav className={styles.nav} aria-label="Main navigation">
-          <button className={!planMode ? styles.active : ''} onClick={now}>
-            The world now
-          </button>
-          <button
-            className={planMode ? styles.active : ''}
-            onClick={beginPlanning}
-          >
-            Plan a trip
-          </button>
-          <Link href="/community">Circles</Link>
-        </nav>
-        <div className={styles.account}>
-          <Link href="/partners">For partners ↗</Link>
-          <Link href="/account" className={styles.signIn}>
-            Your account ↗
-          </Link>
-        </div>
-      </header>
-
       <div className={styles.toolbar}>
         <div className={styles.status}>
           <i />
@@ -340,15 +323,12 @@ export function DiscoveryExperience() {
                       : 'On the calendar today'}
                 </span>
               </div>
-              <button
-                className={styles.primary}
-                onClick={() => explore(spotlight)}
-              >
-                Explore this place <span>↗</span>
-              </button>
+              <Link className={styles.primary} href={destinationHref(spotlight.id)}>
+                Open {spotlight.city} <span>↗</span>
+              </Link>
               <Link
                 className={styles.textLink}
-                href={`/community?event=${spotlight.id}`}
+                href={`/circles?destination=${destinationsIndex.byEventId.get(spotlight.id)?.slug ?? ''}`}
               >
                 Start a Circle here →
               </Link>
@@ -390,10 +370,10 @@ export function DiscoveryExperience() {
               : 'The strongest current travel-demand signals, regardless of distance.'}
           </p>
           {pulseScenes.slice(0, 4).map((event, index) => (
-            <button
+            <Link
               key={event.id}
               className={styles.pulseItem}
-              onClick={() => explore(event)}
+              href={destinationHref(event.id)}
             >
               <span className={styles.number}>0{index + 1}</span>
               <span>
@@ -406,7 +386,7 @@ export function DiscoveryExperience() {
                 </small>
               </span>
               <span className={styles.arrow}>↗</span>
-            </button>
+            </Link>
           ))}
           {pulseScenes.length === 0 && (
             <p className={styles.noResults}>
@@ -455,14 +435,10 @@ export function DiscoveryExperience() {
         </div>
         <div className={styles.cards}>
           {upcoming.map((event, index) => (
-            <button
+            <Link
               className={`${styles.eventCard} ${styles[`card${index}`]}`}
               key={event.id}
-              onClick={() => {
-                beginPlanning();
-                setFocus(event.start);
-                explore(event);
-              }}
+              href={destinationHref(event.id)}
             >
               <div className={styles.cardTop}>
                 <span>{event.category}</span>
@@ -478,10 +454,10 @@ export function DiscoveryExperience() {
                 <h3>{event.name}</h3>
                 <p>{event.tagline}</p>
                 <span className={styles.cardAction}>
-                  Discover the occasion ↗
+                  Open {event.city} ↗
                 </span>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
         {!upcoming.length && (
@@ -538,12 +514,12 @@ export function DiscoveryExperience() {
         {showAll && (
           <div className={styles.directoryGrid}>
             {scenes.map((event) => (
-              <button key={event.id} onClick={() => explore(event)}>
+              <Link key={event.id} href={destinationHref(event.id)}>
                 <strong>{event.name}</strong>
                 <span>
                   {event.city} · {dateLabel(event.start)} ↗
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         )}
