@@ -13,7 +13,10 @@ export type ViewerLocationStatus =
 export type ViewerLocationSource = 'none' | 'timezone' | 'browser';
 
 export interface ViewerLocationState {
+  /** Current ephemeral location context, browser-refined when permission allows. */
   coords: GeoPoint | null;
+  /** Frozen first-paint viewpoint so browser refinement animates instead of snapping. */
+  launchCoords: GeoPoint | null;
   status: ViewerLocationStatus;
   source: ViewerLocationSource;
 }
@@ -56,6 +59,7 @@ export function fallbackForTimeZone(timeZone: string): GeoPoint {
 export function useViewerLocation() {
   const [state, setState] = useState<ViewerLocationState>({
     coords: null,
+    launchCoords: null,
     status: 'booting',
     source: 'none',
   });
@@ -70,14 +74,15 @@ export function useViewerLocation() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setState({
+        setState((current) => ({
+          ...current,
           coords: {
             lat: coarse(position.coords.latitude),
             lon: coarse(position.coords.longitude),
           },
           status: 'granted',
           source: 'browser',
-        });
+        }));
       },
       (error) => {
         setState((current) => ({
@@ -95,8 +100,10 @@ export function useViewerLocation() {
 
   useEffect(() => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    const fallback = fallbackForTimeZone(timeZone);
     setState({
-      coords: fallbackForTimeZone(timeZone),
+      coords: fallback,
+      launchCoords: fallback,
       status: 'locating',
       source: 'timezone',
     });
