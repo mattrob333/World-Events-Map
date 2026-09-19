@@ -436,7 +436,7 @@ export function DiscoveryExperience() {
           </div>
         </div>
         <div className={styles.globeHint}>
-          DRAG TO EXPLORE <span>·</span> SELECT A BEACON TO GO DEEPER
+          DRAG TO ORBIT <span>·</span> CTRL/CMD + SCROLL OR PINCH TO ZOOM <span>·</span> SCROLL TO MOVE DOWN THE PAGE
         </div>
         <div className={styles.globeControls}>
           <GlobeControls />
