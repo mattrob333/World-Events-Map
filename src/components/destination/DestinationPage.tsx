@@ -76,7 +76,7 @@ function DestinationLoaded({
     : `/circles?destination=${pulse.slug}`;
 
   return (
-    <main className="px-4 pb-20 pt-6 sm:px-8">
+    <main className="px-4 pb-32 pt-6 sm:px-8">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.8fr)]">
         <header className="min-w-0">
           <p className="label-sm text-brass">{pulse.country}</p>
@@ -115,14 +115,16 @@ function DestinationLoaded({
         </aside>
       </div>
 
-      <div className="mt-10 flex gap-1 overflow-x-auto border-b border-ink/10 pb-px">
+      <div className="mt-10 flex gap-1 overflow-x-auto" role="tablist" aria-label="Destination sections">
         {TABS.map((item) => (
           <button
             key={item}
             type="button"
+            role="tab"
+            aria-selected={tab === item}
             className={cn(
-              'label shrink-0 px-3 py-3 text-ink-muted hover:text-ink',
-              tab === item && 'text-brass border-b border-brass',
+              'label min-h-11 shrink-0 rounded-[2px] px-3 py-3 text-ink-muted hover:text-ink',
+              tab === item && 'bg-brass-wash text-brass',
             )}
             onClick={() => onTab(item)}
           >
@@ -259,7 +261,7 @@ function DestinationLoaded({
         )}
       </section>
 
-      <div className="sticky bottom-20 z-20 mt-10 flex justify-end md:bottom-6">
+      <div className="sticky bottom-24 z-20 mt-10 flex justify-end md:bottom-6">
         <Link
           href={startHref}
           className="inline-flex h-10 items-center rounded-[2px] border border-commit/50 bg-void/90 px-5 label text-commit shadow-lg"

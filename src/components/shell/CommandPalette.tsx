@@ -82,14 +82,18 @@ export function CommandPalette() {
     <div
       className="fixed inset-0 z-[80] flex items-start justify-center bg-void/70 px-3 pt-[12vh]"
       role="presentation"
-      onClick={() => setOpen(false)}
+      onMouseDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        if (Date.now() - useCommandStore.getState().openedAt < 400) return;
+        setOpen(false);
+      }}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search MERIDIAN"
         className="glass-deep w-full max-w-xl overflow-hidden rounded-[3px]"
-        onClick={(event) => event.stopPropagation()}
+        onMouseDown={(event) => event.stopPropagation()}
       >
         <label className="flex items-center gap-3 border-b border-ink/10 px-4 py-3">
           <span className="label-sm text-ink-muted">Search</span>
@@ -151,7 +155,10 @@ export function SearchTrigger({ className }: { className?: string }) {
   return (
     <button
       type="button"
-      onClick={() => setOpen(true)}
+      onClick={(event) => {
+        event.stopPropagation();
+        setOpen(true);
+      }}
       className={cn(
         'inline-flex h-8 items-center gap-2 rounded-[2px] border border-ink/10 px-2.5 text-[11px] text-ink-muted hover:border-ink/25 hover:text-ink',
         className,

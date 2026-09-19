@@ -118,12 +118,14 @@ export function TripRoom({ id }: { id: string }) {
         </div>
       </header>
 
-      <div className="mt-8 flex gap-1 overflow-x-auto border-b border-ink/10">
+      <div className="mt-8 flex gap-1 overflow-x-auto" role="tablist" aria-label="Trip room sections">
         {TABS.map((item) => (
           <button
             key={item}
             type="button"
-            className={`label shrink-0 px-3 py-3 ${tab === item ? 'text-brass' : 'text-ink-muted'}`}
+            role="tab"
+            aria-selected={tab === item}
+            className={`label min-h-11 shrink-0 rounded-[2px] px-3 py-3 ${tab === item ? 'bg-brass-wash text-brass' : 'text-ink-muted'}`}
             onClick={() => setTab(item)}
           >
             {item}

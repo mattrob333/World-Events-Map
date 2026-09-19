@@ -6,10 +6,12 @@ interface CommandState {
   open: boolean;
   setOpen: (open: boolean) => void;
   toggle: () => void;
+  openedAt: number;
 }
 
-export const useCommandStore = create<CommandState>((set) => ({
+export const useCommandStore = create<CommandState>((set, get) => ({
   open: false,
-  setOpen: (open) => set({ open }),
-  toggle: () => set((s) => ({ open: !s.open })),
+  openedAt: 0,
+  setOpen: (open) => set({ open, openedAt: open ? Date.now() : 0 }),
+  toggle: () => get().setOpen(!get().open),
 }));
