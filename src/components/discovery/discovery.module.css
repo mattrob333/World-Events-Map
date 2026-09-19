@@ -1102,3 +1102,67 @@
     padding-right: 0;
   }
 }
+
+
+.locationButton {
+  color: #d7c197;
+  font-size: 11px;
+  white-space: nowrap;
+  border: 1px solid #d7c19733;
+  padding: 8px 11px;
+  background: #ffffff05;
+}
+
+.locationButton:hover:not(:disabled) {
+  border-color: #d7c19766;
+  background: #d7c1970b;
+}
+
+.locationButton:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.globeBoot {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 13px;
+  background:
+    radial-gradient(circle at 50% 45%, #1f2f4828, transparent 34%),
+    #080b11;
+  color: #cfc4b1;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.globeBoot span {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #d5bd8f44;
+  box-shadow: 0 0 28px #8cb9ff18;
+  animation: pulseBoot 1.4s ease-in-out infinite;
+}
+
+@keyframes pulseBoot {
+  0%, 100% { transform: scale(0.92); opacity: 0.45; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .locationButton {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .locationButton {
+    order: 4;
+    padding: 7px 9px;
+    font-size: 9px;
+  }
+}
