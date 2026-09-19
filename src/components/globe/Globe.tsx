@@ -34,9 +34,10 @@ import {
 } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
-import type { Beacon } from '@/lib/types';
+import type { Beacon, GeoPoint } from '@/lib/types';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { VOID } from '@/lib/geo/heat';
+import { latLonToVec3 } from '@/lib/geo/projection';
 import { Earth } from './Earth';
 import { Atmosphere } from './Atmosphere';
 import { Starfield } from './Starfield';
@@ -45,9 +46,14 @@ import { CameraRig } from './CameraRig';
 import { Effects } from './Effects';
 import { GlobeFallback } from './GlobeFallback';
 
+const DEFAULT_INITIAL_VIEW: GeoPoint = { lat: 24, lon: 8 };
+const INITIAL_DISTANCE = 3.9;
+
 export interface GlobeProps {
   beacons: Beacon[];
   className?: string;
+  /** Opening viewpoint only. Runtime movement continues through useGlobeStore. */
+  initialView?: GeoPoint;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -57,13 +63,14 @@ export interface GlobeProps {
 interface SceneProps {
   beacons: Beacon[];
   onReady: () => void;
+  initialView: GeoPoint;
 }
 
 /**
  * Scene contents. Exported so a host that already owns a `<Canvas>` (a
  * storybook, a comparison harness) can drop the world into it directly.
  */
-export function GlobeScene({ beacons, onReady }: SceneProps) {
+export function GlobeScene({ beacons, onReady, initialView }: SceneProps) {
   return (
     <>
       {/* The globe is lit entirely by its own shaders, so the only real light
@@ -76,7 +83,11 @@ export function GlobeScene({ beacons, onReady }: SceneProps) {
       <Atmosphere />
       <BeaconField beacons={beacons} />
 
-      <CameraRig />
+      <CameraRig
+        initialDistance={INITIAL_DISTANCE}
+        initialLat={initialView.lat}
+        initialLon={initialView.lon}
+      />
       <Effects />
     </>
   );
@@ -130,6 +141,7 @@ export interface GlobeCanvasProps extends GlobeProps {
 export function GlobeCanvas({
   beacons,
   className,
+  initialView = DEFAULT_INITIAL_VIEW,
   onContextLost,
   onContextRestored,
 }: GlobeCanvasProps) {
@@ -140,6 +152,14 @@ export function GlobeCanvas({
   useEffect(() => () => setReady(false), [setReady]);
 
   const background = useMemo(() => new THREE.Color(VOID), []);
+  const initialCameraPosition = useMemo(() => {
+    const position = latLonToVec3(
+      initialView.lat,
+      initialView.lon,
+      INITIAL_DISTANCE,
+    );
+    return [position.x, position.y, position.z] as [number, number, number];
+  }, [initialView.lat, initialView.lon]);
 
   return (
     <Canvas
@@ -153,10 +173,14 @@ export function GlobeCanvas({
         depth: true,
         preserveDrawingBuffer: false,
       }}
-      // Matches CameraRig's opening pose exactly — latLonToVec3(24°N, 8°E,
-      // 3.9) — so frame zero is already the shot rather than a one-frame jump
-      // to it.
-      camera={{ fov: 34, near: 0.02, far: 400, position: [3.528, 1.586, -0.495] }}
+      // Frame zero and CameraRig start from the same geographic direction, so
+      // the member never sees the old Africa-facing default before context wins.
+      camera={{
+        fov: 34,
+        near: 0.02,
+        far: 400,
+        position: initialCameraPosition,
+      }}
       onCreated={({ gl, scene }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.08;
@@ -168,7 +192,11 @@ export function GlobeCanvas({
         onLost={onContextLost ?? noop}
         onRestored={onContextRestored ?? noop}
       />
-      <GlobeScene beacons={beacons} onReady={handleReady} />
+      <GlobeScene
+        beacons={beacons}
+        onReady={handleReady}
+        initialView={initialView}
+      />
     </Canvas>
   );
 }
@@ -214,7 +242,11 @@ class GlobeErrorBoundary extends Component<BoundaryProps, BoundaryState> {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-function GlobeImpl({ beacons, className }: GlobeProps) {
+function GlobeImpl({
+  beacons,
+  className,
+  initialView = DEFAULT_INITIAL_VIEW,
+}: GlobeProps) {
   const [contextLost, setContextLost] = useState(false);
   const ready = useGlobeStore((s) => s.ready);
   const setReady = useGlobeStore((s) => s.setReady);
@@ -244,6 +276,7 @@ function GlobeImpl({ beacons, className }: GlobeProps) {
       <GlobeErrorBoundary fallback={<GlobeFallback kind="unsupported" />}>
         <GlobeCanvas
           beacons={beacons}
+          initialView={initialView}
           onContextLost={handleLost}
           onContextRestored={handleRestored}
         />
