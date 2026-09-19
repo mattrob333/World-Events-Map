@@ -263,7 +263,10 @@ export function DiscoveryExperience() {
       <section className={styles.world} aria-label="World discovery">
         <div className={styles.globe}>
           {viewer.coords ? (
-            <GlobeStage beacons={visibleBeacons} initialView={viewer.coords} />
+            <GlobeStage
+              beacons={visibleBeacons}
+              initialView={viewer.launchCoords ?? viewer.coords}
+            />
           ) : (
             <div className={styles.globeBoot}>
               <span />
