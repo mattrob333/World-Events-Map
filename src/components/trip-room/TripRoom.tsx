@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { Button, EmptyState, Panel, formatDateRange } from '@/components/ui';
+import { Button, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
 import { FixtureBanner, OpportunityCardView } from '@/components/shell';
 import {
   INSPIRATION_FIXTURE_DISCLOSURE,
@@ -11,7 +11,13 @@ import {
   type InspirationVote,
 } from '@/lib/inspiration';
 import { ACCESS_FIXTURE_DISCLOSURE, listOpportunities } from '@/lib/access';
-import { TRIP_ROOM_DISCLOSURE, TRIP_ROOM_FIXTURES, getTripRoom } from '@/lib/trips';
+import {
+  TRIP_ROOM_DISCLOSURE,
+  TRIP_ROOM_FIXTURES,
+  getTripRoom,
+  listTripRoomsForSlug,
+  type TripRoomFixture,
+} from '@/lib/trips';
 import { getTraveler, TRAVELER_PORTRAITS } from '@/lib/travelers';
 import { getDestinationBySlug } from '@/lib/pulse';
 import { EVENTS } from '@/lib/data/events';
@@ -22,7 +28,15 @@ import { track } from '@/lib/analytics';
 const TABS = ['overview', 'inspiration', 'plan', 'people', 'access', 'chat'] as const;
 type Tab = (typeof TABS)[number];
 
-export function CirclesIndex() {
+export function CirclesIndex({ destination }: { destination?: string }) {
+  const slug = destination?.trim().toLowerCase() ?? '';
+  const pulse = slug ? getDestinationBySlug(EVENTS, slug, todayISO()) : undefined;
+  const matching = slug ? listTripRoomsForSlug(slug) : [];
+  const rest = slug
+    ? TRIP_ROOM_FIXTURES.filter((trip) => trip.destinationSlug !== slug)
+    : TRIP_ROOM_FIXTURES;
+  const placeName = pulse?.name ?? slug;
+
   return (
     <main className="px-4 py-10 sm:px-8">
       <p className="label-sm text-brass">Circles</p>
@@ -31,16 +45,41 @@ export function CirclesIndex() {
         A Circle is a trip, not a chat thread. Live Circles still live in Community for members who are signed in.
       </p>
       <FixtureBanner>{TRIP_ROOM_DISCLOSURE}</FixtureBanner>
-      <div className="mt-8 grid gap-3 lg:grid-cols-2">
-        {TRIP_ROOM_FIXTURES.map((trip) => (
-          <Link key={trip.id} href={`/circles/${trip.id}`} className="glass rounded-[3px] p-5">
-            <p className="label-sm text-brass">{trip.destinationLabel}</p>
-            <h2 className="mt-2 font-display text-3xl text-ink">{trip.name}</h2>
-            <p className="mt-2 text-[12px] text-ink-muted">
-              {formatDateRange(trip.start, trip.end)} · {trip.travelMode}
+      {slug ? (
+        <section className="mt-8 border border-brass/25 bg-brass-wash px-4 py-4">
+          <p className="label-sm text-brass">Starting from {placeName}</p>
+          {matching.length === 0 ? (
+            <p className="mt-2 max-w-xl text-[13px] text-ink-muted">
+              No sample trip room for this destination yet. Live Circles still live in Community
+              for members — this preview does not invent a new Circle.
             </p>
-            <p className="mt-4 text-[13px] text-ink-muted">{trip.nextDecision}</p>
-          </Link>
+          ) : (
+            <p className="mt-2 max-w-xl text-[13px] text-ink-muted">
+              Sample rooms already on this destination. Opening one does not create a live Circle.
+            </p>
+          )}
+          <div className="mt-3 flex flex-wrap gap-4 text-[13px]">
+            {pulse ? (
+              <Link href={`/destinations/${pulse.slug}`} className="text-brass">
+                Back to {pulse.name}
+              </Link>
+            ) : null}
+            <Link href="/community" className="text-brass">
+              Open live Circles
+            </Link>
+          </div>
+        </section>
+      ) : null}
+      {matching.length > 0 ? (
+        <div className="mt-8 grid gap-3 lg:grid-cols-2">
+          {matching.map((trip) => (
+            <TripRoomCard key={trip.id} trip={trip} highlight />
+          ))}
+        </div>
+      ) : null}
+      <div className="mt-8 grid gap-3 lg:grid-cols-2">
+        {rest.map((trip) => (
+          <TripRoomCard key={trip.id} trip={trip} />
         ))}
       </div>
       <p className="mt-8 text-[13px] text-ink-muted">
@@ -51,6 +90,28 @@ export function CirclesIndex() {
         .
       </p>
     </main>
+  );
+}
+
+function TripRoomCard({
+  trip,
+  highlight,
+}: {
+  trip: TripRoomFixture;
+  highlight?: boolean;
+}) {
+  return (
+    <Link
+      href={`/circles/${trip.id}`}
+      className={cn('glass rounded-[3px] p-5', highlight && 'border border-brass/40')}
+    >
+      <p className="label-sm text-brass">{trip.destinationLabel}</p>
+      <h2 className="mt-2 font-display text-3xl text-ink">{trip.name}</h2>
+      <p className="mt-2 text-[12px] text-ink-muted">
+        {formatDateRange(trip.start, trip.end)} · {trip.travelMode}
+      </p>
+      <p className="mt-4 text-[13px] text-ink-muted">{trip.nextDecision}</p>
+    </Link>
   );
 }
 

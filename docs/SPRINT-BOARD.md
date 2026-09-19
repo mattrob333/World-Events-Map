@@ -37,8 +37,8 @@ Agents must import these. Do not invent parallel types.
 | Partner studio polish | Orchestrator | `src/app/partners/page.tsx`, `src/app/partners/studio.module.css` | done | tokens | orchestrator |
 | Onboarding | Orchestrator | `src/app/welcome/**`, `src/components/onboarding/**` | done | onboarding types | orchestrator |
 | Trips / saved | Orchestrator | `src/app/trips/**` | done | intent store | orchestrator |
-| Responsive / a11y pass | QA | visual + keyboard | pending | all surfaces | orchestrator |
-| Integration review | Senior reviewer | whole diff | pending | gate green | high-capability |
+| Responsive / a11y pass | QA | visual + keyboard | done (review blockers) | all surfaces | orchestrator |
+| Integration review | Senior reviewer | whole diff | blockers addressed | gate green | high-capability |
 | `npm run gate` | Orchestrator | — | pending | all | — |
 
 ## Parallelization rules

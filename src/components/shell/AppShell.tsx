@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { cn } from '@/components/ui';
 import { useOnboardingStore } from '@/lib/onboarding';
 import { CommandPalette, SearchTrigger } from './CommandPalette';
@@ -22,18 +22,41 @@ const MOBILE = [
   { href: '/access', label: 'Access' },
 ] as const;
 
+// Phone bottom bar only has five slots. NOW, Trips, and Profile live here
+// so they stay reachable without crowding the primary tabs.
+const MORE_LINKS = [
+  { href: '/now', label: 'Now', hint: "Tonight's scene" },
+  { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
+  { href: '/account', label: 'Profile', hint: 'Your traveler lens' },
+] as const;
+
 function activePath(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function moreIsActive(pathname: string): boolean {
+  return MORE_LINKS.some((item) => activePath(pathname, item.href));
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '/';
   const [mounted, setMounted] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const morePanelId = useId();
   const completed = useOnboardingStore((s) => s.completed);
   const skip = useOnboardingStore((s) => s.skip);
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => setMoreOpen(false), [pathname]);
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMoreOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [moreOpen]);
 
   const world = pathname === '/';
   const welcome = pathname.startsWith('/welcome');
@@ -139,18 +162,53 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </li>
           ))}
           <li>
-            <Link
-              href="/trips"
+            <button
+              type="button"
               className={cn(
-                'flex h-14 items-center justify-center label-sm text-ink-muted',
-                pathname.startsWith('/trips') && 'text-brass',
+                'flex h-14 w-full items-center justify-center label-sm text-ink-muted',
+                (moreOpen || moreIsActive(pathname)) && 'text-brass',
               )}
+              aria-expanded={moreOpen}
+              aria-controls={morePanelId}
+              aria-haspopup="menu"
+              aria-label="More"
+              onClick={() => setMoreOpen((open) => !open)}
             >
               More
-            </Link>
+            </button>
           </li>
         </ul>
       </nav>
+      {moreOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close more menu"
+            className="fixed inset-x-0 bottom-14 top-0 z-[45] bg-void/50 md:hidden"
+            onClick={() => setMoreOpen(false)}
+          />
+          <div
+            id={morePanelId}
+            role="menu"
+            className="glass-deep fixed inset-x-0 bottom-14 z-50 border-t border-ink/10 px-3 py-3 md:hidden"
+          >
+            {MORE_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                role="menuitem"
+                className={cn(
+                  'flex items-baseline justify-between gap-3 px-3 py-3 text-ink-muted',
+                  activePath(pathname, item.href) && 'text-brass',
+                )}
+              >
+                <span className="label">{item.label}</span>
+                <span className="text-[12px] text-ink-faint">{item.hint}</span>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
       <CommandPalette />
     </div>
   );

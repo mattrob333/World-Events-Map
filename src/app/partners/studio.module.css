@@ -1,8 +1,8 @@
 .page {
-  min-height: 100dvh;
+  min-height: 0;
   background: var(--color-void);
   color: var(--color-ink);
-  padding: 28px clamp(20px, 5vw, 90px);
+  padding: 28px clamp(20px, 5vw, 90px) 96px;
   font: 15px / 1.6 var(--font-sans);
 }
 .header {

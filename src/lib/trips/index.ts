@@ -4,4 +4,5 @@ export {
   TRIP_ROOM_FIXTURES,
   getTripRoom,
   listTripRoomsForDestination,
+  listTripRoomsForSlug,
 } from './fixtures';

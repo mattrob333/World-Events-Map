@@ -51,3 +51,9 @@ export function getTripRoom(id: string): TripRoomFixture | undefined {
 export function listTripRoomsForDestination(destinationId: string): TripRoomFixture[] {
   return TRIP_ROOM_FIXTURES.filter((trip) => trip.destinationId === destinationId);
 }
+
+export function listTripRoomsForSlug(slug: string): TripRoomFixture[] {
+  const needle = slug.trim().toLowerCase();
+  if (!needle) return [];
+  return TRIP_ROOM_FIXTURES.filter((trip) => trip.destinationSlug === needle);
+}

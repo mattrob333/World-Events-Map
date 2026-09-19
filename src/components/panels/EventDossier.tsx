@@ -125,11 +125,13 @@ export function EventDossier({ className }: EventDossierProps) {
             // and clear of the ranked rail on the right. The centre stays open.
             // The top offset is `--chrome-h`, measured and published by the
             // shell — the scrubber collapses, so no constant could be right.
-            'glass-deep fixed bottom-4 left-4 right-4 z-40 flex md:right-auto md:w-[min(32rem,46vw)]',
+            'glass-deep fixed left-4 right-4 z-30 flex overflow-hidden md:right-auto md:w-[min(32rem,46vw)] md:z-40',
+            // Phone bottom nav is h-14 (3.5rem). Keep the briefing clear of it.
+            'bottom-[4.75rem] max-h-[calc(100dvh-8.25rem)] md:bottom-4 md:max-h-[calc(100dvh-5rem)]',
             'flex-col rounded-[3px] outline-none',
             className,
           )}
-          style={{ top: '3.5rem', maxHeight: 'calc(100dvh - 5rem)' }}
+          style={{ top: '3.5rem' }}
           initial={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
@@ -180,7 +182,12 @@ export function EventDossier({ className }: EventDossierProps) {
                 </Link>
               )}
               <Link className="rounded-[2px] bg-brass/90 px-3 py-3 text-center font-medium text-void" href="/access">Find access & stays ↗</Link>
-              <Link className="rounded-[2px] border border-brass/40 px-3 py-3 text-center text-brass-bright" href="/circles">Find a circle ↗</Link>
+              <Link
+                className="rounded-[2px] border border-brass/40 px-3 py-3 text-center text-brass-bright"
+                href={destination ? `/circles?destination=${destination.slug}` : '/circles'}
+              >
+                Find a circle ↗
+              </Link>
             </div>
             <EventSaveButton eventId={event.id} />
             <VenueMap event={event} />

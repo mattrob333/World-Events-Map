@@ -1,11 +1,12 @@
 import { EVENTS } from '@/lib/data/events';
 import { listOpportunities } from '@/lib/access';
 import { listAllInspiration } from '@/lib/inspiration';
-import { buildDestinationPulses } from '@/lib/pulse';
+import { buildDestinationPulses, slugifyPlace } from '@/lib/pulse';
 import { TRAVELER_PORTRAITS } from '@/lib/travelers';
 import { TRIP_ROOM_FIXTURES } from '@/lib/trips/fixtures';
 
 export const SEARCH_GROUPS = [
+  'pages',
   'destinations',
   'events',
   'people',
@@ -26,6 +27,7 @@ export interface SearchHit {
 }
 
 export const SEARCH_GROUP_LABEL: Record<SearchGroup, string> = {
+  pages: 'Pages',
   destinations: 'Destinations',
   events: 'Events',
   people: 'People',
@@ -40,7 +42,33 @@ function haystack(...parts: Array<string | undefined>): string {
 
 export function buildSearchCatalog(now?: string): SearchHit[] {
   const destinations = buildDestinationPulses(EVENTS, now);
-  const hits: SearchHit[] = [];
+  const destinationById = new Map(destinations.map((pulse) => [pulse.id, pulse]));
+  const hits: SearchHit[] = [
+    {
+      id: 'page-now',
+      group: 'pages',
+      title: 'NOW',
+      subtitle: "Tonight's scene — live local brief",
+      href: '/now',
+      keywords: haystack('now', 'tonight', 'nearby', 'scene', 'local'),
+    },
+    {
+      id: 'page-trips',
+      group: 'pages',
+      title: 'Trips',
+      subtitle: 'Saved, watched, and I’d go',
+      href: '/trips',
+      keywords: haystack('trips', 'saved', 'watched'),
+    },
+    {
+      id: 'page-account',
+      group: 'pages',
+      title: 'Profile',
+      subtitle: 'Your traveler lens',
+      href: '/account',
+      keywords: haystack('profile', 'account', 'settings'),
+    },
+  ];
 
   for (const pulse of destinations) {
     hits.push({
@@ -103,12 +131,15 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
   }
 
   for (const item of listAllInspiration()) {
+    const pulse = destinationById.get(item.destinationId);
+    const city = item.destinationId.split('|')[0] ?? '';
+    const slug = pulse?.slug ?? slugifyPlace(city);
     hits.push({
       id: `insp-${item.id}`,
       group: 'saved',
       title: item.title,
       subtitle: `${item.kind} · editorial board`,
-      href: `/destinations/${item.destinationId.split('|')[0]?.replace(/[^a-z0-9]+/g, '-')}`,
+      href: slug ? `/destinations/${slug}` : '/circles',
       keywords: haystack(item.title, item.subtitle, item.kind, item.category),
     });
   }
