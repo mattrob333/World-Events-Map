@@ -126,3 +126,13 @@
 ---
 
 *Notes end — 2026-09-22*
+
+
+---
+
+## Decision lock (2026-09-22) — Matt via EA
+
+HOLD commercial paths for Amadeus, PredictHQ, Ticketmaster (no sales / paid Order Forms).
+BUILD on BestTime (GO) + free/conditional sources with honest fixtures.
+Escalate to EA only when a key/payment blocks the next demo.
+SOURCE-ACCESS-MATRIX updated accordingly.

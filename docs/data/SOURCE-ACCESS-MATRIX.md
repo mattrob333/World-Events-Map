@@ -3,6 +3,7 @@
 **Product:** MERIDIAN (travel intelligence / travel ideas from signals)  
 **Scope:** Commercial API access rights — official public documentation only  
 **Checked date:** 2026-09-22  
+**Decision lock:** 2026-09-22 (Matt via EA) — HOLD commercial Amadeus/PredictHQ/Ticketmaster; BUILD BestTime + free/conditional sources.  
 **Method:** WebSearch + WebFetch/curl of vendor developer portals, pricing pages, and terms. No restricted-endpoint scraping. No invented pricing or terms. No secrets in this file.
 
 **Use-case assumption:** MERIDIAN displays *derived travel ideas / signals* to end users (not raw data marketplace redistribution), unless noted otherwise.
@@ -25,9 +26,42 @@
 
 ### Top escalations for Matt / EA
 
-1. **Amadeus Enterprise commercial negotiation** — self-service gone; need sales/Enterprise access for flight/hotel signals.  
-2. **PredictHQ paid plan + Order Form** — Permitted Use Extensions for Storage / Data Analysis / Data Enrichment / AI Tool use; payment + legal signature.  
-3. **Ticketmaster commercial / affiliate path** — General ToU §11 revenue restriction; confirm Discovery vs Partner/affiliate for monetized travel-ideas product; branding review for rate-limit increases.
+**Superseded 2026-09-22** by Product decision lock below (HOLD commercial for Amadeus / PredictHQ / Ticketmaster). Historical candidates kept for context:
+
+1. ~~Amadeus Enterprise commercial negotiation~~ — **HOLD**  
+2. ~~PredictHQ paid plan + Order Form~~ — **HOLD**  
+3. ~~Ticketmaster commercial / affiliate path~~ — **HOLD**
+
+
+---
+
+## Product decision lock (2026-09-22) — Matt via EA
+
+**HOLD commercial paths** for **Amadeus**, **PredictHQ**, and **Ticketmaster**. Do **not** start sales conversations or paid Order Forms for those three.
+
+**BUILD** on **BestTime (GO)** plus free/conditional sources (**X**, **SerpAPI / Google Trends**, **TypeSafe / Jev** where free or early-access credits apply) with **honest fixtures**. Phase 0–1 TravelSignal / Live Travel Wire continues.
+
+**Escalate to EA only** when a key or payment is required to ship the next demo.
+
+| Source | Access posture after lock | Signal Core / demos |
+|--------|---------------------------|---------------------|
+| Ticketmaster | **HOLD commercial** — no affiliate/Partner sales push; public Discovery remains CONDITIONAL on paper | Prefer fixtures / `unconfigured` until free-key demo needs escalate |
+| PredictHQ | **HOLD commercial** — no paid Starter/Premium or Order Form | Fixtures / `unconfigured` |
+| Amadeus | **HOLD commercial** + already **BLOCKED** self-service | Fixtures / `unconfigured` only |
+| BestTime | **BUILD** — GO | Live path OK once key obtained (escalate only if payment blocks demo) |
+| X | **BUILD** within free/conditional pay-as-you-go; escalate before spend | Fixture-honest until credits approved for demo |
+| SerpAPI / Trends | **BUILD** on free/conditional plan; Google *content* rights still need legal review | Fixture-honest until key needed |
+| TypeSafe / Jev | **BUILD** on early-access / free credits if available; no paid path assumed | No live Jev until cleared without paid path |
+
+### Top escalations for Matt / EA (revised)
+
+Previous top-3 sales escalations for Amadeus / PredictHQ / Ticketmaster are **on hold** per this lock.
+
+Active escalations only when they block the next demo:
+
+1. **BestTime key** (or paid tier) if required to ship a live NOW / venue busy-time demo.  
+2. **TypeSafe / Jev early-access or credits** if judgment demo needs a live call.  
+3. **SerpAPI and/or X credits** only if Trends/social momentum is in the next demo and free quota is insufficient.
 
 ---
 
