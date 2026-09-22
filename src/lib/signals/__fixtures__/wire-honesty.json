@@ -1,0 +1,35 @@
+{
+  "asOf": "2026-09-22T15:00:00.000Z",
+  "event": {
+    "id": "monaco-grand-prix",
+    "name": "Monaco Grand Prix",
+    "city": "Monaco",
+    "countryCode": "MC"
+  },
+  "fresh": {
+    "sourceId": "x",
+    "eventId": "monaco-grand-prix",
+    "patch": {
+      "socialMentions": 180,
+      "socialVelocity": 0.4
+    },
+    "observedAt": "2026-09-22T15:00:00.000Z",
+    "sourcePublishedAt": "2026-09-22T14:40:00.000Z",
+    "previousPatch": {
+      "socialMentions": 100,
+      "socialVelocity": 0.1
+    },
+    "previousObservedAt": "2026-09-22T14:50:00.000Z",
+    "previousSourcePublishedAt": "2026-09-22T14:20:00.000Z"
+  },
+  "stale": {
+    "sourceId": "google-trends",
+    "eventId": "monaco-grand-prix",
+    "patch": {
+      "searchInterest": 44,
+      "socialVelocity": -0.2
+    },
+    "observedAt": "2026-09-22T12:00:00.000Z",
+    "sourcePublishedAt": "2026-09-22T11:05:00.000Z"
+  }
+}
