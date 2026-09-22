@@ -42,15 +42,10 @@ export function TravelWire({
   const controlled = supplied !== undefined;
   const [fetched, setFetched] = useState<LiveTravelWire | null>(null);
   const [error, setError] = useState(false);
-  const [nowIso, setNowIso] = useState<string | null>(null);
   const [whyCard, setWhyCard] = useState<WireCard | null>(null);
   const [shareNote, setShareNote] = useState<{ eventId: string; text: string } | null>(null);
   const { user } = usePlatformAuth();
   const select = useGlobeStore((s) => s.select);
-
-  useEffect(() => {
-    setNowIso(new Date().toISOString());
-  }, [fetched?.generatedAt, supplied?.generatedAt]);
 
   useEffect(() => {
     if (controlled) return;
@@ -88,7 +83,7 @@ export function TravelWire({
     : wire
       ? wire.status
       : 'loading';
-  const clock = nowIso ?? wire?.generatedAt ?? '1970-01-01T00:00:00.000Z';
+  const clock = new Date().toISOString();
   const chrome = wireChrome(status, wire?.note ?? null, wire?.generatedAt ?? null, clock);
   const cards = chrome.empty ? [] : (wire?.cards ?? []);
 
@@ -150,7 +145,9 @@ export function TravelWire({
           nowIso={clock}
           fixture={fixture}
           signedIn={Boolean(user)}
-          shareNote={shareNote?.eventId === card.eventId ? shareNote.text : null}
+          shareNote={
+            shareNote && shareNote.eventId === card.eventId ? shareNote.text : null
+          }
           onWhy={() => setWhyCard(card)}
           onShare={share}
         />
