@@ -96,13 +96,15 @@
 
 ## Next actions (Source Rights / EA)
 
-1. **Do not** create vendor accounts in research; when ready, Source Rights uses project email for free/dev signups (Ticketmaster Discovery, SerpAPI Free, BestTime free tier if any, TypeSafe waitlist).
-2. Escalate **Amadeus Enterprise** and **PredictHQ Order Form** immediately (payment + signature).
-3. Schedule Ticketmaster affiliate/Partner conversation in parallel with Discovery prototyping under free quota.
-4. Purchase X credits with spend cap after use-case disclosure approved.
-5. Legal memo: Google Trends via SerpApi; Ticketmaster §11; PredictHQ AI injection.
-6. Cross-check World-Events-Map adapters (`ticketmaster.ts`, `predicthq.ts`, `amadeus.ts`, `googleTrends.ts`, `x.ts`, `besttime.ts`, `typesafe.ts`) against this matrix before production wiring.
-7. Re-check Amadeus portal and Ticketmaster branding URLs quarterly — both changed recently.
+Per **Decision lock 2026-09-22**: HOLD commercial Amadeus / PredictHQ / Ticketmaster. Do **not** start sales or paid Order Forms for those three. Escalate to EA only when a key or payment blocks the next demo.
+
+1. **Do not** create paid commercial paths for Amadeus, PredictHQ, or Ticketmaster while the lock holds.
+2. When demo needs require it, Source Rights may create **free/dev** signups with project email for: BestTime, SerpAPI free tier, TypeSafe waitlist/early-access, and X developer app (no credits purchase until spend is needed for the next demo).
+3. Prefer **honest fixtures** / `unconfigured` for Ticketmaster, PredictHQ, and Amadeus adapters until the lock is lifted.
+4. Escalate to EA **only if** BestTime, TypeSafe, SerpAPI, or X free quota cannot ship the next demo without a key or payment.
+5. Legal memos for Google Trends via SerpApi / Ticketmaster §11 / PredictHQ AI injection remain useful later but are **not** active commercial escalations under this lock.
+6. Cross-check World-Events-Map adapters against this matrix before production wiring of any live vendor.
+7. Re-check Amadeus portal and Ticketmaster branding URLs quarterly (informational; not a sales trigger).
 
 ---
 
@@ -113,15 +115,20 @@
 - **BLOCKED:** 1 (Amadeus Self-Service)
 - **RESEARCH:** 0
 
-### Top 3 escalations
-1. Amadeus Enterprise (self-service gone)
-2. PredictHQ paid plan + AI/storage Order Form
-3. Ticketmaster commercial/affiliate clearance
+### Top escalations (active under Decision lock)
 
-### Commercially blocked / high-friction for derived travel ideas
-- **Blocked:** Amadeus Self-Service  
-- **High friction (treat as blocked until contract):** PredictHQ without paid + Order Form AI/storage extensions  
-- **Restricted but workable with compliance:** Ticketmaster (affiliate), X (display/redistribution rules), SerpAPI Trends (Google content unknown)
+**HOLD — do not escalate commercially:** Amadeus Enterprise · PredictHQ paid/Order Form · Ticketmaster affiliate/Partner sales.
+
+Escalate to EA only when a key/payment blocks the next demo:
+
+1. BestTime key (or paid tier) if required for a live NOW / busy-time demo  
+2. TypeSafe / Jev early-access or credits if a live judgment demo is required  
+3. SerpAPI and/or X credits only if Trends/social momentum is in the next demo and free quota is insufficient
+
+### Commercially blocked / high-friction for derived travel ideas (under lock)
+- **HOLD + blocked self-service:** Amadeus — fixtures / `unconfigured` only  
+- **HOLD commercial:** PredictHQ and Ticketmaster — fixtures / `unconfigured`; no paid Order Forms or affiliate sales push  
+- **BUILD (free/conditional):** BestTime (GO), X, SerpAPI/Trends, TypeSafe — honest fixtures until keys needed for demo
 
 ---
 
