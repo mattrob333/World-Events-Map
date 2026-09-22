@@ -7,24 +7,34 @@ export interface EmptyStateProps {
   body?: ReactNode;
   action?: ReactNode;
   className?: string;
+  /** Full-width honesty notes (Live Travel Wire). Default stays a short column. */
+  wide?: boolean;
 }
 
 /**
  * The honest nothing. No illustration, no shrug — a rule, a line of type, and
  * the one action that would fix it.
  */
-export function EmptyState({ title, body, action, className }: EmptyStateProps) {
+export function EmptyState({ title, body, action, className, wide = false }: EmptyStateProps) {
   return (
     <div
       className={cn(
         'flex flex-col items-start gap-3 px-4 py-8 text-left',
+        wide && 'w-full',
         className,
       )}
     >
       <span aria-hidden className="h-px w-8 bg-brass-deep" />
       <p className="font-display text-[15px] leading-5 text-ink">{title}</p>
       {body ? (
-        <p className="max-w-64 text-[11px] leading-4 text-ink-muted">{body}</p>
+        <p
+          className={cn(
+            'text-[11px] leading-4 text-ink-muted',
+            wide ? 'max-w-none' : 'max-w-64',
+          )}
+        >
+          {body}
+        </p>
       ) : null}
       {action}
     </div>
