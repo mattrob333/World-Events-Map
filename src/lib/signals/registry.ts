@@ -1,6 +1,17 @@
 import type { BuzzSignals } from '@/lib/types';
 import type { TruthStatus } from './types';
 
+/**
+ * Commercial hold from docs/data/SOURCE-ACCESS-MATRIX.md (Matt, 2026-09-22).
+ * These adapters stay unconfigured. The wire may use sanitized fixtures in
+ * tests, and it must not present them as live readings.
+ */
+export const COMMERCIAL_HOLD_SOURCE_IDS = ['amadeus', 'predicthq', 'ticketmaster'] as const;
+
+export function isCommercialHold(sourceId: string): boolean {
+  return (COMMERCIAL_HOLD_SOURCE_IDS as readonly string[]).includes(sourceId);
+}
+
 export type MetricScale = 'unit' | 'index' | 'count' | 'velocity';
 
 export interface MetricDefinition {

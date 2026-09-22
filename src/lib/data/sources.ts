@@ -44,6 +44,7 @@ import 'server-only';
  * baseline, which is the state the app must always work in.
  */
 
+import { isCommercialHold } from '@/lib/signals/registry';
 import type { BuzzSignals, EventSource, SourceHealth, WorldEvent } from '@/lib/types';
 import { curatedSource } from './adapters/curated';
 import { ticketmasterSource } from './adapters/ticketmaster';
@@ -75,6 +76,14 @@ export function getSource(id: string): EventSource | undefined {
 /** Health for every registered source, in merge order. */
 export function getSourceHealth(): SourceHealth[] {
   return SOURCES.map((s) => {
+    if (isCommercialHold(s.id)) {
+      return {
+        id: s.id,
+        label: s.label,
+        status: 'unconfigured' as const,
+        detail: 'Commercial hold. This source stays unconfigured and is not called.',
+      };
+    }
     try {
       return s.health();
     } catch (err) {
@@ -89,14 +98,16 @@ export function getSourceHealth(): SourceHealth[] {
 }
 
 /** True when at least one live adapter has credentials. */
-export const anyLiveConfigured = (): boolean =>
-  LIVE_SOURCES.some((s) => {
-    try {
-      return s.isConfigured();
-    } catch {
-      return false;
-    }
-  });
+function sourceMayRun(source: EventSource): boolean {
+  if (isCommercialHold(source.id)) return false;
+  try {
+    return source.isConfigured();
+  } catch {
+    return false;
+  }
+}
+
+export const anyLiveConfigured = (): boolean => LIVE_SOURCES.some((source) => sourceMayRun(source));
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Signal collection
@@ -133,13 +144,9 @@ export async function collectConfiguredSignals(events: WorldEvent[]): Promise<{
   const patches = new Map<string, Partial<BuzzSignals>>();
   if (!events.length) return { patches, batches: [] };
 
-  const configured = LIVE_SOURCES.filter((s) => {
-    try {
-      return s.isConfigured() && typeof s.fetchSignals === 'function';
-    } catch {
-      return false;
-    }
-  });
+  const configured = LIVE_SOURCES.filter(
+    (source) => sourceMayRun(source) && typeof source.fetchSignals === 'function',
+  );
   if (!configured.length) return { patches, batches: [] };
 
   const settled = await Promise.all(

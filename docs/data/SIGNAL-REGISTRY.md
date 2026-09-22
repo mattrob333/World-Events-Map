@@ -2,13 +2,17 @@
 
 Provider-neutral metrics MERIDIAN can emit from adapters that already exist. The code list is `src/lib/signals/registry.ts`. If this file and that module disagree, the module is what the wire uses.
 
+Commercial rights are **not** recorded here. Those live only in `docs/data/SOURCE-ACCESS-MATRIX.md`. Until that file lifts the hold, `ticketmaster`, `predicthq`, and `amadeus` are not called. The rows for those three describe fixture shape only.
+
+Wire honesty fixtures (fresh, stale, and preserved `sourcePublishedAt`) are specified in `docs/data/WIRE-HONESTY.md` §4.
+
 Freshness for every row below is **600 seconds**, matching the public buzz-patch cache. After that, a stored reading is `stale`. It is not rewritten with a new timestamp.
 
 `sourcePublishedAt` is set only when an adapter actually supplies a publication time. Today's buzz adapters do not. Fetch time stays in `observedAt`.
 
 Confidence is a MERIDIAN judgment of how directly the number measures the label. It is not a vendor score.
 
-## Live adapter metrics
+## Adapter metrics
 
 | Source | Family | Buzz field | Metric | Truth | What it is |
 |---|---|---|---|---|---|
@@ -20,7 +24,7 @@ Confidence is a MERIDIAN judgment of how directly the number measures the label.
 | `google-trends` | search | `socialVelocity` | `search_index_slope` | modeled | Slope of that relative index |
 | `x` | social | `socialMentions` | `mention_count` | observed | Recent post count |
 | `x` | social | `socialVelocity` | `mention_window_velocity` | modeled | Change inside the recent count window |
-| `amadeus` | lodging | `bookingPressure` | `upmarket_hotel_scarcity` | observed | Sampled 4–5 star availability proxy |
+| `amadeus` | lodging | `bookingPressure` | `upmarket_hotel_scarcity` | observed | Sampled 4–5 star availability proxy. Fixture shape only while the commercial hold lasts |
 
 ## Editorial baselines
 
@@ -62,7 +66,7 @@ Used by the delta engine. A smaller move produces no card.
 | `new` | No previous reading, and this one is still inside its freshness window |
 | `rising` | Previous reading is still fresh, and the number cleared the bar upward |
 | `falling` | Previous reading is still fresh, and the number cleared the bar downward |
-| `changed` | The reading is fresh, the number did not clear the bar, and the truth status (or presence of a value) changed |
+| `changed materially` | The reading is fresh, the number did not clear the bar, and the truth status (or presence of a value) changed. The wire label is **Changed** |
 | `stale` | The current reading is older than its freshness window, or the previous reading disappeared from the sweep |
 | `recovered` | A new fresh reading arrived after the previous one had already aged out |
 

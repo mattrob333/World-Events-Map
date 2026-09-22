@@ -18,6 +18,8 @@ export interface PatchObservation {
   observedAt: string;
   previousPatch?: Partial<BuzzSignals>;
   previousObservedAt?: string;
+  /** Publication time of the previous reading. Never copied from the current reading. */
+  previousSourcePublishedAt?: string;
   sourcePublishedAt?: string;
 }
 
@@ -90,10 +92,10 @@ export function signalsFromPatch(observation: PatchObservation): TravelSignal[] 
 export function previousSignals(observation: PatchObservation): TravelSignal[] {
   if (!observation.previousPatch || !observation.previousObservedAt) return [];
   return signalsFromPatch({
-    ...observation,
+    sourceId: observation.sourceId,
+    eventId: observation.eventId,
     patch: observation.previousPatch,
     observedAt: observation.previousObservedAt,
-    previousPatch: undefined,
-    previousObservedAt: undefined,
+    sourcePublishedAt: observation.previousSourcePublishedAt,
   });
 }

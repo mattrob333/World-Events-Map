@@ -116,7 +116,7 @@ export function diffSweeps(
     const valueMissing =
       (prior.value === undefined) !== (next.value === undefined);
     if (valueMissing || prior.truthStatus !== next.truthStatus) {
-      deltas.push(deltaFrom('changed', next, { previous: prior }));
+      deltas.push(deltaFrom('changed materially', next, { previous: prior }));
     }
   }
 

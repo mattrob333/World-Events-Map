@@ -18,5 +18,6 @@ export {
 export { classifyMove, diffSweeps, observationIsStale, signalKey } from './delta';
 export { previousSignals, signalsFromPatch } from './from-patches';
 export type { PatchObservation } from './from-patches';
-export { buildLiveTravelWire } from './wire';
+export { isCommercialHold, COMMERCIAL_HOLD_SOURCE_IDS } from './registry';
+export { wireDeltaLabel, buildLiveTravelWire } from './wire';
 export type { LiveTravelWire, WireCard, WireEventRef } from './wire';

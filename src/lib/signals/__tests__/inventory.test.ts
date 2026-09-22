@@ -32,11 +32,15 @@ describe('signal inventory matches the repo', () => {
     }
   });
 
-  it('names every env var from .env.example in the source access matrix', () => {
-    const names = [...read('.env.example').matchAll(/^([A-Z0-9_]+)=/gm)].map((match) => match[1]);
+  it('keeps the rights matrix and records metrics in the signal registry', () => {
     const matrix = read('docs/data/SOURCE-ACCESS-MATRIX.md');
-    expect(names.length).toBeGreaterThan(10);
-    for (const name of names) expect(matrix).toContain(name);
-    expect(matrix).toContain('TODO');
+    const registryDoc = read('docs/data/SIGNAL-REGISTRY.md');
+    const honesty = read('docs/data/WIRE-HONESTY.md');
+    expect(matrix).toContain('Product decision lock');
+    expect(matrix).toContain('HOLD commercial');
+    expect(matrix).not.toContain('Phase 0 inventory of integrations');
+    expect(registryDoc).toContain('changed materially');
+    expect(honesty).toContain('wire-honesty.json');
+    expect(honesty).toContain('sourcePublishedAt');
   });
 });

@@ -55,6 +55,9 @@ export function TravelWire() {
       )}
       {wire?.cards.map((card) => (
         <article key={card.id} className="border-b border-white/10 py-3">
+          <p className="text-[10px] tracking-[.16em] uppercase text-brass-bright">
+            {card.deltaLabel}
+          </p>
           <p className="text-sm leading-snug">{card.headline}</p>
           <p className="text-xs leading-relaxed text-ink-muted mt-1">{card.detail}</p>
         </article>

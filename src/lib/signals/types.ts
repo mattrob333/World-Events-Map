@@ -42,7 +42,7 @@ export const DELTA_KINDS = [
   'new',
   'rising',
   'falling',
-  'changed',
+  'changed materially',
   'stale',
   'recovered',
 ] as const;

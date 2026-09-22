@@ -105,7 +105,7 @@ describe('live travel wire', () => {
     expect(mentions?.sourcePublishedAt).toBeUndefined();
   });
 
-  it('labels a reading past the freshness window as stale', () => {
+  it('does not show commercially held sources as live readings', () => {
     const wire = buildLiveTravelWire({
       now: '2026-09-22T16:00:00.000Z',
       observations: [
@@ -114,16 +114,26 @@ describe('live travel wire', () => {
           eventId: EVENT.id,
           patch: SYNTHETIC_PATCHES.amadeus,
           observedAt: '2026-09-22T15:00:00.000Z',
+          sourcePublishedAt: '2026-09-22T14:00:00.000Z',
+        },
+        {
+          sourceId: 'ticketmaster',
+          eventId: EVENT.id,
+          patch: SYNTHETIC_PATCHES.ticketmaster,
+          observedAt: '2026-09-22T15:00:00.000Z',
+        },
+        {
+          sourceId: 'predicthq',
+          eventId: EVENT.id,
+          patch: SYNTHETIC_PATCHES.predicthq,
+          observedAt: '2026-09-22T15:00:00.000Z',
         },
       ],
       events: [EVENT],
     });
-    expect(wire.status).toBe('degraded');
-    expect(wire.cards[0]).toMatchObject({
-      delta: 'stale',
-      metric: 'upmarket_hotel_scarcity',
-      observedAt: '2026-09-22T15:00:00.000Z',
-    });
-    expect(wire.cards[0].detail).toContain('Not a room price');
+    expect(wire.cards).toEqual([]);
+    expect(wire.status).toBe('empty');
+    expect(wire.note).toContain('commercial hold');
+    expect(wire.note).toContain('not shown as live');
   });
 });

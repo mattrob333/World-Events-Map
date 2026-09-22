@@ -4,11 +4,11 @@ How to tell whether a source is usable. Dollar costs are in `docs/ops/PROVIDER-C
 
 ## Buzz adapters
 
-`SourceHealth.status` on Ticketmaster, PredictHQ, Trends, X, and Amadeus:
+`SourceHealth.status` on Trends and X follows the table below. Ticketmaster, PredictHQ, and Amadeus are forced to `unconfigured` while the commercial hold in `docs/data/SOURCE-ACCESS-MATRIX.md` is in effect, even if a key is present. They are not called.
 
 | Status | Meaning |
 |---|---|
-| `unconfigured` | The env name for that adapter is empty. This is the normal local state |
+| `unconfigured` | The env name for that adapter is empty, or the source is on commercial hold. This is the normal local state |
 | `live` | A key is present and the last fetch in **this process** succeeded |
 | `error` | A key is present and the last fetch failed. The curated baseline stays. That source's new patch is empty |
 | `stale` | Used when a source is configured and has not completed a successful sync yet |

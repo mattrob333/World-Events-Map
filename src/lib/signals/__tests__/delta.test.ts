@@ -65,7 +65,7 @@ describe('delta engine', () => {
       [signal({ value: 100, observedAt: T1, truthStatus: 'modeled' })],
       T1,
     );
-    expect(deltas[0].kind).toBe('changed');
+    expect(deltas[0].kind).toBe('changed materially');
   });
 
   it('marks a reading past its freshness window as stale and keeps the original observed time', () => {

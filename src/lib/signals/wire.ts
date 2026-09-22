@@ -1,6 +1,6 @@
 import { diffSweeps } from './delta';
 import { previousSignals, signalsFromPatch, type PatchObservation } from './from-patches';
-import { definitionFor, genericField } from './registry';
+import { definitionFor, genericField, isCommercialHold } from './registry';
 import type { BuzzSignals } from '@/lib/types';
 import type { DeltaKind, SignalDelta, TruthStatus } from './types';
 
@@ -29,6 +29,8 @@ export interface WireCard {
   previousValue?: number;
   truthStatus: TruthStatus;
   confidence: number;
+  /** Short label for the card. `changed materially` is shown as Changed. */
+  deltaLabel: string;
 }
 
 export interface LiveTravelWire {
@@ -46,9 +48,31 @@ const DELTA_RANK: Record<DeltaKind, number> = {
   rising: 1,
   falling: 2,
   new: 3,
-  changed: 4,
+  'changed materially': 4,
   stale: 5,
 };
+
+/** Visible wire label. The stored kind stays `changed materially`. */
+export function wireDeltaLabel(kind: DeltaKind): string {
+  switch (kind) {
+    case 'new':
+      return 'New';
+    case 'rising':
+      return 'Rising';
+    case 'falling':
+      return 'Falling';
+    case 'changed materially':
+      return 'Changed';
+    case 'stale':
+      return 'Stale';
+    case 'recovered':
+      return 'Recovered';
+    default: {
+      const never: never = kind;
+      return never;
+    }
+  }
+}
 
 const GENERIC_NOT_CLAIM = new Map<string, { label: string; notClaim: string }>(
   (Object.keys({
@@ -95,7 +119,7 @@ function headline(delta: SignalDelta, label: string, event?: WireEventRef): stri
       return `${label} for ${where} is higher than the previous fresh reading.`;
     case 'falling':
       return `${label} for ${where} is lower than the previous fresh reading.`;
-    case 'changed':
+    case 'changed materially':
       return `${label} for ${where} changed.`;
     case 'stale':
       return `${label} for ${where} is stale.`;
@@ -137,12 +161,17 @@ function cardFor(delta: SignalDelta, events: Map<string, WireEventRef>): WireCar
     previousValue: delta.previousValue,
     truthStatus: delta.truthStatus,
     confidence: delta.confidence,
+    deltaLabel: wireDeltaLabel(delta.kind),
   };
 }
 
+const HOLD_NOTE =
+  'Ticketmaster, PredictHQ, and Amadeus are on commercial hold and stay unconfigured.';
+
 /**
  * Build the live wire from per-source patches the existing adapters already
- * returned. Editorial baselines are left off. Empty input stays empty.
+ * returned. Editorial baselines and commercially held sources are left off.
+ * Empty input stays empty.
  */
 export function buildLiveTravelWire(input: {
   now: string;
@@ -151,8 +180,10 @@ export function buildLiveTravelWire(input: {
 }): LiveTravelWire {
   const events = new Map((input.events ?? []).map((event) => [event.id, event]));
   const cards: WireCard[] = [];
+  const held = input.observations.filter((observation) => isCommercialHold(observation.sourceId));
 
   for (const observation of input.observations) {
+    if (isCommercialHold(observation.sourceId)) continue;
     const deltas = diffSweeps(
       previousSignals(observation),
       signalsFromPatch(observation),
@@ -176,17 +207,23 @@ export function buildLiveTravelWire(input: {
   const status: LiveTravelWire['status'] =
     visible.length === 0 ? 'empty' : allStale ? 'degraded' : 'observations';
 
-  const note =
+  const note = [
     status === 'empty'
       ? 'No provider readings to show. Curated calendar scores stay on the globe and are not treated as live signals.'
       : allStale
         ? 'Every reading here is older than its freshness window. The observed time is unchanged.'
-        : 'These cards repeat numbers already returned by configured adapters. A card is not attendance, a price, or a booking.';
+        : 'These cards repeat numbers already returned by configured adapters. A card is not attendance, a price, or a booking.',
+    HOLD_NOTE,
+    held.length ? 'Held-source fixtures are not shown as live readings.' : '',
+    omitted ? `${omitted} more readings are hidden so the wire stays short.` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return {
     generatedAt: input.now,
     status,
-    note: omitted ? `${note} ${omitted} more readings are hidden so the wire stays short.` : note,
+    note,
     cards: visible,
     omitted,
   };

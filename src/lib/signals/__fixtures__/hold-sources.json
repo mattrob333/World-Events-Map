@@ -1,0 +1,26 @@
+{
+  "note": "Synthetic fixture patches for sources on commercial hold. Not live readings.",
+  "observations": [
+    {
+      "sourceId": "ticketmaster",
+      "eventId": "monaco-grand-prix",
+      "patch": { "bookingPressure": 0.42, "exclusivity": 0.5 },
+      "observedAt": "2026-09-22T15:00:00.000Z",
+      "sourcePublishedAt": "2026-09-22T14:10:00.000Z"
+    },
+    {
+      "sourceId": "predicthq",
+      "eventId": "monaco-grand-prix",
+      "patch": { "searchInterest": 61, "bookingPressure": 0.33 },
+      "observedAt": "2026-09-22T15:00:00.000Z",
+      "sourcePublishedAt": "2026-09-22T14:12:00.000Z"
+    },
+    {
+      "sourceId": "amadeus",
+      "eventId": "monaco-grand-prix",
+      "patch": { "bookingPressure": 0.7 },
+      "observedAt": "2026-09-22T12:00:00.000Z",
+      "sourcePublishedAt": "2026-09-22T11:30:00.000Z"
+    }
+  ]
+}
