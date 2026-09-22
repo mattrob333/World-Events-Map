@@ -115,11 +115,23 @@ export const anyLiveConfigured = (): boolean =>
  *
  * Never throws. A source that blows up contributes nothing and reports `error`.
  */
-export async function collectSignalPatches(
-  events: WorldEvent[],
-): Promise<Map<string, Partial<BuzzSignals>>> {
-  const merged = new Map<string, Partial<BuzzSignals>>();
-  if (!events.length) return merged;
+export interface SourcePatchBatch {
+  sourceId: string;
+  observedAt: string;
+  patches: Map<string, Partial<BuzzSignals>>;
+}
+
+/**
+ * Same collection as {@link collectSignalPatches}, plus the per-source maps
+ * before they are folded. The wire uses those maps so a merged buzz number is
+ * not blamed on the wrong vendor.
+ */
+export async function collectConfiguredSignals(events: WorldEvent[]): Promise<{
+  patches: Map<string, Partial<BuzzSignals>>;
+  batches: SourcePatchBatch[];
+}> {
+  const patches = new Map<string, Partial<BuzzSignals>>();
+  if (!events.length) return { patches, batches: [] };
 
   const configured = LIVE_SOURCES.filter((s) => {
     try {
@@ -128,7 +140,7 @@ export async function collectSignalPatches(
       return false;
     }
   });
-  if (!configured.length) return merged;
+  if (!configured.length) return { patches, batches: [] };
 
   const settled = await Promise.all(
     configured.map(async (source) => {
@@ -142,17 +154,31 @@ export async function collectSignalPatches(
     }),
   );
 
-  // Fold in registry order, not completion order.
+  const observedAt = new Date().toISOString();
   const requested = new Set(events.map((event) => event.id));
-  for (const patchMap of settled) {
-    for (const [eventId, patch] of patchMap) {
-      if (!requested.has(eventId)) continue;
-      const existing = merged.get(eventId);
-      merged.set(eventId, existing ? { ...existing, ...patch } : { ...patch });
+  const batches: SourcePatchBatch[] = configured.map((source, index) => {
+    const sourcePatches = new Map<string, Partial<BuzzSignals>>();
+    for (const [eventId, patch] of settled[index]) {
+      if (requested.has(eventId)) sourcePatches.set(eventId, patch);
+    }
+    return { sourceId: source.id, observedAt, patches: sourcePatches };
+  });
+
+  // Fold in registry order, not completion order.
+  for (const batch of batches) {
+    for (const [eventId, patch] of batch.patches) {
+      const existing = patches.get(eventId);
+      patches.set(eventId, existing ? { ...existing, ...patch } : { ...patch });
     }
   }
 
-  return merged;
+  return { patches, batches };
+}
+
+export async function collectSignalPatches(
+  events: WorldEvent[],
+): Promise<Map<string, Partial<BuzzSignals>>> {
+  return (await collectConfiguredSignals(events)).patches;
 }
 
 /** Apply a patch map to events, returning new records. Pure. */

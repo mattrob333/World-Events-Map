@@ -3,7 +3,8 @@ import 'server-only';
 /** Live signal access and process-local state. Import only on the server. */
 import type { BuzzSignals, WorldEvent } from '@/lib/types';
 import { EVENTS, getEventsByIds } from './index';
-import { applySignalPatches, collectSignalPatches, getSourceHealth } from './sources';
+import type { PatchObservation } from '@/lib/signals/from-patches';
+import { applySignalPatches, collectConfiguredSignals, getSourceHealth } from './sources';
 import { persistSnapshots, readSnapshots, signalDatabase } from './durable';
 
 export { getSourceHealth, getSourceHealth as sourceHealth } from './sources';
@@ -23,6 +24,45 @@ interface SignalCacheEntry {
 const signalCache = new Map<string, SignalCacheEntry>();
 let lastFetchedAt: number | null = null;
 let storageStatus: 'unconfigured' | 'connected' | 'error' = 'unconfigured';
+
+/** Last per-source patch in this process. Not the folded buzz cache. */
+const sourceObservations = new Map<string, PatchObservation>();
+/** Keep a stale reading long enough to label it stale, then drop it. */
+export const WIRE_RETAIN_MS = 24 * 60 * 60 * 1000;
+
+function rememberSourceBatches(
+  batches: { sourceId: string; observedAt: string; patches: Map<string, Partial<BuzzSignals>> }[],
+) {
+  for (const batch of batches) {
+    for (const [eventId, patch] of batch.patches) {
+      if (!patch || !Object.keys(patch).length) continue;
+      const key = `${batch.sourceId}|${eventId}`;
+      const existing = sourceObservations.get(key);
+      sourceObservations.set(key, {
+        sourceId: batch.sourceId,
+        eventId,
+        patch: { ...patch },
+        observedAt: batch.observedAt,
+        previousPatch: existing ? { ...existing.patch } : undefined,
+        previousObservedAt: existing?.observedAt,
+      });
+    }
+  }
+}
+
+/** Per-source readings still inside the retention window. Does not call vendors. */
+export function readSourceObservations(now = Date.now()): PatchObservation[] {
+  const kept: PatchObservation[] = [];
+  for (const [key, record] of sourceObservations) {
+    const age = now - Date.parse(record.observedAt);
+    if (!Number.isFinite(age) || age > WIRE_RETAIN_MS) {
+      sourceObservations.delete(key);
+      continue;
+    }
+    kept.push(record);
+  }
+  return kept;
+}
 
 async function hydrateSnapshots() {
   try {
@@ -83,7 +123,9 @@ async function refreshEvents(
     // Start in a microtask so every id is registered before adapters execute.
     const work = Promise.resolve().then(async () => {
       try {
-        const patches = await collectSignalPatches(missing);
+        const collected = await collectConfiguredSignals(missing);
+        const patches = collected.patches;
+        rememberSourceBatches(collected.batches);
         const fetchedAt = Date.now();
         for (const event of missing) {
           signalCache.set(event.id, { patch: patches.get(event.id), fetchedAt });
