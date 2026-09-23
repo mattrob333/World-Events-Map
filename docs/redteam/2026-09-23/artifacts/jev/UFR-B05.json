@@ -1,0 +1,58 @@
+{
+  "label": "UFR-B05",
+  "executed_at": "2026-09-23T17:01:24.448Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent planning a family ski week with two kids, comparing Aspen with a Swiss resort.",
+      "previous_step": "On the home page Winter · Ski & snow shortlist, the parent clicked 'Explore the place ↗' on the card 'SKI · DEC 26 · St. Moritz · St. Moritz New Year Week'.",
+      "arrived_page": "/destinations/st-moritz",
+      "hero": "SWITZERLAND · SKI / CULTURE · St. Moritz · 'Head-first at 130km/h down a hand-built ice channel, rebuilt from scratch each winter' · [Start a trip ↗] [Get a feel for it ↓]",
+      "hero_strip": "NEXT OCCASION: The Cresta Run Season · WHEN TO GO: 19 Dec 2026 – 07 Mar 2027 · THE EDIT: 4 curated occasions · ski",
+      "destination_edit_cards": [
+        "Ridden head-first at 130km/h on a hand-built ice channel — The Cresta Run Season",
+        "Run by the same club continuously since 1885 — The Cresta Run Season",
+        "Beginners can ride from Junction after morning instruction — The Cresta Run Season"
+      ],
+      "inside_line": "The Cresta is a 1,212-metre natural ice channel ... Riders go head-first on a skeleton toboggan ... The club has run it since 1885 and controls access entirely",
+      "start_a_trip_target": "Start a trip goes to a page about planning 'The Cresta Run Season', not St. Moritz New Year Week.",
+      "new_year_week_mentions": "St. Moritz New Year Week appears only in the WHY NOW list further down: 'St. Moritz New Year Week is on the board as a legendary week'."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "relevant_to_family_ski": {
+        "type": "noul",
+        "instructions": "Does the top of this page help the parent evaluate St. Moritz as a family ski destination for New Year week?"
+      },
+      "context_preserved": {
+        "type": "noul",
+        "instructions": "Would the parent feel the page continued from the St. Moritz New Year Week card they clicked?"
+      },
+      "start_trip_predictable": {
+        "type": "noul",
+        "instructions": "Would the parent correctly predict that 'Start a trip' plans around the Cresta Run (a skeleton-toboggan club season) rather than their family ski week?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "relevant_to_family_ski": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "context_preserved": {
+        "type": "noul",
+        "noul": 0.25
+      },
+      "start_trip_predictable": {
+        "type": "noul",
+        "noul": 0.67
+      }
+    },
+    "usage": {
+      "input_tokens": 773,
+      "output_tokens": 65
+    }
+  }
+}

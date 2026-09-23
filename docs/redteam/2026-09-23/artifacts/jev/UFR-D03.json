@@ -1,0 +1,85 @@
+{
+  "label": "UFR-D03",
+  "executed_at": "2026-09-23T17:02:58.212Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time visitor who wants to set up a traveler profile and start a trip circle with friends. Not signed in; no account exists or can be created on this deployment.",
+      "jtbd": "Set up my profile (home, interests, first travel mode, privacy) so MERIDIAN and other travelers can find me.",
+      "flow_seen": [
+        "Banner on every page: 'Set your traveler lens — it takes under a minute, and you can skip. [Begin] [Skip]'",
+        "Step 1/5 'What kind of traveler are you — this week?' body: 'You can keep more than one mode later. This just opens the product around you.'",
+        "Step 2/5 'Where do trips usually start?' body: 'A region is enough. Airport is optional and stays private unless you publish it later.'",
+        "Step 3/5 'What actually pulls you?' body: 'Weighted interests come later. Pick a few so World Heat has something to talk to.'",
+        "Step 4/5 'Name a first Travel Mode' body: 'A mode is a version of you — Family Ski, Solo Weekend, Work Layover. Not a permanent identity.'",
+        "Step 5/5 'How public should this be?' options 'Private — Only you. The product still works.' and 'Discoverable — A public portrait later — never precise location, never private modes.' User picked Discoverable, then clicked [Enter World]."
+      ],
+      "after_completion": "Lands on the globe home page. No confirmation message. Banner is gone. Nothing on the home page references the answers.",
+      "profile_page_after": "PROFILE page shows: 'Travel is better with your people. Tell MERIDIAN who you are, then create different travel modes...' then 'Membership is not connected yet. Profiles, travel modes, circles and partner requests need the membership service. Pulse and NOW can still work without a member session when their data providers are configured.' Links: 'Open Constellation', 'Explore travel circles'. None of the onboarding answers appear. There is no link back to the onboarding.",
+      "fact_from_code": "The answers are stored only in this browser's localStorage and are not read by any other screen."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_discoverable": {
+        "type": "noul",
+        "instructions": "After choosing 'Discoverable' and clicking Enter World, would a reasonable user believe other travelers can now discover them (or will soon without further action)?"
+      },
+      "believes_profile_saved": {
+        "type": "noul",
+        "instructions": "Would a reasonable user believe their onboarding answers were saved to their MERIDIAN profile/Travel Modes?"
+      },
+      "knows_how_to_get_account": {
+        "type": "noul",
+        "instructions": "From the Profile page as shown, can the user determine how to get an account or what to do next to set up a real profile?"
+      },
+      "completion": {
+        "type": "score",
+        "instructions": "Does onboarding end in a meaningful, understood success state for this JTBD?",
+        "criteria": [
+          "Misleading: appears to succeed but nothing the user set is used",
+          "Ambiguous: unclear whether anything happened",
+          "Clear partial success with honest limits",
+          "Clear success, answers visibly applied"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_discoverable": {
+        "type": "noul",
+        "noul": 0.6
+      },
+      "believes_profile_saved": {
+        "type": "noul",
+        "noul": 0.62
+      },
+      "knows_how_to_get_account": {
+        "type": "noul",
+        "noul": 0.45
+      },
+      "completion": {
+        "type": "score",
+        "score": 0.02,
+        "confidence": 0.98,
+        "legend": {
+          "0": "Misleading: appears to succeed but nothing the user set is used",
+          "1": "Ambiguous: unclear whether anything happened",
+          "2": "Clear partial success with honest limits",
+          "3": "Clear success, answers visibly applied"
+        },
+        "probabilities": {
+          "0": 0.98,
+          "1": 0.01,
+          "2": 0.01,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 945,
+      "output_tokens": 79
+    }
+  }
+}

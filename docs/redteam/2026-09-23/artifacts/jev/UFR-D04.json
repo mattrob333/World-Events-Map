@@ -1,0 +1,72 @@
+{
+  "label": "UFR-D04",
+  "executed_at": "2026-09-23T17:03:11.354Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona_a": "Host: visitor who wants to start a trip circle with friends for the Monaco Grand Prix. Not signed in.",
+      "persona_b": "Guest: friend who received a real Circle invitation link /community?circle=<uuid>. Not signed in.",
+      "host_path": [
+        "Home page: event spotlight with link 'Start a Circle here →'",
+        "/circles page: 'YOUR SELECTED OCCASION · CURATED CALENDAR — Monaco Grand Prix — Monte-Carlo, Monaco · 04 – 06 Jun 2027 — This is the occasion you chose to plan around. No Circle or booking has been created...' Links: 'Continue in Community to start a real Circle ↗', 'Review event details ↗'. Small print: 'Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.' Below: sample trip rooms labelled 'Sample trip room — fixture data for the product preview.'",
+        "/community page: 'Find your next circle.' Tabs: Travel circles | Partner offers | Your requests. 'Showing circles and offers for your selected event. [Show all destinations]'. 'Make a plan worth sharing.' Card: 'The next great weekend starts with someone. Travel circles will appear when membership is connected. Explore events on the globe in the meantime.' Side card: 'Membership is not connected yet. Profiles, travel modes, circles and partner requests need the membership service...' No Start-a-circle button, no sign-in form, no email field."
+      ],
+      "guest_view": "/community?circle=<uuid> shows at top: 'Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.' Below it the same page as above: 'Membership is not connected yet.' There is no sign-in form anywhere on the page."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "host_can_start_circle": {
+        "type": "noul",
+        "instructions": "Can persona_a start a circle by following this path?"
+      },
+      "host_knew_before_clicking": {
+        "type": "noul",
+        "instructions": "Before clicking 'Start a Circle here →', would persona_a reasonably expect it to let them start a circle?"
+      },
+      "guest_instruction_contradiction": {
+        "type": "noul",
+        "instructions": "Is the guest's instruction 'Sign in below' contradicted by the visible page (no sign-in available)?"
+      },
+      "path_classification": {
+        "type": "choice",
+        "instructions": "Best classification of the host path end state",
+        "criteria": {
+          "dead_end": "User reaches a state with no valid path forward toward the goal",
+          "honest_limit": "The limit is explained clearly enough that the user knows exactly what to do instead",
+          "success": "The user achieved the goal"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "host_can_start_circle": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "host_knew_before_clicking": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "guest_instruction_contradiction": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "path_classification": {
+        "type": "choice",
+        "choice": "dead_end",
+        "confidence": 0.85,
+        "probabilities": {
+          "success": 0,
+          "honest_limit": 0.1,
+          "dead_end": 0.9
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 826,
+      "output_tokens": 108
+    }
+  }
+}

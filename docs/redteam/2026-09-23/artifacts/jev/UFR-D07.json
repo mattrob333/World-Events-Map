@@ -1,0 +1,65 @@
+{
+  "label": "UFR-D07",
+  "executed_at": "2026-09-23T17:03:53.907Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Visitor who wants to find travelers to plan a trip with and understand whether their own profile will be public.",
+      "page": "/people",
+      "visible": [
+        "PEOPLE — Travelers",
+        "'Profiles are travel identity, not account settings. Live public profiles stay behind PR #8 until the privacy findings are fixed.'",
+        "Banner: 'Editorial traveler portraits for layout and flow. These are not live members and cannot be messaged.'",
+        "Three cards: Mara Ellison @mara · Denver; Nico Varela @nico · Miami; Jules Hartmann @jules · Zurich",
+        "Footer: 'Signed-in members still edit their private record in Profile. Explore affinity in Constellation.'"
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "pr8_understood": {
+        "type": "noul",
+        "instructions": "Would a non-developer visitor understand what 'stay behind PR #8 until the privacy findings are fixed' means?"
+      },
+      "trust_effect": {
+        "type": "choice",
+        "instructions": "What is the most likely effect of the sentence mentioning 'privacy findings' on a visitor deciding whether to create a profile?",
+        "criteria": {
+          "reassured": "Feels reassured that privacy is handled",
+          "worried": "Worries there is an unresolved privacy problem",
+          "no_effect": "Ignores it"
+        }
+      },
+      "portraits_clear": {
+        "type": "noul",
+        "instructions": "Is it clear that the three people shown are not real members?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "pr8_understood": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "trust_effect": {
+        "type": "choice",
+        "choice": "worried",
+        "confidence": 0.99,
+        "probabilities": {
+          "worried": 1,
+          "no_effect": 0,
+          "reassured": 0
+        }
+      },
+      "portraits_clear": {
+        "type": "noul",
+        "noul": 0.87
+      }
+    },
+    "usage": {
+      "input_tokens": 573,
+      "output_tokens": 85
+    }
+  }
+}

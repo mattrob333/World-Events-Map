@@ -1,0 +1,41 @@
+{
+  "label": "UFR-D08",
+  "executed_at": "2026-09-23T17:03:54.351Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Host of a trip cabin in MERIDIAN (demo), who has posted a message in the cabin conversation.",
+      "visible_card": "KTEB Cabin · FORMING · You [YOU] · 1/8 · QUORUM 4 · ESTIMATE PER SEAT AT 1 $139,191 · button [LEAVE] · tabs CONVERSATION / WHO'S GOING. Composer note elsewhere: 'Opening a cabin commits you to the event'.",
+      "action": "Host clicks LEAVE.",
+      "result": "No confirmation. The whole cabin disappears from the list immediately. The host's posted message is no longer visible anywhere. No undo. The host remains marked 'committed' to the event."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "leave_predicts_dissolve": {
+        "type": "noul",
+        "instructions": "Would a host reasonably predict that 'Leave' deletes the entire cabin and its conversation?"
+      },
+      "recoverable": {
+        "type": "noul",
+        "instructions": "Can the host recover from an accidental click?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "leave_predicts_dissolve": {
+        "type": "noul",
+        "noul": 0.27
+      },
+      "recoverable": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 465,
+      "output_tokens": 44
+    }
+  }
+}

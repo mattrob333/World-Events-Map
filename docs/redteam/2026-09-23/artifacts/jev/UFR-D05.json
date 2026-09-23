@@ -1,0 +1,79 @@
+{
+  "label": "UFR-D05",
+  "executed_at": "2026-09-23T17:03:22.959Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time visitor going through MERIDIAN's 5-step onboarding on desktop.",
+      "jtbd": "Tell MERIDIAN what kind of traveler I am and how public my profile should be.",
+      "step_1": "'1 / 5 What kind of traveler are you — this week?' Five large option cards: Family, Couple, Solo, Work layover, Friends, each with a one-line description. Bottom: 'Skip and enter World' (text) and [CONTINUE] (button, always enabled).",
+      "observed_after_click": "User clicks the 'Solo' card. Measured computed style: every card, including Solo, keeps the identical 1px faint border; no aria-pressed or checkmark; nothing visibly changes. Same on step 5 (Private / Discoverable): the chosen card looks identical to the unchosen one.",
+      "continue_behavior": "CONTINUE advances even when nothing is selected.",
+      "refresh_behavior": "At step 3/5 the user refreshes; the page returns to '1 / 5' (their earlier answers are silently kept in storage but the step counter restarts).",
+      "back_behavior": "At step 2/5 the browser Back button leaves onboarding entirely and returns to the previous page; there is no in-flow Back control."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "can_tell_selected": {
+        "type": "noul",
+        "instructions": "After clicking 'Solo', can the user tell which option is selected?"
+      },
+      "privacy_choice_confidence": {
+        "type": "noul",
+        "instructions": "On step 5, can the user be confident whether they chose Private or Discoverable before clicking Enter World?"
+      },
+      "refresh_understood": {
+        "type": "noul",
+        "instructions": "After the refresh returns to step 1, would the user understand their earlier answers are still saved?"
+      },
+      "overall": {
+        "type": "score",
+        "instructions": "Rate the onboarding's state feedback",
+        "criteria": [
+          "Broken: user cannot tell what they chose or where they are",
+          "Poor",
+          "Adequate",
+          "Clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "can_tell_selected": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "privacy_choice_confidence": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "refresh_understood": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "overall": {
+        "type": "score",
+        "score": 0.12,
+        "confidence": 0.88,
+        "legend": {
+          "0": "Broken: user cannot tell what they chose or where they are",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Clear"
+        },
+        "probabilities": {
+          "0": 0.88,
+          "1": 0.12,
+          "2": 0,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 696,
+      "output_tokens": 76
+    }
+  }
+}

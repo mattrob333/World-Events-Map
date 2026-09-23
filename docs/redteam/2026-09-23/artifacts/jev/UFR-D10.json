@@ -1,0 +1,51 @@
+{
+  "label": "UFR-D10",
+  "executed_at": "2026-09-23T17:05:44.536Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Host who, in MERIDIAN demo mode, opened a trip group for the Monaco Grand Prix from the event panel (the panel calls it a 'cabin': 'Start a cabin', 'Open the cabin', 'KTEB Cabin'). Next day they want to get back to it.",
+      "navigation_visible": "Top nav: WORLD · CIRCLES · PEOPLE · TRIPS · ACCESS · NOW · PROFILE",
+      "circles_page": "CIRCLES — Trip rooms — 'A Circle is a trip, not a chat thread. Live Circles still live in Community for members who are signed in.' Two sample rooms (Aspen, Harbor week) labelled 'Sample trip room — fixture data'. Link 'Already a member? Open live Circles.' No mention of the host's cabin.",
+      "community_page": "'Find your next circle.' ... 'Travel circles will appear when membership is connected.' No mention of the host's cabin.",
+      "trips_page_and_profile_page": "No mention of the host's cabin or of the Monaco Grand Prix.",
+      "event_panel": "Only reachable by finding the event again on the globe/calendar; the cabin appears there under 'PREVIEW: GROUPS FORMING'. The same panel also has a button 'Find a circle ↗' that goes to the Circles page."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "expects_in_circles": {
+        "type": "noul",
+        "instructions": "Would the host expect to find their cabin under CIRCLES?"
+      },
+      "finds_cabin_again": {
+        "type": "noul",
+        "instructions": "Can the host reliably find their cabin again using the navigation?"
+      },
+      "understands_cabin_vs_circle_vs_trip_room": {
+        "type": "noul",
+        "instructions": "Would the host understand the difference between a 'cabin', a 'Circle' in Community, and a 'Trip room'?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expects_in_circles": {
+        "type": "noul",
+        "noul": 0.36
+      },
+      "finds_cabin_again": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "understands_cabin_vs_circle_vs_trip_room": {
+        "type": "noul",
+        "noul": 0.43
+      }
+    },
+    "usage": {
+      "input_tokens": 618,
+      "output_tokens": 69
+    }
+  }
+}

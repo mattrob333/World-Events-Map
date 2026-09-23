@@ -1,0 +1,81 @@
+{
+  "label": "UFR-D02",
+  "executed_at": "2026-09-23T17:02:42.685Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Host: a member coordinating a group trip to the Monaco Grand Prix with friends, using MERIDIAN demo mode on desktop.",
+      "jtbd": "Create a trip group (cabin) for the event, post a first message, and invite my friends to it.",
+      "workflow_state": "Host just clicked 'Open the cabin'. The new cabin card is expanded inside the event panel.",
+      "visible_card": {
+        "title": "KTEB Cabin",
+        "subtitle": "KTEB · OPEN TO ANYONE",
+        "status": "FORMING",
+        "host_row": "You · Signature member · NEW YORK · KTEB  [YOU]",
+        "fill": "1/8 · QUORUM 4",
+        "estimate": "ESTIMATE PER SEAT AT 1 · $139,191",
+        "buttons": [
+          "Leave"
+        ],
+        "tabs": [
+          "CONVERSATION",
+          "WHO'S GOING"
+        ],
+        "conversation": "You 16:54 — Hello crew ...",
+        "composer": "textarea 'Write to the cabin' + [SEND]",
+        "who_is_going_tab": "You · ON THIS MANIFEST · SEATS LEFT 7 · 1 on the manifest, 4 needed for quorum"
+      },
+      "controls_absent_anywhere_on_page": "No button or link labelled invite, share, copy link, or ask. Clicking avatars/host name (aria-label 'Open the host's profile') opens nothing.",
+      "host_onboarding_answers_earlier": "Home region: Côte d’Azur; no airport entered."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "host_can_invite": {
+        "type": "noul",
+        "instructions": "Can the host figure out how to invite a specific friend to this cabin from what is visible?"
+      },
+      "host_next_action": {
+        "type": "choice",
+        "instructions": "What will the host most likely do to get friends into the cabin?",
+        "criteria": {
+          "copy_browser_url": "Copy the browser address bar URL and send it, assuming it will work",
+          "search_for_invite_elsewhere": "Search other pages (Circles, People, Profile) for an invite feature",
+          "use_in_app_invite": "Use an in-app invite control",
+          "give_up": "Give up on inviting through MERIDIAN"
+        }
+      },
+      "identity_confusion": {
+        "type": "noul",
+        "instructions": "Would the host be confused or misled that the cabin is named 'KTEB Cabin' and lists them as 'Signature member · NEW YORK · KTEB' when they told onboarding their home region is Côte d’Azur and gave no airport?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "host_can_invite": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "host_next_action": {
+        "type": "choice",
+        "choice": "copy_browser_url",
+        "confidence": 0.53,
+        "probabilities": {
+          "copy_browser_url": 0.64,
+          "give_up": 0.01,
+          "use_in_app_invite": 0.01,
+          "search_for_invite_elsewhere": 0.34
+        }
+      },
+      "identity_confusion": {
+        "type": "noul",
+        "noul": 0.81
+      }
+    },
+    "usage": {
+      "input_tokens": 856,
+      "output_tokens": 102
+    }
+  }
+}

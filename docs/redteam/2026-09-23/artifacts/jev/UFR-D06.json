@@ -1,0 +1,55 @@
+{
+  "label": "UFR-D06",
+  "executed_at": "2026-09-23T17:03:35.107Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Member evaluating whether friends and other travelers are going to the Monaco Grand Prix (demo build of MERIDIAN).",
+      "jtbd": "Decide whether to start or join a group trip based on who else is going.",
+      "visible_in_event_panel_in_order": [
+        "Signal bars: SOCIAL VOLUME 18.3, VELOCITY 9.1, SEARCH INTEREST 17.0, PRESS 9.2",
+        "Teal text: 'Peer interest lifted this score by 10.8.'",
+        "Section 'PREVIEW: MEMBERS OVERLAPPING' — 12 avatar circles with initials + '11', text '15 members you'd fly with are watching this'",
+        "Section 'PREVIEW: GROUPS FORMING' — card 'Friday Out, Monday Back', 'VABB · PLANNING ESTIMATE ONLY', 'SIMULATED FOR REVIEW', host 'Nikhil Ravindra Sarnaik · MUMBAI · VABB · GULFSTREAM G650ER', '10/14', 'ESTIMATE PER SEAT AT 10 $27,896', [READ 9+] [JOIN CABIN]"
+      ],
+      "elsewhere": "Page footer, far below the globe: 'Curated event calendar. Dates and access require confirmation with organizers. Member activity is simulated for this preview.' There is no persistent 'Demo' badge in the header.",
+      "fact": "All members, overlap counts, groups and the 10.8 peer lift are generated simulation data."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "peer_lift_seen_as_real": {
+        "type": "noul",
+        "instructions": "Would a reasonable user read 'Peer interest lifted this score by 10.8' as reflecting real people's interest?"
+      },
+      "overlap_seen_as_real": {
+        "type": "noul",
+        "instructions": "Would a reasonable user believe '15 members you'd fly with are watching this' are real members?"
+      },
+      "preview_means_simulated": {
+        "type": "noul",
+        "instructions": "Does the section label 'PREVIEW:' clearly communicate that the members are simulated rather than real?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "peer_lift_seen_as_real": {
+        "type": "noul",
+        "noul": 0.61
+      },
+      "overlap_seen_as_real": {
+        "type": "noul",
+        "noul": 0.44
+      },
+      "preview_means_simulated": {
+        "type": "noul",
+        "noul": 0.34
+      }
+    },
+    "usage": {
+      "input_tokens": 699,
+      "output_tokens": 65
+    }
+  }
+}

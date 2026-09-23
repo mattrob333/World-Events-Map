@@ -1,0 +1,79 @@
+{
+  "label": "UFR-B10",
+  "executed_at": "2026-09-23T17:01:51.604Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "The OTHER family's parent. They received a MERIDIAN Circle invitation link (/community?circle=<id>) by text message from a friend who is planning a joint ski week. First time on MERIDIAN.",
+      "visible_text_in_order": [
+        "GOOD PLACES. BETTER COMPANY.",
+        "Find your next circle.",
+        "Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details.",
+        "Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.",
+        "Tabs: Travel circles | Partner offers | Your requests",
+        "Make a plan worth sharing. The next great weekend starts with someone.",
+        "Travel circles will appear when membership is connected. Explore events on the globe in the meantime.",
+        "Membership is not connected yet. Profiles, travel modes, circles and partner requests need the membership service. Pulse and NOW can still work without a member session when their data providers are configured.",
+        "THE BEGINNING OF A GREAT STORY ..."
+      ],
+      "not_present": "No sign-in form, no email field, no mention of the friend's trip name, destination or dates, and no way to request to join."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "knows_what_to_do": {
+        "type": "noul",
+        "instructions": "Does this invited parent know what to do next to join their friend's ski-trip plan?"
+      },
+      "contradiction": {
+        "type": "noul",
+        "instructions": "Does 'Sign in below to open this Circle invitation' contradict what is actually shown below it?"
+      },
+      "knows_invite_is_real": {
+        "type": "noul",
+        "instructions": "Can the invited parent tell that this page is about their friend's specific ski trip?"
+      },
+      "likely_next": {
+        "type": "choice",
+        "instructions": "What will the invited parent most likely do?",
+        "criteria": {
+          "search_for_sign_in": "Scrolls looking for a sign-in form",
+          "text_friend_back": "Messages the friend that the link does not work",
+          "explore_globe": "Follows 'Explore events on the globe'",
+          "leave": "Closes the page"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_what_to_do": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "contradiction": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "knows_invite_is_real": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "likely_next": {
+        "type": "choice",
+        "choice": "search_for_sign_in",
+        "confidence": 0.72,
+        "probabilities": {
+          "text_friend_back": 0.19,
+          "explore_globe": 0.01,
+          "leave": 0.01,
+          "search_for_sign_in": 0.79
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 715,
+      "output_tokens": 117
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "label": "UFR-B09",
+  "executed_at": "2026-09-23T17:01:38.849Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent choosing a ski resort and week for a family trip; cares about snow reliability.",
+      "page": "Home page, trip finder after choosing When: Winter, What: Ski & snow",
+      "snow_outlook_box": [
+        "SNOW OUTLOOK",
+        "Plan the week. Check the mountain.",
+        "These are curated ski dates, not a snow report. Snow depth, recent snowfall, forecast, open lifts, and family terrain still need a verified resort or weather source before you decide where conditions are best.",
+        "badge: LIVE CONDITIONS · SOURCE NEEDED",
+        "CHECK OFFICIAL REPORTS ↗ Aspen Snowmass | St. Moritz / Engadin | Verbier | Zermatt (external official resort pages)"
+      ],
+      "below": "Season means the event's calendar month, in the Northern Hemisphere travel calendar. These are editorial ideas, not live snow, forecast, activity, lodging, or price results.",
+      "globe_legend_visible": "WINTER ATLAS | 11 SKI SCENES (snowflake markers on the globe; the explanation that markers do not indicate live snow exists only for screen readers)",
+      "mountain_lens": "THE MOUNTAIN LENS · APPROXIMATE AREA — Satellite view ↗ / Terrain & contours ↗ — Opens the range near Aspen in Google Maps, not a verified lift entrance."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_live_snow_shown": {
+        "type": "noul",
+        "instructions": "Would this parent believe MERIDIAN is showing current snow conditions anywhere in this view?"
+      },
+      "snowflake_means_snow": {
+        "type": "noul",
+        "instructions": "Seeing only the visible legend 'WINTER ATLAS | 11 SKI SCENES' and snowflake markers, might the parent read a snowflake marker as meaning the resort currently has good snow?"
+      },
+      "knows_where_to_check": {
+        "type": "noul",
+        "instructions": "Does the parent know where to go to check real snow conditions for Aspen or a Swiss resort?"
+      },
+      "lens_expectation": {
+        "type": "noul",
+        "instructions": "Would the parent correctly expect the Satellite/Terrain links to open Google Maps around the town area rather than a live snow or piste map?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_live_snow_shown": {
+        "type": "noul",
+        "noul": 0.22
+      },
+      "snowflake_means_snow": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "knows_where_to_check": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "lens_expectation": {
+        "type": "noul",
+        "noul": 0.83
+      }
+    },
+    "usage": {
+      "input_tokens": 709,
+      "output_tokens": 88
+    }
+  }
+}

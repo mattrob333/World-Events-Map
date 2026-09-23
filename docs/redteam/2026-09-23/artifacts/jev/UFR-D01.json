@@ -1,0 +1,95 @@
+{
+  "label": "UFR-D01",
+  "executed_at": "2026-09-23T17:02:27.387Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Guest: a friend who received a trip invitation link from a host on MERIDIAN, a travel-planning app. First visit, on a phone. Not signed in.",
+      "jtbd": "Understand what trip I was invited to, who invited me, and accept or decline the invitation.",
+      "entry": "Tapped a link the host sent: /?event=monaco-grand-prix&group=usr-monaco-grand-prix-muecdqtd",
+      "workflow_state": "Host created a cabin named 'KTEB Cabin' for Monaco Grand Prix in their own browser and posted a message. The guest's page has loaded.",
+      "visible_to_guest": {
+        "top_banner": "Set your traveler lens — it takes under a minute, and you can skip. [Begin] [Skip]",
+        "panel_heading": "06 · LEGENDARY · MOTORSPORT — Monaco Grand Prix — Three days when the Principality closes its own streets and everyone comes anyway",
+        "panel_buttons": [
+          "Open Monte-Carlo destination →",
+          "Find access & stays ↗",
+          "Find a circle ↗",
+          "Explore the neighborhood ↗"
+        ],
+        "panel_note": "Event saving will be available when membership is connected.",
+        "further_down_panel": "PREVIEW: GROUPS FORMING — two cards: 'Friday Out, Monday Back' (Simulated for review, 10/14, Join cabin) and 'LIML → LFMD' (Simulated for review, 4/9, Join cabin)",
+        "absent": "No text mentions an invitation, the host, the host's cabin 'KTEB Cabin', or the host's message. The URL still contains group=usr-monaco-grand-prix-muecdqtd."
+      },
+      "host_side_after_guest_joined_a_visible_cabin": "Host's KTEB Cabin still shows 1/8 on the manifest; no sign of the guest."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "guest_knows_invited": {
+        "type": "noul",
+        "instructions": "Can the guest tell from what is visible that they were invited to a specific cabin by a specific person?"
+      },
+      "guest_next_action": {
+        "type": "choice",
+        "instructions": "What is the guest most likely to do next?",
+        "criteria": {
+          "join_wrong_cabin": "Join one of the visible simulated cabins believing it is the one they were invited to",
+          "ask_host_out_of_band": "Leave the app and message the host asking what to do",
+          "abandon": "Give up / close the page",
+          "accept_correct_invite": "Accept the host's actual cabin invitation"
+        }
+      },
+      "handoff_completion": {
+        "type": "score",
+        "instructions": "How far does this cross-user handoff get toward the host seeing the guest's response?",
+        "criteria": [
+          "Guest cannot even see the invitation; host never sees a response",
+          "Guest sees the invitation but cannot act on it",
+          "Guest can act but the host never sees it",
+          "Host sees the guest's response and the workflow advances"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "guest_knows_invited": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "guest_next_action": {
+        "type": "choice",
+        "choice": "join_wrong_cabin",
+        "confidence": 0.86,
+        "probabilities": {
+          "join_wrong_cabin": 0.9,
+          "ask_host_out_of_band": 0.08,
+          "abandon": 0.02,
+          "accept_correct_invite": 0
+        }
+      },
+      "handoff_completion": {
+        "type": "score",
+        "score": 0.13,
+        "confidence": 0.87,
+        "legend": {
+          "0": "Guest cannot even see the invitation; host never sees a response",
+          "1": "Guest sees the invitation but cannot act on it",
+          "2": "Guest can act but the host never sees it",
+          "3": "Host sees the guest's response and the workflow advances"
+        },
+        "probabilities": {
+          "0": 0.9400000000000001,
+          "1": 0,
+          "2": 0.06,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 947,
+      "output_tokens": 97
+    }
+  }
+}

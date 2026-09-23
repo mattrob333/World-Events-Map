@@ -1,0 +1,74 @@
+{
+  "label": "UFR-B08",
+  "executed_at": "2026-09-23T17:01:24.933Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent planning a family ski week who wants to start a shared plan with another family.",
+      "entry_points_seen": [
+        {
+          "where": "Home page trip finder (Winter · Ski & snow)",
+          "label": "Start a family ski trip ↗",
+          "goes_to": "/trips family ski form: region/dates/party/lodging/budget, then 'Create the shared Circle' (disabled on this site)"
+        },
+        {
+          "where": "Globe story panel after flying to Aspen",
+          "label": "Start a Circle here →",
+          "goes_to": "/circles page: 'YOUR SELECTED OCCASION · Aspen Christmas & New Year Week ... No Circle or booking has been created ... Continue in Community to start a real Circle ↗ ... Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.'"
+        },
+        {
+          "where": "Aspen destination page hero",
+          "label": "Start a trip ↗",
+          "goes_to": "the same /circles page"
+        },
+        {
+          "where": "Aspen destination page, THE OPENING / Deals & flights card",
+          "label": "Start a trip plan ↗",
+          "goes_to": "/trips with NO family ski form shown until the parent clicks 'Start a family ski trip' in the hero"
+        },
+        {
+          "where": "Aspen destination page sticky button",
+          "label": "PLAN ASPEN CHRISTMAS & NEW YEAR WEEK",
+          "goes_to": "the same /circles page"
+        }
+      ],
+      "community_page": "Continue in Community leads to /community: 'Travel circles will appear when membership is connected. Explore events on the globe in the meantime. Membership is not connected yet. Profiles, travel modes, circles and partner requests need the membership service.'"
+    },
+    "model": "jev-latest",
+    "questions": {
+      "clear_which_to_use": {
+        "type": "noul",
+        "instructions": "Can the parent tell which of these entry points is the right one for starting a shared family ski plan with another family?"
+      },
+      "same_thing": {
+        "type": "noul",
+        "instructions": "Would the parent assume 'Start a trip', 'Start a Circle here', 'Start a trip plan' and 'Start a family ski trip' all lead to the same planning flow?"
+      },
+      "any_path_completes": {
+        "type": "noul",
+        "instructions": "Based on the destinations described, does any of these paths let the parent actually create something they can share with the other family on this site?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "clear_which_to_use": {
+        "type": "noul",
+        "noul": 0.24
+      },
+      "same_thing": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "any_path_completes": {
+        "type": "noul",
+        "noul": 0.11
+      }
+    },
+    "usage": {
+      "input_tokens": 786,
+      "output_tokens": 62
+    }
+  }
+}
