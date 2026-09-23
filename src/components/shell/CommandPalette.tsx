@@ -7,6 +7,7 @@ import { SEARCH_GROUP_LABEL, SEARCH_GROUPS, buildSearchCatalog, searchCatalog, t
 import { useIntentStore } from '@/lib/intent';
 import { track } from '@/lib/analytics';
 import { useCommandStore } from './commandStore';
+import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -57,8 +58,10 @@ export function CommandPalette() {
     return () => window.clearTimeout(id);
   }, [open]);
 
+  const platformConnected = Boolean(usePlatformAuth().client);
   const catalog = useMemo(() => {
-    const base = buildSearchCatalog();
+    // Once partner offers are connected, sample ACCESS hits would mix fake and live.
+    const base = buildSearchCatalog().filter((hit) => !(platformConnected && hit.group === 'access' && hit.href.startsWith('/access?offer=')));
     const savedHits: SearchHit[] = saved.map((item) => ({
       id: `intent-${item.verb}-${item.kind}-${item.id}`,
       group: 'saved' as const,
@@ -68,7 +71,7 @@ export function CommandPalette() {
       keywords: `${item.label} ${item.verb}`.toLowerCase(),
     }));
     return [...savedHits, ...base];
-  }, [saved]);
+  }, [saved, platformConnected]);
 
   const hits = searchCatalog(query, catalog);
   const grouped = SEARCH_GROUPS.map((group) => ({

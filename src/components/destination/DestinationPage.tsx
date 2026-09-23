@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
 import { FixtureBanner, OpportunityCardView, ProvenanceNote } from '@/components/shell';
@@ -161,6 +162,8 @@ function DestinationLoaded({
   onTab: (tab: Tab) => void;
   focusEventId: string;
 }) {
+  // Samples and live partner inventory never share a screen.
+  const platformConnected = Boolean(usePlatformAuth().client);
   const events = pulse.eventIds
     .map((id) => EVENT_INDEX.get(id))
     .filter((event): event is NonNullable<typeof event> => Boolean(event));
@@ -415,7 +418,14 @@ function DestinationLoaded({
           </div>
         )}
 
-        {tab === 'access' && (
+        {tab === 'access' && platformConnected && (
+          <EmptyState
+            title={`Partner offers for ${pulse.name} live in ACCESS.`}
+            body="Samples are hidden once partner offers are connected, so they never sit beside real ones."
+            action={<Link href={`/access?destination=${encodeURIComponent(pulse.slug)}`} className="text-[12px] text-brass">See partner offers ↗</Link>}
+          />
+        )}
+        {tab === 'access' && !platformConnected && (
           <div className="grid gap-4">
             <FixtureBanner>{ACCESS_FIXTURE_DISCLOSURE}</FixtureBanner>
             <div className="grid gap-3 lg:grid-cols-2">

@@ -37,4 +37,12 @@ describe('provider offer validation', () => {
   );
   it('still accepts an ordinary indicative price', () =>
     expect(validateOffer({ ...offer, price_label: 'From €1,200 per night' })).toBeNull());
+  it.each([
+    ['title', 'Book today for race week'],
+    ['price_label', 'Guarantee €45,000'],
+    ['description', 'Instant booking for the Yacht Show terrace. Three nights, breakfast included.'],
+  ])('refuses booking claims in %s', (field, value) =>
+    expect(validateOffer({ ...offer, [field]: value })).toMatch(/inquiries/));
+  it('allows ordinary access copy such as "Reserved table"', () =>
+    expect(validateOffer({ ...offer, title: 'Reserved table at the harbour' })).toBeNull());
 });

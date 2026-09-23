@@ -6,8 +6,11 @@ import { useEffect, useId, useState } from 'react';
 import { cn } from '@/components/ui';
 import { useOnboardingStore } from '@/lib/onboarding';
 import { DEMO_LABEL, isDemoMode } from '@/lib/flags';
-import { CurrentMemberChip } from '@/components/social/CurrentMemberChip';
-import { SocialRoot } from '@/components/social/MemberProfileSheet';
+import dynamic from 'next/dynamic';
+
+// Demo-only social layer: loaded on demand so non-demo builds don't ship it.
+const CurrentMemberChip = dynamic(() => import('@/components/social/CurrentMemberChip').then((m) => m.CurrentMemberChip), { ssr: false });
+const SocialRoot = dynamic(() => import('@/components/social/MemberProfileSheet').then((m) => m.SocialRoot), { ssr: false });
 import { CommandPalette, SearchTrigger } from './CommandPalette';
 
 const PRIMARY = [

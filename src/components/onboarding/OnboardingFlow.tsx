@@ -53,7 +53,8 @@ export function OnboardingFlow() {
 
   useEffect(() => {
     if (!finished) return;
-    const timer = setTimeout(() => router.push(fromPath), 900);
+    // Replace, so browser Back from the destination does not reopen the last step.
+    const timer = setTimeout(() => router.replace(fromPath), 900);
     return () => clearTimeout(timer);
   }, [finished, fromPath, router]);
 

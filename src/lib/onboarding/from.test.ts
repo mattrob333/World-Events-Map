@@ -41,4 +41,11 @@ describe('sanitizeFromPath', () => {
   it('keeps query and hash on an in-app path', () => {
     expect(sanitizeFromPath('/destinations/aspen?event=aspen-christmas-week#x')).toBe('/destinations/aspen?event=aspen-christmas-week#x');
   });
+
+  it.each(['/.//evil.com', '/..//evil.com', '/a/..//evil.com', '/%2e%2e//evil.com', '/././/evil.com'])(
+    'rejects %s, which collapses to a protocol-relative URL once resolved',
+    (raw) => {
+      expect(sanitizeFromPath(raw)).toBe('/');
+    },
+  );
 });

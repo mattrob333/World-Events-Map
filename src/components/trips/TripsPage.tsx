@@ -7,6 +7,7 @@ import { formatDateRange } from '@/components/ui/tokens';
 import { INTENT_LABEL, useIntentStore } from '@/lib/intent';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { circleInviteUrl } from '@/lib/trips/circleInvite';
+import { clearSkiDrafts, skiDraftKey } from '@/lib/trips/skiDraft';
 import { TRIP_ROOM_FIXTURES } from '@/lib/trips';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { createFamilySkiCircle as runFamilySkiCreation } from './createFamilySkiCircle';
@@ -22,7 +23,6 @@ import styles from './trips.module.css';
 
 type CreatedCircle = { href: string; briefSaved: boolean; brief: string | null };
 
-const DRAFT_PREFIX = 'meridian.ski-draft.v1:';
 const DRAFT_FIELDS = ['region', 'start', 'end', 'origin', 'adults', 'children', 'anotherFamily', 'stay', 'nightlyBudget', 'resorts', 'childNotes'] as const;
 
 function readSkiInput(form: HTMLFormElement): FamilySkiInput {
@@ -40,17 +40,6 @@ function readSkiInput(form: HTMLFormElement): FamilySkiInput {
     resorts: String(data.get('resorts') ?? '').slice(0, 160),
     childNotes: String(data.get('childNotes') ?? '').slice(0, 200),
   };
-}
-
-/** Drafts live in this tab only and are cleared on sign-out. */
-function clearSkiDrafts() {
-  try {
-    for (const key of Object.keys(window.sessionStorage)) {
-      if (key.startsWith(DRAFT_PREFIX)) window.sessionStorage.removeItem(key);
-    }
-  } catch {
-    // Storage unavailable: nothing to clear.
-  }
 }
 
 export function TripsPage({ featuredSki = false, eventId = '' }: { featuredSki?: boolean; eventId?: string }) {
@@ -83,7 +72,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
   const [touched, setTouched] = useState(false);
   const [liveProblem, setLiveProblem] = useState<string | null>(null);
   const [copiedBrief, setCopiedBrief] = useState<{ text: string; copied: boolean } | null>(null);
-  const draftKey = `${DRAFT_PREFIX}${user?.id ?? 'visitor'}`;
+  const draftKey = skiDraftKey(user?.id);
   const prefillDates = linkedEvent && linkedEvent.start >= today ? { start: linkedEvent.start, end: linkedEvent.end } : null;
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState('');
@@ -110,6 +99,16 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
       data.subscription.unsubscribe();
     };
   }, [client, user?.id]);
+
+  useEffect(() => {
+    // A visitor draft never carries over into a member's session.
+    if (!user) return;
+    try {
+      window.sessionStorage.removeItem(skiDraftKey(null));
+    } catch {
+      // Storage unavailable.
+    }
+  }, [user]);
 
   useEffect(() => {
     const form = formRef.current;
@@ -206,11 +205,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
       const href = circleInviteUrl(window.location.origin, outcome.circleId);
       if (!href) throw new Error('The trip was created, but its link was invalid. Check Community before trying again.');
       setCreated({ href, briefSaved: outcome.kind === 'created', brief: outcome.kind === 'brief-failed' ? outcome.brief : null });
-      try {
-        window.sessionStorage.removeItem(draftKey);
-      } catch {
-        // Nothing to clear.
-      }
+      clearSkiDrafts();
       if (outcome.kind === 'brief-failed') setError('Your Circle was created, but the private planning brief could not be saved. Open the Circle and post the brief below in its conversation.');
     } catch (cause) {
       if (isCurrent()) setError(cause instanceof Error ? cause.message : 'Could not create this trip. Please try again.');

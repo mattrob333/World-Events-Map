@@ -92,6 +92,7 @@ function PartnerAccess({ client }: { client: NonNullable<ReturnType<typeof usePl
   const [state, setState] = useState<{ status: 'loading' | 'ready' | 'error'; offers: PublishedOffer[] }>({ status: 'loading', offers: [] });
   const params = useSearchParams();
   const destination = params.get('destination');
+  const staleSample = params.get('offer');
 
   useEffect(() => {
     let active = true;
@@ -113,6 +114,11 @@ function PartnerAccess({ client }: { client: NonNullable<ReturnType<typeof usePl
     <main className={styles.page}>
       <AccessHero note="Offers from reviewed partners · inquiries, not bookings" />
       <div className={styles.content}>
+        {staleSample && (
+          <p className={styles.empty} role="status">
+            That link pointed to a sample from the product preview. Samples are not shown now that partner offers are connected; here are the real ones.
+          </p>
+        )}
         <p className={styles.disclosure}>
           Offers here come from reviewed travel partners. Asking about one sends an inquiry, not a booking: the provider confirms dates, price and terms when they reply.
         </p>

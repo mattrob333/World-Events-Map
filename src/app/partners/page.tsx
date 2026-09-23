@@ -180,6 +180,12 @@ function PartnerStudioContent() {
   }
   async function changeStatus(id: string, status: string) {
     await run(async () => {
+      if (status === 'published') {
+        // Offers saved before a validation rule existed must pass it before going live.
+        const existing = offers.find((offer) => offer.id === id);
+        const reason = existing ? validateOffer(existing) : null;
+        if (reason) throw new Error(reason);
+      }
       const { error } = await client!
         .from('offers')
         .update({ status })

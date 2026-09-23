@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { getPlatformClient } from './client';
+import { clearSkiDrafts } from '@/lib/trips/skiDraft';
 
 export function usePlatformAuth() {
   const [client] = useState(getPlatformClient);
@@ -47,6 +48,8 @@ export function usePlatformAuth() {
     if (!client) return;
     const { error } = await client.auth.signOut();
     if (error) throw error;
+    // Household drafts must not outlive the session on a shared device.
+    clearSkiDrafts();
     setUser(null);
   }
   return { client, user, loading, error, signIn, signOut };

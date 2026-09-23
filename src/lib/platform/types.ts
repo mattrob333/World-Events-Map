@@ -23,7 +23,11 @@ export interface ProviderOrganization {
   status: 'pending' | 'approved' | 'suspended';
 }
 /** MERIDIAN offers create inquiries, never bookings, holds or quotes. */
-const BOOKING_CLAIM = /\b(confirmed|guaranteed|reserved|booked|book now|instant booking|sold out)\b/i;
+// Headline and price may not claim a booking, hold or guarantee. "Reserved
+// table" is ordinary access copy, so "reserved" alone is allowed.
+const BOOKING_CLAIM = /\b(confirmed|guaranteed?|booked|book (?:now|today)|instant booking|sold out)\b/i;
+// Descriptions are longer prose ("confirmed on reply" is fine); only strong claims are refused there.
+const DESCRIPTION_BOOKING_CLAIM = /\b(guaranteed?|book (?:now|today)|instant booking|booking confirmed)\b/i;
 
 export function validateOffer(
   input: Pick<
@@ -39,7 +43,7 @@ export function validateOffer(
     return 'Add a destination between 2 and 120 characters.';
   if (input.price_label.length > 100)
     return 'Keep the price description under 100 characters.';
-  if (BOOKING_CLAIM.test(`${input.title} ${input.price_label}`))
+  if (BOOKING_CLAIM.test(`${input.title} ${input.price_label}`) || DESCRIPTION_BOOKING_CLAIM.test(input.description))
     return 'Offers are inquiries. Remove booking or confirmation wording such as "confirmed", "guaranteed" or "book now".';
   if (
     !Number.isFinite(Date.parse(input.expires_at)) ||

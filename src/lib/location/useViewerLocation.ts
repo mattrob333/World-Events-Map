@@ -75,6 +75,8 @@ export function fallbackForTimeZone(timeZone: string): GeoPoint {
  */
 export function useViewerLocation() {
   const cancelRequest = useRef<(() => void) | null>(null);
+  // A city chosen while the permission check is in flight must win.
+  const cityChosen = useRef(false);
   const [state, setState] = useState<ViewerLocationState>({
     coords: null,
     launchCoords: null,
@@ -114,6 +116,7 @@ export function useViewerLocation() {
     const city = VIEWER_CITIES.find((entry) => entry.name === name);
     if (!city) return;
     cancelRequest.current?.();
+    cityChosen.current = true;
     // Remember only an explicitly chosen public city, never device coordinates.
     try { sessionStorage.setItem(CITY_CHOICE_KEY, city.name); } catch { /* In-memory choice still works. */ }
     setState((current) => ({ ...current, coords: { lat: city.lat, lon: city.lon }, status: 'granted', source: 'chosen', cityLabel: city.name, deviceFailure: undefined }));
@@ -145,7 +148,7 @@ export function useViewerLocation() {
     void permissions?.query({ name: 'geolocation' as PermissionName })
       .then((permission) => {
         if (!active) return;
-        if (permission.state === 'granted') requestLocation();
+        if (permission.state === 'granted' && !cityChosen.current) requestLocation();
         else if (permission.state === 'denied') setState((current) => ({ ...current, status: 'denied', deviceFailure: 'denied' }));
       })
       .catch(() => { /* Permissions API unsupported: wait for a tap. */ });

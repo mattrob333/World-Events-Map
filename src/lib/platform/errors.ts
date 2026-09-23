@@ -6,6 +6,9 @@ export function explainPlatformError(cause: unknown): string {
   const error = (cause && typeof cause === 'object' ? cause : {}) as { code?: unknown; message?: unknown };
   const code = typeof error.code === 'string' ? error.code : '';
   const message = typeof error.message === 'string' ? error.message : '';
+  // Supabase auth errors (rate limits, invalid email) carry messages written for people.
+  const name = cause && typeof cause === 'object' && 'name' in cause ? String((cause as { name?: unknown }).name) : '';
+  if (/^Auth\w*Error$/.test(name) && message) return message;
   switch (code) {
     case '23505':
       return 'This already exists. Refresh the studio to see it.';

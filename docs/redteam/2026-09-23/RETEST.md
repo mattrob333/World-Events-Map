@@ -61,3 +61,18 @@ Four checks initially failed because of the test script, not the app (URL read b
 | UFR-B08 | Ski destinations now route "Start a trip" to the planner; consolidating all five "start" CTAs is an IA decision |
 | UFR-D08, D09, D10, host Invite button on cabin cards | Demo-only social UX; next pass |
 | UFR-E10, E11 (globe offer ids), C11, C14, A13 (remaining jargon) | Lower-severity IA/polish |
+
+## Release review of the fixes
+
+A high-capability review of the full fix diff ran after the retest (a Claude reviewer subagent; **not an Astra review — Astra did not run**). It found one BLOCKING issue and five SHOULD-FIX items, all fixed in the following commit and re-verified:
+
+| Item | Fix | Verification |
+|---|---|---|
+| BLOCKING: onboarding `?from=` open redirect via dot segments (`/.//evil.com` → `//evil.com`) | Sanitizer re-checks the resolved path | 5 new unit cases; reproduced before, rejected after |
+| Demo invite reader consumed `?event=` on every route | Reader only acts on `/` or links with `group` | Browser: `/destinations/st-moritz?event=…` keeps the param and leads with New Year Week in demo mode |
+| Family-ski draft could reach the next person on a shared device | Drafts cleared in the shared `signOut()`, after creation, and when a member arrives | Unit test with an in-memory storage |
+| Stale sample links once partners are connected; samples beside live offers | ACCESS explains stale sample links; destination tab and palette hide samples when connected | Code review (needs configured partners to browse) |
+| Supabase auth errors lost their message | Auth error messages pass through | Unit test |
+| Booking-claim rule missed "book today"/"guarantee", blocked "Reserved table", skipped descriptions and publish | Rule tightened, descriptions checked for strong claims, re-validated before publish | Unit tests |
+
+Nits also addressed: city choice wins over a late permission check, no no-op navigations, onboarding finish uses replace, the demo social layer loads on demand, and `global-error.tsx` covers failures in the shell. After these changes: gate passes (384 tests), browser retest 28/28, demo retest 7/7.

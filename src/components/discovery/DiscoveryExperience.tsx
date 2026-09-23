@@ -88,7 +88,10 @@ export function DiscoveryExperience() {
     if (mode === 'push') router.push(href, { scroll: false });
     else router.replace(href, { scroll: false });
   };
-  const setJourneyEventId = (journey: string | null) => navigateDiscovery({ journey });
+  const setJourneyEventId = (journey: string | null) => {
+    if (journey === discovery.journey) return;
+    navigateDiscovery({ journey });
+  };
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
   const routeTimer = useRef<number | null>(null);

@@ -16,4 +16,8 @@ describe('platform error copy (UFR-E09)', () => {
     expect(explainPlatformError(new Error('relation "x" does not exist'))).toMatch(/Nothing was changed/);
     expect(explainPlatformError(null)).toMatch(/Nothing was changed/);
   });
+  it('passes through Supabase auth messages', () => {
+    expect(explainPlatformError({ name: 'AuthApiError', code: 'over_email_send_rate_limit', message: 'Email rate limit exceeded' }))
+      .toBe('Email rate limit exceeded');
+  });
 });

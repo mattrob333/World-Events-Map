@@ -19,6 +19,9 @@ export function sanitizeFromPath(raw: string | null | undefined): string {
     const base = 'https://meridian.invalid';
     const resolved = new URL(raw, base);
     if (resolved.origin !== base) return '/';
+    // Dot segments collapse during resolution (`/.//evil.com` → `//evil.com`),
+    // so the output must pass the same protocol-relative check as the input.
+    if (resolved.pathname.startsWith('//')) return '/';
     return `${resolved.pathname}${resolved.search}${resolved.hash}`;
   } catch {
     return '/';

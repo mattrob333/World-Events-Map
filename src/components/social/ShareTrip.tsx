@@ -155,6 +155,9 @@ export function TripLinkReader() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // Share links point at the world page. Elsewhere, `?event=` belongs to the
+    // page (destination focus, trip prefill) and must not be consumed here.
+    if (window.location.pathname !== '/' && !new URLSearchParams(window.location.search).has('group')) return;
     const target = readTripLink(window.location.search);
     if (!target.eventId) return;
 
