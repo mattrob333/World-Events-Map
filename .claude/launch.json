@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "ringfall",
+      "name": "meridian",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 5173
+      "runtimeArgs": ["run", "dev", "--", "--hostname", "localhost", "--port", "3127"],
+      "port": 3127
     }
   ]
 }

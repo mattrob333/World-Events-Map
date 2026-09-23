@@ -81,7 +81,7 @@ function PhotoSlide({ photo, city, compact }: { photo: PlacePhoto; city: string;
       ) : (
         // Wikimedia URLs are checked by the server and vary per file; Next image optimization is intentionally bypassed.
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={photo.imageUrl} alt={photo.subject === 'event' ? photo.title : `${city} place photograph: ${photo.title}`} onError={() => setFailed(true)} loading="lazy" className={`w-full object-cover ${compact ? 'h-44' : 'h-56'}`} />
+        <img src={photo.imageUrl} alt={photo.subject === 'event' ? photo.title : `${city} place photograph: ${photo.title}`} onError={() => setFailed(true)} loading="lazy" referrerPolicy="no-referrer" className={`w-full object-cover ${compact ? 'h-44' : 'h-56'}`} />
       )}
       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-void via-void/85 to-transparent px-3 pb-2 pt-8 text-[10px] leading-4 text-ink">
         <span className={`mb-1 inline-block rounded border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.12em] ${photo.subject === 'event' ? 'border-signal/40 bg-signal/15 text-signal' : 'border-brass/40 bg-brass/15 text-brass'}`}>{photo.subject === 'event' ? 'Event archive' : 'Place imagery'}</span>

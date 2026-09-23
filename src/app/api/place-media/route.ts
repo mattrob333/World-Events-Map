@@ -7,6 +7,7 @@ import type { EventCategory, WorldEvent } from '@/lib/types';
 export const runtime = 'nodejs';
 
 const CACHE_MS = 6 * 60 * 60 * 1000;
+const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=300, stale-while-revalidate=3600' };
 const cache = new Map<string, { expires: number; photos: PlacePhoto[] }>();
 const inflight = new Map<string, Promise<PlacePhoto[]>>();
 // These are editorial search hints, never user-supplied query strings. Generic
@@ -58,7 +59,9 @@ export async function GET(request: Request) {
   if (!event) return NextResponse.json({ error: 'Event not found' }, { status: 404 });
 
   const cached = cache.get(eventId);
-  if (cached && cached.expires > Date.now()) return NextResponse.json({ photos: cached.photos, source: 'Wikimedia Commons' });
+  if (cached && cached.expires > Date.now()) {
+    return NextResponse.json({ photos: cached.photos, source: 'Wikimedia Commons' }, { headers: CACHE_HEADERS });
+  }
 
   let pending = inflight.get(eventId);
   if (!pending) {
@@ -68,11 +71,11 @@ export async function GET(request: Request) {
   const photos = await pending;
   inflight.delete(eventId);
 
-  if (cache.size >= 200) cache.delete(cache.keys().next().value!);
+  // Keys are catalog event IDs, so one slot per event bounds the cache without
+  // letting a crawler evict entries and re-trigger upstream searches.
+  if (!cache.has(eventId) && cache.size >= Math.max(EVENT_INDEX.size, 1)) cache.delete(cache.keys().next().value!);
   cache.set(eventId, { photos, expires: Date.now() + (photos.length ? CACHE_MS : 5 * 60 * 1000) });
-  return NextResponse.json({ photos, source: 'Wikimedia Commons' }, {
-    headers: { 'Cache-Control': 'public, max-age=300, stale-while-revalidate=3600' },
-  });
+  return NextResponse.json({ photos, source: 'Wikimedia Commons' }, { headers: CACHE_HEADERS });
 }
 
 async function loadPhotos(event: WorldEvent): Promise<PlacePhoto[]> {

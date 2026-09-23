@@ -47,3 +47,15 @@ it('requires the documented response list instead of accepting an unknown provid
     token: 'key', fetchImpl: fetchImpl as typeof fetch, runId: 'run',
   })).rejects.toThrow(/missing the expected social list/);
 });
+
+it('records the charge for a billed call even when its body cannot be parsed', async () => {
+  const fetchImpl = vi.fn(async () => new Response('not json', {
+    status: 200, headers: { 'x-treg-call-id': 'call_2', 'x-treg-cost-micro': '2400' },
+  }));
+  const onReceipt = vi.fn();
+  await expect(collectTregResearch(
+    [{ kind: 'instagram_hashtag', term: 'aspensnow' }],
+    { token: 'test-token', fetchImpl: fetchImpl as typeof fetch, runId: 'run', onReceipt },
+  )).rejects.toThrow(/invalid JSON/);
+  expect(onReceipt).toHaveBeenCalledWith({ endpoint: 'anyapi.instagram.hashtag_recent_posts', callId: 'call_2', costMicro: 2400 });
+});

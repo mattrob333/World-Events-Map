@@ -593,15 +593,6 @@ function blobPath(
   return `${d}Z`;
 }
 
-function scalePoints(
-  points: readonly (readonly [number, number])[],
-  cx: number,
-  cy: number,
-  k: number,
-): (readonly [number, number])[] {
-  return points.map(([x, y]) => [round3(cx + (x - cx) * k), round3(cy + (y - cy) * k)] as const);
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Serialization
 // ─────────────────────────────────────────────────────────────────────────────

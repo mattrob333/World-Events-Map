@@ -45,9 +45,6 @@ export type { SheetProps } from './Sheet';
 export { Skeleton } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
 
-export { Spark } from './Spark';
-export type { SparkProps } from './Spark';
-
 export { RangeField, SearchField } from './Field';
 export type { RangeFieldProps, SearchFieldProps } from './Field';
 

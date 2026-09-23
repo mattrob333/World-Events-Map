@@ -102,7 +102,10 @@ function taskDetails(task: TregSearchTask) {
 /** Pinned catalog endpoints keep a stable provider shape and known price ceiling. */
 export async function collectTregResearch(
   tasks: TregSearchTask[],
-  options: { token?: string; fetchImpl?: typeof fetch; runId: string; now?: Date } = { runId: '' },
+  options: {
+    token?: string; fetchImpl?: typeof fetch; runId: string; now?: Date;
+    onReceipt?: (receipt: TregCallReceipt) => void;
+  } = { runId: '' },
 ): Promise<{ candidates: TregResearchCandidate[]; receipts: TregCallReceipt[] }> {
   const token = options.token ?? process.env.TREG_TOKEN;
   if (!token) throw new Error('Treg is not configured');
@@ -127,6 +130,16 @@ export async function collectTregResearch(
       cache: 'no-store',
       signal: AbortSignal.timeout(12_000),
     });
+    // Record the charge before any parsing, so a billed call with a malformed
+    // body still leaves a trace for billing reconciliation.
+    const costRaw = response.headers.get('x-treg-cost-micro');
+    const receipt = {
+      endpoint,
+      callId: response.headers.get('x-treg-call-id'),
+      costMicro: costRaw && /^\d+$/.test(costRaw) ? Number(costRaw) : null,
+    };
+    receipts.push(receipt);
+    options.onReceipt?.(receipt);
     if (!response.ok) throw new Error(`Treg request failed with status ${response.status}`);
     const rawText = await response.text();
     if (rawText.length > 1_000_000) throw new Error('Treg response exceeded size limit');
@@ -148,9 +161,6 @@ export async function collectTregResearch(
         : normalizeTikTok(row, task, fetchedAt);
       if (normalized) candidates.push(normalized);
     }
-    const costRaw = response.headers.get('x-treg-cost-micro');
-    const costMicro = costRaw && /^\d+$/.test(costRaw) ? Number(costRaw) : null;
-    receipts.push({ endpoint, callId: response.headers.get('x-treg-call-id'), costMicro });
   }
   return { candidates, receipts };
 }

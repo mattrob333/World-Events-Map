@@ -24,6 +24,22 @@ export interface ResearchFeedResponse {
   items: ResearchFeedItem[];
 }
 
+// The cron route's maxDuration is 120s. A run still marked running long after
+// that was killed before it could record an outcome.
+const STALE_RUN_MS = 10 * 60_000;
+
+export function publicRunStatus(
+  status: string | null | undefined,
+  lastStartedAt: string | null | undefined,
+  now: number,
+): ResearchFeedResponse['lastRunStatus'] {
+  if (status === 'running') {
+    const started = lastStartedAt ? Date.parse(lastStartedAt) : NaN;
+    return Number.isFinite(started) && now - started <= STALE_RUN_MS ? 'running' : 'error';
+  }
+  return status === 'complete' || status === 'partial' || status === 'error' ? status : 'awaiting';
+}
+
 type Row = {
   id: string; title: string; excerpt: string; url: string; source: string;
   platform: string; category: string; topic: string; destination_slug: string | null;
@@ -66,14 +82,12 @@ export async function readResearchFeed(destinationSlug?: string): Promise<Resear
   if (!db) return { status: 'unconfigured', generatedAt, lastRunStatus: 'awaiting', items: [] };
   try {
     const { data: run, error: runError } = await db.from('meridian_research_control')
-      .select('last_completed_at,last_status')
+      .select('last_completed_at,last_started_at,last_status')
       .eq('name', 'global')
       .maybeSingle();
     if (runError) throw new Error('research run status unavailable');
     generatedAt = run?.last_completed_at ?? '';
-    const lastRunStatus = run?.last_status === 'complete' || run?.last_status === 'partial' ||
-      run?.last_status === 'error' || run?.last_status === 'running'
-      ? run.last_status : 'awaiting';
+    const lastRunStatus = publicRunStatus(run?.last_status, run?.last_started_at, Date.now());
     let query = db.from('meridian_research_items')
       .select('id,title,excerpt,url,source,platform,category,topic,destination_slug,published_at,fetched_at,author')
       .eq('decision', 'publish')

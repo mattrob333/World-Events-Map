@@ -28,7 +28,6 @@ import { EVENTS } from '@/lib/data/events';
 import { getDemoWorld } from '@/lib/demo';
 import { greatCircleDistanceNm } from '@/lib/geo/projection';
 import type {
-  EventCategory,
   GroupMembership,
   GroupStatus,
   InterestLevel,
@@ -273,8 +272,8 @@ const PREMISES: readonly ((c: PremiseCtx) => string)[] = [
   (c) => `In ${c.day}, out ${c.dayBack}, and I am not moving either date. ${c.seats} seats from ${c.hub}.`,
   (c) => `Taking the aircraft empty otherwise. ${c.seats} seats, and frankly I would like the conversation.`,
   (c) => `Direct ${c.hub} to ${c.port}. If you need to be at a desk on Monday this is the wrong group.`,
-  (c) => `Fourth year running. The group is half the reason I go and I will not pretend otherwise.`,
-  (c) => `Ground arrangements are handled from the Tuesday before. The flight is the only part left to organise.`,
+  () => `Fourth year running. The group is half the reason I go and I will not pretend otherwise.`,
+  () => `Ground arrangements are handled from the Tuesday before. The flight is the only part left to organise.`,
   (c) => `Splitting a ${c.jet} from ${c.hub}. Bring nothing that needs its own seat.`,
   (c) => `${c.event} and nothing else. No dinners, no introductions, no one taking meetings.`,
   (c) => `Planning a ramp slot request. ${c.seats} places in mind out of ${c.hub}.`,

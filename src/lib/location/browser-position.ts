@@ -17,11 +17,12 @@ export function requestBrowserPosition(
       onFailure('unavailable');
       return;
     }
-    // City-scale context only; do not retain precise coordinates.
+    // City-scale context only; do not retain precise coordinates. A network
+    // fix is enough at 0.1°, so the browser need not power up GPS.
     onPosition({ lat: Math.round(latitude * 10) / 10, lon: Math.round(longitude * 10) / 10 });
   }, (error) => {
     if (active) onFailure(error.code === 1 ? 'denied' : 'unavailable');
-  }, { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 });
+  }, { enableHighAccuracy: false, timeout: 20_000, maximumAge: 120_000 });
   return () => { active = false; };
 }
 

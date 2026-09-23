@@ -10,4 +10,9 @@ next-env.d.ts
 !.env.example
 .DS_Store
 .vercel
-.env*.local
+coverage/
+*.log
+supabase/.temp/
+.claude/settings.local.json
+.vscode/
+.idea/

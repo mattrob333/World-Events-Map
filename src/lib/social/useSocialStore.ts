@@ -22,7 +22,6 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { getDemoWorld, isDemo } from '@/lib/demo';
 import type {
-  EventCategory,
   InterestLevel,
   InterestSignal,
   JetOption,
@@ -276,7 +275,8 @@ function sanitizePhoto(member: MemberDossier): MemberDossier {
   const url = member.photoUrl;
   if (!url) return member;
   if (/^(data:image\/(png|jpeg|webp|gif|avif);|https:\/\/)/.test(url)) return member;
-  const { photoUrl: _dropped, ...rest } = member;
+  const rest = { ...member };
+  delete rest.photoUrl;
   return rest;
 }
 

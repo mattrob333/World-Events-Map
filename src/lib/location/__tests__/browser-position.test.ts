@@ -12,9 +12,9 @@ function setup() {
 }
 
 describe('fresh browser location', () => {
-  it('requests a fresh accurate fix and rounds Atlanta to city-scale coordinates', () => {
+  it('requests a recent network-grade fix and rounds Atlanta to city-scale coordinates', () => {
     const request = setup();
-    expect(request.geo.getCurrentPosition.mock.calls[0][2]).toEqual({ enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 });
+    expect(request.geo.getCurrentPosition.mock.calls[0][2]).toEqual({ enableHighAccuracy: false, timeout: 20_000, maximumAge: 120_000 });
     request.success();
     expect(request.onPosition).toHaveBeenCalledWith({ lat: 33.7, lon: -84.4 });
   });

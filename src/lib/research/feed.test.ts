@@ -3,7 +3,7 @@ import { expect, it, vi } from 'vitest';
 vi.mock('server-only', () => ({}));
 vi.mock('@/lib/data/durable', () => ({ signalDatabase: () => null }));
 
-import { readResearchFeed, researchItemForPublicFeed } from './feed';
+import { publicRunStatus, readResearchFeed, researchItemForPublicFeed } from './feed';
 
 const now = Date.parse('2026-09-22T18:00:00Z');
 const fresh = {
@@ -24,4 +24,12 @@ it('shows sourced current stories and drops stale, unsafe, and unverified invent
 
 it('is explicitly unconfigured without durable storage', async () => {
   expect((await readResearchFeed()).status).toBe('unconfigured');
+});
+
+it('reports a sweep that never recorded an outcome as failed, not running', () => {
+  expect(publicRunStatus('running', '2026-09-22T17:58:00Z', now)).toBe('running');
+  expect(publicRunStatus('running', '2026-09-22T17:00:00Z', now)).toBe('error');
+  expect(publicRunStatus('running', null, now)).toBe('error');
+  expect(publicRunStatus('complete', '2026-09-22T05:15:00Z', now)).toBe('complete');
+  expect(publicRunStatus('unknown', null, now)).toBe('awaiting');
 });
