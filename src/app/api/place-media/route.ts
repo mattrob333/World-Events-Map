@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { isRecentEventArchive, selectCommonsPhotos, type PlacePhoto } from '@/lib/place-media/media';
-import type { WorldEvent } from '@/lib/types';
+import { curatedPhotoForEvent } from '@/lib/place-media/curated';
+import type { EventCategory, WorldEvent } from '@/lib/types';
 
 export const runtime = 'nodejs';
 
@@ -17,6 +18,15 @@ const PLACE_SEARCH: Record<string, string> = {
   'aspen-christmas-week': 'Aspen skiing Colorado',
   'niseko-january-powder': 'Niseko skiing Japan',
   'galapagos-cool-season': 'Puerto Ayora Galapagos sunset',
+  'kyoto-cherry-blossom': 'Kyoto cherry blossom sakura',
+};
+const PLACE_QUERY: Record<EventCategory, string> = {
+  art: 'art exhibition', music: 'concert festival', motorsport: 'racing circuit',
+  sailing: 'yacht sail', ski: 'ski snow', culinary: 'food restaurant',
+  fashion: 'fashion runway', wellness: 'spa wellness', safari: 'wildlife safari',
+  equestrian: 'horse racing', film: 'film festival', design: 'design exhibition',
+  golf: 'golf course', tennis: 'tennis court', nature: 'nature landscape',
+  cultural: 'festival celebration', gala: 'gala ball',
 };
 
 async function searchCommons(query: string, event: WorldEvent, subject: 'event' | 'place'): Promise<PlacePhoto[]> {
@@ -66,14 +76,18 @@ export async function GET(request: Request) {
 }
 
 async function loadPhotos(event: WorldEvent): Promise<PlacePhoto[]> {
+  const curated = curatedPhotoForEvent(event.id);
   const photos = (await searchCommons(EVENT_SEARCH[event.id] ?? `${event.name} ${event.city}`, event, 'event').catch(() => []))
     .filter((photo) => isRecentEventArchive(photo, event));
-  if (photos.length >= 2) return photos;
-  const place = await searchCommons(PLACE_SEARCH[event.id] ?? `${event.city} ${event.country}`, event, 'place').catch(() => []);
+  if (photos.length >= 4) return curated ? [curated, ...photos.filter((photo) => photo.sourceUrl !== curated.sourceUrl).slice(0, 4)] : photos;
+  const placeQuery = PLACE_SEARCH[event.id] ?? `${event.city} ${PLACE_QUERY[event.category]}`;
+  const place = await searchCommons(placeQuery, event, 'place').catch(() => []);
   if (event.category === 'ski') {
     place.sort((a, b) => Number(/ski|snowboard|gondola|chairlift|powder/i.test(b.title)) -
       Number(/ski|snowboard|gondola|chairlift|powder/i.test(a.title)));
   }
-  const existing = new Set(photos.map((photo) => photo.sourceUrl));
-  return [...photos, ...place.filter((photo) => !existing.has(photo.sourceUrl)).slice(0, 5 - photos.length)];
+  const existing = new Set([...(curated ? [curated.sourceUrl] : []), ...photos.map((photo) => photo.sourceUrl)]);
+  const supplements = [...photos.filter((photo) => photo.sourceUrl !== curated?.sourceUrl),
+    ...place.filter((photo) => !existing.has(photo.sourceUrl))];
+  return curated ? [curated, ...supplements.slice(0, 4)] : supplements.slice(0, 5);
 }

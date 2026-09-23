@@ -20,15 +20,41 @@ const FILTERS: Array<OpportunityKind | 'all'> = [
   'all', 'stay', 'aviation', 'ground', 'event_access', 'dining', 'experience', 'yacht', 'advisor',
 ];
 
-function sceneClass(offer: OpportunityCard): string {
-  return offer.kind === 'yacht' || offer.destinationLabel === 'Monte-Carlo' ? styles.seaScene : styles.snowScene;
-}
+const OFFER_PHOTOS: Record<string, { className: string; description: string; context: string; author: string; source: string; license: string; licenseHref: string }> = {
+  'opp-aspen-nell': {
+    className: styles.aspenStayScene, description: 'Silver Queen Gondola above a snowy Aspen Mountain run', context: 'Aspen place archive',
+    author: 'Wolfgang Moroder', source: 'https://commons.wikimedia.org/wiki/File:Aspen_Mountain_Silver_Queen_Gondola_over_Silver_dip_run.jpg',
+    license: 'CC BY-SA 3.0', licenseHref: 'https://creativecommons.org/licenses/by-sa/3.0/',
+  },
+  'opp-ase-kase': {
+    className: styles.aspenAviationScene, description: 'Private aircraft on the apron at Aspen airport in October 2025', context: 'Aspen airport archive',
+    author: 'Jeffrey Beall', source: 'https://commons.wikimedia.org/wiki/File:Planes_on_the_apron_at_Aspen_Airport_in_October_2025.JPG',
+    license: 'CC BY 4.0', licenseHref: 'https://creativecommons.org/licenses/by/4.0/',
+  },
+  'opp-aspen-ground': {
+    className: styles.aspenGroundScene, description: 'Snow-covered Main Street in Aspen', context: 'Aspen winter archive',
+    author: 'Werdna', source: 'https://commons.wikimedia.org/wiki/File:Main_Street_in_Aspen.jpg',
+    license: 'CC BY-SA 4.0', licenseHref: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  },
+  'opp-monaco-harbor': {
+    className: styles.monacoYachtScene, description: 'Yachts in Port Hercule, Monaco', context: 'Monaco place archive',
+    author: 'Charles from Port Chester', source: 'https://commons.wikimedia.org/wiki/File:View_of_luxury_yachts_on_Port_Hercules_from_Avenue_de_la_Porte_Neuve,_Monaco_(53969150376).jpg',
+    license: 'CC BY 2.0', licenseHref: 'https://creativecommons.org/licenses/by/2.0/',
+  },
+  'opp-courchevel-chalet': {
+    className: styles.courchevelScene, description: 'Snowy ski pistes seen from Courchevel 1850', context: 'Courchevel place archive',
+    author: 'Florian Pépellin', source: 'https://commons.wikimedia.org/wiki/File:Pistes_de_ski_c%C3%B4t%C3%A9_Loze_vues_de_Courchevel_1850_(d%C3%A9cembre_2019).JPG',
+    license: 'CC BY-SA 4.0', licenseHref: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  },
+};
 
 function OfferScene({ offer }: { offer: OpportunityCard }) {
+  const photo = OFFER_PHOTOS[offer.id];
   return (
-    <div className={`${styles.offerScene} ${sceneClass(offer)}`} role="img" aria-label={`Illustrative travel scene for ${offer.destinationLabel}; this is not a photograph of the offer`}>
+    <div className={`${styles.offerScene} ${photo?.className ?? ''}`} role="group" aria-label={photo ? `${photo.description}; archive photography, not the pictured offer` : `${offer.destinationLabel} preview offer`}>
       <span className={styles.scenePlace}>{offer.destinationLabel}</span>
-      <span className={styles.sceneLabel}>Illustrative scene</span>
+      <span className={styles.sceneLabel}>{photo?.context ?? 'Preview offer'}</span>
+      {photo && <span className={styles.photoCredit}>Photo, display crop: <a href={photo.source} target="_blank" rel="noreferrer">{photo.author} ↗</a> · <a href={photo.licenseHref} target="_blank" rel="noreferrer">{photo.license}</a></span>}
     </div>
   );
 }
@@ -50,14 +76,15 @@ export function AccessFeed() {
   return (
     <main className={styles.page}>
       <section className={styles.hero} aria-labelledby="access-title">
-        <div className={styles.heroImage} role="img" aria-label="Illustrative ski terrace, yacht, and travel gatherings" />
+        <div className={styles.heroImage} role="img" aria-label="Yachts in Port Hercule, Monaco, photographed in 2021" />
         <div className={styles.heroShade} />
+        <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Monaco_Port_Hercule_17.jpg" target="_blank" rel="noreferrer">Zairon ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></span>
         <div className={styles.heroContent}>
           <p className={styles.eyebrow}>MERIDIAN / ACCESS</p>
           <h1 id="access-title">Make the trip <em>happen.</em></h1>
           <p>Explore stays, arrivals and moments around the trip. Start with a possibility; the provider confirms every detail.</p>
           <a className={styles.heroAction} href="#opportunities">Explore opportunities <span aria-hidden="true">↘</span></a>
-          <span className={styles.heroNote}>Illustrative travel imagery · preview opportunities, not live inventory</span>
+          <span className={styles.heroNote}>Place archive photography · preview opportunities, not live inventory</span>
         </div>
       </section>
 

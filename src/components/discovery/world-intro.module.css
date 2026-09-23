@@ -117,14 +117,7 @@
 }
 .passTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #ebd1a4; font: 9px var(--font-mono); letter-spacing: .15em; }
 .passTop span:last-child { color: #d8c1a0b0; }
-.passPicture { position: relative; height: 60px; margin-top: 10px; overflow: hidden; border-radius: 5px; background: url('/meridian-moments.webp') 68% 52% / cover; }
-.passPicture[data-scene='New York'] { background-image: url('/meridian-social-moments.webp'); background-position: 0% center; }
-.passPicture[data-scene='Paris'] { background-image: url('/meridian-social-moments.webp'); background-position: 50% center; }
-.passPicture[data-scene='London'] { background-image: url('/meridian-social-moments.webp'); background-position: 100% center; }
-.passPicture[data-scene='New York'],
-.passPicture[data-scene='Paris'],
-.passPicture[data-scene='London'] { background-size: auto 400%; }
-.passPicture[data-theme='ski'] { background-image: url('/meridian-moments.webp'); background-position: 44% 45%; background-size: auto 500%; }
+.passPicture { position: relative; height: 60px; margin-top: 10px; overflow: hidden; border-radius: 5px; background: radial-gradient(circle at 67% 20%, #647f9180, transparent 30%), linear-gradient(115deg, #172d38, #10212c 55%, #1b3c44); }
 .passPicture::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, #06111cc9, transparent 80%); pointer-events: none; }
 .passPicture img { width: 100%; height: 100%; object-fit: cover; }
 .passPicture span { position: absolute; z-index: 1; bottom: 5px; left: 7px; font: 8px var(--font-mono); letter-spacing: .06em; color: #fff1db; text-shadow: 0 1px 5px #000; }
@@ -182,7 +175,7 @@
 .radarHeading .kicker { color: #d7bf94; }
 .radarHeading h2 { margin-top: 6px; font: 400 clamp(25px, 2vw, 34px)/1 var(--font-display); letter-spacing: -.03em; }
 .radarHeading p { color: #aeb5bb; font-size: 12px; }
-.radarCards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.radarCards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
 .radarCards > div { min-width: 0; }
 .radarCard { --tone: #356d70; position: relative; height: 218px; overflow: hidden; border: 1px solid #ffffff2b; border-radius: 7px; background: var(--tone); box-shadow: 0 9px 22px #03060a55; transition: transform .25s, border-color .25s, box-shadow .25s; }
 .radarCard[data-tone='1'] { --tone: #81544a; }
@@ -193,16 +186,7 @@
 .radarCard:hover,
 .radarCard:focus-within { transform: translateY(-3px); border-color: #f5d6aaaf; box-shadow: 0 15px 29px #03060abb; }
 .radarCard::after { content: ''; position: absolute; z-index: 3; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 0 1px #f5d6aa19; }
-.cardVisual { position: absolute; inset: 0; overflow: hidden; background: url('/meridian-moments.webp') 0% center / auto 100% no-repeat, var(--tone); }
-.radarCard[data-tone='1'] .cardVisual { background-position: 24% center; }
-.radarCard[data-tone='2'] .cardVisual { background-position: 42% center; }
-.radarCard[data-tone='3'] .cardVisual { background-position: 62% center; }
-.radarCard[data-tone='4'] .cardVisual { background-position: 78% center; }
-.radarCard[data-tone='5'] .cardVisual { background-position: 100% center; }
-.radarCard[data-scene='New York'] .cardVisual { background-image: url('/meridian-social-moments.webp'); background-position: 0% center; }
-.radarCard[data-scene='Paris'] .cardVisual { background-image: url('/meridian-social-moments.webp'); background-position: 50% center; }
-.radarCard[data-scene='London'] .cardVisual { background-image: url('/meridian-social-moments.webp'); background-position: 100% center; }
-.radarCard[data-theme='ski'] .cardVisual { background-image: url('/meridian-moments.webp'); background-size: auto 150%; background-position: 44% 42%; }
+.cardVisual { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 72% 28%, #d7b78948, transparent 34%), linear-gradient(140deg, var(--tone), #121e29); }
 .cardVisual::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(0deg, #071018ec 0, #0b1825a0 34%, #07131b08 82%); }
 .cardVisual img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.02) brightness(1.07); transition: transform .65s ease, filter .4s; }
 .radarCard:hover img,

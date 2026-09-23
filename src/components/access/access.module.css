@@ -4,8 +4,10 @@
 
 .hero { position: relative; isolation: isolate; display: flex; align-items: center; min-height: 380px; padding: 45px max(4vw, calc((100vw - 1650px) / 2)); overflow: hidden; border-bottom: 1px solid #e7be8245; background: #12202d; }
 .heroImage, .heroShade { position: absolute; inset: 0; z-index: -2; }
-.heroImage { background: url('/meridian-moments.webp') center 49% / cover no-repeat; }
+.heroImage { background: url('/supporting/access-port-hercule-zairon.jpg') center 53% / cover no-repeat; }
 .heroShade { z-index: -1; background: linear-gradient(90deg, #080e18f7 0%, #0b1320e5 31%, #0a142196 55%, #07121b38 85%), linear-gradient(0deg, #07101dc0, transparent 60%); }
+.heroCredit { position: absolute; right: 20px; bottom: 13px; z-index: 1; border-radius: 3px; padding: 5px 7px; background: #07101ccf; color: #e8e1d5; font: 10px/1.35 var(--font-mono); }
+.heroCredit a, .photoCredit a { color: #f7dfb7; text-decoration: underline; text-underline-offset: 2px; }
 .heroContent { max-width: 700px; }
 .hero h1 { margin: 14px 0 12px; font: 400 clamp(56px, 5.4vw, 86px)/.96 var(--font-display); letter-spacing: -.055em; text-wrap: balance; text-shadow: 0 4px 30px #0307139c; }
 .hero h1 em { color: #f6d5a4; font-weight: 400; }
@@ -52,11 +54,15 @@
 .offerFrame { overflow: hidden; border: 1px solid #d8b9884d; border-radius: 9px; background: #151c26; transition: border-color .2s, transform .2s, box-shadow .2s; }
 .offerFrame:hover { border-color: #e6cb9caa; transform: translateY(-3px); box-shadow: 0 16px 38px #03060d75; }
 .offerFrame > article { min-height: 235px; border: 0; border-radius: 0; background: #151c26; box-shadow: none; }
-.offerScene { position: relative; min-height: 215px; background-color: #1b2938; background-image: linear-gradient(0deg, #07121bce, #07121b00 58%), url('/meridian-moments.webp'); background-size: 100% 100%, 400% auto; background-repeat: no-repeat; }
-.snowScene { background-position: center, 33.333% 46%; }
-.seaScene { background-position: center, 66.666% 47%; }
+.offerScene { position: relative; min-height: 215px; background-color: #1b2938; background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%); background-size: cover; background-repeat: no-repeat; }
+.aspenStayScene { background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%), url('/supporting/access-aspen-gondola.jpg'); background-position: center, center 48%; }
+.aspenAviationScene { background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%), url('/supporting/access-aspen-airport.jpg'); background-position: center, center 68%; }
+.aspenGroundScene { background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%), url('/supporting/access-aspen-winter-street.jpg'); background-position: center, center 48%; }
+.monacoYachtScene { background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%), url('/supporting/access-monaco-yachts.jpg'); background-position: center, center 53%; }
+.courchevelScene { background-image: linear-gradient(0deg, #07121bdc, #07121b00 58%), url('/supporting/access-courchevel-slopes.jpg'); background-position: center, center 60%; }
 .scenePlace { position: absolute; left: 17px; bottom: 13px; color: #fff3e1; font: 400 29px/1 var(--font-display); text-shadow: 0 2px 14px #07101f; }
 .sceneLabel { position: absolute; right: 12px; bottom: 13px; border: 1px solid #f6e8d18c; border-radius: 3px; padding: 4px 6px; background: #07101cbd; color: #f4e7d3; font: 10px/1.2 var(--font-mono); text-transform: uppercase; }
+.photoCredit { position: absolute; right: 12px; top: 12px; border-radius: 3px; padding: 5px 7px; background: #07101cdb; color: #e8e1d5; font: 10px/1.35 var(--font-mono); }
 .empty { border: 1px solid #d8c08d44; border-radius: 6px; padding: 20px; color: #c5c9cc; font-size: 13px; }
 .partnerNote { margin: 38px 0 0; padding-top: 18px; border-top: 1px solid #ebd0a22b; color: #aeb6bd; font-size: 12px; }
 .partnerNote a { color: #f1d4a5; }
@@ -71,6 +77,7 @@
 @media (max-width: 650px) {
   .hero { min-height: 505px; align-items: end; padding: 35px 20px; }
   .heroImage { background-position: 53% center; }
+  .heroCredit { right: 12px; bottom: 10px; max-width: calc(100% - 24px); font-size: 9px; }
   .heroShade { background: linear-gradient(0deg, #080e18fa, #080e18d4 45%, #080e1850 100%); }
   .hero h1 { font-size: clamp(50px, 14vw, 72px); }
   .content { padding: 25px 18px 70px; }

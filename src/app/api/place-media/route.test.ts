@@ -16,68 +16,65 @@ describe('/api/place-media', () => {
     }
   });
 
-  it('coalesces simultaneous requests for the same curated event', async () => {
+  it('leads with reviewed scene photos even when Commons search has no matches', async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ query: { pages: [] } }), { status: 200 }));
+    vi.stubGlobal('fetch', fetcher);
+    try {
+      for (const [eventId, subject] of [
+        ['laver-cup', 'event'],
+        ['aspen-christmas-week', 'place'],
+        ['monaco-yacht-show', 'event'],
+      ]) {
+        const response = await GET(new Request(`https://example.test/api/place-media?eventId=${eventId}`));
+        const body = await response.json();
+        expect(body.photos).toHaveLength(1);
+        expect(body.photos[0]).toMatchObject({ imageUrl: `/editorial/${eventId}.jpg`, subject });
+        expect(body.photos[0].sourceUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+      }
+      expect(fetcher).toHaveBeenCalled();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('coalesces simultaneous searches for an event without a reviewed photo', async () => {
     const page = (n: number) => ({
-      title: `File:Oktoberfest Munich ${n}.jpg`,
+      title: `File:Newport Jazz Festival 2026 ${n}.jpg`,
       imageinfo: [{
         mime: 'image/jpeg',
         thumburl: `https://upload.wikimedia.org/wikipedia/commons/${n}/photo.jpg`,
-        descriptionurl: `https://commons.wikimedia.org/wiki/File:Oktoberfest_Munich_${n}.jpg`,
+        descriptionurl: `https://commons.wikimedia.org/wiki/File:Newport_Jazz_Festival_2026_${n}.jpg`,
         extmetadata: { LicenseShortName: { value: 'CC BY-SA 4.0' } },
       }],
     });
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ query: { pages: [page(1), page(2)] } }), { status: 200 }));
     vi.stubGlobal('fetch', fetcher);
     try {
-      const url = 'https://example.test/api/place-media?eventId=oktoberfest-munich';
+      const url = 'https://example.test/api/place-media?eventId=newport-jazz-festival';
       const [first, second] = await Promise.all([GET(new Request(url)), GET(new Request(url))]);
       expect((await first.json()).photos).toHaveLength(2);
       expect((await second.json()).photos).toHaveLength(2);
-      expect(fetcher).toHaveBeenCalledTimes(1);
+      // One event search and one place search, shared by both requests.
+      expect(fetcher).toHaveBeenCalledTimes(2);
     } finally {
       vi.unstubAllGlobals();
     }
   });
 
-  it('finds Monaco Yacht Show photos despite the catalog city name Monte-Carlo', async () => {
-    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ query: { pages: [{
-      title: 'File:Monaco Yacht Show 2025.jpg',
-      imageinfo: [{ mime: 'image/jpeg', thumburl: 'https://upload.wikimedia.org/wikipedia/commons/m/yacht.jpg',
-        descriptionurl: 'https://commons.wikimedia.org/wiki/File:Monaco_Yacht_Show_2025.jpg',
-        extmetadata: { LicenseShortName: { value: 'CC BY-SA 4.0' } } }],
-    }] } }), { status: 200 }));
+  it('does not represent a Hahnenkamm sign as event coverage', async () => {
+    const sign = { title: 'File:Kitzbühel Hahnenkamm Stadtpark Steinbock-Darstellung mit Schriftzug.jpg',
+      imageinfo: [{ mime: 'image/jpeg', thumburl: 'https://upload.wikimedia.org/wikipedia/commons/a/sign.jpg',
+        descriptionurl: 'https://commons.wikimedia.org/wiki/File:Hahnenkamm_sign.jpg',
+        extmetadata: { LicenseShortName: { value: 'CC BY 4.0' } } }],
+    };
+    const fetcher = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({ query: { pages: [sign] } }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ query: { pages: [] } }), { status: 200 }));
     vi.stubGlobal('fetch', fetcher);
     try {
-      const response = await GET(new Request('https://example.test/api/place-media?eventId=monaco-yacht-show'));
-      const body = await response.json();
-      expect(body.photos[0]).toMatchObject({ subject: 'event', title: 'Monaco Yacht Show 2025' });
-      const query = new URL(fetcher.mock.calls[0][0]).searchParams.get('gsrsearch');
-      expect(query).toBe('Monaco Yacht Show');
-    } finally {
-      vi.unstubAllGlobals();
-    }
-  });
-
-  it('puts Aspen ski imagery ahead of generic place photos without calling it event media', async () => {
-    const skiPages = [
-      'File:Aspen Art Museum.jpg',
-      'File:Skiing Aspen Mountain.jpg',
-    ].map((title, index) => ({ title,
-      imageinfo: [{ mime: 'image/jpeg',
-        thumburl: `https://upload.wikimedia.org/wikipedia/commons/${index}/aspen.jpg`,
-        descriptionurl: `https://commons.wikimedia.org/wiki/${title.replaceAll(' ', '_')}`,
-        extmetadata: { LicenseShortName: { value: 'CC BY-SA 4.0' } },
-      }],
-    }));
-    const fetcher = vi.fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify({ query: { pages: [] } }), { status: 200 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify({ query: { pages: skiPages } }), { status: 200 }));
-    vi.stubGlobal('fetch', fetcher);
-    try {
-      const response = await GET(new Request('https://example.test/api/place-media?eventId=aspen-christmas-week'));
-      const body = await response.json();
-      expect(body.photos[0]).toMatchObject({ subject: 'place', title: 'Skiing Aspen Mountain' });
-      expect(new URL(fetcher.mock.calls[1][0]).searchParams.get('gsrsearch')).toBe('Aspen skiing Colorado');
+      const response = await GET(new Request('https://example.test/api/place-media?eventId=hahnenkamm-kitzbuhel'));
+      expect((await response.json()).photos).toMatchObject([
+        { imageUrl: '/editorial/hahnenkamm-kitzbuhel.jpg', subject: 'event' },
+      ]);
     } finally {
       vi.unstubAllGlobals();
     }

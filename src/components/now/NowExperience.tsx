@@ -248,9 +248,10 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
         <section className={`${styles.results} ${!result && !loading ? styles.resultsIntro : ''}`} aria-live="polite">
           {!result && !loading && (
             <div className={styles.intro}>
-              <div className={styles.introVisual} role="img" aria-label="Illustrative travel moments: a rooftop evening, an alpine gathering, and friends on the water">
+              <div className={styles.introVisual} role="group" aria-label="Archive photograph of guests at a rooftop bar in Pattaya; not a nearby venue result">
                 <span className={styles.introVisualLabel}>MERIDIAN / THE MOMENT BEFORE</span>
                 <span className={styles.introVisualMark} aria-hidden="true">✳</span>
+                <span className={styles.introCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:DFC_5211_Rooftop_bar_in_Pattaya_bartenders_mixing_drinks_as_guests_enjoy_the_night_city_lights_and_lively_atmosphere.jpg" target="_blank" rel="noreferrer">PattayaPatrol ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></span>
               </div>
               <div className={styles.introContent}>
                 <div className={styles.introOverline}><span>YOUR NEXT MOVE</span><span>01 / 03</span></div>
@@ -273,7 +274,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
                 <div className={styles.introSteps} aria-label="How NOW works">
                   <span><b>01</b> Where you are</span><span><b>02</b> What feels right</span><span><b>03</b> A considered shortlist</span>
                 </div>
-                <p className={styles.introDisclosure}>Illustrative imagery. Venue results appear only after you ask NOW to search.</p>
+                <p className={styles.introDisclosure}>Editorial archive photo, not a nearby venue result. Venue results appear only after you ask NOW to search.</p>
               </div>
             </div>
           )}

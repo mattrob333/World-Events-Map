@@ -144,8 +144,9 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
   return (
     <main className={styles.page}>
       <section className={styles.hero} aria-labelledby="trips-title">
-        <div className={styles.heroImage} role="img" aria-label="Illustrative collage of a rooftop gathering, ski trip, yacht day, and beach escape" />
+        <div className={styles.heroImage} role="img" aria-label="Julia Mancuso skiing Aspen's World Cup downhill course in 2007" />
         <div className={styles.heroShade} />
+        <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Julia_Mancuso.jpg" target="_blank" rel="noreferrer">Arthur Mouratidis ↗</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noreferrer">CC BY 2.0</a></span>
         <div className={styles.heroContent}>
           <p className={styles.eyebrow}>MERIDIAN / YOUR TRIPS</p>
           <h1 id="trips-title">A place becomes <em>a plan.</em></h1>
@@ -156,7 +157,7 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
             <button type="button" onClick={revealSkiPlanner} className={styles.primaryAction}>Start a family ski trip <span aria-hidden="true">↗</span></button>
             <a href="#sample-rooms" className={styles.secondaryAction}>Preview a trip room <span aria-hidden="true">↓</span></a>
           </div>
-          <p className={styles.heroNote}>Illustrative travel imagery. Shared trips require membership; saved places stay on this device.</p>
+          <p className={styles.heroNote}>Aspen ski archive, 2007. Shared trips require membership; saved places stay on this device.</p>
         </div>
       </section>
 
@@ -240,20 +241,30 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
             <p>Two sample rooms show the shape of group planning. They are previews, not live Circles or confirmed itineraries.</p>
           </div>
           <div className={styles.roomGrid}>
-            {TRIP_ROOM_FIXTURES.map((trip) => (
-              <Link key={trip.id} href={`/circles/${trip.id}`} className={styles.roomCard}>
-                <div className={`${styles.roomImage} ${trip.destinationSlug === 'aspen' ? styles.snowScene : styles.seaScene}`} role="img" aria-label={`Illustrative travel scene for ${trip.destinationLabel}`}>
-                  <span>Illustrative scene</span>
+            {TRIP_ROOM_FIXTURES.map((trip) => {
+              const aspen = trip.destinationSlug === 'aspen';
+              return (
+                <div key={trip.id} className={styles.roomFrame}>
+                  <Link href={`/circles/${trip.id}`} className={styles.roomCard}>
+                    <div className={`${styles.roomImage} ${aspen ? styles.snowScene : styles.seaScene}`} role="img" aria-label={aspen ? 'Fresh snow on Aspen Mountain' : 'A yacht at the 2022 Monaco Yacht Show'}>
+                      <span>{aspen ? 'Aspen place archive' : 'Monaco event archive · 2022'}</span>
+                    </div>
+                    <div className={styles.roomBody}>
+                      <div className={styles.roomMeta}><span>Sample trip room</span><span>{trip.travelMode}</span></div>
+                      <h3>{trip.name}</h3>
+                      <p className={styles.roomDates}>{trip.destinationLabel} · {formatDateRange(trip.start, trip.end)}</p>
+                      <p className={styles.roomDecision}>{trip.nextDecision}</p>
+                      <span className={styles.roomLink}>See the sample plan <span aria-hidden="true">↗</span></span>
+                    </div>
+                  </Link>
+                  <span className={styles.roomCredit}>Photo, display crop: {aspen ? (
+                    <><a href="https://commons.wikimedia.org/wiki/File:Aspen_Mountain_firs_with_fresh_snow.jpg" target="_blank" rel="noreferrer">Wolfgang Moroder ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC BY-SA 3.0</a></>
+                  ) : (
+                    <><a href="https://commons.wikimedia.org/wiki/File:MYS_2022_1.jpg" target="_blank" rel="noreferrer">102Legobrick ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></>
+                  )}</span>
                 </div>
-                <div className={styles.roomBody}>
-                  <div className={styles.roomMeta}><span>Sample trip room</span><span>{trip.travelMode}</span></div>
-                  <h3>{trip.name}</h3>
-                  <p className={styles.roomDates}>{trip.destinationLabel} · {formatDateRange(trip.start, trip.end)}</p>
-                  <p className={styles.roomDecision}>{trip.nextDecision}</p>
-                  <span className={styles.roomLink}>See the sample plan <span aria-hidden="true">↗</span></span>
-                </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
 

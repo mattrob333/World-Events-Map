@@ -6,6 +6,7 @@ import { EVENTS } from '@/lib/data/events';
 import { addDays, daysBetween, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { approvedWikimediaUrl, type PlacePhoto } from '@/lib/place-media/media';
+import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curated';
 import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
@@ -57,14 +58,10 @@ const HERO_STORIES: Record<TripInterest, { first: string; emphasis: string; desc
   },
 };
 
-// These event queries were visually checked for a relevant crowd/occasion image.
-// Other matches can be historic fairs or unrelated city architecture, so the
-// clearly labeled illustrative collage is the safer hero treatment for them.
-const APPROVED_EVENT_ARCHIVES = new Set(['monaco-yacht-show', 'diwali-jaipur', 'oktoberfest-munich']);
-
 function approvedHeroPhoto(event: WorldEvent, photos: PlacePhoto[] | undefined): PlacePhoto | null {
-  if (!APPROVED_EVENT_ARCHIVES.has(event.id)) return null;
-  return photos?.find((item) => item.subject === 'event' &&
+  const curated = curatedPhotoForEvent(event.id);
+  if (curated) return curated;
+  return photos?.find((item) =>
     approvedWikimediaUrl(item.imageUrl, 'image') && approvedWikimediaUrl(item.sourceUrl, 'source')) ?? null;
 }
 
@@ -88,10 +85,16 @@ function calendarTiming(event: WorldEvent, focus: string) {
 
 function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
   const { event, slug } = pick;
-  const [photo, setPhoto] = useState<PlacePhoto | null>(null);
+  const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
+    setImageFailed(false);
+    const curated = curatedPhotoForEvent(event.id);
+    if (curated) {
+      setPhoto(curated);
+      return;
+    }
     const controller = new AbortController();
     fetch(`/api/place-media?eventId=${encodeURIComponent(event.id)}`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() as Promise<{ photos?: PlacePhoto[] }> : { photos: [] })
@@ -106,7 +109,7 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
   }, [event]);
 
   return (
-    <article className={styles.radarCard} data-tone={index % 6} data-scene={event.city} data-theme={event.category === 'ski' ? 'ski' : undefined}>
+    <article className={styles.radarCard} data-tone={index % 6}>
       <div className={styles.cardVisual} aria-hidden="true">
         {photo && !imageFailed ? (
           // Commons URLs are validated by the server and again above before display.
@@ -124,9 +127,9 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
         <Link href={`/destinations/${slug}`}>Explore the place <span aria-hidden="true">↗</span></Link>
         {photo && !imageFailed ? (
           <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={`${photo.title} · ${photo.credit} · ${photo.license}`}>
-            {photo.subject === 'event' ? 'Event archive' : 'Place archive'} · {photo.credit} · {photo.license} ↗
+            {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗
           </a>
-        ) : <span>Illustrative scene</span>}
+        ) : <span>Photo being sourced</span>}
       </div>
     </article>
   );
@@ -158,6 +161,7 @@ export function WorldIntro({
   const [reducedMotion, setReducedMotion] = useState(false);
   const [activeJourney, setActiveJourney] = useState<{ event: WorldEvent; photo: PlacePhoto | null } | null>(null);
   const [featuredMedia, setFeaturedMedia] = useState<{ eventId: string; photo: PlacePhoto | null } | null>(null);
+  const [failedFeaturedImage, setFailedFeaturedImage] = useState<string | null>(null);
   const destinations = useMemo(() => indexDestinations(EVENTS, focus), [focus]);
   const filtering = season !== 'all' || interest !== 'all';
   const seasonalEvents = useMemo(() => selectSeasonalEvents(EVENTS, focus, season, interest), [focus, season, interest]);
@@ -165,7 +169,12 @@ export function WorldIntro({
     if (filtering) {
       const seen = new Set<string>();
       const selected: RadarPick[] = [];
-      for (const event of orderShortlistEvents(seasonalEvents, interest)) {
+      const ranked = orderShortlistEvents(seasonalEvents, interest);
+      // Lead with photographed scenes in curated visual shortlists. A missing
+      // rights-cleared image stays discoverable in the departure board.
+      const photographed = ranked.filter((event) => curatedPhotoForEvent(event.id));
+      const candidates = photographed.length >= 4 ? photographed : ranked;
+      for (const event of candidates) {
         const place = destinations.byEventId.get(event.id);
         if (!place || seen.has(place.slug)) continue;
         seen.add(place.slug);
@@ -194,7 +203,10 @@ export function WorldIntro({
     const planning = EVENTS.filter((event) => event.start > soonEnd).slice(0, 5);
     return [...current, ...soon, ...planning];
   }, [focus, filtering, seasonalEvents]);
-  const featuredPhoto = activeJourney?.photo ?? (featuredMedia?.eventId === featured?.id ? featuredMedia.photo : null);
+  const featuredPhoto = (featured ? curatedPhotoForEvent(featured.id) : null)
+    ?? activeJourney?.photo
+    ?? (featuredMedia?.eventId === featured?.id ? featuredMedia.photo : null);
+  const displayedFeaturedPhoto = featuredPhoto?.imageUrl === failedFeaturedImage ? null : featuredPhoto;
   const story = HERO_STORIES[interest];
   const selectedSeasonLabel = SEASONS.find((option) => option.value === season)?.label ?? 'Every season';
   const selectedInterestLabel = INTERESTS.find((option) => option.value === interest)?.label ?? 'Anything';
@@ -214,6 +226,11 @@ export function WorldIntro({
 
   useEffect(() => {
     if (!featured) return;
+    const curated = curatedPhotoForEvent(featured.id);
+    if (curated) {
+      setFeaturedMedia({ eventId: featured.id, photo: curated });
+      return;
+    }
     const controller = new AbortController();
     fetch(`/api/place-media?eventId=${encodeURIComponent(featured.id)}`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() as Promise<{ photos?: PlacePhoto[] }> : { photos: [] })
@@ -316,13 +333,13 @@ export function WorldIntro({
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>
           <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : 'THE NEXT POSSIBILITY'}</span><span aria-hidden="true">✦ MERIDIAN</span></div>
-          <div className={styles.passPicture} data-scene={featured.city} data-theme={featured.category === 'ski' ? 'ski' : undefined}>
-            {featuredPhoto ? (
-              // The source URL was approved before being stored in activeJourney.
+          <div className={styles.passPicture}>
+            {displayedFeaturedPhoto ? (
+              // Curated images are local; Commons search results were checked before storage.
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={featuredPhoto.imageUrl} alt="" />
+              <img src={displayedFeaturedPhoto.imageUrl} alt="" onError={() => setFailedFeaturedImage(displayedFeaturedPhoto.imageUrl)} />
             ) : null}
-            <span>{featuredPhoto ? `Wikimedia Commons ${featuredPhoto.subject} archive` : 'Illustrative scene'}</span>
+            <span>{displayedFeaturedPhoto ? photoArchiveLabel(displayedFeaturedPhoto) : 'Photo being sourced'}</span>
           </div>
           <div className={styles.passRoute}>
             <span className={styles.passPlace}><small>FROM</small><strong>{originName ?? 'YOUR VIEW'}</strong></span>
@@ -334,7 +351,7 @@ export function WorldIntro({
             <strong>{estimate ? `${estimate.distanceKm.toLocaleString()} km · ${estimate.label}` : 'Choose your city for a route estimate'}</strong>
           </div>
           <small className={styles.passFoot}>{estimate ? 'Indicative straight-line distance and airtime; no live flight schedule.' : 'Flight animation begins from your current globe view.'}</small>
-          {featuredPhoto && <a className={styles.passCredit} href={featuredPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {featuredPhoto.credit} · {featuredPhoto.license} ↗</a>}
+          {displayedFeaturedPhoto && <a className={styles.passCredit} href={displayedFeaturedPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {displayedFeaturedPhoto.credit} · {displayedFeaturedPhoto.license} ↗</a>}
         </div>}
         <span className={styles.imageDisclosure}>Illustrative travel imagery · editorial concept</span>
       </div>
