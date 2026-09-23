@@ -5,9 +5,6 @@
  * Everything else in this directory is an internal of one of them.
  */
 
-export { InterestControl } from './InterestControl';
-export type { InterestControlProps } from './InterestControl';
-
 export { PeerStack } from './PeerStack';
 export type { PeerStackProps } from './PeerStack';
 

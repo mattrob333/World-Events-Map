@@ -329,7 +329,7 @@ const LINES: Record<Topic, readonly Line[]> = {
         `I have four passes for ${t.c.venue} and I will not use all of them. First to ask.`,
     },
     {
-      say: (t) =>
+      say: () =>
         `Dinner is arranged for the first night. Nobody has to come, and I will notice who does not.`,
     },
     {

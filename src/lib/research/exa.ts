@@ -209,7 +209,8 @@ export async function collectExaResearch(
   const candidates: ExaResearchCandidate[] = [];
   const seenUrls = new Set<string>();
 
-  // Sequential requests cap concurrent paid searches and preserve plan order.
+  // Queries within one call run sequentially and preserve plan order; the
+  // sweep bounds concurrency by issuing a fixed number of calls.
   for (const plan of queries) {
     const payload = record(await search(fetchImpl, apiKey, plan.query, startPublishedDate, maxResultsPerQuery, timeoutMs));
     if (!payload || !Array.isArray(payload.results)) {

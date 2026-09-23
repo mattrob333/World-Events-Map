@@ -100,11 +100,17 @@ Read [docs/NOW-ENGINE.md](docs/NOW-ENGINE.md) for the full pipeline, privacy rul
 
 | Route | Purpose |
 |---|---|
-| `/` | PULSE: event discovery and globe |
+| `/` | PULSE: world intro, globe, seasonal discovery and Research Pulse |
+| `/destinations/[slug]` | destination page with place gallery, maps and research feed |
 | `/now` | NOW: day-of local decision engine |
+| `/trips` | trip planning, including the family ski starter |
+| `/circles`, `/circles/[id]` | private trip circles and the trip room |
+| `/access` | ACCESS: sample partner opportunities (fixtures, not live inventory) |
 | `/constellation` | affinity graph and Travel Mode explorer |
 | `/community` | circles and partner opportunities |
+| `/people`, `/people/[handle]` | opt-in traveler directory and profiles |
 | `/account` | profile, home base, interests and Travel Modes |
+| `/welcome` | onboarding |
 | `/partners` | provider application and offer studio |
 
 ## Development docs
@@ -119,6 +125,12 @@ Start here:
 - [Affinity graph model](docs/wiki/AFFINITY-GRAPH.md)
 - [Live feed setup](docs/LIVE-SETUP.md)
 - [Partner setup](docs/partner-setup.md)
+- [Production readiness](docs/PRODUCTION-READINESS.md)
+- [Living world overview](docs/LIVING-WORLD-PREVIEW.md)
+- [Research pipeline](docs/RESEARCH-PIPELINE.md)
+- [Family ski flow](docs/FAMILY-SKI-FLOW.md)
+- [Mountain explorer](docs/MOUNTAIN-EXPLORER.md)
+- Photo credits: [editorial](docs/EDITORIAL-PHOTO-CREDITS.md), [supporting](docs/SUPPORTING-PHOTO-CREDITS.md)
 
 ## Validation
 

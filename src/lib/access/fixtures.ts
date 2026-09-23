@@ -75,7 +75,7 @@ export const OPPORTUNITY_FIXTURES: OpportunityCard[] = [
     providerName: 'Three Valleys Desk',
     priceLabel: 'On request',
     availability: 'provider_updated',
-    availabilityLabel: 'Provider last updated terms',
+    availabilityLabel: 'Cancellation-list inquiry',
     windowLabel: '19 Dec 2026 – 3 Jan 2027',
     body: 'Cancellation-list inquiry for a ski-in chalet. Staffing and beds are not held by MERIDIAN.',
     href: '/access?offer=opp-courchevel-chalet',

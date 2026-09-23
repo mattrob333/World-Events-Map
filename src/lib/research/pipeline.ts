@@ -160,7 +160,12 @@ export async function runResearchSweep(now = new Date()): Promise<ResearchRunSum
   const exaCalls = plan.exaQueries.map((query) =>
     collectExaResearch({ queries: [query], startPublishedDate: plan.startPublishedDate, maxResultsPerQuery: 5 }));
   const tregCalls = plan.tregTasks.map((task) =>
-    collectTregResearch([task], { runId: plan.runId }));
+    // Receipts give operators a charge trace without ever logging a credential
+    // or a third-party response body, including for calls that later fail.
+    collectTregResearch([task], {
+      runId: plan.runId,
+      onReceipt: (receipt) => console.info('meridian.research.treg', receipt),
+    }));
   const results = await Promise.allSettled([...exaCalls, ...tregCalls]);
   const candidates: SourceCandidate[] = [];
   let exaOk = 0;
@@ -174,11 +179,6 @@ export async function runResearchSweep(now = new Date()): Promise<ResearchRunSum
       tregOk += 1;
       const social = result.value as Awaited<ReturnType<typeof collectTregResearch>>;
       candidates.push(...social.candidates);
-      // These receipts give operators a charge trace without ever logging a
-      // credential or a third-party response body.
-      for (const receipt of social.receipts) {
-        console.info('meridian.research.treg', receipt);
-      }
     }
   }
   if (!exaOk && !tregOk) throw new Error('All research sources failed');

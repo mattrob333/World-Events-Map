@@ -1,8 +1,8 @@
-# Living World preview
+# Living World
 
-Local integration branch: `feat/meridian-living-world`.
+Merged to `main` in PR #16 (from `feat/meridian-living-world`).
 
-Combines the existing travel OS screens with Travel Wire and a connected world / scene / ideas discovery experience. The current Vercel **preview** is `https://world-events-map-onq7-lwlpywx4p-matts-projects-fb383d6a.vercel.app`. It is protected by Vercel Authentication; a temporary share link is issued separately for visitors without team access. This is not a production deployment.
+Combines the existing travel OS screens with Travel Wire and a connected world / scene / ideas discovery experience. Vercel builds a preview for each pull request, protected by Vercel Authentication. The provider-backed parts below are not yet activated in any production deployment.
 
 ## Try it
 
@@ -33,6 +33,15 @@ Ideas are deterministic curated recommendations filtered by an explicit interest
 
 ## Validation
 
-On this working tree, `npm run gate` passed lint (no errors), TypeScript, dataset validation, 303 Vitest tests in 67 files, and a production build. Browser checks covered Atlanta → Kyoto, Winter mode → Aspen, the family ski starter, NOW's honest unavailable state, the winter globe legend and the hosted satellite/terrain handoff. A targeted privacy review found the account-switch race closed; hosted multi-account acceptance, provider-backed feeds, live snow, lodging availability, supplier quotes, and production cron remain unverified.
+Before merge, `npm run gate` passed (lint with no errors, TypeScript, dataset validation, Vitest and a production build). Browser checks covered Atlanta → Kyoto, Winter mode → Aspen, the family ski starter, NOW's honest unavailable state, the winter globe legend and the hosted satellite/terrain handoff. A targeted privacy review found the account-switch race closed; hosted multi-account acceptance, provider-backed feeds, live snow, lodging availability, supplier quotes, and production cron remain unverified.
 
 The embedded OpenStreetMap view depends on the external site and browser embedding support; a direct map link is available. Provider-backed social posts and real-time readings need their existing configured services before they can be accepted as live.
+
+## Open follow-ups from the merge review
+
+Release reviews of the merged diff found no blocking issues. These were deferred for an owner or product decision:
+
+- **Manual takedowns (research).** A sweep upserts research items by ID and overwrites `decision`, so a row set to `reject` by hand can be republished if the same URL returns. This needs a reviewer-lock column, which means a migration. Fix it before an operator starts moderating the feed.
+- **Social handles and captions (research).** Treg items publish usernames and up to 260 characters of caption from hashtag and search results, which can include private individuals. Decide on author display and reuse rights before enabling `TREG_TOKEN` in production.
+- **Circle dates visibility (trips).** The public circle row created by the family ski starter shows travel dates to signed-in members. This is disclosed in the UI; product should confirm it is intended.
+- **Remaining lint warnings.** About 40 React hooks warnings (set-state-in-effect, refs/immutability in the globe camera and beacon field) change render behavior when fixed. `useViewerLocation` handles location and needs a high-capability review.
