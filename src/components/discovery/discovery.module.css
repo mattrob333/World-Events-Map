@@ -1544,3 +1544,17 @@
 }
 
 .planModeNote { margin: 0 0 8px; color: #d9cdb4; font-size: 12px; line-height: 1.5; }
+
+.spotlightActions { display: contents; }
+.spotlight[data-selected='true'] .spotlightActions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 10px;
+  padding: 10px 0 2px;
+  background: linear-gradient(0deg, #080f19 72%, #080f1900);
+}

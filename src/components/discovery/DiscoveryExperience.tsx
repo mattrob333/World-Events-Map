@@ -430,19 +430,19 @@ export function DiscoveryExperience() {
           <h2>
             {storyFocus && spotlight ? (
               <>
-                {spotlight.city}
+                {spotlight.city}{' '}
                 <br />
                 <em>is calling.</em>
               </>
             ) : planMode ? (
               <>
-                Go find your
+                Go find your{' '}
                 <br />
                 <em>next story.</em>
               </>
             ) : (
               <>
-                The world is
+                The world is{' '}
                 <br />
                 <em>wide open.</em>
               </>
@@ -518,15 +518,18 @@ export function DiscoveryExperience() {
                   <small>Opens the range near {spotlight.city} in Google Maps, not a verified lift entrance.</small>
                 </div>
               )}
-              <Link className={styles.primary} href={destinationHref(spotlight.id)}>
-                Open {spotlight.city} <span>↗</span>
-              </Link>
-              <Link
-                className={styles.textLink}
-                href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
-              >
-                Start a Circle here →
-              </Link>
+              {/* Sticky inside the scrolling spotlight so the next step never hides below its fold (UFR-A09, B11). */}
+              <div className={styles.spotlightActions}>
+                <Link className={styles.primary} href={destinationHref(spotlight.id)}>
+                  Open {spotlight.city} <span>↗</span>
+                </Link>
+                <Link
+                  className={styles.textLink}
+                  href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
+                >
+                  Start a Circle here →
+                </Link>
+              </div>
             </>
           ) : (
             <>

@@ -167,9 +167,9 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
         aria-controls={bodyId}
         className="block w-full px-3.5 pt-3.5 text-left"
       >
-        <span className="flex items-start justify-between gap-4">
-          <span className="min-w-0">
-            <span className="font-display block truncate text-[16px] leading-5 text-ink">
+        <span className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <span className="min-w-[10rem] flex-1">
+            <span className="font-display block text-[16px] leading-5 text-ink [overflow-wrap:anywhere]">
               {group.name}
             </span>
             <span className="label-sm mt-1.5 block text-ink-faint">
@@ -204,7 +204,7 @@ export function GroupCard({ group, defaultOpen = false, className }: GroupCardPr
           </span>
         </span>
 
-        <span className="mt-3 block text-[12px] leading-[18px] text-ink-muted">
+        <span className="mt-3 block text-[12px] leading-[18px] text-ink-muted [overflow-wrap:anywhere]">
           {group.premise}
         </span>
       </button>

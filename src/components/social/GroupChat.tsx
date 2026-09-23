@@ -452,7 +452,7 @@ function MessageRun({
           <p
             key={m.id}
             className={cn(
-              'mt-1 text-[12px] leading-[18px] whitespace-pre-wrap',
+              'mt-1 text-[12px] leading-[18px] whitespace-pre-wrap [overflow-wrap:anywhere]',
               run.mine ? 'text-ink' : 'text-ink-muted',
             )}
           >
