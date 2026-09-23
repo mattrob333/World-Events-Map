@@ -48,10 +48,10 @@ export function CommandPalette() {
   }, [setOpen]);
 
   useEffect(() => {
-    if (!open) {
-      setQuery('');
-      return;
-    }
+    // Closing clears the text; opening starts from the seed (empty unless a
+    // page handed its own search over, e.g. the home search box).
+    setQuery(open ? useCommandStore.getState().seed : '');
+    if (!open) return;
     track('search_opened');
     const id = window.setTimeout(() => inputRef.current?.focus(), 10);
     return () => window.clearTimeout(id);

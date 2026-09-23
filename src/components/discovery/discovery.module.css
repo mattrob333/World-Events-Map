@@ -1542,3 +1542,5 @@
 @media (max-width: 600px) {
   .globe { top: 105px; height: 305px; }
 }
+
+.planModeNote { margin: 0 0 8px; color: #d9cdb4; font-size: 12px; line-height: 1.5; }

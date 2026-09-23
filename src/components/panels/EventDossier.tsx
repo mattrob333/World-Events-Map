@@ -39,6 +39,8 @@ import { isDemoMode } from '@/lib/flags';
 import { EventSaveButton } from '@/components/community/EventSaveButton';
 import { getDestinationByEventId } from '@/lib/pulse';
 import { EVENTS } from '@/lib/data/events';
+import { daysBetween } from '@/lib/buzz/dates';
+import { useTimelineStore } from '@/lib/stores/useTimelineStore';
 import Link from 'next/link';
 
 /** Plain English for the six raw signals. The engine's field names are not copy. */
@@ -80,6 +82,10 @@ export function EventDossier({ className }: EventDossierProps) {
   const selectedEventId = useGlobeStore((s) => s.selectedEventId);
   const select = useGlobeStore((s) => s.select);
   const event = useEventById(selectedEventId);
+  // Lead time counts from the traveler's today, not from wherever a deep link
+  // moved the calendar focus (red team UFR-A12).
+  const today = useTimelineStore((s) => s.rangeStart);
+  const leadDays = event ? daysBetween(today, event.start) : 0;
   const reduced = useReducedMotion();
   const ref = useRef<HTMLElement | null>(null);
 
@@ -186,15 +192,22 @@ export function EventDossier({ className }: EventDossierProps) {
                   Open {event.city} destination →
                 </Link>
               )}
-              <Link className="rounded-[2px] bg-brass/90 px-3 py-3 text-center font-medium text-void" href="/access">Find access & stays ↗</Link>
+              <Link
+                className="rounded-[2px] bg-brass/90 px-3 py-3 text-center font-medium text-void"
+                href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
+              >
+                Find access & stays ↗
+              </Link>
               <Link
                 className="rounded-[2px] border border-brass/40 px-3 py-3 text-center text-brass-bright"
-                href={destination ? `/circles?destination=${destination.slug}` : '/circles'}
+                href={destination
+                  ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
+                  : `/circles?event=${encodeURIComponent(event.id)}`}
               >
                 Find a circle ↗
               </Link>
             </div>
-            <EventSaveButton eventId={event.id} />
+            <EventSaveButton eventId={event.id} label={event.name} />
             <VenueMap event={event} />
             {/* ── When and where ─────────────────────────────────────── */}
             <div className="grid grid-cols-2 gap-x-5 gap-y-4">
@@ -206,8 +219,8 @@ export function EventDossier({ className }: EventDossierProps) {
               />
               <Stat
                 label="Lead time"
-                value={formatDaysUntil(event.daysUntil)}
-                note={event.daysUntil < 0 ? 'Already under way' : 'from the focused date'}
+                value={formatDaysUntil(leadDays)}
+                note={leadDays < 0 ? 'Already under way' : 'from today'}
                 size="sm"
                 align="end"
               />

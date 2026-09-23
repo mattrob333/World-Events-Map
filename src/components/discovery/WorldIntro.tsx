@@ -326,9 +326,16 @@ export function WorldIntro({
           <span className={styles.kicker}><span aria-hidden="true">✦</span> THE WORLD IS AN INVITATION</span>
           <h1>{story.first} <em>{story.emphasis}</em></h1>
           <p>{story.description}</p>
-          {featured && <button type="button" className={styles.heroCta} onClick={() => launchJourney(featured, activeJourney?.photo)}>
-            <span className={styles.jet} aria-hidden="true">✈</span> Fly to {featured.city} <span aria-hidden="true">↗</span>
-          </button>}
+          {featured && (estimate?.airHours === 0 && destinations.byEventId.get(featured.id) ? (
+            // Already there: flying a route to your own city makes no sense (red team UFR-C10).
+            <Link className={styles.heroCta} href={`/destinations/${destinations.byEventId.get(featured.id)!.slug}?event=${encodeURIComponent(featured.id)}`}>
+              You&apos;re here · see {featured.city} <span aria-hidden="true">↗</span>
+            </Link>
+          ) : (
+            <button type="button" className={styles.heroCta} onClick={() => launchJourney(featured, activeJourney?.photo)}>
+              <span className={styles.jet} aria-hidden="true">✈</span> Fly to {featured.city} <span aria-hidden="true">↗</span>
+            </button>
+          ))}
           <a className={styles.secondaryCta} href="#departure-board">See what is calling <span aria-hidden="true">↓</span></a>
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>

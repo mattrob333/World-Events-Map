@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GlobeStage } from '@/components/globe';
 import { EventDossier, HoverReadout } from '@/components/panels';
@@ -12,6 +12,7 @@ import { useBeacons, useScoredEvents } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { useChromeStore } from '@/lib/stores/useChromeStore';
+import { useCommandStore } from '@/components/shell/commandStore';
 import { useFilterStore } from '@/lib/stores/useFilterStore';
 import { isDemoMode } from '@/lib/flags';
 import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
@@ -30,6 +31,7 @@ import { track } from '@/lib/analytics';
 import type { WorldEvent } from '@/lib/types';
 import { WorldIntro } from './WorldIntro';
 import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
+import { discoveryQuery, readDiscoveryState, type DiscoveryState } from './journey-url';
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { formatDateRange } from '@/components/ui/tokens';
 import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
@@ -51,6 +53,7 @@ const INTEREST_LABEL: Record<TripInterest, string> = {
 
 export function DiscoveryExperience() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const linkedEventId = searchParams.get('event');
   useLiveCalendarSync();
   const signalStatus = useLiveCalendar((s) => s.status);
@@ -72,8 +75,20 @@ export function DiscoveryExperience() {
   const selected = useGlobeStore((s) => s.selectedEventId);
   const [planning, setPlanning] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  const [journeyEventId, setJourneyEventId] = useState<string | null>(null);
-  const [tripMode, setTripMode] = useState<{ season: TripSeason; interest: TripInterest }>({ season: 'all', interest: 'all' });
+  // Season, interest and the chosen journey live in the URL: refresh keeps
+  // them and browser Back leaves a journey instead of leaving MERIDIAN.
+  const discovery = readDiscoveryState(searchParams);
+  const journeyEventId = discovery.journey;
+  const tripMode = useMemo(
+    () => ({ season: discovery.season, interest: discovery.interest }),
+    [discovery.season, discovery.interest],
+  );
+  const navigateDiscovery = (next: Partial<DiscoveryState>, mode: 'push' | 'replace' = 'replace') => {
+    const href = discoveryQuery(new URLSearchParams(searchParams.toString()), next);
+    if (mode === 'push') router.push(href, { scroll: false });
+    else router.replace(href, { scroll: false });
+  };
+  const setJourneyEventId = (journey: string | null) => navigateDiscovery({ journey });
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
   const routeTimer = useRef<number | null>(null);
@@ -180,8 +195,7 @@ export function DiscoveryExperience() {
   const visibleBeacons = beacons.filter((beacon) => visibleIds.has(beacon.eventId));
 
   const changeTripMode = (season: TripSeason, interest: TripInterest) => {
-    setTripMode({ season, interest });
-    setJourneyEventId(null);
+    navigateDiscovery({ season, interest, journey: null });
     select(null);
     if (routeTimer.current !== null) {
       window.clearTimeout(routeTimer.current);
@@ -195,7 +209,7 @@ export function DiscoveryExperience() {
 
   const travelFromCard = (event: WorldEvent) => {
     select(null);
-    setJourneyEventId(event.id);
+    navigateDiscovery({ journey: event.id }, 'push');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const worldStage = document.getElementById('world-map');
     worldStage?.scrollIntoView({
@@ -222,12 +236,13 @@ export function DiscoveryExperience() {
     const close = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         select(null);
-        setJourneyEventId(null);
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('journey')) router.replace(discoveryQuery(params, { journey: null }), { scroll: false });
       }
     };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
-  }, [select]);
+  }, [select, router]);
 
   useEffect(() => {
     if (!linkedEventId) {
@@ -322,6 +337,11 @@ export function DiscoveryExperience() {
           className={styles.timeline}
           aria-label="Plan your travel dates"
         >
+          {(tripMode.season !== 'all' || tripMode.interest !== 'all') && (
+            <p className={styles.planModeNote} role="status">
+              Showing everything in your dates. Your {modeLabel} picks come back when you return to today.
+            </p>
+          )}
           <div className={styles.planHeading}>
             <span>Find your moment.</span>
             <label>
@@ -367,7 +387,7 @@ export function DiscoveryExperience() {
           {viewer.coords ? (
             <GlobeStage
               beacons={visibleBeacons}
-              winterMode={tripMode.season === 'winter'}
+              winterMode={modeActive && tripMode.season === 'winter'}
               initialView={viewer.launchCoords ?? viewer.coords}
               viewerMarker={hasViewerOrigin && viewer.coords ? {
                 coords: viewer.coords,
@@ -497,9 +517,16 @@ export function DiscoveryExperience() {
               <h2>No scenes in this view.</h2>
               <p>
                 {query
-                  ? 'Try another city or interest, or clear your search.'
+                  ? planMode
+                    ? 'Nothing in these dates matches. Try another city or interest, or clear your search.'
+                    : 'This box only searches what is happening today. MERIDIAN search covers every place and date.'
                   : 'Great trips start a little ahead. Explore the calendar to find your next moment.'}
               </p>
+              {query && (
+                <button className={styles.primary} onClick={() => useCommandStore.getState().openWith(query)}>
+                  Search all of MERIDIAN for “{query}”
+                </button>
+              )}
               <button
                 className={styles.primary}
                 onClick={query ? () => setQuery('') : beginPlanning}
@@ -578,7 +605,7 @@ export function DiscoveryExperience() {
           </div>
           <div>
             <strong>{modeActive ? scenes.filter((event) => event.start > focus).length : events.length}</strong>
-            <span>{modeActive ? 'future starts' : 'matching occasions'}</span>
+            <span>{modeActive ? 'future starts' : 'on the whole calendar'}</span>
           </div>
         </div>
         <div className={styles.globeHint}>

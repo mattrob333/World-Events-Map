@@ -1,10 +1,39 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useIntentStore } from '@/lib/intent';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import styles from './community.module.css';
 
-export function EventSaveButton({ eventId }: { eventId: string }) {
+/**
+ * Without a member account, saving uses the same device-local store as the
+ * destination page and Trips, so an event saved anywhere shows as saved here
+ * too (red team UFR-A03). Account saving takes over once the traveler signs in.
+ */
+function DeviceSave({ eventId, label, signInHref }: { eventId: string; label: string; signInHref?: string }) {
+  const items = useIntentStore((state) => state.items);
+  const toggle = useIntentStore((state) => state.toggle);
+  const saved = items.some((item) => item.verb === 'save' && item.kind === 'event' && item.id === eventId);
+  return (
+    <div>
+      <button
+        type="button"
+        aria-pressed={saved}
+        className={`${styles.button} ${saved ? styles.secondary : ''}`}
+        onClick={() => toggle({ verb: 'save', kind: 'event', id: eventId, label, href: `/?event=${encodeURIComponent(eventId)}` })}
+      >
+        {saved ? 'Saved on this device ✓' : 'Save on this device'}
+      </button>
+      <p className={styles.small}>
+        {saved ? <><Link href="/trips">Find it in Trips ↗</Link>. </> : null}
+        Saved on this device only.{signInHref ? <> <a href={signInHref}>Sign in</a> to keep saves on your account.</> : null}
+      </p>
+    </div>
+  );
+}
+
+export function EventSaveButton({ eventId, label = 'Saved event' }: { eventId: string; label?: string }) {
   const { client, user, loading } = usePlatformAuth();
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -33,12 +62,7 @@ export function EventSaveButton({ eventId }: { eventId: string }) {
       active = false;
     };
   }, [client, user, eventId, identity]);
-  if (!client)
-    return (
-      <span className={styles.small}>
-        Event saving will be available when membership is connected.
-      </span>
-    );
+  if (!client) return <DeviceSave eventId={eventId} label={label} />;
   if (loading)
     return (
       <button className={styles.button} disabled>
@@ -47,12 +71,11 @@ export function EventSaveButton({ eventId }: { eventId: string }) {
     );
   if (!user)
     return (
-      <a
-        className={styles.button}
-        href={`/account?event=${encodeURIComponent(eventId)}`}
-      >
-        Sign in to save this event
-      </a>
+      <DeviceSave
+        eventId={eventId}
+        label={label}
+        signInHref={`/account?event=${encodeURIComponent(eventId)}`}
+      />
     );
   return (
     <div>
