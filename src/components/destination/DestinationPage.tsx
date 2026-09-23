@@ -14,6 +14,7 @@ import { listTravelersForDestination, TRAVELER_FIXTURE_DISCLOSURE } from '@/lib/
 import { listTripRoomsForDestination } from '@/lib/trips';
 import { track } from '@/lib/analytics';
 import { todayISO } from '@/lib/buzz/dates';
+import { DistanceFromCity } from './DistanceFromCity';
 import { Avatar } from '@/components/social';
 import { PlaceGallery } from '@/components/place-media/PlaceGallery';
 import { VenueMap } from '@/components/panels/VenueMap';
@@ -227,6 +228,7 @@ function DestinationLoaded({
         <div><span className={styles.factLabel}>Next occasion</span><strong>{nextEvent ? nextEvent.name : 'Explore the calendar'}</strong></div>
         <div><span className={styles.factLabel}>When to go</span><strong>{nextEvent ? formatDateRange(nextEvent.start, nextEvent.end) : 'Dates to be announced'}</strong></div>
         <div><span className={styles.factLabel}>The edit</span><strong>{events.length} curated {events.length === 1 ? 'occasion' : 'occasions'} · {pulse.archetypes[0] ?? 'travel'}</strong></div>
+        <DistanceFromCity target={pulse.coords} labelClassName={styles.factLabel} linkClassName={styles.distanceLink} />
         <a href="#destination-map">Explore the map <span aria-hidden="true">↗</span></a>
       </div>
 

@@ -92,6 +92,7 @@ export function DiscoveryExperience() {
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
   const routeTimer = useRef<number | null>(null);
+  const citySelect = useRef<HTMLSelectElement | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
   useEffect(() => {
@@ -283,13 +284,21 @@ export function DiscoveryExperience() {
                 ? 'Curated calendar · offline'
                 : 'Curated calendar'}{' '}
             · {dateLabel(focus)} ·{' '}
-            {viewer.source === 'chosen'
-              ? `Viewing ${viewer.cityLabel}`
-              : viewer.status === 'granted'
-              ? 'Using device location'
-              : viewer.status === 'locating'
-                ? 'Locating you'
-                : 'Location unavailable · choose a city'}
+            <span aria-live="polite">
+              {viewer.source === 'chosen'
+                ? `Viewing ${viewer.cityLabel}${viewer.deviceFailure === 'denied'
+                  ? ' · device location is blocked, still using this city'
+                  : viewer.deviceFailure === 'unavailable' ? ' · device location unavailable, still using this city' : ''}`
+                : viewer.status === 'granted'
+                ? 'Using device location'
+                : viewer.status === 'locating'
+                  ? 'Locating you'
+                  : viewer.status === 'denied'
+                    ? 'Location is blocked in your browser · choose a city'
+                    : viewer.status === 'unavailable'
+                      ? 'Location unavailable · choose a city'
+                      : 'Choose a city or use your location'}
+            </span>
           </span>
         </div>
         <label className={styles.search}>
@@ -308,10 +317,17 @@ export function DiscoveryExperience() {
         </label>
         <button
           className={styles.locationButton}
-          onClick={viewer.retry}
+          onClick={() => {
+            // A blocked browser cannot be re-prompted; send the traveler to the
+            // city picker instead of a button that appears to do nothing.
+            if (viewer.status === 'denied' || viewer.deviceFailure === 'denied') citySelect.current?.focus();
+            else viewer.retry();
+          }}
           disabled={viewer.status === 'locating'}
         >
-          {viewer.source === 'chosen' ? 'Use device location' : viewer.status === 'granted'
+          {viewer.status === 'denied' || viewer.deviceFailure === 'denied'
+            ? 'Location blocked · pick a city'
+            : viewer.source === 'chosen' ? 'Use device location' : viewer.status === 'granted'
             ? 'Recenter near me'
             : viewer.status === 'locating'
               ? 'Finding your position…'
@@ -319,7 +335,7 @@ export function DiscoveryExperience() {
         </button>
         <label className={styles.cityChoice}>
           <span>Viewing area</span>
-          <select aria-label="Choose your city" title="Your city choice is remembered in this tab" value={viewer.cityLabel ?? ''} onChange={(event) => viewer.chooseCity(event.target.value)}>
+          <select ref={citySelect} aria-label="Choose your city" title="Your city choice is remembered in this tab" value={viewer.cityLabel ?? ''} onChange={(event) => viewer.chooseCity(event.target.value)}>
             <option value="" disabled>Choose your city</option>
             {VIEWER_CITIES.map((city) => <option value={city.name} key={city.name}>{city.name}</option>)}
           </select>
