@@ -9,7 +9,18 @@
  * Anything rejected falls back to the safe default, the home page.
  */
 export function sanitizeFromPath(raw: string | null | undefined): string {
-  if (typeof raw !== 'string' || raw.length === 0) return '/';
-  if (raw[0] !== '/' || raw.startsWith('//') || raw.startsWith('/\\')) return '/';
-  return raw;
+  if (typeof raw !== 'string' || raw.length === 0 || raw.length > 512) return '/';
+  // Browsers drop tabs and newlines inside URLs, so `/\t/evil.com` would
+  // collapse to `//evil.com`; refuse control characters and backslashes outright.
+  if (/[\u0000-\u001f\u007f\\]/.test(raw)) return '/';
+  if (raw[0] !== '/' || raw.startsWith('//')) return '/';
+  // Final check: resolving against a sentinel origin must stay on it.
+  try {
+    const base = 'https://meridian.invalid';
+    const resolved = new URL(raw, base);
+    if (resolved.origin !== base) return '/';
+    return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+  } catch {
+    return '/';
+  }
 }

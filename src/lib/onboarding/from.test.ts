@@ -31,4 +31,14 @@ describe('sanitizeFromPath', () => {
   it('accepts the root path unchanged', () => {
     expect(sanitizeFromPath('/')).toBe('/');
   });
+
+  it('rejects control characters browsers would strip into a protocol-relative URL', () => {
+    expect(sanitizeFromPath('/\t/evil.com')).toBe('/');
+    expect(sanitizeFromPath('/\n/evil.com')).toBe('/');
+    expect(sanitizeFromPath('/%09/evil.com')).toBe('/%09/evil.com');
+  });
+
+  it('keeps query and hash on an in-app path', () => {
+    expect(sanitizeFromPath('/destinations/aspen?event=aspen-christmas-week#x')).toBe('/destinations/aspen?event=aspen-christmas-week#x');
+  });
 });

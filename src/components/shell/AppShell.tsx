@@ -62,7 +62,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const world = pathname === '/';
   const welcome = pathname.startsWith('/welcome');
-  const showOnboarding = mounted && !completed && !welcome;
+  // Providers on the partner studio are not being asked about their own travel.
+  const showOnboarding = mounted && !completed && !welcome && !pathname.startsWith('/partners');
 
   return (
     <div className={cn('min-h-dvh bg-void text-ink', world && 'bg-transparent')}>
