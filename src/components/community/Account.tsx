@@ -190,6 +190,9 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
           <a href="/community" className={`${styles.button} ${styles.secondary}`}>
             Explore travel circles
           </a>
+          <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>
+            Edit traveler lens
+          </a>
         </aside>
       </div>
     </PlatformShell>

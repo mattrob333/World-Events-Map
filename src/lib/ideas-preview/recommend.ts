@@ -2,7 +2,7 @@ import type { WorldEvent } from '@/lib/types';
 import { indexDestinations } from '@/lib/pulse';
 
 export const IDEA_INTERESTS = [
-  { id: 'all', label: 'For you' },
+  { id: 'all', label: 'Editor’s mix' },
   { id: 'culture', label: 'Art & culture' },
   { id: 'table', label: 'Food & nights' },
   { id: 'outside', label: 'Open air' },

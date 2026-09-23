@@ -18,7 +18,7 @@ export function PeopleDirectory() {
       <p className="label-sm text-brass">People</p>
       <h1 className="mt-2 font-display text-5xl text-ink">Travelers</h1>
       <p className="mt-3 max-w-xl text-[14px] text-ink-muted">
-        Profiles are travel identity, not account settings. Live public profiles stay behind PR #8 until the privacy findings are fixed.
+        Profiles are travel identity, not account settings. Public traveler profiles are not open yet. Profiles are private by default and discovery is opt-in.
       </p>
       <div className="mt-4">
         <FixtureBanner>{TRAVELER_FIXTURE_DISCLOSURE}</FixtureBanner>

@@ -134,7 +134,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-2">
             <span>Set your traveler lens — it takes under a minute, and you can skip.</span>
             <span className="flex gap-3">
-              <Link href="/welcome" className="underline decoration-brass/40 underline-offset-4">
+              <Link
+                href={`/welcome?from=${encodeURIComponent(pathname)}`}
+                className="underline decoration-brass/40 underline-offset-4"
+              >
                 Begin
               </Link>
               <button type="button" onClick={skip} className="text-ink-muted hover:text-ink">

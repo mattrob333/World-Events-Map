@@ -7,3 +7,10 @@ export {
   TRAVELER_KINDS,
 } from './types';
 export { useOnboardingStore } from './store';
+export { sanitizeFromPath } from './from';
+export {
+  TOTAL_ONBOARDING_STEPS,
+  parseOnboardingStep,
+  stepKeyToNumber,
+  stepNumberToKey,
+} from './step';
