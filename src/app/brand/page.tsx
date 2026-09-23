@@ -18,7 +18,7 @@ const PALETTE = [
 
 const VOICE = [
   ['Confident, not loud', 'We know the spot. We don’t need to shout about it.'],
-  ['Fun, not goofy', 'A wink, never a meme. One “dope” per page is plenty.'],
+  ['Fun, not goofy', 'The name does the winking. We never use “dope” in a sentence, and never write slang we wouldn’t say out loud.'],
   ['Specific, not salesy', '“Rock cover band, Friday, two blocks from the hotel.” Not “unforgettable experiences.”'],
   ['Honest', 'Ideas are ideas, prices are “listed at”, and we say where things come from.'],
 ];
@@ -86,7 +86,7 @@ export default function BrandPage() {
 
       <section className={styles.section} aria-labelledby="type">
         <h2 id="type" className={styles.h2}>Type</h2>
-        <p className={`font-display ${styles.specimen}`}>Go somewhere dope.</p>
+        <p className={`font-display ${styles.specimen}`}>The terrace, the band, the crew.</p>
         <p className={`font-display ${styles.specimenItalic}`}>Less itinerary, more legend.</p>
         <p className={styles.copy}>
           Fraunces with its soft, slightly wonky 70s cut for display; the system sans for everything you read quickly; mono for labels and data.

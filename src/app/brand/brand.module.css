@@ -155,6 +155,7 @@
 
 .specimen {
   margin-top: 16px;
+  text-wrap: balance;
   font-size: clamp(44px, 9vw, 104px);
   line-height: 0.95;
   color: var(--color-ink);
