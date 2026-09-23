@@ -33,6 +33,8 @@ const MOBILE = [
 const MORE_LINKS = [
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
   { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
+  { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
+  { href: '/moodboard', label: 'Mood board', hint: 'Talk about you; get a collage' },
   { href: '/account', label: 'Profile', hint: 'Your traveler lens' },
 ] as const;
 

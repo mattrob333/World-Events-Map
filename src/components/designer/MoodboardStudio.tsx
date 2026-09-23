@@ -1,0 +1,328 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo, useState } from 'react';
+import { EXAMPLE_RAMBLE, moodboardTiles, type MoodTile } from '@/lib/designer/moodboard';
+import {
+  MAX_RAMBLE_CHARS,
+  parseProfileLocally,
+  summarize,
+  type ParseEngine,
+  type TravelerProfile,
+} from '@/lib/designer/profile';
+import { useDesignerStore } from '@/lib/designer/store';
+import styles from './designer.module.css';
+import { useHydrated } from './useHydrated';
+import { useDictation } from './useDictation';
+
+type Result = { profile: TravelerProfile; engine: ParseEngine; notice?: string };
+
+const TILTS = ['-1.6deg', '1.2deg', '-0.6deg', '1.8deg', '0deg', '-1.1deg', '0.7deg'];
+
+export function MoodTileView({ tile, index }: { tile: MoodTile; index: number }) {
+  const [a, b] = tile.palette;
+  return (
+    <div
+      className={`${styles.tile} ${styles[`tile_${tile.size}`]} ${tile.kind === 'age' ? styles.tileAge : ''}`}
+      style={{ background: `linear-gradient(135deg, ${a}, ${b})`, ['--tilt' as string]: TILTS[index % TILTS.length] }}
+    >
+      {tile.image ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element -- local editorial files, decorative mood imagery */}
+          <img className={styles.tileImage} src={tile.image} alt="" loading="lazy" />
+          <span className={styles.tileShade} />
+        </>
+      ) : null}
+      <span className={styles.tileEmoji} aria-hidden>
+        {tile.emoji}
+      </span>
+      <span className={styles.tileLabel}>{tile.label}</span>
+      {tile.sub ? <span className={styles.tileSub}>{tile.sub}</span> : null}
+    </div>
+  );
+}
+
+const FACT_GROUPS: { key: keyof TravelerProfile; title: string }[] = [
+  { key: 'teams', title: 'Teams' },
+  { key: 'music', title: 'Music' },
+  { key: 'events', title: 'Concerts & festivals' },
+  { key: 'favoriteTrips', title: 'Favorite trips' },
+  { key: 'interests', title: 'Into' },
+  { key: 'food', title: 'Food' },
+  { key: 'heritage', title: 'Roots' },
+];
+
+function removeFact(profile: TravelerProfile, key: keyof TravelerProfile, value: string): TravelerProfile {
+  const list = profile[key];
+  if (!Array.isArray(list)) return profile;
+  const next = { ...profile, [key]: (list as string[]).filter((item) => item !== value) };
+  return { ...next, summary: profile.summary };
+}
+
+export function MoodboardStudio() {
+  const [text, setText] = useState('');
+  const [result, setResult] = useState<Result | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [boardId, setBoardId] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+  const mounted = useHydrated();
+  const profiles = useDesignerStore((state) => state.profiles);
+  const saveProfile = useDesignerStore((state) => state.saveProfile);
+  const removeProfile = useDesignerStore((state) => state.removeProfile);
+
+  const router = useRouter();
+
+  const append = useCallback((chunk: string) => {
+    if (!chunk) return;
+    setText((current) => `${current}${current && !/\s$/.test(current) ? ' ' : ''}${chunk}`.slice(0, MAX_RAMBLE_CHARS));
+  }, []);
+  const dictation = useDictation(append);
+  const listening = dictation.status === 'listening';
+
+  const tiles = useMemo(() => (result ? moodboardTiles(result.profile) : []), [result]);
+
+  async function build() {
+    if (listening) dictation.stop();
+    setError('');
+    setSaved(false);
+    setBoardId(null);
+    if (text.trim().length < 10) {
+      setError('Say or type a few sentences about yourself first.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const response = await fetch('/api/designer/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript: text }),
+      });
+      const body = (await response.json()) as Result & { error?: string };
+      if (!response.ok) throw new Error(body.error ?? 'Could not sort that.');
+      setResult({ profile: body.profile, engine: body.engine, notice: body.notice });
+    } catch (cause) {
+      // The on-device parser is always available, so a network failure never strands the ramble.
+      setResult({
+        profile: parseProfileLocally(text),
+        engine: 'on-device',
+        notice: cause instanceof Error && cause.message !== 'Failed to fetch' ? cause.message : 'Offline, so this was sorted on the device.',
+      });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function save(): string | undefined {
+    if (!result) return undefined;
+    const id = boardId ?? `mb-${Date.now().toString(36)}`;
+    saveProfile({ id, profile: result.profile, engine: result.engine, updatedAt: new Date().toISOString() });
+    setBoardId(id);
+    setSaved(true);
+    return id;
+  }
+
+  function edit(key: keyof TravelerProfile, value: string) {
+    if (!result) return;
+    const profile = removeFact(result.profile, key, value);
+    setResult({ ...result, profile: { ...profile, summary: result.engine === 'claude' ? profile.summary : summarize(profile) } });
+    setSaved(false);
+  }
+
+  const micLabel =
+    dictation.status === 'unsupported'
+      ? 'Voice input is not available in this browser. Type instead, or use your keyboard’s dictation.'
+      : dictation.status === 'denied'
+        ? 'Microphone access was blocked. Allow it in the browser, or type instead.'
+        : dictation.status === 'error'
+          ? 'Voice input stopped. Tap the mic to try again.'
+          : listening
+            ? 'Listening… ramble away. Tap again to stop.'
+            : 'Tap the mic and just talk.';
+
+  return (
+    <main className={styles.page}>
+      <div className={styles.inner}>
+        <p className={styles.eyebrow}>Mood board · step 1 of 2</p>
+        <h1 className={styles.headline}>
+          Tell us about you. <span className={styles.gradientText}>We’ll make the board.</span>
+        </h1>
+        <p className={styles.lede}>
+          Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
+          who you travel with, and the trips you still talk about. We sort it into a collage that plans trips with you.
+        </p>
+
+        <section className={styles.recorder} aria-label="Your ramble">
+          <div className="grid justify-items-center gap-2">
+            <button
+              type="button"
+              className={`${styles.mic} ${listening ? styles.micLive : ''}`}
+              onClick={() => (listening ? dictation.stop() : dictation.start())}
+              disabled={dictation.status === 'unsupported'}
+              aria-pressed={listening}
+              aria-label={listening ? 'Stop listening' : 'Start talking'}
+            >
+              {listening ? '■' : '🎙️'}
+            </button>
+          </div>
+          <div className="grid w-full gap-3">
+            <p className="text-[13px] text-ink-muted" aria-live="polite">
+              {micLabel}
+            </p>
+            <label className={styles.srOnly} htmlFor="ramble">
+              Your ramble
+            </label>
+            <textarea
+              id="ramble"
+              className={styles.transcript}
+              value={text}
+              maxLength={MAX_RAMBLE_CHARS}
+              onChange={(event) => setText(event.target.value)}
+              placeholder="I'm 44, from Atlanta. Braves fan. Two boys, 8 and 12…"
+            />
+            {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
+            <div className={styles.row}>
+              <button type="button" className={styles.cta} onClick={build} disabled={busy}>
+                {busy ? 'Sorting…' : '✨ Build my mood board'}
+              </button>
+              <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
+                Try an example
+              </button>
+              {text ? (
+                <button type="button" className={styles.ghost} onClick={() => setText('')}>
+                  Clear
+                </button>
+              ) : null}
+            </div>
+            {error ? <p className={styles.error} role="alert">{error}</p> : null}
+            <p className={styles.hint}>
+              Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to MERIDIAN only to
+              sort it, is not stored on our servers, and the board is saved on this device only.
+            </p>
+          </div>
+        </section>
+
+        {result ? (
+          <section className="mt-10" aria-labelledby="board-title">
+            <div className={styles.row}>
+              <h2 id="board-title" className="font-display text-[28px] text-ink">
+                Your board
+              </h2>
+              <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
+                {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted on this device'}
+              </span>
+              <span className={styles.badge}>Mood imagery · not your photos</span>
+            </div>
+            {result.profile.summary ? <p className={styles.lede}>{result.profile.summary}</p> : null}
+            {result.notice ? <p className={styles.notice}>{result.notice}</p> : null}
+
+            {tiles.length ? (
+              <div className={styles.board}>
+                {tiles.map((tile, index) => (
+                  <MoodTileView key={tile.id} tile={tile} index={index} />
+                ))}
+              </div>
+            ) : (
+              <p className={styles.notice}>
+                We couldn’t pick out much from that. Mention your hometown, teams, music, family, and favorite trips.
+              </p>
+            )}
+
+            <div className={styles.facts}>
+              {result.profile.family.length ? (
+                <div className={styles.factGroup}>
+                  <p className={styles.factTitle}>Travels with</p>
+                  <div className={styles.chips}>
+                    {result.profile.family.map((member, i) => (
+                      <span key={i} className={styles.chip}>
+                        {member.name ? `${member.name} · ` : ''}
+                        {member.label}
+                        {member.age !== undefined ? ` · ${member.age}` : ''}
+                        {member.note ? ` · ${member.note}` : ''}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {FACT_GROUPS.map(({ key, title }) => {
+                const values = result.profile[key] as string[];
+                if (!values.length) return null;
+                return (
+                  <div key={key} className={styles.factGroup}>
+                    <p className={styles.factTitle}>{title}</p>
+                    <div className={styles.chips}>
+                      {values.map((value) => (
+                        <span key={value} className={styles.chip}>
+                          {value}
+                          <button type="button" className={styles.chipX} onClick={() => edit(key, value)} aria-label={`Remove ${value}`}>
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className={`${styles.row} mt-6`}>
+              <button type="button" className={styles.cta} onClick={save}>
+                {saved ? '✓ Saved on this device' : 'Save my board'}
+              </button>
+              <button type="button" className={styles.ghost} onClick={() => router.push(`/trips/designer?with=${save()}`)}>
+                Plan a trip with this board →
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        {mounted && profiles.length ? (
+          <section className="mt-12" aria-labelledby="saved-title">
+            <h2 id="saved-title" className={styles.eyebrow}>
+              Boards on this device
+            </h2>
+            <div className={styles.savedList}>
+              {profiles.map((entry) => {
+                const tile = moodboardTiles(entry.profile)[0];
+                return (
+                  <div key={entry.id} className={styles.savedCard}>
+                    <span
+                      className={styles.savedSwatch}
+                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : '#334155' }}
+                      aria-hidden
+                    >
+                      {tile?.emoji ?? '✨'}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[14px] text-ink">{entry.profile.name ?? entry.profile.hometown ?? 'My board'}</p>
+                      <p className="truncate text-[12px] text-ink-faint">{entry.profile.summary || 'Saved board'}</p>
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.miniBtn}
+                      onClick={() => {
+                        setResult({ profile: entry.profile, engine: entry.engine });
+                        setBoardId(entry.id);
+                        setSaved(true);
+                      }}
+                    >
+                      Open
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.miniBtn}
+                      onClick={() => removeProfile(entry.id)}
+                      aria-label="Delete this board from the device"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
+      </div>
+    </main>
+  );
+}
