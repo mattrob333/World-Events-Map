@@ -124,7 +124,7 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
         <span className={styles.cardFly}><span aria-hidden="true">✈</span> Fly there on the globe <span aria-hidden="true">↗</span></span>
       </button>
       <div className={styles.cardBottom}>
-        <Link href={`/destinations/${slug}`}>Explore the place <span aria-hidden="true">↗</span></Link>
+        <Link href={`/destinations/${slug}?event=${encodeURIComponent(event.id)}`}>Explore the place <span aria-hidden="true">↗</span></Link>
         {photo && !imageFailed ? (
           <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={`${photo.title} · ${photo.credit} · ${photo.license}`}>
             {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗

@@ -6,6 +6,7 @@ import { PlatformShell } from '@/components/community/PlatformShell';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import type { NowIntent, NowResult, NowVibe } from '@/lib/now/types';
 import styles from './now.module.css';
+import { NowUnavailable } from './NowUnavailable';
 
 const INTENTS: { value: NowIntent; label: string; note: string }[] = [
   { value: 'food', label: 'Eat', note: 'restaurant or food' },
@@ -173,14 +174,13 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
       title="Where should we go right now?"
       description="Give MERIDIAN the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory."
     >
+      {!providerConfigured && <NowUnavailable />}
       <div className={styles.layout}>
         <form className={styles.controls} onSubmit={submit}>
           {!providerConfigured && (
-            <p className={styles.connectionNote} role="status">
-              Live nearby venue search is awaiting its provider and private budget store. NOW cannot return live recommendations yet.{' '}
-              <Link href="/">Explore places and seasons ↗</Link>
-            </p>
+            <p className={styles.connectionNote}>Preview of how NOW will work. These choices are disabled until live nearby search is connected.</p>
           )}
+          <fieldset className={styles.previewFieldset} disabled={!providerConfigured}>
           <section className={styles.block} id="now-location">
             <span className={styles.kicker}>01 · Where you are</span>
             {providerConfigured ? (
@@ -242,6 +242,8 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
           </section>
 
           <button className={styles.go} disabled={!providerConfigured || loading || !lat || !lng}>{loading ? 'Reading the room…' : 'Find my next move'}</button>
+          </fieldset>
+          {!providerConfigured && <p className={styles.privacy}>Available when live nearby search is connected.</p>}
           {error && <p className={styles.error} role="alert">{error}</p>}
         </form>
 

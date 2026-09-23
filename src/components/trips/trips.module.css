@@ -240,3 +240,7 @@
   .roomCard, .primaryAction, .secondaryAction { transition: none; }
   .roomCard:hover, .primaryAction:hover, .secondaryAction:hover { transform: none; }
 }
+
+.unavailableNote { margin: 10px 0 14px; border-left: 2px solid #e8c994; padding: 9px 12px; background: #e4be8126; color: #efe3cc; font-size: 13px; line-height: 1.5; }
+.secondaryFormAction { display: inline-flex; justify-content: space-between; gap: 18px; min-height: 40px; border: 1px solid #f3d4a580; border-radius: 3px; padding: 10px 13px; background: transparent; color: #f3d4a5; font-size: 12px; font-weight: 700; }
+.secondaryFormAction:hover { border-color: #f3d4a5; }

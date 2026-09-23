@@ -8,8 +8,11 @@ import { INTENT_LABEL, useIntentStore } from '@/lib/intent';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { circleInviteUrl } from '@/lib/trips/circleInvite';
 import { TRIP_ROOM_FIXTURES } from '@/lib/trips';
+import { EVENT_INDEX } from '@/lib/data/events';
 import { createFamilySkiCircle as runFamilySkiCreation } from './createFamilySkiCircle';
 import {
+  buildPrivateSkiBrief,
+  localToday,
   validateFamilySkiInput,
   type FamilySkiInput,
   type SkiRegion,
@@ -19,13 +22,47 @@ import styles from './trips.module.css';
 
 type CreatedCircle = { href: string; briefSaved: boolean; brief: string | null };
 
-export function TripsPage({ featuredSki = false }: { featuredSki?: boolean }) {
+const DRAFT_PREFIX = 'meridian.ski-draft.v1:';
+const DRAFT_FIELDS = ['region', 'start', 'end', 'origin', 'adults', 'children', 'anotherFamily', 'stay', 'nightlyBudget', 'resorts', 'childNotes'] as const;
+
+function readSkiInput(form: HTMLFormElement): FamilySkiInput {
+  const data = new FormData(form);
+  return {
+    region: String(data.get('region')) as SkiRegion,
+    start: String(data.get('start') ?? ''),
+    end: String(data.get('end') ?? ''),
+    origin: String(data.get('origin') ?? '').slice(0, 120),
+    adults: Number(data.get('adults')),
+    children: Number(data.get('children')),
+    anotherFamily: data.get('anotherFamily') === 'on',
+    stay: String(data.get('stay')) as SkiStay,
+    nightlyBudget: String(data.get('nightlyBudget') ?? ''),
+    resorts: String(data.get('resorts') ?? '').slice(0, 160),
+    childNotes: String(data.get('childNotes') ?? '').slice(0, 200),
+  };
+}
+
+/** Drafts live in this tab only and are cleared on sign-out. */
+function clearSkiDrafts() {
+  try {
+    for (const key of Object.keys(window.sessionStorage)) {
+      if (key.startsWith(DRAFT_PREFIX)) window.sessionStorage.removeItem(key);
+    }
+  } catch {
+    // Storage unavailable: nothing to clear.
+  }
+}
+
+export function TripsPage({ featuredSki = false, eventId = '' }: { featuredSki?: boolean; eventId?: string }) {
   const auth = usePlatformAuth();
   const [signOutVersion, setSignOutVersion] = useState(0);
   useEffect(() => {
     if (!auth.client) return;
     const { data } = auth.client.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT') setSignOutVersion((version) => version + 1);
+      if (event === 'SIGNED_OUT') {
+        clearSkiDrafts();
+        setSignOutVersion((version) => version + 1);
+      }
     });
     return () => data.subscription.unsubscribe();
   }, [auth.client]);
@@ -33,13 +70,21 @@ export function TripsPage({ featuredSki = false }: { featuredSki?: boolean }) {
   // A new account, a sign-out (even followed by the same account), or initial
   // auth resolution remounts it cleanly.
   const ownerKey = `${auth.loading ? 'checking-session' : auth.user?.id ?? 'visitor'}:${signOutVersion}`;
-  return <TripsPageContent key={ownerKey} featuredSki={featuredSki} auth={auth} />;
+  return <TripsPageContent key={ownerKey} featuredSki={featuredSki} eventId={eventId} auth={auth} />;
 }
 
-function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: ReturnType<typeof usePlatformAuth> }) {
+function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean; eventId: string; auth: ReturnType<typeof usePlatformAuth> }) {
   const items = useIntentStore((state) => state.items);
   const { client, user, loading } = auth;
-  const [showSkiPlanner, setShowSkiPlanner] = useState(featuredSki);
+  const linkedEvent = eventId ? EVENT_INDEX.get(eventId) : undefined;
+  const [showSkiPlanner, setShowSkiPlanner] = useState(featuredSki || Boolean(linkedEvent));
+  const [today] = useState(localToday);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [touched, setTouched] = useState(false);
+  const [liveProblem, setLiveProblem] = useState<string | null>(null);
+  const [copiedBrief, setCopiedBrief] = useState<{ text: string; copied: boolean } | null>(null);
+  const draftKey = `${DRAFT_PREFIX}${user?.id ?? 'visitor'}`;
+  const prefillDates = linkedEvent && linkedEvent.start >= today ? { start: linkedEvent.start, end: linkedEvent.end } : null;
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState('');
   const [created, setCreated] = useState<CreatedCircle | null>(null);
@@ -66,6 +111,56 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
     };
   }, [client, user?.id]);
 
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+    let draft: Record<string, string | boolean> | null = null;
+    try {
+      draft = JSON.parse(window.sessionStorage.getItem(draftKey) ?? 'null');
+    } catch {
+      draft = null;
+    }
+    if (!draft) return;
+    for (const name of DRAFT_FIELDS) {
+      const field = form.elements.namedItem(name);
+      const value = draft[name];
+      if (field instanceof HTMLInputElement && field.type === 'checkbox') field.checked = value === true;
+      else if ((field instanceof HTMLInputElement || field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) && typeof value === 'string') field.value = value;
+    }
+  }, [draftKey, showSkiPlanner]);
+
+  function rememberDraft(form: HTMLFormElement) {
+    const input = readSkiInput(form);
+    try {
+      window.sessionStorage.setItem(draftKey, JSON.stringify({ ...input, adults: String(input.adults), children: String(input.children) }));
+    } catch {
+      // Storage unavailable: the form still works, it just won't survive a reload.
+    }
+    const problem = input.start && input.end ? validateFamilySkiInput(input, today) : null;
+    setLiveProblem(problem);
+  }
+
+  async function copyBrief() {
+    const form = formRef.current;
+    if (!form) return;
+    setTouched(true);
+    const input = readSkiInput(form);
+    const problem = validateFamilySkiInput(input, today);
+    if (problem) {
+      setLiveProblem(problem);
+      return;
+    }
+    const text = buildPrivateSkiBrief(input);
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      copied = true;
+    } catch {
+      copied = false;
+    }
+    setCopiedBrief({ text, copied });
+  }
+
   function revealSkiPlanner() {
     setShowSkiPlanner(true);
     window.setTimeout(() => document.getElementById('family-ski')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
@@ -79,19 +174,8 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
       setError('Sign in to create a shared trip room.');
       return;
     }
-    const form = new FormData(event.currentTarget);
-    const input: FamilySkiInput = {
-      region: String(form.get('region')) as SkiRegion,
-      start: String(form.get('start') ?? ''),
-      end: String(form.get('end') ?? ''),
-      origin: String(form.get('origin') ?? '').slice(0, 120),
-      adults: Number(form.get('adults')),
-      children: Number(form.get('children')),
-      anotherFamily: form.get('anotherFamily') === 'on',
-      stay: String(form.get('stay')) as SkiStay,
-      nightlyBudget: String(form.get('nightlyBudget') ?? ''),
-    };
-    const problem = validateFamilySkiInput(input);
+    const input = readSkiInput(event.currentTarget);
+    const problem = validateFamilySkiInput(input, today);
     if (problem) {
       setError(problem);
       return;
@@ -122,6 +206,11 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
       const href = circleInviteUrl(window.location.origin, outcome.circleId);
       if (!href) throw new Error('The trip was created, but its link was invalid. Check Community before trying again.');
       setCreated({ href, briefSaved: outcome.kind === 'created', brief: outcome.kind === 'brief-failed' ? outcome.brief : null });
+      try {
+        window.sessionStorage.removeItem(draftKey);
+      } catch {
+        // Nothing to clear.
+      }
       if (outcome.kind === 'brief-failed') setError('Your Circle was created, but the private planning brief could not be saved. Open the Circle and post the brief below in its conversation.');
     } catch (cause) {
       if (isCurrent()) setError(cause instanceof Error ? cause.message : 'Could not create this trip. Please try again.');
@@ -186,8 +275,22 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
           </div>
           <div className={styles.plannerCard}>
             <p className={styles.eyebrow}>FAMILY SKI TRIP / FIRST DRAFT</p>
+            {!loading && !client && (
+              <p className={styles.unavailableNote} role="note">
+                Shared trip rooms aren&apos;t available on this preview. Nothing you enter is saved on MERIDIAN, but you can copy your brief and send it to the other family yourself.
+              </p>
+            )}
             <h3>What should we compare?</h3>
-            <form onSubmit={createFamilySkiCircle} className={styles.plannerForm}>
+            {linkedEvent && (
+              <p className={styles.fieldNote}>Starting from {linkedEvent.name}. Change anything below.</p>
+            )}
+            <form
+              ref={formRef}
+              onSubmit={createFamilySkiCircle}
+              onChange={(event) => rememberDraft(event.currentTarget)}
+              onBlur={() => setTouched(true)}
+              className={styles.plannerForm}
+            >
               <label>Where are you considering?
                 <select name="region" defaultValue="compare">
                   <option value="compare">Compare Colorado Rockies + Swiss Alps</option>
@@ -195,15 +298,21 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
                   <option value="alps">Swiss Alps</option>
                 </select>
               </label>
+              <label>Resorts we&apos;re looking at <span className={styles.optional}>(optional)</span>
+                <input name="resorts" maxLength={160} defaultValue={linkedEvent?.city ?? ''} placeholder="e.g. Aspen, St. Moritz" />
+              </label>
               <div className={styles.formSplit}>
-                <label>First day <input type="date" name="start" required /></label>
-                <label>Last day <input type="date" name="end" required /></label>
+                <label>First day <input type="date" name="start" min={today} defaultValue={prefillDates?.start} required aria-invalid={touched && Boolean(liveProblem && /date|day/.test(liveProblem))} /></label>
+                <label>Last day <input type="date" name="end" min={today} defaultValue={prefillDates?.end} required aria-invalid={touched && Boolean(liveProblem && /date|day/.test(liveProblem))} /></label>
               </div>
               <label>Starting from <input name="origin" maxLength={120} placeholder="City or airport" /></label>
               <div className={styles.formSplit}>
                 <label>Adults in your household <input type="number" name="adults" min={1} max={16} defaultValue={2} required /></label>
                 <label>Children in your household <input type="number" name="children" min={0} max={16} defaultValue={2} required /></label>
               </div>
+              <label>Children&apos;s ages and lessons <span className={styles.optional}>(optional, private)</span>
+                <input name="childNotes" maxLength={200} placeholder="e.g. 6 and 9, both need ski school" />
+              </label>
               <label className={styles.checkLabel}><input type="checkbox" name="anotherFamily" defaultChecked /> We want another family to plan with us</label>
               <label>Top lodging priority
                 <select name="stay" defaultValue="slopeside">
@@ -217,8 +326,21 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
               </label>
               <p className={styles.fieldNote}>These are planning preferences. Snow, lodging availability, travel times, and prices still need live research and provider confirmation.</p>
               {error && <p role="alert" className={styles.formError}>{error}</p>}
-              <button type="submit" className={styles.submitAction} disabled={creating || loading || !client || !user || Boolean(created) || authChanged}>{creating ? 'Creating your Circle…' : created ? 'Circle created' : 'Create the shared Circle'} <span aria-hidden="true">↗</span></button>
+              {!error && touched && liveProblem && <p role="alert" className={styles.formError}>{liveProblem}</p>}
+              {client ? (
+                <button type="submit" className={styles.submitAction} disabled={creating || loading || !user || Boolean(created) || authChanged}>{creating ? 'Creating your Circle…' : created ? 'Circle created' : 'Create the shared Circle'} <span aria-hidden="true">↗</span></button>
+              ) : null}
+              <button type="button" onClick={() => void copyBrief()} className={client ? styles.secondaryFormAction : styles.submitAction}>
+                Copy our trip brief <span aria-hidden="true">↗</span>
+              </button>
             </form>
+            {copiedBrief && (
+              <div className={styles.created} role="status">
+                <p className={styles.eyebrow}>{copiedBrief.copied ? 'BRIEF COPIED' : 'YOUR BRIEF'}</p>
+                <p>{copiedBrief.copied ? 'Paste it into a message to the other family.' : 'Select and copy the brief below to send it.'} Nothing was saved on MERIDIAN.</p>
+                <label>Trip brief <textarea readOnly value={copiedBrief.text} onFocus={(event) => event.currentTarget.select()} /></label>
+              </div>
+            )}
             {!loading && !user && <div className={styles.signIn}><SignInCard /></div>}
             {created && <div className={styles.created} role="status">
               <p className={styles.eyebrow}>YOUR CIRCLE IS READY</p>

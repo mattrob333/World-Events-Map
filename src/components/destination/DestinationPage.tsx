@@ -35,7 +35,7 @@ const TAB_LABEL: Record<Tab, string> = {
   access: 'Stay / Access',
 };
 
-export function DestinationPage({ slug }: { slug: string }) {
+export function DestinationPage({ slug, focusEventId = '' }: { slug: string; focusEventId?: string }) {
   const [tab, setTab] = useState<Tab>('pulse');
   const pulse = useMemo(
     () => getDestinationBySlug(EVENTS, slug, todayISO()),
@@ -62,7 +62,7 @@ export function DestinationPage({ slug }: { slug: string }) {
     );
   }
 
-  return <DestinationLoaded pulse={pulse} tab={tab} onTab={setTab} />;
+  return <DestinationLoaded pulse={pulse} tab={tab} onTab={setTab} focusEventId={focusEventId} />;
 }
 
 function DestinationActions({ event, planningHref, destination }: {
@@ -153,10 +153,12 @@ function DestinationLoaded({
   pulse,
   tab,
   onTab,
+  focusEventId,
 }: {
   pulse: DestinationPulse;
   tab: Tab;
   onTab: (tab: Tab) => void;
+  focusEventId: string;
 }) {
   const events = pulse.eventIds
     .map((id) => EVENT_INDEX.get(id))
@@ -166,11 +168,16 @@ function DestinationLoaded({
   const people = listTravelersForDestination(pulse.id);
   const rooms = listTripRoomsForDestination(pulse.id);
   const today = todayISO();
-  const nextEvent = [...events]
+  // The occasion the traveler arrived from leads; otherwise the next one on the calendar.
+  const focusEvent = events.find((event) => event.id === focusEventId && event.end >= today);
+  const nextEvent = focusEvent ?? [...events]
     .filter((event) => event.end >= today)
     .sort((a, b) => a.start.localeCompare(b.start))[0];
+  const skiOccasion = nextEvent && (nextEvent.category === 'ski' || nextEvent.secondaryCategories?.includes('ski'));
   const planningHref = nextEvent
-    ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
+    ? skiOccasion
+      ? `/trips?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
+      : `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
     : `/circles?destination=${encodeURIComponent(pulse.slug)}`;
   const destinationPhotos = curatedPhotosForDestination(pulse.slug);
   const eventPhotos = events.flatMap((event) => curatedPhotoForEvent(event.id) ?? []);

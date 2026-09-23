@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { explainPlatformError } from '@/lib/platform/errors';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import {
@@ -127,11 +128,7 @@ function PartnerStudioContent() {
     try {
       await action();
     } catch (e) {
-      setError(
-        e && typeof e === 'object' && 'message' in e
-          ? String(e.message)
-          : 'Unable to complete this action.',
-      );
+      setError(explainPlatformError(e));
     } finally {
       setBusy(false);
     }
@@ -166,6 +163,7 @@ function PartnerStudioContent() {
         provider_id: org!.id,
         status: 'draft',
       };
+      const wasPublished = Boolean(editing && offers.find((offer) => offer.id === editing)?.status === 'published');
       const result = editing
         ? await client!.from('offers').update(payload).eq('id', editing)
         : await client!.from('offers').insert(payload);
@@ -173,7 +171,11 @@ function PartnerStudioContent() {
       setDraft(blank);
       setEditing(null);
       await refresh();
-      setNotice('Offer saved as a draft. Preview it below before publishing.');
+      setNotice(
+        wasPublished
+          ? 'Saved. This offer is now hidden from travelers until you publish it again.'
+          : 'Offer saved as a draft. Preview it below before publishing.',
+      );
     });
   }
   async function changeStatus(id: string, status: string) {
@@ -231,12 +233,23 @@ function PartnerStudioContent() {
       )}
       {!client ? (
         <section className={styles.card}>
-          <h2>The studio is being connected.</h2>
+          <h2>Partner applications are not open in this preview.</h2>
           <p>
-            Provider accounts, offers and inquiries require the member platform
-            to be configured. No application or offer has been submitted.
+            Nothing has been submitted or saved. When the partner studio opens,
+            this is how it works:
           </p>
-          <Link href="/">Explore the world</Link>
+          <ol className={styles.howItWorks}>
+            <li><strong>Apply.</strong> Tell us about your business and link your website.</li>
+            <li><strong>MERIDIAN reviews it.</strong> You can draft offers while you wait.</li>
+            <li><strong>Publish inquiry-only offers.</strong> Stays, arrivals, access and experiences around the trips travelers are planning.</li>
+            <li><strong>Reply to requests.</strong> Travelers send inquiries; you confirm dates, price and terms.</li>
+          </ol>
+          <p>
+            MERIDIAN takes no bookings, payments or inventory holds.
+          </p>
+          <p>
+            <Link href="/access">See how travelers browse ACCESS ↗</Link>
+          </p>
         </section>
       ) : loading ? (
         <p>Checking your session…</p>
@@ -463,7 +476,7 @@ function PartnerStudioContent() {
                 </label>
                 <p className={styles.muted}>
                   Every offer leads to an inquiry, not a confirmed reservation.
-                  Updating a published offer returns it to draft for review.
+                  Saving changes to a published offer hides it from travelers until you publish it again.
                 </p>
                 <div className={styles.actions}>
                   <button className={styles.primary} disabled={busy}>
@@ -545,7 +558,10 @@ function PartnerStudioContent() {
                         Publish
                       </button>
                     )}
-                    {offer.status === 'draft' && (
+                    {offer.status === 'draft' && inquiries.some((inquiry) => inquiry.offer_id === offer.id) && (
+                      <span className={styles.muted}>Has traveler requests, so it stays on record.</span>
+                    )}
+                    {offer.status === 'draft' && !inquiries.some((inquiry) => inquiry.offer_id === offer.id) && (
                       <button
                         disabled={busy}
                         onClick={() =>
@@ -619,7 +635,7 @@ function PartnerStudioContent() {
                           if (error) throw error;
                           await refresh();
                           setNotice(
-                            'Response saved. The traveler can read it in their account.',
+                            'Response saved. The traveler sees it in Community under Your requests.',
                           );
                         })
                       }

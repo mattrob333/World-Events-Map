@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { buildPrivateSkiBrief, buildPublicSkiCircle, validateFamilySkiInput, type FamilySkiInput } from './familySki';
 import { circleInvitePath, circleInviteUrl } from '@/lib/trips/circleInvite';
 
+const TODAY = '2026-09-23';
+
 const sample: FamilySkiInput = {
   region: 'compare',
   start: '2027-02-12',
@@ -39,7 +41,24 @@ describe('family ski Circle privacy boundary', () => {
   });
 
   it('rejects reversed dates and malformed invite identifiers', () => {
-    expect(validateFamilySkiInput({ ...sample, end: '2027-02-01' })).toMatch(/end date/);
+    expect(validateFamilySkiInput({ ...sample, end: '2027-02-01' }, TODAY)).toMatch(/end date/);
     expect(circleInvitePath('30000000-0000-0000-0000-000000000001&origin=Atlanta')).toBeNull();
+  });
+
+  it('rejects past dates and season-long windows, and gives no feedback-free pass (UFR-B02)', () => {
+    expect(validateFamilySkiInput(sample, TODAY)).toBeNull();
+    expect(validateFamilySkiInput({ ...sample, start: '2019-12-01', end: '2020-01-10' }, TODAY)).toMatch(/from today/);
+    expect(validateFamilySkiInput({ ...sample, start: '2027-01-01', end: '2027-04-30' }, TODAY)).toMatch(/60 days/);
+    expect(validateFamilySkiInput({ ...sample, adults: 0 }, TODAY)).toMatch(/adults/);
+    expect(validateFamilySkiInput({ ...sample, nightlyBudget: '-50' }, TODAY)).toMatch(/budget/);
+  });
+
+  it('keeps resorts and children notes in the private brief only (UFR-B04, B13)', () => {
+    const detailed = { ...sample, resorts: 'Aspen, St. Moritz', childNotes: 'Ages 6 and 9, both need lessons' };
+    expect(buildPrivateSkiBrief(detailed)).toContain('Aspen, St. Moritz');
+    expect(buildPrivateSkiBrief(detailed)).toContain('Ages 6 and 9');
+    const discoverable = JSON.stringify(buildPublicSkiCircle(detailed, 'host-id'));
+    expect(discoverable).not.toContain('Ages 6');
+    expect(discoverable).not.toContain('St. Moritz');
   });
 });

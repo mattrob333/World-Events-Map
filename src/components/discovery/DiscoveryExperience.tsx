@@ -138,7 +138,9 @@ export function DiscoveryExperience() {
   const destinationsIndex = useMemo(() => indexDestinations(EVENTS), []);
   const destinationHref = (eventId: string) => {
     const destination = destinationsIndex.byEventId.get(eventId);
-    return destination ? `/destinations/${destination.slug}` : `/?event=${eventId}`;
+    return destination
+      ? `/destinations/${destination.slug}?event=${encodeURIComponent(eventId)}`
+      : `/?event=${eventId}`;
   };
   useEffect(() => {
     track('world_opened', { surface: 'pulse' });
