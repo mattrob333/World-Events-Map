@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — source registry and merge policy.
+ * dope.travel — source registry and merge policy.
  *
  * Server-only. Nothing here may be imported from a client component: the
  * adapters read `process.env` and the whole point of this layer is that API

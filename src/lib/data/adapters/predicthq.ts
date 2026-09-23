@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — PredictHQ adapter.
+ * dope.travel — PredictHQ adapter.
  *
  * ── Endpoint ─────────────────────────────────────────────────────────────────
  *   GET https://api.predicthq.com/v1/events/

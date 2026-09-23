@@ -118,7 +118,7 @@ export function ShareTrip({ eventId, groupId, className, compact = false }: Shar
       {!compact && !failed && (
         <p className="text-[11px] leading-4 text-ink-faint">
           The link opens this {groupId ? 'cabin' : 'event'} directly. Email opens your own mail
-          client — MERIDIAN sends nothing on your behalf.
+          client — dope.travel sends nothing on your behalf.
         </p>
       )}
 

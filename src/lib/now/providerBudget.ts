@@ -38,7 +38,7 @@ function isBudgetClaim(value: unknown): value is BudgetClaim {
 }
 
 /**
- * Atomically claim one unit of MERIDIAN's shared outbound-provider budget.
+ * Atomically claim one unit of dope.travel's shared outbound-provider budget.
  *
  * This is intentionally durable and cross-instance. If Supabase/service-role
  * access or migration 004 is unavailable, paid provider work fails closed

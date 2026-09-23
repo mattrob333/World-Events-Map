@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — Ticketmaster Discovery adapter.
+ * dope.travel — Ticketmaster Discovery adapter.
  *
  * ── Endpoint ─────────────────────────────────────────────────────────────────
  *   GET https://app.ticketmaster.com/discovery/v2/events.json
@@ -26,7 +26,7 @@ import 'server-only';
  *                                        upward nudge — see below)
  *
  * ── Honest limits ────────────────────────────────────────────────────────────
- * Ticketmaster covers almost none of the MERIDIAN calendar directly: there is
+ * Ticketmaster covers almost none of the dope.travel calendar directly: there is
  * no Discovery listing for a private dinner at a member house, and the Monaco
  * paddock club is not sold through it. Its real value is as a *destination
  * congestion* proxy — how much ticketed demand exists in that city on those

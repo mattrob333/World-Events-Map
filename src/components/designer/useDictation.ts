@@ -28,7 +28,7 @@ export type DictationStatus = 'unsupported' | 'idle' | 'listening' | 'denied' | 
 
 /**
  * Browser speech-to-text. The browser's own speech service does the
- * recognition (Chrome sends audio to Google); MERIDIAN only receives the text.
+ * recognition (Chrome sends audio to Google); dope.travel only receives the text.
  */
 export function useDictation(onFinal: (text: string) => void) {
   const supported = useSyncExternalStore(noopSubscribe, () => recognitionCtor() !== null, () => true);

@@ -18,7 +18,7 @@ export interface SheetProps {
   children: ReactNode;
   className?: string;
   /**
-   * Dim the rest of the screen. Off by default: MERIDIAN's surfaces float over
+   * Dim the rest of the screen. Off by default: dope.travel's surfaces float over
    * a live globe and a scrim would put the light out.
    */
   scrim?: boolean;

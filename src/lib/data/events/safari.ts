@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — safari.
+ * dope.travel — safari.
  *
  * Wildlife windows, not dated events. Almost everything here is `seasonal`:
  * a river crossing, a calving peak, a permit-capped trek, a walking season

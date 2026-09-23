@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — timeline relevance.
+ * dope.travel — timeline relevance.
  *
  * `relevance` answers a different question from `score`. Score asks "how hot is
  * this event, ever?". Relevance asks "how much does this event matter *at the

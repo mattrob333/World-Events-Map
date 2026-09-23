@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — nature.
+ * dope.travel — nature.
  *
  * Phenomena, not fixtures. Ice that only forms in winter, light that only
  * appears under a dark sky, animals that only pass through for a fixed number

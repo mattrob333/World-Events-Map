@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — links and invitations.
+ * dope.travel — links and invitations.
  *
  * The growth loop, and the only part of the product that leaves the building.
  * Two rules govern everything here:

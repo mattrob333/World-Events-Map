@@ -1,39 +1,41 @@
 @import 'tailwindcss';
 
 /**
- * MERIDIAN design tokens.
+ * dope.travel design tokens.
  *
- * The whole product is one room lit by one source: the globe. Everything else
- * is glass and brass sitting in that light. Two rules hold it together —
- *   1. Surfaces are near-black and translucent. Never grey, never opaque.
- *   2. Colour is reserved for data. Chrome is monochrome + brass.
+ * Premium first, with a wink. Warm near-black and bone carry the page; the
+ * "golden hour" (saffron → tangerine → flamingo → dusk violet) is the one
+ * flourish, used for the sun mark, active states, and moments of hype. It is
+ * a hint of 70s poster psychedelia, never a tie-dye.
+ *   1. Surfaces are warm near-black and translucent. Never grey, never opaque.
+ *   2. Colour is reserved for data and for the golden hour. Chrome stays quiet.
  *
- * No external font or image assets: CDN egress is blocked in this environment
- * and, more importantly, a product that renders identically offline is a
- * better product. Type is system stacks, avatars are generated, the globe is
- * vector geometry.
+ * Fonts are self-hosted from npm (Fraunces via @fontsource), so the product
+ * still renders identically with no CDN.
  */
 
 @theme {
   /* ── Surfaces ─────────────────────────────────────────────────────── */
-  --color-void: #04050a;
-  --color-abyss: #070911;
-  --color-obsidian: #0b0e18;
-  --color-slate-deep: #121624;
-  --color-slate: #1a1f31;
-  --color-slate-lift: #232941;
+  --color-void: #0c0907;
+  --color-abyss: #110d0a;
+  --color-obsidian: #16110d;
+  --color-slate-deep: #1d1712;
+  --color-slate: #261e18;
+  --color-slate-lift: #31271f;
 
   /* ── Ink ──────────────────────────────────────────────────────────── */
-  --color-ink: #f4f1ea;
-  --color-ink-muted: #a8a598;
-  --color-ink-faint: #6b6a63;
-  --color-ink-ghost: #3d3f47;
+  --color-ink: #f4ecdd;
+  --color-ink-muted: #b4a893;
+  --color-ink-faint: #7a6f60;
+  --color-ink-ghost: #43392f;
 
-  /* ── Brass: the house metal. Chrome, rules, active states. ────────── */
-  --color-brass: #c8a866;
-  --color-brass-bright: #e6cf9b;
-  --color-brass-deep: #8a7038;
-  --color-brass-wash: #c8a8661a;
+  /* ── Golden hour: the house accent (named brass for continuity). ──── */
+  --color-brass: #f2a24a;
+  --color-brass-bright: #f7c548;
+  --color-brass-deep: #b9612a;
+  --color-brass-wash: #f2a24a1a;
+  --color-flamingo: #e4577e;
+  --color-dusk: #8e4db8;
 
   /* ── Heat ramp: cold anticipation → white-hot. Data only. ─────────── */
   --color-heat-smoldering: #3d6fa8;
@@ -48,8 +50,8 @@
   --color-alert: #e8703a;
 
   /* ── Type ─────────────────────────────────────────────────────────── */
-  --font-display: 'Didot', 'Bodoni MT', 'Playfair Display', 'Hoefler Text',
-    Garamond, 'Times New Roman', serif;
+  --font-display: 'Fraunces Variable', 'Fraunces', 'Hoefler Text', Georgia,
+    'Times New Roman', serif;
   --font-sans: ui-sans-serif, -apple-system, 'Segoe UI', Inter, Helvetica, Arial,
     sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
@@ -135,6 +137,7 @@
 
   .font-display {
     font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
     font-weight: 400;
     letter-spacing: -0.015em;
   }
@@ -209,4 +212,12 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+/* The golden hour: the brand's one flourish. */
+.golden-hour-text {
+  background: linear-gradient(90deg, #f7c548, #f26b2a 38%, #e4577e 70%, #8e4db8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

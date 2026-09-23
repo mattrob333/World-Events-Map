@@ -77,7 +77,7 @@ function AccessHero({ note }: { note: string }) {
       <div className={styles.heroShade} />
       <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Monaco_Port_Hercule_17.jpg" target="_blank" rel="noreferrer">Zairon ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></span>
       <div className={styles.heroContent}>
-        <p className={styles.eyebrow}>MERIDIAN / ACCESS</p>
+        <p className={styles.eyebrow}>dope.travel / ACCESS</p>
         <h1 id="access-title">Make the trip <em>happen.</em></h1>
         <p>Explore stays, arrivals and moments around the trip. Start with a possibility; the provider confirms every detail.</p>
         <a className={styles.heroAction} href="#opportunities">Explore opportunities <span aria-hidden="true">↘</span></a>
@@ -131,7 +131,7 @@ function PartnerAccess({ client }: { client: NonNullable<ReturnType<typeof usePl
           ) : state.status === 'error' ? (
             <p className={styles.empty} role="status">Partner offers could not be loaded just now. Nothing has been sent or held. Try again in a moment.</p>
           ) : offers.length === 0 ? (
-            <p className={styles.empty}>No partner offers are published yet. MERIDIAN does not invent availability while we wait.</p>
+            <p className={styles.empty}>No partner offers are published yet. dope.travel does not invent availability while we wait.</p>
           ) : (
             <div className={styles.offerGrid}>
               {offers.map((offer) => (

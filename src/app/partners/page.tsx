@@ -246,12 +246,12 @@ function PartnerStudioContent() {
           </p>
           <ol className={styles.howItWorks}>
             <li><strong>Apply.</strong> Tell us about your business and link your website.</li>
-            <li><strong>MERIDIAN reviews it.</strong> You can draft offers while you wait.</li>
+            <li><strong>dope.travel reviews it.</strong> You can draft offers while you wait.</li>
             <li><strong>Publish inquiry-only offers.</strong> Stays, arrivals, access and experiences around the trips travelers are planning.</li>
             <li><strong>Reply to requests.</strong> Travelers send inquiries; you confirm dates, price and terms.</li>
           </ol>
           <p>
-            MERIDIAN takes no bookings, payments or inventory holds.
+            dope.travel takes no bookings, payments or inventory holds.
           </p>
           <p>
             <Link href="/access">See how travelers browse ACCESS ↗</Link>

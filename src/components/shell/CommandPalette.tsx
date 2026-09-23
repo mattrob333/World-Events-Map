@@ -94,7 +94,7 @@ export function CommandPalette() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Search MERIDIAN"
+        aria-label="Search dope.travel"
         className="glass-deep w-full max-w-xl overflow-hidden rounded-[3px]"
         onMouseDown={(event) => event.stopPropagation()}
       >

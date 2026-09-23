@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the heat ramp, in three.js terms.
+ * dope.travel — the heat ramp, in three.js terms.
  *
  * These five values are the same five in `globals.css` (`--color-heat-*`).
  * They are the only place colour is allowed to carry meaning in this product,

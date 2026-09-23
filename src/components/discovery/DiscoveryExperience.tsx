@@ -76,7 +76,7 @@ export function DiscoveryExperience() {
   const [planning, setPlanning] = useState(false);
   const [showAll, setShowAll] = useState(false);
   // Season, interest and the chosen journey live in the URL: refresh keeps
-  // them and browser Back leaves a journey instead of leaving MERIDIAN.
+  // them and browser Back leaves a journey instead of leaving dope.travel.
   const discovery = readDiscoveryState(searchParams);
   const journeyEventId = discovery.journey;
   const tripMode = useMemo(
@@ -541,12 +541,12 @@ export function DiscoveryExperience() {
                 {query
                   ? planMode
                     ? 'Nothing in these dates matches. Try another city or interest, or clear your search.'
-                    : 'This box only searches what is happening today. MERIDIAN search covers every place and date.'
+                    : 'This box only searches what is happening today. dope.travel search covers every place and date.'
                   : 'Great trips start a little ahead. Explore the calendar to find your next moment.'}
               </p>
               {query && (
                 <button className={styles.primary} onClick={() => useCommandStore.getState().openWith(query)}>
-                  Search all of MERIDIAN for “{query}”
+                  Search all of dope.travel for “{query}”
                 </button>
               )}
               <button
@@ -704,7 +704,7 @@ export function DiscoveryExperience() {
       </section>
       <footer className={styles.footer}>
         <span>
-          MERIDIAN <small>THE WORLD, WELL LIVED.</small>
+          dope.travel <small>THE WORLD, WELL LIVED.</small>
         </span>
         <p>
           Curated event calendar. Dates and access require confirmation with

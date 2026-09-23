@@ -232,7 +232,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
         <div className={styles.heroShade} />
         <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Julia_Mancuso.jpg" target="_blank" rel="noreferrer">Arthur Mouratidis ↗</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noreferrer">CC BY 2.0</a></span>
         <div className={styles.heroContent}>
-          <p className={styles.eyebrow}>MERIDIAN / YOUR TRIPS</p>
+          <p className={styles.eyebrow}>dope.travel / YOUR TRIPS</p>
           <h1 id="trips-title">A place becomes <em>a plan.</em></h1>
           <p className={styles.heroLead}>
             Keep the places that stay with you. Then shape the next trip around the people and moments that matter.
@@ -273,7 +273,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
             <p className={styles.eyebrow}>FAMILY SKI TRIP / FIRST DRAFT</p>
             {!loading && !client && (
               <p className={styles.unavailableNote} role="note">
-                Shared trip rooms aren&apos;t available on this preview. Nothing you enter is saved on MERIDIAN, but you can copy your brief and send it to the other family yourself.
+                Shared trip rooms aren&apos;t available on this preview. Nothing you enter is saved on dope.travel, but you can copy your brief and send it to the other family yourself.
               </p>
             )}
             <h3>What should we compare?</h3>
@@ -333,7 +333,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
             {copiedBrief && (
               <div className={styles.created} role="status">
                 <p className={styles.eyebrow}>{copiedBrief.copied ? 'BRIEF COPIED' : 'YOUR BRIEF'}</p>
-                <p>{copiedBrief.copied ? 'Paste it into a message to the other family.' : 'Select and copy the brief below to send it.'} Nothing was saved on MERIDIAN.</p>
+                <p>{copiedBrief.copied ? 'Paste it into a message to the other family.' : 'Select and copy the brief below to send it.'} Nothing was saved on dope.travel.</p>
                 <label>Trip brief <textarea readOnly value={copiedBrief.text} onFocus={(event) => event.currentTarget.select()} /></label>
               </div>
             )}

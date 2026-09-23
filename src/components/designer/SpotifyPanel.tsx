@@ -57,7 +57,7 @@ export function SpotifyPanel({ listening, onDisconnect }: { listening: Listening
           </ul>
         ) : null}
         <p className={styles.hint}>
-          Read once, with read-only access, and summarized on this device. MERIDIAN never stores your Spotify login, and only this summary is saved, on this device only.
+          Read once, with read-only access, and summarized on this device. dope.travel never stores your Spotify login, and only this summary is saved, on this device only.
         </p>
       </section>
     );

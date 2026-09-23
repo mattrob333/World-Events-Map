@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — GeoJSON → three.js geometry.
+ * dope.travel — GeoJSON → three.js geometry.
  *
  * Everything here works in the projection defined by `./projection.ts`:
  * coordinates arrive as [lon, lat] degrees and leave as points on a sphere.

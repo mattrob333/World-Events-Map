@@ -283,7 +283,7 @@ export function Constellation() {
       if (result.score < threshold) continue;
       const candidate: Match = {
         id: `person:${mode.user_id}`,
-        label: profile.display_name || 'MERIDIAN traveler',
+        label: profile.display_name || 'dope.travel traveler',
         caption: [mode.name, profile.home_city].filter(Boolean).join(' · '),
         score: result.score,
         reasons: result.reasons,
@@ -382,7 +382,7 @@ export function Constellation() {
       const { error } = await client.from('circles').insert({
         host_id: user.id,
         name: circleName.trim(),
-        description: `Created from the ${activeMode.name} travel mode in MERIDIAN Constellation.`,
+        description: `Created from the ${activeMode.name} travel mode in dope.travel Constellation.`,
         destination: activeMode.destination,
         departure_city: activeMode.origin_city,
         start_date: activeMode.start_date,
@@ -414,7 +414,7 @@ export function Constellation() {
             <span className={communityStyles.eyebrow}>Private by design</span>
             <h2>Constellation uses opt-in member context.</h2>
             <p className={communityStyles.muted}>
-              MERIDIAN does not create fake people to make the network look busy. Sign in to create a travel mode and see real discoverable overlap as the network grows.
+              dope.travel does not create fake people to make the network look busy. Sign in to create a travel mode and see real discoverable overlap as the network grows.
             </p>
           </aside>
         </div>

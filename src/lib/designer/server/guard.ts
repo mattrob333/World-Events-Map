@@ -27,7 +27,7 @@ function expectedOrigin(request: Request): string {
 export function checkBoundary(request: Request): Response | null {
   const mediaType = request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase();
   if (mediaType !== 'application/json') {
-    return jsonError(415, 'JSON_REQUIRED', 'Send application/json from the MERIDIAN app.');
+    return jsonError(415, 'JSON_REQUIRED', 'Send application/json from the dope.travel app.');
   }
   let origin = '';
   try {
@@ -37,7 +37,7 @@ export function checkBoundary(request: Request): Response | null {
   }
   const fetchSite = request.headers.get('sec-fetch-site');
   if (origin !== expectedOrigin(request) || (fetchSite && fetchSite !== 'same-origin')) {
-    return jsonError(403, 'SAME_ORIGIN_REQUIRED', 'Designer requests must come from the MERIDIAN app.');
+    return jsonError(403, 'SAME_ORIGIN_REQUIRED', 'Designer requests must come from the dope.travel app.');
   }
   return null;
 }

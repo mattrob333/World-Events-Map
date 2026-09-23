@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — ski.
+ * dope.travel — ski.
  *
  * Two kinds of record live here. Dated fixtures (Hahnenkamm, White Turf,
  * X Games, the Freeride World Tour final) carry their published or

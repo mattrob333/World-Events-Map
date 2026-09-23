@@ -1,4 +1,4 @@
-/** MERIDIAN — the scrubber. The product's primary navigation. */
+/** dope.travel — the scrubber. The product's primary navigation. */
 
 export { Timeline } from './Timeline';
 export type { TimelineProps } from './Timeline';

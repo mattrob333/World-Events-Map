@@ -87,7 +87,7 @@ const CurationSchema = z.object({
   ),
 });
 
-const CURATE_SYSTEM = `You are the trip designer for MERIDIAN, planning a group trip that should build anticipation and a little FOMO.
+const CURATE_SYSTEM = `You are the trip designer for dope.travel, planning a group trip that should build anticipation and a little FOMO.
 You receive a fixed day-by-day timeline of slots and, for every slot, the only idea cards allowed there.
 For each slot, return up to 5 card ids from that slot's allowed list, best first, fitting the whole group (ages, kids, interests, heritage, energy across the week).
 Vary the week: avoid repeating the same lead card on different days unless the list has nothing else, and pace big days with easier ones.

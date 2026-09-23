@@ -9,7 +9,7 @@ export const maxDuration = 90;
 
 /**
  * Builds the first draft of a group itinerary. The timeline and every idea
- * card come from MERIDIAN's catalog; the AI (when enabled) only reorders
+ * card come from dope.travel's catalog; the AI (when enabled) only reorders
  * cards within each slot and writes the day headlines.
  */
 export async function POST(request: Request) {

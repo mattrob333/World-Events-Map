@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the membership.
+ * dope.travel — the membership.
  *
  * Eighty fictional members. There is no backend and there are no real
  * users, so this roster *is* the club: every peer avatar, every group host,

@@ -53,7 +53,7 @@ export function DestinationPage({ slug, focusEventId = '' }: { slug: string; foc
       <main className="px-4 py-16 sm:px-8">
         <EmptyState
           title="That destination is not on the calendar."
-          body="MERIDIAN destinations are built from curated occasions. Search for a city that is actually on the board."
+          body="dope.travel destinations are built from curated occasions. Search for a city that is actually on the board."
           action={
             <Link href="/" className="text-[12px] text-brass">
               Return to World
@@ -197,7 +197,7 @@ function DestinationLoaded({
     <main className="px-4 pb-32 pt-5 sm:px-8">
       <div className={styles.breadcrumb}>
         <Link href="/">The world</Link><span aria-hidden="true">/</span><span>{pulse.country}</span><span aria-hidden="true">/</span><span>{pulse.name}</span>
-        <span className={styles.breadcrumbIndex}>MERIDIAN DESTINATION FILE</span>
+        <span className={styles.breadcrumbIndex}>dope.travel DESTINATION FILE</span>
       </div>
 
       <section className={cn(styles.hero, !supportingPhotos.length && styles.heroSolo)} aria-label={`Discover ${pulse.name}`}>

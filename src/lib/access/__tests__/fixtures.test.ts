@@ -10,7 +10,7 @@ describe('ACCESS sample offers (red team UFR-C05, B07, E04, C08)', () => {
     for (const offer of OPPORTUNITY_FIXTURES) {
       expect(offer.availability).not.toBe('provider_updated');
       const rendered = [offer.body, offer.availabilityLabel, SAMPLE_OFFER_NOTE, AVAILABILITY_COPY[offer.availability]].join(' ');
-      expect(rendered).not.toMatch(/confirmed by the provider|MERIDIAN will pass/i);
+      expect(rendered).not.toMatch(/confirmed by the provider|dope.travel will pass/i);
     }
   });
 

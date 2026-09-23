@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — Google Trends adapter, via SerpAPI.
+ * dope.travel — Google Trends adapter, via SerpAPI.
  *
  * ── Endpoint ─────────────────────────────────────────────────────────────────
  *   GET https://serpapi.com/search.json

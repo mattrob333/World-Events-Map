@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — core domain contract.
+ * dope.travel — core domain contract.
  *
  * This file is the single source of truth shared by every subsystem:
  * the globe renderer, the buzz engine, the curated dataset, the UI shell,

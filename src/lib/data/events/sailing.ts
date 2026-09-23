@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — sailing and yachting.
+ * dope.travel — sailing and yachting.
  *
  * Offshore races are dated from the start gun to the point at which the fleet
  * and the prizegiving have cleared the finish port, because that is the length

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — profile and deep-link UI state.
+ * dope.travel — profile and deep-link UI state.
  *
  * Separate from `useSocialStore` on purpose. That store is the system of record
  * for what the member *authored* — signals, cabins, their own profile — and it

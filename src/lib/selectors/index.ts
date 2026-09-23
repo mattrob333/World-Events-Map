@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — selectors.
+ * dope.travel — selectors.
  *
  * The single bridge between the data/buzz layers and everything that renders.
  * The globe, the timeline ribbon, the dossier and the filter panel all import

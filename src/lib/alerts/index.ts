@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — alerts public surface.
+ * dope.travel — alerts public surface.
  *
  * Three layers, deliberately re-exported together so a consumer never has to
  * know which file a symbol lives in:

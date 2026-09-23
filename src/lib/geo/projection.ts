@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — spherical projection primitives.
+ * dope.travel — spherical projection primitives.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * THE CONVENTION (every other subsystem depends on this — do not change it)

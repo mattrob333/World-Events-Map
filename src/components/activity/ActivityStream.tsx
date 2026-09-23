@@ -157,7 +157,7 @@ function SceneCard({ scene, featured, onFeature }: {
         </div>}
       </div>
       <div className={styles.cardBody}>
-        <div className={styles.cardMeta}><span className={styles.editorialMark}>M</span><span>MERIDIAN EDITORIAL</span><span className={styles.dot}>·</span><span>CURATED SCENE</span></div>
+        <div className={styles.cardMeta}><span className={styles.editorialMark}>M</span><span>dope.travel EDITORIAL</span><span className={styles.dot}>·</span><span>CURATED SCENE</span></div>
         <h3>{scene.line}</h3>
         <p>{scene.event.tagline}.</p>
         {photo && <a className={styles.photoCredit} href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={photo.title}>
@@ -203,7 +203,7 @@ export function ActivityStream() {
       <div className={styles.header}>
         <div className={styles.eyebrow}><span className={styles.eyebrowRule} /> PLACES THAT STAY WITH YOU <span className={styles.issue}>01 / DISCOVER</span></div>
         <div className={styles.titleRow}>
-          <div><h2>Out in the <em>world.</em></h2><p>Scenes from the curated calendar, brought to life by MERIDIAN editorial. Follow a feeling, find your next place.</p></div>
+          <div><h2>Out in the <em>world.</em></h2><p>Scenes from the curated calendar, brought to life by dope.travel editorial. Follow a feeling, find your next place.</p></div>
           <div className={styles.replayControl}>
             <span className={styles.replayLabel}>EDITORIAL SAMPLE REPLAY</span>
             <button type="button" aria-pressed={replaying} onClick={() => setReplaying((value) => !value)}>
@@ -244,7 +244,7 @@ export function ActivityStream() {
                 <span className={styles.postTime}>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · View on X ↗</span>
               </a>;
             })}
-            {posts.status === 'ready' && posts.fetchedAt && <p className={styles.fetched}>Source checked {new Date(posts.fetchedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} · Posts are public, not MERIDIAN endorsements.</p>}
+            {posts.status === 'ready' && posts.fetchedAt && <p className={styles.fetched}>Source checked {new Date(posts.fetchedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} · Posts are public, not dope.travel endorsements.</p>}
           </div>
           <div className={styles.savedPanel}><span className={styles.sideKicker}>YOUR TRAIL</span><h3>Keep the good ones close.</h3><p>Saved ideas stay on this device.</p>
             {savedItems.length > 0 && <ul>{savedItems.slice(-4).reverse().map((item) => <li key={item.id}><Link href={item.href}>{item.label} <span aria-hidden="true">↗</span></Link></li>)}</ul>}

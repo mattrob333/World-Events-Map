@@ -1,5 +1,5 @@
 /**
- * MERIDIAN globe engine — public surface.
+ * dope.travel globe engine — public surface.
  *
  * Page shells want `GlobeStage`. Everything else here is exported for
  * composition and testing, not because you need it.

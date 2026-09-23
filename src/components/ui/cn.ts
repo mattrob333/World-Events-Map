@@ -2,7 +2,7 @@
  * Minimal class joiner. No dependency, no merge semantics — the primitives in
  * this directory are written so that consumer classes always come last in the
  * emitted string, which is enough for the small, disciplined class surface
- * MERIDIAN uses.
+ * dope.travel uses.
  */
 
 export type ClassValue =

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — equestrian calendar.
+ * dope.travel — equestrian calendar.
  *
  * Flat racing, jump racing, high-goal polo and the two show-jumping fixtures
  * that matter. Dates are the published 2026/27 schedule where the governing

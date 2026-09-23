@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — who is going.
+ * dope.travel — who is going.
  *
  * The other half of the cabin card, and arguably the more persuasive one. The
  * conversation tells you what the trip is; this tells you who you would be

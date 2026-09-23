@@ -1,13 +1,13 @@
 'use client';
 
 /**
- * MERIDIAN — the cabin conversation.
+ * dope.travel — the cabin conversation.
  *
  * This is the only surface in the product where members speak in their own
  * voice, so it is deliberately not styled like a messaging app: no bubbles, no
  * rounded corners, no coloured tails, no read receipts. A thread here reads the
  * way a printed transcript reads — a name, a time, and what was said — because
- * that is the register the rest of MERIDIAN is written in.
+ * that is the register the rest of dope.travel is written in.
  *
  * Three behaviours are load-bearing:
  *

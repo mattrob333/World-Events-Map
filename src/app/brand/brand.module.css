@@ -1,0 +1,232 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 16px 120px;
+  overflow-x: clip;
+}
+
+.hero {
+  position: relative;
+  padding: 56px 0 40px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: 0;
+  width: min(620px, 100%);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle closest-side, #f26b2a40, #e4577e1f 50%, transparent);
+  pointer-events: none;
+}
+
+.lockup {
+  position: relative;
+  width: min(560px, 90%);
+  height: auto;
+}
+
+.tagline {
+  position: relative;
+  margin-top: 28px;
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  font-size: clamp(32px, 6vw, 64px);
+  line-height: 1.02;
+  color: var(--color-ink);
+}
+
+.lede {
+  position: relative;
+  max-width: 620px;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+}
+
+.section {
+  margin-top: 64px;
+}
+
+.h2 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-brass);
+}
+
+.copy {
+  max-width: 680px;
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+}
+
+.small {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--color-ink-faint);
+}
+
+.small a {
+  color: var(--color-ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.logoGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 2fr 2fr 1fr;
+  margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+  .logoGrid { grid-template-columns: 1fr; }
+}
+
+.tileDark,
+.tileLight {
+  display: grid;
+  place-items: center;
+  gap: 18px;
+  min-height: 220px;
+  padding: 28px;
+  border-radius: 24px;
+}
+
+.tileDark { background: #16110d; border: 1px solid #ffffff12; }
+.tileLight { background: #f4ecdd; }
+
+.tileDark img,
+.tileLight img { width: 100%; max-width: 360px; height: auto; }
+
+.tileDark .icon { width: 120px; }
+
+.tileDark figcaption,
+.tileLight figcaption {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a6f60;
+}
+
+.golden {
+  height: 88px;
+  margin-top: 18px;
+  border-radius: 24px;
+  background: linear-gradient(90deg, #f7c548, #f26b2a 35%, #e4577e 68%, #8e4db8);
+}
+
+.swatches {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  margin-top: 10px;
+}
+
+.swatch {
+  display: grid;
+  gap: 4px;
+  min-height: 140px;
+  align-content: end;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid #ffffff14;
+}
+
+.hex {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.note {
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.specimen {
+  margin-top: 16px;
+  font-size: clamp(44px, 9vw, 104px);
+  line-height: 0.95;
+  color: var(--color-ink);
+}
+
+.specimenItalic {
+  margin-top: 8px;
+  font-size: clamp(28px, 5vw, 52px);
+  font-style: italic;
+  color: var(--color-brass-bright);
+}
+
+.voice {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  margin-top: 16px;
+}
+
+.voice > div {
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff07;
+  border: 1px solid #ffffff12;
+}
+
+.voice dt {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  font-size: 20px;
+  color: var(--color-ink);
+}
+
+.voice dd {
+  margin-top: 6px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-ink-muted);
+}
+
+.art {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin-top: 16px;
+}
+
+.artItem img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.artItem figcaption {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-ink-faint);
+}
+
+.pending {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  background: #f26b2a12;
+  border: 1px dashed #f26b2a55;
+}
+
+.pending code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-brass-bright);
+}

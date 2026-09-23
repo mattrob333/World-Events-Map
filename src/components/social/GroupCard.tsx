@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — the cabin card.
+ * dope.travel — the cabin card.
  *
  * The primary social surface in the product. Collapsed it is a summary you can
  * scan: who is hosting, what the premise is, how full it is, what a seat costs.

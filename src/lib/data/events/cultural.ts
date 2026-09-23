@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — cultural calendar.
+ * dope.travel — cultural calendar.
  *
  * Street festivals, religious processions, harvest rites and civic spectacles.
  * Dates are the published 2026/27 edition where one exists; otherwise the

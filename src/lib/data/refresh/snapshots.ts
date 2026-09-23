@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — signal history, and velocity computed rather than bought.
+ * dope.travel — signal history, and velocity computed rather than bought.
  *
  * ── Why this exists ──────────────────────────────────────────────────────────
  *

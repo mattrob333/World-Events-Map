@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 
 /**
- * Keeps the MERIDIAN shell (header, navigation) when a page throws, so a
+ * Keeps the dope.travel shell (header, navigation) when a page throws, so a
  * rendering fault never leaves the traveler on a blank browser error.
  */
 export default function RouteError({

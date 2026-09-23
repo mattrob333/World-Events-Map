@@ -1,7 +1,7 @@
 /**
  * Editorial idea cards for the trip designer. Every card is an idea, never a
  * booking, fare, or availability claim. Video and reel cards link to a live
- * YouTube search or Instagram hashtag — MERIDIAN does not host or scrape
+ * YouTube search or Instagram hashtag — dope.travel does not host or scrape
  * those posts, so the card says where the link goes instead of faking a feed.
  */
 

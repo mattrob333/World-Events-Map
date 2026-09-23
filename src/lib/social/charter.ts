@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — charter economics.
+ * dope.travel — charter economics.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * WHAT IS MODELLED, AND WHAT IS NOT

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — client-safe curated read model.
+ * dope.travel — client-safe curated read model.
  * Pure reads only: no adapters, environment access, or live refreshes.
  */
 

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — golf.
+ * dope.travel — golf.
  *
  * Majors are dated Thursday-to-Sunday except the Masters, which is dated from
  * the Monday because the practice rounds and the Par 3 Contest are the part of

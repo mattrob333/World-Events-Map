@@ -68,7 +68,7 @@ function validateRequestBoundary(request: Request): Response | null {
     return jsonError(
       403,
       'NOW_SAME_ORIGIN_REQUIRED',
-      'NOW requests must come from the MERIDIAN app.',
+      'NOW requests must come from the dope.travel app.',
     );
   }
 

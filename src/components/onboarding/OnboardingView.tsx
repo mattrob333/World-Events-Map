@@ -91,7 +91,7 @@ export function OnboardingView({
       <h1 className="mt-3 font-display text-4xl text-ink">{STEP_COPY[step].title}</h1>
       <p className="mt-3 text-[14px] text-ink-muted">{STEP_COPY[step].body}</p>
       <p className="mt-1 text-[12px] text-ink-faint">
-        Saved on this device only. Nothing is published, and nothing here personalizes MERIDIAN yet.
+        Saved on this device only. Nothing is published, and nothing here personalizes dope.travel yet.
       </p>
 
       {step === 'traveler' && (

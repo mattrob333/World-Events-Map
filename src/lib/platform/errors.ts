@@ -21,7 +21,7 @@ export function explainPlatformError(cause: unknown): string {
     case '42501':
       return 'Your account is not allowed to do that.';
     case 'P0001':
-      // Raised by MERIDIAN's own database functions with human-written text.
+      // Raised by dope.travel's own database functions with human-written text.
       return message || 'That change is not allowed.';
     default:
       // Validation errors thrown by the app itself carry no code and are already human-written.

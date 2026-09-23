@@ -85,7 +85,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
     <PlatformShell
       eyebrow="Your place in the world"
       title="Travel is better with your people."
-      description="Tell MERIDIAN who you are, then create different travel modes for the different ways you move through the world."
+      description="Tell dope.travel who you are, then create different travel modes for the different ways you move through the world."
     >
       <div className={styles.grid}>
         <div className={styles.stack}>
@@ -177,12 +177,12 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
         </div>
         <aside className={styles.card}>
           <span className={styles.eyebrow}>One person. Different trips.</span>
-          <h2>Choose the lens before MERIDIAN chooses the people.</h2>
+          <h2>Choose the lens before dope.travel chooses the people.</h2>
           <p className={styles.muted}>
             Family ski, solo weekend and work layover should produce completely different circles and recommendations. Travel modes let you switch context without pretending you only have one traveler identity.
           </p>
           <p className={styles.muted}>
-            Your home airport also becomes the source for future aviation matching. MERIDIAN will not show a personalized charter estimate until the actual origin is known.
+            Your home airport also becomes the source for future aviation matching. dope.travel will not show a personalized charter estimate until the actual origin is known.
           </p>
           <a href="/constellation" className={styles.button}>
             Open Constellation

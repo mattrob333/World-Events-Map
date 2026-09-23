@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — presence.
+ * dope.travel — presence.
  *
  * A room feels occupied when the people in it move slightly. That is the whole
  * brief: a dot beside a name, and once in a while somebody starting to type.

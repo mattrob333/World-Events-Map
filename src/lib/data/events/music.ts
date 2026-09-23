@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — music.
+ * dope.travel — music.
  *
  * Eighteen real fixtures inside the 2026-07-26 → 2027-09-30 horizon: the
  * stadium-scale festivals people plan a year around, the classical circuit

@@ -55,7 +55,7 @@ export const SOURCE_METRICS: readonly MetricDefinition[] = [
     confidence: 0.25,
     scale: 'unit',
     label: 'Nearby ticket ceiling hint',
-    notClaim: 'A weak hint from nearby face values. Not a MERIDIAN price.',
+    notClaim: 'A weak hint from nearby face values. Not a dope.travel price.',
   },
   {
     sourceId: 'predicthq',

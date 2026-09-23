@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — film.
+ * dope.travel — film.
  *
  * Twelve real festivals and one awards night inside the 2026-07-26 →
  * 2027-09-30 horizon. The autumn corridor — Locarno, Venice, Telluride,

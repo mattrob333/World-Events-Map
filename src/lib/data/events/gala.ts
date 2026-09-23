@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — galas and balls.
+ * dope.travel — galas and balls.
  *
  * Thirteen fixtures inside the 2026-07-26 → 2027-09-30 horizon where the door
  * is the product. Ordering here is deliberately inverse to the rest of the

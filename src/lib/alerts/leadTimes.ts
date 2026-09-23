@@ -1,7 +1,7 @@
 import { type EventCategory, type WorldEvent } from '@/lib/types';
 
 /**
- * MERIDIAN — booking lead times.
+ * dope.travel — booking lead times.
  *
  * ── WHAT THIS NUMBER IS ─────────────────────────────────────────────────────
  *

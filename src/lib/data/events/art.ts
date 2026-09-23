@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — art. Fairs, biennials and the private previews that precede them.
+ * dope.travel — art. Fairs, biennials and the private previews that precede them.
  *
  * Dates are the published 2026/27 schedule where one exists. Coordinates are
  * the actual venue, not the city centroid, so the beacon lands on the hall.

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — deterministic randomness for the social layer.
+ * dope.travel — deterministic randomness for the social layer.
  *
  * Every peer, signal and group in this product is fabricated. That is only
  * acceptable if the fabrication is *stable*: the same member must be interested

@@ -413,7 +413,7 @@ function ProfileBody({ member, onClose }: ProfileBodyProps) {
             <section>
               <p className="label text-ink-muted">Ask them along</p>
               <p className="mt-2 text-[11px] leading-4 text-ink-faint">
-                Opens an invitation in your own mail client. MERIDIAN sends nothing on your behalf.
+                Opens an invitation in your own mail client. dope.travel sends nothing on your behalf.
               </p>
               <div className="mt-3 flex flex-col">
                 {myUpcoming.map((event, i) => {
@@ -999,7 +999,7 @@ function SelfSettings() {
           {invitesRemaining} of {INVITE_ALLOWANCE}
         </p>
         <p className="mt-2 text-[11px] leading-4 text-ink-muted">
-          Left this year. You cannot join MERIDIAN — you are vouched in by a member, and each
+          Left this year. You cannot join dope.travel — you are vouched in by a member, and each
           person you bring in spends one of these. Asking members already on the register costs
           nothing.
         </p>

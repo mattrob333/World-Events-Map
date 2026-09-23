@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — fashion. Two ready-to-wear seasons fall inside the horizon
+ * dope.travel — fashion. Two ready-to-wear seasons fall inside the horizon
  * (SS27 shown September/October 2026, AW27 shown February/March 2027), both
  * couture weeks, and the Met Gala.
  *

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — proximity-tiered refresh scheduler.
+ * dope.travel — proximity-tiered refresh scheduler.
  *
  * ── The problem this exists to solve ─────────────────────────────────────────
  *

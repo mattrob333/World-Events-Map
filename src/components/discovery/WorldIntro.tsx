@@ -339,7 +339,7 @@ export function WorldIntro({
           <a className={styles.secondaryCta} href="#departure-board">See what is calling <span aria-hidden="true">↓</span></a>
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>
-          <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : 'THE NEXT POSSIBILITY'}</span><span aria-hidden="true">✦ MERIDIAN</span></div>
+          <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : 'THE NEXT POSSIBILITY'}</span><span aria-hidden="true">✦ dope.travel</span></div>
           <div className={styles.passPicture}>
             {displayedFeaturedPhoto ? (
               // Curated images are local; Commons search results were checked before storage.

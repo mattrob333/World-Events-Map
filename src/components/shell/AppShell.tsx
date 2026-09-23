@@ -81,11 +81,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </a>
       <header className="glass sticky top-0 z-40 border-b border-ink/10">
         <div className="mx-auto flex h-12 max-w-[1600px] items-center gap-4 px-3 sm:px-5">
-          <Link
-            href="/"
-            className="font-display shrink-0 text-[15px] tracking-[0.38em] text-ink"
-          >
-            MERIDIAN
+          <Link href="/" className="flex shrink-0 items-baseline" aria-label="dope.travel home">
+            {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
+            <img src="/brand/dope-wordmark.svg" alt="" className="h-[22px] w-auto self-center" />
+            <span className="font-display -ml-0.5 text-[13px] italic text-ink-muted" aria-hidden>
+              .travel
+            </span>
           </Link>
           {isDemoMode() && (
             <span

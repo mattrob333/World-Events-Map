@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the buzz model.
+ * dope.travel — the buzz model.
  *
  * This is the product's credibility surface. Every number a member sees on the
  * globe comes out of this file, so the model is deliberately transparent: six

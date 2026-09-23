@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — booking alerts, React surface.
+ * dope.travel — booking alerts, React surface.
  *
  * A thin client layer over the pure engine. All three hooks are projections of
  * one memoised pass over the calendar; none of them holds state, and none of

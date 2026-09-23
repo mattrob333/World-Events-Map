@@ -68,7 +68,7 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
   }
   if (cached) venueCache.delete(key);
 
-  // This is the point at which MERIDIAN is actually about to make a paid
+  // This is the point at which dope.travel is actually about to make a paid
   // external request. The claim is atomic in shared Postgres, so serverless
   // scale-out cannot mint additional provider budget. Cache hits above are free.
   await requireNowProviderBudget();
@@ -138,7 +138,7 @@ async function optionalJudgments(
   }
 
   if (!process.env.TYPESAFE_API_KEY) {
-    warnings.push('Structured judgment is not configured; MERIDIAN used deterministic ranking.');
+    warnings.push('Structured judgment is not configured; dope.travel used deterministic ranking.');
     return { source: 'meridian-deterministic', degraded: true };
   }
 
@@ -150,7 +150,7 @@ async function optionalJudgments(
       cause instanceof NowProviderBudgetUnavailableError
     ) {
       warnings.push(
-        'Structured judgment was skipped because the shared provider budget is unavailable; MERIDIAN used deterministic ranking.',
+        'Structured judgment was skipped because the shared provider budget is unavailable; dope.travel used deterministic ranking.',
       );
       return { source: 'meridian-deterministic', degraded: true };
     }
@@ -165,7 +165,7 @@ async function optionalJudgments(
       degraded: false,
     };
   } catch {
-    warnings.push('Structured judgment was unavailable; MERIDIAN fell back to deterministic ranking.');
+    warnings.push('Structured judgment was unavailable; dope.travel fell back to deterministic ranking.');
     return { source: 'meridian-deterministic', degraded: true };
   }
 }

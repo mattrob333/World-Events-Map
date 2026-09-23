@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — the globe.
+ * dope.travel — the globe.
  *
  * An obsidian planet in the dark with cities burning on it. Everything on
  * screen is a pure function of two things: the `beacons` prop and the two
@@ -267,7 +267,7 @@ class GlobeErrorBoundary extends Component<BoundaryProps, BoundaryState> {
   componentDidCatch(error: unknown) {
     this.props.onError?.();
     if (process.env.NODE_ENV !== 'production') {
-      console.error('[MERIDIAN] globe failed to initialise', error);
+      console.error('[dope.travel] globe failed to initialise', error);
     }
   }
 

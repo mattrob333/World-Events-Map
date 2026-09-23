@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — the social store.
+ * dope.travel — the social store.
  *
  * User-authored drafts live in localStorage. Simulated peers, signals and
  * groups enter only through `getDemoWorld()` and are never persisted. In real

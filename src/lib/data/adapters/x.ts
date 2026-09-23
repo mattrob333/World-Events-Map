@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — X (Twitter) API v2 adapter.
+ * dope.travel — X (Twitter) API v2 adapter.
  *
  * ── Endpoint ─────────────────────────────────────────────────────────────────
  *   GET https://api.twitter.com/2/tweets/counts/recent

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the social layer's public surface.
+ * dope.travel — the social layer's public surface.
  *
  * The five exports at the top of this file are a contract with the data engine,
  * the globe and the panels. Renaming any of them breaks the build; add here,

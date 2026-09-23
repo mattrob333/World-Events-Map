@@ -14,7 +14,7 @@ export interface RuleProps extends Omit<ComponentPropsWithoutRef<'div'>, 'childr
 }
 
 /**
- * A single hairline. Rules are how MERIDIAN separates things — not borders on
+ * A single hairline. Rules are how dope.travel separates things — not borders on
  * boxes, not shadows. The brass variant is a deliberate, rationed accent.
  */
 export function Rule({

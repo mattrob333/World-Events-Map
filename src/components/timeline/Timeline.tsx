@@ -37,7 +37,7 @@ export interface TimelineProps {
 }
 
 /**
- * MERIDIAN's primary navigation: fourteen months of the world on one rail.
+ * dope.travel's primary navigation: fourteen months of the world on one rail.
  *
  * Three readings stacked on the same axis, all sharing one geometry so they
  * agree to the pixel:

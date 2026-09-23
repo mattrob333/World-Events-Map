@@ -12,7 +12,7 @@ export interface DiscoveryState {
 /**
  * The home page keeps its season, interest and chosen journey in the URL so
  * refresh restores them and browser Back steps out of a journey instead of
- * leaving MERIDIAN (red team UFR-A06, B05).
+ * leaving dope.travel (red team UFR-A06, B05).
  */
 export function readDiscoveryState(params: Pick<URLSearchParams, 'get'>): DiscoveryState {
   const season = params.get('season');

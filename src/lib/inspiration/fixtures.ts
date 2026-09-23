@@ -88,7 +88,7 @@ const aspen: InspirationItem[] = [
     kind: 'article',
     title: 'Four mountains, one town',
     subtitle: 'Why Aspen is not a base village',
-    sourceLabel: 'MERIDIAN editorial',
+    sourceLabel: 'dope.travel editorial',
     imageLabel: 'Read',
     savedBy: EDITORIAL_SAVERS.jules,
     votes: { mustDo: 1, maybe: 2, skip: 0 },
@@ -108,7 +108,7 @@ const aspen: InspirationItem[] = [
     category: 'Access',
     destinationId: 'aspen|US',
     createdAt: '2026-08-25',
-    note: 'Crews reposition to Rifle or Eagle overnight. Confirm the slot with the operator — MERIDIAN does not hold inventory.',
+    note: 'Crews reposition to Rifle or Eagle overnight. Confirm the slot with the operator — dope.travel does not hold inventory.',
   },
 ];
 

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — wellness.
+ * dope.travel — wellness.
  *
  * Every record here is a season or an intake window rather than a dated
  * fixture, because that is how the category actually sells: a clinic opens a

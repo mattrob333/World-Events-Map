@@ -172,7 +172,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
     <PlatformShell
       eyebrow="NOW · local decision engine"
       title="Where should we go right now?"
-      description="Give MERIDIAN the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory."
+      description="Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory."
     >
       {!providerConfigured && <NowUnavailable />}
       <div className={styles.layout}>
@@ -251,7 +251,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
           {!result && !loading && (
             <div className={styles.intro}>
               <div className={styles.introVisual} role="group" aria-label="Archive photograph of guests at a rooftop bar in Pattaya; not a nearby venue result">
-                <span className={styles.introVisualLabel}>MERIDIAN / THE MOMENT BEFORE</span>
+                <span className={styles.introVisualLabel}>dope.travel / THE MOMENT BEFORE</span>
                 <span className={styles.introVisualMark} aria-hidden="true">✳</span>
                 <span className={styles.introCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:DFC_5211_Rooftop_bar_in_Pattaya_bartenders_mixing_drinks_as_guests_enjoy_the_night_city_lights_and_lively_atmosphere.jpg" target="_blank" rel="noreferrer">PattayaPatrol ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></span>
               </div>
@@ -280,7 +280,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
               </div>
             </div>
           )}
-          {loading && <div className={styles.empty}><span className={styles.pulse} /><h2>Reading what is viable now.</h2><p>Checking local venues, hard constraints and the context you gave MERIDIAN.</p></div>}
+          {loading && <div className={styles.empty}><span className={styles.pulse} /><h2>Reading what is viable now.</h2><p>Checking local venues, hard constraints and the context you gave dope.travel.</p></div>}
           {result && (
             <>
               <div className={styles.resultHeader}>
@@ -305,7 +305,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
                 ))}
               </div>
               {result.warnings.length > 0 && <div className={styles.warnings}>{result.warnings.map((warning) => <p key={warning}>{warning}</p>)}</div>}
-              <p className={styles.source}>Venue facts: {result.venueSource}. Judgment: {result.judgmentSource}. MERIDIAN does not imply reservations or availability.</p>
+              <p className={styles.source}>Venue facts: {result.venueSource}. Judgment: {result.judgmentSource}. dope.travel does not imply reservations or availability.</p>
             </>
           )}
         </section>

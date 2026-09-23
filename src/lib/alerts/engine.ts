@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — booking alerts engine.
+ * dope.travel — booking alerts engine.
  *
  * The globe answers "where should I go". This module answers the harder and
  * more expensive question: **"when must I move"**.

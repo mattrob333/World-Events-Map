@@ -5,7 +5,7 @@ import { analyzeSpotify, type ListeningProfile, type SpotifyImport } from './lis
 /**
  * Spotify import via Authorization Code + PKCE, entirely in the browser.
  * The access token lives only in memory for the few requests below and is
- * never stored or sent to MERIDIAN; only the summarized ListeningProfile is kept.
+ * never stored or sent to dope.travel; only the summarized ListeningProfile is kept.
  */
 
 const AUTHORIZE = 'https://accounts.spotify.com/authorize';

@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — Amadeus adapter (hotel scarcity).
+ * dope.travel — Amadeus adapter (hotel scarcity).
  *
  * ── Endpoints ────────────────────────────────────────────────────────────────
  * 1. Token (OAuth2 client credentials, ~30 min lifetime):

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — shared private-aviation gateway registry.
+ * dope.travel — shared private-aviation gateway registry.
  *
  * Every record is a real field with a real ICAO identifier and real
  * coordinates (WGS84, ~4dp). Selection bias is deliberate: these are the

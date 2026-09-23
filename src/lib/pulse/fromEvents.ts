@@ -102,7 +102,7 @@ function statusFor(args: {
 
 function whyNow(reasons: PulseReason[], name: string): string {
   if (reasons.length === 0) {
-    return `${name} is on the MERIDIAN calendar. Demand figures are modeled from curated event signals, not a crowd count.`;
+    return `${name} is on the dope.travel calendar. Demand figures are modeled from curated event signals, not a crowd count.`;
   }
   const lead = reasons.slice(0, 3).map((r) => r.text);
   if (lead.length === 1) return `${lead[0]}.`;

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the refresh layer.
+ * dope.travel — the refresh layer.
  *
  * Two halves of one decision: **stop polling everything on one clock, and stop
  * buying a number we can compute.**

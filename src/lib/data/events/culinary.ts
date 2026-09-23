@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — culinary.
+ * dope.travel — culinary.
  *
  * Three kinds of record. Dated ceremonies (World's 50 Best, Bocuse d'Or, the
  * MICHELIN Japan reveal, Hospices de Beaune) carry published or confirmed

@@ -1,4 +1,4 @@
-/** MERIDIAN — the reading surfaces. */
+/** dope.travel — the reading surfaces. */
 
 export { EventDossier } from './EventDossier';
 export type { EventDossierProps } from './EventDossier';

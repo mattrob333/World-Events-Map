@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — date primitives for the buzz engine.
+ * dope.travel — date primitives for the buzz engine.
  *
  * Deliberately duplicated from `@/lib/stores/useTimelineStore` rather than
  * imported: that module is a `'use client'` zustand store, and the scoring

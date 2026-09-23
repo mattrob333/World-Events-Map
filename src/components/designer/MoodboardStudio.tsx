@@ -217,7 +217,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
             </div>
             {error ? <p className={styles.error} role="alert">{error}</p> : null}
             <p className={styles.hint}>
-              Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to MERIDIAN only to
+              Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to
               sort it, is not stored on our servers, and the board is saved on this device only.
             </p>
           </div>

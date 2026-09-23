@@ -1,16 +1,18 @@
 import type { Metadata, Viewport } from 'next';
 import { AppShell } from '@/components/shell';
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'MERIDIAN — Private Travel Intelligence',
+  title: 'dope.travel — Trips worth talking about',
   description:
-    'The world, mapped by where it is worth being. A live index of the events, seasons and openings that move people who move on their own schedule.',
+    'Trips worth talking about. Where the world is worth being, the music you love when you get there, and a group plan everyone actually wants.',
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#04050a',
+  themeColor: '#0c0907',
   colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,

@@ -22,7 +22,7 @@ export interface ProviderOrganization {
   website: string;
   status: 'pending' | 'approved' | 'suspended';
 }
-/** MERIDIAN offers create inquiries, never bookings, holds or quotes. */
+/** dope.travel offers create inquiries, never bookings, holds or quotes. */
 // Headline and price may not claim a booking, hold or guarantee. "Reserved
 // table" is ordinary access copy, so "reserved" alone is allowed.
 const BOOKING_CLAIM = /\b(confirmed|guaranteed?|booked|book (?:now|today)|instant booking|sold out)\b/i;

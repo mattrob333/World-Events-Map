@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — design. Furniture fairs, collectible-design salons and the
+ * dope.travel — design. Furniture fairs, collectible-design salons and the
  * citywide festivals that grow around them.
  *
  * Coordinates point at the actual fairground or the district the festival is

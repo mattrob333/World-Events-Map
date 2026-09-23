@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — motorsport.
+ * dope.travel — motorsport.
  *
  * Grand Prix weekends are dated Friday-to-Sunday because that is the trip:
  * you land for first practice and leave after the podium. Concours and

@@ -1,4 +1,4 @@
-/** MERIDIAN — primitive layer. Everything downstream builds from here. */
+/** dope.travel — primitive layer. Everything downstream builds from here. */
 
 export { cn } from './cn';
 export type { ClassValue } from './cn';

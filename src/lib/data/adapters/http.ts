@@ -1,7 +1,7 @@
 import 'server-only';
 
 /**
- * MERIDIAN — shared adapter plumbing.
+ * dope.travel — shared adapter plumbing.
  *
  * Server-only. Every live adapter goes through here so that timeout, error
  * shaping and health bookkeeping are identical across sources and a misbehaving

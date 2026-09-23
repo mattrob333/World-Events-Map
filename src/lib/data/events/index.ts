@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the curated world calendar.
+ * dope.travel — the curated world calendar.
  *
  * Seventeen category files, one barrel. Every record is a real event at real
  * coordinates within the app's 14-month horizon (2026-07-26 → 2027-09-30).
@@ -80,12 +80,12 @@ if (process.env.NODE_ENV !== 'production') {
   }
   if (duplicates.length > 0) {
     throw new Error(
-      `MERIDIAN dataset: duplicate event id(s) — ${[...new Set(duplicates)].join(', ')}`,
+      `dope.travel dataset: duplicate event id(s) — ${[...new Set(duplicates)].join(', ')}`,
     );
   }
   if (EVENT_INDEX.size !== EVENTS.length) {
     throw new Error(
-      `MERIDIAN dataset: EVENT_INDEX size ${EVENT_INDEX.size} !== EVENTS length ${EVENTS.length}`,
+      `dope.travel dataset: EVENT_INDEX size ${EVENT_INDEX.size} !== EVENTS length ${EVENTS.length}`,
     );
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MERIDIAN — activity.
+ * dope.travel — activity.
  *
  * What the member missed while they were not looking: somebody new signalling
  * on a fixture they are watching, somebody landing on a cabin they are on, a

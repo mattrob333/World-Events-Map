@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — social layer components.
+ * dope.travel — social layer components.
  *
  * The seven named below are the contract the panels agent imports against.
  * Everything else in this directory is an internal of one of them.

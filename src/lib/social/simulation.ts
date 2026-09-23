@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the simulated club.
+ * dope.travel — the simulated club.
  *
  * Generators for the explicitly labelled demo. Product reads enter through
  * `getDemoWorld()`; production without the demo flag never builds this world.

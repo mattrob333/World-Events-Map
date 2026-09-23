@@ -6,7 +6,7 @@ import { requestBrowserPosition, VIEWER_CITIES } from './browser-position';
 
 export type ViewerLocationStatus =
   | 'booting'
-  /** Not requested: MERIDIAN only asks after the traveler taps. */
+  /** Not requested: dope.travel only asks after the traveler taps. */
   | 'idle'
   | 'locating'
   | 'granted'
@@ -70,7 +70,7 @@ export function fallbackForTimeZone(timeZone: string): GeoPoint {
 }
 
 /**
- * Ephemeral launch context only. MERIDIAN deliberately does not persist these
+ * Ephemeral launch context only. dope.travel deliberately does not persist these
  * coordinates into the member profile, People Graph, localStorage, or a server.
  */
 export function useViewerLocation() {

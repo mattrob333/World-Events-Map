@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — the cabin thread.
+ * dope.travel — the cabin thread.
  *
  * A group card that lists five faces and a price is a spreadsheet row. The
  * thread is what turns it into a room. This module fabricates the conversation

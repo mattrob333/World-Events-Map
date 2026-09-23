@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — curated source adapter.
+ * dope.travel — curated source adapter.
  *
  * ── What it is ───────────────────────────────────────────────────────────────
  * The hand-built calendar in `@/lib/data/events`: ~200 events researched and
@@ -24,7 +24,7 @@ const bootedAt = new Date().toISOString();
 
 export const curatedSource: EventSource = {
   id: 'curated',
-  label: 'MERIDIAN curated calendar',
+  label: 'dope.travel curated calendar',
 
   /** Static import — there is nothing to configure and nothing that can fail. */
   isConfigured: () => true,
@@ -36,7 +36,7 @@ export const curatedSource: EventSource = {
   health(): SourceHealth {
     return {
       id: 'curated',
-      label: 'MERIDIAN curated calendar',
+      label: 'dope.travel curated calendar',
       status: 'live',
       lastSyncedAt: bootedAt,
       detail: `${EVENTS.length} events, hand-verified`,

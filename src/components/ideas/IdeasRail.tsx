@@ -117,7 +117,7 @@ function IdeaCard({ idea, index, saved, watched, onToggle }: {
               <p>Curated occasion: {idea.eventName}.</p>
               {idea.whyGo.map((reason) => <p key={reason}>• {reason}</p>)}
               {idea.relatedOccasions > 1 && <p>{idea.relatedOccasions} occasions are indexed for {idea.destination}.</p>}
-              <p className="mt-1 text-ink-faint">Dates and reasons come from MERIDIAN&apos;s editorial calendar.</p>
+              <p className="mt-1 text-ink-faint">Dates and reasons come from dope.travel&apos;s editorial calendar.</p>
             </div>
           </details>
           <div className="mt-3 flex flex-wrap items-center gap-1.5">

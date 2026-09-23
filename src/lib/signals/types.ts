@@ -26,13 +26,13 @@ export interface TravelSignal {
   metric: string;
   value?: number;
   previousValue?: number;
-  /** When MERIDIAN recorded the reading. Never copy this into `sourcePublishedAt`. */
+  /** When dope.travel recorded the reading. Never copy this into `sourcePublishedAt`. */
   observedAt: string;
   /** When the source says the fact was published. Omit when the adapter does not provide it. */
   sourcePublishedAt?: string;
   freshnessSeconds: number;
   truthStatus: TruthStatus;
-  /** 0..1. A MERIDIAN judgment of how directly this number measures the metric. */
+  /** 0..1. A dope.travel judgment of how directly this number measures the metric. */
   confidence: number;
   sourceUrl?: string;
   payloadRef?: string;

@@ -1,5 +1,5 @@
 /**
- * MERIDIAN — generated avatars.
+ * dope.travel — generated avatars.
  *
  * There is no CDN egress in this environment and the product ships no binary
  * assets, so every member portrait is drawn from their `avatarSeed`. That is a

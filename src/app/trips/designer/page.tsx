@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { TripDesigner } from '@/components/designer/TripDesigner';
 
 export const metadata: Metadata = {
-  title: 'Trip designer · MERIDIAN',
+  title: 'Trip designer · dope.travel',
   description: 'Design a group trip as a timeline of ideas everyone can drag, swipe, and vote on.',
 };
 
