@@ -1,0 +1,99 @@
+{
+  "label": "UFR-B06",
+  "executed_at": "2026-09-23T17:00:53.018Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent deciding between Aspen and St. Moritz for a family ski week; wants to know about snow and whether lodging is still available.",
+      "page": "/destinations/aspen, PULSE tab (default tab)",
+      "visible_why_now": [
+        "Hotel and charter pressure is modeled as tight for the lead week — MODELED DEMAND",
+        "Search interest is holding in the upper half of the index — MODELED DEMAND",
+        "Aspen Christmas & New Year Week is on the board as a legendary week — CURATED CALENDAR",
+        "Social velocity is modeled as rising week over week — MODELED DEMAND"
+      ],
+      "visible_signals": [
+        {
+          "label": "SOCIAL VELOCITY",
+          "caption": "Week-over-week mention change from the buzz model, not a live count.",
+          "value": "60 ↑"
+        },
+        {
+          "label": "SEARCH INTEREST",
+          "caption": "Relative search index (0–100) used by the buzz model.",
+          "value": "62 ↑"
+        },
+        {
+          "label": "BOOKING PRESSURE",
+          "caption": "Modeled hotel/charter scarcity for the lead week, not live inventory.",
+          "value": "98 ↑"
+        },
+        {
+          "label": "SKI SEASON",
+          "caption": "Season label is inferred from the curated ski calendar, not a live snow report.",
+          "value": "45"
+        }
+      ],
+      "elsewhere_on_page": "THE INSIDE LINE: '... Cloud Nine's afternoon service on Aspen Highlands is booked out weeks ahead.' Hero strip: 'WHEN TO GO 19 Dec 2026 – 03 Jan 2027'."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "ski_season_45_meaning": {
+        "type": "choice",
+        "instructions": "What will this parent most likely think the number 45 under SKI SEASON means?",
+        "criteria": {
+          "snow_or_conditions_score": "A snow quality / conditions score out of 100",
+          "snow_depth": "Snow depth (inches or cm)",
+          "days_or_percent_of_season": "Days into the season or percent of season",
+          "no_idea": "Cannot tell what it means",
+          "fixed_placeholder": "An arbitrary fixed number unrelated to snow"
+        }
+      },
+      "believes_lodging_scarce": {
+        "type": "noul",
+        "instructions": "After reading this page, is the parent likely to believe that Aspen lodging for Christmas week is actually close to sold out right now?"
+      },
+      "labels_sufficient": {
+        "type": "noul",
+        "instructions": "Do the small captions make it clear enough that none of these numbers reflect real snow, real bookings, or real search data?"
+      },
+      "when_to_go_is_advice": {
+        "type": "noul",
+        "instructions": "Would the parent read 'WHEN TO GO 19 Dec 2026 – 03 Jan 2027' as MERIDIAN recommending those dates as the best time for their trip?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "ski_season_45_meaning": {
+        "type": "choice",
+        "choice": "days_or_percent_of_season",
+        "confidence": 0.49,
+        "probabilities": {
+          "snow_or_conditions_score": 0.29,
+          "snow_depth": 0.02,
+          "no_idea": 0.09,
+          "fixed_placeholder": 0.01,
+          "days_or_percent_of_season": 0.59
+        }
+      },
+      "believes_lodging_scarce": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "labels_sufficient": {
+        "type": "noul",
+        "noul": 0.67
+      },
+      "when_to_go_is_advice": {
+        "type": "noul",
+        "noul": 0.59
+      }
+    },
+    "usage": {
+      "input_tokens": 915,
+      "output_tokens": 142
+    }
+  }
+}

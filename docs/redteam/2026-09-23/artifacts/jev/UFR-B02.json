@@ -1,0 +1,64 @@
+{
+  "label": "UFR-B02",
+  "executed_at": "2026-09-23T17:00:26.910Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent planning a family ski week (2 adults, 2 kids), typing quickly on a laptop.",
+      "workflow_state": "On the Family ski trip form at /trips?season=winter&interest=ski. The 'Create the shared Circle' button is disabled because membership is not connected. The parent has mistyped several values.",
+      "entered_values": {
+        "First day": "01/10/2020 (in the past)",
+        "Last day": "12/01/2019 (before the first day, also in the past)",
+        "Adults in your household": "0",
+        "Children in your household": "999",
+        "Combined lodging target per night": "$ -50"
+      },
+      "visible_feedback": "None. No field is outlined in red, no message appears next to any field, no alert appears. The field borders look identical to valid fields. The form looks ready to submit apart from the greyed button.",
+      "after_refresh": "If the parent refreshes the page, dates, origin, region, lodging priority and budget are all cleared back to empty/defaults; nothing was saved."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "notices_date_error": {
+        "type": "noul",
+        "instructions": "Would this parent notice, from the page alone, that their last day is before their first day and both dates are in the past?"
+      },
+      "notices_party_error": {
+        "type": "noul",
+        "instructions": "Would this parent learn from the page that 0 adults, 999 children and a negative budget are not acceptable?"
+      },
+      "believes_brief_is_valid": {
+        "type": "noul",
+        "instructions": "Is it likely this parent believes their brief is correctly filled in and that only the membership issue stops them?"
+      },
+      "refresh_expectation": {
+        "type": "noul",
+        "instructions": "Would a typical parent expect a trip-planning form they spent several minutes on to keep their entries after an accidental refresh or returning later in the same browser?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "notices_date_error": {
+        "type": "noul",
+        "noul": 0.22
+      },
+      "notices_party_error": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "believes_brief_is_valid": {
+        "type": "noul",
+        "noul": 0.63
+      },
+      "refresh_expectation": {
+        "type": "noul",
+        "noul": 0.81
+      }
+    },
+    "usage": {
+      "input_tokens": 663,
+      "output_tokens": 82
+    }
+  }
+}

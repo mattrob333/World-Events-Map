@@ -1,0 +1,138 @@
+{
+  "label": "UFR-B01",
+  "executed_at": "2026-09-23T17:00:13.339Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent planning a February or Christmas ski week for two adults and two kids (ages matter for lessons and lift tickets), comparing Colorado Rockies vs Swiss Alps, wants to coordinate with a second family. Not technical; does not know what Supabase or 'membership service' means.",
+      "job_to_be_done": "Pick a resort and week that works for my family, gather what I need to decide, and get it in front of the other family.",
+      "workflow_state": "Arrived from the home page 'Start a family ski trip' link at /trips?season=winter&interest=ski. Has filled every field of the form (Swiss Alps, 13-20 Feb 2027, Atlanta (ATL), 2 adults, 2 children, near the lifts, $900/night).",
+      "visible_left_column": [
+        "START WITH THE PEOPLE",
+        "Plan the snow, together.",
+        "Begin with two regions and the shape of your trip. Create a Circle, send its link to the other family, then use the private conversation to compare towns and stays.",
+        "01 Choose a window and what your family needs.",
+        "02 Share the Circle link with your friend.",
+        "03 Approve their request, then shortlist together.",
+        "The Circle name, region, and dates are visible to signed-in members. Household details and budget are posted only to its accepted-member conversation. A link is an invitation to request access, not automatic entry.",
+        "RESEARCH BRIEF / AWAITING CONNECTION: Your Circle records what to investigate together. Trip-specific research is awaiting source connections; no result here represents a current quote or available room. Snow & forecast: Resort and weather sources pending. Stays & prices: Lodging inventory and quotes pending. Articles & social: Exa / Treg trip queries pending. Video: YouTube source pending"
+      ],
+      "visible_form": [
+        "FAMILY SKI TRIP / FIRST DRAFT",
+        "What should we compare?",
+        "Where are you considering? [Swiss Alps]",
+        "First day [02/13/2027]  Last day [02/20/2027]",
+        "Starting from [Atlanta (ATL)]",
+        "Adults in your household [2]  Children in your household [2]",
+        "[x] We want another family to plan with us",
+        "Top lodging priority [Near the lifts]",
+        "Combined lodging target per night (optional) $ [900]",
+        "These are planning preferences. Snow, lodging availability, travel times, and prices still need live research and provider confirmation."
+      ],
+      "primary_button": "'Create the shared Circle ↗' — rendered greyed out and disabled from page load; clicking or pressing Enter does nothing and shows no message.",
+      "notice_below_button": "Membership is not connected yet. Profiles, travel modes, circles and partner requests need the membership service. Pulse and NOW can still work without a member session when their data providers are configured.",
+      "other_actions_on_page": [
+        "Preview a trip room ↓ (sample fixture rooms)",
+        "Nav: World, Circles, People, Trips, Access"
+      ],
+      "not_present": "No save-draft, copy-brief, email, share, download or print option. Nothing is stored in the browser; refreshing clears the dates, origin, region and budget. No field for children's ages."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "knows_before_filling": {
+        "type": "noul",
+        "instructions": "Before spending effort filling the form, could this parent reasonably tell that creating the shared Circle is impossible on this site right now?"
+      },
+      "knows_what_was_saved": {
+        "type": "noul",
+        "instructions": "After filling the form and seeing the disabled button and `notice_below_button`, would this parent correctly understand that none of their entered trip details were saved anywhere?"
+      },
+      "can_reach_other_family": {
+        "type": "noul",
+        "instructions": "Does this screen give the parent any in-product way to get their trip brief in front of the other family?"
+      },
+      "notice_understandable": {
+        "type": "noul",
+        "instructions": "Would this non-technical parent understand from `notice_below_button` what they personally should do next to continue their ski-trip plan?"
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "instructions": "What is this parent most likely to do next?",
+        "criteria": {
+          "retry_or_click_disabled_button": "Keeps trying the disabled button or re-entering fields",
+          "manually_copy_details_elsewhere": "Retypes the brief into a text/email to the other family outside the app",
+          "explore_sample_rooms": "Scrolls down to the sample trip rooms",
+          "leave_the_site": "Gives up and leaves",
+          "look_for_sign_in": "Searches for a way to sign in or create an account"
+        }
+      },
+      "jtbd_support": {
+        "type": "score",
+        "instructions": "How well does this screen support the parent's job to be done at this point?",
+        "criteria": [
+          "Blocks the job with no path forward",
+          "Blocks the job but explains a workaround",
+          "Partially supports the job",
+          "Mostly supports the job",
+          "Fully supports the job"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_before_filling": {
+        "type": "noul",
+        "noul": 0.77
+      },
+      "knows_what_was_saved": {
+        "type": "noul",
+        "noul": 0.32
+      },
+      "can_reach_other_family": {
+        "type": "noul",
+        "noul": 0.2
+      },
+      "notice_understandable": {
+        "type": "noul",
+        "noul": 0.28
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "choice": "look_for_sign_in",
+        "confidence": 0.84,
+        "probabilities": {
+          "retry_or_click_disabled_button": 0.02,
+          "look_for_sign_in": 0.88,
+          "explore_sample_rooms": 0.03,
+          "leave_the_site": 0,
+          "manually_copy_details_elsewhere": 0.07
+        }
+      },
+      "jtbd_support": {
+        "type": "score",
+        "score": 0.74,
+        "confidence": 0.66,
+        "legend": {
+          "0": "Blocks the job with no path forward",
+          "1": "Blocks the job but explains a workaround",
+          "2": "Partially supports the job",
+          "3": "Mostly supports the job",
+          "4": "Fully supports the job"
+        },
+        "probabilities": {
+          "0": 0.33,
+          "1": 0.6,
+          "2": 0.07,
+          "3": 0,
+          "4": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1393,
+      "output_tokens": 176
+    }
+  }
+}

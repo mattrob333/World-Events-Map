@@ -1,0 +1,90 @@
+{
+  "label": "UFR-B04",
+  "executed_at": "2026-09-23T17:00:39.955Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Parent planning a family ski week, open to Christmas or February, comparing North America vs the Alps; coordinating with another family.",
+      "step_1_home_page": {
+        "selected": "When: Winter, What: Ski & snow",
+        "shortlist_cards_in_order": [
+          "Aspen — Aspen Christmas & New Year Week — Dec 19",
+          "Courchevel — Courchevel 1850 Christmas & New Year Week — Dec 19 (Courchevel is in France)",
+          "Gstaad — Gstaad New Year Week — Dec 23",
+          "St. Moritz — St. Moritz New Year Week — Dec 26",
+          "Niseko — Niseko January Powder Season — Jan 9 (Japan)",
+          "Teton Village — Jackson Hole Presidents' Week — Feb 13 (Wyoming)"
+        ],
+        "globe_side_panel": "YOUR TRIP SHORTLIST / Places for this trip / MODELED: 01 Courchevel (Modeled Heat 57/100), 02 Aspen (54/100), 03 St. Moritz (53/100)",
+        "parent_action": "Flew to Courchevel and then Jackson Hole Presidents' Week on the globe, liked both, then clicked 'Start a family ski trip ↗'."
+      },
+      "step_2_trips_form": {
+        "url": "/trips?season=winter&interest=ski#family-ski",
+        "region_dropdown_options": [
+          "Compare Colorado Rockies + Swiss Alps (default)",
+          "Colorado Rockies",
+          "Swiss Alps"
+        ],
+        "dates": "First day and Last day are empty",
+        "carried_over": "Nothing about the resorts or weeks the parent looked at is shown or prefilled."
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "can_express_choice": {
+        "type": "noul",
+        "instructions": "Can this parent express 'Courchevel or Jackson Hole, Presidents' Week' using the form in `step_2_trips_form`?"
+      },
+      "expects_carryover": {
+        "type": "noul",
+        "instructions": "Would this parent expect the resort and week they were just looking at to be carried into the trip form?"
+      },
+      "region_choice": {
+        "type": "choice",
+        "instructions": "Which region option is this parent most likely to pick, given Courchevel (France) and Jackson Hole (Wyoming) were their favorites?",
+        "criteria": {
+          "compare": "Compare Colorado Rockies + Swiss Alps",
+          "rockies": "Colorado Rockies",
+          "alps": "Swiss Alps",
+          "abandon_form": "Stops because none fit"
+        }
+      },
+      "ranking_understood": {
+        "type": "noul",
+        "instructions": "Would this parent correctly understand that 'Modeled Heat 57/100' ranks places by modeled buzz/interest rather than by snow, family terrain or value?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "can_express_choice": {
+        "type": "noul",
+        "noul": 0.32
+      },
+      "expects_carryover": {
+        "type": "noul",
+        "noul": 0.71
+      },
+      "region_choice": {
+        "type": "choice",
+        "choice": "compare",
+        "confidence": 0.98,
+        "probabilities": {
+          "rockies": 0,
+          "abandon_form": 0.01,
+          "compare": 0.99,
+          "alps": 0
+        }
+      },
+      "ranking_understood": {
+        "type": "noul",
+        "noul": 0.43
+      }
+    },
+    "usage": {
+      "input_tokens": 888,
+      "output_tokens": 109
+    }
+  }
+}
