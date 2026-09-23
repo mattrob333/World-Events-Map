@@ -1,0 +1,31 @@
+{
+  "label": "SETUP-connectivity-check",
+  "executed_at": "2026-09-23T16:45:24.910Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "first-time visitor",
+      "visible_primary_cta": "Fly to Monte-Carlo"
+    },
+    "model": "jev-latest",
+    "questions": {
+      "cta_predicts_outcome": {
+        "type": "noul",
+        "instructions": "Would a first-time visitor who knows nothing about the product correctly predict that `visible_primary_cta` animates a globe route rather than booking a flight?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "cta_predicts_outcome": {
+        "type": "noul",
+        "noul": 0.14
+      }
+    },
+    "usage": {
+      "input_tokens": 322,
+      "output_tokens": 25
+    }
+  }
+}
