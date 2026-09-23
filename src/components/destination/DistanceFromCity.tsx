@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useSyncExternalStore } from 'react';
 import { VIEWER_CITIES } from '@/lib/location/browser-position';
 import { CITY_CHOICE_KEY } from '@/lib/location/useViewerLocation';
@@ -28,7 +29,7 @@ export function DistanceFromCity({ target, labelClassName, linkClassName }: { ta
     return (
       <div>
         <span className={labelClassName}>From you</span>
-        <strong><a className={linkClassName} href="/#world-map">Choose your city for a distance ↗</a></strong>
+        <strong><Link className={linkClassName} href="/#world-map">Choose your city for a distance ↗</Link></strong>
       </div>
     );
   }
