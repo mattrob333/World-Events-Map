@@ -17,6 +17,7 @@ import { isDemoMode } from '@/lib/flags';
 import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
 import styles from './discovery.module.css';
 import { LivePulse } from '@/components/panels/LivePulse';
+import { TravelWire } from '@/components/panels/TravelWire';
 import { isHappeningToday } from '@/lib/data/scene-time';
 import { greatCircleDistanceKm } from '@/lib/geo/projection';
 import { useViewerLocation } from '@/lib/location/useViewerLocation';
@@ -399,6 +400,7 @@ export function DiscoveryExperience() {
             eventId={spotlight?.id}
             planning={planMode}
           />
+          <TravelWire />
         </aside>
 
         <div className={styles.worldStats}>
