@@ -18,6 +18,25 @@ describe('destination to Circle planning handoff', () => {
     expect(html).not.toContain('href="/circles/monaco-harbor"');
   });
 
+  it('opens Aspen with distinct credited local scenes and visible food and mountain ideas', () => {
+    const html = renderToStaticMarkup(createElement(DestinationPage, { slug: 'aspen' }));
+    expect(html).toContain('A place worth the journey'.toUpperCase());
+    expect(html).toContain('/editorial/destination-aspen-hero.jpg');
+    expect(html).toContain('/editorial/aspen-christmas-week.jpg');
+    expect(html).toContain('/editorial/destination-aspen-street.jpg');
+    expect(html).toContain('Cloud Nine Alpine Bistro');
+    expect(html).toContain('Highlands Bowl hike');
+    expect(html).toContain('Sample editorial pick');
+    expect(html).toContain('https://commons.wikimedia.org/wiki/File:Aspen_panorama_(8552886075).jpg');
+  });
+
+  it('keeps Courchevel imagery local to Courchevel', () => {
+    const html = renderToStaticMarkup(createElement(DestinationPage, { slug: 'courchevel' }));
+    expect(html).toContain('/editorial/courchevel-peak-week.jpg');
+    expect(html).toContain('/editorial/destination-courchevel-village.jpg');
+    expect(html).not.toContain('/editorial/aspen-christmas-week.jpg');
+  });
+
   it('keeps the selected occasion and date above separately labeled fixture rooms', () => {
     const html = renderToStaticMarkup(createElement(CirclesIndex, {
       destination: 'monte-carlo', eventId: 'monaco-yacht-show',

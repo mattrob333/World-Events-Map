@@ -5,7 +5,7 @@ import { googleMapsViewUrl } from '@/lib/geo/map-links';
 import type { WorldEvent } from '@/lib/types';
 
 /** City-level context until an organizer supplies verified venue coordinates. */
-export function VenueMap({ event }: { event: WorldEvent }) {
+export function VenueMap({ event, compact = false }: { event: WorldEvent; compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const { lat, lon } = event.coords;
   const isSkiEvent = event.category === 'ski' || event.secondaryCategories?.includes('ski');
@@ -25,9 +25,9 @@ export function VenueMap({ event }: { event: WorldEvent }) {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
-        {open ? 'Close local map ↑' : 'Explore the neighborhood ↗'}
+        {open ? 'Close local map ↑' : compact ? 'Explore the map & mountain ↗' : 'Explore the neighborhood ↗'}
       </button>
-      {isSkiEvent ? (
+      {(!compact || open) && (isSkiEvent ? (
         satelliteUrl && terrainUrl ? (
           <div className="space-y-2">
             <p className="label-sm text-brass">Explore the mountain</p>
@@ -66,7 +66,7 @@ export function VenueMap({ event }: { event: WorldEvent }) {
           </a>
           <p className="text-[11px] leading-relaxed text-ink-muted">Street View opens in Google Maps where coverage is available. Imagery may be historical.</p>
         </>
-      )}
+      ))}
       {open && (
         <>
           <p className="text-sm text-ink-muted">

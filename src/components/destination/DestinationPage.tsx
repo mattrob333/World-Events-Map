@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { Chip, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
+import { EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
 import { FixtureBanner, OpportunityCardView, ProvenanceNote } from '@/components/shell';
 import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { getDestinationBySlug, type DestinationPulse } from '@/lib/pulse';
@@ -18,6 +18,11 @@ import { Avatar } from '@/components/social';
 import { PlaceGallery } from '@/components/place-media/PlaceGallery';
 import { VenueMap } from '@/components/panels/VenueMap';
 import { useIntentStore } from '@/lib/intent';
+import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curated';
+import { curatedPhotosForDestination, type DestinationPhoto } from '@/lib/place-media/destinations';
+import type { PlacePhoto } from '@/lib/place-media/media';
+import type { InspirationItem } from '@/lib/inspiration';
+import styles from './destination-page.module.css';
 
 const TABS = ['pulse', 'happening', 'people', 'inspiration', 'access'] as const;
 type Tab = (typeof TABS)[number];
@@ -84,6 +89,66 @@ function DestinationActions({ event, planningHref, destination }: {
   </div>;
 }
 
+function PhotoCredit({ photo, className = '' }: { photo: PlacePhoto; className?: string }) {
+  return <a
+    className={`${styles.photoCredit} ${className}`}
+    href={photo.sourceUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    title={`${photo.title} · ${photo.credit} · ${photo.license}`}
+  >
+    {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗
+  </a>;
+}
+
+function PhotoTile({ photo, city, large = false }: { photo: DestinationPhoto; city: string; large?: boolean }) {
+  return <figure className={large ? styles.mainPhoto : styles.sidePhoto}>
+    {/* Local editorial archive images are deliberately served without third-party image requests. */}
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img className={styles.photoImage} src={photo.imageUrl} alt={`${city}: ${photo.title}`} loading={large ? 'eager' : 'lazy'} />
+    <div className={styles.photoShade} aria-hidden="true" />
+    {!large && <figcaption className={styles.sideCaption}>
+      <span className={styles.photoEyebrow}>{photo.theme === 'experience' ? 'The experience' : photo.theme === 'town' ? 'Around town' : 'The setting'}</span>
+      <span className={styles.sideTitle}>{photo.caption}</span>
+      <PhotoCredit photo={photo} />
+    </figcaption>}
+  </figure>;
+}
+
+type EditorialCard = { id: string; eyebrow: string; title: string; copy: string; source: 'sample' | 'calendar'; href?: string };
+
+function calendarTheme(reason: string): string {
+  if (/airport|altiport|landing|transfer|flight|customs/i.test(reason)) return 'Getting there';
+  if (/restaurant|dining|table|lunch|chef|Michelin|wine/i.test(reason)) return 'At the table';
+  if (/hotel|chalet|stay|suite|staff/i.test(reason)) return 'Where to stay';
+  if (/ski|piste|lift|mountain|terrain|slope|gondola|powder/i.test(reason)) return 'On the mountain';
+  return 'The local scene';
+}
+
+function destinationEdit(inspiration: InspirationItem[], event?: WorldEvent): EditorialCard[] {
+  const kinds = ['experience', 'restaurant', 'bar', 'nightlife', 'place', 'stay'] as const;
+  const picks = kinds.flatMap((kind) => inspiration.find((item) => item.kind === kind) ?? []).slice(0, 3);
+  const cards: EditorialCard[] = picks.map((item) => ({
+    id: item.id,
+    eyebrow: item.category,
+    title: item.title,
+    copy: item.subtitle ?? item.note ?? 'An idea for your trip board.',
+    source: 'sample',
+    href: item.canonicalUrl,
+  }));
+  for (const [index, reason] of (event?.whyGo ?? []).entries()) {
+    if (cards.length >= 3) break;
+    cards.push({
+      id: `${event!.id}-reason-${index}`,
+      eyebrow: calendarTheme(reason),
+      title: reason,
+      copy: event!.name,
+      source: 'calendar',
+    });
+  }
+  return cards;
+}
+
 function DestinationLoaded({
   pulse,
   tab,
@@ -107,41 +172,103 @@ function DestinationLoaded({
   const planningHref = nextEvent
     ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
     : `/circles?destination=${encodeURIComponent(pulse.slug)}`;
+  const destinationPhotos = curatedPhotosForDestination(pulse.slug);
+  const eventPhotos = events.flatMap((event) => curatedPhotoForEvent(event.id) ?? []);
+  const eventPhoto = curatedPhotoForEvent(nextEvent?.id ?? '')
+    ?? eventPhotos.find((photo) => photo.subject === 'place')
+    ?? eventPhotos[0];
+  const leadPhoto = destinationPhotos[0]
+    ?? (eventPhoto ? { ...eventPhoto, caption: pulse.name, theme: 'landscape' as const } : null);
+  const supportingPhotos = destinationPhotos.filter((photo) => photo.sourceUrl !== leadPhoto?.sourceUrl).slice(0, 2);
+  const edit = destinationEdit(inspiration, nextEvent ?? events[0]);
 
   return (
-    <main className="px-4 pb-32 pt-6 sm:px-8">
-      {events[0] && <div className="mb-7 grid items-start gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]"><PlaceGallery key={events[0].id} event={events[0]} /><div><p className="label-sm mb-3 text-brass">Get a feel for {pulse.name}</p><VenueMap key={events[0].id} event={events[0]} /></div></div>}
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.8fr)]">
-        <header className="min-w-0">
-          <p className="label-sm text-brass">{pulse.country}</p>
-          <h1 className="mt-2 font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.9] tracking-[-0.03em] text-ink">
-            {pulse.name}
-          </h1>
-          <p className="mt-4 max-w-xl text-[15px] leading-6 text-ink-muted">
-            {nextEvent ? nextEvent.tagline : 'Explore the curated calendar and find a future occasion to plan around.'}
-          </p>
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="label border border-brass/40 bg-brass-wash px-2 py-1 text-brass">Curated calendar</span>
-            {pulse.archetypes.map((archetype) => (
-              <Chip key={archetype} readOnly>
-                {archetype}
-              </Chip>
-            ))}
+    <main className="px-4 pb-32 pt-5 sm:px-8">
+      <div className={styles.breadcrumb}>
+        <Link href="/">The world</Link><span aria-hidden="true">/</span><span>{pulse.country}</span><span aria-hidden="true">/</span><span>{pulse.name}</span>
+        <span className={styles.breadcrumbIndex}>MERIDIAN DESTINATION FILE</span>
+      </div>
+
+      <section className={cn(styles.hero, !supportingPhotos.length && styles.heroSolo)} aria-label={`Discover ${pulse.name}`}>
+        <div className={styles.heroMain}>
+          {leadPhoto
+            ? <PhotoTile photo={leadPhoto} city={pulse.name} large />
+            : <div className={styles.noPhoto}><PlaceGallery event={events[0]!} /></div>}
+          <div className={styles.heroCopy}>
+            <div className={styles.heroTopline}><span className={styles.star} aria-hidden="true">✳</span> A PLACE WORTH THE JOURNEY <span className={styles.heroToplineRule} /></div>
+            <div className={styles.heroBottom}>
+              <p className={styles.heroCountry}>{pulse.country} <span aria-hidden="true">·</span> {pulse.archetypes.slice(0, 2).join(' / ')}</p>
+              <h1>{pulse.name}</h1>
+              <p className={styles.heroTagline}>{nextEvent?.tagline ?? 'Find your next reason to go.'}</p>
+              <div className={styles.heroActions}>
+                <Link href={planningHref} className={styles.primaryAction}>Start a trip <span aria-hidden="true">↗</span></Link>
+                <a href="#destination-edit" className={styles.secondaryAction}>Get a feel for it <span aria-hidden="true">↓</span></a>
+              </div>
+              {leadPhoto && <PhotoCredit photo={leadPhoto} className={styles.mainCredit} />}
+            </div>
           </div>
-          <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} />
-        </header>
-        <aside className="glass relative min-h-56 overflow-hidden rounded-[3px] p-5">
-          <p className="label-sm text-brass">Next on the calendar</p>
+        </div>
+        {supportingPhotos.length > 0 && <div className={cn(styles.heroSide, supportingPhotos.length === 1 && styles.heroSideSingle)}>
+          {supportingPhotos.map((photo) => <PhotoTile key={photo.sourceUrl} photo={photo} city={pulse.name} />)}
+        </div>}
+      </section>
+      {supportingPhotos.length > 0 && <div className={styles.mobileCredits} aria-label="Photo credits">
+        {supportingPhotos.map((photo) => <PhotoCredit key={photo.sourceUrl} photo={photo} />)}
+      </div>}
+
+      <div className={styles.factBar}>
+        <div><span className={styles.factLabel}>Next occasion</span><strong>{nextEvent ? nextEvent.name : 'Explore the calendar'}</strong></div>
+        <div><span className={styles.factLabel}>When to go</span><strong>{nextEvent ? formatDateRange(nextEvent.start, nextEvent.end) : 'Dates to be announced'}</strong></div>
+        <div><span className={styles.factLabel}>The edit</span><strong>{events.length} curated {events.length === 1 ? 'occasion' : 'occasions'} · {pulse.archetypes[0] ?? 'travel'}</strong></div>
+        <a href="#destination-map">Explore the map <span aria-hidden="true">↗</span></a>
+      </div>
+
+      <div className={styles.belowHero}>
+        <section id="destination-edit" className={styles.edit} aria-labelledby="destination-edit-title">
+          <div className={styles.editHeader}>
+            <div><p className={styles.sectionKicker}><span aria-hidden="true">✳</span> THE DESTINATION EDIT</p><h2 id="destination-edit-title">The days you came for.</h2></div>
+            <p>Mountains, tables, streets, and little detours. Start with a feeling, then make a plan.</p>
+          </div>
+          <div className={styles.editGrid}>
+            {edit.map((card, index) => <article className={styles.editCard} key={card.id}>
+              <div className={styles.cardTop}><span>{String(index + 1).padStart(2, '0')} / {card.eyebrow}</span><span aria-hidden="true">✳</span></div>
+              <div className={styles.cardBody}>
+                <h3>{card.title}</h3>
+                <p>{card.copy}</p>
+              </div>
+              <div className={styles.cardFoot}><span>{card.source === 'sample' ? 'Sample editorial pick' : 'Curated calendar note'}</span>{card.href && <a href={card.href} target="_blank" rel="noopener noreferrer">Source ↗</a>}</div>
+            </article>)}
+          </div>
+          <p className={styles.editDisclosure}>{edit.some((card) => card.source === 'sample')
+            ? 'Sample editorial picks are ideas for the trip board, not live recommendations or bookings. Check venues and conditions before you go.'
+            : 'These are notes from the curated calendar, not live conditions or availability. Check current details before you go.'}</p>
+          {inspiration.length > 0
+            ? <button type="button" className={styles.allIdeas} onClick={() => { onTab('inspiration'); document.getElementById('destination-tabs')?.scrollIntoView(); }}>See the full inspiration board <span aria-hidden="true">↗</span></button>
+            : <button type="button" className={styles.allIdeas} onClick={() => { onTab('happening'); document.getElementById('destination-tabs')?.scrollIntoView(); }}>See what is happening <span aria-hidden="true">↗</span></button>}
+          {nextEvent?.description && <div className={styles.insideLine}>
+            <p className={styles.sectionKicker}>The inside line <span aria-hidden="true">/</span> Curated calendar</p>
+            <p>{nextEvent.description}</p>
+          </div>}
+        </section>
+
+        <aside className={styles.moment}>
+          <div className={styles.momentHeader}><span>01 / THE MOMENT</span><span aria-hidden="true">✦</span></div>
+          <p className={styles.momentKicker}>Next on the calendar</p>
           {nextEvent ? <>
-            <h2 className="mt-3 font-display text-[31px] leading-tight text-ink">{nextEvent.name}</h2>
-            <p className="mt-3 text-[13px] text-ink">{formatDateRange(nextEvent.start, nextEvent.end)}</p>
-            <p className="mt-2 text-[12px] text-ink-muted">{nextEvent.city}, {nextEvent.country} · {nextEvent.category}</p>
-            <p className="mt-5 text-[11px] leading-5 text-ink-muted">Dates and access come from the curated calendar. Confirm details with the organizer before making plans.</p>
-          </> : <p className="mt-3 text-[13px] leading-6 text-ink-muted">No future occasion is listed for this destination yet.</p>}
+            <h2>{nextEvent.name}</h2>
+            <p className={styles.momentDate}>{formatDateRange(nextEvent.start, nextEvent.end)}</p>
+            <p className={styles.momentSummary}>{nextEvent.tagline}</p>
+            <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} />
+          </> : <p className={styles.momentSummary}>No future occasion is listed for this destination yet.</p>}
+          <div id="destination-map" className={styles.mapPanel}>
+            <p className={styles.momentKicker}>Find your way around</p>
+            {events[0] && <VenueMap key={events[0].id} event={events[0]} compact />}
+          </div>
+          <p className={styles.calendarNote}>Occasion dates come from the curated calendar. Confirm details with the organizer before making plans.</p>
         </aside>
       </div>
 
-      <div className="mt-10 flex gap-1 overflow-x-auto" role="tablist" aria-label="Destination sections">
+      <div id="destination-tabs" className="mt-10 flex gap-1 overflow-x-auto" role="tablist" aria-label="Destination sections">
         {TABS.map((item) => (
           <button
             key={item}
@@ -260,9 +387,11 @@ function DestinationLoaded({
                   <p className="label-sm text-brass">{INSPIRATION_KIND_LABEL[item.kind]}</p>
                   <h3 className="mt-2 font-display text-[22px] text-ink">{item.title}</h3>
                   {item.subtitle && <p className="mt-1 text-[12px] text-ink-muted">{item.subtitle}</p>}
-                  <p className="mt-3 text-[11px] text-ink-muted">
-                    Must {item.votes.mustDo} · Maybe {item.votes.maybe} · Skip {item.votes.skip}
-                  </p>
+                  {item.note && <p className="mt-3 text-[12px] leading-5 text-ink-muted">{item.note}</p>}
+                  <div className="mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-3 text-[10px] text-ink-muted">
+                    <span>Sample editorial pick</span>
+                    {item.canonicalUrl && <a href={item.canonicalUrl} target="_blank" rel="noopener noreferrer" className="text-brass hover:text-brass-bright">Original source ↗</a>}
+                  </div>
                 </article>
               ))}
             </div>

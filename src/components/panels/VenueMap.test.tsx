@@ -6,6 +6,14 @@ import { SKI_EVENTS } from '@/lib/data/events/ski';
 import { VenueMap } from './VenueMap';
 
 describe('VenueMap mountain handoff', () => {
+  it('keeps the destination map compact until the traveler opens it', () => {
+    const html = renderToStaticMarkup(createElement(VenueMap, { event: SKI_EVENTS[0], compact: true }));
+
+    expect(html).toContain('Explore the map &amp; mountain');
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).not.toContain('basemap=satellite');
+  });
+
   it('shows satellite and terrain links for a ski event with approximate-location language', () => {
     const html = renderToStaticMarkup(createElement(VenueMap, { event: SKI_EVENTS[0] }));
 

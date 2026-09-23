@@ -2,6 +2,18 @@
 
 These images were individually reviewed for the place or occasion shown. They are archived photographs, not live coverage or images of a future edition. Each card and journey pass links to its Wikimedia Commons source and credits the creator and license.
 
+Destination dossiers also use the following locally stored place scenes. Their captions identify the photographed location or activity; dates are archive dates, not a current snow or weather report. Display crops retain the original license and source link.
+
+| Destination scene | Photo subject and year | Creator | License | Source |
+| --- | --- | --- | --- | --- |
+| `destination-aspen-hero` | Aspen town from the ski slopes · 2013 | Sam Beebe | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aspen_panorama_(8552886075).jpg) |
+| `destination-aspen-street` | Main Street, Aspen, in snow · 2008 | Werdna | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Main_Street_in_Aspen.jpg) |
+| `destination-courchevel-village` | Courchevel Village front de neige · 2022 | DimiTalen | CC0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Courchevel_Village_front_de_neige.jpg) |
+| `destination-gstaad-palace` | Gstaad Palace from the promenade · 2009 | Николай Максимович | CC BY 3.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gstaad._Palace_Hotel_from_The_Promenade,_Switzerland_-_panoramio.jpg) |
+| `destination-st-moritz-lake` | St. Moritz town and frozen lake · 2007 | Alps | Public domain | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:StMoritz.jpg) |
+| `destination-niseko-yotei` | Mount Yōtei from Niseko Annupuri · 2017 | MIKI Yoshihito | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mount_Y%C5%8Dtei_from_Niseko_Annupuri_(33253188670).jpg) |
+| `destination-teton-tram` | Jackson Hole aerial tram · 2022 | Sirguh | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aerial_Tram.jpg) |
+
 | Scene | Photo subject and year | Creator | License | Source |
 | --- | --- | --- | --- | --- |
 | `monaco-yacht-show` | event · 2022 | 102Legobrick | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:MYS_2022_2.jpg) |
