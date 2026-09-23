@@ -10,6 +10,13 @@ import { MemberTierMark } from './MemberTierMark';
 
 export interface CurrentMemberChipProps {
   className?: string;
+  /**
+   * Mount `SocialRoot` here (default). Pass false when the chip sits inside a
+   * container with backdrop-filter or transform — that becomes the containing
+   * block for the root's fixed-position sheet and invitation strip — and mount
+   * `SocialRoot` once at the shell root instead.
+   */
+  mountRoot?: boolean;
 }
 
 /**
@@ -26,7 +33,7 @@ export interface CurrentMemberChipProps {
  * plate on the globe, a roster row, or a line in a cabin thread without any of
  * them sharing an ancestor.
  */
-export function CurrentMemberChip({ className }: CurrentMemberChipProps) {
+export function CurrentMemberChip({ className, mountRoot = true }: CurrentMemberChipProps) {
   const hydrated = useSocialHydration();
   const me = useSocialStore((s) => s.currentMember);
   const openProfile = useProfileUiStore((s) => s.openProfile);
@@ -79,7 +86,7 @@ export function CurrentMemberChip({ className }: CurrentMemberChipProps) {
         </span>
       </button>
 
-      <SocialRoot />
+      {mountRoot && <SocialRoot />}
     </>
   );
 }

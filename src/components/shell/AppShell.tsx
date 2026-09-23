@@ -7,6 +7,7 @@ import { cn } from '@/components/ui';
 import { useOnboardingStore } from '@/lib/onboarding';
 import { DEMO_LABEL, isDemoMode } from '@/lib/flags';
 import { CurrentMemberChip } from '@/components/social/CurrentMemberChip';
+import { SocialRoot } from '@/components/social/MemberProfileSheet';
 import { CommandPalette, SearchTrigger } from './CommandPalette';
 
 const PRIMARY = [
@@ -107,7 +108,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="ml-auto flex items-center gap-2">
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
-            {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" />}
+            {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" mountRoot={false} />}
             <Link
               href="/now"
               className={cn(
@@ -129,6 +130,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
+      {/* Outside the glass header: its backdrop-filter would trap the fixed sheet and invitation strip. */}
+      {isDemoMode() && <SocialRoot />}
 
       {showOnboarding && (
         <div className="border-b border-brass/20 bg-brass-wash px-4 py-2 text-[12px] text-brass-bright">
