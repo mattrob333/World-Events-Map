@@ -19,7 +19,7 @@ These images were individually reviewed for the place or occasion shown. They ar
 | `zermatt-march-high-season` | place · 2022 | Roy Egloff | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CH.VS.Zermatt_2022-12-28_Matterhorn-Glacier-Paradise_5094_3x2-R_9K.jpg) |
 | `portillo-august-weeks` | place · 2024 | Nbendersky | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Magia_al_atardecer_en_la_Laguna_del_Inca.jpg) |
 | `cardrona-queenstown-peak` | place · 2013 | André Richard Chalmers | CC BY-SA 3.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Captains_Basin_view_at_Cadrona_Skifield.jpg) |
-| `thredbo-perisher-peak` | place · 2010 | Maksym Kozlenko | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2010-10-03_Kosciuszko_Express_Chairlift.jpg) |
+| `thredbo-perisher-peak` | place · July 2006, Mount Blue Cow slopes at Perisher | Ruth Ellison | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Perisher_Blue_-_Kosciuszko.jpg) |
 | `las-lenas-southern-season` | place · 2004 | Andre Charland  from Canada | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Las_Le%C3%B1as_Mendoza_Argentina_by_Andre_Charland.jpg) |
 | `hahnenkamm-kitzbuhel` | event · 2011 | Michael Fleischhacker | CC BY-SA 3.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hahnekammrennen2011.jpg) |
 | `x-games-aspen` | event · 2010 | Philip Nelson  from San Antonio, TX, USA | CC BY-SA 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Big_Air_Practice_-_Winter_X_Games_14_(4315330212).jpg) |
