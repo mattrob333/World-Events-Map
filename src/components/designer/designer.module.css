@@ -216,97 +216,233 @@
   border: 1px solid #f59e0b33;
 }
 
-/* ---- mood board collage ----------------------------------------------- */
+/* ---- mood board: bento grid ------------------------------------------ */
 
-.board {
+.bentoGrid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-rows: 120px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(168px, auto);
   grid-auto-flow: dense;
-  gap: 10px;
+  gap: 12px;
   margin-top: 24px;
 }
 
-@media (max-width: 760px) {
-  .board {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 110px;
-  }
+@media (max-width: 900px) {
+  .bentoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(150px, auto); }
 }
 
-.tile {
+.bento {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
-  padding: 14px;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 26px;
   color: white;
-  isolation: isolate;
-  transform: rotate(var(--tilt, 0deg));
-  box-shadow: 0 10px 30px #00000055;
-  transition: transform 200ms ease;
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--b) 70%, transparent), transparent 60%),
+    linear-gradient(150deg, var(--a), color-mix(in oklab, var(--a) 55%, #05060c));
+  border: 1px solid #ffffff1c;
+  box-shadow: inset 0 1px 0 #ffffff22, 0 14px 34px #00000055;
 }
 
-.tile:hover {
-  transform: rotate(0deg) scale(1.02);
-  z-index: 2;
+.bento_xl { grid-column: span 2; grid-row: span 2; }
+.bento_wide { grid-column: span 2; }
+.bento_tall { grid-row: span 2; }
+
+@media (max-width: 900px) {
+  .bento_xl { grid-row: span 2; }
 }
 
-.tile_hero { grid-column: span 3; grid-row: span 2; }
-.tile_wide { grid-column: span 2; }
-.tile_tall { grid-row: span 2; }
-.tile_square { grid-column: span 1; }
-
-@media (max-width: 760px) {
-  .tile_hero, .tile_wide { grid-column: span 2; }
+@media (max-width: 420px) {
+  .bento_tall, .bento_sm { grid-column: span 1; }
 }
 
-.tileImage {
+.bentoImage {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.tileShade {
+.bentoShade {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, transparent 30%, #000000aa);
+  background: linear-gradient(180deg, #00000026 0%, #000000b8 78%);
 }
 
-.tileEmoji {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 30px;
+.bentoTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bentoEyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.bentoEmoji {
+  font-size: 28px;
+  line-height: 1;
   filter: drop-shadow(0 4px 10px #0006);
 }
 
-.tile_hero .tileEmoji { font-size: 64px; }
+.bento_xl .bentoEmoji { font-size: 56px; }
 
-.tileLabel {
-  font-family: var(--font-display);
-  font-size: 20px;
-  line-height: 1.05;
-  text-shadow: 0 2px 12px #0008;
-  overflow-wrap: anywhere;
+.bentoMain {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
 }
 
-.tile_hero .tileLabel { font-size: clamp(30px, 5vw, 52px); }
-.tileAge .tileLabel { font-size: 56px; }
+.bentoTitle {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 14px #0007;
+}
 
-.tileSub {
-  margin-top: 4px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.85;
+.bento_xl .bentoTitle { font-size: clamp(34px, 5vw, 56px); }
+
+.bentoBody {
+  font-size: 13.5px;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+.bentoItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bentoItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  background: #00000038;
+  border: 1px solid #ffffff26;
+  backdrop-filter: blur(6px);
+}
+
+.bentoItemSub {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.meters {
+  display: grid;
+  gap: 8px;
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: 84px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.meterTrack {
+  height: 6px;
+  border-radius: 999px;
+  background: #ffffff26;
+  overflow: hidden;
+}
+
+.meterTrack > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #1ed760, #b3ffcf);
+}
+
+/* ---- Spotify + live shows --------------------------------------------- */
+
+.spotify {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #0b2e1c, #0b0e18 70%);
+  border: 1px solid #1db95440;
+}
+
+.spotifyMark {
+  color: #1ed760;
+  font-size: 16px;
+}
+
+.spotifyBtn {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #04120a;
+  background: #1ed760;
+}
+
+.spotifyBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.insights {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  margin: 12px 0 8px;
+}
+
+.insight {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #ffffff0a;
+  border: 1px solid #ffffff12;
+}
+
+.showCard {
+  flex: none;
+  width: 240px;
+  scroll-snap-align: start;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #111827;
+  border: 1px solid #ffffff14;
+  transition: transform 140ms ease;
+}
+
+.showCard:hover { transform: translateY(-2px); }
+
+.showArt {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  font-size: 40px;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+}
+
+.showArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .facts {

@@ -3,9 +3,10 @@ import { MoodboardStudio } from '@/components/designer/MoodboardStudio';
 
 export const metadata: Metadata = {
   title: 'Mood board · MERIDIAN',
-  description: 'Talk about yourself and get a travel mood board that plans trips with you.',
+  description: 'Talk about yourself, add your Spotify, and get a travel board that plans trips with you.',
 };
 
-export default function MoodboardPage() {
-  return <MoodboardStudio />;
+export default async function MoodboardPage({ searchParams }: { searchParams: Promise<{ spotify?: string }> }) {
+  const { spotify } = await searchParams;
+  return <MoodboardStudio spotifyJustConnected={spotify === 'connected'} />;
 }

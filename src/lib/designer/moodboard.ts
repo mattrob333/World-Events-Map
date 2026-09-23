@@ -1,17 +1,28 @@
+import { listeningInsights } from './listening';
 import type { TravelerProfile } from './profile';
 
-export type TileSize = 'hero' | 'wide' | 'tall' | 'square';
+/**
+ * Bento board: a handful of grouped cards (home, crew, teams, sound…) in a
+ * tidy grid. Each card carries its own list, so the board stays calm even
+ * when the ramble was long.
+ */
+export type BentoSize = 'xl' | 'wide' | 'tall' | 'sm';
 
-export type MoodTile = {
+export type BentoItem = { label: string; emoji?: string; sub?: string };
+
+export type BentoCard = {
   id: string;
-  kind: 'home' | 'age' | 'team' | 'heritage' | 'family' | 'music' | 'event' | 'trip' | 'interest' | 'food';
-  label: string;
-  sub?: string;
+  kind: 'home' | 'crew' | 'teams' | 'roots' | 'sound' | 'vibe' | 'live' | 'trips' | 'into' | 'food';
+  eyebrow: string;
+  title: string;
+  body?: string;
+  items?: BentoItem[];
+  meters?: { label: string; value: number }[];
   emoji: string;
   palette: [string, string];
   /** Editorial mood imagery (not a photo of the traveler or the exact place). */
   image?: string;
-  size: TileSize;
+  size: BentoSize;
 };
 
 const TEAM_COLORS: Record<string, [string, string]> = {
@@ -81,58 +92,134 @@ function kidEmoji(label: string, age?: number): string {
   return girl ? '👧' : /son|boy/i.test(label) ? '👦' : '🧒';
 }
 
-/** Turns a profile into collage tiles, biggest and most personal first. */
-export function moodboardTiles(profile: TravelerProfile): MoodTile[] {
-  const tiles: MoodTile[] = [];
-  if (profile.hometown) {
-    const city = Object.keys(CITY_PALETTE).find((key) => profile.hometown!.toLowerCase().includes(key));
-    const style = city ? CITY_PALETTE[city] : { emoji: '📍', palette: ['#334155', '#64748B'] as [string, string] };
-    tiles.push({ id: 'home', kind: 'home', label: profile.hometown, sub: 'Home base', size: 'hero', ...style });
-  }
-  if (profile.age) tiles.push({ id: 'age', kind: 'age', label: String(profile.age), sub: profile.name ?? 'Years young', emoji: '✦', palette: ['#FDE68A', '#F59E0B'], size: 'square' });
-  profile.teams.forEach((team, i) =>
-    tiles.push({ id: `team-${i}`, kind: 'team', label: team, sub: 'Ride or die', emoji: /braves|yankees|red sox|cubs|dodgers|mets|astros/i.test(team) ? '⚾' : /falcons|cowboys|chiefs|bulldogs|eagles|49ers/i.test(team) ? '🏈' : /hawks|lakers|heat|warriors|celtics|knicks|bulls/i.test(team) ? '🏀' : '⚽', palette: TEAM_COLORS[team] ?? ['#1F2937', '#9CA3AF'], size: i === 0 ? 'tall' : 'square' }),
-  );
-  for (const [i, member] of profile.family.entries()) {
-    const sub = [member.age !== undefined ? `${member.age}` : '', member.note ?? ''].filter(Boolean).join(' · ');
-    tiles.push({
-      id: `family-${i}`, kind: 'family', label: member.name ?? member.label, sub: member.name ? [member.label, sub].filter(Boolean).join(' · ') : sub || undefined,
-      emoji: member.relation === 'child' ? kidEmoji(member.label, member.age) : FAMILY_EMOJI[member.relation],
-      palette: member.relation === 'partner' ? ['#F472B6', '#FB7185'] : member.relation === 'child' ? (i % 2 ? ['#38BDF8', '#818CF8'] : ['#34D399', '#22D3EE']) : ['#A78BFA', '#C4B5FD'],
-      size: 'square',
+function teamEmoji(team: string): string {
+  if (/braves|yankees|red sox|cubs|dodgers|mets|astros/i.test(team)) return '⚾';
+  if (/falcons|cowboys|chiefs|bulldogs|eagles|49ers|crimson|packers|steelers|saints/i.test(team)) return '🏈';
+  if (/hawks|lakers|heat|warriors|celtics|knicks|bulls|mavericks|rockets/i.test(team)) return '🏀';
+  return '⚽';
+}
+
+export function bentoCards(profile: TravelerProfile): BentoCard[] {
+  const cards: BentoCard[] = [];
+  const city = profile.hometown ? Object.keys(CITY_PALETTE).find((key) => profile.hometown!.toLowerCase().includes(key)) : undefined;
+  const home = city ? CITY_PALETTE[city] : { emoji: '✦', palette: ['#334155', '#0F172A'] as [string, string] };
+  cards.push({
+    id: 'home', kind: 'home', size: 'xl', eyebrow: profile.hometown ? 'Home base' : 'You',
+    title: profile.hometown ?? profile.name ?? 'Your board',
+    body: profile.summary || undefined,
+    items: [
+      ...(profile.name && profile.hometown ? [{ label: profile.name, emoji: '👋' }] : []),
+      ...(profile.age ? [{ label: `${profile.age}`, sub: 'years young', emoji: '✦' }] : []),
+    ],
+    emoji: home.emoji, palette: home.palette,
+  });
+
+  if (profile.family.length) {
+    cards.push({
+      id: 'crew', kind: 'crew', size: 'wide', eyebrow: 'The crew', title: profile.family.length === 1 ? 'Travels with 1' : `Travels with ${profile.family.length}`,
+      items: profile.family.map((member) => ({
+        label: member.name ?? member.label,
+        emoji: member.relation === 'child' ? kidEmoji(member.label, member.age) : FAMILY_EMOJI[member.relation],
+        sub: [member.name ? member.label : '', member.age !== undefined ? `${member.age}` : '', member.note ?? ''].filter(Boolean).join(' · ') || undefined,
+      })),
+      emoji: '🫶', palette: ['#F472B6', '#8B5CF6'],
     });
   }
-  for (const country of profile.heritage) {
-    const style = COUNTRY[country] ?? { flag: '🌍', palette: ['#0F766E', '#5EEAD4'] as [string, string] };
-    tiles.push({ id: `heritage-${country}`, kind: 'heritage', label: country, sub: 'Roots', emoji: style.flag, palette: style.palette, size: 'wide' });
+
+  if (profile.teams.length) {
+    const [first, ...rest] = profile.teams;
+    cards.push({
+      id: 'teams', kind: 'teams', size: rest.length ? 'wide' : 'sm', eyebrow: 'Ride or die', title: first,
+      items: rest.map((team) => ({ label: team, emoji: teamEmoji(team) })),
+      emoji: teamEmoji(first), palette: TEAM_COLORS[first] ?? ['#1F2937', '#9CA3AF'],
+    });
   }
-  profile.music.forEach((genre, i) => {
-    const match = MUSIC_EMOJI.find(([pattern]) => pattern.test(genre));
-    tiles.push({ id: `music-${i}`, kind: 'music', label: genre, sub: 'On repeat', emoji: match?.[1] ?? '🎶', palette: match?.[2] ?? ['#6D28D9', '#DB2777'], size: i === 0 ? 'wide' : 'square' });
-  });
-  profile.events.forEach((event, i) =>
-    tiles.push({ id: `event-${i}`, kind: 'event', label: event, sub: 'Been there, danced there', emoji: '🎟️', palette: ['#F97316', '#DB2777'], image: i === 0 ? '/editorial/coachella-weekend-two.jpg' : undefined, size: i === 0 ? 'tall' : 'square' }),
-  );
-  profile.favoriteTrips.forEach((trip, i) => {
-    const image = TRIP_IMAGE.find(([pattern]) => pattern.test(trip))?.[1];
-    tiles.push({ id: `trip-${i}`, kind: 'trip', label: trip, sub: 'Favorite trip', emoji: '✈️', palette: TRIP_PALETTES[i % TRIP_PALETTES.length], image, size: image ? 'wide' : 'square' });
-  });
-  profile.interests.forEach((interest, i) => {
-    const match = INTEREST_IMAGE.find(([pattern]) => pattern.test(interest));
-    const image = match?.[1] || undefined;
-    tiles.push({ id: `interest-${i}`, kind: 'interest', label: interest, emoji: match?.[2] ?? '⭐', palette: TRIP_PALETTES[(i + 2) % TRIP_PALETTES.length], image, size: image ? 'tall' : 'square' });
-  });
-  profile.food.forEach((food, i) =>
-    tiles.push({ id: `food-${i}`, kind: 'food', label: food, sub: 'Always ordering', emoji: /bbq|churrasco|steak/i.test(food) ? '🔥' : /sushi|ramen/i.test(food) ? '🍣' : /pizza/i.test(food) ? '🍕' : '🍽️', palette: ['#EA580C', '#FACC15'], size: 'square' }),
-  );
-  // A collage looks broken when the same photo repeats, so later tiles fall back to color.
+
+  if (profile.heritage.length) {
+    const first = COUNTRY[profile.heritage[0]] ?? { flag: '🌍', palette: ['#0F766E', '#5EEAD4'] as [string, string] };
+    cards.push({
+      id: 'roots', kind: 'roots', size: 'sm', eyebrow: 'Roots', title: profile.heritage.join(' · '),
+      emoji: first.flag, palette: first.palette,
+    });
+  }
+
+  const listening = profile.listening;
+  const genres = listening?.genres.length ? listening.genres.slice(0, 6) : profile.music;
+  if (genres.length || listening?.topArtists.length) {
+    const match = MUSIC_EMOJI.find(([pattern]) => pattern.test(genres[0] ?? ''));
+    cards.push({
+      id: 'sound', kind: 'sound', size: 'wide', eyebrow: listening ? 'On repeat · from Spotify' : 'On repeat',
+      title: listening?.topArtists[0] ?? genres[0],
+      body: listening?.topArtists.length ? listening.topArtists.slice(1, 5).join(' · ') : undefined,
+      items: genres.slice(0, 6).map((genre) => ({ label: genre })),
+      emoji: match?.[1] ?? '🎧', palette: match?.[2] ?? ['#6D28D9', '#DB2777'],
+    });
+  }
+
+  if (listening) {
+    const meters = [
+      ...(listening.nightOwl !== undefined ? [{ label: 'After 10 pm', value: listening.nightOwl }] : []),
+      ...(listening.earlyBird !== undefined ? [{ label: 'Before 9 am', value: listening.earlyBird }] : []),
+      ...listening.eras.slice(0, 2).map((era) => ({ label: era.decade, value: era.share })),
+    ];
+    const insights = listeningInsights(listening);
+    cards.push({
+      id: 'vibe', kind: 'vibe', size: 'tall', eyebrow: 'Your vibe',
+      title: listening.energy === 'high' ? 'Turn it up' : listening.energy === 'chill' ? 'Slow and warm' : 'A bit of everything',
+      meters,
+      items: insights.slice(0, 3).map((insight) => ({ label: insight.title, emoji: insight.emoji })),
+      emoji: listening.energy === 'high' ? '⚡' : listening.energy === 'chill' ? '🕯️' : '🎛️',
+      palette: ['#1DB954', '#0B3D2E'],
+    });
+  }
+
+  if (profile.events.length) {
+    cards.push({
+      id: 'live', kind: 'live', size: 'tall', eyebrow: 'Live', title: profile.events[0],
+      items: profile.events.slice(1).map((event) => ({ label: event, emoji: '🎟️' })),
+      emoji: '🎟️', palette: ['#F97316', '#DB2777'], image: '/editorial/coachella-weekend-two.jpg',
+    });
+  }
+
+  if (profile.favoriteTrips.length) {
+    const image = profile.favoriteTrips.map((trip) => TRIP_IMAGE.find(([pattern]) => pattern.test(trip))?.[1]).find(Boolean);
+    cards.push({
+      id: 'trips', kind: 'trips', size: 'wide', eyebrow: 'Favorite trips', title: profile.favoriteTrips[0],
+      items: profile.favoriteTrips.slice(1).map((trip) => ({ label: trip, emoji: '✈️' })),
+      emoji: '✈️', palette: TRIP_PALETTES[0], image,
+    });
+  }
+
+  if (profile.interests.length) {
+    const match = profile.interests.map((interest) => INTEREST_IMAGE.find(([pattern]) => pattern.test(interest))).find(Boolean);
+    cards.push({
+      id: 'into', kind: 'into', size: profile.interests.length > 3 ? 'wide' : 'sm', eyebrow: 'Into', title: profile.interests[0],
+      items: profile.interests.slice(1).map((interest) => ({ label: interest, emoji: INTEREST_IMAGE.find(([pattern]) => pattern.test(interest))?.[2] })),
+      emoji: match?.[2] ?? '⭐', palette: TRIP_PALETTES[2], image: match?.[1] || undefined,
+    });
+  }
+
+  if (profile.food.length) {
+    cards.push({
+      id: 'food', kind: 'food', size: 'sm', eyebrow: 'Always ordering', title: profile.food[0],
+      items: profile.food.slice(1).map((food) => ({ label: food })),
+      emoji: /bbq|churrasco|steak/i.test(profile.food[0]) ? '🔥' : /sushi|ramen/i.test(profile.food[0]) ? '🍣' : '🍽️', palette: ['#EA580C', '#FACC15'],
+    });
+  }
+
+  // A board looks broken when the same photo repeats, so later cards fall back to color.
   const used = new Set<string>();
-  return tiles.map((tile) => {
-    if (!tile.image) return tile;
-    if (used.has(tile.image)) return { ...tile, image: undefined, size: tile.size === 'tall' ? 'square' : tile.size };
-    used.add(tile.image);
-    return tile;
+  return cards.map((card) => {
+    if (!card.image) return card;
+    if (used.has(card.image)) return { ...card, image: undefined };
+    used.add(card.image);
+    return card;
   });
+}
+
+/** True when a profile has more than an empty home card to show. */
+export function hasBoardContent(profile: TravelerProfile): boolean {
+  return bentoCards(profile).length > 1 || Boolean(profile.hometown || profile.summary);
 }
 
 export const EXAMPLE_RAMBLE =

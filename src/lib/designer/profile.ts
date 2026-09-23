@@ -1,3 +1,5 @@
+import { listeningTags, normalizeListening, type ListeningProfile } from './listening';
+
 /**
  * Traveler profile built from a spoken or typed "ramble". The same shape is
  * produced by the Claude parser (server) and the on-device parser below, so
@@ -30,6 +32,8 @@ export type TravelerProfile = {
   food: string[];
   /** One sentence, in the traveler's own spirit. */
   summary: string;
+  /** Imported from Spotify on this device; never produced by the AI parser. */
+  listening?: ListeningProfile;
 };
 
 export type ParseEngine = 'claude' | 'on-device';
@@ -310,6 +314,8 @@ export function summarize(profile: TravelerProfile): string {
   }
   const loves = [...profile.teams.slice(0, 1), ...profile.music.slice(0, 2), ...profile.interests.slice(0, 2)];
   if (loves.length) parts.push(`into ${loves.join(', ')}`);
+  const artists = profile.listening?.topArtists.slice(0, 2) ?? [];
+  if (artists.length) parts.push(`has ${artists.join(' and ')} on repeat`);
   return parts.length ? `${parts.join(' · ')}.` : '';
 }
 
@@ -347,6 +353,7 @@ export function normalizeProfile(input: unknown): TravelerProfile {
     interests: list(source.interests, 14),
     food: list(source.food, 8),
     summary: str(source.summary, 240) ?? '',
+    listening: normalizeListening(source.listening),
   };
 }
 
@@ -369,5 +376,6 @@ export function profileTags(profile: TravelerProfile): string[] {
     [/photography/, 'views'], [/shopping/, 'shopping'],
   ];
   for (const [pattern, tag] of map) if (pattern.test(text)) tags.add(tag);
+  if (profile.listening) for (const tag of listeningTags(profile.listening)) tags.add(tag);
   return [...tags];
 }

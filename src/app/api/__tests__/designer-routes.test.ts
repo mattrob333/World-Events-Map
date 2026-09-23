@@ -117,3 +117,21 @@ describe('POST /api/designer/itinerary', () => {
     expect((await response.json()).error).toMatch(/nights/);
   });
 });
+
+describe('POST /api/designer/concerts', () => {
+  it('returns search links without a Ticketmaster key', async () => {
+    const { POST } = await import('../designer/concerts/route');
+    vi.stubEnv('TICKETMASTER_API_KEY', '');
+    const body = await (await POST(request('/api/designer/concerts', { artists: ['Outkast', 'Outkast', ''], city: 'Atlanta, Georgia' }))).json();
+    expect(body.source).toBe('links');
+    expect(body.concerts).toEqual([]);
+    expect(body.links.length).toBe(3);
+    vi.unstubAllEnvs();
+  });
+
+  it('requires artists and same-origin', async () => {
+    const { POST } = await import('../designer/concerts/route');
+    expect((await POST(request('/api/designer/concerts', { artists: [] }))).status).toBe(400);
+    expect((await POST(request('/api/designer/concerts', { artists: ['A'] }, { Origin: 'https://evil.example' }))).status).toBe(403);
+  });
+});

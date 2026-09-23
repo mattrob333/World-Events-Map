@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CARD_INDEX, CATALOG, DESTINATIONS } from '../catalog';
 import { applyCuration, candidatesFor, composeLocally, daysUntil, groupTags, homeAirport, participantStyle, type Participant } from '../itinerary';
-import { EXAMPLE_RAMBLE, moodboardTiles } from '../moodboard';
+import { EXAMPLE_RAMBLE, bentoCards } from '../moodboard';
 import { normalizeProfile, parseProfileLocally, profileTags } from '../profile';
 import { InputError, validateComposeBody } from '../validate';
 import { filterSlot, moveCard, orderSlot, tally } from '../votes';
@@ -52,13 +52,21 @@ describe('parseProfileLocally', () => {
   });
 });
 
-describe('moodboardTiles', () => {
-  it('leads with home and includes family, team, and roots tiles', () => {
-    const tiles = moodboardTiles(parseProfileLocally(USER_EXAMPLE));
-    expect(tiles[0]).toMatchObject({ kind: 'home', label: 'Atlanta, Georgia', size: 'hero' });
-    expect(tiles.some((tile) => tile.kind === 'team' && tile.palette[0] === '#13274F')).toBe(true);
-    expect(tiles.filter((tile) => tile.kind === 'family')).toHaveLength(3);
-    expect(tiles.some((tile) => tile.kind === 'heritage' && tile.emoji === '🇧🇷')).toBe(true);
+describe('bentoCards', () => {
+  it('groups the ramble into a few calm cards, home first', () => {
+    const cards = bentoCards(parseProfileLocally(USER_EXAMPLE));
+    expect(cards[0]).toMatchObject({ kind: 'home', title: 'Atlanta, Georgia', size: 'xl' });
+    expect(cards.find((card) => card.kind === 'teams')).toMatchObject({ title: 'Atlanta Braves', palette: ['#13274F', '#CE1141'] });
+    expect(cards.find((card) => card.kind === 'crew')?.items).toHaveLength(3);
+    expect(cards.find((card) => card.kind === 'roots')).toMatchObject({ emoji: '🇧🇷' });
+    expect(new Set(cards.map((card) => card.kind)).size).toBe(cards.length);
+  });
+
+  it('adds a Spotify vibe card and leads the sound card with the top artist', () => {
+    const profile = { ...parseProfileLocally(USER_EXAMPLE), listening: { source: 'spotify' as const, importedAt: '2026-09-23T00:00:00Z', topArtists: ['Outkast', 'Gilberto Gil'], genres: ['hip hop', 'mpb'], eras: [{ decade: '1990s', share: 0.4 }], nightOwl: 0.3, energy: 'mixed' as const, roots: ['Brazil'], familyListening: false, playlistHints: [] } };
+    const cards = bentoCards(profile);
+    expect(cards.find((card) => card.kind === 'sound')).toMatchObject({ title: 'Outkast', eyebrow: 'On repeat · from Spotify' });
+    expect(cards.find((card) => card.kind === 'vibe')?.meters?.[0]).toEqual({ label: 'After 10 pm', value: 0.3 });
   });
 });
 
@@ -203,7 +211,7 @@ describe('helpers', () => {
 
 describe('moodboard imagery', () => {
   it('never repeats the same photo on one board', () => {
-    const images = moodboardTiles(parseProfileLocally(EXAMPLE_RAMBLE)).map((tile) => tile.image).filter(Boolean);
+    const images = bentoCards(parseProfileLocally(EXAMPLE_RAMBLE)).map((card) => card.image).filter(Boolean);
     expect(new Set(images).size).toBe(images.length);
   });
 });

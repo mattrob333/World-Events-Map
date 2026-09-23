@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { Itinerary } from './itinerary';
+import type { ListeningProfile } from './listening';
 import type { ParseEngine, TravelerProfile } from './profile';
 import { moveCard as moveCardBetween, type TripVotes } from './votes';
 
@@ -18,6 +19,11 @@ interface DesignerState {
   trip: Itinerary | null;
   votes: TripVotes;
   activeParticipant: string | null;
+  /** Board in progress: survives the Spotify sign-in redirect. */
+  draftRamble: string;
+  draftListening: ListeningProfile | null;
+  setDraftRamble: (text: string) => void;
+  setDraftListening: (listening: ListeningProfile | null) => void;
   saveProfile: (profile: SavedProfile) => void;
   removeProfile: (id: string) => void;
   setTrip: (trip: Itinerary) => void;
@@ -56,6 +62,10 @@ export const useDesignerStore = create<DesignerState>()(
       trip: null,
       votes: {},
       activeParticipant: null,
+      draftRamble: '',
+      draftListening: null,
+      setDraftRamble: (draftRamble) => set({ draftRamble }),
+      setDraftListening: (draftListening) => set({ draftListening }),
       saveProfile: (profile) =>
         set((state) => ({ profiles: [profile, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12) })),
       removeProfile: (id) => set((state) => ({ profiles: state.profiles.filter((entry) => entry.id !== id) })),
@@ -88,7 +98,7 @@ export const useDesignerStore = create<DesignerState>()(
         });
       },
       pickCard: (slotId, cardId) => get().moveCard(cardId, slotId, slotId, 0),
-      clearAll: () => set({ profiles: [], trip: null, votes: {}, activeParticipant: null }),
+      clearAll: () => set({ profiles: [], trip: null, votes: {}, activeParticipant: null, draftRamble: '', draftListening: null }),
     }),
     {
       name: 'meridian.designer.v1',
@@ -98,6 +108,8 @@ export const useDesignerStore = create<DesignerState>()(
         trip: state.trip,
         votes: state.votes,
         activeParticipant: state.activeParticipant,
+        draftRamble: state.draftRamble,
+        draftListening: state.draftListening,
       }),
     },
   ),

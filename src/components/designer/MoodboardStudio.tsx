@@ -1,46 +1,25 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
-import { EXAMPLE_RAMBLE, moodboardTiles, type MoodTile } from '@/lib/designer/moodboard';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { EXAMPLE_RAMBLE, bentoCards, hasBoardContent } from '@/lib/designer/moodboard';
 import {
   MAX_RAMBLE_CHARS,
+  emptyProfile,
   parseProfileLocally,
   summarize,
   type ParseEngine,
   type TravelerProfile,
 } from '@/lib/designer/profile';
 import { useDesignerStore } from '@/lib/designer/store';
+import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
+import { LiveShows } from './LiveShows';
+import { SpotifyPanel } from './SpotifyPanel';
 import { useHydrated } from './useHydrated';
 import { useDictation } from './useDictation';
 
 type Result = { profile: TravelerProfile; engine: ParseEngine; notice?: string };
-
-const TILTS = ['-1.6deg', '1.2deg', '-0.6deg', '1.8deg', '0deg', '-1.1deg', '0.7deg'];
-
-export function MoodTileView({ tile, index }: { tile: MoodTile; index: number }) {
-  const [a, b] = tile.palette;
-  return (
-    <div
-      className={`${styles.tile} ${styles[`tile_${tile.size}`]} ${tile.kind === 'age' ? styles.tileAge : ''}`}
-      style={{ background: `linear-gradient(135deg, ${a}, ${b})`, ['--tilt' as string]: TILTS[index % TILTS.length] }}
-    >
-      {tile.image ? (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element -- local editorial files, decorative mood imagery */}
-          <img className={styles.tileImage} src={tile.image} alt="" loading="lazy" />
-          <span className={styles.tileShade} />
-        </>
-      ) : null}
-      <span className={styles.tileEmoji} aria-hidden>
-        {tile.emoji}
-      </span>
-      <span className={styles.tileLabel}>{tile.label}</span>
-      {tile.sub ? <span className={styles.tileSub}>{tile.sub}</span> : null}
-    </div>
-  );
-}
 
 const FACT_GROUPS: { key: keyof TravelerProfile; title: string }[] = [
   { key: 'teams', title: 'Teams' },
@@ -59,8 +38,7 @@ function removeFact(profile: TravelerProfile, key: keyof TravelerProfile, value:
   return { ...next, summary: profile.summary };
 }
 
-export function MoodboardStudio() {
-  const [text, setText] = useState('');
+export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustConnected?: boolean }) {
   const [result, setResult] = useState<Result | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -70,17 +48,36 @@ export function MoodboardStudio() {
   const profiles = useDesignerStore((state) => state.profiles);
   const saveProfile = useDesignerStore((state) => state.saveProfile);
   const removeProfile = useDesignerStore((state) => state.removeProfile);
+  // The draft lives in the device store so it survives the Spotify sign-in redirect.
+  const draftRamble = useDesignerStore((state) => state.draftRamble);
+  const setDraftRamble = useDesignerStore((state) => state.setDraftRamble);
+  const listeningData = useDesignerStore((state) => state.draftListening);
+  const setDraftListening = useDesignerStore((state) => state.setDraftListening);
+  const text = mounted ? draftRamble : '';
+  const spotify = mounted ? listeningData : null;
 
   const router = useRouter();
 
   const append = useCallback((chunk: string) => {
     if (!chunk) return;
-    setText((current) => `${current}${current && !/\s$/.test(current) ? ' ' : ''}${chunk}`.slice(0, MAX_RAMBLE_CHARS));
-  }, []);
+    const current = useDesignerStore.getState().draftRamble;
+    setDraftRamble(`${current}${current && !/\s$/.test(current) ? ' ' : ''}${chunk}`.slice(0, MAX_RAMBLE_CHARS));
+  }, [setDraftRamble]);
+  const setText = setDraftRamble;
   const dictation = useDictation(append);
   const listening = dictation.status === 'listening';
 
-  const tiles = useMemo(() => (result ? moodboardTiles(result.profile) : []), [result]);
+  const cards = useMemo(() => (result ? bentoCards(result.profile) : []), [result]);
+
+  const withListening = useCallback(
+    (profile: TravelerProfile, engine: ParseEngine = 'on-device'): TravelerProfile => {
+      if (!spotify) return profile;
+      const merged = { ...profile, listening: spotify };
+      // Claude writes its own summary; the device summary is rebuilt to include the artists.
+      return engine === 'claude' ? merged : { ...merged, summary: summarize(merged) };
+    },
+    [spotify],
+  );
 
   async function build() {
     if (listening) dictation.stop();
@@ -88,7 +85,12 @@ export function MoodboardStudio() {
     setSaved(false);
     setBoardId(null);
     if (text.trim().length < 10) {
-      setError('Say or type a few sentences about yourself first.');
+      if (spotify) {
+        // Spotify alone is enough for a board.
+        setResult({ profile: withListening(emptyProfile()), engine: 'on-device' });
+        return;
+      }
+      setError('Say or type a few sentences about yourself first, or connect Spotify.');
       return;
     }
     setBusy(true);
@@ -100,11 +102,11 @@ export function MoodboardStudio() {
       });
       const body = (await response.json()) as Result & { error?: string };
       if (!response.ok) throw new Error(body.error ?? 'Could not sort that.');
-      setResult({ profile: body.profile, engine: body.engine, notice: body.notice });
+      setResult({ profile: withListening(body.profile, body.engine), engine: body.engine, notice: body.notice });
     } catch (cause) {
       // The on-device parser is always available, so a network failure never strands the ramble.
       setResult({
-        profile: parseProfileLocally(text),
+        profile: withListening(parseProfileLocally(text)),
         engine: 'on-device',
         notice: cause instanceof Error && cause.message !== 'Failed to fetch' ? cause.message : 'Offline, so this was sorted on the device.',
       });
@@ -112,6 +114,16 @@ export function MoodboardStudio() {
       setBusy(false);
     }
   }
+
+  const autoBuilt = useRef(false);
+  useEffect(() => {
+    if (!spotifyJustConnected || !mounted || !spotify || autoBuilt.current) return;
+    autoBuilt.current = true;
+    window.history.replaceState(null, '', '/moodboard');
+    void build();
+    // Runs once when Spotify hands control back; build reads the latest draft.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotifyJustConnected, mounted, spotify]);
 
   function save(): string | undefined {
     if (!result) return undefined;
@@ -149,7 +161,7 @@ export function MoodboardStudio() {
         </h1>
         <p className={styles.lede}>
           Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
-          who you travel with, and the trips you still talk about. We sort it into a collage that plans trips with you.
+          who you travel with, and the trips you still talk about. We sort it into a board that plans trips with you.
         </p>
 
         <section className={styles.recorder} aria-label="Your ramble">
@@ -202,6 +214,17 @@ export function MoodboardStudio() {
           </div>
         </section>
 
+        {mounted ? (
+          <SpotifyPanel
+            listening={spotify}
+            onDisconnect={() => {
+              setDraftListening(null);
+              if (result?.profile.listening) setResult({ ...result, profile: { ...result.profile, listening: undefined } });
+              setSaved(false);
+            }}
+          />
+        ) : null}
+
         {result ? (
           <section className="mt-10" aria-labelledby="board-title">
             <div className={styles.row}>
@@ -212,16 +235,13 @@ export function MoodboardStudio() {
                 {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted on this device'}
               </span>
               <span className={styles.badge}>Mood imagery · not your photos</span>
+              {result.profile.listening ? <span className={styles.badge}>+ Spotify</span> : null}
             </div>
             {result.profile.summary ? <p className={styles.lede}>{result.profile.summary}</p> : null}
             {result.notice ? <p className={styles.notice}>{result.notice}</p> : null}
 
-            {tiles.length ? (
-              <div className={styles.board}>
-                {tiles.map((tile, index) => (
-                  <MoodTileView key={tile.id} tile={tile} index={index} />
-                ))}
-              </div>
+            {hasBoardContent(result.profile) ? (
+              <BentoBoard cards={cards} />
             ) : (
               <p className={styles.notice}>
                 We couldn’t pick out much from that. Mention your hometown, teams, music, family, and favorite trips.
@@ -265,6 +285,10 @@ export function MoodboardStudio() {
               })}
             </div>
 
+            {result.profile.listening?.topArtists.length ? (
+              <LiveShows artists={result.profile.listening.topArtists.slice(0, 5)} hometown={result.profile.hometown} />
+            ) : null}
+
             <div className={`${styles.row} mt-6`}>
               <button type="button" className={styles.cta} onClick={save}>
                 {saved ? '✓ Saved on this device' : 'Save my board'}
@@ -283,7 +307,7 @@ export function MoodboardStudio() {
             </h2>
             <div className={styles.savedList}>
               {profiles.map((entry) => {
-                const tile = moodboardTiles(entry.profile)[0];
+                const tile = bentoCards(entry.profile)[0];
                 return (
                   <div key={entry.id} className={styles.savedCard}>
                     <span
