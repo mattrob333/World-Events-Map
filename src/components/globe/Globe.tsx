@@ -38,6 +38,7 @@ import type { Beacon, GeoPoint } from '@/lib/types';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { VOID } from '@/lib/geo/heat';
 import { latLonToVec3 } from '@/lib/geo/projection';
+import { OPENING_GLOBE_DISTANCE as INITIAL_DISTANCE } from '@/lib/geo/camera';
 import { Earth } from './Earth';
 import { Atmosphere } from './Atmosphere';
 import { Starfield } from './Starfield';
@@ -45,15 +46,20 @@ import { BeaconField } from './BeaconField';
 import { CameraRig } from './CameraRig';
 import { Effects } from './Effects';
 import { GlobeFallback } from './GlobeFallback';
+import { TravelRoute } from './TravelRoute';
+import { ViewerMarker, type ViewerMarkerInfo } from './ViewerMarker';
 
 const DEFAULT_INITIAL_VIEW: GeoPoint = { lat: 24, lon: 8 };
-const INITIAL_DISTANCE = 3.9;
 
 export interface GlobeProps {
   beacons: Beacon[];
   className?: string;
+  /** Gives ski beacons ice-crystal marks and cools the limb light. */
+  winterMode?: boolean;
   /** Opening viewpoint only. Runtime movement continues through useGlobeStore. */
   initialView?: GeoPoint;
+  /** Render only when location provenance is browser or explicit city choice. */
+  viewerMarker?: ViewerMarkerInfo;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -62,15 +68,17 @@ export interface GlobeProps {
 
 interface SceneProps {
   beacons: Beacon[];
+  winterMode?: boolean;
   onReady: () => void;
   initialView: GeoPoint;
+  viewerMarker?: ViewerMarkerInfo;
 }
 
 /**
  * Scene contents. Exported so a host that already owns a `<Canvas>` (a
  * storybook, a comparison harness) can drop the world into it directly.
  */
-export function GlobeScene({ beacons, onReady, initialView }: SceneProps) {
+export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMarker }: SceneProps) {
   return (
     <>
       {/* The globe is lit entirely by its own shaders, so the only real light
@@ -80,8 +88,10 @@ export function GlobeScene({ beacons, onReady, initialView }: SceneProps) {
 
       <Starfield />
       <Earth onLoaded={onReady} />
-      <Atmosphere />
-      <BeaconField beacons={beacons} />
+      <Atmosphere winterMode={winterMode} />
+      <BeaconField beacons={beacons} winterMode={winterMode} />
+      <TravelRoute />
+      {viewerMarker && <ViewerMarker {...viewerMarker} />}
 
       <CameraRig
         initialDistance={INITIAL_DISTANCE}
@@ -140,16 +150,37 @@ export interface GlobeCanvasProps extends GlobeProps {
  */
 export function GlobeCanvas({
   beacons,
+  winterMode,
   className,
   initialView = DEFAULT_INITIAL_VIEW,
+  viewerMarker,
   onContextLost,
   onContextRestored,
 }: GlobeCanvasProps) {
   const setReady = useGlobeStore((s) => s.setReady);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleReady = useCallback(() => setReady(true), [setReady]);
 
   useEffect(() => () => setReady(false), [setReady]);
+
+  useEffect(() => {
+    // R3F waits for react-use-measure to report the Canvas container's size
+    // before it creates a renderer. Some embedded browsers miss that first
+    // ResizeObserver notification when the stage is already laid out. Its
+    // window-resize listener provides a second measurement path; request one
+    // frame after mount only if the canvas is still at its default size.
+    const frame = window.requestAnimationFrame(() => {
+      const canvas = canvasRef.current;
+      const container = canvas?.parentElement;
+      if (!canvas || !container || canvas.style.width) return;
+      const bounds = container.getBoundingClientRect();
+      if (bounds.width > 0 && bounds.height > 0) {
+        window.dispatchEvent(new Event('resize'));
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const background = useMemo(() => new THREE.Color(VOID), []);
   const initialCameraPosition = useMemo(() => {
@@ -163,6 +194,7 @@ export function GlobeCanvas({
 
   return (
     <Canvas
+      ref={canvasRef}
       className={className}
       dpr={[1, 2]}
       gl={{
@@ -194,8 +226,10 @@ export function GlobeCanvas({
       />
       <GlobeScene
         beacons={beacons}
+        winterMode={winterMode}
         onReady={handleReady}
         initialView={initialView}
+        viewerMarker={viewerMarker}
       />
     </Canvas>
   );
@@ -210,6 +244,7 @@ function noop() {}
 interface BoundaryProps {
   children: ReactNode;
   fallback: ReactNode;
+  onError?: () => void;
 }
 
 interface BoundaryState {
@@ -230,6 +265,7 @@ class GlobeErrorBoundary extends Component<BoundaryProps, BoundaryState> {
   }
 
   componentDidCatch(error: unknown) {
+    this.props.onError?.();
     if (process.env.NODE_ENV !== 'production') {
       console.error('[MERIDIAN] globe failed to initialise', error);
     }
@@ -244,10 +280,13 @@ class GlobeErrorBoundary extends Component<BoundaryProps, BoundaryState> {
 
 function GlobeImpl({
   beacons,
+  winterMode,
   className,
   initialView = DEFAULT_INITIAL_VIEW,
+  viewerMarker,
 }: GlobeProps) {
   const [contextLost, setContextLost] = useState(false);
+  const [unsupported, setUnsupported] = useState(false);
   const ready = useGlobeStore((s) => s.ready);
   const setReady = useGlobeStore((s) => s.setReady);
 
@@ -273,17 +312,20 @@ function GlobeImpl({
 
   return (
     <div className={`relative h-full w-full ${className ?? ''}`}>
-      <GlobeErrorBoundary fallback={<GlobeFallback kind="unsupported" />}>
+      <GlobeErrorBoundary fallback={<GlobeFallback kind="unsupported" />} onError={() => setUnsupported(true)}>
         <GlobeCanvas
           beacons={beacons}
+          winterMode={winterMode}
           initialView={initialView}
+          viewerMarker={viewerMarker}
           onContextLost={handleLost}
           onContextRestored={handleRestored}
         />
       </GlobeErrorBoundary>
 
       {contextLost && <GlobeFallback kind="context-lost" overlay />}
-      {!contextLost && !ready && <GlobeFallback kind="loading" overlay />}
+      {!contextLost && !unsupported && !ready && <GlobeFallback kind="loading" overlay />}
+      {viewerMarker && <span className="sr-only">Your map position: {viewerMarker.label}</span>}
     </div>
   );
 }

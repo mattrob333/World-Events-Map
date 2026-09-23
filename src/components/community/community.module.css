@@ -1,10 +1,11 @@
 .page {
-  height: 100dvh;
-  overflow: auto;
+  /* Sit inside AppShell instead of claiming a second full viewport. */
+  min-height: 0;
+  overflow: visible;
   background:
-    radial-gradient(ellipse at 80% 0, #282133 0, transparent 45%), #0b1017;
-  color: #f5eee3;
-  padding: 28px clamp(20px, 5vw, 80px) 70px;
+    radial-gradient(ellipse at 80% 0, #121624 0, transparent 45%), var(--color-void);
+  color: var(--color-ink);
+  padding: 28px clamp(20px, 5vw, 80px) 96px;
   font: 15px/1.6 var(--font-sans);
 }
 .nav {
@@ -19,6 +20,8 @@
   color: #e3c18a;
   text-decoration: none;
 }
+.inlineLink { color: #e3c18a; text-decoration: underline; text-underline-offset: 3px; }
+.inlineLink:hover { color: #f7dfb6; }
 .brand {
   letter-spacing: 0.28em;
   font-size: 15px;

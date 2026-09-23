@@ -17,9 +17,20 @@
  */
 
 import * as THREE from 'three';
-import type { Beacon } from '@/lib/types';
+import type { Beacon, EventCategory } from '@/lib/types';
 import { GLOBE_RADIUS, latLonToVec3 } from '@/lib/geo/projection';
-import { heatColor, heatIntensity, heatPulses } from '@/lib/geo/heat';
+import { heatIntensity, heatPulses } from '@/lib/geo/heat';
+
+/** Quiet families of light: hue identifies the scene, brightness carries heat. */
+const CATEGORY_COLORS: Record<EventCategory, string> = {
+  art: '#b9a0e6', music: '#e9a5bd', motorsport: '#f2ac72',
+  sailing: '#77c9da', ski: '#9bcde5', culinary: '#e6c77d',
+  fashion: '#dea6d6', wellness: '#8bd3ba', safari: '#cbbd79',
+  equestrian: '#d7b985', film: '#c6a4dc', design: '#b5afe7',
+  golf: '#a7cf93', tennis: '#c5d58d', nature: '#8fc6a5',
+  cultural: '#9db9e6', gala: '#e7b5a0',
+};
+const categoryColor = (category: EventCategory) => new THREE.Color(CATEGORY_COLORS[category]);
 
 export interface BeaconEntry {
   id: string;
@@ -27,7 +38,7 @@ export interface BeaconEntry {
 
   /** Unit surface normal — position, orientation and horizon test all use it. */
   normal: THREE.Vector3;
-  /** Linear-space colour for this beacon's heat level. */
+  /** Linear-space colour for this beacon's category. */
   color: THREE.Color;
   /** Emissive weight for this beacon's heat level. */
   emissive: number;
@@ -99,7 +110,7 @@ export class BeaconRegistry {
           id: b.eventId,
           beacon: b,
           normal: latLonToVec3(b.coords.lat, b.coords.lon, 1),
-          color: heatColor(b.heat).clone(),
+          color: categoryColor(b.category),
           emissive: heatIntensity(b.heat),
           pulses: heatPulses(b.heat),
           phase: hash01(b.eventId),
@@ -117,10 +128,10 @@ export class BeaconRegistry {
         membershipChanged = true;
       } else {
         if (e.beacon.heat !== b.heat) {
-          e.color.copy(heatColor(b.heat));
           e.emissive = heatIntensity(b.heat);
           e.pulses = heatPulses(b.heat);
         }
+        if (e.beacon.category !== b.category) e.color.copy(categoryColor(b.category));
         if (
           e.beacon.coords.lat !== b.coords.lat ||
           e.beacon.coords.lon !== b.coords.lon
@@ -210,9 +221,9 @@ const R = GLOBE_RADIUS;
 export function pillarRadius(e: BeaconEntry): number {
   const s = clamp01(e.score / 100);
   return (
-    (0.0032 + 0.0082 * s) *
-    (0.55 + 0.45 * clamp01(e.relevance)) *
-    (1 + 0.4 * e.focus) *
+    (0.0026 + 0.0038 * s) *
+    (0.72 + 0.28 * clamp01(e.relevance)) *
+    (1 + 0.2 * e.focus) *
     (0.65 + 0.35 * e.presence)
   );
 }
@@ -220,24 +231,21 @@ export function pillarRadius(e: BeaconEntry): number {
 /**
  * Pillar height, in globe radii.
  *
- * The ceiling is not a taste decision. Zoom clamps at 1.35 radii, so a pillar
- * whose tip passes 0.35 puts the camera *inside* an additive tube at maximum
- * zoom — which looks like a rendering fault, not a bright city. The curve below
- * tops out at 0.200, times the 1.5× focus bonus, giving 0.300 and a comfortable
- * 0.05 of clearance. If you retune this, keep
+ * Short stems keep crowded cities legible without resembling skyscrapers.
+ * Zoom clamps at 1.35 radii, so the camera has generous clearance. Keep
  *
  *     max(pillarHeight) * (1 + focus bonus) < MIN_DISTANCE - GLOBE_RADIUS
  *
  * true, or the payoff shot breaks.
  */
-export const MAX_PILLAR_HEIGHT = 0.3;
+export const MAX_PILLAR_HEIGHT = 0.075;
 
 export function pillarHeight(e: BeaconEntry): number {
   const s = clamp01(e.score / 100);
   return (
-    (0.026 + 0.09 * s * s + 0.084 * s) *
-    (0.26 + 0.74 * clamp01(e.relevance)) *
-    (1 + 0.5 * e.focus) *
+    (0.015 + 0.03 * s * s + 0.01 * s) *
+    (0.4 + 0.6 * clamp01(e.relevance)) *
+    (1 + 0.3 * e.focus) *
     e.presence
   );
 }
@@ -254,13 +262,13 @@ export function beaconIntensity(e: BeaconEntry): number {
 
 /** Ground glow radius. */
 export function discRadius(e: BeaconEntry): number {
-  return pillarRadius(e) * 4.6 + 0.005;
+  return pillarRadius(e) * 3.4 + 0.004;
 }
 
 /** Outer radius the pulse ring expands to. */
 export function ringRadius(e: BeaconEntry): number {
   const s = clamp01(e.score / 100);
-  return (0.026 + 0.062 * s) * (0.5 + 0.5 * clamp01(e.relevance)) * e.presence;
+  return (0.024 + 0.036 * s) * (0.5 + 0.5 * clamp01(e.relevance)) * e.presence;
 }
 
 /**

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { AppShell } from '@/components/shell';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-full antialiased">{children}</body>
+        <body className="min-h-full antialiased">
+          <AppShell>{children}</AppShell>
+        </body>
     </html>
   );
 }

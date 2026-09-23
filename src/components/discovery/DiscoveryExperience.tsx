@@ -8,7 +8,7 @@ import { EventDossier, HoverReadout } from '@/components/panels';
 import { SocialLive } from '@/components/social';
 import { GlobeControls } from '@/components/chrome';
 import { Timeline } from '@/components/timeline';
-import { useBeacons, useScoredEvents, type ScoredEvent } from '@/lib/selectors';
+import { useBeacons, useScoredEvents } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { useChromeStore } from '@/lib/stores/useChromeStore';
@@ -16,11 +16,23 @@ import { useFilterStore } from '@/lib/stores/useFilterStore';
 import { isDemoMode } from '@/lib/flags';
 import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
 import styles from './discovery.module.css';
+import { LivingDashboard } from './LivingDashboard';
 import { LivePulse } from '@/components/panels/LivePulse';
-import { TravelWire } from '@/components/panels/TravelWire';
 import { isHappeningToday } from '@/lib/data/scene-time';
 import { greatCircleDistanceKm } from '@/lib/geo/projection';
+import { googleMapsViewUrl } from '@/lib/geo/map-links';
 import { useViewerLocation } from '@/lib/location/useViewerLocation';
+import { VIEWER_CITIES } from '@/lib/location/browser-position';
+import { OPENING_GLOBE_DISTANCE } from '@/lib/geo/camera';
+import { EVENTS } from '@/lib/data/events';
+import { indexDestinations } from '@/lib/pulse';
+import { track } from '@/lib/analytics';
+import type { WorldEvent } from '@/lib/types';
+import { WorldIntro } from './WorldIntro';
+import { editorialEventForMode, resolveGlobeStory } from './globe-story';
+import { estimateRoute } from '@/lib/travel/route-estimate';
+import { formatDateRange } from '@/components/ui/tokens';
+import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 
 const dateLabel = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', {
@@ -28,6 +40,14 @@ const dateLabel = (date: string) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
+
+const SEASON_LABEL: Record<TripSeason, string> = {
+  all: 'Any season', winter: 'Winter', spring: 'Spring', summer: 'Summer', fall: 'Fall',
+};
+const INTEREST_LABEL: Record<TripInterest, string> = {
+  all: 'Anything', ski: 'Ski & snow', coast: 'Coast & water',
+  adventure: 'Nature & adventure', culture: 'Culture & food',
+};
 
 export function DiscoveryExperience() {
   const searchParams = useSearchParams();
@@ -42,52 +62,72 @@ export function DiscoveryExperience() {
   const rangeEnd = useTimelineStore((s) => s.rangeEnd);
   const setFocus = useTimelineStore((s) => s.setFocus);
   const reset = useTimelineStore((s) => s.reset);
+  const syncLocalToday = useTimelineStore((s) => s.syncLocalToday);
   const span = useTimelineStore((s) => s.spanDays);
   const query = useFilterStore((s) => s.query);
   const setQuery = useFilterStore((s) => s.setQuery);
   const select = useGlobeStore((s) => s.select);
   const flyTo = useGlobeStore((s) => s.flyTo);
+  const travelTo = useGlobeStore((s) => s.travelTo);
   const selected = useGlobeStore((s) => s.selectedEventId);
   const [planning, setPlanning] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [journeyEventId, setJourneyEventId] = useState<string | null>(null);
+  const [tripMode, setTripMode] = useState<{ season: TripSeason; interest: TripInterest }>({ season: 'all', interest: 'all' });
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
+  const routeTimer = useRef<number | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
   useEffect(() => {
-    const tick = () => setClock(Date.now());
+    const tick = () => {
+      syncLocalToday();
+      setClock(Date.now());
+    };
     const initial = window.setTimeout(tick, 0);
     const interval = window.setInterval(tick, 60_000);
     return () => {
       clearTimeout(initial);
       clearInterval(interval);
     };
-  }, []);
+  }, [syncLocalToday]);
   const planMode = planning || focus !== rangeStart;
+  const modeActive = !planMode && !query && (tripMode.season !== 'all' || tripMode.interest !== 'all');
+  const modeLabel = `${SEASON_LABEL[tripMode.season]} · ${INTEREST_LABEL[tripMode.interest]}`;
+  const modeEvents = useMemo(
+    () => modeActive ? selectSeasonalEvents(EVENTS, focus, tripMode.season, tripMode.interest) : [],
+    [modeActive, focus, tripMode.season, tripMode.interest],
+  );
+  const modeIds = useMemo(() => new Set(modeEvents.map((event) => event.id)), [modeEvents]);
+  const modeEditorial = modeActive
+    ? editorialEventForMode(EVENTS, focus, tripMode.season, tripMode.interest)
+    : undefined;
   const scenes = useMemo(
     () =>
       events.filter((event) =>
-        planMode
+        modeActive
+          ? modeIds.has(event.id)
+          : planMode
           ? event.start <= addDays(focus, span) &&
             event.end >= addDays(focus, -span)
           : isHappeningToday(event, new Date(clock ?? `${focus}T12:00:00Z`)),
       ),
-    [events, planMode, focus, span, clock],
+    [events, modeActive, modeIds, planMode, focus, span, clock],
   );
   const upcoming = useMemo(
-    () => events.filter((event) => event.start > focus).slice(0, 4),
-    [events, focus],
+    () => (modeActive ? scenes : events).filter((event) => event.start > focus).slice(0, 4),
+    [modeActive, scenes, events, focus],
   );
   const nearbyScenes = useMemo(() => {
     const coords = viewer.coords;
-    if (!coords) return [];
+    if (!coords || viewer.status !== 'granted' || viewer.source === 'timezone') return [];
     return scenes
       .map((event) => ({
         event,
         distanceKm: greatCircleDistanceKm(coords, event.coords),
       }))
       .sort((a, b) => a.distanceKm - b.distanceKm);
-  }, [scenes, viewer.coords]);
+  }, [scenes, viewer.coords, viewer.status, viewer.source]);
 
   const worldHeat = useMemo(
     () => [...scenes].sort((a, b) => a.buzz.rank - b.buzz.rank),
@@ -95,9 +135,25 @@ export function DiscoveryExperience() {
   );
 
   const pulseScenes = planMode ? scenes : worldHeat;
-  const spotlight = planMode ? scenes[0] : (nearbyScenes[0]?.event ?? worldHeat[0]);
+  const destinationsIndex = useMemo(() => indexDestinations(EVENTS), []);
+  const destinationHref = (eventId: string) => {
+    const destination = destinationsIndex.byEventId.get(eventId);
+    return destination ? `/destinations/${destination.slug}` : `/?event=${eventId}`;
+  };
+  useEffect(() => {
+    track('world_opened', { surface: 'pulse' });
+  }, []);
+  const editorialSpotlight = modeActive
+    ? modeEditorial
+    : planMode ? scenes[0] : (nearbyScenes[0]?.event ?? worldHeat[0]);
+  const { event: spotlight, selected: selectedStory } = resolveGlobeStory(
+    selected ?? journeyEventId,
+    calendar,
+    editorialSpotlight,
+  );
+  const storyFocus = selectedStory || modeActive;
   const spotlightDistance =
-    !planMode && nearbyScenes[0]?.event.id === spotlight?.id
+    !storyFocus && !planMode && nearbyScenes[0]?.event.id === spotlight?.id
       ? nearbyScenes[0].distanceKm
       : null;
   const destinations = new Set(
@@ -107,21 +163,67 @@ export function DiscoveryExperience() {
     () => new Set(scenes.map((event) => event.id)),
     [scenes],
   );
-  const visibleBeacons = beacons
-    .filter((beacon) => visibleIds.has(beacon.eventId))
-    .map((beacon) => ({
-      ...beacon,
-      focused:
-        beacon.focused || (!selected && beacon.eventId === spotlight?.id),
-    }));
+  const hasViewerOrigin = viewer.status === 'granted' &&
+    (viewer.source === 'browser' || viewer.source === 'chosen') && Boolean(viewer.coords);
+  const selectedRoute = storyFocus && spotlight && hasViewerOrigin && viewer.coords
+    ? estimateRoute(viewer.coords, spotlight.coords)
+    : null;
+  const originName = hasViewerOrigin
+    ? viewer.source === 'chosen' ? viewer.cityLabel?.split(',')[0] ?? 'Chosen city' : 'Your area'
+    : null;
+  const mountainView = spotlight && (spotlight.category === 'ski' || spotlight.secondaryCategories?.includes('ski'))
+    ? {
+        satellite: googleMapsViewUrl(spotlight.coords, 'satellite'),
+        terrain: googleMapsViewUrl(spotlight.coords, 'terrain'),
+      }
+    : null;
+  const visibleBeacons = beacons.filter((beacon) => visibleIds.has(beacon.eventId));
+
+  const changeTripMode = (season: TripSeason, interest: TripInterest) => {
+    setTripMode({ season, interest });
+    setJourneyEventId(null);
+    select(null);
+    if (routeTimer.current !== null) {
+      window.clearTimeout(routeTimer.current);
+      routeTimer.current = null;
+    }
+    const next = season === 'all' && interest === 'all'
+      ? undefined
+      : editorialEventForMode(EVENTS, focus, season, interest);
+    flyTo(next?.coords ?? viewer.coords ?? { lat: 18, lon: 0 }, next ? 2.45 : OPENING_GLOBE_DISTANCE);
+  };
+
+  const travelFromCard = (event: WorldEvent) => {
+    select(null);
+    setJourneyEventId(event.id);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const worldStage = document.getElementById('world-map');
+    worldStage?.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+    if (routeTimer.current !== null) window.clearTimeout(routeTimer.current);
+    routeTimer.current = window.setTimeout(() => {
+      worldStage?.focus({ preventScroll: true });
+      travelTo(event.coords, hasViewerOrigin ? viewer.coords : null, 2.45);
+      routeTimer.current = null;
+    }, reducedMotion ? 0 : 380);
+  };
+
+  useEffect(() => () => {
+    if (routeTimer.current !== null) window.clearTimeout(routeTimer.current);
+  }, [syncLocalToday]);
   useEffect(() => {
     if (viewer.status !== 'granted' || !viewer.coords || linkedEventId) return;
-    flyTo(viewer.coords, 3.9);
+    flyTo(viewer.coords, OPENING_GLOBE_DISTANCE);
   }, [viewer.status, viewer.coords, linkedEventId, flyTo]);
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') select(null);
+      if (event.key === 'Escape') {
+        select(null);
+        setJourneyEventId(null);
+      }
     };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
@@ -144,10 +246,6 @@ export function DiscoveryExperience() {
     flyTo(event.coords);
   }, [linkedEventId, calendar, rangeStart, setFocus, reset, select, flyTo]);
 
-  const explore = (event: ScoredEvent) => {
-    select(event.id);
-    flyTo(event.coords);
-  };
   const beginPlanning = () => {
     setPlanning(true);
     useChromeStore.getState().setTimelineCollapsed(false);
@@ -159,34 +257,10 @@ export function DiscoveryExperience() {
 
   return (
     <main className={styles.page} style={{ ['--chrome-h' as string]: '5rem' }}>
-      <header className={styles.header}>
-        <Link href="/" className={styles.brand}>
-          MERIDIAN<span>THE WORLD, WELL LIVED.</span>
-        </Link>
-        <nav className={styles.nav} aria-label="Main navigation">
-          <button className={!planMode ? styles.active : ''} onClick={now}>
-            The world now
-          </button>
-          <button
-            className={planMode ? styles.active : ''}
-            onClick={beginPlanning}
-          >
-            Plan a trip
-          </button>
-          <Link href="/community">Circles</Link>
-        </nav>
-        <div className={styles.account}>
-          <Link href="/partners">For partners ↗</Link>
-          <Link href="/account" className={styles.signIn}>
-            Your account ↗
-          </Link>
-        </div>
-      </header>
-
       <div className={styles.toolbar}>
         <div className={styles.status}>
           <i />
-          {planMode ? 'YOUR NEXT CHAPTER' : 'YOUR WORLD, RIGHT NOW'}
+          {planMode ? 'YOUR NEXT CHAPTER' : 'YOUR WORLD TO EXPLORE'}
           <span>
             {signalStatus === 'enriched'
               ? 'Updated signals'
@@ -194,11 +268,13 @@ export function DiscoveryExperience() {
                 ? 'Curated calendar · offline'
                 : 'Curated calendar'}{' '}
             · {dateLabel(focus)} ·{' '}
-            {viewer.status === 'granted'
-              ? 'Centered near you'
+            {viewer.source === 'chosen'
+              ? `Viewing ${viewer.cityLabel}`
+              : viewer.status === 'granted'
+              ? 'Using device location'
               : viewer.status === 'locating'
                 ? 'Locating you'
-                : 'Regional view'}
+                : 'Location unavailable · choose a city'}
           </span>
         </div>
         <label className={styles.search}>
@@ -220,12 +296,19 @@ export function DiscoveryExperience() {
           onClick={viewer.retry}
           disabled={viewer.status === 'locating'}
         >
-          {viewer.status === 'granted'
+          {viewer.source === 'chosen' ? 'Use device location' : viewer.status === 'granted'
             ? 'Recenter near me'
             : viewer.status === 'locating'
               ? 'Finding your position…'
               : 'Use my location'}
         </button>
+        <label className={styles.cityChoice}>
+          <span>Viewing area</span>
+          <select aria-label="Choose your city" title="Your city choice is remembered in this tab" value={viewer.cityLabel ?? ''} onChange={(event) => viewer.chooseCity(event.target.value)}>
+            <option value="" disabled>Choose your city</option>
+            {VIEWER_CITIES.map((city) => <option value={city.name} key={city.name}>{city.name}</option>)}
+          </select>
+        </label>
         <button
           className={styles.dateButton}
           onClick={planMode ? now : beginPlanning}
@@ -261,12 +344,35 @@ export function DiscoveryExperience() {
         </section>
       )}
 
-      <section className={styles.world} aria-label="World discovery">
+      {!planMode && !query && <WorldIntro
+        origin={hasViewerOrigin ? viewer.coords : null}
+        originName={originName}
+        onTravel={travelFromCard}
+        season={tripMode.season}
+        interest={tripMode.interest}
+        onModeChange={changeTripMode}
+      />}
+      <nav className={styles.regions} aria-label="Explore map regions">
+        <span>YOUR WORLD</span>
+        {[
+          { name: 'World', lat: 18, lon: 0, distance: 5.8 },
+          { name: 'Americas', lat: 24, lon: -90, distance: 4.2 },
+          { name: 'Europe', lat: 47, lon: 12, distance: 3.5 },
+          { name: 'Asia Pacific', lat: 25, lon: 125, distance: 4.2 },
+          { name: 'Africa', lat: 0, lon: 23, distance: 4.2 },
+        ].map((region) => <button key={region.name} type="button" onClick={() => { setJourneyEventId(null); select(null); flyTo({ lat: region.lat, lon: region.lon }, region.distance); }}>{region.name}</button>)}
+      </nav>
+      <section id="world-map" className={styles.world} data-selected={storyFocus ? 'true' : undefined} aria-label="Explore the world map" tabIndex={-1}>
         <div className={styles.globe}>
           {viewer.coords ? (
             <GlobeStage
               beacons={visibleBeacons}
+              winterMode={tripMode.season === 'winter'}
               initialView={viewer.launchCoords ?? viewer.coords}
+              viewerMarker={hasViewerOrigin && viewer.coords ? {
+                coords: viewer.coords,
+                label: viewer.source === 'chosen' ? (viewer.cityLabel?.split(',')[0].toUpperCase() ?? 'YOUR CITY') : 'NEARBY',
+              } : undefined}
             />
           ) : (
             <div className={styles.globeBoot}>
@@ -275,51 +381,50 @@ export function DiscoveryExperience() {
             </div>
           )}
         </div>
-        <div className={styles.worldHeading}>
+        <div className={styles.worldHeading} data-selected={storyFocus ? 'true' : undefined}>
           <span className={styles.eyebrow}>
-            {planMode
-              ? 'MAKE ROOM FOR SOMETHING EXTRAORDINARY'
-              : 'THE WORLD, SORTED BY ENERGY'}
+            {selectedStory
+              ? 'YOUR SELECTED JOURNEY'
+              : modeActive
+              ? `YOUR ${modeLabel.toUpperCase()} SHORTLIST`
+              : planMode
+              ? 'GO WHERE THE MOMENT TAKES YOU'
+              : 'PICK A PLACE. FIND YOUR PEOPLE.'}
           </span>
-          <h1>
-            {planMode ? (
+          <h2>
+            {storyFocus && spotlight ? (
               <>
-                Your next
+                {spotlight.city}
                 <br />
-                <em>great escape.</em>
+                <em>is calling.</em>
+              </>
+            ) : planMode ? (
+              <>
+                Go find your
+                <br />
+                <em>next story.</em>
               </>
             ) : (
               <>
-                Your world,
+                The world is
                 <br />
-                <em>right now.</em>
+                <em>wide open.</em>
               </>
             )}
-          </h1>
+          </h2>
           <p>
-            {planMode
-              ? 'Follow the season. Find your scene. Make it a trip.'
-              : 'Start near you, then scan the places pulling people in from everywhere.'}
+            {storyFocus && spotlight
+              ? `${spotlight.name} · ${formatDateRange(spotlight.start, spotlight.end)}`
+              : planMode
+              ? 'Follow the season, find your scene, and make it a trip.'
+              : 'Spin the globe, follow a spark, and see where it leads.'}
           </p>
         </div>
 
-        <div className={styles.spotlight}>
-          <div
-            className={styles.spotlightImage}
-            role="img"
-            aria-label="Ocean waves, an atmospheric travel photograph"
-          >
-            <a
-              href="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ocean mood · Unsplash ↗
-            </a>
-          </div>
+        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined}>
           <div className={styles.eyebrow}>
             <span className={styles.spark}>✦</span>{' '}
-            {planMode ? 'IN YOUR TRAVEL WINDOW' : 'NEAREST SCENE ON THE BOARD'}
+            {selectedStory ? 'THIS IS YOUR DESTINATION' : modeActive ? 'FIRST ON YOUR SHORTLIST' : planMode ? 'IN YOUR TRAVEL WINDOW' : nearbyScenes.length ? 'NEAREST EVENT ON THE CALENDAR' : 'A SCENE TO EXPLORE'}
           </div>
           {spotlight ? (
             <>
@@ -332,24 +437,57 @@ export function DiscoveryExperience() {
               <h2>{spotlight.name}</h2>
               <p>{spotlight.tagline}</p>
               <div className={styles.sceneDates}>
-                {dateLabel(spotlight.start)} — {dateLabel(spotlight.end)}
+                {storyFocus
+                  ? formatDateRange(spotlight.start, spotlight.end)
+                  : `${dateLabel(spotlight.start)} — ${dateLabel(spotlight.end)}`}
                 <span>
-                  {planMode
+                  {storyFocus
+                    ? spotlight.venues[0] ?? 'Curated occasion'
+                    : planMode
                     ? 'In season'
                     : spotlightDistance != null
                       ? `≈${Math.round(spotlightDistance).toLocaleString()} km away · on the calendar today`
                       : 'On the calendar today'}
                 </span>
               </div>
-              <button
-                className={styles.primary}
-                onClick={() => explore(spotlight)}
-              >
-                Explore this place <span>↗</span>
-              </button>
+              {storyFocus && (
+                <>
+                  <span className={styles.storyLabel}>WHAT MAKES IT WORTH THE TRIP</span>
+                  <ul className={styles.storyReasons} aria-label="What makes this event worth the trip">
+                    {spotlight.whyGo.slice(0, 2).map((reason) => <li key={reason}>{reason}</li>)}
+                  </ul>
+                  <div className={styles.storyRoute} aria-label="Indicative route">
+                    <span>{originName ?? 'YOUR VIEW'}</span>
+                    <span aria-hidden="true">→</span>
+                    <span>{spotlight.city}</span>
+                  </div>
+                  <p className={styles.storyDistance}>
+                    {selectedRoute
+                      ? `${selectedRoute.distanceKm.toLocaleString()} km · ${selectedRoute.label}`
+                      : 'Choose your city above to estimate the journey'}
+                  </p>
+                </>
+              )}
+              {mountainView?.satellite && mountainView.terrain && (
+                <div className={styles.mountainHandoff}>
+                  <span>THE MOUNTAIN LENS · APPROXIMATE AREA</span>
+                  <div>
+                    <a href={mountainView.satellite} target="_blank" rel="noopener noreferrer">
+                      Satellite view ↗
+                    </a>
+                    <a href={mountainView.terrain} target="_blank" rel="noopener noreferrer">
+                      Terrain &amp; contours ↗
+                    </a>
+                  </div>
+                  <small>Opens the range near {spotlight.city} in Google Maps, not a verified lift entrance.</small>
+                </div>
+              )}
+              <Link className={styles.primary} href={destinationHref(spotlight.id)}>
+                Open {spotlight.city} <span>↗</span>
+              </Link>
               <Link
                 className={styles.textLink}
-                href={`/community?event=${spotlight.id}`}
+                href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
               >
                 Start a Circle here →
               </Link>
@@ -371,7 +509,9 @@ export function DiscoveryExperience() {
             </>
           )}
           <small className={styles.disclosure}>
-            {signalStatus === 'enriched' && enrichedAt
+            {storyFocus
+              ? 'Editorial event details; verify dates and access with organizers. Distance and airtime are indicative, not a flight schedule.'
+              : signalStatus === 'enriched' && enrichedAt
               ? `Some signals updated ${new Date(enrichedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}. Rankings remain modeled, not a live attendance count.`
               : 'Editorial spotlight from curated event data. Popularity is modeled, not measured live.'}
           </small>
@@ -380,71 +520,76 @@ export function DiscoveryExperience() {
         <aside className={styles.pulse} aria-label="The world pulse">
           <div className={styles.pulseHeading}>
             <div>
-              <span className={styles.eyebrow}>{planMode ? 'THE PULSE' : 'WORLD HEAT'}</span>
-              <h2>{planMode ? 'On your horizon' : 'Where the FOMO is building'}</h2>
+              <span className={styles.eyebrow}>{modeActive ? 'YOUR TRIP SHORTLIST' : planMode ? 'THE PULSE' : 'WORLD HEAT'}</span>
+              <h2>{modeActive ? 'Places for this trip' : planMode ? 'On your horizon' : 'Places with a pull'}</h2>
             </div>
             <span className={styles.curated}>{signalStatus === 'enriched' ? 'UPDATED SIGNALS' : 'MODELED'}</span>
           </div>
           <p className={styles.pulseIntro}>
-            {planMode
+            {modeActive
+              ? `${modeLabel}. Curated occasions ranked by modeled interest.`
+              : planMode
               ? 'Standout occasions around your chosen dates.'
-              : 'The strongest current travel-demand signals, regardless of distance.'}
+              : 'Curated occasions ranked by modeled travel interest.'}
           </p>
-          {pulseScenes.slice(0, 4).map((event, index) => (
-            <button
+          {pulseScenes.slice(0, 3).map((event, index) => (
+            <Link
               key={event.id}
               className={styles.pulseItem}
-              onClick={() => explore(event)}
+              href={destinationHref(event.id)}
             >
               <span className={styles.number}>0{index + 1}</span>
               <span>
                 <strong>{event.city}</strong>
                 <span>{event.name}</span>
                 <small>
-                  {planMode
+                  {modeActive
+                    ? `${dateLabel(event.start)} · modeled heat ${Math.round(event.buzz.score)}/100`
+                    : planMode
                     ? `${event.category} · ${dateLabel(event.start)}`
                     : `${event.buzz.heat} · heat ${Math.round(event.buzz.score)}/100`}
                 </small>
               </span>
               <span className={styles.arrow}>↗</span>
-            </button>
+            </Link>
           ))}
           {pulseScenes.length === 0 && (
             <p className={styles.noResults}>
-              No matching events. Change your dates or search to explore more of
-              the calendar.
+              {modeActive
+                ? 'No occasions match this trip mode and your other filters. Try another season or interest.'
+                : 'No matching events. Change your dates or search to explore more of the calendar.'}
             </p>
           )}
           <LivePulse
-            key={`${spotlight?.id}:${planMode}`}
+            key={`${spotlight?.id}:${planMode}:${modeActive}`}
             eventId={spotlight?.id}
-            planning={planMode}
+            planning={planMode || modeActive}
           />
-          <TravelWire />
         </aside>
 
         <div className={styles.worldStats}>
           <div>
             <strong>{scenes.length}</strong>
-            <span>{planMode ? 'events in window' : 'events on today'}</span>
+            <span>{modeActive ? 'occasions in mode' : planMode ? 'events in window' : 'events on today'}</span>
           </div>
           <div>
             <strong>{destinations}</strong>
             <span>destinations</span>
           </div>
           <div>
-            <strong>{events.length}</strong>
-            <span>matching occasions</span>
+            <strong>{modeActive ? scenes.filter((event) => event.start > focus).length : events.length}</strong>
+            <span>{modeActive ? 'future starts' : 'matching occasions'}</span>
           </div>
         </div>
         <div className={styles.globeHint}>
-          DRAG TO ORBIT <span>·</span> CTRL/CMD + SCROLL OR PINCH TO ZOOM <span>·</span> SCROLL TO MOVE DOWN THE PAGE
+          DRAG TO ORBIT <span>·</span> SCROLL OR PINCH TO ZOOM
         </div>
         <div className={styles.globeControls}>
           <GlobeControls />
         </div>
       </section>
 
+      {!planMode && !query && <LivingDashboard mode="feed" />}
       <section className={styles.nextSection}>
         <div className={styles.sectionHeading}>
           <div>
@@ -457,14 +602,10 @@ export function DiscoveryExperience() {
         </div>
         <div className={styles.cards}>
           {upcoming.map((event, index) => (
-            <button
+            <Link
               className={`${styles.eventCard} ${styles[`card${index}`]}`}
               key={event.id}
-              onClick={() => {
-                beginPlanning();
-                setFocus(event.start);
-                explore(event);
-              }}
+              href={destinationHref(event.id)}
             >
               <div className={styles.cardTop}>
                 <span>{event.category}</span>
@@ -480,10 +621,10 @@ export function DiscoveryExperience() {
                 <h3>{event.name}</h3>
                 <p>{event.tagline}</p>
                 <span className={styles.cardAction}>
-                  Discover the occasion ↗
+                  Open {event.city} ↗
                 </span>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
         {!upcoming.length && (
@@ -494,58 +635,20 @@ export function DiscoveryExperience() {
         )}
       </section>
 
-      <section className={styles.clubSection}>
-        <div>
-          <span className={styles.eyebrow}>
-            GOOD TRIPS BECOME GREAT STORIES
-          </span>
-          <h2>
-            Your kind of place.
-            <br />
-            <em>Your kind of people.</em>
-          </h2>
-          <p>
-            Build your travel profile, discover shared interests and start a
-            circle around your next escape.
-          </p>
-          <Link className={styles.primary} href="/community">
-            Find your people <span>↗</span>
-          </Link>
-        </div>
-        <div className={styles.partnerCard}>
-          <span className={styles.eyebrow}>FOR THOSE WHO MAKE IT HAPPEN</span>
-          <h3>
-            Bring something
-            <br />
-            worth traveling for.
-          </h3>
-          <p>
-            Exceptional stays, private journeys and unforgettable access. Create
-            a partner profile and prepare your first offer.
-          </p>
-          <Link href="/partners" className={styles.textLink}>
-            Explore the partner studio ↗
-          </Link>
-          <small>
-            Preview workspace · availability requires provider confirmation
-          </small>
-        </div>
-      </section>
-
       <section className={styles.directory}>
         <button onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
           {showAll ? '−' : '+'} Browse all {scenes.length}{' '}
-          {planMode ? 'events in this window' : 'events on the calendar today'}
+          {modeActive ? 'events for this trip' : planMode ? 'events in this window' : 'events on the calendar today'}
         </button>
         {showAll && (
           <div className={styles.directoryGrid}>
             {scenes.map((event) => (
-              <button key={event.id} onClick={() => explore(event)}>
+              <Link key={event.id} href={destinationHref(event.id)}>
                 <strong>{event.name}</strong>
                 <span>
                   {event.city} · {dateLabel(event.start)} ↗
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         )}

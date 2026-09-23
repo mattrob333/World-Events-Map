@@ -13,6 +13,8 @@ export type { GlobeProps, GlobeCanvasProps } from './Globe';
 
 export { GlobeFallback } from './GlobeFallback';
 export type { GlobeFallbackProps, GlobeFallbackKind } from './GlobeFallback';
+export { ViewerMarker } from './ViewerMarker';
+export type { ViewerMarkerInfo } from './ViewerMarker';
 
 export { Earth } from './Earth';
 export { Atmosphere } from './Atmosphere';

@@ -194,15 +194,19 @@ function PartnerStudioContent() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <Link href="/">
-          MERIDIAN <span>/ PARTNER STUDIO</span>
-        </Link>
+        <p className={styles.eyebrow}>Partner studio</p>
         <nav>
-          <Link href="/community">Travel circles</Link>
-          <Link href="/account">Your account</Link>
+          <Link href="/access">Traveler ACCESS</Link>
           {user && <button onClick={() => void run(signOut)}>Sign out</button>}
         </nav>
       </header>
+      {org && (
+        <p className={styles.statusLine}>
+          Studio status: <strong>{org.status}</strong>
+          {org.status === 'pending' && ' — offers stay unpublished until review.'}
+          {org.status === 'approved' && ' — you can publish inquiry-only offers.'}
+        </p>
+      )}
       <section className={styles.intro}>
         <p className={styles.eyebrow}>BE THERE WHEN THEY DECIDE TO GO</p>
         <h1>

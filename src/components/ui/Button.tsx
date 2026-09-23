@@ -5,7 +5,7 @@ import { forwardRef } from 'react';
 import { cn } from './cn';
 import { withAppKeyGuard } from './keys';
 
-export type ButtonVariant = 'brass' | 'ghost' | 'quiet';
+export type ButtonVariant = 'brass' | 'ghost' | 'quiet' | 'commit';
 export type ButtonSize = 'sm' | 'md';
 
 export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
@@ -47,6 +47,11 @@ const VARIANTS: Record<ButtonVariant, { off: string; on: string }> = {
   quiet: {
     off: 'border-transparent bg-transparent text-ink-muted hover:text-ink',
     on: 'border-transparent bg-transparent text-brass',
+  },
+  // Primary trip action. Signal green wash — still translucent, never a solid fill.
+  commit: {
+    off: 'border-commit/50 bg-commit/10 text-commit hover:border-commit hover:text-ink',
+    on: 'border-commit bg-commit/15 text-ink',
   },
 };
 

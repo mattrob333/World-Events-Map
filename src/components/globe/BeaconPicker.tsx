@@ -202,7 +202,8 @@ function BeaconPickerImpl({ registry, capacity }: BeaconPickerProps) {
       if (!entry) return;
       event.stopPropagation();
       select(entry.id);
-      flyTo(entry.beacon.coords);
+      // Move closer while retaining the full globe as geographic context.
+      flyTo(entry.beacon.coords, 3.25);
     },
     [resolve, select, flyTo],
   );
