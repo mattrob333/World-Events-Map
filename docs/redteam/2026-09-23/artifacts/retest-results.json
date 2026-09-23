@@ -1,0 +1,142 @@
+[
+  {
+    "id": "UFR-A01",
+    "pass": true,
+    "detail": "page errors=0; shell intact=true"
+  },
+  {
+    "id": "UFR-A02",
+    "pass": true,
+    "detail": "empty search offers full MERIDIAN search"
+  },
+  {
+    "id": "UFR-A02b",
+    "pass": true,
+    "detail": "palette opened with query \"qwzxv\""
+  },
+  {
+    "id": "UFR-A05",
+    "pass": true,
+    "detail": "geolocation calls before any tap: 0"
+  },
+  {
+    "id": "UFR-A04",
+    "pass": true,
+    "detail": "after deny: Viewing Atlanta, Georgia · device location is blocked, still using this city"
+  },
+  {
+    "id": "UFR-A04b",
+    "pass": true,
+    "detail": "chosen city survives reload after denial"
+  },
+  {
+    "id": "UFR-A06",
+    "pass": true,
+    "detail": "winter url=/?season=winter&interest=ski journey url=/?season=winter&interest=ski&journey=aspen-christmas-week back url=/?season=winter&interest=ski"
+  },
+  {
+    "id": "UFR-A08",
+    "pass": true,
+    "detail": "fresh user palette shows Editorial ideas, no Saved group (labels render uppercase)"
+  },
+  {
+    "id": "UFR-C12",
+    "pass": true,
+    "detail": "no \"· live\" status in palette"
+  },
+  {
+    "id": "UFR-A14",
+    "pass": true,
+    "detail": "ASPEN → /destinations/aspen"
+  },
+  {
+    "id": "UFR-A14b",
+    "pass": true,
+    "detail": "unknown slug renders not-found UI (HTTP 200; streamed not-found responses return 200 per the Next.js not-found docs)"
+  },
+  {
+    "id": "UFR-A03",
+    "pass": true,
+    "detail": "event panel shows the device save"
+  },
+  {
+    "id": "UFR-B04",
+    "pass": true,
+    "detail": "prefill resorts=\"Aspen\" start=\"2026-12-19\""
+  },
+  {
+    "id": "UFR-B02",
+    "pass": true,
+    "detail": "past dates show inline error"
+  },
+  {
+    "id": "UFR-B03",
+    "pass": true,
+    "detail": "draft restored after reload"
+  },
+  {
+    "id": "UFR-B01",
+    "pass": true,
+    "detail": "banner y=153; brief in textarea"
+  },
+  {
+    "id": "UFR-C01",
+    "pass": true,
+    "detail": "notice y=473; destination links=3"
+  },
+  {
+    "id": "UFR-C02",
+    "pass": true,
+    "detail": "NOW inputs are a disabled preview"
+  },
+  {
+    "id": "UFR-C05",
+    "pass": true,
+    "detail": "samples labelled, no provider-confirmation claim"
+  },
+  {
+    "id": "UFR-C13",
+    "pass": true,
+    "detail": "no button nested in a link"
+  },
+  {
+    "id": "UFR-C07",
+    "pass": true,
+    "detail": "chips: All ideas, Stay, Private aviation, Ground transport, Yacht / boat"
+  },
+  {
+    "id": "UFR-C03",
+    "pass": true,
+    "detail": "selected title y=79"
+  },
+  {
+    "id": "UFR-C04",
+    "pass": true,
+    "detail": "preview shows draft + next step"
+  },
+  {
+    "id": "UFR-C09",
+    "pass": true,
+    "detail": "stale offer link notice"
+  },
+  {
+    "id": "UFR-D04",
+    "pass": true,
+    "detail": "invite link honest without sign-in"
+  },
+  {
+    "id": "UFR-E03",
+    "pass": true,
+    "detail": "offers tab does not claim zero offers"
+  },
+  {
+    "id": "UFR-E01",
+    "pass": true,
+    "detail": "partners explains model, no traveler-lens banner"
+  },
+  {
+    "id": "UFR-B06",
+    "pass": true,
+    "detail": "no ski-season number or scarcity arrows"
+  }
+]

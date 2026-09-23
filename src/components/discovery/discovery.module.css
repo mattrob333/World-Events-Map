@@ -1204,6 +1204,11 @@
   max-width: 285px;
   font-size: 11px;
   line-height: 1.4;
+  /* One line only: a wrapped occasion name collided with the spotlight below
+     (red team UFR-A09). The full name and dates repeat in the spotlight. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .spotlight {
   top: 152px;
