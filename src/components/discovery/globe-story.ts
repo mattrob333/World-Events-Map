@@ -28,3 +28,15 @@ export function resolveGlobeStory(
 
   return { event: chosen ?? editorial, selected: Boolean(chosen) };
 }
+
+/**
+ * Distance to the spotlight only when it is also the nearest scene. An empty
+ * search leaves both undefined, which must not read as a match.
+ */
+export function spotlightNearestDistance(
+  nearby: readonly { event: WorldEvent; distanceKm: number }[],
+  spotlight: WorldEvent | undefined,
+): number | null {
+  const nearest = nearby[0];
+  return spotlight && nearest && nearest.event.id === spotlight.id ? nearest.distanceKm : null;
+}

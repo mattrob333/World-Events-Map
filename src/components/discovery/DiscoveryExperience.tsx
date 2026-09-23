@@ -29,7 +29,7 @@ import { indexDestinations } from '@/lib/pulse';
 import { track } from '@/lib/analytics';
 import type { WorldEvent } from '@/lib/types';
 import { WorldIntro } from './WorldIntro';
-import { editorialEventForMode, resolveGlobeStory } from './globe-story';
+import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { formatDateRange } from '@/components/ui/tokens';
 import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
@@ -153,9 +153,7 @@ export function DiscoveryExperience() {
   );
   const storyFocus = selectedStory || modeActive;
   const spotlightDistance =
-    !storyFocus && !planMode && nearbyScenes[0]?.event.id === spotlight?.id
-      ? nearbyScenes[0].distanceKm
-      : null;
+    !storyFocus && !planMode ? spotlightNearestDistance(nearbyScenes, spotlight) : null;
   const destinations = new Set(
     scenes.map((event) => `${event.city},${event.country}`),
   ).size;

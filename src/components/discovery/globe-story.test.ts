@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EVENTS } from '@/lib/data/events';
 import { eventSeason, matchesTripInterest } from '@/lib/discovery/seasonal';
-import { editorialEventForMode, resolveGlobeStory } from './globe-story';
+import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
 
 const medinah = EVENTS.find((event) => event.id === 'presidents-cup');
 const kyoto = EVENTS.find((event) => event.id === 'kyoto-matsutake-kaiseki');
@@ -44,5 +44,15 @@ describe('globe story selection', () => {
 
   it('has no editorial pick when that season has no future occasions', () => {
     expect(editorialEventForMode(EVENTS, '2027-10-01', 'winter', 'ski')).toBeUndefined();
+  });
+});
+
+describe('spotlight distance', () => {
+  it('does not treat an empty search as a nearest-scene match (UFR-A01)', () => {
+    expect(spotlightNearestDistance([], undefined)).toBeNull();
+  });
+  it('returns the distance only when the spotlight is the nearest scene', () => {
+    expect(spotlightNearestDistance([{ event: kyoto!, distanceKm: 120 }], kyoto)).toBe(120);
+    expect(spotlightNearestDistance([{ event: kyoto!, distanceKm: 120 }], medinah)).toBeNull();
   });
 });
