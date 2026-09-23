@@ -1,6 +1,16 @@
-import { Community } from '@/components/community/Community';
+import { Community, type CommunityTab } from '@/components/community/Community';
 
-export default async function CommunityPage({ searchParams }: { searchParams: Promise<{ event?: string; tab?: string; circle?: string }> }) {
+const TABS: readonly CommunityTab[] = ['circles', 'offers', 'requests'];
+
+export default async function CommunityPage({ searchParams }: { searchParams: Promise<{ event?: string; tab?: string; circle?: string; offer?: string }> }) {
   const query = await searchParams;
-  return <Community initialEvent={typeof query.event === 'string' ? query.event : ''} initialCircle={typeof query.circle === 'string' ? query.circle : ''} initialTab={query.tab === 'offers' ? 'offers' : 'circles'} />;
+  const tab = TABS.find((value) => value === query.tab) ?? 'circles';
+  return (
+    <Community
+      initialEvent={typeof query.event === 'string' ? query.event : ''}
+      initialCircle={typeof query.circle === 'string' ? query.circle : ''}
+      initialTab={tab}
+      initialOffer={typeof query.offer === 'string' ? query.offer.slice(0, 64) : ''}
+    />
+  );
 }

@@ -31,4 +31,10 @@ describe('provider offer validation', () => {
       /price/,
     );
   });
+  it.each(['Confirmed €45,000 — book now', 'Guaranteed berth'])(
+    'rejects booking or confirmation language %s (UFR-E06)',
+    (title) => expect(validateOffer({ ...offer, title })).toMatch(/inquiries/),
+  );
+  it('still accepts an ordinary indicative price', () =>
+    expect(validateOffer({ ...offer, price_label: 'From €1,200 per night' })).toBeNull());
 });

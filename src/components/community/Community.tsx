@@ -8,6 +8,12 @@ import {
   type FormEvent,
 } from 'react';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
+import {
+  OFFER_PRICE_QUALIFIER,
+  PARTNER_OFFER_KIND_LABEL,
+  fetchPublishedOffers,
+  offerAvailabilityLabel,
+} from '@/lib/platform/offers';
 import { circleInvitePath, circleInviteUrl } from '@/lib/trips/circleInvite';
 import { PlatformShell, SignInCard } from './PlatformShell';
 import styles from './community.module.css';
@@ -55,6 +61,7 @@ type Offer = {
   availability: string;
   expires_at: string | null;
   created_at: string;
+  provider_name?: string;
 };
 type Inquiry = {
   id: string;
@@ -79,14 +86,18 @@ const date = (value: string) =>
     year: 'numeric',
   });
 
+export type CommunityTab = 'circles' | 'offers' | 'requests';
+
 export function Community({
   initialEvent = '',
   initialCircle = '',
   initialTab = 'circles',
+  initialOffer = '',
 }: {
   initialEvent?: string;
   initialCircle?: string;
-  initialTab?: 'circles' | 'offers';
+  initialTab?: CommunityTab;
+  initialOffer?: string;
 }) {
   const { user } = usePlatformAuth();
   return (
@@ -95,6 +106,7 @@ export function Community({
       initialEvent={initialEvent}
       initialCircle={initialCircle}
       initialTab={initialTab}
+      initialOffer={initialOffer}
     />
   );
 }
@@ -103,13 +115,15 @@ function CommunityContent({
   initialEvent,
   initialCircle,
   initialTab,
+  initialOffer,
 }: {
   initialEvent: string;
   initialCircle: string;
-  initialTab: 'circles' | 'offers';
+  initialTab: CommunityTab;
+  initialOffer: string;
 }) {
   const { client, user, loading } = usePlatformAuth();
-  const [tab, setTab] = useState<'circles' | 'offers' | 'requests'>(initialTab);
+  const [tab, setTab] = useState<CommunityTab>(initialOffer ? 'offers' : initialTab);
   const [circles, setCircles] = useState<Circle[]>([]);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -132,6 +146,7 @@ function CommunityContent({
   const eventId = initialEvent;
   const [eventFilter, setEventFilter] = useState(initialEvent);
   const circlePath = initialCircle ? circleInvitePath(initialCircle) : null;
+  const openedOffer = useRef(false);
 
   const refresh = useCallback(async () => {
     if (!client) return;
@@ -144,14 +159,10 @@ function CommunityContent({
               .order('start_date', { ascending: true })
               .limit(100)
           : Promise.resolve({ data: [], error: null }),
-        client
-          .from('offers')
-          .select('*,provider_orgs!inner(name,status)')
-          .eq('provider_orgs.status', 'approved')
-          .eq('status', 'published')
-          .or('expires_at.is.null,expires_at.gt.' + new Date().toISOString())
-          .order('created_at', { ascending: false })
-          .limit(100),
+        fetchPublishedOffers(client).then(({ offers: published, error: offerError }) => ({
+          data: published as Offer[],
+          error: offerError ? new Error(offerError) : null,
+        })),
         user
           ? client.from('circle_members').select('*').eq('user_id', user.id)
           : Promise.resolve({ data: [], error: null }),
@@ -168,6 +179,12 @@ function CommunityContent({
       if (failure) throw failure;
       setCircles(results[0].data ?? []);
       setOffers(results[1].data ?? []);
+      if (initialOffer && !openedOffer.current) {
+        openedOffer.current = true;
+        const match = (results[1].data ?? []).find((offer) => offer.id === initialOffer);
+        if (match) setOfferRequest(match);
+        else setNotice('That partner offer is no longer available. Here are the current ones.');
+      }
       setMemberships(results[2].data ?? []);
       setInquiries(results[3].data ?? []);
     } catch (cause) {
@@ -175,7 +192,7 @@ function CommunityContent({
     } finally {
       setFetching(false);
     }
-  }, [client, user]);
+  }, [client, user, initialOffer]);
 
   useEffect(() => {
     void refresh();
@@ -356,7 +373,8 @@ function CommunityContent({
       description="Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details."
     >
       {initialCircle && !circlePath && <p className={`${styles.notice} ${styles.error}`}>This Circle link is invalid. Ask the host for a new link.</p>}
-      {circlePath && !user && <p className={styles.notice}>Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.</p>}
+      {circlePath && !user && client && <p className={styles.notice}>Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.</p>}
+      {circlePath && !client && <p className={styles.notice}>This Circle invitation needs member sign-in, which is not available on this preview yet. Nothing was joined. Ask the host to share the trip details another way.</p>}
       <div
         className={styles.tabs}
         role="tablist"
@@ -566,7 +584,16 @@ function CommunityContent({
                 Stays, arrivals and access from travel partners. Availability is
                 confirmed by the provider when they reply.
               </p>
-              {fetching ? (
+              {!client ? (
+                <section className={styles.card}>
+                  <h2>Partner offers are not connected yet.</h2>
+                  <p className={styles.muted}>
+                    Offers appear here once the partner service is connected.
+                    Nothing has been checked yet, so this is not a list of zero
+                    offers. <a className={styles.inlineLink} href="/access">See sample opportunities in ACCESS ↗</a>
+                  </p>
+                </section>
+              ) : fetching ? (
                 <p>Loading offers…</p>
               ) : shownOffers.length === 0 ? (
                 <section className={styles.card}>
@@ -581,15 +608,15 @@ function CommunityContent({
                 shownOffers.map((offer) => (
                   <article key={offer.id} className={styles.card}>
                     <span className={styles.eyebrow}>
-                      {offer.kind} · {offer.destination}
+                      {PARTNER_OFFER_KIND_LABEL[offer.kind as keyof typeof PARTNER_OFFER_KIND_LABEL] ?? offer.kind} · {offer.destination}
                     </span>
                     <h2>{offer.title}</h2>
+                    <p className={styles.small}>Verified partner: {offer.provider_name ?? 'Verified partner'}</p>
                     <p className={styles.muted}>{offer.description}</p>
                     <p>{offer.price_label || 'Ask the provider for a quote'}</p>
+                    <p className={styles.small}>{OFFER_PRICE_QUALIFIER}</p>
                     <p className={styles.small}>
-                      {offer.availability === 'provider_updated'
-                        ? 'Availability supplied by provider'
-                        : 'Availability on request'}
+                      {offerAvailabilityLabel(offer)}
                       {offer.expires_at
                         ? ` · Offer ends ${date(offer.expires_at)}`
                         : ''}
@@ -610,7 +637,7 @@ function CommunityContent({
           )}
           {tab === 'requests' && (
             <>
-              <h2>Your conversations with partners.</h2>
+              <h2>Your partner requests.</h2>
               {!user ? (
                 <p className={styles.empty}>
                   Sign in to see your requests and provider replies.
@@ -714,9 +741,10 @@ function CommunityContent({
                     />
                   </label>
                   <p className={styles.small}>
-                    This sends an inquiry, not a booking. The provider will
-                    confirm availability, price and next steps. Avoid including
-                    payment information.
+                    This sends an inquiry, not a booking. The provider sees this
+                    message, not your profile, and will confirm availability,
+                    price and next steps. Replies appear under Your requests.
+                    Avoid including payment information.
                   </p>
                   <button
                     className={styles.button}

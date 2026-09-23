@@ -13,6 +13,7 @@ export { Rule } from './Rule';
 export type { RuleProps } from './Rule';
 
 export { Button, IconButton } from './Button';
+export { buttonClassName } from './buttonStyles';
 export type { ButtonProps, ButtonSize, ButtonVariant, IconButtonProps } from './Button';
 
 export { Chip } from './Chip';

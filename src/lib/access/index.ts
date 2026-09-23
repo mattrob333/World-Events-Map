@@ -4,6 +4,8 @@ export {
   AVAILABILITY_STATES,
   OPPORTUNITY_KIND_LABEL,
   OPPORTUNITY_KINDS,
+  offerWindowLabel,
+  SAMPLE_OFFER_NOTE,
 } from './types';
 export {
   ACCESS_FIXTURE_DISCLOSURE,
