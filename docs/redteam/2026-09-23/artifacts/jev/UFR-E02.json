@@ -1,0 +1,96 @@
+{
+  "label": "UFR-E02",
+  "executed_at": "2026-09-23T16:52:41.156Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Chalet operator in Courchevel who has (in a configured deployment) published an approved offer in the MERIDIAN partner studio, and wants to see what travelers see.",
+      "workflow_state": "Provider clicks the 'Traveler ACCESS' link in the studio header, which is the same destination as the 'ACCESS' item in the main site navigation and the 'Find access & stays' button on event dossiers.",
+      "visible_on_access_page": [
+        "MERIDIAN / ACCESS",
+        "Make the trip happen.",
+        "Explore stays, arrivals and moments around the trip. Start with a possibility; the provider confirms every detail.",
+        "Place archive photography · preview opportunities, not live inventory",
+        "Sample partner opportunities for product preview. Nothing here is live inventory or a confirmed reservation.",
+        "01 / DISCOVER ... 02 / ASK Preview the request you would make. No provider is contacted in this preview. 03 / CONFIRM In a connected service, the provider would confirm terms before any reservation.",
+        "Filters: All ideas, Stay, Private aviation, Ground transport, Event access, Dining, Local experience, Yacht / boat, Travel advisor",
+        "5 cards from providers named High Country Houses, Ridge Line Aviation, Roaring Fork Meet, Riviera Deck, Three Valleys Desk, each with REQUEST DETAILS",
+        "Are you a travel provider? Explore the partner studio"
+      ],
+      "system_fact": "Real published partner offers are only listed at /community?tab=offers ('Partner offers' tab inside the page titled 'Find your next circle.'), and in a 3-item 'Just released' panel on the globe. /access only ever shows the 5 hard-coded samples, even when the platform is configured. The main navigation has no link to /community?tab=offers."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "provider_expects_offer_here": {
+        "type": "noul",
+        "instructions": "Would the provider reasonably expect their own published offer to appear on this ACCESS page?"
+      },
+      "traveler_finds_real_offers": {
+        "type": "choice",
+        "instructions": "A traveler wants to find stays/charters to request for a trip. Given the navigation (WORLD, CIRCLES, PEOPLE, TRIPS, ACCESS, NOW, PROFILE), where would they most likely look first?",
+        "criteria": {
+          "access": "The ACCESS nav item",
+          "circles": "The CIRCLES nav item",
+          "world": "The globe / WORLD",
+          "profile": "PROFILE",
+          "other": "Somewhere else"
+        }
+      },
+      "handoff_integrity": {
+        "type": "score",
+        "instructions": "Given the system_fact, how likely is it that a traveler who wants this provider's offer actually reaches it?",
+        "criteria": [
+          "Very unlikely",
+          "Unlikely",
+          "Even chance",
+          "Likely",
+          "Very likely"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "provider_expects_offer_here": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "traveler_finds_real_offers": {
+        "type": "choice",
+        "choice": "access",
+        "confidence": 0.95,
+        "probabilities": {
+          "other": 0,
+          "access": 0.97,
+          "circles": 0.01,
+          "world": 0.02,
+          "profile": 0
+        }
+      },
+      "handoff_integrity": {
+        "type": "score",
+        "score": 0.3,
+        "confidence": 0.75,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Even chance",
+          "3": "Likely",
+          "4": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.77,
+          "1": 0.2,
+          "2": 0.01,
+          "3": 0.02,
+          "4": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 879,
+      "output_tokens": 97
+    }
+  }
+}

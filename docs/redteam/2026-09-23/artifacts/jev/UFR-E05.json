@@ -1,0 +1,92 @@
+{
+  "label": "UFR-E05",
+  "executed_at": "2026-09-23T16:52:43.106Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona_pair": "(1) Traveler who sent a request about a partner's yacht day charter; (2) the yacht broker who must answer it.",
+      "traveler_side_visible": [
+        "Tab: Your requests",
+        "Heading: Your conversations with partners.",
+        "Card: tag 'new' / offer title / their message / 'Sent Sep 23, 2026' / 'Waiting for the provider to reply.'",
+        "Button: Refresh replies"
+      ],
+      "traveler_request_form_text": [
+        "Make it your trip.",
+        "Your request (textarea, placeholder: Your dates, party size, and what would make this trip special.)",
+        "This sends an inquiry, not a booking. The provider will confirm availability, price and next steps. Avoid including payment information.",
+        "[Send request]"
+      ],
+      "provider_side_visible": [
+        "Section: Traveler requests",
+        "Only the request details intentionally shared by the traveler appear here. Respond with availability and next steps.",
+        "Card: offer title · new / traveler message / timestamp / 'Your response' textarea / [Send response] [Close request]"
+      ],
+      "system_facts": [
+        "The provider sees no traveler name, email or phone; the traveler's profile is unreadable to the provider (verified in PostgreSQL).",
+        "Each request holds exactly one provider response field; a second 'Send response' overwrites the first.",
+        "The traveler cannot reply, add details, or withdraw a request (database rejects/ignores traveler updates).",
+        "No email or push notification is sent to either side; each must revisit and refresh.",
+        "After the provider replies the studio says: 'Response saved. The traveler can read it in their account.' — but the /account page shows no requests; replies are under /community 'Your requests'."
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "traveler_expects_dialogue": {
+        "type": "noul",
+        "instructions": "Given the heading 'Your conversations with partners.', would the traveler expect to be able to reply to the provider's answer?"
+      },
+      "provider_can_close_deal": {
+        "type": "noul",
+        "instructions": "Given the system_facts, can the provider realistically move a charter inquiry to a confirmed arrangement using only what MERIDIAN provides?"
+      },
+      "handoff_completion": {
+        "type": "score",
+        "instructions": "How complete is the provider→traveler→provider handoff for a real business outcome?",
+        "criteria": [
+          "Breaks before the provider learns of the request",
+          "Provider learns but cannot respond usefully",
+          "One-shot answer only, no follow-up path",
+          "Workable two-way exchange",
+          "Complete, notified two-way exchange"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "traveler_expects_dialogue": {
+        "type": "noul",
+        "noul": 0.58
+      },
+      "provider_can_close_deal": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "handoff_completion": {
+        "type": "score",
+        "score": 2.08,
+        "confidence": 0.88,
+        "legend": {
+          "0": "Breaks before the provider learns of the request",
+          "1": "Provider learns but cannot respond usefully",
+          "2": "One-shot answer only, no follow-up path",
+          "3": "Workable two-way exchange",
+          "4": "Complete, notified two-way exchange"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.03,
+          "2": 0.86,
+          "3": 0.11,
+          "4": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 818,
+      "output_tokens": 61
+    }
+  }
+}

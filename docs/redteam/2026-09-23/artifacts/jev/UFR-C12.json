@@ -1,0 +1,62 @@
+{
+  "label": "UFR-C12",
+  "executed_at": "2026-09-23T16:56:15.175Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time MERIDIAN user on a phone (390px), already in Monaco, wants to find something to do tonight.",
+      "visible_chrome": "Top header: 'MERIDIAN' logo, a search icon button (no text label), 'PROFILE'. Bottom nav: 'WORLD', 'CIRCLES', 'PEOPLE', 'ACCESS', 'MORE'. The NOW feature ('Now — Tonight's scene') is only inside the MORE menu. On the home page, far below the hero, is a card 'ALREADY THERE? Make tonight a story. Find your next stop with NOW.'"
+    },
+    "model": "jev-latest",
+    "questions": {
+      "first_tap": {
+        "type": "choice",
+        "instructions": "Which control would this user tap first to find something to do tonight?",
+        "criteria": {
+          "world": "WORLD",
+          "circles": "CIRCLES",
+          "people": "PEOPLE",
+          "access": "ACCESS",
+          "more": "MORE",
+          "search": "Search icon",
+          "profile": "PROFILE"
+        }
+      },
+      "discoverable": {
+        "type": "noul",
+        "instructions": "Is the tonight/NOW feature easily discoverable for this user?",
+        "criteria": {
+          "true": "Easily discoverable",
+          "false": "Hidden / hard to find"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "first_tap": {
+        "type": "choice",
+        "choice": "more",
+        "confidence": 0.76,
+        "probabilities": {
+          "circles": 0,
+          "access": 0,
+          "more": 0.79,
+          "world": 0.01,
+          "people": 0,
+          "search": 0.2,
+          "profile": 0
+        }
+      },
+      "discoverable": {
+        "type": "noul",
+        "noul": 0.14
+      }
+    },
+    "usage": {
+      "input_tokens": 565,
+      "output_tokens": 89
+    }
+  }
+}

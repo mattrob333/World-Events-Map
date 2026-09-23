@@ -1,0 +1,69 @@
+{
+  "label": "UFR-C08",
+  "executed_at": "2026-09-23T16:56:02.581Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler in Monaco on 23 Sep 2026, the first day of the Monaco Yacht Show (23–26 Sep). Wants a yacht charter, a chalet, or a dinner table.",
+      "monaco_offer_text": "'YACHT / BOAT · AVAILABILITY BY REQUEST' · 'Harbor morning, race week' · 'Port Hercules' · 'A berth-adjacent morning on the water. Race-week access is controlled by the harbor and the operator. Inquiry only.' · 'Riviera Deck' · 'On request'. No dates or window shown.",
+      "filter_chips": "'All ideas', 'Stay', 'Private aviation', 'Ground transport', 'Event access', 'Dining', 'Local experience', 'Yacht / boat', 'Travel advisor'. Tapping 'Dining', 'Event access', 'Local experience' or 'Travel advisor' shows zero offers and 'No other preview opportunities in this category. Try another filter or explore the world for your next destination.' Total offers: 5 (3 Aspen, 1 Monaco, 1 Courchevel)."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "which_week": {
+        "type": "choice",
+        "instructions": "Which period would this traveler think 'race week' refers to?",
+        "criteria": {
+          "yacht_show_now": "This week's Monaco Yacht Show",
+          "grand_prix": "The Monaco Grand Prix (May)",
+          "sailing_regatta": "Some sailing regatta",
+          "unclear": "Cannot tell"
+        }
+      },
+      "relevant_this_week": {
+        "type": "noul",
+        "instructions": "Can the traveler tell whether this offer is even relevant to the days they are in Monaco?",
+        "criteria": {
+          "true": "Yes, clearly relevant this week",
+          "false": "Cannot tell / probably not"
+        }
+      },
+      "empty_chips": {
+        "type": "noul",
+        "instructions": "Is offering filter chips that always return zero results (Dining, Event access, Local experience, Travel advisor) a meaningful friction for someone looking for a dinner table?",
+        "criteria": {
+          "true": "Yes, wasted taps / false promise",
+          "false": "No, acceptable"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "which_week": {
+        "type": "choice",
+        "choice": "yacht_show_now",
+        "confidence": 0.7,
+        "probabilities": {
+          "unclear": 0.02,
+          "grand_prix": 0.17,
+          "sailing_regatta": 0.03,
+          "yacht_show_now": 0.78
+        }
+      },
+      "relevant_this_week": {
+        "type": "noul",
+        "noul": 0.3
+      },
+      "empty_chips": {
+        "type": "noul",
+        "noul": 0.86
+      }
+    },
+    "usage": {
+      "input_tokens": 727,
+      "output_tokens": 98
+    }
+  }
+}

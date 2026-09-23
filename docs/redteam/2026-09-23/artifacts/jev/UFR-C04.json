@@ -1,0 +1,90 @@
+{
+  "label": "UFR-C04",
+  "executed_at": "2026-09-23T16:55:25.320Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler in Monaco on a phone who wants to actually pursue a yacht morning at Port Hercules this week.",
+      "jtbd": "Get an inquiry to a provider and know what happens next.",
+      "visible_selected_offer": "'YOUR SELECTED POSSIBILITY · See all opportunities ↗' · 'YACHT / BOAT · AVAILABILITY BY REQUEST' · 'Harbor morning, race week' · 'Port Hercules' · 'A berth-adjacent morning on the water. Race-week access is controlled by the harbor and the operator. Inquiry only.' · 'Riviera Deck' · 'On request' · 'Availability by request. This is an inquiry, not a confirmed hold.' · button 'Preview inquiry ↗'.",
+      "page_context": "Earlier on the page: 'Sample partner opportunities for product preview. Nothing here is live inventory or a confirmed reservation.' and steps '02 / ASK Preview the request you would make. No provider is contacted in this preview.' '03 / CONFIRM In a connected service, the provider would confirm terms before any reservation.'",
+      "action": "They tap 'Preview inquiry'.",
+      "result": "The button is replaced by: 'Inquiry preview noted on this page. No message was sent to a provider and no reservation was made.' No form (no dates, party size, contact), no preview of what an inquiry would say, no link to a real channel, no suggested next step. After a page refresh the note disappears and the 'Preview inquiry' button is back. Nothing is saved anywhere."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "knows_next_step": {
+        "type": "noul",
+        "instructions": "After the result, does the traveler know what to do next to actually pursue this yacht morning?",
+        "criteria": {
+          "true": "Knows a concrete next step",
+          "false": "Has no clear next step"
+        }
+      },
+      "believes_sent": {
+        "type": "noul",
+        "instructions": "Would the traveler believe a message was sent to Riviera Deck?",
+        "criteria": {
+          "true": "Believes something was sent",
+          "false": "Understands nothing was sent"
+        }
+      },
+      "completion": {
+        "type": "score",
+        "instructions": "To what degree does this flow terminate in a meaningful outcome for the job (pursue the offer)?",
+        "criteria": [
+          "Dead end: no outcome and no path",
+          "Honest dead end with some orientation",
+          "Partial: user has a path to continue",
+          "Complete: inquiry sent or a clear handoff"
+        ]
+      },
+      "preview_value": {
+        "type": "noul",
+        "instructions": "Does 'Preview inquiry' show the user anything they did not already know (i.e., is there an actual preview)?",
+        "criteria": {
+          "true": "Yes, a meaningful preview is shown",
+          "false": "No, nothing is previewed"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_next_step": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "believes_sent": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "completion": {
+        "type": "score",
+        "score": 0.38,
+        "confidence": 0.62,
+        "legend": {
+          "0": "Dead end: no outcome and no path",
+          "1": "Honest dead end with some orientation",
+          "2": "Partial: user has a path to continue",
+          "3": "Complete: inquiry sent or a clear handoff"
+        },
+        "probabilities": {
+          "0": 0.63,
+          "1": 0.37,
+          "2": 0,
+          "3": 0
+        }
+      },
+      "preview_value": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 843,
+      "output_tokens": 71
+    }
+  }
+}

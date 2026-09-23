@@ -1,0 +1,63 @@
+{
+  "label": "UFR-E03",
+  "executed_at": "2026-09-23T16:52:41.763Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler on a phone (390x844) who tapped a 'Partner offers' link to look for chalet or yacht offers.",
+      "route": "/community?tab=offers",
+      "system_fact": "The membership/partner database is NOT configured in this deployment, so no offers were queried at all.",
+      "first_screen_visible_text_in_order": [
+        "GOOD PLACES. BETTER COMPANY.",
+        "Find your next circle.",
+        "Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details.",
+        "[Travel circles] [Partner offers (selected)] [Your requests]",
+        "A good reason to go.",
+        "Stays, arrivals and access from travel partners. Availability is confirmed by the provider when they reply.",
+        "Something worth waiting for.",
+        "No published offers are available here yet. Offers appear after a partner publishes them; we do not invent availability or savings."
+      ],
+      "below_the_fold_after_scrolling": [
+        "Membership is not connected yet.",
+        "Profiles, travel modes, circles and partner requests need the membership service. Pulse and NOW can still work without a member session when their data providers are configured.",
+        "THE BEGINNING OF A GREAT STORY / One shared interest is all it takes. / An art weekend. A regatta. A table you have always wanted to book. Start a small circle and see who shares your curiosity."
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_checked_and_empty": {
+        "type": "noul",
+        "instructions": "From the first screen alone, would the traveler believe MERIDIAN checked its partner catalogue and there are currently zero published offers (rather than that the offers service is not connected)?"
+      },
+      "empty_copy_truthful": {
+        "type": "noul",
+        "instructions": "Given system_fact, is the sentence 'No published offers are available here yet. Offers appear after a partner publishes them' an accurate description of the system state?"
+      },
+      "circle_card_confuses": {
+        "type": "noul",
+        "instructions": "Would the circle-promotion card shown under the Partner offers tab make it harder for the traveler to tell the difference between a partner offer and a travel circle?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_checked_and_empty": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "empty_copy_truthful": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "circle_card_confuses": {
+        "type": "noul",
+        "noul": 0.53
+      }
+    },
+    "usage": {
+      "input_tokens": 704,
+      "output_tokens": 63
+    }
+  }
+}

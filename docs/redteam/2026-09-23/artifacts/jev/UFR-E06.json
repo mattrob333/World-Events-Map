@@ -1,0 +1,79 @@
+{
+  "label": "UFR-E06",
+  "executed_at": "2026-09-23T16:52:43.864Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler browsing partner offers on /community?tab=offers in a configured deployment.",
+      "offer_card_visible_text": [
+        "access · Monaco",
+        "Race week day charter",
+        "Six hours aboard a 40m motor yacht, crew and fuel included, 12 guests max.",
+        "Confirmed €45,000 — book now for race week",
+        "Availability supplied by provider · Offer ends Oct 23, 2026",
+        "[Ask about this offer]"
+      ],
+      "system_facts": [
+        "The card never shows the provider's business name, even though the query fetches it.",
+        "'Confirmed €45,000 — book now for race week' is free text typed by the provider into 'Price description'; the studio placeholder is 'From €1,200 per night, including taxes' and nothing validates or qualifies the wording.",
+        "When the price field is empty the card shows 'Ask the provider for a quote'.",
+        "The eyebrow 'access' is the raw internal kind; the studio has no 'yacht' kind or category."
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "knows_who": {
+        "type": "noul",
+        "instructions": "Can the traveler tell which business they would be sending their request to?"
+      },
+      "reads_as_confirmed_price": {
+        "type": "noul",
+        "instructions": "Would the traveler read this card as a confirmed, bookable price?"
+      },
+      "card_honesty": {
+        "type": "score",
+        "instructions": "Rate how clearly this card communicates 'inquiry only, provider confirms price and availability later'.",
+        "criteria": [
+          "Contradicts it",
+          "Unclear",
+          "Mostly clear",
+          "Clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_who": {
+        "type": "noul",
+        "noul": 0.11
+      },
+      "reads_as_confirmed_price": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "card_honesty": {
+        "type": "score",
+        "score": 0.04,
+        "confidence": 0.96,
+        "legend": {
+          "0": "Contradicts it",
+          "1": "Unclear",
+          "2": "Mostly clear",
+          "3": "Clear"
+        },
+        "probabilities": {
+          "0": 0.98,
+          "1": 0.02,
+          "2": 0,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 615,
+      "output_tokens": 60
+    }
+  }
+}

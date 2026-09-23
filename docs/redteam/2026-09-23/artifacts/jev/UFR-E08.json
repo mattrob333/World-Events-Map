@@ -1,0 +1,61 @@
+{
+  "label": "UFR-E08",
+  "executed_at": "2026-09-23T16:52:45.228Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Approved chalet operator with a PUBLISHED offer that already has two traveler inquiries. They fix a typo in the title and press 'Save draft'.",
+      "visible_before_save": [
+        "Heading: Edit your offer",
+        "Every offer leads to an inquiry, not a confirmed reservation. Updating a published offer returns it to draft for review.",
+        "[Save draft] [Cancel edit]"
+      ],
+      "visible_after_save": [
+        "Status notice: Offer saved as a draft. Preview it below before publishing.",
+        "Offer card eyebrow: stay · Courchevel · draft",
+        "[Edit] [Publish] [Delete draft]"
+      ],
+      "system_facts": [
+        "The offer is now hidden from all travelers until the provider presses Publish again; there is no admin review step despite 'for review'.",
+        "Travelers who already asked see their request titled 'Your travel request' instead of the offer name while it is unpublished.",
+        "Pressing 'Delete draft' on this offer shows the raw database error: update or delete on table \"offers\" violates foreign key constraint \"inquiries_offer_id_fkey\" on table \"inquiries\"."
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "realizes_unpublished": {
+        "type": "noul",
+        "instructions": "After saving, would the operator realize their offer is no longer visible to travelers?"
+      },
+      "expects_admin_review": {
+        "type": "noul",
+        "instructions": "Would the operator believe they must wait for a MERIDIAN review before republishing?"
+      },
+      "delete_error_recoverable": {
+        "type": "noul",
+        "instructions": "Would the operator understand the delete error and know how to recover?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "realizes_unpublished": {
+        "type": "noul",
+        "noul": 0.62
+      },
+      "expects_admin_review": {
+        "type": "noul",
+        "noul": 0.39
+      },
+      "delete_error_recoverable": {
+        "type": "noul",
+        "noul": 0.21
+      }
+    },
+    "usage": {
+      "input_tokens": 582,
+      "output_tokens": 64
+    }
+  }
+}

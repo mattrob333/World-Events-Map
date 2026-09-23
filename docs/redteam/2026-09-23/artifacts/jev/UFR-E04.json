@@ -1,0 +1,78 @@
+{
+  "label": "UFR-E04",
+  "executed_at": "2026-09-23T16:52:42.296Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Affluent traveler planning a Courchevel ski week, first-time MERIDIAN user, arrives via a shared link /access?offer=opp-courchevel-chalet.",
+      "system_fact": "This offer is a hard-coded sample. 'Three Valleys Desk' is not a connected provider and has confirmed nothing.",
+      "page_top_far_above_the_card": "Sample partner opportunities for product preview. Nothing here is live inventory or a confirmed reservation.",
+      "selected_card_visible_text": [
+        "YOUR SELECTED POSSIBILITY",
+        "STAY · CANCELLATION-LIST INQUIRY",
+        "Bellecôte chalet week",
+        "Courchevel 1850 · 19 Dec 2026 – 3 Jan 2027",
+        "Cancellation-list inquiry for a ski-in chalet. Staffing and beds are not held by MERIDIAN.",
+        "Three Valleys Desk        On request",
+        "Details last confirmed by the provider. Still an inquiry until they reply.",
+        "[Preview inquiry ↗]"
+      ],
+      "separately_in_live_offers_tab": "For real partner offers whose provider picked 'Provider updated · subject to confirmation', the traveler-facing card at /community?tab=offers reads 'Availability supplied by provider · Offer ends <date>' with no 'subject to confirmation' and no timestamp."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_provider_confirmed_sample": {
+        "type": "noul",
+        "instructions": "Looking only at the selected card, would the traveler believe a real provider named Three Valleys Desk has recently confirmed the details of this chalet week?"
+      },
+      "supplied_by_provider_reads_live": {
+        "type": "noul",
+        "instructions": "Would a traveler reading 'Availability supplied by provider' on a live partner offer believe the dates are currently available?"
+      },
+      "honesty_rating": {
+        "type": "score",
+        "instructions": "Rate how honestly the selected sample card communicates that it is illustrative, not a real provider's confirmed listing.",
+        "criteria": [
+          "Misleading",
+          "Ambiguous",
+          "Mostly clear",
+          "Unambiguous"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_provider_confirmed_sample": {
+        "type": "noul",
+        "noul": 0.57
+      },
+      "supplied_by_provider_reads_live": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "honesty_rating": {
+        "type": "score",
+        "score": 2.16,
+        "confidence": 0.16,
+        "legend": {
+          "0": "Misleading",
+          "1": "Ambiguous",
+          "2": "Mostly clear",
+          "3": "Unambiguous"
+        },
+        "probabilities": {
+          "0": 0.07,
+          "1": 0.14,
+          "2": 0.33,
+          "3": 0.46
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 700,
+      "output_tokens": 63
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "label": "UFR-C10",
+  "executed_at": "2026-09-23T16:56:03.683Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler physically in Monaco on a phone, device location granted. Opens MERIDIAN home.",
+      "visible": "Status line 'Curated calendar · Sep 23 · Using device location'. Hero 'The best stories start somewhere.' Primary button '✈ Fly to Monte-Carlo ↗'. Secondary 'See what is calling ↓'. Route card 'THE NEXT POSSIBILITY · FROM Your area ✈ TO Monte-Carlo · Monaco Yacht Show · Sep 23 · 0 km · Already in the area'. Further down a card 'ALREADY THERE? Make tonight a story. Find your next stop with NOW.'"
+    },
+    "model": "jev-latest",
+    "questions": {
+      "cta_makes_sense": {
+        "type": "noul",
+        "instructions": "Does a primary CTA 'Fly to Monte-Carlo' make sense to someone who is already in Monte-Carlo and whose route card says '0 km · Already in the area'?",
+        "criteria": {
+          "true": "Makes sense",
+          "false": "Contradictory / confusing"
+        }
+      },
+      "best_primary": {
+        "type": "choice",
+        "instructions": "Which primary action would best serve this traveler?",
+        "criteria": {
+          "fly": "Fly to Monte-Carlo (globe animation)",
+          "tonight": "What to do tonight here (NOW)",
+          "event": "Open today's Monaco Yacht Show",
+          "access": "Find access/stays here"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "cta_makes_sense": {
+        "type": "noul",
+        "noul": 0.09
+      },
+      "best_primary": {
+        "type": "choice",
+        "choice": "tonight",
+        "confidence": 0.82,
+        "probabilities": {
+          "tonight": 0.87,
+          "event": 0.1,
+          "access": 0.01,
+          "fly": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 567,
+      "output_tokens": 68
+    }
+  }
+}

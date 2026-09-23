@@ -1,0 +1,127 @@
+{
+  "label": "UFR-C01",
+  "executed_at": "2026-09-23T16:55:04.540Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler already in Monaco during the Monaco Yacht Show, on a phone (390px wide), wants a good decision for what to do tonight. Knows nothing about the product internals.",
+      "jtbd": "Decide where to go tonight, now.",
+      "entry": "Tapped MORE in the bottom nav, then 'Now - Tonight's scene'.",
+      "first_viewport_visible_text": "Header: MERIDIAN, search icon, PROFILE. Banner: 'Set your traveler lens — it takes under a minute, and you can skip. Begin / Skip'. Eyebrow 'NOW · LOCAL DECISION ENGINE'. H1 'Where should we go right now?'. Body 'Give MERIDIAN the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory.' Photo card 'MERIDIAN / THE MOMENT BEFORE' (rooftop bar photo, credit PattayaPatrol). 'YOUR NEXT MOVE 01 / 03'. H2 'Make tonight worth the story.' Text 'When live nearby search is connected, start with where you are and the mood you want. NOW will give each recommendation a reason to exist.'",
+      "below_the_fold_in_order": "Button-link 'Explore the world calendar ↗' (goes to the home/world page). Steps '01 Where you are 02 What feels right 03 A considered shortlist'. Small print 'Editorial archive photo, not a nearby venue result. Venue results appear only after you ask NOW to search.' Then (about 1000px down) a note: 'Live nearby venue search is awaiting its provider and private budget store. NOW cannot return live recommendations yet. Explore places and seasons ↗' (also goes to the home page). '01 · WHERE YOU ARE: Location stays off until live nearby search is ready.' (no location button, no city picker). '02 · WHAT YOU WANT' five tappable, working choice cards (Eat, Drinks, Music, Do something, Surprise me). '03 · VIBE' four working pills. '04 · CONSTRAINTS' working selects for radius, time, party size, max price. At the very bottom (about 2150px down) the button 'Find my next move' is disabled, with no message next to it.",
+      "home_page_fact": "The home page that both links lead to has a card 'ALREADY THERE? Make tonight a story. Find your next stop with NOW.' which links back to this NOW page.",
+      "not_offered": "No link to the Monte-Carlo destination page (which has editorial picks such as 'A table with a harbor line' and 'Port Hercules dawn'), no link to ACCESS, no manual city choice, no suggestion of an alternative app or source."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "understands_unavailable_in_first_viewport": {
+        "type": "noul",
+        "instructions": "From ONLY the first_viewport_visible_text, would this traveler reliably understand that NOW cannot give them any recommendation tonight?",
+        "criteria": {
+          "true": "Clearly understands NOW is unavailable right now",
+          "false": "Might believe NOW works and try to use it"
+        }
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "instructions": "Given everything visible on the page (first viewport plus what they see as they scroll), what is this traveler most likely to do next?",
+        "criteria": {
+          "fill_form": "Scroll down and fill in intent, vibe and constraints expecting results",
+          "explore_calendar": "Tap 'Explore the world calendar' / 'Explore places and seasons'",
+          "leave": "Give up on MERIDIAN for tonight and use another app or ask a concierge",
+          "other_meridian": "Navigate elsewhere in MERIDIAN (Access, search) looking for tonight ideas"
+        }
+      },
+      "form_is_misleading": {
+        "type": "noul",
+        "instructions": "Is it misleading that intent, vibe and constraint controls remain fully interactive while the only submit button is disabled with no adjacent explanation?",
+        "criteria": {
+          "true": "Yes, it invites wasted effort / implies the feature works",
+          "false": "No, it is acceptable"
+        }
+      },
+      "next_step_usefulness": {
+        "type": "score",
+        "instructions": "How useful is the offered next step ('Explore the world calendar' to the home page, which links back to NOW) for the job of deciding what to do in Monaco tonight?",
+        "criteria": [
+          "Useless or circular: a dead end for tonight",
+          "Marginally useful",
+          "Reasonably useful",
+          "Directly useful for tonight"
+        ]
+      },
+      "honesty": {
+        "type": "score",
+        "instructions": "How honest is the page about the fact that no live venue data is available?",
+        "criteria": [
+          "Misleading",
+          "Ambiguous",
+          "Honest but easy to miss",
+          "Honest and prominent"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_unavailable_in_first_viewport": {
+        "type": "noul",
+        "noul": 0.11
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "choice": "leave",
+        "confidence": 0.14,
+        "probabilities": {
+          "fill_form": 0.27,
+          "other_meridian": 0.03,
+          "explore_calendar": 0.34,
+          "leave": 0.36
+        }
+      },
+      "form_is_misleading": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "next_step_usefulness": {
+        "type": "score",
+        "score": 0.02,
+        "confidence": 0.98,
+        "legend": {
+          "0": "Useless or circular: a dead end for tonight",
+          "1": "Marginally useful",
+          "2": "Reasonably useful",
+          "3": "Directly useful for tonight"
+        },
+        "probabilities": {
+          "0": 0.99,
+          "1": 0.01,
+          "2": 0,
+          "3": 0
+        }
+      },
+      "honesty": {
+        "type": "score",
+        "score": 1.8,
+        "confidence": 0.72,
+        "legend": {
+          "0": "Misleading",
+          "1": "Ambiguous",
+          "2": "Honest but easy to miss",
+          "3": "Honest and prominent"
+        },
+        "probabilities": {
+          "0": 0.07,
+          "1": 0.11,
+          "2": 0.78,
+          "3": 0.04
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1318,
+      "output_tokens": 132
+    }
+  }
+}

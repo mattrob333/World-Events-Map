@@ -1,0 +1,71 @@
+{
+  "label": "UFR-C03",
+  "executed_at": "2026-09-23T16:55:24.879Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler in Monaco on a phone (390x844) who saw a yacht opportunity and wants to pursue it.",
+      "jtbd": "Open the Monaco yacht offer and ask about it.",
+      "before_action": "They scrolled ~1250px down the ACCESS list and see a card: 'YACHT / BOAT · AVAILABILITY BY REQUEST · Harbor morning, race week · Port Hercules · A berth-adjacent morning on the water... Inquiry only. · Riviera Deck · On request · [REQUEST DETAILS button]'.",
+      "action": "They tap 'REQUEST DETAILS'.",
+      "what_happens": "The URL changes to /access?offer=opp-monaco-harbor and the page jumps to the very top. The first viewport after the tap is pixel-identical to the ACCESS landing view: hero photo, 'MERIDIAN / ACCESS', 'Make the trip happen.', 'Explore opportunities ↘', 'Place archive photography · preview opportunities, not live inventory', then the disclosure 'Sample partner opportunities for product preview. Nothing here is live inventory or a confirmed reservation.' and '01 / DISCOVER'. The new section 'YOUR SELECTED POSSIBILITY' with the chosen offer begins about 1460px down the page (below the hero, disclosure and a three-step explainer). No toast, no scroll to the offer, no visual change above the fold."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "notices_selection": {
+        "type": "noul",
+        "instructions": "Would this traveler, looking only at the first viewport after the tap, realise their tap selected the offer and that details are further down?",
+        "criteria": {
+          "true": "Yes, understands the selection happened",
+          "false": "No, likely thinks nothing happened or the page reset"
+        }
+      },
+      "perceived_outcome": {
+        "type": "choice",
+        "instructions": "What will the traveler most likely conclude right after the tap?",
+        "criteria": {
+          "reset": "The page reloaded / nothing happened / something broke",
+          "request_sent": "A request for details was sent to the provider",
+          "details_below": "The details opened lower on the page",
+          "unsure": "Unsure what happened"
+        }
+      },
+      "label_predicts": {
+        "type": "noul",
+        "instructions": "Does the label 'REQUEST DETAILS' on a sample, non-live offer correctly predict an in-page detail view that sends nothing to anyone?",
+        "criteria": {
+          "true": "Label predicts behaviour",
+          "false": "Label implies a request is sent / something else"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "notices_selection": {
+        "type": "noul",
+        "noul": 0.13
+      },
+      "perceived_outcome": {
+        "type": "choice",
+        "choice": "reset",
+        "confidence": 0.71,
+        "probabilities": {
+          "details_below": 0.12,
+          "reset": 0.79,
+          "request_sent": 0,
+          "unsure": 0.09
+        }
+      },
+      "label_predicts": {
+        "type": "noul",
+        "noul": 0.37
+      }
+    },
+    "usage": {
+      "input_tokens": 805,
+      "output_tokens": 91
+    }
+  }
+}

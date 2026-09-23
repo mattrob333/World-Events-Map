@@ -1,0 +1,76 @@
+{
+  "label": "UFR-C06",
+  "executed_at": "2026-09-23T16:55:42.616Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler physically in Monaco on a phone; the Monaco Yacht Show dossier shows 'LEAD TIME: Today' and 'WHERE: Monte-Carlo, Monaco'.",
+      "visible_dossier_ctas": "'Open Monte-Carlo destination →', 'Find access & stays ↗', 'Find a circle ↗', 'Explore the neighborhood ↗', 'Step into Monte-Carlo · Street View ↗'. No 'what to do tonight' / NOW link.",
+      "action": "They tap 'Find access & stays ↗'.",
+      "result": "They land on the generic /access page top (hero 'Make the trip happen.'). The list below starts with three Aspen offers (Base-of-Ajax suite week, Reposition into KASE, Airport to mountain). The single Monaco offer is fourth. There is no destination filter; nothing mentions Monaco or the Yacht Show."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "expected_context": {
+        "type": "noul",
+        "instructions": "Would the traveler expect 'Find access & stays' in the Monaco Yacht Show dossier to show Monaco / Yacht Show options first?",
+        "criteria": {
+          "true": "Expects Monaco-scoped results",
+          "false": "Expects a generic catalogue"
+        }
+      },
+      "context_loss": {
+        "type": "score",
+        "instructions": "How much context is lost between the dossier CTA and the landing page?",
+        "criteria": [
+          "None",
+          "Minor",
+          "Significant",
+          "Total: user must start over"
+        ]
+      },
+      "missing_now_link": {
+        "type": "noul",
+        "instructions": "For an event happening today in the city the traveler is already in, is the absence of a 'what to do tonight' (NOW) option a meaningful gap?",
+        "criteria": {
+          "true": "Meaningful gap",
+          "false": "Not needed"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expected_context": {
+        "type": "noul",
+        "noul": 0.86
+      },
+      "context_loss": {
+        "type": "score",
+        "score": 2.81,
+        "confidence": 0.81,
+        "legend": {
+          "0": "None",
+          "1": "Minor",
+          "2": "Significant",
+          "3": "Total: user must start over"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0,
+          "2": 0.18,
+          "3": 0.8200000000000001
+        }
+      },
+      "missing_now_link": {
+        "type": "noul",
+        "noul": 0.83
+      }
+    },
+    "usage": {
+      "input_tokens": 640,
+      "output_tokens": 53
+    }
+  }
+}

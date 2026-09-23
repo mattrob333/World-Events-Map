@@ -1,0 +1,56 @@
+{
+  "label": "UFR-C09",
+  "executed_at": "2026-09-23T16:56:03.043Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Traveler who received a shared link to a MERIDIAN ACCESS offer from a friend; the offer id is no longer valid (link /access?offer=nope).",
+      "result": "The page loads the normal ACCESS landing: hero 'Make the trip happen.', disclosure, 3-step explainer, heading 'Find your way in.', five offer cards. No message that the linked offer was not found, expired or removed. The URL still contains ?offer=nope."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "understands_missing": {
+        "type": "noul",
+        "instructions": "Would the traveler understand that the specific offer they were sent is unavailable?",
+        "criteria": {
+          "true": "Understands the offer is gone",
+          "false": "Confused / keeps looking for it"
+        }
+      },
+      "likely_behaviour": {
+        "type": "choice",
+        "instructions": "What does the traveler most likely do?",
+        "criteria": {
+          "search_list": "Scroll the list looking for the shared offer",
+          "assume_broken": "Assume the app is broken",
+          "pick_other": "Browse other offers happily",
+          "leave": "Leave"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_missing": {
+        "type": "noul",
+        "noul": 0.11
+      },
+      "likely_behaviour": {
+        "type": "choice",
+        "choice": "search_list",
+        "confidence": 0.65,
+        "probabilities": {
+          "search_list": 0.74,
+          "assume_broken": 0.04,
+          "leave": 0.01,
+          "pick_other": 0.21
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 509,
+      "output_tokens": 73
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "label": "UFR-E01",
+  "executed_at": "2026-09-23T16:52:40.652Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Owner of a small yacht charter brokerage in Monaco. Not technical. Found MERIDIAN via the 'Partner with us' link in the site footer and wants to list a race-week day-charter offer so travelers can inquire.",
+      "job_to_be_done": "Apply as a provider and get an offer in front of travelers.",
+      "route": "/partners",
+      "visible_page_text": [
+        "PARTNER STUDIO",
+        "Traveler ACCESS (link)",
+        "BE THERE WHEN THEY DECIDE TO GO",
+        "Extraordinary places. The people who make them happen.",
+        "Bring your stays, arrivals, access and expertise to travelers already imagining their next chapter.",
+        "The studio is being connected.",
+        "Provider accounts, offers and inquiries require the member platform to be configured. No application or offer has been submitted.",
+        "Explore the world (link to globe home)",
+        "A considered connection. Every time.",
+        "Return to the world (link)"
+      ],
+      "also_visible": "A site-wide banner: 'Set your traveler lens — it takes under a minute, and you can skip. Begin / Skip'",
+      "not_present": "No form, no email field, no contact address, no waitlist, no expected date, no description of how review, offers, pricing or inquiries work."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "knows_nothing_submitted": {
+        "type": "noul",
+        "instructions": "Would this provider correctly understand that nothing about their business has been submitted or saved?"
+      },
+      "has_path_forward": {
+        "type": "noul",
+        "instructions": "Does the visible page give this provider any way to move toward listing their business today (apply, register interest, or contact someone)?"
+      },
+      "understands_offering": {
+        "type": "score",
+        "instructions": "How well can this provider tell, from the visible page alone, what the partner studio would do for them (review/approval, who sees offers, that offers generate inquiries rather than bookings)?",
+        "criteria": [
+          "Cannot tell at all",
+          "Vague impression only",
+          "Partly understands",
+          "Clearly understands"
+        ]
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "instructions": "What is this provider most likely to do next?",
+        "criteria": {
+          "leave_site": "Leave and not come back",
+          "wait_and_return_later": "Plan to come back later on their own",
+          "click_explore_world": "Click Explore the world expecting partner information there",
+          "click_traveler_access": "Click Traveler ACCESS to see how offers look",
+          "start_traveler_lens": "Click Begin on the traveler-lens banner"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_nothing_submitted": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "has_path_forward": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "understands_offering": {
+        "type": "score",
+        "score": 0.99,
+        "confidence": 0.68,
+        "legend": {
+          "0": "Cannot tell at all",
+          "1": "Vague impression only",
+          "2": "Partly understands",
+          "3": "Clearly understands"
+        },
+        "probabilities": {
+          "0": 0.16,
+          "1": 0.69,
+          "2": 0.15,
+          "3": 0
+        }
+      },
+      "likely_next_action": {
+        "type": "choice",
+        "choice": "leave_site",
+        "confidence": 0.06,
+        "probabilities": {
+          "wait_and_return_later": 0.15,
+          "click_traveler_access": 0.23,
+          "start_traveler_lens": 0.22,
+          "click_explore_world": 0.15,
+          "leave_site": 0.25
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 834,
+      "output_tokens": 130
+    }
+  }
+}

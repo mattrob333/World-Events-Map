@@ -1,0 +1,76 @@
+{
+  "label": "UFR-C05",
+  "executed_at": "2026-09-23T16:55:42.118Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Affluent traveler browsing MERIDIAN ACCESS on a phone, deciding whether to pursue a chalet.",
+      "page_banner_far_above": "'Sample partner opportunities for product preview. Nothing here is live inventory or a confirmed reservation.' (shown once near the top of the page, ~1000px above this card)",
+      "card_text": "'STAY · CANCELLATION-LIST INQUIRY' · 'Bellecôte chalet week' · 'Courchevel 1850' · 'Cancellation-list inquiry for a ski-in chalet. Staffing and beds are not held by MERIDIAN.' · 'Three Valleys Desk' · 'On request' · [REQUEST DETAILS] · footnote 'Details last confirmed by the provider. Still an inquiry until they reply.'",
+      "fact": "This card is a hard-coded sample fixture. 'Three Valleys Desk' is not a connected provider and has never confirmed anything."
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_provider_confirmed": {
+        "type": "noul",
+        "instructions": "Reading this card, would the traveler believe a real provider (Three Valleys Desk) has recently confirmed these chalet details?",
+        "criteria": {
+          "true": "Believes a real provider confirmed details",
+          "false": "Understands nothing was confirmed by anyone"
+        }
+      },
+      "believes_real_provider": {
+        "type": "noul",
+        "instructions": "Would the traveler believe 'Three Valleys Desk' is a real business they could reach?",
+        "criteria": {
+          "true": "Believes it is real",
+          "false": "Understands it is illustrative"
+        }
+      },
+      "footnote_honesty": {
+        "type": "score",
+        "instructions": "How honest is the footnote 'Details last confirmed by the provider' on a sample fixture?",
+        "criteria": [
+          "False claim",
+          "Misleading",
+          "Ambiguous",
+          "Accurate"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_provider_confirmed": {
+        "type": "noul",
+        "noul": 0.33
+      },
+      "believes_real_provider": {
+        "type": "noul",
+        "noul": 0.45
+      },
+      "footnote_honesty": {
+        "type": "score",
+        "score": 0.15,
+        "confidence": 0.85,
+        "legend": {
+          "0": "False claim",
+          "1": "Misleading",
+          "2": "Ambiguous",
+          "3": "Accurate"
+        },
+        "probabilities": {
+          "0": 0.87,
+          "1": 0.12,
+          "2": 0,
+          "3": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 653,
+      "output_tokens": 61
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "label": "UFR-E07",
+  "executed_at": "2026-09-23T16:52:44.613Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "Yacht charter broker filling in the MERIDIAN partner application and offer form (configured deployment).",
+      "application_specialty_options": [
+        "Hotels & villas",
+        "Chauffeur services",
+        "Private aviation",
+        "Events & experiences",
+        "Travel advisor"
+      ],
+      "offer_type_options": [
+        "Stay",
+        "Arrive",
+        "Access",
+        "Curated trip"
+      ],
+      "traveler_side_filters_on_ACCESS": [
+        "Stay",
+        "Private aviation",
+        "Ground transport",
+        "Event access",
+        "Dining",
+        "Local experience",
+        "Yacht / boat",
+        "Travel advisor"
+      ]
+    },
+    "model": "jev-latest",
+    "questions": {
+      "specialty_pick": {
+        "type": "choice",
+        "instructions": "Which application specialty would this yacht broker most likely pick?",
+        "criteria": {
+          "hotel": "Hotels & villas",
+          "chauffeur": "Chauffeur services",
+          "aviation": "Private aviation",
+          "organizer": "Events & experiences",
+          "advisor": "Travel advisor",
+          "abandon": "None fits; abandon or contact support"
+        }
+      },
+      "offer_type_pick": {
+        "type": "choice",
+        "instructions": "Which offer Type would they pick for a day charter?",
+        "criteria": {
+          "stay": "Stay",
+          "arrive": "Arrive",
+          "access": "Access",
+          "curated": "Curated trip"
+        }
+      },
+      "taxonomy_fit": {
+        "type": "score",
+        "instructions": "How well do the provider-side categories fit a yacht charter business, given travelers filter by 'Yacht / boat'?",
+        "criteria": [
+          "No fit",
+          "Poor fit",
+          "Acceptable",
+          "Good fit"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "specialty_pick": {
+        "type": "choice",
+        "choice": "advisor",
+        "confidence": 0.75,
+        "probabilities": {
+          "advisor": 0.79,
+          "aviation": 0.01,
+          "abandon": 0.08,
+          "hotel": 0,
+          "organizer": 0.12,
+          "chauffeur": 0
+        }
+      },
+      "offer_type_pick": {
+        "type": "choice",
+        "choice": "access",
+        "confidence": 0.83,
+        "probabilities": {
+          "access": 0.88,
+          "stay": 0.01,
+          "arrive": 0.09,
+          "curated": 0.02
+        }
+      },
+      "taxonomy_fit": {
+        "type": "score",
+        "score": 1.58,
+        "confidence": 0.23,
+        "legend": {
+          "0": "No fit",
+          "1": "Poor fit",
+          "2": "Acceptable",
+          "3": "Good fit"
+        },
+        "probabilities": {
+          "0": 0.09,
+          "1": 0.43,
+          "2": 0.3,
+          "3": 0.18
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 674,
+      "output_tokens": 129
+    }
+  }
+}
