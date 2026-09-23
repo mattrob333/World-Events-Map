@@ -89,8 +89,8 @@ interface ShellConfig {
 const SHELLS: ShellConfig[] = [
   {
     radius: R * 1.025,
-    color: '#4d86d8',
-    duskColor: '#e0904a',
+    color: '#e0607a',
+    duskColor: '#f7a23a',
     power: 3.0,
     intensity: 0.85,
     nightFloor: 0.16,
@@ -98,8 +98,8 @@ const SHELLS: ShellConfig[] = [
   },
   {
     radius: R * 1.14,
-    color: '#2b5a9e',
-    duskColor: '#8a5a30',
+    color: '#6e3f96',
+    duskColor: '#b9612a',
     power: 5.2,
     intensity: 0.32,
     nightFloor: 0.3,

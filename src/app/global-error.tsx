@@ -28,7 +28,7 @@ export default function GlobalError({
             Something failed while loading the app. Nothing you saved on this device was changed.
           </p>
           <p style={{ display: 'flex', gap: 16, fontFamily: 'system-ui, sans-serif', fontSize: 13 }}>
-            <button type="button" onClick={() => retry()} style={{ padding: '8px 14px', border: '1px solid #c8a866', background: 'transparent', color: '#f0d5a4', cursor: 'pointer' }}>
+            <button type="button" onClick={() => retry()} style={{ padding: '8px 14px', border: '1px solid #f2a24a', background: 'transparent', color: '#f7c548', cursor: 'pointer' }}>
               Try again
             </button>
             <Link href="/" style={{ color: '#b9b3a6', alignSelf: 'center' }}>Back to World</Link>

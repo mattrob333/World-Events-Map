@@ -7,9 +7,9 @@
   align-items: center;
   gap: 9px;
   padding: 8px 12px;
-  border: 1px solid rgba(171, 211, 227, 0.24);
-  background: linear-gradient(110deg, rgba(21, 43, 62, 0.9), rgba(9, 19, 29, 0.84));
-  box-shadow: 0 8px 35px rgba(3, 9, 16, 0.3), inset 0 1px rgba(223, 245, 255, 0.08);
+  border: 1px solid rgba(242, 162, 74, 0.24);
+  background: linear-gradient(110deg, rgba(46, 32, 24, 0.9), rgba(20, 14, 10, 0.84));
+  box-shadow: 0 8px 35px rgba(10, 7, 5, 0.3), inset 0 1px rgba(248, 236, 214, 0.08);
   color: #d5eef6;
   font: 9px/1.2 var(--font-mono);
   letter-spacing: 0.16em;
@@ -23,14 +23,14 @@
   width: 17px;
   height: 17px;
   color: #e5f7ff;
-  filter: drop-shadow(0 0 5px rgba(184, 229, 247, 0.65));
+  filter: drop-shadow(0 0 5px rgba(247, 197, 72, 0.65));
 }
 
 .legend i {
   width: 1px;
   height: 15px;
   margin-inline: 3px;
-  background: rgba(179, 214, 224, 0.34);
+  background: rgba(242, 162, 74, 0.34);
 }
 
 .legend small {

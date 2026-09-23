@@ -102,7 +102,7 @@ export function avatarSpec(seed: string): AvatarSpec {
     angle: 118 + rand() * 44,
     ringAlpha: 0.3 + rand() * 0.24,
     accent: `hsl(${round(hue)} ${round(sat * 2.4)}% 62%)`,
-    monogram: 'rgba(244,241,234,0.86)',
+    monogram: 'rgba(244,236,221,0.86)',
   };
 
   cache.set(seed, spec);
@@ -175,8 +175,8 @@ export function avatarSvg(seed: string, size: number, name: string): string {
     `</defs>`,
     `<circle cx="${r}" cy="${r}" r="${r}" fill="url(#${id}p)"/>`,
     `<circle cx="${r}" cy="${r}" r="${r}" fill="url(#${id}s)"/>`,
-    `<circle cx="${r}" cy="${r}" r="${ringR}" fill="none" stroke="rgba(200,168,102,${round(s.ringAlpha)})" stroke-width="1"/>`,
-    `<circle cx="${r}" cy="${r}" r="${Math.max(0, ringR - 2.5)}" fill="none" stroke="rgba(244,241,234,0.05)" stroke-width="1"/>`,
+    `<circle cx="${r}" cy="${r}" r="${ringR}" fill="none" stroke="rgba(242,162,74,${round(s.ringAlpha)})" stroke-width="1"/>`,
+    `<circle cx="${r}" cy="${r}" r="${Math.max(0, ringR - 2.5)}" fill="none" stroke="rgba(244,236,221,0.05)" stroke-width="1"/>`,
     `<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" `,
     `fill="${s.monogram}" font-family="Didot, 'Bodoni MT', 'Hoefler Text', Garamond, 'Times New Roman', serif" `,
     `font-size="${round(fontSize)}" letter-spacing="${round(size * 0.012)}">${escapeText(initials)}</text>`,

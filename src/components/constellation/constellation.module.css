@@ -6,7 +6,7 @@
 }
 
 .panel {
-  background: color-mix(in oklab, #0b0e18 94%, transparent);
+  background: color-mix(in oklab, #16110d 94%, transparent);
   border: 1px solid #ffffff12;
   border-radius: 14px;
   padding: 18px;
@@ -19,10 +19,10 @@
   min-height: 640px;
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid #c8a86635;
+  border: 1px solid #f2a24a35;
   background:
-    radial-gradient(circle at 50% 45%, #172032 0, #080b12 42%, #030409 78%),
-    #030409;
+    radial-gradient(circle at 50% 45%, #2e231b 0, #110c09 42%, #080604 78%),
+    #080604;
   box-shadow: inset 0 0 80px #0008, 0 24px 70px -42px #000;
 }
 
@@ -49,7 +49,7 @@
 
 .canvasMeta strong {
   display: block;
-  color: #f4f1ea;
+  color: #f4ecdd;
   font-size: 13px;
   font-weight: 600;
 }
@@ -72,8 +72,8 @@
   min-height: 42px;
   border: 1px solid #ffffff22;
   border-radius: 8px;
-  background: #070b12;
-  color: #f4f1ea;
+  background: #100c08;
+  color: #f4ecdd;
   padding: 9px 10px;
 }
 
@@ -106,7 +106,7 @@
 }
 
 .toggle input {
-  accent-color: #c8a866;
+  accent-color: #f2a24a;
 }
 
 .legend {
@@ -119,7 +119,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #a8a598;
+  color: #b4a893;
   font-size: 11px;
 }
 
@@ -140,7 +140,7 @@
 
 .nodeLabel strong {
   display: block;
-  color: #f4f1ea;
+  color: #f4ecdd;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -149,7 +149,7 @@
 .nodeLabel span {
   display: block;
   margin-top: 2px;
-  color: #a8a598;
+  color: #b4a893;
   font-size: 8px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -159,7 +159,7 @@
   font-family: var(--font-mono);
   font-size: 54px;
   line-height: 1;
-  color: #e6cf9b;
+  color: #f7c548;
 }
 
 .reasonList {
@@ -190,8 +190,8 @@
   width: 100%;
   min-height: 42px;
   border-radius: 8px;
-  border: 1px solid #c8a866;
-  background: #c8a866;
+  border: 1px solid #f2a24a;
+  background: #f2a24a;
   color: #090a0c;
   font-weight: 700;
   cursor: pointer;
@@ -204,8 +204,8 @@
 
 .quietAction {
   background: transparent;
-  color: #e6cf9b;
-  border-color: #c8a86655;
+  color: #f7c548;
+  border-color: #f2a24a55;
 }
 
 .notice {
@@ -221,9 +221,9 @@
 
 .empty {
   padding: 36px;
-  border: 1px dashed #c8a86645;
+  border: 1px dashed #f2a24a45;
   border-radius: 14px;
-  background: #0c1018;
+  background: #18110c;
   text-align: center;
 }
 
@@ -233,7 +233,7 @@
 }
 
 .empty p {
-  color: #a8a598;
+  color: #b4a893;
   max-width: 620px;
   margin: 0 auto 18px;
 }

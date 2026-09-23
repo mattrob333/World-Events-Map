@@ -178,8 +178,8 @@ export interface PortraitDrawing {
   id: string;
 }
 
-const INK = '244,241,234';
-const BRASS = '200,168,102';
+const INK = '244,236,221';
+const BRASS = '242,162,74';
 
 function detailFor(size: number, forced: PortraitOptions['detail']): 'minimal' | 'full' {
   if (forced && forced !== 'auto') return forced;

@@ -14,10 +14,10 @@ import * as THREE from 'three';
 import type { HeatLevel } from '@/lib/types';
 
 export const HEAT_COLORS: Record<HeatLevel, string> = {
-  smoldering: '#3d6fa8',
-  warm: '#4fa3c7',
-  hot: '#d9a441',
-  blazing: '#e8703a',
+  smoldering: '#7b4bb3',
+  warm: '#d4508a',
+  hot: '#f26b2a',
+  blazing: '#f7a23a',
   supernova: '#fff0c4',
 };
 
@@ -69,6 +69,6 @@ export function heatPulses(heat: HeatLevel): boolean {
 }
 
 /** Brass, for chrome that lives inside the scene (focus reticles, ticks). */
-export const BRASS = '#c8a866';
-export const BRASS_BRIGHT = '#e6cf9b';
-export const VOID = '#04050a';
+export const BRASS = '#f2a24a';
+export const BRASS_BRIGHT = '#f7c548';
+export const VOID = '#0c0907';

@@ -38,16 +38,16 @@
   --color-dusk: #8e4db8;
 
   /* ── Heat ramp: cold anticipation → white-hot. Data only. ─────────── */
-  --color-heat-smoldering: #3d6fa8;
-  --color-heat-warm: #4fa3c7;
-  --color-heat-hot: #d9a441;
-  --color-heat-blazing: #e8703a;
+  --color-heat-smoldering: #7b4bb3;
+  --color-heat-warm: #d4508a;
+  --color-heat-hot: #f26b2a;
+  --color-heat-blazing: #f7a23a;
   --color-heat-supernova: #fff0c4;
 
   /* ── Semantic ─────────────────────────────────────────────────────── */
   --color-signal: #5ee0c8;
   --color-commit: #7ee787;
-  --color-alert: #e8703a;
+  --color-alert: #e4577e;
 
   /* ── Type ─────────────────────────────────────────────────────────── */
   --font-display: 'Fraunces Variable', 'Fraunces', 'Hoefler Text', Georgia,
@@ -86,7 +86,7 @@
        as flat black even before WebGL paints. */
     background-image: radial-gradient(
       ellipse 120% 80% at 50% 55%,
-      #0d1220 0%,
+      #1e150f 0%,
       var(--color-void) 60%
     );
   }

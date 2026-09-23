@@ -19,7 +19,7 @@ function labelTexture(label: string): THREE.CanvasTexture {
   canvas.height = 144;
   const context = canvas.getContext('2d');
   if (context) {
-    context.fillStyle = 'rgba(8, 27, 34, 0.94)';
+    context.fillStyle = 'rgba(22, 15, 11, 0.94)';
     context.beginPath();
     context.roundRect(3, 3, 634, 138, 25);
     context.fill();
