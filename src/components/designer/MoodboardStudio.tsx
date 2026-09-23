@@ -11,10 +11,12 @@ import {
   type ParseEngine,
   type TravelerProfile,
 } from '@/lib/designer/profile';
+import { tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore } from '@/lib/designer/store';
 import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
 import { LiveShows } from './LiveShows';
+import { ScenePlaybook, usePersona } from './ScenePlaybook';
 import { SpotifyPanel } from './SpotifyPanel';
 import { useHydrated } from './useHydrated';
 import { useDictation } from './useDictation';
@@ -68,6 +70,13 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
   const listening = dictation.status === 'listening';
 
   const cards = useMemo(() => (result ? bentoCards(result.profile) : []), [result]);
+  const taste = useMemo(() => (result ? tasteFrom(result.profile) : null), [result]);
+  const hasTaste = Boolean(taste && (taste.genres.length || taste.topArtists?.length));
+  const board = result?.profile.listening;
+  const persona = usePersona(hasTaste ? taste : null, {
+    listeningHours: board?.nightOwl !== undefined ? `${Math.round(board.nightOwl * 100)}% of plays after 10 pm` : undefined,
+    playlistHabits: board?.playlistHints,
+  });
 
   const withListening = useCallback(
     (profile: TravelerProfile, engine: ParseEngine = 'on-device'): TravelerProfile => {
@@ -285,8 +294,10 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
               })}
             </div>
 
+            {hasTaste && taste ? <ScenePlaybook taste={taste} persona={persona} /> : null}
+
             {result.profile.listening?.topArtists.length ? (
-              <LiveShows artists={result.profile.listening.topArtists.slice(0, 5)} hometown={result.profile.hometown} />
+              <LiveShows artists={result.profile.listening.topArtists.slice(0, 5)} hometown={result.profile.hometown} taste={taste ?? undefined} />
             ) : null}
 
             <div className={`${styles.row} mt-6`}>

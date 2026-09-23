@@ -7,6 +7,7 @@ import {
   type DestinationId,
   type SlotKind,
 } from './catalog';
+import type { TasteInput } from './scene';
 
 export type ParticipantKind = 'adult' | 'kid';
 
@@ -51,6 +52,8 @@ export type Itinerary = {
   days: Day[];
   engine: ComposeEngine;
   createdAt: string;
+  /** Group music taste from the travelers' boards; attached on the device, never sent to the composer. */
+  taste?: TasteInput;
 };
 
 export type ComposeInput = {

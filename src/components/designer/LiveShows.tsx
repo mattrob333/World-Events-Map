@@ -1,33 +1,81 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import type { ConcertResult } from '@/lib/designer/concerts';
+import { useEffect, useMemo, useState } from 'react';
+import type { ConcertResult, EventKind, LiveEvent } from '@/lib/designer/concerts';
+import type { TasteInput } from '@/lib/designer/scene';
 import styles from './designer.module.css';
+import { KIND_STYLE, MusicWorldMap, pinKey } from './MusicWorldMap';
 
 function formatDate(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
-/** Upcoming shows by the traveler's artists, plus tribute and cover acts. */
-export function LiveShows({ artists, hometown }: { artists: string[]; hometown?: string }) {
-  const [nearHome, setNearHome] = useState(Boolean(hometown));
+const SOURCE_LABEL = { ticketmaster: 'Ticketmaster', seatgeek: 'SeatGeek' } as const;
+
+export function EventCard({ event }: { event: LiveEvent }) {
+  const style = KIND_STYLE[event.kind];
+  return (
+    <a className={styles.showCard} href={event.url} target="_blank" rel="noopener noreferrer">
+      <span className={styles.showArt}>
+        {event.image ? (
+          // eslint-disable-next-line @next/next/no-img-element -- provider event artwork
+          <img src={event.image} alt="" loading="lazy" />
+        ) : (
+          <span aria-hidden>{event.kind === 'tribute' ? '🎸' : event.kind === 'festival' ? '🎪' : '🎤'}</span>
+        )}
+        <span className={styles.showKind} style={{ background: style.color }}>
+          {event.kind === 'festival' ? 'Festival' : event.kind === 'tribute' ? 'Tribute / cover' : event.kind === 'artist' ? 'Live' : 'Your scene'}
+        </span>
+        {event.fit !== undefined ? (
+          <span className={styles.showFit} title="Jev’s read of how well this fits your taste">
+            {Math.round(event.fit * 100)}% your vibe
+          </span>
+        ) : null}
+      </span>
+      <span className="grid gap-1 p-3">
+        <span className="text-[11px] uppercase tracking-[0.12em] text-[#fdba74]">
+          {formatDate(event.date)}
+          {event.time ? ` · ${event.time}` : ''}
+        </span>
+        <span className="text-[14px] font-semibold leading-5 text-ink">{event.name}</span>
+        <span className="text-[12px] text-ink-muted">{[event.venue, event.city, event.country].filter(Boolean).join(' · ')}</span>
+        {event.kind === 'festival' && event.artist ? <span className="text-[12px] text-[#f9a8d4]">{event.artist} is on the bill</span> : null}
+        <span className="text-[11px] text-ink-faint">
+          {SOURCE_LABEL[event.source]}
+          {event.price ? ` · listed ${event.price}, check current price` : ''}
+        </span>
+      </span>
+    </a>
+  );
+}
+
+const GROUPS: [EventKind, string][] = [
+  ['festival', 'Festivals with your artists'],
+  ['artist', 'Your artists on tour'],
+  ['tribute', 'Tribute & cover acts'],
+];
+
+/** Where the traveler's artists are playing around the world, on a map and as cards. */
+export function LiveShows({ artists, hometown, taste }: { artists: string[]; hometown?: string; taste?: TasteInput }) {
+  const [scope, setScope] = useState<'world' | 'home'>('world');
   const [result, setResult] = useState<ConcertResult | null>(null);
   const [failed, setFailed] = useState(false);
-  const key = `${artists.join('|')}|${nearHome ? hometown : ''}`;
+  const [selected, setSelected] = useState<string | null>(null);
+  const key = `${artists.join('|')}|${scope}`;
 
   useEffect(() => {
     let cancelled = false;
     fetch('/api/designer/concerts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ artists, city: nearHome ? hometown : undefined }),
+      body: JSON.stringify({ artists, city: scope === 'home' ? hometown : undefined, taste }),
     })
       .then((response) => (response.ok ? (response.json() as Promise<ConcertResult>) : Promise.reject(new Error('failed'))))
       .then((body) => {
-        if (!cancelled) {
-          setResult(body);
-          setFailed(false);
-        }
+        if (cancelled) return;
+        setResult(body);
+        setSelected(null);
+        setFailed(false);
       })
       .catch(() => {
         if (!cancelled) setFailed(true);
@@ -35,76 +83,71 @@ export function LiveShows({ artists, hometown }: { artists: string[]; hometown?:
     return () => {
       cancelled = true;
     };
-    // `key` captures artists + city; the arrays themselves change identity each render.
+    // `key` captures artists + scope; the arrays change identity every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  const tributes = result?.concerts.filter((c) => c.kind === 'tribute') ?? [];
-  const tours = result?.concerts.filter((c) => c.kind === 'artist') ?? [];
+  const events = useMemo(() => result?.concerts ?? [], [result]);
+  const visible = selected ? events.filter((event) => pinKey(event) === selected) : events;
+  const live = result && result.source !== 'links';
 
   return (
     <section className="mt-10" aria-labelledby="live-title">
       <div className={styles.row}>
         <h2 id="live-title" className="font-display text-[26px] text-ink">
-          Live for you
+          Your music on the map
         </h2>
         {result ? (
           <span className={styles.badge}>
-            {result.source === 'ticketmaster' ? `Ticketmaster · checked ${new Date(result.fetchedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : 'Search links'}
+            {live
+              ? `${result.sources.map((source) => SOURCE_LABEL[source]).join(' + ')} · checked ${new Date(result.fetchedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
+              : 'Event feeds not connected · search links'}
           </span>
         ) : null}
         {hometown ? (
           <div className={`${styles.seg} ml-auto`} role="group" aria-label="Where">
-            <button type="button" className={`${styles.segBtn} ${nearHome ? styles.segOn : ''}`} onClick={() => setNearHome(true)} aria-pressed={nearHome}>
-              Near {hometown.split(',')[0]}
+            <button type="button" className={`${styles.segBtn} ${scope === 'world' ? styles.segOn : ''}`} onClick={() => setScope('world')} aria-pressed={scope === 'world'}>
+              Worldwide
             </button>
-            <button type="button" className={`${styles.segBtn} ${!nearHome ? styles.segOn : ''}`} onClick={() => setNearHome(false)} aria-pressed={!nearHome}>
-              Anywhere
+            <button type="button" className={`${styles.segBtn} ${scope === 'home' ? styles.segOn : ''}`} onClick={() => setScope('home')} aria-pressed={scope === 'home'}>
+              Near {hometown.split(',')[0]}
             </button>
           </div>
         ) : null}
       </div>
+      <p className="mt-1 text-[13px] text-ink-muted">
+        Tour dates, festivals with {artists.slice(0, 3).join(', ')} on the bill, and bands that play their songs. Tap a pin to see what’s there.
+      </p>
 
-      {!result && !failed ? <p className="mt-3 text-[13px] text-ink-muted">Looking for shows…</p> : null}
+      {!result && !failed ? <p className="mt-3 text-[13px] text-ink-muted">Checking tour dates…</p> : null}
       {failed ? <p className={styles.notice}>Shows could not be checked right now.</p> : null}
 
-      {result?.source === 'ticketmaster' ? (
-        tours.length || tributes.length ? (
-          <>
-            {[
-              ['On tour', tours],
-              ['Tribute & cover acts', tributes],
-            ].map(([label, list]) =>
-              (list as ConcertResult['concerts']).length ? (
-                <div key={label as string} className="mt-4">
-                  <p className={styles.factTitle}>{label as string}</p>
+      {live ? (
+        <>
+          <MusicWorldMap events={events} selected={selected} onSelect={setSelected} />
+          {selected ? (
+            <button type="button" className={`${styles.miniBtn} mt-2`} onClick={() => setSelected(null)}>
+              Show everywhere
+            </button>
+          ) : null}
+          {visible.length ? (
+            GROUPS.map(([kind, label]) => {
+              const list = visible.filter((event) => event.kind === kind).sort((a, b) => (b.fit ?? 1) - (a.fit ?? 1) || a.date.localeCompare(b.date));
+              return list.length ? (
+                <div key={kind} className="mt-4">
+                  <p className={styles.factTitle}>{label}</p>
                   <div className={styles.strip}>
-                    {(list as ConcertResult['concerts']).map((concert) => (
-                      <a key={concert.id} className={styles.showCard} href={concert.url} target="_blank" rel="noopener noreferrer">
-                        <span className={styles.showArt}>
-                          {concert.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element -- Ticketmaster event artwork
-                            <img src={concert.image} alt="" loading="lazy" />
-                          ) : (
-                            <span aria-hidden>{concert.kind === 'tribute' ? '🎸' : '🎤'}</span>
-                          )}
-                        </span>
-                        <span className="grid gap-1 p-3">
-                          <span className="text-[11px] uppercase tracking-[0.12em] text-[#fdba74]">{formatDate(concert.date)}{concert.time ? ` · ${concert.time}` : ''}</span>
-                          <span className="text-[14px] font-semibold leading-5 text-ink">{concert.name}</span>
-                          <span className="text-[12px] text-ink-muted">{[concert.venue, concert.city].filter(Boolean).join(' · ')}</span>
-                          {concert.price ? <span className="text-[11.5px] text-ink-faint">Listed {concert.price} · check Ticketmaster for current prices</span> : null}
-                        </span>
-                      </a>
+                    {list.map((event) => (
+                      <EventCard key={event.id} event={event} />
                     ))}
                   </div>
                 </div>
-              ) : null,
-            )}
-          </>
-        ) : (
-          <p className="mt-3 text-[13px] text-ink-muted">No upcoming shows found on Ticketmaster{nearHome && hometown ? ` near ${hometown.split(',')[0]}` : ''}. Try “Anywhere”, or the links below.</p>
-        )
+              ) : null;
+            })
+          ) : (
+            <p className="mt-3 text-[13px] text-ink-muted">No upcoming shows found{scope === 'home' ? ` near ${hometown?.split(',')[0]}` : ''}. Try the links below.</p>
+          )}
+        </>
       ) : null}
 
       {result ? (

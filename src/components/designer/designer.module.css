@@ -1100,3 +1100,98 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ---- music map, persona, scenes -------------------------------------- */
+
+.worldMap {
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 22px;
+  background: radial-gradient(120% 120% at 50% 0%, #1e1b4b 0%, #070911 70%);
+  border: 1px solid #ffffff14;
+}
+
+.worldMap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mapSphere { fill: #0b1224; stroke: #ffffff1a; }
+.mapLand { fill: #1f2a44; stroke: #0b1224; stroke-width: 0.5; }
+
+.mapPin { cursor: pointer; outline: none; }
+.mapPin:focus-visible circle:last-of-type { stroke: #fff; stroke-width: 3; }
+
+.mapCount {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #0b0e18;
+  pointer-events: none;
+}
+
+.mapLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 8px 6px 2px;
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}
+
+.mapLegend span { display: inline-flex; align-items: center; gap: 6px; }
+.mapLegend i { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+
+.showArt { position: relative; }
+
+.showKind,
+.showFit {
+  position: absolute;
+  left: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.showKind { top: 8px; color: #0b0e18; }
+.showFit { bottom: 8px; color: #0b0e18; background: #bef264; }
+
+.persona {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #2e1065cc, #0b0e18);
+  border: 1px solid #a78bfa33;
+}
+
+.scenes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.scene {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #ffffff08;
+  border: 1px solid #ffffff14;
+}
+
+/* The map shrinks to ~40% on phones; keep pins big enough to tap. */
+@media (max-width: 640px) {
+  .mapPin circle,
+  .mapPin text {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(2.2);
+  }
+}

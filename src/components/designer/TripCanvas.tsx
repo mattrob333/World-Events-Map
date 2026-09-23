@@ -7,6 +7,7 @@ import { useDesignerStore } from '@/lib/designer/store';
 import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
 import { DRAG_MIME, IdeaCard } from './IdeaCard';
+import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
 
 function formatDay(iso: string) {
@@ -149,6 +150,17 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         are saved on this device only; live group voting across phones needs accounts and is not built yet. Cards are ideas:
         check hours, prices, and bookings with each venue.
       </p>
+
+      {trip.taste?.genres.length ? (
+        <ScenePlaybook
+          taste={trip.taste}
+          initialCity={destination.id === 'maldives' ? 'Male' : destination.name}
+          startDate={trip.startDate}
+          endDate={endDate}
+          title={`Live music for your crew in ${destination.name}`}
+          compact
+        />
+      ) : null}
 
       {trip.days.map((day) => (
         <section key={day.index} className={styles.day} aria-labelledby={`day-${day.index}`}>

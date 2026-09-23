@@ -135,3 +135,34 @@ describe('POST /api/designer/concerts', () => {
     expect((await POST(request('/api/designer/concerts', { artists: ['A'] }, { Origin: 'https://evil.example' }))).status).toBe(403);
   });
 });
+
+describe('POST /api/designer/scene', () => {
+  it('returns the playbook and map searches even with no event feeds', async () => {
+    const { POST } = await import('../designer/scene/route');
+    vi.stubEnv('TICKETMASTER_API_KEY', '');
+    vi.stubEnv('SEATGEEK_CLIENT_ID', '');
+    const body = await (await POST(request('/api/designer/scene', { city: 'Nashville, TN', taste: { genres: ['classic rock', 'country'] } }))).json();
+    expect(body.city).toBe('Nashville');
+    expect(body.sources).toEqual([]);
+    expect(body.scenes[0].key).toBe('rock-covers');
+    expect(body.scenes[0].matches).toBeUndefined();
+    expect(body.scenes[0].links[0].href).toContain('Nashville');
+    vi.unstubAllEnvs();
+  });
+
+  it('needs a city and some taste', async () => {
+    const { POST } = await import('../designer/scene/route');
+    expect((await POST(request('/api/designer/scene', { city: 'X', taste: { genres: ['rock'] } }))).status).toBe(400);
+    expect((await POST(request('/api/designer/scene', { city: 'Nashville', taste: { genres: [] } }))).status).toBe(400);
+  });
+});
+
+describe('POST /api/designer/persona', () => {
+  it('says when Jev is not configured instead of guessing', async () => {
+    const { POST } = await import('../designer/persona/route');
+    vi.stubEnv('TYPESAFE_API_KEY', '');
+    const body = await (await POST(request('/api/designer/persona', { taste: { genres: ['rock'] } }))).json();
+    expect(body).toEqual({ persona: null, reason: 'not_configured' });
+    vi.unstubAllEnvs();
+  });
+});

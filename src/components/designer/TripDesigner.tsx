@@ -6,6 +6,7 @@ import { DESTINATIONS, type DestinationId } from '@/lib/designer/catalog';
 import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, participantStyle, type Itinerary, type Participant } from '@/lib/designer/itinerary';
 import { EXAMPLE_RAMBLE } from '@/lib/designer/moodboard';
 import { parseProfileLocally, profileTags, type TravelerProfile } from '@/lib/designer/profile';
+import { mergeTastes, tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore, type SavedProfile } from '@/lib/designer/store';
 import styles from './designer.module.css';
 import { useHydrated } from './useHydrated';
@@ -95,7 +96,9 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
     setBusy(true);
     const participants: Participant[] = travelers.map((t, i) => ({ id: `p${i}`, name: t.name, kind: t.kind, age: t.age, tags: t.tags, ...participantStyle(i) }));
     const boardIds = new Set(travelers.map((t) => t.board));
-    const profileNotes = boards.filter((b) => boardIds.has(b.id)).map((b) => b.profile.summary).filter(Boolean);
+    const chosenBoards = boards.filter((b) => boardIds.has(b.id));
+    const profileNotes = chosenBoards.map((b) => b.profile.summary).filter(Boolean);
+    const taste = mergeTastes(chosenBoards.map((b) => tasteFrom(b.profile)));
     const input = { destination, startDate, nights, hometown: hometown.trim() || undefined, participants };
     try {
       const response = await fetch('/api/designer/itinerary', {
@@ -105,12 +108,12 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
       });
       const body = (await response.json()) as { itinerary?: Itinerary; notice?: string; error?: string };
       if (!response.ok || !body.itinerary) throw new Error(body.error ?? 'The designer could not build that trip.');
-      onCreate(body.itinerary, body.notice);
+      onCreate({ ...body.itinerary, taste }, body.notice);
     } catch (cause) {
       if (cause instanceof Error && cause.message !== 'Failed to fetch' && !(cause instanceof SyntaxError)) {
         setError(cause.message);
       } else {
-        onCreate(composeLocally(input), 'Offline, so this draft was built on the device.');
+        onCreate({ ...composeLocally(input), taste }, 'Offline, so this draft was built on the device.');
       }
     } finally {
       setBusy(false);
