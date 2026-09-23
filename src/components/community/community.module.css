@@ -20,6 +20,8 @@
   color: #e3c18a;
   text-decoration: none;
 }
+.inlineLink { color: #e3c18a; text-decoration: underline; text-underline-offset: 3px; }
+.inlineLink:hover { color: #f7dfb6; }
 .brand {
   letter-spacing: 0.28em;
   font-size: 15px;

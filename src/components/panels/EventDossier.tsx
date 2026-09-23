@@ -34,6 +34,7 @@ import { useEventById } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import type { BuzzSignals } from '@/lib/types';
 import { VenueMap } from './VenueMap';
+import { PlaceGallery } from '@/components/place-media/PlaceGallery';
 import { isDemoMode } from '@/lib/flags';
 import { EventSaveButton } from '@/components/community/EventSaveButton';
 import { getDestinationByEventId } from '@/lib/pulse';
@@ -172,6 +173,7 @@ export function EventDossier({ className }: EventDossierProps) {
           </header>
 
           <ScrollArea contentClassName="flex flex-col gap-6 px-5 pb-6">
+            <PlaceGallery key={event.id} event={event} />
             <div className="grid grid-cols-2 gap-2 text-sm">
               {destination && (
                 <Link

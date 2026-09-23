@@ -1,0 +1,15 @@
+# Mountain explorer direction
+
+MERIDIAN's current React Three Fiber globe is a cinematic discovery surface. Its close zoom stops above a shaded sphere, so a sharper texture or a `three-globe` bump map would not create skiable mountain relief. [Three.js displacement maps](https://threejs.org/docs/pages/MeshStandardMaterial.html) can move mesh geometry, but a convincing street-to-summit view needs tiled elevation data and level-of-detail handling. A snowflake marker identifies a ski occasion; it is not a snow-condition report.
+
+## What works now
+
+For a selected ski destination, hand the traveler from the globe or destination briefing to an external satellite or terrain map centered on the curated event area. The [Google Maps URLs API](https://developers.google.com/maps/documentation/urls/get-started) supports `center`, `zoom`, and `basemap=satellite` or `basemap=terrain` without an application key for this outbound link. Event coordinates can be city-level and must be labeled as approximate, not a verified lift, chalet, or trailhead. Keep the MERIDIAN route and story visible until the traveler explicitly opens the map; do not silently launch a new tab at the globe's zoom limit.
+
+## Native mountain view to build next
+
+Keep the current 3D globe for world discovery. After a traveler selects a mountain, animate toward the destination, then crossfade to a separate, lazy-loaded MapLibre detail map and unmount the globe canvas. [MapLibre supports real DEM terrain](https://maplibre.org/maplibre-gl-js/docs/examples/3d-terrain/), [contour lines](https://maplibre.org/maplibre-gl-js/docs/examples/add-contour-lines/), and [satellite imagery over terrain](https://maplibre.org/maplibre-gl-js/docs/examples/display-a-hybrid-satellite-map-with-terrain-elevation/). A winter topographic default with a satellite toggle would show the actual range rather than an invented mountain shape.
+
+[MapTiler's winter map example](https://docs.maptiler.com/guides/maps-apis/maps-platform/how-to-build-a-3d-map-with-maplibre-v2-gl-js/) combines a winter style with its [Terrain RGB DEM](https://docs.maptiler.com/schema-raster/terrain-rgb/); its [contour tiles](https://docs.maptiler.com/schema/contours/) can add the slope-reading detail. That requires an API key and [commercial-use terms](https://www.maptiler.com/cloud/pricing/). The MapLibre satellite demo's EOX imagery is [noncommercial without a separate license](https://cloudless.eox.at/documentation/license), so it is not a production tile source for MERIDIAN. Google [Maps Embed](https://developers.google.com/maps/documentation/embed/embedding-map) or its [Map Tiles API](https://developers.google.com/maps/documentation/tile/overview) are alternatives with key, billing, attribution, and use-policy requirements; do not scrape tiles into the Three.js sphere.
+
+Before native terrain goes live, confirm venue/lift coordinates, imagery and elevation coverage, provider budget and attribution, mobile frame rate, and a no-key fallback. Terrain imagery is historical geography, not current snowpack. Current snow and lift claims need dated resort or weather sources in a separate data pipeline.

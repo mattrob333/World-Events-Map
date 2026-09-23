@@ -3,124 +3,130 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { EmptyState, Panel } from '@/components/ui';
-import { FixtureBanner, OpportunityCardView } from '@/components/shell';
+import { OpportunityCardView } from '@/components/shell';
 import {
   ACCESS_FIXTURE_DISCLOSURE,
   AVAILABILITY_COPY,
   OPPORTUNITY_KIND_LABEL,
   getOpportunity,
   listOpportunities,
+  type OpportunityCard,
   type OpportunityKind,
 } from '@/lib/access';
 import { track } from '@/lib/analytics';
+import styles from './access.module.css';
 
 const FILTERS: Array<OpportunityKind | 'all'> = [
-  'all',
-  'stay',
-  'aviation',
-  'ground',
-  'event_access',
-  'dining',
-  'experience',
-  'yacht',
-  'advisor',
+  'all', 'stay', 'aviation', 'ground', 'event_access', 'dining', 'experience', 'yacht', 'advisor',
 ];
+
+function sceneClass(offer: OpportunityCard): string {
+  return offer.kind === 'yacht' || offer.destinationLabel === 'Monte-Carlo' ? styles.seaScene : styles.snowScene;
+}
+
+function OfferScene({ offer }: { offer: OpportunityCard }) {
+  return (
+    <div className={`${styles.offerScene} ${sceneClass(offer)}`} role="img" aria-label={`Illustrative travel scene for ${offer.destinationLabel}; this is not a photograph of the offer`}>
+      <span className={styles.scenePlace}>{offer.destinationLabel}</span>
+      <span className={styles.sceneLabel}>Illustrative scene</span>
+    </div>
+  );
+}
 
 export function AccessFeed() {
   const params = useSearchParams();
   const offerId = params.get('offer');
   const [kind, setKind] = useState<OpportunityKind | 'all'>('all');
-  const [inquiryFor, setInquiryFor] = useState<string | null>(null);
-  const offers = listOpportunities().filter((offer) => kind === 'all' || offer.kind === kind);
+  const [previewedInquiryFor, setPreviewedInquiryFor] = useState<string | null>(null);
   const selected = offerId ? getOpportunity(offerId) : undefined;
+  const offers = listOpportunities().filter((offer) =>
+    (kind === 'all' || offer.kind === kind) && offer.id !== selected?.id,
+  );
 
   useEffect(() => {
     if (selected) track('access_offer_opened', { id: selected.id });
   }, [selected]);
 
   return (
-    <main className="px-4 py-10 sm:px-8">
-      <p className="label-sm text-brass">Access</p>
-      <h1 className="mt-2 font-display text-5xl text-ink">Make the trip happen</h1>
-      <p className="mt-3 max-w-xl text-[14px] text-ink-muted">
-        Stays, aircraft, ground, tables and local help — always as an inquiry until a provider confirms.
-      </p>
-      <div className="mt-4">
-        <FixtureBanner>{ACCESS_FIXTURE_DISCLOSURE}</FixtureBanner>
+    <main className={styles.page}>
+      <section className={styles.hero} aria-labelledby="access-title">
+        <div className={styles.heroImage} role="img" aria-label="Illustrative ski terrace, yacht, and travel gatherings" />
+        <div className={styles.heroShade} />
+        <div className={styles.heroContent}>
+          <p className={styles.eyebrow}>MERIDIAN / ACCESS</p>
+          <h1 id="access-title">Make the trip <em>happen.</em></h1>
+          <p>Explore stays, arrivals and moments around the trip. Start with a possibility; the provider confirms every detail.</p>
+          <a className={styles.heroAction} href="#opportunities">Explore opportunities <span aria-hidden="true">↘</span></a>
+          <span className={styles.heroNote}>Illustrative travel imagery · preview opportunities, not live inventory</span>
+        </div>
+      </section>
+
+      <div className={styles.content}>
+        <p className={styles.disclosure}>{ACCESS_FIXTURE_DISCLOSURE}</p>
+        <section className={styles.path} aria-label="How access works">
+          <div><span>01 / DISCOVER</span><p>Choose a stay, arrival or experience that fits your trip.</p></div>
+          <div><span>02 / ASK</span><p>Preview the request you would make. No provider is contacted in this preview.</p></div>
+          <div><span>03 / CONFIRM</span><p>In a connected service, the provider would confirm terms before any reservation.</p></div>
+        </section>
+
+        {selected && (
+          <section className={styles.selected} aria-labelledby="selected-offer-title">
+            <div className={styles.sectionTop}><p className={styles.eyebrow}>YOUR SELECTED POSSIBILITY</p><Link href="/access">See all opportunities ↗</Link></div>
+            <div className={styles.selectedGrid}>
+              <OfferScene offer={selected} />
+              <div className={styles.selectedBody}>
+                <p className={styles.offerKind}>{OPPORTUNITY_KIND_LABEL[selected.kind]} · {selected.availabilityLabel}</p>
+                <h2 id="selected-offer-title">{selected.title}</h2>
+                <p className={styles.offerSubtitle}>{selected.subtitle}{selected.windowLabel ? ` · ${selected.windowLabel}` : ''}</p>
+                <p className={styles.offerBody}>{selected.body}</p>
+                <div className={styles.provider}><span>{selected.providerName}</span><span>{selected.priceLabel}</span></div>
+                <InquiryBox
+                  offer={selected}
+                  previewed={previewedInquiryFor === selected.id}
+                  onPreview={() => setPreviewedInquiryFor(selected.id)}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        <section id="opportunities" className={styles.listing} aria-labelledby="opportunities-title">
+          <div className={styles.listingHeader}>
+            <div><p className={styles.eyebrow}>THE POSSIBILITIES</p><h2 id="opportunities-title">{selected ? 'More ways to make it yours.' : 'Find your way in.'}</h2></div>
+            <p>Every offer below is a preview. A real inquiry would depend on the provider confirming the dates, price and terms.</p>
+          </div>
+          <div className={styles.filters} aria-label="Filter opportunities">
+            {FILTERS.map((item) => (
+              <button key={item} type="button" className={kind === item ? styles.activeFilter : ''} aria-pressed={kind === item} onClick={() => setKind(item)}>
+                {item === 'all' ? 'All ideas' : OPPORTUNITY_KIND_LABEL[item]}
+              </button>
+            ))}
+          </div>
+          <div className={styles.offerGrid}>
+            {offers.map((offer) => (
+              <div className={styles.offerFrame} key={offer.id}>
+                <OfferScene offer={offer} />
+                <OpportunityCardView offer={offer} />
+              </div>
+            ))}
+          </div>
+          {offers.length === 0 && <p className={styles.empty}>No other preview opportunities in this category. Try another filter or explore the world for your next destination.</p>}
+        </section>
+        <p className={styles.partnerNote}>Are you a travel provider? <Link href="/partners">Explore the partner studio ↗</Link></p>
       </div>
-      <div className="mt-6 flex gap-2 overflow-x-auto">
-        {FILTERS.map((item) => (
-          <button
-            key={item}
-            type="button"
-            className={`label shrink-0 border px-2 py-1 ${kind === item ? 'border-brass text-brass' : 'border-ink/10 text-ink-muted'}`}
-            onClick={() => setKind(item)}
-          >
-            {item === 'all' ? 'All' : OPPORTUNITY_KIND_LABEL[item]}
-          </button>
-        ))}
-      </div>
-      {selected && (
-        <Panel className="mt-6" title="Selected opportunity" accent>
-          <OpportunityCardView offer={selected} />
-          <InquiryBox
-            offerId={selected.id}
-            sent={inquiryFor === selected.id}
-            onSend={() => {
-              setInquiryFor(selected.id);
-              track('access_inquiry_sent', { id: selected.id });
-            }}
-          />
-        </Panel>
-      )}
-      <div className="mt-8 grid gap-3 lg:grid-cols-2">
-        {offers.map((offer) => (
-          <OpportunityCardView key={offer.id} offer={offer} />
-        ))}
-      </div>
-      {offers.length === 0 && (
-        <EmptyState title="No opportunities in this category yet." body="Categories stay visible even when empty so the marketplace shape is honest." />
-      )}
-      <p className="mt-10 text-[12px] text-ink-muted">
-        Providers use the{' '}
-        <Link href="/partners" className="text-brass">
-          partner studio
-        </Link>
-        . Travelers should not have to.
-      </p>
     </main>
   );
 }
 
-function InquiryBox({
-  offerId,
-  sent,
-  onSend,
-}: {
-  offerId: string;
-  sent: boolean;
-  onSend: () => void;
-}) {
-  const offer = getOpportunity(offerId);
-  if (!offer) return null;
-  if (sent) {
-    return (
-      <p className="mt-4 text-[13px] text-commit" role="status">
-        Inquiry noted on this device. In production this becomes a provider conversation — still not a booking.
-      </p>
-    );
-  }
+function InquiryBox({ offer, previewed, onPreview }: { offer: OpportunityCard; previewed: boolean; onPreview: () => void }) {
   return (
-    <div className="mt-4">
-      <p className="text-[12px] text-ink-muted">{AVAILABILITY_COPY[offer.availability]}</p>
-      <button
-        type="button"
-        className="mt-3 label h-8 border border-brass/50 px-3 text-brass"
-        onClick={onSend}
-      >
-        Send inquiry
-      </button>
+    <div className={styles.inquiryBox}>
+      <p>{AVAILABILITY_COPY[offer.availability]}</p>
+      {previewed ? (
+        <p className={styles.previewStatus} role="status">Inquiry preview noted on this page. No message was sent to a provider and no reservation was made.</p>
+      ) : (
+        <button type="button" onClick={onPreview}>Preview inquiry <span aria-hidden="true">↗</span></button>
+      )}
     </div>
   );
 }

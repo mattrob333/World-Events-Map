@@ -20,7 +20,7 @@ import {
 } from '@/lib/trips';
 import { getTraveler, TRAVELER_PORTRAITS } from '@/lib/travelers';
 import { getDestinationBySlug } from '@/lib/pulse';
-import { EVENTS } from '@/lib/data/events';
+import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { todayISO } from '@/lib/buzz/dates';
 import { Avatar } from '@/components/social';
 import { track } from '@/lib/analytics';
@@ -28,9 +28,13 @@ import { track } from '@/lib/analytics';
 const TABS = ['overview', 'inspiration', 'plan', 'people', 'access', 'chat'] as const;
 type Tab = (typeof TABS)[number];
 
-export function CirclesIndex({ destination }: { destination?: string }) {
-  const slug = destination?.trim().toLowerCase() ?? '';
+export function CirclesIndex({ destination, eventId }: { destination?: string; eventId?: string }) {
+  const slug = typeof destination === 'string' ? destination.trim().toLowerCase() : '';
+  const requestedEventId = typeof eventId === 'string' ? eventId.trim() : '';
   const pulse = slug ? getDestinationBySlug(EVENTS, slug, todayISO()) : undefined;
+  const selectedEvent = pulse && pulse.eventIds.includes(requestedEventId)
+    ? EVENT_INDEX.get(requestedEventId)
+    : undefined;
   const matching = slug ? listTripRoomsForSlug(slug) : [];
   const rest = slug
     ? TRIP_ROOM_FIXTURES.filter((trip) => trip.destinationSlug !== slug)
@@ -44,10 +48,20 @@ export function CirclesIndex({ destination }: { destination?: string }) {
       <p className="mt-3 max-w-xl text-[14px] text-ink-muted">
         A Circle is a trip, not a chat thread. Live Circles still live in Community for members who are signed in.
       </p>
-      <FixtureBanner>{TRIP_ROOM_DISCLOSURE}</FixtureBanner>
+      {selectedEvent && <section className="mt-8 rounded-[3px] border border-brass/35 bg-brass-wash px-5 py-5">
+        <p className="label-sm text-brass">Your selected occasion · curated calendar</p>
+        <h2 className="mt-2 font-display text-3xl text-ink">{selectedEvent.name}</h2>
+        <p className="mt-2 text-[13px] text-ink">{selectedEvent.city}, {selectedEvent.country} · {formatDateRange(selectedEvent.start, selectedEvent.end)}</p>
+        <p className="mt-3 max-w-2xl text-[12px] leading-5 text-ink-muted">This is the occasion you chose to plan around. No Circle or booking has been created. Confirm the event dates and access with the organizer before committing travel.</p>
+        <div className="mt-4 flex flex-wrap gap-4 text-[13px]">
+          <Link href={`/community?event=${encodeURIComponent(selectedEvent.id)}`} className="text-brass hover:text-brass-bright">Continue in Community to start a real Circle ↗</Link>
+          <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="text-ink-muted hover:text-ink">Review event details ↗</Link>
+        </div>
+        <p className="mt-2 text-[11px] text-ink-muted">Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.</p>
+      </section>}
       {slug ? (
         <section className="mt-8 border border-brass/25 bg-brass-wash px-4 py-4">
-          <p className="label-sm text-brass">Starting from {placeName}</p>
+          <p className="label-sm text-brass">Exploring {placeName}</p>
           {matching.length === 0 ? (
             <p className="mt-2 max-w-xl text-[13px] text-ink-muted">
               No sample trip room for this destination yet. Live Circles still live in Community
@@ -55,7 +69,7 @@ export function CirclesIndex({ destination }: { destination?: string }) {
             </p>
           ) : (
             <p className="mt-2 max-w-xl text-[13px] text-ink-muted">
-              Sample rooms already on this destination. Opening one does not create a live Circle.
+              The sample rooms below are separate example trips. Their events and dates may differ from your selected occasion.
             </p>
           )}
           <div className="mt-3 flex flex-wrap gap-4 text-[13px]">
@@ -64,19 +78,24 @@ export function CirclesIndex({ destination }: { destination?: string }) {
                 Back to {pulse.name}
               </Link>
             ) : null}
-            <Link href="/community" className="text-brass">
-              Open live Circles
+            <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="text-brass">
+              {selectedEvent ? 'Find real Circles for this event' : 'Open Community Circles'}
             </Link>
           </div>
         </section>
       ) : null}
+      <FixtureBanner>{TRIP_ROOM_DISCLOSURE}</FixtureBanner>
       {matching.length > 0 ? (
-        <div className="mt-8 grid gap-3 lg:grid-cols-2">
+        <div className="mt-8">
+          <h2 className="mb-3 font-display text-2xl text-ink">Other sample trips in {placeName}</h2>
+          <div className="grid gap-3 lg:grid-cols-2">
           {matching.map((trip) => (
-            <TripRoomCard key={trip.id} trip={trip} highlight />
+            <TripRoomCard key={trip.id} trip={trip} />
           ))}
+          </div>
         </div>
       ) : null}
+      <h2 className="mt-8 font-display text-2xl text-ink">More sample trip rooms</h2>
       <div className="mt-8 grid gap-3 lg:grid-cols-2">
         {rest.map((trip) => (
           <TripRoomCard key={trip.id} trip={trip} />

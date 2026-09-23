@@ -3,8 +3,8 @@ import { CirclesIndex } from '@/components/trip-room/TripRoom';
 export default async function CirclesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ destination?: string }>;
+  searchParams: Promise<{ destination?: string; event?: string }>;
 }) {
-  const { destination } = await searchParams;
-  return <CirclesIndex destination={destination} />;
+  const { destination, event } = await searchParams;
+  return <CirclesIndex destination={destination} eventId={event} />;
 }

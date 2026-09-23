@@ -196,7 +196,7 @@
   letter-spacing: 0.18em;
   color: #c6b18b;
 }
-.worldHeading h1 {
+.worldHeading h2 {
   font-family: var(--font-display);
   font-size: clamp(42px, 4.2vw, 66px);
   line-height: 1.03;
@@ -204,7 +204,7 @@
   margin: 17px 0 16px;
   font-weight: 400;
 }
-.worldHeading h1 em,
+.worldHeading h2 em,
 .clubSection h2 em {
   color: #d9bd8f;
   font-weight: 400;
@@ -725,7 +725,7 @@
     width: 245px;
     padding: 20px 17px 0;
   }
-  .worldHeading h1 {
+  .worldHeading h2 {
     font-size: 47px;
   }
   .worldHeading p {
@@ -794,7 +794,7 @@
     left: 5%;
     width: 250px;
   }
-  .worldHeading h1 {
+  .worldHeading h2 {
     font-size: 46px;
   }
   .worldHeading p {
@@ -911,15 +911,15 @@
     left: 6%;
     width: 88%;
   }
-  .worldHeading h1 {
+  .worldHeading h2 {
     font-size: 43px;
     line-height: 1;
     margin-top: 12px;
   }
-  .worldHeading h1 br {
+  .worldHeading h2 br {
     display: none;
   }
-  .worldHeading h1 em {
+  .worldHeading h2 em {
     display: block;
   }
   .worldHeading p {
@@ -1167,4 +1167,378 @@
     padding: 7px 9px;
     font-size: 9px;
   }
+}
+
+/* The map is a destination to explore after the activity dashboard. */
+.world {
+  height: 490px;
+  min-height: 490px;
+  max-height: none;
+  background: radial-gradient(ellipse at 50% 38%, #172a3d 0%, #0b1320 45%, #080d16 82%);
+  border-block: 1px solid #ffffff18;
+}
+.globe {
+  inset: 0 25%;
+  z-index: 0;
+  mask-image: linear-gradient(90deg, transparent, black 16%, black 84%, transparent);
+}
+.worldHeading,
+.spotlight,
+.pulse,
+.worldStats,
+.globeHint,
+.globeControls {
+  z-index: 1;
+}
+.worldHeading {
+  top: 24px;
+  left: 3.2%;
+  width: min(27%, 310px);
+}
+.worldHeading h2 {
+  font-size: clamp(31px, 3vw, 43px);
+  line-height: 1;
+  margin: 8px 0 7px;
+}
+.worldHeading p {
+  max-width: 285px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.spotlight {
+  top: 152px;
+  left: 3.2%;
+  width: min(26%, 295px);
+  padding-top: 11px;
+}
+.spotlight .place {
+  font-size: 29px;
+  margin: 8px 0 5px;
+}
+.spotlight .place > span {
+  font-size: 8px;
+  margin-top: 4px;
+}
+.spotlight h2 {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+.spotlight > p {
+  font-size: 11px;
+  line-height: 1.45;
+}
+.sceneDates {
+  margin: 9px 0;
+}
+.spotlight .primary {
+  padding: 9px 12px;
+}
+.spotlight > .textLink {
+  margin-top: 8px;
+}
+.disclosure {
+  font-size: 9px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+.pulse {
+  top: 18px;
+  right: 3.2%;
+  bottom: 18px;
+  width: min(26%, 295px);
+  max-height: none;
+  padding: 16px 17px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbb78f66 transparent;
+  background: linear-gradient(150deg, #172331ed, #0c111beb);
+}
+.pulseHeading h2 {
+  font-size: 21px;
+  margin-top: 5px;
+}
+.pulseIntro {
+  margin: 7px 0;
+}
+.pulseItem {
+  padding: 10px 0;
+}
+.pulseItem strong {
+  font-size: 18px;
+}
+.pulseItem span > span {
+  font-size: 10px;
+  margin-top: 2px;
+}
+.pulseItem small {
+  margin-top: 3px;
+}
+.worldStats {
+  left: 35%;
+  bottom: 15px;
+  gap: 18px;
+}
+.worldStats strong {
+  font-size: 20px;
+}
+.worldStats > div {
+  gap: 3px;
+}
+.globeHint {
+  bottom: 69px;
+  left: 50%;
+  font-size: 7px;
+}
+.globeControls {
+  bottom: 13px;
+  right: 30%;
+}
+
+@media (max-width: 1100px) {
+  .world {
+    height: auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 410px 5% 25px;
+    overflow: visible;
+  }
+  .globe {
+    inset: 0 0 auto;
+    height: 420px;
+    mask-image: linear-gradient(0deg, transparent, black 14%, black 90%);
+  }
+  .worldHeading {
+    top: 24px;
+    left: 5%;
+    width: 270px;
+  }
+  .spotlight,
+  .pulse {
+    position: relative;
+    inset: auto;
+    width: auto;
+    max-height: none;
+    min-width: 0;
+  }
+  .spotlight {
+    padding: 17px;
+    border: 1px solid #d8bc8038;
+    background: #0d1823;
+  }
+  .pulse {
+    overflow: visible;
+  }
+  .worldStats {
+    position: static;
+    grid-column: 1 / -1;
+    padding: 0;
+    margin: 0;
+  }
+  .globeHint {
+    top: 382px;
+    bottom: auto;
+  }
+  .globeControls {
+    top: 365px;
+    bottom: auto;
+    right: 5%;
+  }
+}
+
+@media (max-width: 600px) {
+  .world {
+    display: block;
+    padding: 420px 6% 22px;
+  }
+  .globe {
+    top: 105px;
+    height: 305px;
+  }
+  .worldHeading {
+    top: 20px;
+    left: 6%;
+    width: 88%;
+  }
+  .worldHeading h2 {
+    font-size: 34px;
+    margin: 6px 0;
+  }
+  .worldHeading h2 em {
+    display: inline;
+  }
+  .worldHeading p {
+    font-size: 10px;
+    max-width: none;
+  }
+  .spotlight {
+    margin-bottom: 14px;
+    background: #0d1823;
+  }
+  .pulse {
+    padding: 17px;
+  }
+  .worldStats {
+    margin-top: 18px;
+    justify-content: space-between;
+  }
+  .globeHint {
+    top: 382px;
+    max-width: 90%;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.5;
+  }
+  .globeControls {
+    display: block;
+    top: 344px;
+    right: 6%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globeBoot span {
+    animation: none;
+  }
+}
+.regions{display:flex;align-items:center;gap:8px;padding:14px 3.2%;border-top:1px solid #ffffff12;border-bottom:1px solid #ffffff12;background:#0d121b;overflow-x:auto}.regions>span{font:10px var(--font-mono);letter-spacing:.12em;color:#c8aa7c;margin-right:16px;white-space:nowrap}.regions button{border:1px solid #ffffff12;border-radius:30px;padding:8px 14px;color:#b6becb;font-size:11px;white-space:nowrap}.regions button:hover,.regions button:focus-visible{color:#f3e5ce;border-color:#cfac70;background:#c8aa7c12}.world{scroll-margin-top:60px}
+.cityChoice{display:flex;align-items:center;gap:8px;flex-shrink:0}.cityChoice>span{font-size:10px;color:#a8aab2}.cityChoice select{max-width:170px;padding:9px 10px;border:1px solid #ffffff25;border-radius:6px;background:#101722;color:#e5d5b9;font-size:11px}.cityChoice select:focus-visible{outline:2px solid #e4c895;outline-offset:3px}@media(max-width:700px){.cityChoice{width:100%}.cityChoice select{max-width:none;flex:1}}
+
+.worldHeading[data-selected='true'] h2 {
+  font-size: clamp(31px, 2.8vw, 41px);
+  overflow-wrap: anywhere;
+}
+@media (min-width: 1101px) {
+  .world[data-selected='true']::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, #080f19ed 5%, #080f19c9 72%, transparent);
+  }
+}
+.spotlight[data-selected='true'] {
+  max-height: calc(100% - 166px);
+  overflow-y: auto;
+  padding-right: 7px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbb78f66 transparent;
+}
+.storyReasons {
+  display: grid;
+  gap: 5px;
+  margin: 8px 0 10px;
+  padding-left: 13px;
+  color: #b9bdc2;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.storyLabel {
+  display: block;
+  color: #c6b18b;
+  font-size: 8px;
+  letter-spacing: .14em;
+}
+.storyReasons li::marker {
+  color: #d8bc80;
+}
+.storyRoute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0 4px;
+  border-top: 1px solid #d8bc8038;
+  color: #e1d0ad;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.storyRoute span:first-child,
+.storyRoute span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.storyRoute span:nth-child(2) {
+  color: #d8bc80;
+}
+.spotlight .storyDistance {
+  margin-bottom: 9px;
+  color: #bbb8b2;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.mountainHandoff {
+  margin: 9px 0 12px;
+  padding: 10px 11px;
+  border: 1px solid #a8dce944;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #86c5de15, #0c182100 78%);
+}
+.mountainHandoff > span {
+  display: block;
+  color: #a5dbe4;
+  font: 8px var(--font-mono);
+  letter-spacing: .12em;
+}
+.mountainHandoff > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 8px 0 5px;
+}
+.mountainHandoff a {
+  color: #e5f4f5;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #a5dbe47a;
+  text-underline-offset: 4px;
+}
+.mountainHandoff a:hover,
+.mountainHandoff a:focus-visible { color: #a5dbe4; }
+.mountainHandoff small {
+  display: block;
+  color: #a9b7bb;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+/* The cropped world stage follows the editorial departure board. The full
+   width canvas keeps both ends of a travel arc in view while the stage itself
+   crops the globe's poles. */
+.regions {
+  position: relative;
+  z-index: 2;
+  border-top: 0;
+  background: #101922;
+}
+.world {
+  height: 560px;
+  min-height: 560px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 42%, #1f3550 0%, #0d1928 42%, #080e17 85%);
+}
+.globe {
+  inset: 0;
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+@media (max-width: 1100px) {
+  .world { height: auto; min-height: 0; overflow: visible; }
+  .spotlight[data-selected='true'] { max-height: none; overflow: visible; padding-right: 17px; }
+  .globe {
+    inset: 0 0 auto;
+    height: 420px;
+    overflow: hidden;
+    mask-image: linear-gradient(0deg, transparent, #000 8%, #000 95%);
+  }
+}
+@media (max-width: 600px) {
+  .globe { top: 105px; height: 305px; }
 }

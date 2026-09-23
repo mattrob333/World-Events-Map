@@ -1,0 +1,237 @@
+.page {
+  min-height: 100vh;
+  background: #0a0d13;
+  color: #f4efe7;
+}
+
+.page a:focus-visible {
+  outline: 2px solid #f5d6a8;
+  outline-offset: 4px;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(390px, 43vw, 535px);
+  overflow: hidden;
+  border-bottom: 1px solid #f4d1a340;
+  padding: 50px max(4vw, calc((100vw - 1650px) / 2));
+  background: #172332;
+}
+
+.heroImage,
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.heroImage {
+  background: url('/meridian-moments.webp') center 45% / cover no-repeat;
+}
+
+.heroShade {
+  z-index: -1;
+  background: linear-gradient(90deg, #080d17f7 0%, #0b1320e8 28%, #0a15249c 52%, #0a152236 83%),
+    linear-gradient(0deg, #08101db0, transparent 55%);
+}
+
+.heroContent { max-width: 770px; }
+
+.eyebrow {
+  margin: 0;
+  color: #e5c897;
+  font: 600 10px/1.4 var(--font-mono);
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 720px;
+  margin: 17px 0 17px;
+  font: 400 clamp(54px, 5.5vw, 96px)/.96 var(--font-display);
+  letter-spacing: -.055em;
+  text-wrap: balance;
+  text-shadow: 0 4px 35px #02050b9c;
+}
+
+.hero h1 em { color: #f6d5a4; font-weight: 400; }
+
+.heroLead {
+  max-width: 490px;
+  margin: 0;
+  color: #ebe8e2;
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.6;
+  text-shadow: 0 2px 12px #050914a1;
+}
+
+.heroActions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 23px; margin-top: 28px; }
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 46px;
+  font-size: 13px;
+  font-weight: 650;
+  transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+
+.primaryAction {
+  min-width: 210px;
+  border: 1px solid #f6d6a6;
+  border-radius: 4px;
+  padding: 0 17px;
+  background: #f5d6a9;
+  color: #19202a;
+  box-shadow: 0 10px 30px #03081294;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.primaryAction:hover { background: #ffe9c7; transform: translateY(-2px); }
+.secondaryAction { border-bottom: 1px solid #f8e7ce7a; color: #f6e8d2; }
+.secondaryAction:hover { color: #fff; transform: translateY(-2px); }
+
+.heroNote { margin: 32px 0 0; color: #d9d8d1b8; font-size: 11px; letter-spacing: .025em; }
+.content { max-width: 1660px; margin: 0 auto; padding: 68px 4vw 110px; }
+.planner { display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1fr); gap: clamp(30px, 5vw, 90px); align-items: start; padding: 0 0 75px; scroll-margin-top: 90px; }
+.plannerIntro { padding: 16px 0 0; }
+.plannerIntro h2 { margin: 16px 0 20px; font: 400 clamp(45px, 4.7vw, 76px)/1 var(--font-display); letter-spacing: -.05em; text-wrap: balance; }
+.plannerIntro h2 em { color: #f4d5a6; font-weight: 400; }
+.plannerIntro > p:not(.eyebrow) { max-width: 510px; color: #cbd0d1; font-size: 15px; line-height: 1.7; }
+.plannerIntro ol { margin: 28px 0; padding: 0; list-style: none; border-top: 1px solid #f3d5a331; }
+.plannerIntro li { display: flex; gap: 17px; padding: 15px 0; border-bottom: 1px solid #f3d5a331; color: #e5e2db; font-size: 14px; }
+.plannerIntro li span { color: #d9b777; font: 11px/1.7 var(--font-mono); }
+.plannerIntro .privacyNote { max-width: 490px; color: #aeb9b8; font-size: 12px; }
+.researchState { max-width: 500px; margin-top: 28px; border: 1px solid #93ada948; border-radius: 7px; padding: 20px 21px; background: #20333850; }
+.researchState > p:not(.eyebrow) { margin: 11px 0 18px; color: #c5d0ca; font-size: 12px; line-height: 1.6; }
+.researchState dl { margin: 0; }
+.researchState dl div { display: flex; justify-content: space-between; gap: 14px; border-top: 1px solid #a6c6ba24; padding: 10px 0; font-size: 11px; }
+.researchState dt { color: #f0e2cb; font-weight: 600; }
+.researchState dd { margin: 0; color: #a9bcb9; text-align: right; }
+.plannerCard { min-width: 0; border: 1px solid #e2c38a55; border-radius: 10px; padding: clamp(23px, 3vw, 38px); background: linear-gradient(145deg, #1c2730, #101923); box-shadow: 0 20px 56px #02060d50; }
+.plannerCard h3 { margin: 10px 0 26px; font: 400 clamp(30px, 3vw, 42px)/1.1 var(--font-display); }
+.plannerForm { display: grid; gap: 17px; }
+.plannerForm label, .created label { display: grid; gap: 8px; color: #e6e6e0; font-size: 13px; font-weight: 550; }
+.plannerForm input, .plannerForm select, .created input, .created textarea { width: 100%; min-width: 0; min-height: 46px; border: 1px solid #f1ddbd4d; border-radius: 5px; padding: 10px 12px; background: #0b131b; color: #f6f0e8; font-family: inherit; font-size: 14px; line-height: 1.4; color-scheme: dark; }
+.plannerForm input:focus-visible, .plannerForm select:focus-visible, .created input:focus-visible, .created textarea:focus-visible, .plannerForm button:focus-visible, .created button:focus-visible { outline: 2px solid #f5d6a8; outline-offset: 2px; }
+.formSplit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.plannerForm .checkLabel { display: flex; align-items: center; gap: 11px; cursor: pointer; }
+.checkLabel input { width: 18px; height: 18px; min-height: 18px; margin: 0; accent-color: #e8c58e; }
+.optional { color: #aab5bb; font-size: 11px; font-weight: 400; }
+.budgetInput { display: flex; align-items: center; gap: 5px; border: 1px solid #f1ddbd4d; border-radius: 5px; padding-left: 12px; background: #0b131b; }
+.budgetInput input { border: 0; background: transparent; }
+.fieldNote { margin: 0; color: #aeb9b8; font-size: 11px; line-height: 1.5; }
+.formError { margin: 0; border-left: 2px solid #ecaa8c; padding: 8px 12px; background: #ecaa8c16; color: #ffd6c7; font-size: 13px; }
+.submitAction { display: flex; justify-content: space-between; align-items: center; min-height: 48px; border: 1px solid #f4d5a6; border-radius: 4px; padding: 10px 16px; background: #f4d5a6; color: #17212a; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 650; line-height: 1.3; }
+.submitAction:disabled { cursor: not-allowed; opacity: .5; }
+.signIn { margin-top: 23px; }
+.created { margin-top: 25px; border-top: 1px solid #f2d4a73f; padding-top: 21px; }
+.created h4 { margin: 9px 0; font: 400 30px/1.1 var(--font-display); }
+.created p:not(.eyebrow) { color: #c7d0ce; font-size: 12px; line-height: 1.55; }
+.created textarea { min-height: 145px; resize: vertical; }
+.createdActions { display: flex; gap: 12px; flex-wrap: wrap; margin: 14px 0 3px; }
+.createdActions button, .createdActions a { display: inline-flex; align-items: center; min-height: 40px; border: 1px solid #f3d5a3; border-radius: 3px; padding: 8px 12px; background: #f3d5a3; color: #14202b; cursor: pointer; font-size: 12px; font-weight: 650; }
+.createdActions a { background: transparent; color: #f3d5a3; }
+.rooms { scroll-margin-top: 85px; }
+.yourTrail { margin-top: 80px; }
+
+.sectionHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 23px;
+}
+
+.sectionHeader h2 {
+  margin: 8px 0 0;
+  font: 400 clamp(35px, 3.1vw, 52px)/1.04 var(--font-display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.sectionHeader > p {
+  max-width: 380px;
+  margin: 0 0 3px;
+  color: #b9bdc4;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.roomGrid,
+.trailGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+
+.roomCard {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #d7b88950;
+  border-radius: 10px;
+  background: #161c27;
+  color: inherit;
+  transition: border-color .2s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.roomCard:hover { border-color: #e9c796aa; transform: translateY(-4px); box-shadow: 0 18px 48px #02060d7a; }
+.roomImage { position: relative; min-height: 245px; background-color: #162438; background-image: linear-gradient(0deg, #101721a0, #10172100 55%), url('/meridian-moments.webp'); background-size: 100% 100%, 400% auto; background-repeat: no-repeat; }
+.snowScene { background-position: center, 33.333% 47%; }
+.seaScene { background-position: center, 66.666% 47%; }
+.roomImage span { position: absolute; right: 14px; bottom: 12px; padding: 4px 7px; border: 1px solid #f8e7c78a; border-radius: 3px; background: #07101db8; color: #f0e4d5; font: 10px/1.2 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.roomBody { padding: 21px 23px 22px; }
+.roomMeta { display: flex; justify-content: space-between; gap: 15px; color: #dfc49b; font: 600 10px/1.3 var(--font-mono); letter-spacing: .15em; text-transform: uppercase; }
+.roomBody h3 { margin: 15px 0 3px; font: 400 clamp(31px, 2.5vw, 40px)/1.05 var(--font-display); letter-spacing: -.03em; }
+.roomDates { margin: 0; color: #d4d6d8; font-size: 13px; }
+.roomDecision { min-height: 42px; margin: 18px 0 18px; color: #bec5ca; font-size: 14px; line-height: 1.5; }
+.roomLink { display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid #f3d5a331; color: #f3d5a3; font-size: 13px; font-weight: 650; }
+
+.trailCard { min-height: 255px; border: 1px solid #8795a534; border-radius: 9px; padding: 24px; background: linear-gradient(135deg, #1a2230, #121922 75%); }
+.trailHeading { display: flex; align-items: baseline; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid #f0d1a324; }
+.trailIndex { color: #c9a96f; font: 11px/1 var(--font-mono); }
+.trailHeading h3 { flex: 1; margin: 0; font: 400 27px/1.1 var(--font-display); }
+.count { min-width: 29px; height: 29px; display: inline-grid; place-items: center; border: 1px solid #e4c79775; border-radius: 50%; color: #e8c991; font: 12px/1 var(--font-mono); }
+.intentList { margin: 5px 0 0; padding: 0; list-style: none; }
+.intentList li + li { border-top: 1px solid #ffffff18; }
+.intentList a { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 15px 0; color: #f1eee9; font-size: 14px; }
+.intentList a:hover { color: #f9d8aa; }
+.intentVerb { flex-shrink: 0; color: #cbb88d; font-size: 12px; }
+.emptyTrail { padding-top: 23px; }
+.emptyTrail p { max-width: 350px; margin: 0; color: #bdc4c8; font-size: 14px; line-height: 1.6; }
+.emptyTrail a { display: inline-flex; gap: 14px; margin-top: 22px; padding-bottom: 5px; border-bottom: 1px solid #e2c89882; color: #f3d5a3; font-size: 13px; font-weight: 650; }
+.emptyTrail a:hover { color: #fff0d7; border-color: #fff0d7; }
+
+@media (max-width: 860px) {
+  .hero { min-height: 460px; padding: 45px 6vw; }
+  .heroShade { background: linear-gradient(90deg, #080d17f4, #09121ee0 48%, #09121e65), linear-gradient(0deg, #08101dc4, transparent 55%); }
+  .content { padding: 54px 6vw 85px; }
+  .sectionHeader { align-items: start; flex-direction: column; gap: 10px; }
+  .sectionHeader > p { max-width: 550px; }
+  .planner { grid-template-columns: 1fr; gap: 25px; padding-bottom: 60px; }
+}
+
+@media (max-width: 650px) {
+  .hero { min-height: 550px; align-items: end; padding: 35px 20px; }
+  .heroImage { background-position: 47% center; }
+  .heroShade { background: linear-gradient(0deg, #070d16fb 0%, #08101ddc 43%, #08101d34 100%); }
+  .hero h1 { font-size: clamp(49px, 14vw, 70px); }
+  .heroLead { font-size: 15px; }
+  .heroActions { gap: 9px 18px; }
+  .heroNote { margin-top: 20px; }
+  .content { padding: 45px 18px 76px; }
+  .roomGrid, .trailGrid { grid-template-columns: 1fr; }
+  .roomImage { min-height: 230px; }
+  .yourTrail { margin-top: 65px; }
+  .trailCard { min-height: 215px; }
+  .formSplit { grid-template-columns: 1fr; }
+  .plannerCard { padding: 22px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roomCard, .primaryAction, .secondaryAction { transition: none; }
+  .roomCard:hover, .primaryAction:hover, .secondaryAction:hover { transform: none; }
+}

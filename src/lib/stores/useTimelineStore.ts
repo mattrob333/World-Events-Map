@@ -8,6 +8,18 @@ export const DEFAULT_SPAN_DAYS = 10;
 
 export const toISODate = (d: Date): string => d.toISOString().slice(0, 10);
 
+/** The calendar day where the viewer is, which can differ from the UTC day. */
+export function calendarDateInTimeZone(date: Date, timeZone: string): string {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const part = (type: string) => parts.find((item) => item.type === type)?.value ?? '';
+  return `${part('year')}-${part('month')}-${part('day')}`;
+}
+
 export const addDays = (iso: string, days: number): string => {
   const d = new Date(`${iso}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + days);
@@ -38,6 +50,7 @@ interface TimelineState extends TimelineWindow {
   togglePlay: () => void;
   setPlaySpeed: (v: number) => void;
   reset: () => void;
+  syncLocalToday: () => void;
 }
 
 /**
@@ -48,9 +61,9 @@ const today = toISODate(new Date());
 const rangeStart = today;
 const rangeEnd = addDays(today, 425);
 
-const clamp = (iso: string) => {
-  if (iso < rangeStart) return rangeStart;
-  if (iso > rangeEnd) return rangeEnd;
+const clamp = (iso: string, start: string, end: string) => {
+  if (iso < start) return start;
+  if (iso > end) return end;
   return iso;
 };
 
@@ -63,11 +76,20 @@ export const useTimelineStore = create<TimelineState>((set, get) => ({
   playSpeed: 6,
   scrubbing: false,
 
-  setFocus: (iso) => set({ focus: clamp(iso) }),
-  nudge: (days) => set({ focus: clamp(addDays(get().focus, days)) }),
+  setFocus: (iso) => set((state) => ({ focus: clamp(iso, state.rangeStart, state.rangeEnd) })),
+  nudge: (days) => set((state) => ({ focus: clamp(addDays(state.focus, days), state.rangeStart, state.rangeEnd) })),
   setSpan: (days) => set({ spanDays: Math.max(1, Math.min(90, days)) }),
   setScrubbing: (scrubbing) => set({ scrubbing }),
   togglePlay: () => set((s) => ({ playing: !s.playing })),
   setPlaySpeed: (playSpeed) => set({ playSpeed }),
-  reset: () => set({ focus: today, spanDays: DEFAULT_SPAN_DAYS, playing: false }),
+  reset: () => set((state) => ({ focus: state.rangeStart, spanDays: DEFAULT_SPAN_DAYS, playing: false })),
+  syncLocalToday: () => {
+    const localToday = calendarDateInTimeZone(new Date(), Intl.DateTimeFormat().resolvedOptions().timeZone);
+    if (get().rangeStart === localToday) return;
+    set((state) => ({
+      rangeStart: localToday,
+      rangeEnd: addDays(localToday, 425),
+      focus: state.focus === state.rangeStart ? localToday : state.focus,
+    }));
+  },
 }));

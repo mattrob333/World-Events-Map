@@ -1,21 +1,19 @@
 'use client';
 
 /**
- * The beacon field — cities burning on an obsidian planet.
+ * The beacon field — precise points of light on an obsidian planet.
  *
- * Four instanced meshes, four draw calls, regardless of how many beacons there
+ * Five instanced meshes, five draw calls, regardless of how many beacons there
  * are. Nothing is a React component per beacon; nothing allocates a material
- * per beacon. At 250 beacons the per-frame cost is ~1000 matrix composes and
- * four small buffer uploads, which is nothing.
+ * per beacon. At 250 beacons the per-frame cost is at most 1250 matrix
+ * composes and five small buffer uploads.
  *
- *   pillars  — vertical light shafts along the local normal, additive, fading
- *              out toward the top. Height and radius carry score; opacity and
- *              height carry relevance.
- *   discs    — a tangent glow puddle at the base, so the pillar looks like it
- *              is standing on something.
- *   rings    — expanding pulse rings, blazing/supernova only, phase-staggered
+ *   pillars  — short stems along the local normal, fading out toward the top.
+ *   discs    — a crisp point with a soft, small halo on the surface.
+ *   rings    — restrained pulse rings, blazing/supernova only, phase-staggered
  *              from a hash of the event id.
  *   focus    — a locked brass reticle around the selected event.
+ *   crystal  — a six-armed ice mark for curated ski events in winter mode.
  *
  * Occlusion: everything depth-tests against the ocean sphere, so a beacon on
  * the far side is simply behind the planet. The flat surface decals (discs,
@@ -49,6 +47,7 @@ const LIFT_PILLAR = 0.0015;
 const LIFT_RING = 0.0040;
 const LIFT_DISC = 0.0045;
 const LIFT_FOCUS = 0.0050;
+const LIFT_CRYSTAL = 0.0055;
 
 const UP_Y = new THREE.Vector3(0, 1, 0);
 const UP_Z = new THREE.Vector3(0, 0, 1);
@@ -91,11 +90,11 @@ void main() {
   // Dense at the ground, gone by the top. The shaft should look like it is
   // dissipating into the air, not like a cylinder someone forgot to cap.
   float h = clamp(vH, 0.0, 1.0);
-  float fall = pow(1.0 - h, 1.8);
-  float core = pow(1.0 - h, 5.0);
+  float fall = pow(1.0 - h, 2.5);
+  float core = pow(1.0 - h, 6.0);
 
-  float a = fall * vIntensity * uGain;
-  vec3 col = vColor * (0.75 + 1.6 * core) * vIntensity;
+  float a = fall * vIntensity * uGain * 0.56;
+  vec3 col = vColor * (0.9 + 0.85 * core) * vIntensity;
 
   gl_FragColor = vec4(col, a);
 ${OUTPUT_GLSL}
@@ -151,11 +150,11 @@ void main() {
   float d = length(vUv - 0.5) * 2.0;
   if (d > 1.0) discard;
 
-  float falloff = pow(1.0 - d, 2.8);
-  float hotspot = pow(1.0 - d, 12.0);
+  float falloff = pow(1.0 - d, 3.8);
+  float hotspot = 1.0 - smoothstep(0.12, 0.28, d);
 
-  float a = (falloff * 0.85 + hotspot) * vIntensity * vFacing * uGain;
-  vec3 col = vColor * (1.0 + 1.8 * hotspot) * vIntensity;
+  float a = (falloff * 0.35 + hotspot * 0.95) * vIntensity * vFacing * uGain;
+  vec3 col = mix(vColor, vec3(1.0), hotspot * 0.6) * (1.0 + hotspot * 0.6) * vIntensity;
 
   gl_FragColor = vec4(col, a);
 ${OUTPUT_GLSL}
@@ -177,20 +176,10 @@ void main() {
   float d = length(vUv - 0.5) * 2.0;
   if (d > 1.0) discard;
 
-  float a = 0.0;
-  // Two rings in flight at a time, half a cycle apart. More than that and it
-  // stops reading as a heartbeat and starts reading as a target lock.
-  //
-  // Note the squared local rather than pow(x, 2.0): pow() is undefined for a
-  // negative base in GLSL, and (d - t) is negative for every fragment inside
-  // the ring. Some drivers return NaN there, which shows up as black confetti.
-  for (int i = 0; i < 2; i++) {
-    float t = fract(uTime * uSpeed + vPhase + float(i) * 0.5);
-    float w = 0.075 + 0.06 * t;
-    float u = (d - t) / w;
-    float band = exp(-u * u);
-    a += band * (1.0 - t) * (1.0 - t);
-  }
+  float t = fract(uTime * uSpeed + vPhase);
+  float w = 0.055 + 0.025 * t;
+  float u = (d - t) / w;
+  float a = exp(-u * u) * (1.0 - t) * (1.0 - t);
 
   a *= vIntensity * vFacing * uGain;
   gl_FragColor = vec4(vColor * 1.25 * vIntensity, a);
@@ -199,7 +188,6 @@ ${OUTPUT_GLSL}
 `;
 
 const FOCUS_FRAGMENT = /* glsl */ `
-uniform float uTime;
 uniform float uGain;
 
 varying vec2 vUv;
@@ -216,8 +204,7 @@ void main() {
 
   // A sustained inner ring — this one does not expand, it holds. That is the
   // whole difference between "this is hot" and "this is the one you picked".
-  float breathe = 0.008 * sin(uTime * 1.4);
-  float ui = (d - (0.62 + breathe)) / 0.028;
+  float ui = (d - 0.62) / 0.028;
   float inner = exp(-ui * ui);
 
   // Four ticks on an outer arc.
@@ -227,6 +214,47 @@ void main() {
 
   float a = (inner * 0.85 + outer) * vIntensity * vFacing * uGain;
   gl_FragColor = vec4(vColor * vIntensity * 1.15, a);
+${OUTPUT_GLSL}
+}
+`;
+
+/** Draw the mark procedurally so each ski destination shares one draw call. */
+const CRYSTAL_FRAGMENT = /* glsl */ `
+uniform float uGain;
+
+varying vec2 vUv;
+varying vec3 vColor;
+varying float vIntensity;
+varying float vFacing;
+
+float segmentDistance(vec2 point, vec2 a, vec2 b) {
+  vec2 segment = b - a;
+  return length(point - a - segment * clamp(dot(point - a, segment) / dot(segment, segment), 0.0, 1.0));
+}
+
+void main() {
+  vec2 p = (vUv - 0.5) * 2.0;
+  float d = length(p);
+  if (d > 0.94) discard;
+
+  float crystal = 1.0 - smoothstep(0.055, 0.13, d);
+  for (int i = 0; i < 6; i++) {
+    float angle = float(i) * 1.04719755;
+    vec2 axis = vec2(cos(angle), sin(angle));
+    vec2 side = vec2(-axis.y, axis.x);
+    crystal = max(crystal, 1.0 - smoothstep(0.018, 0.047,
+      segmentDistance(p, axis * 0.10, axis * 0.78)));
+    vec2 fork = axis * 0.46;
+    crystal = max(crystal, 1.0 - smoothstep(0.012, 0.039,
+      segmentDistance(p, fork, axis * 0.61 + side * 0.17)));
+    crystal = max(crystal, 1.0 - smoothstep(0.012, 0.039,
+      segmentDistance(p, fork, axis * 0.61 - side * 0.17)));
+  }
+
+  float halo = pow(max(1.0 - d, 0.0), 5.0) * 0.22;
+  float alpha = (crystal * 0.88 + halo) * vIntensity * vFacing * uGain;
+  vec3 color = mix(vColor, vec3(1.0), crystal * 0.72);
+  gl_FragColor = vec4(color * (0.95 + crystal * 0.35), alpha);
 ${OUTPUT_GLSL}
 }
 `;
@@ -266,9 +294,11 @@ function capacityFor(n: number): number {
 
 export interface BeaconFieldProps {
   beacons: Beacon[];
+  /** A visual cue only; ski category and supplied beacons remain the source of truth. */
+  winterMode?: boolean;
 }
 
-function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
+function BeaconFieldImpl({ beacons, winterMode = false }: BeaconFieldProps) {
   const reducedMotion = useReducedMotion();
 
   const registry = useMemo(() => new BeaconRegistry(), []);
@@ -297,6 +327,7 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
       disc: makeLayer(bases.disc, capacity),
       ring: makeLayer(bases.disc, capacity),
       focus: makeLayer(bases.disc, 16),
+      crystal: makeLayer(bases.disc, capacity),
     }),
     [bases, capacity],
   );
@@ -330,10 +361,10 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
         vertexShader: DECAL_VERTEX,
         fragmentShader: RING_FRAGMENT,
         uniforms: {
-          uGain: { value: 0.75 },
+          uGain: { value: 0.38 },
           uGlobeRadius: { value: R },
           uTime: { value: 0 },
-          uSpeed: { value: 0.3 },
+          uSpeed: { value: 0.17 },
         },
       }),
       focus: new THREE.ShaderMaterial({
@@ -343,8 +374,13 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
         uniforms: {
           uGain: { value: 1.0 },
           uGlobeRadius: { value: R },
-          uTime: { value: 0 },
         },
+      }),
+      crystal: new THREE.ShaderMaterial({
+        ...common,
+        vertexShader: DECAL_VERTEX,
+        fragmentShader: CRYSTAL_FRAGMENT,
+        uniforms: { uGain: { value: 1.0 }, uGlobeRadius: { value: R } },
       }),
     };
   }, []);
@@ -376,6 +412,7 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
   const discRef = useRef<THREE.InstancedMesh>(null);
   const ringRef = useRef<THREE.InstancedMesh>(null);
   const focusRef = useRef<THREE.InstancedMesh>(null);
+  const crystalRef = useRef<THREE.InstancedMesh>(null);
 
   const scratch = useMemo(
     () => ({
@@ -405,13 +442,13 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
 
     const t = state.clock.elapsedTime;
     materials.ring.uniforms.uTime.value = t;
-    materials.focus.uniforms.uTime.value = t;
 
     const pillars = pillarRef.current;
     const discs = discRef.current;
     const rings = ringRef.current;
     const focus = focusRef.current;
-    if (!pillars || !discs || !rings || !focus) return;
+    const crystals = crystalRef.current;
+    if (!pillars || !discs || !rings || !focus || !crystals) return;
 
     const { matrix, position, quatY, quatZ, scale } = scratch;
     const order = registry.order;
@@ -420,6 +457,7 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
     let nDisc = 0;
     let nRing = 0;
     let nFocus = 0;
+    let nCrystal = 0;
 
     const cap = capacity;
 
@@ -482,12 +520,26 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
         layers.focus.phase.setX(nFocus, e.phase);
         nFocus++;
       }
+
+      if (winterMode && e.beacon.category === 'ski' && nCrystal < cap) {
+        position.copy(n).multiplyScalar(R + LIFT_CRYSTAL);
+        // Keep crystals readable at world scale without letting them swell
+        // into oversized overlays when the camera closes in.
+        const apparentCap = Math.max(0.006, state.camera.position.distanceTo(position) * 0.017);
+        const radius = Math.min(Math.max(discRadius(e) * 1.6, 0.025), apparentCap);
+        scale.set(radius, radius, 1);
+        matrix.compose(position, quatZ, scale);
+        crystals.setMatrixAt(nCrystal, matrix);
+        writeInstance(layers.crystal, nCrystal, e, intensity);
+        nCrystal++;
+      }
     }
 
     commit(pillars, layers.pillar, nPillar);
     commit(discs, layers.disc, nDisc);
     commit(rings, layers.ring, nRing);
     commit(focus, layers.focus, nFocus);
+    commit(crystals, layers.crystal, nCrystal);
   });
 
   return (
@@ -515,6 +567,12 @@ function BeaconFieldImpl({ beacons }: BeaconFieldProps) {
         args={[layers.pillar.geometry, materials.pillar, capacity]}
         frustumCulled={false}
         renderOrder={33}
+      />
+      <instancedMesh
+        ref={crystalRef}
+        args={[layers.crystal.geometry, materials.crystal, capacity]}
+        frustumCulled={false}
+        renderOrder={34}
       />
 
       <BeaconPicker registry={registry} capacity={capacity} />

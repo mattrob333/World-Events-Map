@@ -27,6 +27,7 @@ import { useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { GLOBE_RADIUS, latLonToVec3 } from '@/lib/geo/projection';
 import { useReducedMotion } from './useReducedMotion';
 import { bindCursorTarget, setCursor } from './cursor';
+import { JOURNEY_ALIGN_MS, JOURNEY_TRAVEL_MS, OPENING_GLOBE_DISTANCE } from '@/lib/geo/camera';
 
 const R = GLOBE_RADIUS;
 
@@ -50,12 +51,14 @@ const ORBIT_LAMBDA = 9;
 
 interface Flight {
   from: THREE.Vector3;
+  via: THREE.Vector3 | null;
   to: THREE.Vector3;
-  /** True when from and to are near-antipodal and slerp is ill-conditioned. */
-  degenerate: boolean;
   fromRadius: number;
   toRadius: number;
   start: number;
+  durationMs: number;
+  alignMs: number;
+  journey: boolean;
   nonce: number;
 }
 
@@ -82,15 +85,33 @@ function slerpUnit(
   return out.copy(a).multiplyScalar(s0).addScaledVector(b, s1).normalize();
 }
 
+function slerpStable(
+  a: THREE.Vector3,
+  b: THREE.Vector3,
+  t: number,
+  out: THREE.Vector3,
+  perp: THREE.Vector3,
+  axis: THREE.Vector3,
+): THREE.Vector3 {
+  if (a.dot(b) >= -0.9995) return slerpUnit(a, b, t, out);
+  // Opposite sides of the planet have no unique great circle. Pick a stable
+  // perpendicular so the camera keeps moving instead of snapping across it.
+  axis.set(Math.abs(a.y) < 0.9 ? 0 : 1, Math.abs(a.y) < 0.9 ? 1 : 0, 0);
+  perp.crossVectors(a, axis).normalize();
+  return out.copy(a).multiplyScalar(Math.cos(Math.PI * t))
+    .addScaledVector(perp, Math.sin(Math.PI * t)).normalize();
+}
+
+function easeJourney(t: number): number {
+  return t * t * (3 - 2 * t);
+}
+
 export interface CameraRigProps {
   /**
    * Opening camera distance, in globe radii.
    *
-   * The globe subtends `2·asin(1/d)` degrees, so with the 34° vertical FOV set
-   * on the Canvas anything closer than d≈3.42 overflows the viewport and the
-   * planet reads as a wall rather than a world. 3.9 puts the sphere at ~87% of
-   * frame height: the limb and the terminator both stay visible, which is the
-   * whole shot.
+   * At the Canvas's 34° FOV, 2.45 makes the sphere about 1.5× the stage
+   * height. The stage crops the polar thirds into a closer cinematic view.
    */
   initialDistance?: number;
   initialLat?: number;
@@ -98,7 +119,7 @@ export interface CameraRigProps {
 }
 
 function CameraRigImpl({
-  initialDistance = 3.9,
+  initialDistance = OPENING_GLOBE_DISTANCE,
   initialLat = 24,
   initialLon = 8,
 }: CameraRigProps) {
@@ -199,18 +220,14 @@ function CameraRigImpl({
     };
 
     const onWheel = (e: WheelEvent) => {
-      // The globe sits inside a scrollable dashboard. A plain mouse-wheel
-      // gesture belongs to the page, not the globe. Only an explicit zoom
-      // gesture takes ownership here. Trackpad pinch is reported as ctrl+wheel
-      // by Chromium/WebKit, and Ctrl/Cmd + wheel gives mouse users the same
-      // deliberate interaction without trapping page scrolling.
-      if (!e.ctrlKey && !e.metaKey) return;
-
+      // Wheel over the planet zooms it; outside the canvas the page still
+      // scrolls. At a zoom limit, release an ordinary wheel back to the page.
+      const deltaY = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientHeight : 1);
+      const next = clampDistance(state.target.radius * Math.exp(deltaY * ZOOM_SENSITIVITY));
+      if (Math.abs(next - state.target.radius) < 1e-5 && !e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
       stopAuto();
-      // Exponential so a notch feels the same at every distance.
-      const factor = Math.exp(e.deltaY * ZOOM_SENSITIVITY);
-      state.target.radius = clampDistance(state.target.radius * factor);
+      state.target.radius = next;
       invalidate();
     };
 
@@ -235,12 +252,25 @@ function CameraRigImpl({
   useEffect(() => {
     if (!flightRequest) return;
 
-    const distance = clampDistance(flightRequest.distance);
-    const to = latLonToVec3(
+    const destination = latLonToVec3(
       flightRequest.target.lat,
       flightRequest.target.lon,
       1,
     );
+    const from = camera.position.clone().normalize();
+    const routeOrigin = flightRequest.origin
+      ? latLonToVec3(flightRequest.origin.lat, flightRequest.origin.lon, 1)
+      : from;
+    const routeAngle = Math.acos(THREE.MathUtils.clamp(routeOrigin.dot(destination), -1, 1));
+    const showRouteOverview = flightRequest.journey && routeAngle > 0.55;
+    // For longer hops the camera settles between the endpoints and steps back
+    // enough to keep both pins in frame. Short hops still land on the city.
+    const to = showRouteOverview
+      ? slerpStable(routeOrigin, destination, 0.55, new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3())
+      : destination;
+    const distance = clampDistance(showRouteOverview
+      ? Math.max(flightRequest.distance, Math.min(4.2, OPENING_GLOBE_DISTANCE + routeAngle * 0.8))
+      : flightRequest.distance);
 
     if (reducedMotion) {
       // Instant cut. No easing, no arc — the user asked for no motion.
@@ -255,14 +285,18 @@ function CameraRigImpl({
       return;
     }
 
-    const from = camera.position.clone().normalize();
     state.flight = {
       from,
+      via: flightRequest.origin ? routeOrigin : null,
       to,
-      degenerate: from.dot(to) < -0.9995,
       fromRadius: camera.position.length(),
       toRadius: distance,
       start: performance.now(),
+      durationMs: flightRequest.journey
+        ? JOURNEY_TRAVEL_MS + (flightRequest.origin ? JOURNEY_ALIGN_MS : 0)
+        : FLIGHT_MS,
+      alignMs: flightRequest.origin ? JOURNEY_ALIGN_MS : 0,
+      journey: flightRequest.journey,
       nonce: flightRequest.nonce,
     };
 
@@ -285,30 +319,27 @@ function CameraRigImpl({
     if (state.flight) {
       const f = state.flight;
       const t = THREE.MathUtils.clamp(
-        (performance.now() - f.start) / FLIGHT_MS,
+        (performance.now() - f.start) / f.durationMs,
         0,
         1,
       );
-      const e = easeGlide(t);
+      const alignFraction = f.alignMs / f.durationMs;
+      const aligning = f.via && t < alignFraction;
+      const segmentT = aligning
+        ? easeGlide(t / alignFraction)
+        : f.journey
+          ? easeJourney((t - alignFraction) / (1 - alignFraction))
+          : easeGlide(t);
+      const dir = slerpStable(
+        aligning ? f.from : (f.via ?? f.from),
+        aligning ? f.via! : f.to,
+        segmentT,
+        scratchA,
+        scratchB,
+        scratchC,
+      );
 
-      let dir: THREE.Vector3;
-      if (f.degenerate) {
-        // Antipodal: slerp is undefined, so sweep through an arbitrary
-        // perpendicular rather than dividing by zero.
-        const axis =
-          Math.abs(f.from.y) < 0.9
-            ? scratchC.set(0, 1, 0)
-            : scratchC.set(1, 0, 0);
-        const perp = scratchB.crossVectors(f.from, axis).normalize();
-        dir = scratchA
-          .copy(f.from)
-          .multiplyScalar(Math.cos(Math.PI * e))
-          .addScaledVector(perp, Math.sin(Math.PI * e));
-      } else {
-        dir = slerpUnit(f.from, f.to, e, scratchA);
-      }
-
-      const radius = THREE.MathUtils.lerp(f.fromRadius, f.toRadius, easeGlide(t));
+      const radius = THREE.MathUtils.lerp(f.fromRadius, f.toRadius, f.journey ? easeJourney(t) : easeGlide(t));
       camera.position.copy(dir).multiplyScalar(radius);
       camera.lookAt(0, 0, 0);
 

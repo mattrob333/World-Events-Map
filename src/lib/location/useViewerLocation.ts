@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { GeoPoint } from '@/lib/types';
+import { requestBrowserPosition, VIEWER_CITIES } from './browser-position';
 
 export type ViewerLocationStatus =
   | 'booting'
@@ -10,7 +11,7 @@ export type ViewerLocationStatus =
   | 'denied'
   | 'unavailable';
 
-export type ViewerLocationSource = 'none' | 'timezone' | 'browser';
+export type ViewerLocationSource = 'none' | 'timezone' | 'browser' | 'chosen';
 
 export interface ViewerLocationState {
   /** Current ephemeral location context, browser-refined when permission allows. */
@@ -19,13 +20,11 @@ export interface ViewerLocationState {
   launchCoords: GeoPoint | null;
   status: ViewerLocationStatus;
   source: ViewerLocationSource;
+  cityLabel?: string;
 }
 
 const GLOBAL_FALLBACK: GeoPoint = { lat: 20, lon: -30 };
-
-function coarse(value: number) {
-  return Math.round(value * 10) / 10;
-}
+const CITY_CHOICE_KEY = 'meridian.viewing-city';
 
 /**
  * Gives first paint a relevant hemisphere without pretending we know the
@@ -57,6 +56,7 @@ export function fallbackForTimeZone(timeZone: string): GeoPoint {
  * coordinates into the member profile, People Graph, localStorage, or a server.
  */
 export function useViewerLocation() {
+  const cancelRequest = useRef<(() => void) | null>(null);
   const [state, setState] = useState<ViewerLocationState>({
     coords: null,
     launchCoords: null,
@@ -65,6 +65,8 @@ export function useViewerLocation() {
   });
 
   const requestLocation = useCallback(() => {
+    cancelRequest.current?.();
+    try { sessionStorage.removeItem(CITY_CHOICE_KEY); } catch { /* Storage can be disabled. */ }
     if (typeof navigator === 'undefined' || !navigator.geolocation) {
       setState((current) => ({ ...current, status: 'unavailable' }));
       return;
@@ -72,33 +74,43 @@ export function useViewerLocation() {
 
     setState((current) => ({ ...current, status: 'locating' }));
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    cancelRequest.current = requestBrowserPosition(navigator.geolocation,
+      (coords) => {
         setState((current) => ({
           ...current,
-          coords: {
-            lat: coarse(position.coords.latitude),
-            lon: coarse(position.coords.longitude),
-          },
+          coords,
           status: 'granted',
           source: 'browser',
+          cityLabel: undefined,
         }));
       },
-      (error) => {
+      (reason) => {
         setState((current) => ({
           ...current,
-          status: error.code === error.PERMISSION_DENIED ? 'denied' : 'unavailable',
+          status: reason,
         }));
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 6500,
-        maximumAge: 15 * 60 * 1000,
       },
     );
   }, []);
 
+  const chooseCity = useCallback((name: string) => {
+    const city = VIEWER_CITIES.find((entry) => entry.name === name);
+    if (!city) return;
+    cancelRequest.current?.();
+    // Remember only an explicitly chosen public city, never device coordinates.
+    try { sessionStorage.setItem(CITY_CHOICE_KEY, city.name); } catch { /* In-memory choice still works. */ }
+    setState((current) => ({ ...current, coords: { lat: city.lat, lon: city.lon }, status: 'granted', source: 'chosen', cityLabel: city.name }));
+  }, []);
+
   useEffect(() => {
+    let cityName: string | null = null;
+    try { cityName = sessionStorage.getItem(CITY_CHOICE_KEY); } catch { /* Storage can be disabled. */ }
+    const city = VIEWER_CITIES.find((entry) => entry.name === cityName);
+    if (city) {
+      const coords = { lat: city.lat, lon: city.lon };
+      setState({ coords, launchCoords: coords, source: 'chosen', status: 'granted', cityLabel: city.name });
+      return () => cancelRequest.current?.();
+    }
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
     const fallback = fallbackForTimeZone(timeZone);
     setState({
@@ -109,11 +121,12 @@ export function useViewerLocation() {
     });
 
     const timer = window.setTimeout(requestLocation, 0);
-    return () => window.clearTimeout(timer);
+    return () => { window.clearTimeout(timer); cancelRequest.current?.(); };
   }, [requestLocation]);
 
   return {
     ...state,
     retry: requestLocation,
+    chooseCity,
   };
 }

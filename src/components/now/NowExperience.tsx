@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { PlatformShell } from '@/components/community/PlatformShell';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
@@ -49,7 +50,7 @@ function mapHref(lat: number, lng: number, name: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name} ${lat},${lng}`)}`;
 }
 
-export function NowExperience() {
+export function NowExperience({ providerConfigured }: { providerConfigured: boolean }) {
   const { client, user } = usePlatformAuth();
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
@@ -174,19 +175,29 @@ export function NowExperience() {
     >
       <div className={styles.layout}>
         <form className={styles.controls} onSubmit={submit}>
-          <section className={styles.block}>
+          {!providerConfigured && (
+            <p className={styles.connectionNote} role="status">
+              Live nearby venue search is awaiting its provider and private budget store. NOW cannot return live recommendations yet.{' '}
+              <Link href="/">Explore places and seasons ↗</Link>
+            </p>
+          )}
+          <section className={styles.block} id="now-location">
             <span className={styles.kicker}>01 · Where you are</span>
-            <button type="button" className={styles.primary} onClick={locate} disabled={locating}>
-              {locating ? 'Finding you…' : lat && lng ? 'Refresh my location' : 'Use my location'}
-            </button>
-            <p className={styles.privacy}>Your precise location is used for this decision and is not written to your member profile.</p>
-            <details className={styles.manual}>
-              <summary>Enter coordinates instead</summary>
-              <div className={styles.twoCol}>
-                <label>Latitude<input inputMode="decimal" value={lat} onChange={(e) => setLat(e.target.value)} placeholder="40.7580" /></label>
-                <label>Longitude<input inputMode="decimal" value={lng} onChange={(e) => setLng(e.target.value)} placeholder="-73.9855" /></label>
-              </div>
-            </details>
+            {providerConfigured ? (
+              <>
+                <button type="button" className={styles.primary} onClick={locate} disabled={locating}>
+                  {locating ? 'Finding you…' : lat && lng ? 'Refresh my location' : 'Use my location'}
+                </button>
+                <p className={styles.privacy}>Your precise location is used for this decision and is not written to your member profile.</p>
+                <details className={styles.manual}>
+                  <summary>Enter coordinates instead</summary>
+                  <div className={styles.twoCol}>
+                    <label>Latitude<input inputMode="decimal" value={lat} onChange={(e) => setLat(e.target.value)} placeholder="40.7580" /></label>
+                    <label>Longitude<input inputMode="decimal" value={lng} onChange={(e) => setLng(e.target.value)} placeholder="-73.9855" /></label>
+                  </div>
+                </details>
+              </>
+            ) : <p className={styles.privacy}>Location stays off until live nearby search is ready.</p>}
           </section>
 
           {hasModes && (
@@ -200,7 +211,7 @@ export function NowExperience() {
             </section>
           )}
 
-          <section className={styles.block}>
+          <section className={styles.block} id="now-intent">
             <span className={styles.kicker}>{hasModes ? '03' : '02'} · What you want</span>
             <div className={styles.choiceGrid}>
               {INTENTS.map((option) => (
@@ -230,16 +241,40 @@ export function NowExperience() {
             </div>
           </section>
 
-          <button className={styles.go} disabled={loading || !lat || !lng}>{loading ? 'Reading the room…' : 'Find my next move'}</button>
+          <button className={styles.go} disabled={!providerConfigured || loading || !lat || !lng}>{loading ? 'Reading the room…' : 'Find my next move'}</button>
           {error && <p className={styles.error} role="alert">{error}</p>}
         </form>
 
-        <section className={styles.results} aria-live="polite">
+        <section className={`${styles.results} ${!result && !loading ? styles.resultsIntro : ''}`} aria-live="polite">
           {!result && !loading && (
-            <div className={styles.empty}>
-              <span className={styles.kicker}>Decision, not search</span>
-              <h2>Three answers. Different reasons.</h2>
-              <p>Best Match optimizes for your whole context. Most Alive prioritizes local energy. Wildcard deliberately keeps one strong option outside the obvious lane.</p>
+            <div className={styles.intro}>
+              <div className={styles.introVisual} role="img" aria-label="Illustrative travel moments: a rooftop evening, an alpine gathering, and friends on the water">
+                <span className={styles.introVisualLabel}>MERIDIAN / THE MOMENT BEFORE</span>
+                <span className={styles.introVisualMark} aria-hidden="true">✳</span>
+              </div>
+              <div className={styles.introContent}>
+                <div className={styles.introOverline}><span>YOUR NEXT MOVE</span><span>01 / 03</span></div>
+                <h2>Make tonight <em>worth the story.</em></h2>
+                <p>{providerConfigured ? 'Start with where you are, then give us the mood. NOW weighs the real options nearby and gives each recommendation a reason to exist.' : 'When live nearby search is connected, start with where you are and the mood you want. NOW will give each recommendation a reason to exist.'}</p>
+                <div className={styles.introActions}>
+                  {!providerConfigured ? (
+                    <Link className={styles.introPrimary} href="/">Explore the world calendar <span aria-hidden="true">↗</span></Link>
+                  ) : lat && lng ? (
+                    <a className={styles.introPrimary} href="#now-intent">Location ready · choose the mood <span aria-hidden="true">↘</span></a>
+                  ) : (
+                    <button className={styles.introPrimary} type="button" onClick={locate} disabled={locating}>
+                      {locating ? 'Finding you…' : 'Start with my location'} <span aria-hidden="true">↗</span>
+                    </button>
+                  )}
+                  {providerConfigured && <button className={styles.introExample} type="button" aria-pressed={intent === 'music' && vibe === 'lively'} onClick={() => { setIntent('music'); setVibe('lively'); }}>
+                    {intent === 'music' && vibe === 'lively' ? 'Mood set: live music + lively energy' : 'Try a mood: live music + lively energy'} <span aria-hidden="true">↗</span>
+                  </button>}
+                </div>
+                <div className={styles.introSteps} aria-label="How NOW works">
+                  <span><b>01</b> Where you are</span><span><b>02</b> What feels right</span><span><b>03</b> A considered shortlist</span>
+                </div>
+                <p className={styles.introDisclosure}>Illustrative imagery. Venue results appear only after you ask NOW to search.</p>
+              </div>
             </div>
           )}
           {loading && <div className={styles.empty}><span className={styles.pulse} /><h2>Reading what is viable now.</h2><p>Checking local venues, hard constraints and the context you gave MERIDIAN.</p></div>}

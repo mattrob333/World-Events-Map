@@ -8,6 +8,7 @@ import {
   type FormEvent,
 } from 'react';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
+import { circleInvitePath, circleInviteUrl } from '@/lib/trips/circleInvite';
 import { PlatformShell, SignInCard } from './PlatformShell';
 import styles from './community.module.css';
 import { RequestGate } from './requestGate';
@@ -80,9 +81,11 @@ const date = (value: string) =>
 
 export function Community({
   initialEvent = '',
+  initialCircle = '',
   initialTab = 'circles',
 }: {
   initialEvent?: string;
+  initialCircle?: string;
   initialTab?: 'circles' | 'offers';
 }) {
   const { user } = usePlatformAuth();
@@ -90,6 +93,7 @@ export function Community({
     <CommunityContent
       key={user?.id ?? 'visitor'}
       initialEvent={initialEvent}
+      initialCircle={initialCircle}
       initialTab={initialTab}
     />
   );
@@ -97,9 +101,11 @@ export function Community({
 
 function CommunityContent({
   initialEvent,
+  initialCircle,
   initialTab,
 }: {
   initialEvent: string;
+  initialCircle: string;
   initialTab: 'circles' | 'offers';
 }) {
   const { client, user, loading } = usePlatformAuth();
@@ -109,6 +115,7 @@ function CommunityContent({
   const [offers, setOffers] = useState<Offer[]>([]);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [selected, setSelected] = useState<Circle | null>(null);
+  const [inviteLink, setInviteLink] = useState('');
   const [members, setMembers] = useState<Membership[]>([]);
   const [profiles, setProfiles] = useState<Record<string, Profile>>({});
   const [messages, setMessages] = useState<Message[]>([]);
@@ -124,6 +131,7 @@ function CommunityContent({
   const [requestText, setRequestText] = useState('');
   const eventId = initialEvent;
   const [eventFilter, setEventFilter] = useState(initialEvent);
+  const circlePath = initialCircle ? circleInvitePath(initialCircle) : null;
 
   const refresh = useCallback(async () => {
     if (!client) return;
@@ -172,6 +180,25 @@ function CommunityContent({
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    if (!client || !user || !initialCircle) return;
+    if (!circlePath) return;
+    let active = true;
+    void client.from('circles').select('*').eq('id', initialCircle).maybeSingle().then(({ data, error: loadError }) => {
+      if (!active) return;
+      if (loadError) {
+        setError(explain(loadError));
+      } else if (!data) {
+        setError('This Circle could not be found. Ask the host for a current link.');
+      } else {
+        setTab('circles');
+        setEventFilter('');
+        setSelected(data as Circle);
+      }
+    });
+    return () => { active = false; };
+  }, [client, user, initialCircle, circlePath]);
 
   const loadCircle = useCallback(async () => {
     if (!client || !selected || !user) return;
@@ -328,6 +355,8 @@ function CommunityContent({
       title="Find your next circle."
       description="Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details."
     >
+      {initialCircle && !circlePath && <p className={`${styles.notice} ${styles.error}`}>This Circle link is invalid. Ask the host for a new link.</p>}
+      {circlePath && !user && <p className={styles.notice}>Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.</p>}
       <div
         className={styles.tabs}
         role="tablist"
@@ -508,6 +537,7 @@ function CommunityContent({
                             circleRequests.current.invalidate();
                             setDetailFor('');
                             setSelected(circle);
+                            setInviteLink('');
                             setMessages([]);
                             setMembers([]);
                             setProfiles({});
@@ -713,6 +743,7 @@ function CommunityContent({
                     circleRequests.current.invalidate();
                     setDetailFor('');
                     setSelected(null);
+                    setInviteLink('');
                   }}
                 >
                   Close
@@ -720,6 +751,22 @@ function CommunityContent({
               </div>
               <h2>{selected.name}</h2>
               <p className={styles.muted}>{selected.description}</p>
+              <p className={styles.small}>After arrival: <a className={styles.inlineLink} href="/now">use NOW ↗</a> to explore nearby places and timing. Live venue guidance appears when its sources are connected.</p>
+              <div className={styles.row}>
+                <button className={`${styles.button} ${styles.secondary}`} onClick={async () => {
+                  const url = circleInviteUrl(window.location.origin, selected.id);
+                  if (!url) return;
+                  setInviteLink(url);
+                  try {
+                    await navigator.clipboard.writeText(url);
+                    setNotice('Circle link copied. Recipients must sign in and request host approval.');
+                  } catch {
+                    setNotice('Select and copy the Circle link below. Recipients must sign in and request host approval.');
+                  }
+                }}>Copy Circle link</button>
+                <span className={styles.small}>Sharing the link does not grant access.</span>
+              </div>
+              {inviteLink && <div className={styles.form}><label>Invitation link<input readOnly value={inviteLink} onFocus={(event) => event.currentTarget.select()} /></label></div>}
               {!user ? (
                 <p>Sign in to request a place.</p>
               ) : !mine && !host ? (

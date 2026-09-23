@@ -107,7 +107,14 @@ const SHELLS: ShellConfig[] = [
   },
 ];
 
-function AtmosphereImpl() {
+export interface AtmosphereProps {
+  /** Slightly cooler limb light for the winter discovery scene. */
+  winterMode?: boolean;
+}
+
+const WINTER_COLORS = ['#7baed1', '#396a91'] as const;
+
+function AtmosphereImpl({ winterMode = false }: AtmosphereProps) {
   const sunDir = useSunDirection();
 
   const shells = useMemo(
@@ -136,10 +143,13 @@ function AtmosphereImpl() {
   );
 
   useLayoutEffect(() => {
-    for (const s of shells) {
+    for (const [index, s] of shells.entries()) {
       (s.material.uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
+      (s.material.uniforms.uColor.value as THREE.Color).set(
+        winterMode ? WINTER_COLORS[index] : s.cfg.color,
+      );
     }
-  }, [shells, sunDir]);
+  }, [shells, sunDir, winterMode]);
 
   useEffect(
     () => () => {

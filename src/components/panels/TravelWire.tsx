@@ -50,8 +50,11 @@ export function TravelWire({
   useEffect(() => {
     if (controlled) return;
     let active = true;
+    let inFlight = false;
     const controller = new AbortController();
     const load = async () => {
+      if (!active || inFlight || document.hidden) return;
+      inFlight = true;
       try {
         const response = await fetch('/api/travel-wire', {
           signal: controller.signal,
@@ -66,14 +69,19 @@ export function TravelWire({
       } catch (err) {
         if (!active || (err as Error).name === 'AbortError') return;
         setError(true);
+      } finally {
+        inFlight = false;
       }
     };
     void load();
     const timer = window.setInterval(() => void load(), 60_000);
+    const onVisibility = () => { if (!document.hidden) void load(); };
+    document.addEventListener('visibilitychange', onVisibility);
     return () => {
       active = false;
       controller.abort();
       clearInterval(timer);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [controlled]);
 

@@ -10,6 +10,7 @@
  */
 
 import { memo } from 'react';
+import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 
 export type GlobeFallbackKind = 'loading' | 'context-lost' | 'unsupported';
 
@@ -36,6 +37,7 @@ export interface GlobeFallbackProps {
 
 function GlobeFallbackImpl({ kind = 'loading', overlay = false }: GlobeFallbackProps) {
   const copy = COPY[kind];
+  const journey = useGlobeStore((state) => state.journey);
 
   return (
     <div
@@ -56,6 +58,13 @@ function GlobeFallbackImpl({ kind = 'loading', overlay = false }: GlobeFallbackP
         <p className="max-w-xs text-xs leading-relaxed text-ink-faint">
           {copy.detail}
         </p>
+        {kind !== 'loading' && journey && (
+          <div className="mt-4 flex items-center gap-3 text-[10px] uppercase tracking-[0.16em] text-ink-faint" aria-label="Selected travel route">
+            <span>{journey.origin ? 'Starting point' : 'Current map view'}</span>
+            <span aria-hidden className="h-px w-14 border-t border-dashed border-brass" />
+            <span className="text-brass">Destination</span>
+          </div>
+        )}
       </div>
     </div>
   );

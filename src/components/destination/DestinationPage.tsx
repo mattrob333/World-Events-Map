@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Chip, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
-import { FixtureBanner, IntentBar, OpportunityCardView, ProvenanceNote } from '@/components/shell';
+import { FixtureBanner, OpportunityCardView, ProvenanceNote } from '@/components/shell';
 import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
-import { getDestinationBySlug, STATUS_LABEL, type DestinationPulse } from '@/lib/pulse';
+import { getDestinationBySlug, type DestinationPulse } from '@/lib/pulse';
+import { ResearchPulse } from '@/components/research/ResearchPulse';
+import type { WorldEvent } from '@/lib/types';
 import { listInspiration, INSPIRATION_FIXTURE_DISCLOSURE, INSPIRATION_KIND_LABEL } from '@/lib/inspiration';
 import { listOpportunities, ACCESS_FIXTURE_DISCLOSURE } from '@/lib/access';
 import { listTravelersForDestination, TRAVELER_FIXTURE_DISCLOSURE } from '@/lib/travelers';
@@ -13,6 +15,9 @@ import { listTripRoomsForDestination } from '@/lib/trips';
 import { track } from '@/lib/analytics';
 import { todayISO } from '@/lib/buzz/dates';
 import { Avatar } from '@/components/social';
+import { PlaceGallery } from '@/components/place-media/PlaceGallery';
+import { VenueMap } from '@/components/panels/VenueMap';
+import { useIntentStore } from '@/lib/intent';
 
 const TABS = ['pulse', 'happening', 'people', 'inspiration', 'access'] as const;
 type Tab = (typeof TABS)[number];
@@ -55,6 +60,30 @@ export function DestinationPage({ slug }: { slug: string }) {
   return <DestinationLoaded pulse={pulse} tab={tab} onTab={setTab} />;
 }
 
+function DestinationActions({ event, planningHref, destination }: {
+  event?: WorldEvent;
+  planningHref: string;
+  destination: string;
+}) {
+  const items = useIntentStore((state) => state.items);
+  const toggle = useIntentStore((state) => state.toggle);
+  if (!event) return <Link href={planningHref} className="mt-6 inline-block text-[13px] text-brass">Explore planning for {destination} ↗</Link>;
+
+  const saved = items.some((item) => item.verb === 'save' && item.kind === 'event' && item.id === event.id);
+  const watched = items.some((item) => item.verb === 'watch' && item.kind === 'event' && item.id === event.id);
+  const intent = (verb: 'save' | 'watch') => toggle({
+    verb, kind: 'event', id: event.id, label: event.name, href: `/?event=${encodeURIComponent(event.id)}`,
+  });
+  return <div className="mt-6">
+    <div className="flex flex-wrap gap-2">
+      <button type="button" aria-pressed={saved} onClick={() => intent('save')} className="rounded-[3px] border border-brass/40 px-3 py-2 text-[12px] text-brass hover:bg-brass-wash">{saved ? 'Saved ✓' : 'Save this event'}</button>
+      <button type="button" aria-pressed={watched} onClick={() => intent('watch')} className="rounded-[3px] border border-brass/40 px-3 py-2 text-[12px] text-brass hover:bg-brass-wash">{watched ? 'Watching ✓' : 'Watch this event'}</button>
+      <Link href={planningHref} className="rounded-[3px] border border-commit/50 bg-commit/10 px-3 py-2 text-[12px] text-commit hover:text-ink">Plan around {event.name} ↗</Link>
+    </div>
+    <p className="mt-2 text-[11px] text-ink-muted">Save and Watch stay on this device. Watch does not send notifications.</p>
+  </div>;
+}
+
 function DestinationLoaded({
   pulse,
   tab,
@@ -71,47 +100,44 @@ function DestinationLoaded({
   const offers = listOpportunities(pulse.id);
   const people = listTravelersForDestination(pulse.id);
   const rooms = listTripRoomsForDestination(pulse.id);
-  const startHref = rooms[0]
-    ? `/circles/${rooms[0].id}`
-    : `/circles?destination=${pulse.slug}`;
+  const today = todayISO();
+  const nextEvent = [...events]
+    .filter((event) => event.end >= today)
+    .sort((a, b) => a.start.localeCompare(b.start))[0];
+  const planningHref = nextEvent
+    ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
+    : `/circles?destination=${encodeURIComponent(pulse.slug)}`;
 
   return (
     <main className="px-4 pb-32 pt-6 sm:px-8">
+      {events[0] && <div className="mb-7 grid items-start gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]"><PlaceGallery key={events[0].id} event={events[0]} /><div><p className="label-sm mb-3 text-brass">Get a feel for {pulse.name}</p><VenueMap key={events[0].id} event={events[0]} /></div></div>}
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.8fr)]">
         <header className="min-w-0">
           <p className="label-sm text-brass">{pulse.country}</p>
           <h1 className="mt-2 font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.9] tracking-[-0.03em] text-ink">
             {pulse.name}
           </h1>
-          <p className="mt-4 max-w-xl text-[15px] leading-6 text-ink-muted">{pulse.whyNow}</p>
+          <p className="mt-4 max-w-xl text-[15px] leading-6 text-ink-muted">
+            {nextEvent ? nextEvent.tagline : 'Explore the curated calendar and find a future occasion to plan around.'}
+          </p>
           <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="label border border-heat-hot/40 bg-heat-hot/10 px-2 py-1 text-heat-hot">
-              {STATUS_LABEL[pulse.status]}
-            </span>
+            <span className="label border border-brass/40 bg-brass-wash px-2 py-1 text-brass">Curated calendar</span>
             {pulse.archetypes.map((archetype) => (
               <Chip key={archetype} readOnly>
                 {archetype}
               </Chip>
             ))}
           </div>
-          <IntentBar
-            className="mt-6"
-            kind="destination"
-            id={pulse.slug}
-            label={pulse.name}
-            href={`/destinations/${pulse.slug}`}
-            startHref={startHref}
-          />
+          <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} />
         </header>
         <aside className="glass relative min-h-56 overflow-hidden rounded-[3px] p-5">
-          <p className="label-sm text-ink-muted">Heat</p>
-          <p className="mt-3 font-display text-6xl text-ink">{pulse.score}</p>
-          <p className="mt-2 text-[12px] text-ink-muted">
-            Modeled destination score from the lead occasion. Not live attendance.
-          </p>
-          <ProvenanceNote className="mt-6" kind="modeled_demand">
-            {`Updated from the curated calendar${pulse.updatedAt.startsWith('20') ? ` · ${pulse.updatedAt.slice(0, 10)}` : '.'}`}
-          </ProvenanceNote>
+          <p className="label-sm text-brass">Next on the calendar</p>
+          {nextEvent ? <>
+            <h2 className="mt-3 font-display text-[31px] leading-tight text-ink">{nextEvent.name}</h2>
+            <p className="mt-3 text-[13px] text-ink">{formatDateRange(nextEvent.start, nextEvent.end)}</p>
+            <p className="mt-2 text-[12px] text-ink-muted">{nextEvent.city}, {nextEvent.country} · {nextEvent.category}</p>
+            <p className="mt-5 text-[11px] leading-5 text-ink-muted">Dates and access come from the curated calendar. Confirm details with the organizer before making plans.</p>
+          </> : <p className="mt-3 text-[13px] leading-6 text-ink-muted">No future occasion is listed for this destination yet.</p>}
         </aside>
       </div>
 
@@ -164,24 +190,27 @@ function DestinationLoaded({
                 )}
               </dl>
             </Panel>
+            <div className="lg:col-span-2"><ResearchPulse destinationSlug={pulse.slug} /></div>
           </div>
         )}
 
         {tab === 'happening' && (
           <div className="grid gap-3">
             {events.map((event) => (
-              <Link
+              <div
                 key={event.id}
-                href={`/?event=${event.id}`}
                 className="glass flex flex-col gap-1 rounded-[3px] px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
                   <p className="label-sm text-brass">{event.category}</p>
-                  <p className="font-display text-[22px] text-ink">{event.name}</p>
+                  <Link href={`/?event=${event.id}`} className="font-display text-[22px] text-ink hover:text-brass">{event.name}</Link>
                   <p className="text-[12px] text-ink-muted">{event.tagline}</p>
                 </div>
-                <p className="text-[12px] text-ink-muted">{formatDateRange(event.start, event.end)}</p>
-              </Link>
+                <div className="flex flex-col items-start gap-2 sm:items-end">
+                  <p className="text-[12px] text-ink-muted">{formatDateRange(event.start, event.end)}</p>
+                  <Link href={`/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`} className="text-[12px] text-brass hover:text-brass-bright">Plan around this event ↗</Link>
+                </div>
+              </div>
             ))}
           </div>
         )}
@@ -263,10 +292,10 @@ function DestinationLoaded({
 
       <div className="sticky bottom-24 z-20 mt-10 flex justify-end md:bottom-6">
         <Link
-          href={startHref}
+          href={planningHref}
           className="inline-flex h-10 items-center rounded-[2px] border border-commit/50 bg-void/90 px-5 label text-commit shadow-lg"
         >
-          Start a trip
+          {nextEvent ? `Plan ${nextEvent.name}` : 'Explore trip planning'}
         </Link>
       </div>
     </main>
