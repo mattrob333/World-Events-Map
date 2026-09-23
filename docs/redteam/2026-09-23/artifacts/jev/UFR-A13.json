@@ -1,0 +1,98 @@
+{
+  "label": "UFR-A13",
+  "executed_at": "2026-09-23T17:19:20.800Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "strings_seen_during_first_session": {
+        "event_panel_header": "20 | ◆ LEGENDARY | SKI (another event: '110 | ◆ MARQUEE | SKI')",
+        "shortlist_meta": "Dec 19 · Modeled Heat 57/100",
+        "travel_wire_empty": "LIVE TRAVEL WIRE — Live Travel Wire — No provider readings to show. Curated calendar scores stay on the globe and are not treated as live signals. Ticketmaster, PredictHQ, and Amadeus are on commercial hold and stay unconfigured.",
+        "trips_research_brief": "Articles & social — Exa / Treg trip queries pending",
+        "research_pulse": "Research sources awaiting setup · 03 / THE OPENING · Deals & flights. · Awaiting verified deals and flights. No prices or seats to show yet.",
+        "hero_card": "THE NEXT POSSIBILITY · FROM YOUR VIEW ✈ TO Monte-Carlo · Monaco Yacht Show · Sep 23 · Choose your city for a route estimate · Flight animation begins from your current globe view. · Illustrative travel imagery · editorial concept"
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "numbers_understood": {
+        "type": "noul",
+        "instructions": "Would this user understand what '20' and '110' mean in the event panel header?"
+      },
+      "wire_copy_comprehension": {
+        "type": "score",
+        "instructions": "How understandable is the Travel Wire empty-state text to this user?",
+        "criteria": [
+          "Confusing internal jargon",
+          "Partly understandable",
+          "Clear"
+        ]
+      },
+      "believes_live_deals_exist": {
+        "type": "noul",
+        "instructions": "Would this user believe MERIDIAN currently has live deals, flights or bookable offers?"
+      },
+      "overall_live_vs_curated_clarity": {
+        "type": "score",
+        "instructions": "Overall, how clearly do these strings distinguish curated/modeled content from live data?",
+        "criteria": [
+          "Unclear",
+          "Mixed",
+          "Mostly clear",
+          "Very clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "numbers_understood": {
+        "type": "noul",
+        "noul": 0.15
+      },
+      "wire_copy_comprehension": {
+        "type": "score",
+        "score": 0.32,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Confusing internal jargon",
+          "1": "Partly understandable",
+          "2": "Clear"
+        },
+        "probabilities": {
+          "0": 0.7,
+          "1": 0.29,
+          "2": 0.01
+        }
+      },
+      "believes_live_deals_exist": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "overall_live_vs_curated_clarity": {
+        "type": "score",
+        "score": 2.64,
+        "confidence": 0.64,
+        "legend": {
+          "0": "Unclear",
+          "1": "Mixed",
+          "2": "Mostly clear",
+          "3": "Very clear"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.06,
+          "2": 0.23,
+          "3": 0.71
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 781,
+      "output_tokens": 82
+    }
+  }
+}

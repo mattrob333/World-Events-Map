@@ -1,0 +1,71 @@
+{
+  "label": "UFR-A03",
+  "executed_at": "2026-09-23T17:18:40.381Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "Earlier the user pressed 'Save this event' on the Aspen destination page; the button changed to 'Saved ✓' with the note 'Save and Watch stay on this device. Watch does not send notifications.' The Trips page then listed under 'Saved places 1': 'Aspen Christmas & New Year Week — Save ↗'. The user clicked that saved item.",
+      "visible_now": {
+        "opened_panel_title": "Aspen Christmas & New Year Week",
+        "panel_buttons": [
+          "Open Aspen destination →",
+          "Find access & stays ↗",
+          "Find a circle ↗"
+        ],
+        "panel_message_where_save_would_be": "Event saving will be available when membership is connected.",
+        "no_saved_indicator_in_panel": true
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "believes_still_saved": {
+        "type": "noul",
+        "instructions": "After reading the panel, would this user confidently believe the Aspen event is still saved for later?"
+      },
+      "contradiction_perceived": {
+        "type": "noul",
+        "instructions": "Would a reasonable user see a contradiction between the earlier 'Saved ✓' and the message 'Event saving will be available when membership is connected'?"
+      },
+      "interpretation": {
+        "type": "choice",
+        "instructions": "How would this user most likely interpret the situation?",
+        "criteria": {
+          "saved_on_device_only": "The save exists on this device only, and account saving is a separate future feature",
+          "save_was_lost": "The earlier save did not really work or was lost",
+          "must_sign_up_to_keep": "They must create an account to keep the item",
+          "unclear": "They cannot tell what state the item is in"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_still_saved": {
+        "type": "noul",
+        "noul": 0.35
+      },
+      "contradiction_perceived": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "interpretation": {
+        "type": "choice",
+        "choice": "saved_on_device_only",
+        "confidence": 0.39,
+        "probabilities": {
+          "unclear": 0.09,
+          "saved_on_device_only": 0.54,
+          "must_sign_up_to_keep": 0.16,
+          "save_was_lost": 0.21
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 707,
+      "output_tokens": 103
+    }
+  }
+}

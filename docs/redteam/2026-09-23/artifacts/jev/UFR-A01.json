@@ -1,0 +1,89 @@
+{
+  "label": "UFR-A01",
+  "executed_at": "2026-09-23T17:18:39.921Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "On the home page the user typed 'Aspen' into the page search field whose placeholder reads 'A place, a passion, a possibility…'. Aspen is one of the destinations featured on the same page's winter shortlist.",
+      "visible_after_typing": {
+        "whole_page_replaced_by": "This page couldn't load",
+        "body": "Reload to try again, or go back.",
+        "buttons": [
+          "Reload",
+          "Back"
+        ],
+        "note": "No MERIDIAN header, navigation, search field, or brand remains visible. Any season filter or selected place is gone after reload."
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "understands_cause": {
+        "type": "noul",
+        "instructions": "Would this user understand that typing 'Aspen' caused the failure, and know a way to still find Aspen?"
+      },
+      "job_blocked": {
+        "type": "score",
+        "instructions": "How badly does this outcome affect the user's job-to-be-done at this moment?",
+        "criteria": [
+          "No effect: the job continues normally",
+          "Minor detour: the user easily continues",
+          "Significant setback: the user must guess a workaround",
+          "Job blocked: the user most likely abandons the search path or the product"
+        ]
+      },
+      "next_action": {
+        "type": "choice",
+        "instructions": "What is this user most likely to do next?",
+        "criteria": {
+          "reload_and_retry_same_search": "Reload and type the same search again",
+          "reload_and_browse_without_search": "Reload and browse cards instead of searching",
+          "use_header_search": "Find and use a different search control",
+          "leave_product": "Close the tab or leave MERIDIAN"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_cause": {
+        "type": "noul",
+        "noul": 0.25
+      },
+      "job_blocked": {
+        "type": "score",
+        "score": 2.3,
+        "confidence": 0.51,
+        "legend": {
+          "0": "No effect: the job continues normally",
+          "1": "Minor detour: the user easily continues",
+          "2": "Significant setback: the user must guess a workaround",
+          "3": "Job blocked: the user most likely abandons the search path or the product"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.09,
+          "2": 0.51,
+          "3": 0.4
+        }
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "reload_and_retry_same_search",
+        "confidence": 0.34,
+        "probabilities": {
+          "leave_product": 0.1,
+          "reload_and_retry_same_search": 0.5,
+          "use_header_search": 0.01,
+          "reload_and_browse_without_search": 0.39
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 731,
+      "output_tokens": 98
+    }
+  }
+}

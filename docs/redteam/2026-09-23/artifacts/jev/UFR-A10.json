@@ -1,0 +1,80 @@
+{
+  "label": "UFR-A10",
+  "executed_at": "2026-09-23T17:19:19.754Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state_1": "On the home globe, with their area set, the user saw 'YOUR AREA → ASPEN 2,090 km · ~3h in the air'. They clicked 'Open Aspen' and landed on the Aspen destination page.",
+      "destination_page_visible": {
+        "hero": "A PLACE WORTH THE JOURNEY · UNITED STATES · SKI / CULTURE · Aspen · Start a trip ↗ · Get a feel for it ↓",
+        "facts": "NEXT OCCASION Aspen Christmas & New Year Week · WHEN TO GO 19 Dec 2026 – 03 Jan 2027 · THE EDIT 3 curated occasions · ski · Explore the map ↗",
+        "moment_panel": "Save this event · Watch this event · Plan around Aspen Christmas & New Year Week ↗",
+        "no_distance_airtime_or_origin_anywhere_on_page": true
+      },
+      "workflow_state_2": "Separately, on 23 Sep 2026 the user reopened the saved Aspen event from their Trips list; a side panel opened.",
+      "side_panel_visible": {
+        "DATES": "19 Dec 2026 – 03 Jan 2027",
+        "LEAD TIME": "Today",
+        "lead_time_note": "from the focused date",
+        "top_of_page_date_field_silently_changed_to": "12/19/2026"
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "distance_on_destination": {
+        "type": "noul",
+        "instructions": "On the destination page, can this user still tell how far Aspen is from them?"
+      },
+      "lead_time_misread": {
+        "type": "noul",
+        "instructions": "Would this user read 'LEAD TIME Today' as meaning the event starts today or that there is no time left to plan?"
+      },
+      "decision_support": {
+        "type": "score",
+        "instructions": "How well does the destination page support deciding whether Aspen is worth the trip from where the user lives?",
+        "criteria": [
+          "Poor",
+          "Partial",
+          "Good",
+          "Excellent"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "distance_on_destination": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "lead_time_misread": {
+        "type": "noul",
+        "noul": 0.31
+      },
+      "decision_support": {
+        "type": "score",
+        "score": 0.57,
+        "confidence": 0.52,
+        "legend": {
+          "0": "Poor",
+          "1": "Partial",
+          "2": "Good",
+          "3": "Excellent"
+        },
+        "probabilities": {
+          "0": 0.45,
+          "1": 0.54,
+          "2": 0.01,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 791,
+      "output_tokens": 56
+    }
+  }
+}

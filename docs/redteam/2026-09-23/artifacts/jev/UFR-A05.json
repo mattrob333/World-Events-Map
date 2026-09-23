@@ -1,0 +1,76 @@
+{
+  "label": "UFR-A05",
+  "executed_at": "2026-09-23T17:18:41.146Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "Within one second of first opening the home page, before any click, the browser asked for location permission and the user blocked it. Later they clicked the 'Use my location' button.",
+      "visible_before_click": {
+        "status": "Curated calendar · Sep 23 · Location unavailable · choose a city",
+        "button": "Use my location"
+      },
+      "visible_after_click": {
+        "status": "Curated calendar · Sep 23 · Location unavailable · choose a city",
+        "button": "Use my location",
+        "no_other_change": true
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "click_had_effect": {
+        "type": "noul",
+        "instructions": "After clicking, would the user believe their click did anything?"
+      },
+      "knows_permission_is_blocked": {
+        "type": "noul",
+        "instructions": "Could the user tell that location is blocked by their browser permission rather than temporarily unavailable, and how to change it?"
+      },
+      "prompt_timing": {
+        "type": "score",
+        "instructions": "How appropriate is requesting location permission immediately on first page load, before the user asked for anything location-based, for this persona?",
+        "criteria": [
+          "Clearly inappropriate: premature and unexplained",
+          "Questionable",
+          "Acceptable",
+          "Appropriate and expected"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "click_had_effect": {
+        "type": "noul",
+        "noul": 0.26
+      },
+      "knows_permission_is_blocked": {
+        "type": "noul",
+        "noul": 0.26
+      },
+      "prompt_timing": {
+        "type": "score",
+        "score": 0.2,
+        "confidence": 0.8,
+        "legend": {
+          "0": "Clearly inappropriate: premature and unexplained",
+          "1": "Questionable",
+          "2": "Acceptable",
+          "3": "Appropriate and expected"
+        },
+        "probabilities": {
+          "0": 0.83,
+          "1": 0.15,
+          "2": 0.01,
+          "3": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 612,
+      "output_tokens": 60
+    }
+  }
+}

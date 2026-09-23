@@ -1,0 +1,72 @@
+{
+  "label": "UFR-A09",
+  "executed_at": "2026-09-23T17:19:19.272Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "Desktop 1440x900. The user tapped the Aspen card 'Fly there on the globe'; the page scrolled to a globe showing an arc from their area to Aspen.",
+      "visible_left_panel_without_scrolling_inside_it": [
+        "YOUR SELECTED JOURNEY",
+        "Aspen is calling.",
+        "Aspen Christmas & New Year Week · 19 Dec 2026 – 03 Jan 2027 (this line visually overlaps and strikes through the next line)",
+        "THIS IS YOUR DESTINATION",
+        "Aspen · UNITED STATES / SKI",
+        "Aspen Christmas & New Year Week",
+        "Four mountains, one town, and the busiest fortnight in American skiing",
+        "19 Dec 2026 – 03 Jan 2027 · Aspen Mountain",
+        "WHAT MAKES IT WORTH THE TRIP: Gondola from the town centre onto Ajax, no shuttle; Four mountains on one pass, Highlands Bowl included",
+        "YOUR AREA → ASPEN 2,090 km · ~3h in the air",
+        "THE MOUNTAIN LENS · APPROXIMATE AREA: Satellite view ↗ Terrain & contours ↗ (cut off at the bottom edge)"
+      ],
+      "hidden_until_user_scrolls_inside_the_panel": [
+        "Open Aspen ↗ (primary button)",
+        "Start a Circle here →",
+        "Editorial event details; verify dates and access with organizers. Distance and airtime are indicative, not a flight schedule."
+      ],
+      "scroll_affordance": "thin scrollbar only; the section itself does not scroll with the page"
+    },
+    "model": "jev-latest",
+    "questions": {
+      "finds_next_step": {
+        "type": "noul",
+        "instructions": "Would this user find a clear way to go deeper into Aspen or keep it, from what is visible without scrolling inside the panel?"
+      },
+      "likely_next": {
+        "type": "choice",
+        "instructions": "What would this user most likely click next?",
+        "criteria": {
+          "satellite_or_terrain_link": "Satellite view or Terrain & contours (leaves to Google Maps)",
+          "scroll_panel_to_open_aspen": "Scroll within the left panel and click Open Aspen",
+          "right_shortlist_item": "Click a place in the right-hand shortlist",
+          "scroll_page_down": "Scroll the whole page down past the globe"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "finds_next_step": {
+        "type": "noul",
+        "noul": 0.34
+      },
+      "likely_next": {
+        "type": "choice",
+        "choice": "scroll_panel_to_open_aspen",
+        "confidence": 0.96,
+        "probabilities": {
+          "scroll_panel_to_open_aspen": 0.97,
+          "satellite_or_terrain_link": 0.02,
+          "right_shortlist_item": 0,
+          "scroll_page_down": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 886,
+      "output_tokens": 88
+    }
+  }
+}

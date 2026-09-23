@@ -1,0 +1,60 @@
+{
+  "label": "UFR-A07",
+  "executed_at": "2026-09-23T17:18:41.514Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "A banner said 'Set your traveler lens — it takes under a minute, and you can skip.' The user pressed Begin and completed 5 steps: chose 'Family' (step copy: 'You can keep more than one mode later. This just opens the product around you.'), left home region blank, picked 'SKIING' (step copy: 'Weighted interests come later. Pick a few so World Heat has something to talk to.'), and chose 'Private', then 'ENTER WORLD'.",
+      "visible_after_onboarding": {
+        "hero_button": "Fly to Monte-Carlo (Monaco Yacht Show · Sep 23)",
+        "trip_finder_selection": "Every season · Anything — A little of everything",
+        "travel_ideas_mood_selected": "For you",
+        "travel_ideas_list": [
+          "Puerto Ayora — Galápagos Garúa Season",
+          "Baa Atoll — Hanifaru Bay Manta Aggregation",
+          "Masai Mara — Mara River Crossings"
+        ],
+        "travel_ideas_footnote": "Suggestions are deterministic editorial picks, not personalized AI or live availability.",
+        "home_page_identical_to_before_onboarding": true
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "expected_personalization": {
+        "type": "noul",
+        "instructions": "Based on the onboarding copy, would this user expect the home page to reflect 'Family' and 'Skiing' afterwards?"
+      },
+      "promise_kept": {
+        "type": "noul",
+        "instructions": "Does the page after onboarding keep the onboarding's promise to open the product around the user?"
+      },
+      "for_you_misleading": {
+        "type": "noul",
+        "instructions": "Is the 'For you' label likely to make the user believe the ideas were chosen for them personally?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expected_personalization": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "promise_kept": {
+        "type": "noul",
+        "noul": 0.17
+      },
+      "for_you_misleading": {
+        "type": "noul",
+        "noul": 0.82
+      }
+    },
+    "usage": {
+      "input_tokens": 720,
+      "output_tokens": 64
+    }
+  }
+}

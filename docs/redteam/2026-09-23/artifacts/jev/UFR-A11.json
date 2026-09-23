@@ -1,0 +1,55 @@
+{
+  "label": "UFR-A11",
+  "executed_at": "2026-09-23T17:19:20.308Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "The user selected 'Winter' in 'What kind of trip calls to you?' (selection shown as 'Winter · Ski & snow — 6 places to explore'; right panel 'Places for this trip: Courchevel, Aspen, St. Moritz'). Then, to set their travel window, they clicked 'Choose your dates ↗' and entered 15 Jan 2027.",
+      "visible_after_dates": {
+        "trip_finder_section": "no longer shown (Winter / Ski & snow buttons disappeared)",
+        "right_panel": "THE PULSE · On your horizon · Standout occasions around your chosen dates. 01 Venice — Carnevale di Venezia · Cultural · Jan 23; 02 Paris — Haute Couture Week — Spring/Summer 2027",
+        "date_note": "Selected date ±10 days · curated demand, not a live forecast",
+        "stats": "35 events in window · 33 destinations · 241 matching occasions",
+        "button": "← Back to today"
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "expects_combined": {
+        "type": "noul",
+        "instructions": "Would this user expect choosing dates to narrow the Winter ski shortlist rather than replace it?"
+      },
+      "understands_filter_dropped": {
+        "type": "noul",
+        "instructions": "Would this user understand that their Winter / Ski choice is no longer applied?"
+      },
+      "stats_clear": {
+        "type": "noul",
+        "instructions": "Are '35 events in window' and '241 matching occasions' understandable together to this user?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expects_combined": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "understands_filter_dropped": {
+        "type": "noul",
+        "noul": 0.29
+      },
+      "stats_clear": {
+        "type": "noul",
+        "noul": 0.25
+      }
+    },
+    "usage": {
+      "input_tokens": 666,
+      "output_tokens": 61
+    }
+  }
+}

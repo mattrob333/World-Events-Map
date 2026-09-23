@@ -1,0 +1,68 @@
+{
+  "label": "UFR-A04",
+  "executed_at": "2026-09-23T17:18:40.831Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "The user chose 'Atlanta, Georgia' in the 'Choose your city' dropdown and saw a route estimate. They then clicked 'Use device location' and their browser blocked location access.",
+      "visible_now": {
+        "toolbar_status": "Curated calendar · Sep 23 · Viewing Atlanta, Georgia",
+        "city_dropdown_value": "Atlanta, Georgia",
+        "location_button": "Use device location",
+        "route_card": "FROM YOUR VIEW ✈ TO Monte-Carlo — Choose your city for a route estimate — Flight animation begins from your current globe view.",
+        "no_error_or_permission_message": true
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "state_contradictory": {
+        "type": "noul",
+        "instructions": "Does the visible information contradict itself about whether a city has been chosen?"
+      },
+      "knows_how_to_restore_route": {
+        "type": "noul",
+        "instructions": "Would this user know how to get the Atlanta route estimate back?"
+      },
+      "next_action": {
+        "type": "choice",
+        "instructions": "What would this user most likely do next?",
+        "criteria": {
+          "reselect_atlanta": "Open the dropdown and pick Atlanta again",
+          "click_location_again": "Click the location button again",
+          "pick_other_city_then_back": "Pick a different city then switch back to Atlanta",
+          "ignore_distance": "Give up on the distance estimate"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "state_contradictory": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "knows_how_to_restore_route": {
+        "type": "noul",
+        "noul": 0.42
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "click_location_again",
+        "confidence": 0.39,
+        "probabilities": {
+          "pick_other_city_then_back": 0.02,
+          "ignore_distance": 0.36,
+          "reselect_atlanta": 0.08,
+          "click_location_again": 0.54
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 642,
+      "output_tokens": 101
+    }
+  }
+}

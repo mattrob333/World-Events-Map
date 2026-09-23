@@ -1,0 +1,90 @@
+{
+  "label": "UFR-A-landing",
+  "executed_at": "2026-09-23T17:19:36.580Z",
+  "http_status": 200,
+  "request": {
+    "state": {
+      "persona": "First-time anonymous visitor to MERIDIAN, an affluent independent traveler with no account who has never seen the product and does not know its vocabulary (PULSE, Scene, Wire, lens, beacon, dossier).",
+      "job_to_be_done": "Find a place or event worth traveling to in my travel window, understand why it is worth it and how far it is from me, and keep it for later.",
+      "workflow_state": "First load of http://localhost:3127/ on desktop, no account. A browser location-permission prompt may have appeared within one second.",
+      "visible_above_the_fold": {
+        "header_nav": [
+          "WORLD",
+          "CIRCLES",
+          "PEOPLE",
+          "TRIPS",
+          "ACCESS",
+          "Search ⌘K",
+          "NOW",
+          "PROFILE"
+        ],
+        "banner": "Set your traveler lens — it takes under a minute, and you can skip. [Begin] [Skip]",
+        "toolbar": "YOUR WORLD TO EXPLORE · Curated calendar · Sep 23 · Location unavailable · choose a city | search field 'A place, a passion, a possibility…' | [Use my location] | Viewing area [Choose your city ▾] | Choose your dates ↗",
+        "hero": "THE WORLD IS AN INVITATION · The best stories start somewhere. · Find the moment. Follow the feeling. See how far a single place can take you. [✈ Fly to Monte-Carlo ↗] [See what is calling ↓]",
+        "hero_card": "THE NEXT POSSIBILITY · FROM YOUR VIEW ✈ TO Monte-Carlo · Monaco Yacht Show · Sep 23 · Choose your city for a route estimate",
+        "below": "START WITH A FEELING / 001 · What kind of trip calls to you? · WHEN: Every season, Winter, Spring, Summer, Fall · WHAT: Anything, Ski & snow, Coast & water, Nature & adventure, Culture & food"
+      }
+    },
+    "model": "jev-latest",
+    "questions": {
+      "understands_purpose": {
+        "type": "noul",
+        "instructions": "Can this user tell what MERIDIAN is for and what it will help them do?"
+      },
+      "lens_banner_clear": {
+        "type": "noul",
+        "instructions": "Would this user understand what 'Set your traveler lens' means and what Begin will give them?"
+      },
+      "first_action": {
+        "type": "choice",
+        "instructions": "Which action would this user most likely take first?",
+        "criteria": {
+          "begin_lens": "Begin (traveler lens)",
+          "fly_to_monte_carlo": "Fly to Monte-Carlo",
+          "see_what_is_calling": "See what is calling",
+          "choose_city": "Choose your city or Use my location",
+          "season_interest_filters": "Pick a season/interest in 'What kind of trip calls to you?'",
+          "search": "Type in a search field"
+        }
+      },
+      "fly_cta_prediction": {
+        "type": "noul",
+        "instructions": "Would this user correctly predict that 'Fly to Monte-Carlo' animates a route on a globe and does not book or price a flight?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_purpose": {
+        "type": "noul",
+        "noul": 0.7
+      },
+      "lens_banner_clear": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "first_action": {
+        "type": "choice",
+        "choice": "choose_city",
+        "confidence": 0.8,
+        "probabilities": {
+          "choose_city": 0.84,
+          "see_what_is_calling": 0.03,
+          "search": 0,
+          "begin_lens": 0.12,
+          "season_interest_filters": 0,
+          "fly_to_monte_carlo": 0.01
+        }
+      },
+      "fly_cta_prediction": {
+        "type": "noul",
+        "noul": 0.28
+      }
+    },
+    "usage": {
+      "input_tokens": 945,
+      "output_tokens": 135
+    }
+  }
+}
