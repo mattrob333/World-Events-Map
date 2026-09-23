@@ -2,6 +2,7 @@ import { EVENTS } from '@/lib/data/events';
 import { listOpportunities } from '@/lib/access';
 import { listAllInspiration } from '@/lib/inspiration';
 import { buildDestinationPulses, slugifyPlace } from '@/lib/pulse';
+import type { PulseStatus } from '@/lib/pulse/types';
 import { TRAVELER_PORTRAITS } from '@/lib/travelers';
 import { TRIP_ROOM_FIXTURES } from '@/lib/trips/fixtures';
 
@@ -12,6 +13,7 @@ export const SEARCH_GROUPS = [
   'people',
   'circles',
   'access',
+  'editorial',
   'saved',
 ] as const;
 
@@ -33,7 +35,17 @@ export const SEARCH_GROUP_LABEL: Record<SearchGroup, string> = {
   people: 'People',
   circles: 'Circles',
   access: 'Access',
-  saved: 'Saved',
+  editorial: 'Editorial ideas',
+  saved: 'Saved on this device',
+};
+
+/** Curated status in plain words. "Live" would read as a live data feed. */
+const STATUS_WORDS: Record<PulseStatus, string> = {
+  live: 'on now',
+  heating_up: 'coming up',
+  seasonal: 'seasonal',
+  steady: 'year-round',
+  cooling: 'past its peak',
 };
 
 function haystack(...parts: Array<string | undefined>): string {
@@ -48,7 +60,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       id: 'page-now',
       group: 'pages',
       title: 'NOW',
-      subtitle: "Tonight's scene — live local brief",
+      subtitle: "Tonight's scene — local brief",
       href: '/now',
       keywords: haystack('now', 'tonight', 'nearby', 'scene', 'local'),
     },
@@ -75,7 +87,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       id: `dest-${pulse.slug}`,
       group: 'destinations',
       title: pulse.name,
-      subtitle: `${pulse.country} · ${pulse.status.replace('_', ' ')}`,
+      subtitle: `${pulse.country} · ${STATUS_WORDS[pulse.status]}`,
       href: `/destinations/${pulse.slug}`,
       keywords: haystack(pulse.name, pulse.country, pulse.whyNow, ...pulse.archetypes),
     });
@@ -124,7 +136,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       id: `access-${offer.id}`,
       group: 'access',
       title: offer.title,
-      subtitle: `${offer.destinationLabel} · ${offer.availabilityLabel}`,
+      subtitle: `${offer.destinationLabel} · ${offer.sample ? 'sample · ' : ''}${offer.availabilityLabel}`,
       href: offer.href,
       keywords: haystack(offer.title, offer.subtitle, offer.providerName, offer.kind),
     });
@@ -136,7 +148,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     const slug = pulse?.slug ?? slugifyPlace(city);
     hits.push({
       id: `insp-${item.id}`,
-      group: 'saved',
+      group: 'editorial',
       title: item.title,
       subtitle: `${item.kind} · editorial board`,
       href: slug ? `/destinations/${slug}` : '/circles',

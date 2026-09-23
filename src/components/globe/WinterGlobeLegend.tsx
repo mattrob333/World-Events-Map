@@ -20,6 +20,7 @@ export function WinterGlobeLegend({ beacons }: WinterGlobeLegendProps) {
         <span>WINTER ATLAS</span>
         <i />
         <small>{skiBeacons.length} SKI {skiBeacons.length === 1 ? 'SCENE' : 'SCENES'}</small>
+        <small className={styles.caveat}>EVENTS · NOT SNOW CONDITIONS</small>
       </div>
       <div className="sr-only">
         <p>Snowflake markers show curated ski events. They do not indicate live snow or mountain conditions.</p>

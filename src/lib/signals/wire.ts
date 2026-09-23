@@ -165,8 +165,10 @@ function cardFor(delta: SignalDelta, events: Map<string, WireEventRef>): WireCar
   };
 }
 
+// Sources on commercial hold (see docs/data/SOURCE-ACCESS-MATRIX.md) are
+// described by what they would provide; vendor names stay out of the UI.
 const HOLD_NOTE =
-  'Ticketmaster, PredictHQ, and Amadeus are on commercial hold and stay unconfigured.';
+  'Ticket, event-intelligence and flight-price feeds are not connected on this preview, so they add nothing here.';
 
 /**
  * Build the live wire from per-source patches the existing adapters already

@@ -101,7 +101,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: KASE,
     description:
-      'Pitkin County handles more private movements over this fortnight than at any other point in its year, and the ramp fills to the point where crews reposition to Rifle or Eagle overnight. Aspen Mountain drops straight into a town that keeps working restaurants rather than a purpose-built base village, which is the substantive difference from Vail or Deer Valley. Cloud Nine\'s afternoon service on Aspen Highlands is booked out weeks ahead.',
+      'Pitkin County handles more private movements over this fortnight than at any other point in its year, and the ramp fills to the point where crews reposition to Rifle or Eagle overnight. Aspen Mountain drops straight into a town that keeps working restaurants rather than a purpose-built base village, which is the substantive difference from Vail or Deer Valley. Cloud Nine\'s afternoon service on Aspen Highlands typically books out weeks ahead in this fortnight.',
     whyGo: [
       'Gondola from the town centre onto Ajax, no shuttle',
       'Four mountains on one pass, Highlands Bowl included',

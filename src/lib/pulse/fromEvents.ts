@@ -305,12 +305,16 @@ export function buildDestinationPulses(
           'Modeled hotel/charter scarcity for the lead week, not live inventory.',
           booking >= 0.7 ? 'up' : booking <= 0.35 ? 'down' : 'flat',
         ),
-        weather: fact(
-          weather.seasonLabel,
-          status === 'live' || status === 'heating_up' ? 80 : 45,
-          'seasonal_calendar',
-          weather.note,
-        ),
+        weather: {
+          ...fact(
+            weather.seasonLabel,
+            status === 'live' || status === 'heating_up' ? 80 : 45,
+            'seasonal_calendar',
+            weather.note,
+          ),
+          displayValue:
+            status === 'live' ? 'In season now' : status === 'heating_up' ? 'Season approaching' : 'Seasonal',
+        },
       },
       eventIds: sorted.map((event) => event.id),
       leadEventId: hottest.event.id,

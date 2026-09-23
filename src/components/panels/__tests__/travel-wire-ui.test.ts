@@ -97,8 +97,8 @@ describe('Live Travel Wire UI honesty', () => {
     expect(chrome.useEmptyState).toBe(true);
     expect(chrome.live).toBe(false);
     expect(chrome.emptyBody).toBe(wire.note);
-    expect(chrome.emptyBody).toContain('commercial hold');
-    expect(chrome.emptyBody).toContain('Ticketmaster, PredictHQ, and Amadeus');
+    expect(chrome.emptyBody).toContain('not connected on this preview');
+    expect(chrome.emptyBody).not.toMatch(/ticketmaster|predicthq|amadeus/i);
     expect(chrome.banner).toBeNull();
     expect(JSON.stringify(wire.cards)).not.toMatch(/ticketmaster|predicthq|amadeus|attendance/i);
   });
@@ -142,7 +142,7 @@ describe('Live Travel Wire UI honesty', () => {
 
     const degraded = wireChrome(
       'degraded',
-      'Every reading here is older than its freshness window. The observed time is unchanged. Ticketmaster, PredictHQ, and Amadeus are on commercial hold and stay unconfigured.',
+      'Every reading here is older than its freshness window. The observed time is unchanged. Ticket, event-intelligence and flight-price feeds are not connected on this preview, so they add nothing here.',
       NOW,
       NOW,
     );

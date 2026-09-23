@@ -179,7 +179,7 @@ function TripsPageContent({ featuredSki, auth }: { featuredSki: boolean; auth: R
               <dl>
                 <div><dt>Snow &amp; forecast</dt><dd>Resort and weather sources pending</dd></div>
                 <div><dt>Stays &amp; prices</dt><dd>Lodging inventory and quotes pending</dd></div>
-                <div><dt>Articles &amp; social</dt><dd>Exa / Treg trip queries pending</dd></div>
+                <div><dt>Articles &amp; social</dt><dd>Article and social sources not connected yet</dd></div>
                 <div><dt>Video</dt><dd>YouTube source pending</dd></div>
               </dl>
             </div>

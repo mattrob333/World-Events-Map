@@ -307,10 +307,15 @@ function DestinationLoaded({
                       <div>
                         <dt className="label-sm text-ink-muted">{fact.label}</dt>
                         <dd className="mt-1 text-[13px] text-ink-muted">{fact.note}</dd>
+                        <ProvenanceNote className="mt-1" kind={fact.provenance} />
                       </div>
-                      <p className="tabular text-[18px] text-ink">
-                        {Math.round(fact.value)}
-                        {fact.direction === 'up' ? ' ↑' : fact.direction === 'down' ? ' ↓' : ''}
+                      <p className="tabular text-right text-[18px] text-ink">
+                        {fact.displayValue ?? (
+                          <>
+                            {Math.round(fact.value)}
+                            <span className="text-[11px] text-ink-muted">/100</span>
+                          </>
+                        )}
                       </p>
                     </div>
                   ) : null,

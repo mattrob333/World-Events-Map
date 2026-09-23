@@ -51,7 +51,7 @@ describe('wire honesty fixtures', () => {
     });
     expect(wire.cards).toEqual([]);
     expect(wire.status).toBe('empty');
-    expect(wire.note).toContain('commercial hold');
+    expect(wire.note).toContain('not connected on this preview');
     expect(JSON.stringify(wire.cards)).not.toMatch(/ticketmaster|predicthq|amadeus/);
   });
 });

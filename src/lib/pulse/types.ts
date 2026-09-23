@@ -61,6 +61,11 @@ export interface SignalFact {
   freshness: string;
   /** One-line honesty about what the number is. */
   note: string;
+  /**
+   * Text shown instead of the number when a score would imply a measurement
+   * we do not have (seasonal context is a calendar fact, not a snow reading).
+   */
+  displayValue?: string;
 }
 
 export interface PulseReason {

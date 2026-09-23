@@ -34,6 +34,7 @@ describe('winter globe legend', () => {
     expect(html).toContain('Zermatt winter gathering, Zermatt');
     expect(html).not.toContain('Venice winter gathering');
     expect(html).toContain('do not indicate live snow or mountain conditions');
+    expect(html).toContain('NOT SNOW CONDITIONS');
   });
 
   it('does not show a winter key when no ski event is visible', () => {

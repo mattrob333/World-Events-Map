@@ -22,6 +22,13 @@ describe('destination pulse', () => {
     expect(['heating_up', 'seasonal', 'steady', 'live', 'cooling']).toContain(aspen!.status);
   });
 
+  it('shows seasonal context as words, not a score that reads like snow (UFR-B06)', () => {
+    const aspen = getDestinationBySlug(EVENTS, 'aspen', '2026-12-24');
+    expect(aspen?.signals.weather?.displayValue).toBe('In season now');
+    const offSeason = getDestinationBySlug(EVENTS, 'aspen', '2026-06-01');
+    expect(offSeason?.signals.weather?.displayValue).toMatch(/Season/);
+  });
+
   it('looks up a destination by slug', () => {
     const aspen = getDestinationBySlug(EVENTS, 'aspen', '2026-12-24');
     expect(aspen?.name).toBe('Aspen');

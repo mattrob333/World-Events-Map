@@ -194,6 +194,10 @@ function InvitationStrip() {
   const group = invitation?.groupId ? groups.find((g) => g.id === invitation.groupId) : undefined;
   const event = invitation ? EVENT_INDEX.get(invitation.eventId) : undefined;
   const show = hydrated && Boolean(invitation?.groupId) && !dismissed && Boolean(group && event);
+  // Cabins created in the demo live only in the browser that made them, so a
+  // shared link can name one this device has never seen. Say so rather than
+  // silently showing nothing (red team UFR-D01).
+  const missing = hydrated && Boolean(invitation?.groupId) && !dismissed && Boolean(event) && !group;
 
   const host = group?.members.find((m) => m.role === 'host');
   const hostMember = host ? getMember(host.memberId) : undefined;
@@ -202,6 +206,31 @@ function InvitationStrip() {
 
   return (
     <AnimatePresence>
+      {missing && event && (
+        <motion.aside
+          key="invite-missing"
+          className={cn(
+            'glass-deep fixed bottom-6 left-1/2 z-[55] w-[min(30rem,92vw)] -translate-x-1/2 p-4',
+          )}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.52, ease: [0.16, 1, 0.3, 1] }}
+          aria-label="Trip invitation"
+          role="status"
+        >
+          <p className="label text-brass">You were sent a cabin for {event.name}</p>
+          <p className="mt-2.5 text-[12px] leading-[18px] text-ink-muted">
+            That cabin is not on this device. In this demo, cabins are saved only in the
+            browser that created them, so a shared link cannot open them yet. Nothing was joined.
+          </p>
+          <div className="mt-3 flex justify-end">
+            <Button variant="quiet" size="sm" onClick={dismiss}>
+              OK
+            </Button>
+          </div>
+        </motion.aside>
+      )}
       {show && group && event && (
         <motion.aside
           className={cn(

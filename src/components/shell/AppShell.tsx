@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useId, useState } from 'react';
 import { cn } from '@/components/ui';
 import { useOnboardingStore } from '@/lib/onboarding';
+import { DEMO_LABEL, isDemoMode } from '@/lib/flags';
+import { CurrentMemberChip } from '@/components/social/CurrentMemberChip';
 import { CommandPalette, SearchTrigger } from './CommandPalette';
 
 const PRIMARY = [
@@ -78,6 +80,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           >
             MERIDIAN
           </Link>
+          {isDemoMode() && (
+            <span
+              className="label-sm shrink-0 border border-signal/40 px-1.5 py-1 text-signal"
+              title={DEMO_LABEL}
+            >
+              Demo · simulated
+            </span>
+          )}
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
             {PRIMARY.map((item) => (
               <Link
@@ -95,6 +105,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <SearchTrigger />
+            {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
+            {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" />}
             <Link
               href="/now"
               className={cn(

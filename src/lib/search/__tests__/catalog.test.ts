@@ -21,9 +21,17 @@ describe('unified search catalog', () => {
     expect(hits.some((hit) => hit.href === '/now' && hit.title === 'NOW')).toBe(true);
   });
 
-  it('routes editorial saved items through destination slugs', () => {
+  it('never labels editorial fixtures as saved (UFR-A08)', () => {
+    expect(buildSearchCatalog().some((hit) => hit.group === 'saved')).toBe(false);
+  });
+
+  it('never calls curated status "live" (UFR-A08/C12)', () => {
+    expect(buildSearchCatalog('2026-09-23').some((hit) => /\blive\b/i.test(hit.subtitle))).toBe(false);
+  });
+
+  it('routes editorial ideas through destination slugs', () => {
     const catalog = buildSearchCatalog();
-    const saved = catalog.filter((hit) => hit.group === 'saved' && hit.href.startsWith('/destinations/'));
+    const saved = catalog.filter((hit) => hit.group === 'editorial' && hit.href.startsWith('/destinations/'));
     expect(saved.length).toBeGreaterThan(0);
     expect(saved.every((hit) => /^\/destinations\/[a-z0-9-]+$/.test(hit.href))).toBe(true);
   });

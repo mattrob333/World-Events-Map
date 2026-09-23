@@ -143,8 +143,11 @@ export function EventDossier({ className }: EventDossierProps) {
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 flex-col gap-2.5">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                  <span className="tabular text-[11px] leading-none text-brass">
-                    {event.providerId ? 'PARTNER EVENT' : String(event.buzz.rank).padStart(2, '0')}
+                  <span
+                    className="tabular text-[11px] leading-none text-brass"
+                    title={event.providerId ? undefined : `Rank ${event.buzz.rank} in modeled demand, not a live count`}
+                  >
+                    {event.providerId ? 'PARTNER EVENT' : `#${event.buzz.rank} MODELED`}
                   </span>
                   <span className="h-2.5 w-px bg-ink/15" aria-hidden />
                   {!event.providerId && <TierMark tier={event.tier} withLabel size={9} />}
@@ -335,7 +338,7 @@ export function EventDossier({ className }: EventDossierProps) {
 
               {event.buzz.peerLift !== undefined && (
                 <p className="mt-3 text-[11px] leading-4 text-signal">
-                  Peer interest lifted this score by {event.buzz.peerLift.toFixed(1)}.
+                  Simulated member interest lifted this score by {event.buzz.peerLift.toFixed(1)}.
                 </p>
               )}
             </Section>}
@@ -351,11 +354,11 @@ export function EventDossier({ className }: EventDossierProps) {
             {/* ── Who else ───────────────────────────────────────────── */}
             <Rule variant="brass" />
 
-            {isDemoMode() && <Section label="Preview: members overlapping">
+            {isDemoMode() && <Section label="Simulated: members overlapping">
               <PeerStack eventId={event.id} limit={12} />
             </Section>}
 
-            {isDemoMode() && <Section label="Preview: groups forming">
+            {isDemoMode() && <Section label="Simulated: groups forming">
               <GroupList eventId={event.id} />
             </Section>}
 
