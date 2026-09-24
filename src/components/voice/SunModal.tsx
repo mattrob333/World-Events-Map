@@ -2,11 +2,32 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useHydrated } from '@/components/designer/useHydrated';
 import { pickActiveProfile, profileLabel, useDesignerStore } from '@/lib/designer/store';
+import { planTripHref } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
-import { routeFor } from '@/lib/voice/tools';
+import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
+import { readTypedVibe, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
 import { useRealtime, type VoicePhase } from '@/lib/voice/useRealtime';
 import { SunOrb } from './SunOrb';
+
+type PageVoice = NonNullable<ReturnType<typeof useVoiceStore.getState>['page']>;
+
+/** Open the page that owns a tool (if it isn't open) and wait for it to register. */
+function waitForPage(intent: VibeTarget['intent'], timeoutMs = 10_000): Promise<PageVoice | null> {
+  return new Promise((resolve) => {
+    const timer = window.setTimeout(() => {
+      unsubscribe();
+      resolve(null);
+    }, timeoutMs);
+    const unsubscribe = useVoiceStore.subscribe((state) => {
+      if (state.page?.intent !== intent) return;
+      window.clearTimeout(timer);
+      unsubscribe();
+      resolve(state.page);
+    });
+  });
+}
 
 const STATUS: Record<VoicePhase, string> = {
   idle: 'Tap the sun to talk',
@@ -19,10 +40,11 @@ const STATUS: Record<VoicePhase, string> = {
 };
 
 /**
- * The voice concierge. Opens over any page, talks through what the page
- * registered (useVoicePage), and falls back to typing: over the same live
- * session when there is one, or to the page's on-device parser when voice
- * isn't set up.
+ * The voice concierge behind the header's Vibe button. It captures the
+ * profile or starts a trip from any page: a tool that belongs to another page
+ * opens that page and runs through what it registered (useVoicePage). Typing
+ * works over the same live session, or, when voice isn't set up, is routed on
+ * the device: talk about yourself builds the profile, a place starts a trip.
  */
 export function SunModal() {
   const open = useVoiceStore((s) => s.open);
@@ -40,6 +62,15 @@ function SunSession() {
   const [voiceOff, setVoiceOff] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
+
+  const reach = useCallback(async (target: VibeTarget): Promise<PageVoice | null> => {
+    const here = useVoiceStore.getState().page;
+    if (here?.intent === target.intent) return here;
+    const ready = waitForPage(target.intent);
+    router.push(target.href);
+    return ready;
+  }, [router]);
 
   const handlers = useCallback((): VoiceHandlers => {
     const navigate: VoiceHandlers['navigate'] = (args) => {
@@ -59,8 +90,18 @@ function SunSession() {
       setActiveProfile(match.id);
       return `Now traveling as ${profileLabel(match)}.`;
     };
-    return { navigate, switch_profile: switchProfile, ...(page?.handlers ?? {}) };
-  }, [page, router]);
+    const forwarded: VoiceHandlers = {};
+    for (const name of INTENT_TOOLS.vibe) {
+      forwarded[name] = async (args) => {
+        const target = vibeTarget(name, args);
+        if (!target) return 'Error: nothing to do there.';
+        const owner = await reach(target);
+        const run = owner?.handlers[name];
+        return run ? run(args) : 'Error: that page did not open in time. Ask them to try again.';
+      };
+    }
+    return { ...forwarded, navigate, switch_profile: switchProfile };
+  }, [reach, router]);
 
   const context = useCallback(() => {
     const { profiles, activeProfileId } = useDesignerStore.getState();
@@ -74,7 +115,7 @@ function SunSession() {
   const begin = useCallback(async (withMic: boolean) => {
     setNotes([]);
     const result = await rt.start({
-      intent: page?.intent ?? 'general',
+      intent: 'vibe',
       context: context(),
       handlers: handlers(),
       withMic,
@@ -83,12 +124,12 @@ function SunSession() {
     if (result === 'mic-denied') {
       setTyping(true);
       setNotes(['No microphone, so we’ll type. Allow the mic in your browser to talk instead.']);
-      void rt.start({ intent: page?.intent ?? 'general', context: context(), handlers: handlers(), withMic: false, textOnly: true });
+      void rt.start({ intent: 'vibe', context: context(), handlers: handlers(), withMic: false, textOnly: true });
     } else if (result === 'not-configured') {
       setVoiceOff(true);
       setTyping(true);
     }
-  }, [context, handlers, page, rt]);
+  }, [context, handlers, rt]);
 
   // Start listening as soon as the modal opens (the tap that opened it is the gesture).
   const beginRef = useRef(begin);
@@ -140,12 +181,28 @@ function SunSession() {
       rt.say(text);
       return;
     }
-    if (page?.fallback) {
-      const reply = await page.fallback(text);
-      setNotes((prev) => [...prev.slice(-5), `You: ${text}`, reply]);
+    const note = (line: string) => setNotes((prev) => [...prev.slice(-5), `You: ${text}`, line]);
+    const read = readTypedVibe(text, hasProfile);
+    const here = useVoiceStore.getState().page;
+    // On the trip designer or Now, a typed place fills that page in place.
+    if (read.kind === 'trip' && here?.fallback && (here.intent === 'trip' || here.intent === 'now')) {
+      note(await here.fallback(text));
       return;
     }
-    setNotes((prev) => [...prev.slice(-5), 'Voice isn’t set up here yet, and this page has nothing to type into. Use the page as usual.']);
+    if (read.kind === 'trip') {
+      setOpen(false);
+      router.push(read.place ? planTripHref(read.place) : '/trips/designer');
+      return;
+    }
+    if (text.length < 10) {
+      note('Tell me a little more: where home is, what’s on repeat, how you eat, who you travel with.');
+      return;
+    }
+    note('Building your vibe…');
+    const board = await reach({ intent: 'board', href: '/moodboard' });
+    const reply = board?.handlers.describe_me ? await board.handlers.describe_me({ summary: text }) : 'Error: the profile page did not open. Try again.';
+    if (reply.startsWith('Error')) note(reply.replace(/^Error:\s*/, ''));
+    else setOpen(false);
   };
 
   const orbTap = () => {
@@ -160,7 +217,7 @@ function SunSession() {
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Talk to dope.travel"
+        aria-label={hasProfile ? 'Vibe' : 'Set your vibe'}
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
         className="surface relative flex w-full max-w-[420px] flex-col items-center gap-4 rounded-[var(--radius-sheet,28px)] px-5 pb-5 pt-6 outline-none"
@@ -199,6 +256,13 @@ function SunSession() {
         </ol>
         {rt.error && rt.phase === 'error' && !voiceOff && <p className="notice w-full text-[13px]">{rt.error}</p>}
         {voiceOff && <p className="notice w-full text-[13px]">Voice isn’t set up on this site yet. Type below; it does the same things.</p>}
+        {rt.lines.length === 0 && notes.length === 0 && (
+          <p className="text-center text-[14px] leading-snug text-ink-soft">
+            {hasProfile
+              ? 'Where to next? Say where, when, and who’s coming. Or tell me something new about you.'
+              : 'Tell us how you get down: where home is, who you root for, what’s on repeat, how you eat, and who you travel with.'}
+          </p>
+        )}
 
         {typing ? (
           <form onSubmit={submit} className="flex w-full gap-2">
@@ -207,7 +271,7 @@ function SunSession() {
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               maxLength={1000}
-              placeholder={page?.intent === 'trip' ? 'Lisbon, second week of October, me and Sam' : page?.intent === 'board' ? 'Tell us about you' : 'Say it in words'}
+              placeholder={hasProfile ? 'Lisbon, second week of October, me and Sam' : 'I’m from Atlanta, Braves fan, omakase or taco trucks…'}
               className="field min-h-11 flex-1"
               aria-label="Type to dope.travel"
             />
@@ -229,14 +293,18 @@ function SunSession() {
 }
 
 /** The sun button that opens the concierge. */
-export function SunButton({ label = 'Talk', className = '' }: { label?: string; className?: string }) {
+export function SunButton({ className = '' }: { className?: string }) {
   const setOpen = useVoiceStore((s) => s.setOpen);
+  const hydrated = useHydrated();
+  const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
+  // Before a profile exists the button invites one; after, it's the way in to everything else.
+  const label = hydrated && hasProfile ? 'Vibe' : 'Set your vibe';
   return (
     <button
       type="button"
       onClick={() => setOpen(true)}
       className={`inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-surface-2 px-3 sm:px-3.5 text-[13px] font-medium text-bone shadow-soft-1 hover:bg-surface-3 ${className}`}
-      aria-label={label === 'Talk' ? 'Talk to dope.travel' : label}
+      aria-label={label}
     >
       <span aria-hidden="true" className="relative inline-block h-5 w-5 overflow-hidden rounded-full" style={{ background: 'linear-gradient(180deg,#f7c548 0%,#f26b2a 55%,#e4577e 100%)' }}>
         <span className="absolute inset-x-0 top-[62%] h-[1.5px] bg-[#1a0b06]" />

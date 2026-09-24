@@ -66,6 +66,8 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
 
 ## Where we are (end of 2026-09-24 session)
 
+- **Header "Vibe" (owner ask, 2026-09-24):** the sun button reads "Set your vibe" until a profile exists, then "Vibe". It always opens the Sun with the `vibe` intent, which can capture the profile (`describe_me`), start a trip (`set_trip_basics`, `add_traveler`, `create_trip`) or set Now's city. A tool that lives on another page opens that page and runs its registered handler (`src/lib/voice/vibe.ts`). With voice off, typed text is routed on the device: talk about yourself builds the board on `/moodboard` (the owner still taps Save), and a place opens the designer with it filled in.
+- **Home location row:** one `LocationPicker` pill (device location, or type to filter the 11 `VIEWER_CITIES`; no remote geocoding). "Choose your dates" left the toolbar; the date timeline still opens from the page's other planning links.
 - **Source library (research only, not wired in):** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
 - **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central). Migrations 001–006 were applied on 2026-09-24 with the owner watching.
   - `006_advisor_hardening.sql` closes the RPC surface of the trigger functions and the RLS helpers, wraps `auth.uid()` in `(select …)` in 22 policies, and adds 5 foreign-key indexes. It doesn't change any access rules. `src/lib/platform/__tests__/rls.test.ts` now runs against 001 + 003 + 006.

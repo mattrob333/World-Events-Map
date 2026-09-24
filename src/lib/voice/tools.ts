@@ -6,7 +6,7 @@
  * the traveler says is stored by dope.travel.
  */
 
-export type VoiceIntent = 'trip' | 'board' | 'now' | 'general';
+export type VoiceIntent = 'vibe' | 'trip' | 'board' | 'now' | 'general';
 
 type JsonSchema = {
   type: 'object';
@@ -72,6 +72,9 @@ export const VOICE_TOOLS = {
 export type VoiceToolName = keyof typeof VOICE_TOOLS;
 
 export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
+  // The header's "Vibe": profile and trip start from anywhere. Tools that live
+  // on another page open that page first (see lib/voice/vibe.ts).
+  vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
   now: ['set_now_city', 'switch_profile', 'navigate'],
@@ -79,6 +82,7 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
 };
 
 export const INTENT_OPENERS: Record<VoiceIntent, string> = {
+  vibe: 'If the context says there is no travel profile yet, get to know them first, like a friend would: where home is, who they root for, what music is on repeat, how they eat, who they travel with and how those trips differ. One question at a time; when you have enough, call describe_me. If they already have a profile, ask where they want to go next, when, and who is coming; fill it in with set_trip_basics and add_traveler as they talk, then offer to build it with create_trip. If they jump straight to a trip, go with it. Some tools open another page; that is expected.',
   trip: 'Ask where they want to go, when, and who is coming. Fill things in as they talk, then offer to build it.',
   board: 'Ask them to tell you about themselves like they would a friend: where they are from, their teams, the music they love, food, who they travel with, and the trip they still talk about. Keep it light; one question at a time. When you have enough, call describe_me.',
   now: 'Ask where they are right now and what they feel like doing. Set the city as soon as they say it.',
@@ -86,7 +90,7 @@ export const INTENT_OPENERS: Record<VoiceIntent, string> = {
 };
 
 export function isVoiceIntent(value: unknown): value is VoiceIntent {
-  return value === 'trip' || value === 'board' || value === 'now' || value === 'general';
+  return value === 'vibe' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
 }
 
 const ROUTES: Record<string, string> = {

@@ -23,7 +23,7 @@ import { isHappeningToday } from '@/lib/data/scene-time';
 import { greatCircleDistanceKm } from '@/lib/geo/projection';
 import { googleMapsViewUrl } from '@/lib/geo/map-links';
 import { useViewerLocation } from '@/lib/location/useViewerLocation';
-import { VIEWER_CITIES } from '@/lib/location/browser-position';
+import { LocationPicker } from './LocationPicker';
 import { OPENING_GLOBE_DISTANCE } from '@/lib/geo/camera';
 import { EVENTS } from '@/lib/data/events';
 import { indexDestinations } from '@/lib/pulse';
@@ -100,7 +100,6 @@ export function DiscoveryExperience() {
   const [clock, setClock] = useState<number | null>(null);
   const openedLink = useRef<string | null>(null);
   const routeTimer = useRef<number | null>(null);
-  const citySelect = useRef<HTMLSelectElement | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
   useEffect(() => {
@@ -339,38 +338,12 @@ export function DiscoveryExperience() {
             Not on the calendar yet · Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span>
           </Link>
         )}
-        <button
-          className={`btn btn-ghost ${styles.locationButton}`}
-          onClick={() => {
-            // A blocked browser cannot be re-prompted; send the traveler to the
-            // city picker instead of a button that appears to do nothing.
-            if (viewer.status === 'denied' || viewer.deviceFailure === 'denied') citySelect.current?.focus();
-            else viewer.retry();
-          }}
-          disabled={viewer.status === 'locating'}
-        >
-          {/* Locating wins over a chosen city: a pending prompt must show progress (UFR2-J09). */}
-          {viewer.status === 'locating'
-            ? 'Finding you…'
-            : viewer.status === 'denied' || viewer.deviceFailure === 'denied'
-            ? 'Location blocked · pick a city'
-            : viewer.source === 'chosen' ? 'Use device location' : viewer.status === 'granted'
-            ? 'Recenter near me'
-            : 'Use my location'}
-        </button>
-        <label className={styles.cityChoice}>
-          <span>Viewing area</span>
-          <select ref={citySelect} aria-label="Choose your city" title="Your city choice is remembered in this tab" value={viewer.cityLabel ?? ''} onChange={(event) => viewer.chooseCity(event.target.value)}>
-            <option value="" disabled>Choose your city</option>
-            {VIEWER_CITIES.map((city) => <option value={city.name} key={city.name}>{city.name}</option>)}
-          </select>
-        </label>
-        <button
-          className={styles.dateButton}
-          onClick={planMode ? now : beginPlanning}
-        >
-          {planMode ? '← Back to today' : 'Choose your dates ↗'}
-        </button>
+        <LocationPicker viewer={viewer} />
+        {planMode && (
+          <button className={styles.dateButton} onClick={now}>
+            ← Back to today
+          </button>
+        )}
       </div>
 
       {planMode && (
@@ -525,7 +498,7 @@ export function DiscoveryExperience() {
                   <p className={styles.storyDistance}>
                     {selectedRoute
                       ? `${selectedRoute.distanceKm.toLocaleString()} km · ${selectedRoute.label}`
-                      : 'Choose your city above to estimate the journey'}
+                      : 'Set your location above to estimate the journey'}
                   </p>
                 </>
               )}
