@@ -68,3 +68,15 @@ Offers support inquiries and provider replies. There is no instant checkout, rea
 ## Release check
 
 Run `npm ci` and `npm run gate`. The suite includes an isolated PostgreSQL/PGlite execution of the membership/provider RLS migration, with mocked Supabase auth roles. This does not replace hosted verification: confirm magic-link delivery, redirect handling, two-account isolation, publication/expiry, provider replies and one real vendor refresh before a production launch.
+
+## Booking partners (hand-off links)
+
+dope.travel never books, holds or prices anything. Restaurant cards link to a pre-filled OpenTable search, and stays link to Airbnb, Vrbo and Booking.com searches with dates and party filled in (`src/lib/booking/partners.ts`). Affiliate IDs are public URL parameters, set in Vercel for Production and Preview:
+
+| Variable | Partner | Sent as |
+|---|---|---|
+| `NEXT_PUBLIC_BOOKING_AID` | Booking.com Affiliate Partner Programme | `aid=` |
+| `NEXT_PUBLIC_OPENTABLE_REF` | OpenTable partner/affiliate program | `ref=` |
+| `NEXT_PUBLIC_VRBO_AFFILIATE_QUERY` | Expedia Group affiliate program (Vrbo) | the query string from Expedia's link builder, appended as-is |
+
+Airbnb closed its affiliate program, so its links carry no tracking. Malformed values are ignored rather than sent. Booking inside the app (availability and payment) needs each partner's API approval (Booking.com Demand API, OpenTable partner API, Expedia Rapid) and a senior review before it ships.

@@ -14,6 +14,7 @@ import type {
   ResearchSpot,
 } from '@/lib/research/destinationSources';
 import { writeResearchCache } from '@/lib/designer/deviceData';
+import { handoffNote, openTableSearch } from '@/lib/booking/partners';
 import styles from './designer.module.css';
 
 /*
@@ -106,9 +107,38 @@ function Photo({ src, alt, tall }: { src?: string; alt?: string; tall?: boolean 
   );
 }
 
-function SpotCard({ spot }: { spot: ResearchSpot }) {
+/** A table request for restaurant tabs: the trip's first night, the whole party. */
+type Reserve = { where: string; date: string; covers: number };
+
+function SpotCard({ spot, reserve }: { spot: ResearchSpot; reserve?: Reserve }) {
+  if (reserve) {
+    return (
+      <div className={styles.researchCard}>
+        <a className={styles.researchMain} href={spot.url} target="_blank" rel="noopener noreferrer">
+          <SpotBody spot={spot} />
+        </a>
+        <a
+          className={styles.reserveLink}
+          href={openTableSearch({ name: spot.name, where: reserve.where, date: reserve.date, covers: reserve.covers })}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={handoffNote('opentable')}
+        >
+          Reserve on OpenTable ↗
+        </a>
+      </div>
+    );
+  }
   return (
     <a className={styles.researchCard} href={spot.url} target="_blank" rel="noopener noreferrer">
+      <SpotBody spot={spot} />
+    </a>
+  );
+}
+
+function SpotBody({ spot }: { spot: ResearchSpot }) {
+  return (
+    <>
       <Photo src={spot.image?.url} alt={spot.image?.alt} />
       <span className={styles.researchBody}>
         <span className={styles.researchName}>{spot.name}</span>
@@ -121,7 +151,7 @@ function SpotCard({ spot }: { spot: ResearchSpot }) {
         {spot.snippet ? <span className={styles.researchSnippet}>“{spot.snippet}”</span> : spot.address ? <span className={styles.researchSnippet}>{spot.address}</span> : null}
         <span className={styles.researchSource}>{spot.source} ↗</span>
       </span>
-    </a>
+    </>
   );
 }
 
@@ -202,7 +232,7 @@ function Flights({ section, party }: { section: FlightSection; party: Party }) {
   );
 }
 
-function SectionBody({ id, section, party }: { id: TabId; section: ResearchSection<unknown>; party: Party }) {
+function SectionBody({ id, section, party, reserve }: { id: TabId; section: ResearchSection<unknown>; party: Party; reserve?: Reserve }) {
   if (section.status !== 'ok') return <div className={styles.stripEmpty}>{section.note ?? 'Nothing here yet.'}</div>;
   if (id === 'flights') return <Flights section={section as FlightSection} party={party} />;
   return (
@@ -213,7 +243,7 @@ function SectionBody({ id, section, party }: { id: TabId; section: ResearchSecti
           ? (section.items as ResearchPost[]).map((post) => <PostCard key={post.id} post={post} />)
           : id === 'events'
             ? (section.items as ResearchEvent[]).map((event) => <EventCard key={event.id} event={event} />)
-            : (section.items as ResearchSpot[]).map((spot) => <SpotCard key={spot.id} spot={spot} />)}
+            : (section.items as ResearchSpot[]).map((spot) => <SpotCard key={spot.id} spot={spot} reserve={id === 'food' || id === 'yelp' ? reserve : undefined} />)}
       </div>
     </>
   );
@@ -427,7 +457,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
           <div className="mt-2" role="tabpanel">
             {current ? (
               <>
-                <SectionBody id={active} section={current} party={party} />
+                <SectionBody id={active} section={current} party={party} reserve={{ where: name, date: trip.startDate, covers: party.adults + party.kids }} />
                 {note ? <p className="mt-2 text-[11px] leading-4 text-ink-subtle">{note}</p> : null}
               </>
             ) : (

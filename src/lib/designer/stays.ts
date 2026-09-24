@@ -4,6 +4,8 @@
  * listings and carry no prices, so the UI must never present them as either.
  */
 
+import { withAffiliate } from '@/lib/booking/partners';
+
 export type StayParty = { adults: number; kids: number; kidAges: number[] };
 
 export type StaySearch = {
@@ -58,8 +60,8 @@ export function staySearches(input: { place: string; checkIn: string; nights: nu
 
   const searches: StaySearch[] = [
     { id: 'airbnb', label: 'Airbnb', href: `https://www.airbnb.com/s/${where}/homes?${airbnb}`, note: bedrooms > 1 ? `Homes with ${bedrooms}+ bedrooms` : 'Homes and apartments' },
-    { id: 'vrbo', label: 'Vrbo', href: `https://www.vrbo.com/search?${vrbo}`, note: 'Whole houses for the crew' },
-    { id: 'booking', label: 'Booking.com', href: `https://www.booking.com/searchresults.html?${booking}`, note: 'Hotels, free cancellation filters' },
+    { id: 'vrbo', label: 'Vrbo', href: withAffiliate('vrbo', `https://www.vrbo.com/search?${vrbo}`), note: 'Whole houses for the crew' },
+    { id: 'booking', label: 'Booking.com', href: withAffiliate('booking', `https://www.booking.com/searchresults.html?${booking}`), note: 'Hotels, free cancellation filters' },
   ];
   const wantsHostel = (input.lodging ?? []).some((entry) => /hostel/i.test(entry));
   if (wantsHostel && !party.kids) {

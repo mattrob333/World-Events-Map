@@ -1428,6 +1428,24 @@
 
 .researchCard:hover { background: var(--gradient-surface), var(--color-surface-3); transform: translateY(-1px); box-shadow: var(--shadow-soft-2); }
 .researchCard:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.researchMain { display: flex; flex: 1; flex-direction: column; color: inherit; text-decoration: none; }
+.researchMain:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Hand-off to a booking partner: its own link, never nested in the listing link. */
+.reserveLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin: 0 10px 10px;
+  border-radius: var(--radius-chip);
+  background: var(--color-surface-3);
+  color: var(--color-bone);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.reserveLink:hover { background: var(--color-surface-4); }
+.reserveLink:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .researchPhoto {
   display: block;
