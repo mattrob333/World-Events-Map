@@ -33,8 +33,8 @@ export function ProfileImport() {
     saveProfile({ id, profile, engine: 'on-device', updatedAt: new Date().toISOString() });
     setKept(profile);
     setSavedId(id);
-    // Drop the profile from the address bar and history once it is saved.
-    window.history.replaceState(null, '', '/moodboard/import');
+    // Drop the profile from the address bar and history once it is saved; a reload then says it was saved (retest N5).
+    window.history.replaceState(null, '', '/moodboard/import#saved');
     return id;
   }
 
@@ -44,6 +44,14 @@ export function ProfileImport() {
         <p className={styles.eyebrow}>From your AI agent</p>
         {hash === null && !profile ? (
           <p className="py-16 text-ink-muted">Opening your profile…</p>
+        ) : !profile && hash === '#saved' ? (
+          <>
+            <h1 className={styles.headline}>Saved on this device.</h1>
+            <p className={styles.lede}>Your profile is in your mood board now. The link was cleared so it doesn’t sit in your history.</p>
+            <Link href="/moodboard" className={`${styles.cta} mt-6`}>
+              Open my mood board →
+            </Link>
+          </>
         ) : !profile ? (
           <>
             <h1 className={styles.headline}>This link has no profile in it.</h1>

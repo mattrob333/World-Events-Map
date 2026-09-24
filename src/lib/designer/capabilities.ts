@@ -48,7 +48,8 @@ export function eventSourceLabel(sources: EventSource[]): string {
 export function siteOrigin(env: Env = process.env): string {
   const configured = env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured && /^https?:\/\/[^\s/]+/i.test(configured)) return configured.replace(/\/+$/, '');
-  const vercel = (env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_URL)?.trim();
+  // On a preview, links should open that preview, not production (retest N7).
+  const vercel = (env.VERCEL_ENV === 'preview' ? env.VERCEL_BRANCH_URL || env.VERCEL_URL : env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_URL)?.trim();
   if (vercel && /^[a-z0-9.-]+(?::\d+)?$/i.test(vercel)) return `https://${vercel}`;
   if (env.NODE_ENV !== 'production') return `http://localhost:${env.PORT || 3000}`;
   return 'https://dope.travel';

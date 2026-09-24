@@ -44,8 +44,10 @@ export function researchKeys(storage: KeyStore | null = browserStorage()): strin
 
 function writtenAt(storage: KeyStore, key: string): number {
   try {
-    const value = JSON.parse(storage.getItem(key) ?? 'null') as { generatedAt?: unknown } | null;
-    const at = typeof value?.generatedAt === 'string' ? Date.parse(value.generatedAt) : Number.NaN;
+    // v2 entries are { savedAt, value }; v1 entries carried generatedAt at the top (retest N3).
+    const value = JSON.parse(storage.getItem(key) ?? 'null') as { generatedAt?: unknown; savedAt?: unknown } | null;
+    const stamp = typeof value?.savedAt === 'string' ? value.savedAt : value?.generatedAt;
+    const at = typeof stamp === 'string' ? Date.parse(stamp) : Number.NaN;
     return Number.isNaN(at) ? 0 : at;
   } catch {
     return 0;

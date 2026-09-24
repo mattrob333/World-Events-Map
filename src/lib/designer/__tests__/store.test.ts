@@ -149,6 +149,15 @@ describe('clearing the device (K13)', () => {
     expect(storage.getItem('meridian.designer.v1')).not.toContain('Tokyo');
   });
 
+  it('ranks v2 { savedAt } entries by age, so a fresh place is not evicted first (retest N3)', () => {
+    const at = (minutes: number) => new Date(Date.UTC(2026, 8, 24, 0, minutes)).toISOString();
+    for (let i = 0; i < 10; i += 1) storage.setItem(`${RESEARCH_PREFIX}v1-${i}`, JSON.stringify({ generatedAt: at(i) }));
+    writeResearchCache(`${RESEARCH_PREFIX}v2:place:lisbon`, { savedAt: at(60), value: {} }, 10, storage);
+    writeResearchCache(`${RESEARCH_PREFIX}v2:fares:lisbon`, { savedAt: at(61), value: {} }, 10, storage);
+    expect(storage.getItem(`${RESEARCH_PREFIX}v2:place:lisbon`)).not.toBeNull();
+    expect(storage.getItem(`${RESEARCH_PREFIX}v1-0`)).toBeNull();
+  });
+
   it('prunes research to the newest entries and clears it all', () => {
     const at = (minutes: number) => new Date(Date.UTC(2026, 8, 24, 0, minutes)).toISOString();
     for (let i = 0; i < 14; i += 1) storage.setItem(`${RESEARCH_PREFIX}place-${i}`, JSON.stringify({ generatedAt: at(i) }));

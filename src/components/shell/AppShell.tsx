@@ -132,7 +132,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               className="tag shrink-0 text-saffron"
               title={DEMO_LABEL}
             >
-              Demo · simulated
+              Demo<span className="hidden sm:inline"> · simulated</span>
             </span>
           )}
           <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-surface-1 p-1 shadow-[var(--shadow-inset)] md:flex">

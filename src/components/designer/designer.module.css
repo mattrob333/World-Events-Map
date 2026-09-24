@@ -994,10 +994,19 @@
 }
 
 .cardLink {
+  position: relative;
   font-size: 12px;
   color: var(--color-brass-bright);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+/* 44px tap area without changing the line (retest J07). */
+.cardLink::before {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 .cardFoot {

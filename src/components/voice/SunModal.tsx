@@ -235,14 +235,14 @@ export function SunButton({ label = 'Talk', className = '' }: { label?: string; 
     <button
       type="button"
       onClick={() => setOpen(true)}
-      className={`inline-flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-3.5 text-[13px] font-medium text-bone shadow-soft-1 hover:bg-surface-3 ${className}`}
+      className={`inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-surface-2 px-3 sm:px-3.5 text-[13px] font-medium text-bone shadow-soft-1 hover:bg-surface-3 ${className}`}
       aria-label={label === 'Talk' ? 'Talk to dope.travel' : label}
     >
       <span aria-hidden="true" className="relative inline-block h-5 w-5 overflow-hidden rounded-full" style={{ background: 'linear-gradient(180deg,#f7c548 0%,#f26b2a 55%,#e4577e 100%)' }}>
         <span className="absolute inset-x-0 top-[62%] h-[1.5px] bg-[#1a0b06]" />
         <span className="absolute inset-x-0 top-[78%] h-[2px] bg-[#1a0b06]" />
       </span>
-      {label}
+      <span className="hidden sm:inline">{label}</span>
     </button>
   );
 }

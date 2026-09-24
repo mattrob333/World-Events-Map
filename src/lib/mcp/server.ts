@@ -15,6 +15,9 @@ import { PlaylistUnavailableError } from '@/lib/designer/spotifyRead';
 import { rankTripIdeas } from '@/lib/designer/tripIdeas';
 import { consumeProviderCall } from '@/lib/designer/server/guard';
 import { PlaylistInputError, readPublicPlaylist } from '@/lib/designer/server/spotifyApp';
+import { looksLikePlace } from '@/lib/search/planPlace';
+
+export { looksLikePlace };
 
 /**
  * dope.travel for AI agents. A traveler tells their own agent "connect to
@@ -192,23 +195,6 @@ function earliestDate(now = new Date()): string {
 
 function pastDate(value: string | undefined, label: string): string | null {
   return value && value < earliestDate() ? `${label} ${value} is in the past. Use a date from today on.` : null;
-}
-
-/**
- * A soft check that a typed place is a place: letters, a vowel in each word,
- * no long consonant runs or keyboard mashing. Real names still pass
- * ("Szczecin", "Llanfairpwllgwyngyll", "São Paulo", "東京").
- */
-export function looksLikePlace(value: string): boolean {
-  const text = value.normalize('NFC').trim();
-  const letters = text.match(/\p{L}/gu)?.length ?? 0;
-  if (letters < 2 || letters < text.replace(/\s/g, '').length * 0.6) return false;
-  if (/https?:|www\.|@|[<>{}]/i.test(text)) return false;
-  if (/asdf|qwer|zxcv|hjkl|sdfg|dfgh|xcvb|uiop/i.test(text)) return false;
-  return text
-    .split(/[\s,.'’-]+/)
-    .filter((word) => /^[a-z]+$/i.test(word))
-    .every((word) => word.length < 3 || (/[aeiouyw]/i.test(word) && !/[^aeiouyw\s]{6,}/i.test(word)));
 }
 
 function result<T extends Record<string, unknown>>(structured: T, text: string) {

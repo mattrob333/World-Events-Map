@@ -34,3 +34,10 @@ describe('plan a trip from search', () => {
     expect(planPlaceFromParams(new URLSearchParams('region=Germany'))).toBeNull();
   });
 });
+
+describe('planPlaceFromQuery: nonsense is not a place (retest N4)', () => {
+  it('rejects keyboard mash and accepts real names', () => {
+    for (const junk of ['qwzxv', 'asdfgh', 'xkcdbrrrt']) expect(planPlaceFromQuery(junk)).toBeNull();
+    for (const real of ['Lisbon', 'Cwm', 'Szczecin', 'São Paulo', 'Munich, Germany']) expect(planPlaceFromQuery(real)).not.toBeNull();
+  });
+});
