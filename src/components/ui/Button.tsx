@@ -96,7 +96,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         className={cn(
           BASE,
           size === 'sm' ? 'size-6' : 'size-8',
-          'px-0',
+          // A 44px tap area around the small glyph button, without changing its drawn size.
+          "relative px-0 before:absolute before:left-1/2 before:top-1/2 before:size-11 before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
           selected ? v.on : v.off,
           className,
         )}

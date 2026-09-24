@@ -155,7 +155,7 @@ function SunSession() {
   };
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/70 p-3 backdrop-blur-sm sm:items-center" onClick={() => setOpen(false)}>
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/70 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm sm:items-center" onClick={() => setOpen(false)}>
       <div
         ref={dialogRef}
         role="dialog"
@@ -165,7 +165,7 @@ function SunSession() {
         onClick={(event) => event.stopPropagation()}
         className="surface relative flex w-full max-w-[420px] flex-col items-center gap-4 rounded-[var(--radius-sheet,28px)] px-5 pb-5 pt-6 outline-none"
       >
-        <button type="button" onClick={() => setOpen(false)} className="btn-ghost absolute right-3 top-3 min-h-11 min-w-11 rounded-full text-[13px]" aria-label="Close">
+        <button type="button" onClick={() => setOpen(false)} className="btn btn-ghost absolute right-3 top-3 w-11 p-0 text-[13px]" aria-label="Close">
           ✕
         </button>
         <button
@@ -211,7 +211,7 @@ function SunSession() {
               className="field min-h-11 flex-1"
               aria-label="Type to dope.travel"
             />
-            <button type="submit" className="btn-primary min-h-11 px-4">Send</button>
+            <button type="submit" className="btn btn-primary">Send</button>
           </form>
         ) : (
           <button type="button" onClick={switchToTyping} className="min-h-11 text-[12px] text-ink-subtle underline-offset-4 hover:text-ink-soft hover:underline">

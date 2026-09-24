@@ -111,7 +111,7 @@ function IdeaCard({ idea, index, saved, watched, onToggle }: {
           <p className="mt-1 text-[13px] leading-5 text-ink-muted">{idea.eventName}</p>
           <p className="mt-2 text-[13px] leading-[1.55] text-ink-soft">{idea.tagline}</p>
           <details className="group mt-3">
-            <summary className="inline-flex min-h-9 cursor-pointer list-none items-center text-[13px] text-brass-bright marker:hidden hover:text-bone">Why this trip <span className="inline-block transition-transform group-open:rotate-45">＋</span></summary>
+            <summary className="inline-flex min-h-11 cursor-pointer list-none items-center text-[13px] text-brass-bright marker:hidden hover:text-bone">Why this trip <span className="inline-block transition-transform group-open:rotate-45">＋</span></summary>
             <div className="notice mt-2 text-[12px] leading-5">
               <p>Curated occasion: {idea.eventName}.</p>
               {idea.whyGo.map((reason) => <p key={reason}>• {reason}</p>)}

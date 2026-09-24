@@ -15,6 +15,7 @@ import { useVoicePage } from '@/lib/voice/registry';
 import styles from './designer.module.css';
 import { useHydrated } from './useHydrated';
 import { TripCanvas } from './TripCanvas';
+import { photoImageProps } from '@/lib/place-media/sources';
 
 type Draft = { key: string; name: string; kind: 'adult' | 'kid'; age?: number; tags: string[]; board?: string };
 
@@ -271,7 +272,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
           >
             {d.hero ? (
               /* eslint-disable-next-line @next/next/no-img-element -- local editorial file */
-              <img className={styles.heroImage} src={d.hero} alt="" />
+              <img className={styles.heroImage} {...photoImageProps({ imageUrl: d.hero }, 'card')} alt="" loading="lazy" decoding="async" />
             ) : null}
             <span className={styles.heroShade} />
             <span className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">
@@ -372,7 +373,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
               Make one by talking
             </Link>{' '}
             or{' '}
-            <button type="button" className="text-brass-bright underline underline-offset-4" onClick={useExample}>
+            <button type="button" className="inline-flex min-h-11 items-center text-brass-bright underline underline-offset-4" onClick={useExample}>
               use the example family
             </button>
             .

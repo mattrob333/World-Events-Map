@@ -100,8 +100,8 @@
   transition: transform var(--duration-quick) var(--ease-glide);
 }
 .story[data-tone='1'] { --tone: #90613f; }
-.story[data-tone='2'] { --tone: #5e517e; }
-.story[data-tone='3'] { --tone: #586c8d; }
+.story[data-tone='2'] { --tone: #6b5a3e; }
+.story[data-tone='3'] { --tone: #5c3f45; }
 .story[data-tone='4'] { --tone: #9a5652; }
 .story[data-tone='5'] { --tone: #547952; }
 .story:hover { transform: translateY(-3px); }

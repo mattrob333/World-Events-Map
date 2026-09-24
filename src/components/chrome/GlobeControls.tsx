@@ -99,7 +99,7 @@ export function GlobeControls({ className }: GlobeControlsProps) {
               aria-label={`${q.value} quality`}
               onClick={() => setQuality(q.value)}
               className={cn(
-                'min-h-9 min-w-9 rounded-full px-2 text-[11px] font-semibold tracking-[0.08em] transition-colors duration-[var(--duration-instant)]',
+                'min-h-11 min-w-11 rounded-full px-2 text-[11px] font-semibold tracking-[0.08em] transition-colors duration-[var(--duration-instant)]',
                 quality === q.value ? 'bg-surface-1 text-saffron shadow-[var(--shadow-inset)]' : 'text-ink-muted hover:text-bone',
               )}
             >

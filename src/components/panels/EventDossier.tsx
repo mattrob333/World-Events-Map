@@ -132,9 +132,9 @@ export function EventDossier({ className }: EventDossierProps) {
             // and clear of the ranked rail on the right. The centre stays open.
             // The top offset is `--chrome-h`, measured and published by the
             // shell — the scrubber collapses, so no constant could be right.
-            'glass-deep fixed left-4 right-4 z-30 flex overflow-hidden md:right-auto md:w-[min(32rem,46vw)] md:z-40',
+            'glass-deep fixed left-4 right-4 z-30 flex overflow-hidden lg:right-auto lg:w-[min(32rem,46vw)] lg:z-40',
             // Phone bottom nav is h-16 (4rem) plus the safe area. Keep the briefing clear of it.
-            'bottom-[calc(5rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh-9.5rem)] md:bottom-4 md:max-h-[calc(100dvh-5.5rem)]',
+            'bottom-[calc(5rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh-9.5rem)] lg:bottom-4 lg:max-h-[calc(100dvh-5.5rem)]',
             'flex-col rounded-[var(--radius-card)] outline-none',
             className,
           )}

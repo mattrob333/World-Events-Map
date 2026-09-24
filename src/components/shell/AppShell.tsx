@@ -120,7 +120,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       {/* Opaque: at 90% the page text showed through while scrolling (UFR2-J11). */}
-      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0">
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0 pt-[env(safe-area-inset-top)]">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-4 px-4 sm:px-5">
           <Link href="/" className="flex min-h-11 shrink-0 items-center" aria-label="dope.travel home">
             {/* One drawn lockup, so ".travel" always shares the wordmark's baseline. */}
@@ -135,7 +135,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               Demo<span className="hidden sm:inline"> · simulated</span>
             </span>
           )}
-          <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-surface-1 p-1 shadow-[var(--shadow-inset)] md:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-surface-1 p-1 shadow-[var(--shadow-inset)] lg:flex">
             {PRIMARY.map((item) => (
               <Link
                 key={item.href}
@@ -154,19 +154,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SunButton />
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
-            {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" mountRoot={false} />}
-            {/* md and up: below that, Now lives in More so one route never lights twice. */}
+            {isDemoMode() && <CurrentMemberChip className="hidden lg:flex" mountRoot={false} />}
+            {/* lg and up: below that, Now lives in More so one route never lights twice. */}
             <Link
               href="/now"
               aria-current={activePath(pathname, '/now') ? 'page' : undefined}
               className={cn(
-                'hidden min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone md:inline-flex',
+                'hidden min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone lg:inline-flex',
                 activePath(pathname, '/now') && 'bg-surface-3 text-bone shadow-soft-1',
               )}
             >
               Now
             </Link>
-            <ProfileSwitcher className="hidden sm:block" />
+            <ProfileSwitcher className="hidden lg:block" />
             <Link
               href={PROFILE_HREF}
               aria-current={profileCurrent ? 'page' : undefined}
@@ -185,8 +185,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {isDemoMode() && <SocialRoot />}
 
       {showOnboarding && (
-        <div className="px-3 pt-3 sm:px-5">
-          <div className="surface mx-auto flex max-w-[1600px] items-center justify-between gap-3 rounded-[var(--radius-control)] py-2 pl-4 pr-2 text-[13px] text-ink-soft">
+        // A floating strip, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
+        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:left-6 lg:w-[28rem]">
+          <div className="surface-raised mx-auto flex max-w-[1600px] items-center justify-between gap-3 rounded-[var(--radius-control)] py-2 pl-4 pr-2 text-[13px] text-ink-soft">
             <span>Set your traveler lens. It takes under a minute.</span>
             <span className="flex shrink-0 items-center gap-1">
               <Link href={`/welcome?from=${encodeURIComponent(pathname)}`} className="btn btn-ghost btn-sm">
@@ -203,7 +204,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div
         id="main"
         className={cn(
-          'pb-20 md:pb-0',
+          'pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0',
           !world && 'mx-auto max-w-[1600px]',
         )}
       >
@@ -212,7 +213,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <nav
         aria-label="Mobile primary"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         <ul className="grid grid-cols-5">
           {MOBILE.map((item) => (
@@ -257,13 +258,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             aria-label="Close more menu"
-            className="fixed inset-x-0 bottom-16 top-0 z-[45] bg-void/60 md:hidden"
+            className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-0 z-[45] bg-void/60 lg:hidden"
             onClick={() => setMoreOpen(false)}
           />
           <div
             id={morePanelId}
             role="menu"
-            className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 md:hidden"
+            className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 lg:hidden"
           >
             {MORE_ITEMS.map((item) => (
               <Link

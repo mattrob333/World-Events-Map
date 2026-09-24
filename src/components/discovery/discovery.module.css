@@ -478,7 +478,7 @@
 .card2 {
   background:
     var(--gradient-surface),
-    radial-gradient(ellipse at 80% 0%, rgb(91 85 119 / 0.4), transparent 75%), var(--color-surface-2);
+    radial-gradient(ellipse at 80% 0%, rgb(200 168 102 / 0.16), transparent 75%), var(--color-surface-2);
 }
 .card3 {
   background:

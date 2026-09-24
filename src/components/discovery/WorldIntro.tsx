@@ -116,7 +116,7 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
         {photo && !imageFailed ? (
           // Commons URLs are validated by the server and again above before display.
           // eslint-disable-next-line @next/next/no-img-element
-          <img {...photoImageProps(photo, 'card')} alt="" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" referrerPolicy="no-referrer" onError={() => setImageFailed(true)} />
+          <img {...photoImageProps(photo, 'card')} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setImageFailed(true)} />
         ) : null}
       </div>
       <button type="button" className={styles.cardFlight} onClick={() => onTravel(event, imageFailed ? null : photo)} aria-label={`Fly across the globe to ${event.city} for ${event.name}`}>

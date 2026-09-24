@@ -181,7 +181,7 @@ export function GuestBar({ picks }: { picks: PicksSender }) {
   if (!me) return null;
   return (
     <div
-      className="fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-30 md:sticky md:inset-x-auto md:bottom-4 md:mx-auto md:mt-6 md:max-w-2xl"
+      className="fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-30 lg:sticky lg:inset-x-auto lg:bottom-4 lg:mx-auto lg:mt-6 lg:max-w-2xl"
       role="region"
       aria-label="Your picks"
     >

@@ -12,6 +12,7 @@ import { DRAG_MIME, IdeaCard } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
 import { GuestBar, InvitePanel, RightNow, StaysPanel, useNow, usePicksSender } from './TripExtras';
+import { photoImageProps } from '@/lib/place-media/sources';
 
 function formatDay(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
@@ -109,7 +110,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
       <header className={styles.hero}>
         {destination.hero ? (
           /* eslint-disable-next-line @next/next/no-img-element -- local editorial file */
-          <img className={styles.heroImage} src={destination.hero} alt="" />
+          <img className={styles.heroImage} {...photoImageProps({ imageUrl: destination.hero }, 'hero')} alt="" decoding="async" />
         ) : (
           <span className={styles.heroGradient} style={{ ['--a' as string]: destination.palette[0], ['--b' as string]: destination.palette[1] }} aria-hidden />
         )}

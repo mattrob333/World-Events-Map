@@ -14,7 +14,7 @@ import { InviteDialog } from './InviteDialog';
 import { useSocialGroups } from './hooks';
 
 /** The invite strip floats above the phone tab bar and, on desktop, sits bottom-right, clear of the dossier on the left (UFR2-J06). */
-const INVITE_STRIP = 'surface-raised fixed inset-x-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-[55] p-4 md:inset-x-auto md:bottom-6 md:right-6 md:w-[26rem]';
+const INVITE_STRIP = 'surface-raised fixed inset-x-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-[55] p-4 lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]';
 
 export interface ShareTripProps {
   eventId: string;

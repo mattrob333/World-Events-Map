@@ -61,6 +61,9 @@
   background: url('/meridian-social-moments.webp') center 46% / cover no-repeat;
   animation: heroMood 22s ease-in-out 3s infinite;
 }
+/* On phones the second collage layer never shows through the photo pool; skip its download. */
+@media (max-width: 640px) { .heroPhoto::after { display: none; } }
+
 /* The living photo pool sits over the collage and crossfades slowly. */
 .heroPool { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 .heroPool img {
@@ -268,7 +271,7 @@
 }
 .passCredit {
   display: block;
-  padding-block: 4px;
+  padding-block: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -402,7 +405,7 @@
 }
 .radarCards > div { min-width: 0; }
 .radarCard {
-  --tone: #356d70;
+  --tone: #3d3226;
   position: relative;
   height: 284px;
   overflow: hidden;
@@ -414,9 +417,9 @@
     box-shadow var(--duration-quick) var(--ease-glide);
 }
 .radarCard[data-tone='1'] { --tone: #81544a; }
-.radarCard[data-tone='2'] { --tone: #5d597c; }
+.radarCard[data-tone='2'] { --tone: #6b5a3e; }
 .radarCard[data-tone='3'] { --tone: #626756; }
-.radarCard[data-tone='4'] { --tone: #555d7c; }
+.radarCard[data-tone='4'] { --tone: #5c3f45; }
 .radarCard[data-tone='5'] { --tone: #5f704d; }
 .radarCard:hover,
 .radarCard:focus-within { transform: translateY(-3px); box-shadow: var(--shadow-soft-3); }
@@ -675,6 +678,13 @@
   .snowStatus { grid-column: 1 / -1; width: fit-content; }
   .radar { padding-inline: 5%; }
   .departureBoard { margin-inline: 5%; }
+}
+/* Tablets: the copy and the pass stack instead of overlapping. */
+@media (min-width: 651px) and (max-width: 1100px) {
+  .hero { display: block; min-height: 0; padding-bottom: 72px; }
+  .heroCopy { width: min(640px, 100%); }
+  .routePass { position: relative; right: auto; bottom: auto; width: min(520px, 100%); margin-top: 40px; }
+  .heroPlace { left: 5%; right: 5%; justify-content: flex-start; text-align: left; max-width: none; }
 }
 @media (max-width: 650px) {
   .hero { display: block; min-height: 0; padding: 32px 16px 20px; }
