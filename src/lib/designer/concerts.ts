@@ -7,7 +7,7 @@
 
 import { SCENE_RULES, type Scene, type SceneKey } from './scene';
 
-export type EventKind = 'artist' | 'festival' | 'tribute' | 'scene';
+export type EventKind = 'artist' | 'festival' | 'tribute' | 'scene' | 'game';
 export type EventSource = 'ticketmaster' | 'seatgeek';
 
 export type LiveEvent = {
@@ -16,6 +16,10 @@ export type LiveEvent = {
   kind: EventKind;
   /** The traveler's artist this event is for (artist, festival, tribute). */
   artist?: string;
+  /** The traveler's team this game is for. */
+  team?: string;
+  /** A game away from the team's home city: the ones worth traveling for. */
+  away?: boolean;
   scene?: SceneKey;
   name: string;
   date: string;
@@ -198,7 +202,7 @@ export function fromSeatGeek(raw: unknown): (Omit<LiveEvent, 'kind'> & { festiva
 // --- search -----------------------------------------------------------------
 
 export type ProviderKeys = { ticketmaster?: string; seatgeek?: string };
-type Query = { keyword?: string; city?: string; genre?: string; startDate?: string; endDate?: string; size?: number };
+type Query = { keyword?: string; city?: string; genre?: string; taxonomy?: string; startDate?: string; endDate?: string; size?: number };
 
 async function getJson(url: URL, fetchImpl: typeof fetch): Promise<Obj | null> {
   try {
@@ -224,7 +228,7 @@ export async function ticketmasterQuery(query: Query, apiKey: string, fetchImpl:
 
 export async function seatgeekQuery(query: Query, clientId: string, fetchImpl: typeof fetch = fetch) {
   const url = new URL('https://api.seatgeek.com/2/events');
-  const params: Record<string, string> = { client_id: clientId, per_page: String(query.size ?? 20), sort: 'datetime_local.asc', 'taxonomies.name': 'concert' };
+  const params: Record<string, string> = { client_id: clientId, per_page: String(query.size ?? 20), sort: 'datetime_local.asc', 'taxonomies.name': query.taxonomy ?? 'concert' };
   if (query.keyword) params.q = query.keyword;
   if (query.city) params['venue.city'] = query.city;
   params['datetime_local.gte'] = query.startDate ?? new Date().toISOString().slice(0, 10);
@@ -318,3 +322,57 @@ export type SceneResponse = {
   scenes: (Omit<Scene, 'matches'> & { links: { label: string; href: string }[] })[];
   events: LiveEvent[];
 };
+
+// --- sports ----------------------------------------------------------------
+
+const MULTI_WORD_NICKNAMES = /\b(red sox|white sox|blue jays|crimson tide|yellow jackets|trail blazers|golden knights|maple leafs|red wings|blue jackets|united|city|fc)$/i;
+
+/** "Atlanta Braves" → { home: "Atlanta", nickname: "Braves" }. Heuristic, and only used for labels. */
+export function splitTeam(team: string): { home: string; nickname: string } {
+  const clean = team.trim();
+  const multi = clean.match(MULTI_WORD_NICKNAMES);
+  if (multi && multi.index && multi.index > 0 && !/^(united|city|fc)$/i.test(multi[1])) {
+    return { home: clean.slice(0, multi.index).trim(), nickname: multi[1] };
+  }
+  const words = clean.split(/\s+/);
+  if (words.length < 2) return { home: '', nickname: clean };
+  return { home: words.slice(0, -1).join(' '), nickname: words[words.length - 1] };
+}
+
+export function isTeamGame(name: string, lineup: string[], team: string): boolean {
+  const { nickname } = splitTeam(team);
+  const needle = nickname.length >= 4 ? nickname : team;
+  return includes(name, needle) || lineup.some((act) => includes(act, needle));
+}
+
+export async function searchTeamGames(
+  search: { teams: string[]; city?: string; startDate?: string; endDate?: string },
+  keys: ProviderKeys,
+  fetchImpl: typeof fetch = fetch,
+): Promise<LiveEvent[]> {
+  const teams = search.teams.slice(0, 4);
+  const window = { city: search.city, startDate: search.startDate, endDate: search.endDate, size: 20 };
+  const jobs: Promise<LiveEvent[]>[] = [];
+  const tag = (team: string) => (event: Omit<LiveEvent, 'kind'>): LiveEvent[] => {
+    if (!isTeamGame(event.name, event.lineup ?? [], team)) return [];
+    const { home } = splitTeam(team);
+    const away = Boolean(home && event.city && !includes(event.city, home) && !includes(home, event.city));
+    return [{ ...event, kind: 'game', team, away }];
+  };
+  for (const team of teams) {
+    if (keys.ticketmaster) jobs.push(ticketmasterQuery({ ...window, keyword: team, genre: 'sports' }, keys.ticketmaster, fetchImpl).then((events) => events.flatMap(tag(team))));
+    if (keys.seatgeek) {
+      jobs.push(
+        seatgeekQuery({ ...window, keyword: team, taxonomy: 'sports' }, keys.seatgeek, fetchImpl).then((events) =>
+          events.flatMap((event) => {
+            const copy: Partial<typeof event> = { ...event };
+            delete copy.festivalType;
+            return tag(team)(copy as Omit<LiveEvent, 'kind'>);
+          }),
+        ),
+      );
+    }
+  }
+  const results = (await Promise.all(jobs)).flat();
+  return dedupe(results).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 60);
+}

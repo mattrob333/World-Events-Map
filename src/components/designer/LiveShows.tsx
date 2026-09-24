@@ -24,7 +24,7 @@ export function EventCard({ event }: { event: LiveEvent }) {
           <span aria-hidden>{event.kind === 'tribute' ? '🎸' : event.kind === 'festival' ? '🎪' : '🎤'}</span>
         )}
         <span className={styles.showKind} style={{ background: style.color }}>
-          {event.kind === 'festival' ? 'Festival' : event.kind === 'tribute' ? 'Tribute / cover' : event.kind === 'artist' ? 'Live' : 'Your scene'}
+          {event.kind === 'festival' ? 'Festival' : event.kind === 'tribute' ? 'Tribute / cover' : event.kind === 'artist' ? 'Live' : event.kind === 'game' ? (event.away ? 'Away game' : 'Game') : 'Your scene'}
         </span>
         {event.fit !== undefined ? (
           <span className={styles.showFit} title="Jev’s read of how well this fits your taste">

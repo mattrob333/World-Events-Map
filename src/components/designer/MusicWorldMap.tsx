@@ -14,9 +14,10 @@ export const KIND_STYLE: Record<EventKind, { color: string; label: string }> = {
   artist: { color: '#fb923c', label: 'Your artist live' },
   tribute: { color: '#4ade80', label: 'Tribute or cover act' },
   scene: { color: '#60a5fa', label: 'Your kind of night' },
+  game: { color: '#fde047', label: 'Your team plays' },
 };
 
-const KIND_RANK: EventKind[] = ['festival', 'artist', 'tribute', 'scene'];
+const KIND_RANK: EventKind[] = ['festival', 'artist', 'game', 'tribute', 'scene'];
 
 type Pin = { key: string; x: number; y: number; city: string; events: LiveEvent[]; kind: EventKind };
 

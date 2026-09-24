@@ -18,6 +18,7 @@ import styles from './designer.module.css';
 import { LiveShows } from './LiveShows';
 import { ScenePlaybook, usePersona } from './ScenePlaybook';
 import { SpotifyPanel } from './SpotifyPanel';
+import { TripIdeas } from './TripIdeas';
 import { useHydrated } from './useHydrated';
 import { useDictation } from './useDictation';
 
@@ -295,6 +296,14 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
             </div>
 
             {hasTaste && taste ? <ScenePlaybook taste={taste} persona={persona} /> : null}
+
+            {result.profile.listening?.topArtists.length || result.profile.teams.length ? (
+              <TripIdeas
+                artists={result.profile.listening?.topArtists.slice(0, 5) ?? []}
+                teams={result.profile.teams.slice(0, 4)}
+                homeCity={result.profile.hometown}
+              />
+            ) : null}
 
             {result.profile.listening?.topArtists.length ? (
               <LiveShows artists={result.profile.listening.topArtists.slice(0, 5)} hometown={result.profile.hometown} taste={taste ?? undefined} />

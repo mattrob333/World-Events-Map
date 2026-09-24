@@ -1,0 +1,292 @@
+import 'server-only';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { z } from 'zod';
+import { concertLinks, searchArtistEvents, searchCityScene, searchTeamGames, type EventSource, type LiveEvent } from '@/lib/designer/concerts';
+import { curatedOccasions } from '@/lib/designer/occasions';
+import { BUDGETS, PACES, SOCIAL_LEVELS, normalizeProfile, parseProfileLocally, summarize, type TravelerProfile } from '@/lib/designer/profile';
+import { publicScene, scenePlaybook, sceneSearchLinks } from '@/lib/designer/scene';
+import { importUrl } from '@/lib/designer/share';
+import { rankTripIdeas } from '@/lib/designer/tripIdeas';
+import { consumeProviderCall } from '@/lib/designer/server/guard';
+
+/**
+ * dope.travel for AI agents. A traveler tells their own agent "connect to
+ * dope.travel and set up my profile"; the agent interviews them, calls
+ * dope_save_profile, and hands back a private import link. Discovery tools
+ * return real provider events (Ticketmaster, SeatGeek) and curated
+ * occasions, never invented listings. Nothing here books or pays.
+ */
+
+const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD');
+const shortList = (max: number, desc: string) => z.array(z.string().min(1).max(80)).max(max).describe(desc);
+
+const PROFILE_GUIDE = {
+  purpose:
+    'dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with. The richer the profile, the better every trip.',
+  howToInterview: [
+    'Ask conversationally, a few questions at a time. Record only what the traveler says; never guess ages, names, or nationalities.',
+    'Start with: where they live and fly from, who they travel with (partner, kids and ages, friends), and one trip they still talk about and why.',
+    'Music: favorite artists, genres, decades, concerts or festivals they would travel for. Sports: teams they follow.',
+    'How they travel: budget comfort (shoestring, comfortable, premium, no-limit), pace (slow, balanced, packed), and how social they want to be (recharge-solo, small-crew, meet-everyone).',
+    'Where they like to sleep. Include social options: a great hostel with a bar can beat a hotel for meeting people.',
+    'Food and dietary needs, languages, hard no’s (cruises, tour buses, long layovers), and a bucket list.',
+    'Finish by reading the profile back and asking what is missing or wrong.',
+  ],
+  fields: {
+    name: 'First name or nickname', age: 'Number, only if stated', hometown: 'City, region', heritage: 'Countries or cultures they identify with',
+    teams: 'Full team names, e.g. "Atlanta Braves"', music: 'Genres', events: 'Concerts, festivals, live events they love',
+    family: 'Travel companions: relation (partner, child, parent, sibling, friend, other), label, name, age, note',
+    favoriteTrips: 'Places they loved', interests: 'Activities', food: 'Cuisines and dishes', summary: 'One warm sentence in second person',
+    style: `budget (${BUDGETS.join(', ')}), pace (${PACES.join(', ')}), social (${SOCIAL_LEVELS.join(', ')}), lodging[], homeAirport (IATA), dietary[], avoid[], bucketList[], languages[], notes`,
+  },
+  privacy:
+    'dope.travel does not store the profile from this tool. It returns a link whose data lives in the URL fragment (never sent to the server); the traveler opens it and saves the profile on their own device. Treat the link as private.',
+};
+
+const familySchema = z.object({
+  relation: z.enum(['partner', 'child', 'parent', 'sibling', 'friend', 'other']),
+  label: z.string().max(30).describe('The word they used: wife, son, best friend…'),
+  name: z.string().max(40).optional(),
+  age: z.number().int().min(0).max(110).optional(),
+  note: z.string().max(60).optional().describe('e.g. "Brazilian", "vegetarian", "hates flying"'),
+});
+
+const profileInput = {
+  about: z.string().max(6000).optional().describe('Optional free text in the traveler’s own words; parsed to fill gaps in the structured fields.'),
+  profile: z
+    .object({
+      name: z.string().max(40).optional(),
+      age: z.number().int().min(13).max(110).optional(),
+      hometown: z.string().max(80).optional(),
+      heritage: shortList(6, 'Countries or cultures').optional(),
+      teams: shortList(8, 'Full team names').optional(),
+      music: shortList(10, 'Genres').optional(),
+      events: shortList(10, 'Concerts, festivals, live events').optional(),
+      family: z.array(familySchema).max(12).optional(),
+      favoriteTrips: shortList(8, 'Places they loved').optional(),
+      interests: shortList(14, 'Activities').optional(),
+      food: shortList(8, 'Cuisines and dishes').optional(),
+      summary: z.string().max(240).optional(),
+      style: z
+        .object({
+          budget: z.enum(BUDGETS).optional(),
+          pace: z.enum(PACES).optional(),
+          social: z.enum(SOCIAL_LEVELS).optional(),
+          lodging: shortList(6, 'e.g. "social hostel with a bar", "boutique hotel"').optional(),
+          homeAirport: z.string().regex(/^[A-Za-z]{3}$/).optional().describe('IATA code, e.g. ATL'),
+          dietary: shortList(8, 'Dietary needs').optional(),
+          avoid: shortList(10, 'Hard no’s').optional(),
+          bucketList: shortList(12, 'Dream trips and experiences').optional(),
+          languages: shortList(8, 'Languages spoken').optional(),
+          notes: z.string().max(600).optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+};
+
+function mergeProfiles(structured: TravelerProfile, parsed: TravelerProfile | null): TravelerProfile {
+  if (!parsed) return structured;
+  const merged: TravelerProfile = { ...structured };
+  for (const key of ['heritage', 'teams', 'music', 'events', 'favoriteTrips', 'interests', 'food'] as const) {
+    merged[key] = [...new Set([...structured[key], ...parsed[key]])];
+  }
+  merged.name ??= parsed.name;
+  merged.age ??= parsed.age;
+  merged.hometown ??= parsed.hometown;
+  if (!merged.family.length) merged.family = parsed.family;
+  return merged;
+}
+
+function missingFields(profile: TravelerProfile): string[] {
+  const missing: string[] = [];
+  if (!profile.hometown) missing.push('hometown');
+  if (!profile.family.length) missing.push('who they travel with');
+  if (!profile.music.length && !profile.events.length) missing.push('music and live events');
+  if (!profile.teams.length) missing.push('teams (if they follow any)');
+  if (!profile.favoriteTrips.length) missing.push('a favorite trip and why');
+  if (!profile.style?.budget) missing.push('budget comfort');
+  if (!profile.style?.social) missing.push('how social they want to be');
+  if (!profile.style?.lodging.length) missing.push('where they like to stay');
+  return missing;
+}
+
+function providerKeys() {
+  const keys = { ticketmaster: process.env.TICKETMASTER_API_KEY || undefined, seatgeek: process.env.SEATGEEK_CLIENT_ID || undefined };
+  return { keys, sources: (Object.keys(keys) as EventSource[]).filter((key) => keys[key]) };
+}
+
+function result<T extends Record<string, unknown>>(structured: T, text: string) {
+  return { content: [{ type: 'text' as const, text }], structuredContent: structured };
+}
+
+function failure(text: string) {
+  return { content: [{ type: 'text' as const, text }], isError: true };
+}
+
+function eventLine(event: LiveEvent): string {
+  const who = event.kind === 'game' ? `${event.team}${event.away ? ' (away)' : ''}` : event.artist ?? '';
+  return `- ${event.date} · ${event.name} · ${[event.venue, event.city, event.country].filter(Boolean).join(', ')} · ${event.kind}${who ? ` · ${who}` : ''} · ${event.url}`;
+}
+
+export function createDopeMcpServer(context: { origin: string; request: Request }): McpServer {
+  const server = new McpServer({ name: 'dope-travel', version: '1.0.0' }, { instructions: PROFILE_GUIDE.purpose });
+
+  server.registerTool(
+    'dope_profile_guide',
+    {
+      title: 'How to build a dope.travel profile',
+      description: 'Returns the profile fields and an interview script. Call this first, then interview the traveler and call dope_save_profile.',
+      annotations: { readOnlyHint: true, openWorldHint: false },
+    },
+    async () => result(PROFILE_GUIDE, JSON.stringify(PROFILE_GUIDE, null, 2)),
+  );
+
+  server.registerTool(
+    'dope_save_profile',
+    {
+      title: 'Save a traveler profile',
+      description:
+        'Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler to open and save on their device. Also reports what is still missing so you can ask follow-ups.',
+      inputSchema: profileInput,
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    },
+    async ({ about, profile }) => {
+      if (!about && !profile) return failure('Send `profile` fields, `about` text, or both. Call dope_profile_guide for the fields.');
+      const structured = normalizeProfile(profile ?? {});
+      const merged = mergeProfiles(structured, about ? parseProfileLocally(about) : null);
+      const final = { ...merged, summary: merged.summary || summarize(merged) };
+      const url = importUrl(context.origin, final);
+      const missing = missingFields(final);
+      return result(
+        { importUrl: url, profile: final, missing },
+        `Profile ready. Give the traveler this private link to open and save it on their device:\n${url}\n\n${
+          missing.length ? `Still worth asking about: ${missing.join(', ')}.` : 'Nothing important is missing.'
+        }`,
+      );
+    },
+  );
+
+  server.registerTool(
+    'dope_find_events',
+    {
+      title: 'Find events for artists and teams',
+      description:
+        'Upcoming shows by the traveler’s artists, festivals with them on the lineup, tribute and cover acts, and games for their teams (away games flagged). Real Ticketmaster/SeatGeek listings; returns search links when feeds are not connected.',
+      inputSchema: {
+        artists: shortList(5, 'Artist names').optional(),
+        teams: shortList(4, 'Full team names').optional(),
+        city: z.string().max(60).optional().describe('Limit to one city'),
+        startDate: date.optional(),
+        endDate: date.optional(),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ artists = [], teams = [], city, startDate, endDate }) => {
+      if (!artists.length && !teams.length) return failure('Pass at least one artist or team.');
+      const { keys, sources } = providerKeys();
+      if (!sources.length || !consumeProviderCall(context.request, 'concerts')) {
+        const links = concertLinks(artists, city);
+        return result({ sources: [], events: [], links }, `Event feeds are not connected right now. Search links:\n${links.map((l) => `- ${l.label}: ${l.href}`).join('\n')}`);
+      }
+      const [music, games] = await Promise.all([
+        artists.length ? searchArtistEvents({ artists, city, startDate, endDate }, keys) : Promise.resolve([]),
+        teams.length ? searchTeamGames({ teams, city, startDate, endDate }, keys) : Promise.resolve([]),
+      ]);
+      const events = [...music, ...games].sort((a, b) => a.date.localeCompare(b.date));
+      return result(
+        { sources, fetchedAt: new Date().toISOString(), events },
+        events.length ? `${events.length} events (${sources.join(' + ')}):\n${events.slice(0, 40).map(eventLine).join('\n')}` : 'No upcoming events found for those artists or teams.',
+      );
+    },
+  );
+
+  server.registerTool(
+    'dope_trip_ideas',
+    {
+      title: 'Rank trip ideas around what they love',
+      description:
+        'Finds the cities and short windows where the traveler’s artists, festivals, and teams line up, favoring places that also overlap a curated dope.travel occasion. Best first.',
+      inputSchema: {
+        artists: shortList(5, 'Artist names').optional(),
+        teams: shortList(4, 'Full team names').optional(),
+        startDate: date.optional(),
+        endDate: date.optional(),
+        homeCity: z.string().max(80).optional().describe('Excluded from results'),
+        maxNights: z.number().int().min(1).max(10).optional(),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ artists = [], teams = [], startDate, endDate, homeCity, maxNights }) => {
+      if (!artists.length && !teams.length) return failure('Pass at least one artist or team.');
+      const { keys, sources } = providerKeys();
+      if (!sources.length || !consumeProviderCall(context.request, 'concerts')) {
+        return failure('Event feeds are not connected right now, so trip ideas cannot be ranked. Try dope_curated_occasions instead.');
+      }
+      const [music, games] = await Promise.all([
+        artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
+        teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
+      ]);
+      const ideas = rankTripIdeas([...music, ...games], { occasions: curatedOccasions({ startDate, endDate }), excludeCity: homeCity, maxNights });
+      return result(
+        { sources, ideas },
+        ideas.length
+          ? ideas.map((idea, i) => `${i + 1}. ${idea.city}${idea.country ? `, ${idea.country}` : ''} · ${idea.start} → ${idea.end} · ${idea.why}`).join('\n')
+          : 'No city lines up yet for those artists and teams in that window.',
+      );
+    },
+  );
+
+  server.registerTool(
+    'dope_live_music_scene',
+    {
+      title: 'Live music for their taste in a city',
+      description:
+        'The kinds of nights this traveler would love (e.g. rock cover bands, jazz rooms) and matching listed events in a city and date window, plus map searches for bars with house bands that never list on ticket sites.',
+      inputSchema: {
+        city: z.string().min(2).max(60),
+        genres: shortList(16, 'Genres they listen to'),
+        topArtists: shortList(10, 'Favorite artists').optional(),
+        eras: z.array(z.object({ decade: z.string().regex(/^\d{4}s$/), share: z.number().min(0).max(1) })).max(5).optional(),
+        startDate: date.optional(),
+        endDate: date.optional(),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ city, genres, topArtists, eras, startDate, endDate }) => {
+      const cityName = city.split(',')[0].trim();
+      const playbook = scenePlaybook({ genres: genres.map((g) => g.toLowerCase()), topArtists, eras });
+      if (!playbook.length) return failure('Those genres did not map to any live-music scene. Try broader genres like rock, jazz, hip hop, house.');
+      const scenes = playbook.map((scene) => ({ ...publicScene(scene), links: sceneSearchLinks(scene, cityName) }));
+      const { keys, sources } = providerKeys();
+      const events = sources.length && consumeProviderCall(context.request, 'concerts')
+        ? await searchCityScene({ city: cityName, startDate, endDate, scenes: playbook.map((s) => s.key) }, keys)
+        : [];
+      return result(
+        { city: cityName, sources, scenes, events },
+        `${scenes.map((s) => `${s.emoji} ${s.label}: ${s.why} Look for ${s.venues.join(', ')}. ${s.links[0]?.href ?? ''}`).join('\n')}${
+          events.length ? `\n\nListed in ${cityName}:\n${events.slice(0, 20).map(eventLine).join('\n')}` : ''
+        }`,
+      );
+    },
+  );
+
+  server.registerTool(
+    'dope_curated_occasions',
+    {
+      title: 'Curated occasions worth traveling for',
+      description: 'dope.travel’s editorial calendar of occasions (festivals, races, seasons, openings) in a date window.',
+      inputSchema: { startDate: date.optional(), endDate: date.optional(), limit: z.number().int().min(1).max(50).optional() },
+      annotations: { readOnlyHint: true, openWorldHint: false },
+    },
+    async ({ startDate, endDate, limit = 20 }) => {
+      const occasions = curatedOccasions({ startDate: startDate ?? new Date().toISOString().slice(0, 10), endDate }).slice(0, limit);
+      return result(
+        { occasions },
+        occasions.map((o) => `- ${o.start} → ${o.end} · ${o.name} · ${o.city} · ${context.origin}${o.href ?? '/'}`).join('\n') || 'No occasions in that window.',
+      );
+    },
+  );
+
+  return server;
+}

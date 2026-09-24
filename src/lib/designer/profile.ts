@@ -17,6 +17,27 @@ export type FamilyMember = {
   note?: string;
 };
 
+export type TravelStyle = {
+  budget?: 'shoestring' | 'comfortable' | 'premium' | 'no-limit';
+  pace?: 'slow' | 'balanced' | 'packed';
+  /** How much they want to meet people on the road. */
+  social?: 'recharge-solo' | 'small-crew' | 'meet-everyone';
+  /** e.g. "social hostel with a bar", "boutique hotel", "villa with the crew". */
+  lodging: string[];
+  homeAirport?: string;
+  dietary: string[];
+  /** Hard no's: "cruises", "tour buses", "long layovers". */
+  avoid: string[];
+  bucketList: string[];
+  languages: string[];
+  /** Anything else in their own words. */
+  notes?: string;
+};
+
+export const BUDGETS = ['shoestring', 'comfortable', 'premium', 'no-limit'] as const;
+export const PACES = ['slow', 'balanced', 'packed'] as const;
+export const SOCIAL_LEVELS = ['recharge-solo', 'small-crew', 'meet-everyone'] as const;
+
 export type TravelerProfile = {
   name?: string;
   age?: number;
@@ -34,6 +55,8 @@ export type TravelerProfile = {
   summary: string;
   /** Imported from Spotify on this device; never produced by the AI parser. */
   listening?: ListeningProfile;
+  /** How they like to travel. Filled by the traveler or their own AI agent. */
+  style?: TravelStyle;
 };
 
 export type ParseEngine = 'claude' | 'on-device';
@@ -232,8 +255,11 @@ function parseFamily(text: string, profile: TravelerProfile) {
     if (family.some((member) => member.label === info.label)) continue;
     const nameMatch = text.match(new RegExp(`\\b${word}(?:'s name is|,| is| named| called)?\\s+([A-Z][a-z]+)\\b`, 'i'));
     const candidate = nameMatch?.[1];
-    const name = candidate && !/^(Is|And|She|He|Who|The|A|An|From|Loves|Likes)$/.test(candidate) ? candidate : undefined;
-    family.push({ relation: info.relation, label: info.label, name });
+    // "my wife is Brazilian" names a nationality, not a person.
+    const nationality = candidate && NATIONALITIES[candidate.toLowerCase()] ? candidate : undefined;
+    const name = candidate && !nationality && !/^(Is|And|She|He|Who|The|A|An|From|Loves|Likes)$/.test(candidate) ? candidate : undefined;
+    if (nationality) profile.heritage.push(NATIONALITIES[nationality.toLowerCase()]);
+    family.push({ relation: info.relation, label: info.label, name, note: nationality });
   }
 
   // "She's Brazilian" right after mentioning a partner → partner heritage.
@@ -354,7 +380,32 @@ export function normalizeProfile(input: unknown): TravelerProfile {
     food: list(source.food, 8),
     summary: str(source.summary, 240) ?? '',
     listening: normalizeListening(source.listening),
+    style: normalizeStyle(source.style),
   };
+}
+
+function normalizeStyle(input: unknown): TravelStyle | undefined {
+  if (!input || typeof input !== 'object') return undefined;
+  const s = input as Record<string, unknown>;
+  const pick = <T extends string>(value: unknown, allowed: readonly T[]) => (allowed.includes(value as T) ? (value as T) : undefined);
+  const list = (value: unknown, max = 10) =>
+    uniq((Array.isArray(value) ? value : []).filter((v): v is string => typeof v === 'string' && v.trim().length > 0).map((v) => v.trim().slice(0, 80))).slice(0, max);
+  const text = (value: unknown, max: number) => (typeof value === 'string' && value.trim() ? value.trim().slice(0, max) : undefined);
+  const style: TravelStyle = {
+    budget: pick(s.budget, BUDGETS),
+    pace: pick(s.pace, PACES),
+    social: pick(s.social, SOCIAL_LEVELS),
+    lodging: list(s.lodging, 6),
+    homeAirport: text(s.homeAirport, 4)?.toUpperCase().replace(/[^A-Z]/g, '') || undefined,
+    dietary: list(s.dietary, 8),
+    avoid: list(s.avoid, 10),
+    bucketList: list(s.bucketList, 12),
+    languages: list(s.languages, 8),
+    notes: text(s.notes, 600),
+  };
+  const empty = !style.budget && !style.pace && !style.social && !style.homeAirport && !style.notes &&
+    [style.lodging, style.dietary, style.avoid, style.bucketList, style.languages].every((l) => l.length === 0);
+  return empty ? undefined : style;
 }
 
 /** Trip-planning signals derived from a profile, used by the itinerary composer. */
@@ -377,5 +428,9 @@ export function profileTags(profile: TravelerProfile): string[] {
   ];
   for (const [pattern, tag] of map) if (pattern.test(text)) tags.add(tag);
   if (profile.listening) for (const tag of listeningTags(profile.listening)) tags.add(tag);
+  const style = profile.style;
+  if (style?.social === 'meet-everyone' || style?.lodging.some((l) => /hostel|social/i.test(l))) tags.add('nightlife');
+  if (style?.pace === 'slow') tags.add('wellness');
+  if (style?.pace === 'packed') tags.add('active');
   return [...tags];
 }

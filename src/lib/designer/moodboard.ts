@@ -12,7 +12,7 @@ export type BentoItem = { label: string; emoji?: string; sub?: string };
 
 export type BentoCard = {
   id: string;
-  kind: 'home' | 'crew' | 'teams' | 'roots' | 'sound' | 'vibe' | 'live' | 'trips' | 'into' | 'food';
+  kind: 'home' | 'crew' | 'teams' | 'roots' | 'sound' | 'vibe' | 'live' | 'trips' | 'into' | 'food' | 'style';
   eyebrow: string;
   title: string;
   body?: string;
@@ -196,6 +196,26 @@ export function bentoCards(profile: TravelerProfile): BentoCard[] {
       id: 'into', kind: 'into', size: profile.interests.length > 3 ? 'wide' : 'sm', eyebrow: 'Into', title: profile.interests[0],
       items: profile.interests.slice(1).map((interest) => ({ label: interest, emoji: INTEREST_IMAGE.find(([pattern]) => pattern.test(interest))?.[2] })),
       emoji: match?.[2] ?? '⭐', palette: TRIP_PALETTES[2], image: match?.[1] || undefined,
+    });
+  }
+
+  if (profile.style) {
+    const st = profile.style;
+    const social = { 'recharge-solo': 'Quiet corners', 'small-crew': 'Small crew', 'meet-everyone': 'Meet everyone' } as const;
+    const budget = { shoestring: 'Shoestring', comfortable: 'Comfortable', premium: 'Premium', 'no-limit': 'No limit' } as const;
+    const pace = { slow: 'Slow days', balanced: 'Balanced', packed: 'Packed days' } as const;
+    cards.push({
+      id: 'style', kind: 'style', size: 'wide', eyebrow: 'How you travel',
+      title: st.social ? social[st.social] : st.lodging[0] ?? 'Your way',
+      body: st.notes,
+      items: [
+        ...(st.budget ? [{ label: budget[st.budget], emoji: '💳' }] : []),
+        ...(st.pace ? [{ label: pace[st.pace], emoji: '⏱️' }] : []),
+        ...st.lodging.slice(0, 3).map((label) => ({ label, emoji: '🛏️' })),
+        ...(st.homeAirport ? [{ label: st.homeAirport, emoji: '🛫' }] : []),
+        ...st.bucketList.slice(0, 3).map((label) => ({ label, emoji: '✨' })),
+      ],
+      emoji: st.social === 'meet-everyone' ? '🍻' : '🧭', palette: ['#8E4DB8', '#E4577E'],
     });
   }
 

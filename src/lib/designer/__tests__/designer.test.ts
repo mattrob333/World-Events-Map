@@ -215,3 +215,13 @@ describe('moodboard imagery', () => {
     expect(new Set(images).size).toBe(images.length);
   });
 });
+
+describe('family nationality', () => {
+  it('treats "my wife is Brazilian" as a note, not a name', () => {
+    const profile = parseProfileLocally('My wife is Brazilian and we have two kids.');
+    const wife = profile.family.find((member) => member.relation === 'partner');
+    expect(wife).toMatchObject({ label: 'Wife', note: 'Brazilian' });
+    expect(wife?.name).toBeUndefined();
+    expect(profile.heritage).toContain('Brazil');
+  });
+});
