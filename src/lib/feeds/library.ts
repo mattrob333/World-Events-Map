@@ -1,6 +1,6 @@
 import 'server-only';
 
-import library from '../../../docs/research/source-library-2026-09-24.json';
+import library from '../../../docs/research/source-library-v2.json';
 
 /** A verified feed from the source library (docs/research). */
 export type LibrarySource = {
@@ -13,11 +13,13 @@ export type LibrarySource = {
   regions: string[];
   /** Forums and communities: a signal of buzz, never shown as items. */
   signalOnly: boolean;
+  /** General or local news: only stories that read as travel, food or events are kept. */
+  needsFilter: boolean;
 };
 
 type RawSource = {
   name?: unknown; feed_url?: unknown; site_url?: unknown; tier?: unknown; kind?: unknown;
-  beats?: unknown; trip_types?: unknown; region?: unknown; regions?: unknown; signal_only?: unknown;
+  beats?: unknown; trip_types?: unknown; region?: unknown; regions?: unknown; signal_only?: unknown; trust?: unknown; notes?: unknown;
 };
 
 // The first library tagged beats only; map them to trip types until every source carries its own.
@@ -32,7 +34,8 @@ const strings = (value: unknown): string[] => (Array.isArray(value) ? value.filt
 
 export function normalizeSource(raw: RawSource): LibrarySource | null {
   if (typeof raw.name !== 'string' || typeof raw.feed_url !== 'string' || !/^https?:\/\//.test(raw.feed_url)) return null;
-  const tier = raw.tier === 'A' || raw.tier === 'B' || raw.tier === 'C' ? raw.tier : 'C';
+  const grade = raw.trust ?? raw.tier;
+  const tier = grade === 'A' || grade === 'B' || grade === 'C' ? grade : 'C';
   const tripTypes = strings(raw.trip_types).length ? strings(raw.trip_types) : [...new Set(strings(raw.beats).flatMap((beat) => BEAT_TRIP_TYPES[beat] ?? []))];
   const regions = strings(raw.regions).length ? strings(raw.regions) : typeof raw.region === 'string' ? [raw.region] : ['global'];
   return {
@@ -44,6 +47,7 @@ export function normalizeSource(raw: RawSource): LibrarySource | null {
     tripTypes,
     regions,
     signalOnly: raw.signal_only === true,
+    needsFilter: typeof raw.notes === 'string' && /keyword filter/i.test(raw.notes),
   };
 }
 

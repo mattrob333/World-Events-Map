@@ -65,6 +65,9 @@ async function pool<T, R>(items: T[], size: number, work: (item: T) => Promise<R
 
 const TIER_RANK = { A: 0, B: 1, C: 2 } as const;
 
+/** For general-news feeds: a story must read as travel, food, going out or an event to be kept. */
+const TRAVELISH = /\b(travel\w*|trips?|touris\w*|destinations?|hotels?|resorts?|airlines?|flights?|airports?|beach\w*|ski\w*|surf\w*|restaurants?|chefs?|bars?|nightlife|clubs?|festivals?|concerts?|tours?|museums?|exhibitions?|galler(?:y|ies)|openings?|opens|vacations?|holidays?|cruises?|parks?|hik\w*|trails?|food|dining|menus?|carnival|marathon|grand prix|tournament)\b/i;
+
 /**
  * The daily intake. Deterministic code fetches, filters and caps; Jev screens
  * each new story once under feed-item@1; code picks the route. In shadow mode
@@ -88,6 +91,7 @@ export async function runFeedIntake(sources: LibrarySource[], deps: IntakeDeps):
     return entries
       .filter((entry): entry is FeedEntry & { publishedAt: string } => {
         if (!entry.publishedAt) return false;
+        if (source.needsFilter && !TRAVELISH.test(`${entry.title} ${entry.excerpt}`)) return false;
         const age = nowMs - Date.parse(entry.publishedAt);
         return age >= -60 * 60_000 && age <= MAX_AGE_HOURS * 3_600_000;
       })

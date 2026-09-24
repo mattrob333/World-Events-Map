@@ -8,7 +8,7 @@ vi.mock('server-only', () => ({}));
 
 const now = new Date('2026-09-24T12:00:00Z');
 const source = (name: string, tier: 'A' | 'B' | 'C' = 'A', signalOnly = false): LibrarySource => ({
-  name, feedUrl: `https://${name}.example/feed`, siteUrl: `https://${name}.example`, tier, kind: 'magazine', tripTypes: ['city'], regions: ['global'], signalOnly,
+  name, feedUrl: `https://${name}.example/feed`, siteUrl: `https://${name}.example`, tier, kind: 'magazine', tripTypes: ['city'], regions: ['global'], signalOnly, needsFilter: false,
 });
 const rss = (items: { title: string; url: string; hoursAgo: number }[]) =>
   `<rss><channel>${items.map((item) => `<item><title>${item.title}</title><link>${item.url}</link><pubDate>${new Date(now.getTime() - item.hoursAgo * 3_600_000).toUTCString()}</pubDate><description>About ${item.title}</description></item>`).join('')}</channel></rss>`;
@@ -86,5 +86,19 @@ describe('feed intake', () => {
     });
     expect(ask).toHaveBeenCalledTimes(JEV_PER_RUN);
     expect(result.counts.routes.unscored).toBe(120 - JEV_PER_RUN);
+  });
+
+  it('keeps only travel-ish stories from general-news feeds', async () => {
+    const feed = rss([
+      { title: 'City council budget vote', url: 'https://n.example/1', hoursAgo: 1 },
+      { title: 'New rooftop restaurant opens downtown', url: 'https://n.example/2', hoursAgo: 1 },
+    ]);
+    const result = await runFeedIntake([{ ...source('n'), needsFilter: true }], {
+      now,
+      fetchText: async () => feed,
+      ask: async () => ({ ok: false, failure: 'unconfigured', latencyMs: 0 }),
+      known: async () => new Set(),
+    });
+    expect(result.rows.map((row) => row.title)).toEqual(['New rooftop restaurant opens downtown']);
   });
 });

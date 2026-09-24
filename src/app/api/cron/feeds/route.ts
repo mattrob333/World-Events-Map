@@ -21,7 +21,7 @@ function authorized(header: string | null, secret: string): boolean {
 async function fetchText(url: string): Promise<string | null> {
   try {
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'dope.travel feed reader (+https://dope.travel)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dope.travel feed reader; +https://dope.travel)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9' },
       signal: AbortSignal.timeout(8000),
       cache: 'no-store',
     });
@@ -52,6 +52,7 @@ export async function GET(request: Request) {
   try {
     const result = await runFeedIntake(librarySources(), {
       now: new Date(),
+      concurrency: 16,
       fetchText,
       ask: (state) => askJev(state, feedItemQuestions),
       known: async (ids) => {
