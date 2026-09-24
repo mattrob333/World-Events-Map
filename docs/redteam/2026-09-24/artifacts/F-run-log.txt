@@ -1,0 +1,448 @@
+[2026-09-24T05:51:44.724Z] REQFAIL http://localhost:3127/circles?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:51:44.729Z] REQFAIL http://localhost:3127/account?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:51:44.757Z] REQFAIL http://localhost:3127/account?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T05:51:44.809Z] REQFAIL http://localhost:3127/circles?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T05:51:45.596Z] SHOT 01-moodboard-phone-first
+[2026-09-24T05:51:45.624Z] micLabel Tap the mic and just talk.
+[2026-09-24T05:51:45.628Z] mic disabled false
+[2026-09-24T05:51:47.192Z] micLabel after tap Microphone access was blocked. Allow it in the browser, or type instead.
+[2026-09-24T05:51:47.302Z] API POST /api/designer/profile 200
+[2026-09-24T05:51:47.371Z] API POST /api/designer/trip-ideas 200
+[2026-09-24T05:51:47.736Z] API POST /api/designer/persona 200
+[2026-09-24T05:51:49.969Z] SHOT 02-board-built-phone
+[2026-09-24T05:51:49.973Z] BOARD Your board
+Sorted on this device
+Mood imagery · not your photos
+
+travels with wife and 4 kids · into Atlanta Braves, Rock, Beaches, Baseball.
+
+YOU
+✦
+Your board
+
+travels with wife and 4 kids · into Atlanta Braves, Rock, Beaches, Baseball.
+
+THE CREW
+🫶
+Travels with 5
+👦
+Son
+12
+👦
+Son
+8
+🧒
+Kid
+🧒
+Kid
+💞
+Kelly
+Wife
+RIDE OR DIE
+⚾
+Atlanta Braves
+ON REPEAT
+🎸
+Rock
+Rock
+FAVORITE TRIPS
+✈️
+Nashville
+INTO
+🏝️
+Beaches
+Baseball
+ALWAYS ORDERING
+🔥
+BBQ
+Tacos
+
+TRAVELS WITH
+
+Son · 12
+Son · 8
+Kid
+Kid
+Kelly · Wife
+
+TEAMS
+
+Atlanta Braves
+×
+
+MUSIC
+
+Rock
+×
+
+FAVORITE TRIPS
+
+Nashville
+×
+
+INTO
+
+Beaches
+×
+Baseball
+×
+
+FOOD
+
+BBQ
+×
+Tacos
+×
+Your live-music playbook
+Read by Jev
+
+YOUR ROOM
+
+Bars, pubs & roadhouses with a band
+
+ENERGY
+
+Sings along, stays for the encore
+
+Cover bands
+56%
+Festivals
+31%
+Sing-alongs
+49%
+🎸
+Rock cover bands
+Because you listen to rock.
+Look for: Live-music bar · Pub with a stage · Roadhouse
+Going somewhere? Find your scene there
+Find live music
+Trips built around what you love
+
+Where Atlanta Braves line up in the same city, in the same few days, ideally during something special.
+
+Event feeds aren’t connected yet, so there are no trip ideas to rank. Nothing here is guessed.
+
+Save my board
+Plan a trip with this board →
+[2026-09-24T05:51:50.595Z] STORE {"state":{"profiles":[{"id":"mb-muf46ty4","profile":{"heritage":[],"teams":["Atlanta Braves"],"music":["Rock"],"events":[],"family":[{"relation":"child","label":"Son","age":12},{"relation":"child","label":"Son","age":8},{"relation":"child","label":"Kid"},{"relation":"child","label":"Kid"},{"relation":"partner","label":"Wife","name":"Kelly"}],"favoriteTrips":["Nashville"],"interests":["Beaches","Baseball"],"food":["BBQ","Tacos"],"summary":"travels with wife and 4 kids · into Atlanta Braves, Rock, Beaches, Baseball."},"engine":"on-device","updatedAt":"2026-09-24T05:51:50.044Z"}],"trip":null,"votes":{},"activeParticipant":null,"draftRamble":"I'm Matt, 44, from Atlanta. Die-hard Braves fan, we go to Truist Park a lot. Two boys, Jack is 12 and Sam is 8, and my wife Kelly. I love live rock, Foo Fighters, Pearl Jam, Tom Petty, and honestly a great cover band at a bar is my favorite night out. We loved a trip to Nashville a few years back for the honky tonks, and the beach at 30A. I'm into BBQ, craft beer and tacos. Kids are into baseball and roller coasters.","draftListening":null},"version":0}
+[2026-09-24T05:54:37.650Z] REQFAIL http://localhost:3127/circles?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T05:54:38.299Z] SPOTIFY initial ●
+Add your Spotify
+
+Your top artists, genres, the decades you love, and when you listen say a lot about your trip vibe. We use them to pace late nights, find shows by your artists, and spot tribute and cover bands.
+
+Got a favorites playlist? Paste it (optional)
+Connect Spotify
+Sign-in isn’t set up yet; paste a public playlist link instead.
+
+A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the owner has added can connect.
+[2026-09-24T05:54:38.313Z] connect disabled true
+[2026-09-24T05:54:38.756Z] SHOT 03-spotify-initial-phone
+[2026-09-24T05:54:39.167Z] API POST /api/designer/playlist 503
+[2026-09-24T05:54:39.167Z] CONSOLE error Failed to load resource: the server responded with a status of 503 (Service Unavailable)
+[2026-09-24T05:54:41.672Z] SPOTIFY after paste ●
+Add your Spotify
+
+Your top artists, genres, the decades you love, and when you listen say a lot about your trip vibe. We use them to pace late nights, find shows by your artists, and spot tribute and cover bands.
+
+Got a favorites playlist? Paste it (optional)
+Read this playlist
+
+Spotify isn’t hooked up on this app yet. For now, name your favorite artists and genres in your ramble above.
+
+A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the owner has added can connect.
+[2026-09-24T05:54:41.914Z] SHOT 04-spotify-paste-result-phone
+[2026-09-24T05:54:42.166Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:54:42.167Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:54:42.167Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:54:43.508Z] SPOTIFY liked ●
+Add your Spotify
+
+Your top artists, genres, the decades you love, and when you listen say a lot about your trip vibe. We use them to pace late nights, find shows by your artists, and spot tribute and cover bands.
+
+Got a favorites playlist? Paste it (optional)
+Read this playlist
+
+Spotify is not configured for this app yet.
+
+A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the owner has added can connect.
+[2026-09-24T05:54:43.530Z] SPOTIFY invalid ●
+Add your Spotify
+
+Your top artists, genres, the decades you love, and when you listen say a lot about your trip vibe. We use them to pace late nights, find shows by your artists, and spot tribute and cover bands.
+
+Got a favorites playlist? Paste it (optional)
+
+Paste a link from Share → Copy link to playlist, or type “liked” for your Liked Songs.
+
+Read this playlist
+
+Spotify is not configured for this app yet.
+
+A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the owner has added can connect.
+[2026-09-24T05:54:43.797Z] REQFAIL http://localhost:3127/account?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:54:43.805Z] REQFAIL http://localhost:3127/circles?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:54:44.379Z] after reload has board section 0 saved list 1
+[2026-09-24T05:54:44.382Z] SAVED BOARDS ON THIS DEVICE
+✦
+
+My board
+
+travels with wife and 4 kids · into Atlanta Braves, Rock, Beaches, Baseball.
+
+Open
+✕
+[2026-09-24T05:55:21.498Z] REQFAIL http://localhost:3127/destinations/augusta?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:55:21.499Z] REQFAIL http://localhost:3127/now?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:55:21.506Z] REQFAIL http://localhost:3127/trips?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:55:21.507Z] REQFAIL http://localhost:3127/destinations/monte-carlo?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:55:21.595Z] REQFAIL http://localhost:3127/trips?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T05:55:21.596Z] REQFAIL http://localhost:3127/destinations/monte-carlo?_rsc=JtJZLaZhjvFTOIzW net::ERR_ABORTED
+[2026-09-24T05:55:21.602Z] REQFAIL http://localhost:3127/destinations/las-vegas?_rsc=Sem0qEQ7A52lEuPY net::ERR_ABORTED
+[2026-09-24T05:55:21.602Z] REQFAIL http://localhost:3127/destinations/rio-de-janeiro?_rsc=YlpcOgrQNbojQZUJ net::ERR_ABORTED
+[2026-09-24T05:55:21.611Z] REQFAIL http://localhost:3127/destinations/hollywood?_rsc=oSpkwp18Th25y8gw net::ERR_ABORTED
+[2026-09-24T05:55:24.618Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:55:24.618Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:55:24.618Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:56:00.767Z] REQFAIL http://localhost:3127/circles?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T05:56:00.808Z] REQFAIL http://localhost:3127/account?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T05:56:01.509Z] API POST /api/designer/trip-ideas 200
+[2026-09-24T05:56:02.159Z] API POST /api/designer/persona 200
+[2026-09-24T05:56:02.161Z] SHOT 05-board-crew-phantom-kids-phone
+[2026-09-24T05:56:02.455Z] URL http://localhost:3127/trips/designer?with=mb-muf46ty4
+[2026-09-24T05:56:03.061Z] SHOT 06-designer-setup-top-phone
+[2026-09-24T05:56:03.416Z] SHOT 07-designer-setup-crew-phone
+[2026-09-24T05:56:03.433Z] SETUP crew text WHO’S GOING
+
+✨
+Mood board + party
+😎
+You
+×
+🌺
+Son (12) · kid
+×
+🏂
+Son (8) · kid
+×
+⚾
+Kid · kid
+×
+🎧
+Kid · kid
+×
+🦊
+Kelly
+×
+Add someone
+Age
+Adult
+Kid
++ Add
+[2026-09-24T05:56:03.442Z] hometown value 
+[2026-09-24T05:56:03.691Z] crew after edit WHO’S GOING
+
+✨
+Mood board + party
+😎
+You
+×
+🌺
+Son (12) · kid
+×
+🏂
+Son (8) · kid
+×
+⚾
+Kelly
+×
+Add someone
+Age
+Adult
+Kid
++ Add
+[2026-09-24T05:56:03.934Z] API POST /api/designer/scene 200
+[2026-09-24T05:56:03.970Z] canvas at ms 279
+[2026-09-24T05:56:04.124Z] panel early NASHVILLE, RIGHT NOW
+
+Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.
+
+Looking around Nashville…
+[2026-09-24T05:56:04.445Z] SHOT 08-research-loading-phone
+[2026-09-24T05:56:06.965Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:56:06.965Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:56:06.965Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:56:21.404Z] API POST /api/designer/research 200
+[2026-09-24T05:56:21.420Z] research req body {"name":"Nashville","region":"Tennessee","scene":"Rock cover bands","from":"ATL","to":"BNA","depart":"2026-10-09","nights":3}
+[2026-09-24T05:56:21.679Z] research tabs at ms 17988
+[2026-09-24T05:56:23.632Z] SHOT 09-research-first-tab-phone
+[2026-09-24T05:56:56.554Z] API POST /api/designer/scene 200
+[2026-09-24T05:56:56.737Z] REQFAIL http://localhost:3127/account?_rsc=A-ZQMeCcb65U0fJk net::ERR_ABORTED
+[2026-09-24T05:56:56.756Z] REQFAIL http://localhost:3127/circles?_rsc=A-ZQMeCcb65U0fJk net::ERR_ABORTED
+[2026-09-24T05:56:57.629Z] page scrollWidth [390,390]
+[2026-09-24T05:56:57.652Z] TABS ["Top spots\n10","Hidden gems\n8","Instagram\n10","TikTok\n8","Eat\n10","Nights out\n10","Tripadvisor\n10","Yelp\n10","Events","Flights\n4"]
+[2026-09-24T05:56:57.681Z] tablist overflow [985,326,"auto"]
+[2026-09-24T05:56:59.288Z] TAB Top spots imgs 10 broken/unloaded 8 alts ["The Parthenon, photo from its Google Maps listing","Country Music Hall of Fame and Museum, photo from its Google Maps listing","NashTrash Tours, photo from its Google Maps listing"]
+[2026-09-24T05:56:59.295Z] TABTEXT Top spots The Parthenon | ★ 4.6 (15.4K) · Tourist attraction | The Parthenon, 2500 West End Ave, Nashville, TN 37203 | GOOGLE MAPS ↗ | Country Music Hall of Fame and Museum | ★ 4.6 (20.5K) · Tourist attraction | Country Music Hall of Fame and Museum, 222 Rep. John Lewis Way S, Nashville, TN 37203 | GOOGLE MAPS ↗ | NashTrash Tours | ★ 4.8 (388) · Tourist attraction | NashTrash Tours, 900 Rosa L Parks Blvd, Nashville, TN 37208 | GOOGLE MAPS ↗ | Honky Tonk Highway | ★ 4.7 (7.8K) · Tourist attraction | Honky Tonk Highway, 501 Broadway, Nashville, TN 37203 | GOOGLE MAPS ↗ | Johnny Cash Museum | ★ 4.6 (11.4K) · Tourist attraction | Johnny Cash Museum, Lower Level, 119 3rd Ave S, Nashville, TN 37201 | GOOGLE MAPS ↗ | Nashville Zoo at Grassmere | ★ 4
+[2026-09-24T05:57:01.147Z] TAB Hidden gems imgs 8 broken/unloaded 6 alts ["Naked Farmer, photo from its Google Maps listing","NashTrash Tours, photo from its Google Maps listing","The Blue Room, photo from its Google Maps listing"]
+[2026-09-24T05:57:01.153Z] TABTEXT Hidden gems Naked Farmer | ★ 4.9 (690) · New American restaurant | Naked Farmer, 217 4th Ave N, Nashville, TN 37219 | GOOGLE MAPS ↗ | NashTrash Tours | ★ 4.8 (388) · Tourist attraction | NashTrash Tours, 900 Rosa L Parks Blvd, Nashville, TN 37208 | GOOGLE MAPS ↗ | The Blue Room | ★ 4.7 (153) · Bar | The Blue Room, 623 7th Ave S, Nashville, TN 37203 | GOOGLE MAPS ↗ | Lockeland Table | ★ 4.6 (1.4K) · American restaurant | Lockeland Table, 1520 Woodland St, Nashville, TN 37206 | GOOGLE MAPS ↗ | EXIT/IN | ★ 4.6 (1.4K) · Live music venue | EXIT/IN, 2208 Elliston Pl, Nashville, TN 37203 | GOOGLE MAPS ↗ | Belmont Mansion | ★ 4.6 (1.2K) · Tourist attraction | Belmont Mansion, Belmont Blvd. and, Acklen Ave, Nashville, TN 37212 | GOOGLE MAPS ↗ | Layla's Honky 
+[2026-09-24T05:57:01.496Z] SHOT 11-research-hidden-gems-phone
+[2026-09-24T05:57:03.118Z] TAB Instagram imgs 10 broken/unloaded 8 alts ["Instagram photo by @theunratedcollective","Instagram photo by @kensingtonunplugged","Instagram photo by @conekta.mediatv"]
+[2026-09-24T05:57:03.124Z] TABTEXT Instagram @theunratedcollective · 17 min ago | UNRATED ROLLERGROUND 001 🛼 NOVEMBER 5TH | 7:00 PM–10:30 PM RSVP ONLY UNRATED IS HOSTING ITS OFFICIAL LAUNCH EVENT. a night built around skating, music, movement & community. a love letter to skating and the people who make the scene what it is. come roll with us, bring your peop | INSTAGRAM · NASHVILLE, TENNESSEE ↗ | @kensingtonunplugged · 1 h ago | We've got another very special take over @bobbysidlehourtavern on music row! HUGE Thanks to @thec4band 🫶 DON'T MISS OUT! 🫴 Nashville, we're back! 🤠 @samhudsonmusic and @officiallyangelina had such an amazing time playing at Bobby's a few months back that they had to return—and | INSTAGRAM · MUSIC ROW ↗ | @conekta.medi
+[2026-09-24T05:57:03.616Z] SHOT 12-research-instagram-phone
+[2026-09-24T05:57:05.354Z] TAB TikTok imgs 8 broken/unloaded 6 alts ["TikTok video cover by @datos_curiosos_usa","TikTok video cover by @travelhoppertv","TikTok video cover by @___michelle16___"]
+[2026-09-24T05:57:05.360Z] TABTEXT TikTok @datos_curiosos_usa · 16 days ago · 27.5K views | ¡1 día en Nashville Tennessee! Una ciudad de música, oportunidades y sorpresas. ¡Ven y vive la experiencia! #Nashville #MusicCity #Viajes #turismo #Oportunidades | TIKTOK · NASHVILLE ↗ | @travelhoppertv · 7 days ago · 590 views | Walking through the after-hours madness on Broadway 🚶‍♂️✨ #NashvilleTN #MusicCity #BroadwayNashville #LowerBroadway #NashvilleNightlife #TennesseeVibes | TIKTOK · NASHVILLE ↗ | @___michelle16___ · 18 days ago · 119.6K views | staying at my dream hotel in Nashville 🎀💗 a king room tour at The Graduate Nashville ✨ #GraduateNashville #NashvilleHotel #NashvilleTN #HotelTour #NashvilleTravel | TIKTOK · NASHVILLE ↗ | @travelwithlatanyac ·
+[2026-09-24T05:57:05.827Z] SHOT 13-research-tiktok-phone
+[2026-09-24T05:57:07.460Z] TAB Eat imgs 10 broken/unloaded 8 alts ["The Finch, photo from its Google Maps listing","Naked Farmer, photo from its Google Maps listing","Harper's, photo from its Google Maps listing"]
+[2026-09-24T05:57:07.465Z] TABTEXT Eat The Finch | ★ 4.9 (7.5K) · American restaurant | The Finch, 111 10th Ave S #310, Nashville, TN 37203 | GOOGLE MAPS ↗ | Naked Farmer | ★ 4.9 (690) · New American restaurant | Naked Farmer, 217 4th Ave N, Nashville, TN 37219 | GOOGLE MAPS ↗ | Harper's | ★ 4.8 (3.7K) · Steak house | Harper's, 2 Lea Ave, Nashville, TN 37210 | GOOGLE MAPS ↗ | The Hampton Social - Nashville | ★ 4.9 (22K) · American restaurant | The Hampton Social - Nashville, 201 1st Ave S, Nashville, TN 37201 | GOOGLE MAPS ↗ | Lockeland Table | ★ 4.6 (1.4K) · American restaurant | Lockeland Table, 1520 Woodland St, Nashville, TN 37206 | GOOGLE MAPS ↗ | 1 Kitchen | ★ 4.6 (476) · Restaurant | 1 Kitchen, 710 Demonbreun St, Nashville, TN 37203 | GOOGLE MAPS ↗ | The Stillery | ★ 4.6 
+[2026-09-24T05:57:09.095Z] TAB Nights out imgs 10 broken/unloaded 8 alts ["Legends Corner, photo from its Google Maps listing","The End, photo from its Google Maps listing","Tin Roof, photo from its Google Maps listing"]
+[2026-09-24T05:57:09.100Z] TABTEXT Nights out Legends Corner | ★ 4.6 (2.2K) · Live music bar | Legends Corner, 428 Broadway, Nashville, TN 37203 | GOOGLE MAPS ↗ | The End | ★ 4.4 (581) · Bar | The End, 2219 Elliston Pl, Nashville, TN 37203 | GOOGLE MAPS ↗ | Tin Roof | ★ 4.5 (3.1K) · Live music bar | Tin Roof, 316 Broadway, Nashville, TN 37201 | GOOGLE MAPS ↗ | EXIT/IN | ★ 4.6 (1.4K) · Live music venue | EXIT/IN, 2208 Elliston Pl, Nashville, TN 37203 | GOOGLE MAPS ↗ | Losers Bar & Grill | ★ 4.1 (1.7K) · Live music bar | Losers Bar & Grill, 1911 Division St, Nashville, TN 37203 | GOOGLE MAPS ↗ | Chief's on Broadway | ★ 4.4 (1.4K) · Live music bar | Chief's on Broadway, 200 Broadway, Nashville, TN 37201 | GOOGLE MAPS ↗ | The Blue Room | ★ 4.7 (153) · Bar | The Blue Room, 623 7th Ave S, Nash
+[2026-09-24T05:57:10.785Z] TAB Tripadvisor imgs 10 broken/unloaded 8 alts ["Nashville Parthenon, photo from its Tripadvisor listing","Tennessee State Museum, photo from its Tripadvisor listing","Belle Meade Historic Site & Winery, photo from its Tripadvisor listing"]
+[2026-09-24T05:57:10.791Z] TABTEXT Tripadvisor Nashville Parthenon | ★ 4.3 (5K) | TRIPADVISOR ↗ | Tennessee State Museum | ★ 4.5 (1K) | “Pretty extensive coverage of the history of Nashville and Tennessee.” | TRIPADVISOR ↗ | Belle Meade Historic Site & Winery | ★ 4.6 (8.4K) | “In 2009, Belle Meade opened Nashville's first winery featuring Tennessee” | TRIPADVISOR ↗ | Nelson's Green Brier Distillery | ★ 4.8 (2K) | “whiskey, we thought we should try Tennessee Whiskey whilst in Nashville.” | TRIPADVISOR ↗ | Centennial Park | ★ 4.4 (2.2K) | “How special is Centennial Park in Nashville, Tennessee?” | TRIPADVISOR ↗ | Bicentennial Capitol Mall State Park | ★ 4.6 (977) | “Tennessee State Museum and the Tennessee State Library and Archives.” | TRIPADVISOR ↗ | Tennessee Aquarium | ★ 4.6 (7.2K) | 
+[2026-09-24T05:57:11.222Z] SHOT 16-research-tripadvisor-phone
+[2026-09-24T05:57:12.851Z] TAB Yelp imgs 10 broken/unloaded 8 alts ["The Butter Milk Ranch, photo from its Yelp listing","The Finch, photo from its Yelp listing","The Twelve Thirty Club, photo from its Yelp listing"]
+[2026-09-24T05:57:12.859Z] TABTEXT Yelp The Butter Milk Ranch | ★ 4.5 (1.5K) · $$ · Breakfast & Brunch · Bakeries | “Was in a party of 4 and was seated within 1 hour of joining the queue. Food was amazing, and our waitress was extremely polite and helpful when we…” | YELP ↗ | The Finch | ★ 4.4 (519) · American | “We were looking for a dinner spot within walking distance of our hotel. I was able to easily make reservations using open table. The Finch does have a…” | YELP ↗ | The Twelve Thirty Club | ★ 4.3 (1.5K) · Cocktail Bars · American | “Love this place, feels like a step up from the rest of Broadway and we always have fun here. The honky tonk downstairs was super fun and our…” | YELP ↗ | The Stillery | ★ 4.4 (3.9K) · $$ · New American · Bars | “This plac
+[2026-09-24T05:57:14.479Z] TAB Events imgs 0 broken/unloaded 0 alts []
+[2026-09-24T05:57:14.486Z] TABTEXT Events The events feed is down on the provider’s side right now. | From Google Events. Listings and ratings are theirs; check hours and bookings with each place.
+[2026-09-24T05:57:14.671Z] SHOT 18-research-events-phone
+[2026-09-24T05:57:14.700Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:14.702Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:14.702Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:16.297Z] TAB Flights imgs 0 broken/unloaded 0 alts []
+[2026-09-24T05:57:16.304Z] TABTEXT Flights $308 | Frontier | ATL → BNA · 1 stop · 6h 23m | Departs 2026-10-09 at 10:11 | $347 | Southwest | ATL → BNA · nonstop · 1h 10m | Departs 2026-10-09 at 07:10 | $347 | Southwest | ATL → BNA · nonstop · 1h 05m | Departs 2026-10-09 at 13:05 | $347 | Southwest | ATL → BNA · nonstop · 1h 10m | Departs 2026-10-09 at 21:15 | ATL ⇄ BNA, 2026-10-09 to 2026-10-12. Typical for this route: $130–$240. Round trip, one adult, economy, from Google Flights, fetched 1 min ago. Fares move fast; confirm before you book.
+[2026-09-24T05:57:16.528Z] SHOT 19-research-flights-phone
+[2026-09-24T05:57:16.539Z] strip [318,318,"visible"]
+[2026-09-24T05:57:48.162Z] API POST /api/designer/scene 200
+[2026-09-24T05:57:49.452Z] SHOT 20-canvas-hero-phone
+[2026-09-24T05:57:49.458Z] DAY1 DAY 1 · FRI, OCT 9 | 🧳 🍕 Land and settle into Nashville | Land and settle into Nashville → Family dinner, zero stress | 🚗 | Leave home | Early | Swipe ♥ | Leave Atlanta, Georgia (ATL) for the airport. | 🚗 | IDEA | THE PICK | Car to the airport | Leave early. Snacks in the back seat. | 👍 | 👎 | Move Car to the airport to another time slot | Move to… | Day 1 · The flight | Day 1 · Arrival & transfer | Day 1 · Dinner | Day 2 · Morning | Day 2 · Lunch | Day 2 · Afternoon | Day 2 · Après | Day 2 · Dinner | Day 2 · Late night | Day 3 · Morning | Day 3 · Lunch | Day 3 · Afternoon | Day 3 · Après | Day 3 · Dinner | Day 3 · Late night | Day 4 · Morning | Day 4 · Lunch | Day 4 · Head to the airport | Day 4 · Fly home | 🛋️ | IDEA | Airport lounge warm-up | Breakfast, charge everything, the trip starts here. | 👍 | 👎 | ★ | Move Airport lounge warm-up to another time slot | Move to… | Day 1 · The flight | Day 1 · Arrival & transfer | Day 1 · Dinner | Day 2 · Morning | Day 2 · Lunch | Day 2 · Afternoon | Day 2 · Après | Day 2 · Dinner | Day 2 · Late night | Day 3 · Morning | Day 3 · Lunch | Day 3 · Afternoon | Day 3 · Après | Day 3 · Dinner | Day 3 · Late night | Day 4 · Morning | Day 4 · Lunch | Day 4 · Head to the airport | Day 4 · Fly home | ✈️ | The flight | Travel | Swipe ♥ | ATL → Nashville. Route idea, not a fare. | 🛫 | IDEA | THE PICK | Daytime flight | Window seats and a downloaded playlist. | 👍 | 👎 | Move Daytime flight to another time slot | Move to… | Day 1 · Leave home | Day 1 · Arrival & transfer | Day 1 · Dinner | Day 2 · Morning | Day 2 · Lunch | Day 2 · Afternoon | Day 2 · Après | Day 2 · Dinner | Day 2 · Late night | Day
+[2026-09-24T05:57:49.471Z] DAY1 links ["Search Maps ↗ -> https://www.google.com/maps/search/?api=1&query=Nashville%20Tennessee%20airport%20to%20city%20center","Watch on YouTube ↗ -> https://www.youtube.com/results?search_query=Nashville%20Tennessee%20travel%20guide","More ▶ -> https://www.youtube.com/results?search_query=Nashville%20restaurants","Search Maps ↗ -> https://www.google.com/maps/search/?api=1&query=family%20friendly%20restaurant%20Nashville%20Tennessee","Search Maps ↗ -> https://www.google.com/maps/search/?api=1&query=best%20BBQ%20Nashville%20Tennessee","Search Maps ↗ -> https://www.google.com/maps/search/?api=1&query=best%20Tacos%20Nashville%20Tennessee","Search Maps ↗ -> https://www.google.com/maps/search/?api=1&query=best%20restaurants%20Nashville%20Tennessee"]
+[2026-09-24T05:57:49.478Z] foot before From Google Maps, fetched 2 min ago. Listings and ratings are theirs; check hours and bookings with each place.
+[2026-09-24T05:57:49.700Z] API POST /api/designer/research 200
+[2026-09-24T05:57:49.861Z] refresh label during Refresh
+[2026-09-24T05:57:49.871Z] refresh done ms 371
+[2026-09-24T05:57:49.875Z] foot after From Google Maps, fetched 2 min ago. Listings and ratings are theirs; check hours and bookings with each place.
+[2026-09-24T05:57:49.893Z] love buttons 74
+[2026-09-24T05:57:51.269Z] SHOT 21-swipe-deck-phone
+[2026-09-24T05:57:51.275Z] DECK 😎Swiping as You · Leave home, day 1 | Done | 🚗 | LOVE IT | PASS | IDEA | Car to the airport | Leave early. Snacks in the back seat. | 1 of 2 · swipe right to love, left to pass | ✕ | ★ | ♥
+[2026-09-24T05:57:52.416Z] DECK after 😎Swiping as You · Leave home, day 1 | Done | 🎉 | That’s every option. | Pass the phone. Who’s next? | 🌺 | Son (12) | 🏂 | Son (8) | ⚾ | Kelly | 2 of 2
+[2026-09-24T05:57:52.708Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:52.708Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:52.708Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:57:52.830Z] SHOT 22-stays-phone
+[2026-09-24T05:57:52.854Z] STAYS WHERE YOU’LL STAY | 2 adults, 2 kids · 3 nights from 2026-10-09. Each opens that site’s live search with your dates and party filled in. | Airbnb ↗ | Homes with 2+ bedrooms | Vrbo ↗ | Whole houses for the crew | Booking.com ↗ | Hotels, free cancellation filters | Search links, not listings: prices and availability are on each site. Check guest counts and kids’ ages there before you book.
+[2026-09-24T05:57:52.863Z] STAYS hrefs ["https://www.airbnb.com/s/Nashville%2C%20Tennessee/homes?checkin=2026-10-09&checkout=2026-10-12&adults=2&children=2&min_bedrooms=2","https://www.vrbo.com/search?destination=Nashville%2C+Tennessee&startDate=2026-10-09&endDate=2026-10-12&adults=2&children=1_12%2C1_8&minBedrooms=2","https://www.booking.com/searchresults.html?ss=Nashville%2C+Tennessee&checkin=2026-10-09&checkout=2026-10-12&group_adults=2&group_children=2&no_rooms=1&age=12&age=8"]
+[2026-09-24T05:57:54.426Z] SHOT 23-invite-phone
+[2026-09-24T05:57:54.431Z] INVITE BRING THE CREW | The whole trip travels inside the link, so there’s no sign-up. Friends vote on their own phone and send their picks back with one tap. | Invite people | Link copied. Paste it in the group chat. | Anyone with the link can see the plan and who’s going (names, kids’ ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.
+[2026-09-24T05:57:54.436Z] LINK length 3240
+[2026-09-24T05:58:28.549Z] REQFAIL http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T05:58:28.596Z] REQFAIL http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T05:58:29.251Z] dave JOIN SHARED TRIP | You’re invited. Nashville. | Fri, Oct 9 → Mon, Oct 12 · 3 nights. Say who you are, tap ♥ on what you’re into, and send your picks back. No sign-up: the trip came inside the link. | WHO ARE YOU? | 😎 | You | 🌺 | Son (12) | 🏂 | Son (8) | ⚾ | Kelly | Not on the list? Add yourself | Join and vote →
+[2026-09-24T05:58:29.459Z] SHOT 24-join-guest-phone
+[2026-09-24T05:58:29.589Z] REQFAIL http://localhost:3127/trips/designer?_rsc=zhHF9EnB-jf2DkAA net::ERR_ABORTED
+[2026-09-24T05:58:29.794Z] API POST /api/designer/research 429
+[2026-09-24T05:58:29.795Z] dave research req {"name":"Nashville","region":"Tennessee","from":"ATL","to":"BNA","depart":"2026-10-09","nights":3}
+[2026-09-24T05:58:29.795Z] CONSOLE error Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-09-24T05:58:32.841Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/1knu4wsx-9t5j.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:58:32.842Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3_5vx6ts_3ici.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:58:32.842Z] CONSOLE warning The resource http://localhost:3127/_next/static/chunks/3kv5z4h16rvs5.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+[2026-09-24T05:59:29.662Z] dave no tabs TimeoutError: page.waitForSelector: Timeout 60000ms exceeded.
+Call log:
+[2m  - 
+[2026-09-24T05:59:29.662Z] dave research ready ms 60169
+[2026-09-24T06:00:17.574Z] REQFAIL http://localhost:3127/account?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED
+[2026-09-24T06:00:17.578Z] REQFAIL http://localhost:3127/circles?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED
+[2026-09-24T06:00:17.614Z] REQFAIL http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:17.633Z] REQFAIL http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:18.245Z] dave JOIN SHARED TRIP | You’re invited. Nashville. | Fri, Oct 9 → Mon, Oct 12 · 3 nights. Say who you are, tap ♥ on what you’re into, and send your picks back. No sign-up: the trip came inside the link. | WHO ARE YOU? | 😎 | You | 🌺 | Son (12) | 🏂 | Son (8) | ⚾ | Kelly | Not on the list? Add yourself | Join and vote →
+[2026-09-24T06:00:18.435Z] SHOT 24-join-guest-phone
+[2026-09-24T06:00:18.728Z] API POST /api/designer/research 429
+[2026-09-24T06:00:18.728Z] dave research req {"name":"Nashville","region":"Tennessee","from":"ATL","to":"BNA","depart":"2026-10-09","nights":3}
+[2026-09-24T06:00:18.730Z] CONSOLE error Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-09-24T06:00:18.786Z] dave research settled ms 337
+[2026-09-24T06:00:18.833Z] dave PANEL NASHVILLE, RIGHT NOW | Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source. | Research just ran a few times. Give it ten minutes. The idea cards above still work.
+[2026-09-24T06:00:19.200Z] SHOT 26-guest-research-panel-phone
+[2026-09-24T06:00:19.205Z] dave hero TENNESSEE · FRI, OCT 9 → MON, OCT 12 · 3 NIGHTS | Nashville | Streets to wander, tables to find, nights to remember. | 15 days | UNTIL WHEELS UP | Drafted on this device | 1 loves so far
+[2026-09-24T06:00:19.225Z] dave voter aria sample Dave loves Car to the airport
+[2026-09-24T06:00:19.482Z] dave INVITE YOU’RE ON THIS TRIP | Vote as Dave, then send your picks back. They merge into the organizer’s plan. | Send my picks back | Share the trip | Anyone with the link can see the plan and who’s going (names, kids’ ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.
+[2026-09-24T06:00:20.710Z] SHOT 25-guest-send-picks-phone
+[2026-09-24T06:00:20.716Z] dave reply len 242
+[2026-09-24T06:00:21.119Z] REQFAIL http://localhost:3127/account?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED
+[2026-09-24T06:00:21.155Z] REQFAIL http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:21.159Z] REQFAIL http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:21.776Z] youtrap JOIN SHARED TRIP | You’re invited. Nashville. | Fri, Oct 9 → Mon, Oct 12 · 3 nights. Say who you are, tap ♥ on what you’re into, and send your picks back. No sign-up: the trip came inside the link. | WHO ARE YOU? | 😎 | You | 🌺 | Son (12) | 🏂 | Son (8) | ⚾ | Kelly | Not on the list? Add yourself | Join and vote →
+[2026-09-24T06:00:22.088Z] API POST /api/designer/research 429
+[2026-09-24T06:00:22.088Z] youtrap research req {"name":"Nashville","region":"Tennessee","from":"ATL","to":"BNA","depart":"2026-10-09","nights":3}
+[2026-09-24T06:00:22.088Z] CONSOLE error Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-09-24T06:00:22.154Z] youtrap research settled ms 322
+[2026-09-24T06:00:22.201Z] youtrap PANEL NASHVILLE, RIGHT NOW | Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source. | Research just ran a few times. Give it ten minutes. The idea cards above still work.
+[2026-09-24T06:00:22.207Z] youtrap hero TENNESSEE · FRI, OCT 9 → MON, OCT 12 · 3 NIGHTS | Nashville | Streets to wander, tables to find, nights to remember. | 15 days | UNTIL WHEELS UP | Drafted on this device | 1 loves so far
+[2026-09-24T06:00:22.228Z] youtrap voter aria sample You loves Car to the airport
+[2026-09-24T06:00:22.549Z] youtrap INVITE YOU’RE ON THIS TRIP | Vote as You, then send your picks back. They merge into the organizer’s plan. | Send my picks back | Share the trip | Anyone with the link can see the plan and who’s going (names, kids’ ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.
+[2026-09-24T06:00:23.615Z] youtrap reply len 292
+[2026-09-24T06:00:38.082Z] API POST /api/designer/scene 200
+[2026-09-24T06:00:38.887Z] matt votes start {"d0-depart":{"any:car-to-airport":{"p0":1},"any:lounge":{"p0":-1}}}
+[2026-09-24T06:00:39.008Z] matt new vote on You loves Nashville with kids
+[2026-09-24T06:00:39.130Z] matt votes after own vote {"d0-depart":{"any:car-to-airport":{"p0":1},"any:lounge":{"p0":-1}},"d1-morning":{"custom:8":{"p0":1}}}
+[2026-09-24T06:00:39.336Z] REQFAIL http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:39.905Z] dave MERGE page SHARED TRIP | Dave sent their picks. 2 votes. | Add them to your trip. If they voted before, their new picks replace the old ones. | Add their picks
+[2026-09-24T06:00:40.000Z] REQFAIL http://localhost:3127/trips/designer?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:00:40.482Z] dave MERGE result SHARED TRIP | Dave sent their picks. 2 votes. | Add them to your trip. If they voted before, their new picks replace the old ones. | See the group’s faves → | Dave’s 2 picks are in, and they’re on the trip now.
+[2026-09-24T06:00:40.484Z] dave votes after merge {"d0-depart":{"any:car-to-airport":{"p0":1},"any:lounge":{"p0":-1}},"d1-morning":{"custom:8":{"p0":1}},"d0-flight":{"any:day-flight":{"g-muf4hqa9":1},"any:overnight-flight":{"g-muf4hqa9":1}}}
+[2026-09-24T06:00:40.532Z] youtrap MERGE page SHARED TRIP | You sent their picks. 4 votes. | Add them to your trip. If they voted before, their new picks replace the old ones. | Add their picks
+[2026-09-24T06:00:40.707Z] SHOT 27-merge-you-sent-their-picks-phone
+[2026-09-24T06:00:41.288Z] youtrap MERGE result SHARED TRIP | You sent their picks. 4 votes. | Add them to your trip. If they voted before, their new picks replace the old ones. | See the group’s faves → | You’s 4 picks are in.
+[2026-09-24T06:00:41.290Z] youtrap votes after merge {"d0-depart":{"any:car-to-airport":{"p0":1},"any:lounge":{"p0":-1}},"d1-morning":{"custom:8":{}},"d0-flight":{"any:day-flight":{"g-muf4hqa9":1,"p0":1},"any:overnight-flight":{"g-muf4hqa9":1,"p0":1}}}
+[2026-09-24T06:00:41.528Z] API POST /api/designer/scene 200
+[2026-09-24T06:00:41.629Z] REQFAIL http://localhost:3127/circles?_rsc=A-ZQMeCcb65U0fJk net::ERR_ABORTED
+[2026-09-24T06:00:42.174Z] participants Voting as
+😎
+You
+🌺
+Son (12)
+🏂
+Son (8)
+⚾
+Kelly
+🎧
+Dave
+Curated
+Group faves
+All
+Loved
+You: to vote
+New trip
+[2026-09-24T06:00:57.997Z] API POST /api/designer/scene 200
+[2026-09-24T06:00:58.356Z] REQFAIL http://localhost:3127/trips?_rsc=A-ZQMeCcb65U0fJk net::ERR_ABORTED
+[2026-09-24T06:00:59.412Z] SHOT 30-canvas-desktop
+[2026-09-24T06:00:59.666Z] SHOT 31-research-desktop
+[2026-09-24T06:00:59.701Z] DAY 0 🧳 🍕 Land and settle into Nashville ["Leave home","The flight","Arrival & transfer","Dinner"] ["Car to the airport, the current pick","Airport lounge warm-up","Daytime flight, the current pick","Overnight flight","Land and settle into Nashville, the current pick","Nashville, the vibe check","Family dinner, zero stress, the current pick","Room-service movie night","BBQ in Nashville","Tacos in Nashville","The dinner in Nashville"]
+[2026-09-24T06:00:59.720Z] DAY 1 🧒 🧺 Nashville with kids ["Morning","Lunch","Afternoon","Après","Dinner","Late night"] ["Nashville with kids, the current pick","The sights worth it in Nashville","Nashville’s food market","Slow morning / rest block","Walk Nashville’s best neighborhoods","Nashville’s food market, the current pick","BBQ in Nashville","Tacos in Nashville","Lunch where locals go","The sights worth it in Nashville, the current pick","Nashville with kids","Slow morning / rest block","Nashville, the vibe check","What to do in Nashville","Spa hour","Rooftop at golden hour, the current pick","Spa hour","BBQ in Nashville, the current pick","Family dinner, zero stress","Room-service movie night","Tacos in Nashville","The dinner in Nashville","Cocktails in Nashville, the current pick","Early night","Rock cover bands in Nashville"]
+[2026-09-24T06:00:59.738Z] DAY 2 ☕ 🍽️ Walk Nashville’s best neighborhoods ["Morning","Lunch","Afternoon","Après","Dinner","Late night"] ["Walk Nashville’s best neighborhoods, the current pick","Nashville with kids","The sights worth it in Nashville","Nashville’s food market","Slow morning / rest block","Tacos in Nashville, the current pick","Nashville’s food market","BBQ in Nashville","Lunch where locals go","Nashville, the vibe check, the current pick","Nashville with kids","The sights worth it in Nashville","Slow morning / rest block","What to do in Nashville","Spa hour","Spa hour, the current pick","Rooftop at golden hour","The dinner in Nashville, the current pick","Family dinner, zero stress","Room-service movie night","BBQ in Nashville","Tacos in Nashville","Rock cover bands in Nashville, the current pick","Early night","Cocktails in Nashville"]
+[2026-09-24T06:00:59.761Z] DAY 3 🧒 🥘 Nashville with kids ["Morning","Lunch","Head to the airport","Fly home"] ["Nashville with kids, the current pick","The sights worth it in Nashville","Nashville’s food market","Slow morning / rest block","Walk Nashville’s best neighborhoods","Lunch where locals go, the current pick","Nashville’s food market","BBQ in Nashville","Tacos in Nashville","Car to the airport, the current pick","Airport lounge warm-up","Daytime flight, the current pick","Overnight flight"]
+[2026-09-24T06:01:00.531Z] REQFAIL http://localhost:3127/destinations/neiafu?event=tonga-humpback-swim&_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:00.544Z] REQFAIL http://localhost:3127/account?_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:00.544Z] REQFAIL http://localhost:3127/destinations/masai-mara?event=mara-river-crossing&_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:00.574Z] REQFAIL http://localhost:3127/circles?_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:00.606Z] REQFAIL http://localhost:3127/destinations/neiafu?event=tonga-humpback-swim&_rsc=5E4ho_kxxoPOKNr6 net::ERR_ABORTED
+[2026-09-24T06:01:00.608Z] REQFAIL http://localhost:3127/destinations/masai-mara?event=mara-river-crossing&_rsc=btyG4exvbuYQtkmj net::ERR_ABORTED
+[2026-09-24T06:01:00.674Z] REQFAIL http://localhost:3127/destinations/baa-atoll?event=hanifaru-manta-aggregation&_rsc=wkQd9w9Jnc63P0tB net::ERR_ABORTED
+[2026-09-24T06:01:00.711Z] REQFAIL http://localhost:3127/destinations/masai-mara?_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:00.712Z] REQFAIL http://localhost:3127/destinations/neiafu?_rsc=aJqVvOspcY5w4CC1 net::ERR_ABORTED
+[2026-09-24T06:01:03.102Z] SHOT 32-now-phone-top
+[2026-09-24T06:01:03.143Z] NOW main NOW · LOCAL DECISION ENGINE | Where should we go right now? | Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory. | MORNING · FOR YOU | Where are you right now? | City | Show me | NOW · NOT CONNECTED YET | NOW can't pick venues tonight. | Live nearby venue search is awaiting its provider, so there are no recommendations to show. Your location is not requested. Here is what the curated calendar can still offer. | ON TODAY | Mara River Crossings · Masai Mara ↗ | Vava’u Humpback Season · Neiafu ↗ | Hanifaru Bay Manta Aggregation · Baa Atoll ↗ | ALREADY SOMEWHERE? OPEN ITS GUIDE | Choose a destination | Aachen | Abisko | Abu Dhabi | Adare | Aix-en-Provence | Alba | Altaussee | Ascot | Aspen | Augusta | Baa Atoll | Bangkok | Basel | Bayreuth | Beaune | Berlin | Black Rock City | Boom | Boulder | Brescia | Bridgetown | Buenos Aires | Buhoma | Buñol | Busan | Cannes | Cap d'Antibes | Cernobbio | Chichester | Chief’s Island | Copenhagen | Courchevel | Cowes | Cusco | Doha | Dubai | Eindhoven | El Albir | English Harbour | Épernay | Falmouth Harbour | Fort Lauderdale | Frisco | Galway
+[2026-09-24T06:01:03.335Z] API POST /api/designer/scene 200
+[2026-09-24T06:01:06.123Z] SHOT 33-now-for-you-nashville-phone
+[2026-09-24T06:01:06.128Z] FORYOU MORNING · FOR YOU | Right now in Nashville | City | Show me | ☕ | Walk Nashville’s best neighborhoods ↗ | Coffee in hand, no plan, the good streets. | 🏛️ | The sights worth it in Nashville ↗ | The famous ones that actually earn it. | 🧺 | Nashville’s food market ↗ | Graze, people-watch, eat standing up. | 🧒 | Nashville with kids ↗ | Parks, pools, and things they’ll talk about. | Each idea opens a live Maps search near Nashville, shaped by your board. Check it’s open before you go. | Live music tonight in Nashville | 🎸 | Rock cover bands | Because you listen to rock. | Look for: Live-music bar · Pub with a stage · Roadhouse | IN NASHVILLE ON YOUR DATES | Event feeds not connected | 🎸 Rock cover band bar in Nashville ↗
+[2026-09-24T06:01:06.141Z] FORYOU links ["https://www.google.com/maps/search/?api=1&query=best%20neighborhoods%20to%20walk%20Nashville","https://www.google.com/maps/search/?api=1&query=top%20attractions%20Nashville","https://www.google.com/maps/search/?api=1&query=food%20market%20Nashville","https://www.google.com/maps/search/?api=1&query=things%20to%20do%20with%20kids%20Nashville","https://www.google.com/maps/search/?api=1&query=rock%20cover%20band%20bar%20Nashville"]
+[2026-09-24T06:02:55.886Z] REQFAIL http://localhost:3127/circles?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T06:02:55.894Z] REQFAIL http://localhost:3127/trips?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T06:02:55.921Z] REQFAIL http://localhost:3127/account?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED
+[2026-09-24T06:02:56.015Z] REQFAIL http://localhost:3127/now?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T06:02:56.028Z] REQFAIL http://localhost:3127/account?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED
+[2026-09-24T06:02:56.644Z] API POST /api/designer/trip-ideas 200
+[2026-09-24T06:02:56.871Z] SHOT 34-board-desktop
+[2026-09-24T06:02:56.874Z] desk scrollWidth [1440,1440]
+[2026-09-24T06:02:56.942Z] API POST /api/designer/persona 200
+[2026-09-24T06:02:57.254Z] REQFAIL http://localhost:3127/circles?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED
+[2026-09-24T06:02:57.381Z] REQFAIL http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED
+[2026-09-24T06:02:58.129Z] SHOT 35-join-desktop
