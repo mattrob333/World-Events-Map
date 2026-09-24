@@ -105,7 +105,7 @@ export function DensityRibbon({
     // Colours come from the same custom properties the DOM uses. Nothing here
     // knows a hex value.
     const ramp = HEAT_LEVELS.map((h: HeatLevel) =>
-      readCssVar(HEAT_CSS_VAR[h], '#d4508a'),
+      readCssVar(HEAT_CSS_VAR[h], '#4fa3c7'),
     );
     const inkFaint = readCssVar('--color-ink-faint', '#6b6a63');
 
@@ -128,7 +128,7 @@ export function DensityRibbon({
         const h = Math.max(1.5, Math.pow(t / max, 0.62) * usable);
         const x = xForColumn(geometry, i);
         const y = height - h;
-        const colour = ramp[heats[i] ?? 0] ?? ramp[0] ?? '#d4508a';
+        const colour = ramp[heats[i] ?? 0] ?? ramp[0] ?? '#4fa3c7';
 
         ctx.fillStyle = colour;
         ctx.globalAlpha = 0.42;

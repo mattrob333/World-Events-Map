@@ -100,8 +100,8 @@
   border-radius: 24px;
 }
 
-.tileDark { background: #16110d; border: 1px solid #ffffff12; }
-.tileLight { background: #f4ecdd; }
+.tileDark { background: #0b0e18; border: 1px solid #ffffff12; }
+.tileLight { background: #f4f1ea; }
 
 .tileDark img,
 .tileLight img { width: 100%; max-width: 360px; height: auto; }
@@ -114,7 +114,7 @@
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7a6f60;
+  color: #6b6a63;
 }
 
 .golden {

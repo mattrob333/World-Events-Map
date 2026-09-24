@@ -3,51 +3,58 @@
 /**
  * dope.travel design tokens.
  *
- * Premium first, with a wink. Warm near-black and bone carry the page; the
- * "golden hour" (saffron → tangerine → flamingo → dusk violet) is the one
- * flourish, used for the sun mark, active states, and moments of hype. It is
- * a hint of 70s poster psychedelia, never a tie-dye.
- *   1. Surfaces are warm near-black and translucent. Never grey, never opaque.
- *   2. Colour is reserved for data and for the golden hour. Chrome stays quiet.
+ * Dusk, with the sun on the horizon. The room is a cool, deep evening sky
+ * (near-black navy) with bone ink and brass chrome, the quiet premium base.
+ * The golden hour (saffron → tangerine → flamingo → dusk violet) is the
+ * brand's one flourish and it only works because the sky around it is cool:
+ * use it for the sun mark and a few deliberate moments, never as a tint over
+ * the whole page.
+ *   1. Surfaces are near-black and translucent. Never grey, never opaque.
+ *   2. Colour is reserved for data and for the golden hour. Chrome is
+ *      monochrome + brass.
  *
  * Fonts are self-hosted from npm (Fraunces via @fontsource), so the product
  * still renders identically with no CDN.
  */
 
 @theme {
-  /* ── Surfaces ─────────────────────────────────────────────────────── */
-  --color-void: #0c0907;
-  --color-abyss: #110d0a;
-  --color-obsidian: #16110d;
-  --color-slate-deep: #1d1712;
-  --color-slate: #261e18;
-  --color-slate-lift: #31271f;
+  /* ── Surfaces: evening sky ────────────────────────────────────────── */
+  --color-void: #04050a;
+  --color-abyss: #070911;
+  --color-obsidian: #0b0e18;
+  --color-slate-deep: #121624;
+  --color-slate: #1a1f31;
+  --color-slate-lift: #232941;
 
   /* ── Ink ──────────────────────────────────────────────────────────── */
-  --color-ink: #f4ecdd;
-  --color-ink-muted: #b4a893;
-  --color-ink-faint: #7a6f60;
-  --color-ink-ghost: #43392f;
+  --color-ink: #f4f1ea;
+  --color-ink-muted: #a8a598;
+  --color-ink-faint: #6b6a63;
+  --color-ink-ghost: #3d3f47;
 
-  /* ── Golden hour: the house accent (named brass for continuity). ──── */
-  --color-brass: #f2a24a;
-  --color-brass-bright: #f7c548;
-  --color-brass-deep: #b9612a;
-  --color-brass-wash: #f2a24a1a;
+  /* ── Brass: the house metal. Chrome, rules, active states. ────────── */
+  --color-brass: #c8a866;
+  --color-brass-bright: #e6cf9b;
+  --color-brass-deep: #8a7038;
+  --color-brass-wash: #c8a8661a;
+
+  /* ── Golden hour: brand moments only (sun mark, hype, one CTA). ───── */
+  --color-saffron: #f7c548;
+  --color-tangerine: #f26b2a;
   --color-flamingo: #e4577e;
   --color-dusk: #8e4db8;
 
   /* ── Heat ramp: cold anticipation → white-hot. Data only. ─────────── */
-  --color-heat-smoldering: #7b4bb3;
-  --color-heat-warm: #d4508a;
-  --color-heat-hot: #f26b2a;
-  --color-heat-blazing: #f7a23a;
+  --color-heat-smoldering: #3d6fa8;
+  --color-heat-warm: #4fa3c7;
+  --color-heat-hot: #d9a441;
+  --color-heat-blazing: #e8703a;
   --color-heat-supernova: #fff0c4;
 
   /* ── Semantic ─────────────────────────────────────────────────────── */
   --color-signal: #5ee0c8;
   --color-commit: #7ee787;
-  --color-alert: #e4577e;
+  --color-alert: #e8703a;
 
   /* ── Type ─────────────────────────────────────────────────────────── */
   --font-display: 'Fraunces Variable', 'Fraunces', 'Hoefler Text', Georgia,
@@ -86,7 +93,7 @@
        as flat black even before WebGL paints. */
     background-image: radial-gradient(
       ellipse 120% 80% at 50% 55%,
-      #1e150f 0%,
+      #0d1220 0%,
       var(--color-void) 60%
     );
   }

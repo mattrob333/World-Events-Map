@@ -580,7 +580,7 @@ function BeaconFieldImpl({ beacons, winterMode = false }: BeaconFieldProps) {
   );
 }
 
-const BRASS_LINEAR = new THREE.Color('#f7c548');
+const BRASS_LINEAR = new THREE.Color('#e6cf9b');
 
 function writeInstance(
   layer: InstancedLayer,

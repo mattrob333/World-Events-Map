@@ -346,7 +346,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
                   <div key={entry.id} className={styles.savedCard}>
                     <span
                       className={styles.savedSwatch}
-                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : '#554133' }}
+                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : '#334155' }}
                       aria-hidden
                     >
                       {tile?.emoji ?? '✨'}

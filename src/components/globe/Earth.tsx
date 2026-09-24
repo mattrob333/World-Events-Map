@@ -287,11 +287,11 @@ function EarthImpl({ onLoaded }: EarthProps) {
         fragmentShader: OCEAN_FRAGMENT,
         uniforms: {
           uSunDir: { value: new THREE.Vector3(1, 0, 0) },
-          uNight: { value: new THREE.Color('#070403') },
-          uDeep: { value: new THREE.Color('#1a100b') },
-          uLit: { value: new THREE.Color('#2a1810') },
-          uRim: { value: new THREE.Color('#e4577e') },
-          uDusk: { value: new THREE.Color('#f2a24a') },
+          uNight: { value: new THREE.Color('#02040a') },
+          uDeep: { value: new THREE.Color('#0a1220') },
+          uLit: { value: new THREE.Color('#16304d') },
+          uRim: { value: new THREE.Color('#4b86c8') },
+          uDusk: { value: new THREE.Color('#c8a866') },
         },
       }),
     [],
@@ -304,10 +304,10 @@ function EarthImpl({ onLoaded }: EarthProps) {
         fragmentShader: LAND_FRAGMENT,
         uniforms: {
           uSunDir: { value: new THREE.Vector3(1, 0, 0) },
-          uDay: { value: new THREE.Color('#3a2d24') },
-          uNight: { value: new THREE.Color('#150e0a') },
-          uGlow: { value: new THREE.Color('#b9612a') },
-          uDusk: { value: new THREE.Color('#f2a24a') },
+          uDay: { value: new THREE.Color('#2b3348') },
+          uNight: { value: new THREE.Color('#0c1120') },
+          uGlow: { value: new THREE.Color('#8a6a34') },
+          uDusk: { value: new THREE.Color('#d8a862') },
           uOpacity: { value: 1 },
         },
         transparent: false,
@@ -320,10 +320,10 @@ function EarthImpl({ onLoaded }: EarthProps) {
     [],
   );
 
-  const coastMaterial = useMemo(() => makeLineMaterial('#f2a24a', 0.34, 0.22), []);
-  const borderMaterial = useMemo(() => makeLineMaterial('#b9612a', 0.26, 0.18), []);
+  const coastMaterial = useMemo(() => makeLineMaterial('#c8a866', 0.34, 0.22), []);
+  const borderMaterial = useMemo(() => makeLineMaterial('#8a7038', 0.26, 0.18), []);
   const graticuleMaterial = useMemo(
-    () => makeLineMaterial('#f26b2a', 0.075, 0.45),
+    () => makeLineMaterial('#4b86c8', 0.075, 0.45),
     [],
   );
 

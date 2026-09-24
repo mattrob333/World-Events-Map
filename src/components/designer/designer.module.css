@@ -66,7 +66,7 @@
   margin-top: 28px;
   padding: 20px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #241410cc, #140d0acc);
+  background: linear-gradient(135deg, #1f1033cc, #0b1a2ecc);
   border: 1px solid #ffffff14;
 }
 
@@ -244,7 +244,7 @@
   color: white;
   background:
     radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--b) 70%, transparent), transparent 60%),
-    linear-gradient(150deg, var(--a), color-mix(in oklab, var(--a) 55%, #0b0806));
+    linear-gradient(150deg, var(--a), color-mix(in oklab, var(--a) 55%, #05060c));
   border: 1px solid #ffffff1c;
   box-shadow: inset 0 1px 0 #ffffff22, 0 14px 34px #00000055;
 }
@@ -378,7 +378,7 @@
   margin-top: 16px;
   padding: 16px 18px;
   border-radius: 22px;
-  background: linear-gradient(135deg, #0b2e1c, #16110d 70%);
+  background: linear-gradient(135deg, #0b2e1c, #0b0e18 70%);
   border: 1px solid #1db95440;
 }
 
@@ -424,7 +424,7 @@
   scroll-snap-align: start;
   overflow: hidden;
   border-radius: 18px;
-  background: #1a1410;
+  background: #111827;
   border: 1px solid #ffffff14;
   transition: transform 140ms ease;
 }
@@ -623,7 +623,7 @@
   display: grid;
   place-items: center;
   font-size: 15px;
-  box-shadow: 0 0 0 2px #16110d;
+  box-shadow: 0 0 0 2px #0b0e18;
 }
 
 /* ---- trip designer: canvas -------------------------------------------- */
@@ -674,7 +674,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 14px;
-  background: #16110de6;
+  background: #0b0e18e6;
   backdrop-filter: blur(12px);
   border: 1px solid #ffffff14;
 }
@@ -783,7 +783,7 @@
   display: grid;
   place-items: center;
   font-size: 14px;
-  background: #16110d;
+  background: #0b0e18;
   border: 2px solid #f472b6;
 }
 
@@ -860,7 +860,7 @@
   scroll-snap-align: start;
   border-radius: 20px;
   overflow: hidden;
-  background: #1a1410;
+  background: #111827;
   border: 1px solid #ffffff14;
   box-shadow: 0 10px 28px #0006;
   display: flex;
@@ -1002,7 +1002,7 @@
 }
 
 .voteOn { background: #f9731640; box-shadow: inset 0 0 0 1px #fb923c; }
-.voteOff { background: #8b746440; box-shadow: inset 0 0 0 1px #94a3b8; }
+.voteOff { background: #64748b40; box-shadow: inset 0 0 0 1px #94a3b8; }
 
 .voters {
   display: flex;
@@ -1017,7 +1017,7 @@
   display: grid;
   place-items: center;
   font-size: 11px;
-  box-shadow: 0 0 0 2px #1a1410;
+  box-shadow: 0 0 0 2px #111827;
 }
 
 .moveSelect {
@@ -1114,7 +1114,7 @@
   margin-top: 14px;
   padding: 10px;
   border-radius: 22px;
-  background: radial-gradient(120% 120% at 50% 0%, #2a1622 0%, #110d0a 70%);
+  background: radial-gradient(120% 120% at 50% 0%, #1e1b4b 0%, #070911 70%);
   border: 1px solid #ffffff14;
 }
 
@@ -1124,8 +1124,8 @@
   height: auto;
 }
 
-.mapSphere { fill: #140d09; stroke: #ffffff1a; }
-.mapLand { fill: #2e221a; stroke: #140d09; stroke-width: 0.5; }
+.mapSphere { fill: #0b1224; stroke: #ffffff1a; }
+.mapLand { fill: #1f2a44; stroke: #0b1224; stroke-width: 0.5; }
 
 .mapPin { cursor: pointer; outline: none; }
 .mapPin:focus-visible circle:last-of-type { stroke: #fff; stroke-width: 3; }
@@ -1133,7 +1133,7 @@
 .mapCount {
   font-size: 10px;
   font-weight: 700;
-  fill: #16110d;
+  fill: #0b0e18;
   pointer-events: none;
 }
 
@@ -1163,8 +1163,8 @@
   text-transform: uppercase;
 }
 
-.showKind { top: 8px; color: #16110d; }
-.showFit { bottom: 8px; color: #16110d; background: #bef264; }
+.showKind { top: 8px; color: #0b0e18; }
+.showFit { bottom: 8px; color: #0b0e18; background: #bef264; }
 
 .persona {
   display: grid;
@@ -1173,7 +1173,7 @@
   margin-top: 12px;
   padding: 14px 16px;
   border-radius: 18px;
-  background: linear-gradient(135deg, #2a1420cc, #16110d);
+  background: linear-gradient(135deg, #2e1065cc, #0b0e18);
   border: 1px solid #a78bfa33;
 }
 

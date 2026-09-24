@@ -21,7 +21,7 @@
  * The composer's buffers are linear (HalfFloat, no colour-space conversion
  * until the final pass), and every material tone-maps in its own fragment
  * shader, so the values bloom sees are ACES-mapped linear. In that space the
- * planet is very dark: land's day albedo `#3a2d24` is ≈0.03 linear, the lit
+ * planet is very dark: land's day albedo `#2b3348` is ≈0.03 linear, the lit
  * ocean peaks near 0.07, the brass coastline hairline at 34% opacity lands
  * under 0.05. The beacons are additive and stack — a `hot` pillar core reaches
  * ≈0.45, `blazing` ≈0.7, `supernova` past 1.0. A threshold of 0.38 therefore

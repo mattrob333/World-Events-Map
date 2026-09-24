@@ -57,9 +57,9 @@ interface GraphNodeData extends Match {
 }
 
 const NODE_COLOR: Record<NodeKind, string> = {
-  self: '#f2a24a',
+  self: '#c8a866',
   interest: '#5ee0c8',
-  person: '#f7c548',
+  person: '#e6cf9b',
   circle: '#7ee787',
 };
 
@@ -141,7 +141,7 @@ function GraphScene({
   return (
     <>
       <ambientLight intensity={0.75} />
-      <pointLight position={[2, 6, 7]} intensity={55} color="#f7c548" />
+      <pointLight position={[2, 6, 7]} intensity={55} color="#e6cf9b" />
       <pointLight position={[-6, -2, -4]} intensity={28} color="#5ee0c8" />
       <Stars radius={36} depth={20} count={800} factor={1.3} saturation={0} fade speed={0.15} />
 

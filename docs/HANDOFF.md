@@ -13,6 +13,7 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
 - Work and push only on `claude/review-recent-work-5li9lw`. No PR unless he asks.
 - Follow `AGENTS.md`: `npm run gate` must pass (lint, typecheck, tests, build). Provider truth: never invent venues, prices or listings; label sources and fetch times; show honest "not connected" states.
 - Never print secrets, read `.env` files, or ask for keys in chat. Keys go in the environment settings (Claude) and the Vercel project (live site).
+- **Look (owner feedback 2026-09-24):** the first rebrand hue-shifted every surface to warm brown, and he called it a saturation knob, not a design. The rule now: the base is a cool evening sky (the original navy near-blacks, bone ink, brass chrome), and the golden-hour gradient is used only for brand moments (the sun logo, trip heroes, one hype line). Never tint whole pages again. The header uses the one-piece lockup SVG (`public/brand/dope-travel-lockup.svg`) so ".travel" shares the wordmark's baseline.
 - Brand voice: fun but premium, a hint of psychedelic. Never use the word "dope" in a sentence of copy, and no forced taglines like "Go somewhere dope."
 - **Instagram and TikTok:** the owner approved pulling live posts through Treg for his personal use. Before opening the app to other people, revisit platform terms (see `docs/RESEARCH-PIPELINE.md`) and prefer links or embeds over re-hosting content.
 - Don't spend paid APIs (OpenAI, Treg image generation) on anything he didn't ask for. Treg calls carry a per-call cost ceiling; keep it.

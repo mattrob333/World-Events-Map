@@ -20,7 +20,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body style={{ margin: 0, minHeight: '100vh', background: '#0c0907', color: '#f4ecdd', fontFamily: 'Georgia, serif' }}>
+      <body style={{ margin: 0, minHeight: '100vh', background: '#04050a', color: '#f4f1ea', fontFamily: 'Georgia, serif' }}>
         <main style={{ maxWidth: 560, margin: '0 auto', padding: '18vh 20px' }}>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: 22 }}>dope.travel</p>
           <h1 style={{ fontWeight: 400, fontSize: 30, lineHeight: 1.2 }}>dope.travel stopped working.</h1>
@@ -28,7 +28,7 @@ export default function GlobalError({
             Something failed while loading the app. Nothing you saved on this device was changed.
           </p>
           <p style={{ display: 'flex', gap: 16, fontFamily: 'system-ui, sans-serif', fontSize: 13 }}>
-            <button type="button" onClick={() => retry()} style={{ padding: '8px 14px', border: '1px solid #f2a24a', background: 'transparent', color: '#f7c548', cursor: 'pointer' }}>
+            <button type="button" onClick={() => retry()} style={{ padding: '8px 14px', border: '1px solid #c8a866', background: 'transparent', color: '#f0d5a4', cursor: 'pointer' }}>
               Try again
             </button>
             <Link href="/" style={{ color: '#b9b3a6', alignSelf: 'center' }}>Back to World</Link>
