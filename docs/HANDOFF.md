@@ -69,10 +69,15 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
 - **Waiting on the owner to approve the plan:** https://claude.ai/artifact/Kz7L6DgjJ7wPpPSZgLNCrN (copy in `docs/plans/2026-09-24-lets-vibe.html`; agent notes in `docs/plans/2026-09-24-lets-vibe-agent-notes.md`).
   - It covers the Stage (a full-page voice screen), the Your Vibe rename, the streaming trip canvas, Jev as the ranker (Jev doesn't stream), the personalized homepage, and 4 phases.
 - **Source library:** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
-- **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central) was created by the owner.
-  - Migrations 001–005 are not applied yet.
-  - The Supabase connector could only see another org's projects, so the owner is reconnecting it to the right org. After that, apply the migrations with him watching (HIGH_CAPABILITY), run `get_advisors`, and put the keys in Vercel.
-- **Vercel connector:** it can list projects but gets 404/403 on the `world-events-map-onq7` project's env vars and deployments, so the owner sets env vars by hand for now.
+- **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central). Migrations 001–006 were applied on 2026-09-24 with the owner watching.
+  - `006_advisor_hardening.sql` closes the RPC surface of the trigger functions and the RLS helpers, wraps `auth.uid()` in `(select …)` in 22 policies, and adds 5 foreign-key indexes. It doesn't change any access rules. `src/lib/platform/__tests__/rls.test.ts` now runs against 001 + 003 + 006.
+  - Advisor leftovers, all accepted:
+    - `owns_provider` is still callable by anon, because the anon offer and event policies need it; for anon it always returns false.
+    - 6 helpers are callable by signed-in users; each returns only a true/false about the caller.
+    - The six `meridian_*` tables have RLS on with no policies (server-only by design).
+    - Unused-index notices, expected on a new database.
+    - The Auth connection-strategy notice.
+- **Vercel connector:** it's scoped to project `takeoff-speed` only, so `world-events-map-onq7` returns 404. Until the connector is re-scoped, the owner sets env vars and redeploys by hand. Production serves `main` (last merged: PR #17); this branch deploys as its own Preview (PR #18).
 - **Open owner decisions:**
   - Launch now with voice and live research off in Production, or wait for the durable budget (phase 4).
   - Permission to query Treg's free catalog (Hotels/Events/Ticketmaster coverage).

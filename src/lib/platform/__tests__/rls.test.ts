@@ -22,6 +22,9 @@ beforeAll(async () => {
     'utf8',
   ).replace('create extension if not exists pgcrypto;', '');
   await db.exec(migration);
+  // Run against the hosted stack: 003 adds circle guards, 006 the advisor hardening.
+  await db.exec(readFileSync('supabase/migrations/003_affinity_graph.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/006_advisor_hardening.sql', 'utf8'));
   await db.exec(`insert into auth.users values('${a}'),('${b}'),('${c}');`);
 }, 30000);
 afterAll(async () => {
@@ -89,7 +92,7 @@ describe('platform RLS against PostgreSQL', () => {
   it('requires approval before chat and enforces circle capacity', async () => {
     await asUser(a);
     await db.exec(
-      `insert into circles(id,host_id,name,capacity) values('${circle}','${a}','Paris weekend',2);`,
+      `insert into circles(id,host_id,name,capacity,start_date,end_date) values('${circle}','${a}','Paris weekend',2,'2027-05-01','2027-05-03');`,
     );
     expect((await db.query('select * from circle_members')).rows).toHaveLength(
       1,
@@ -177,5 +180,29 @@ describe('platform RLS against PostgreSQL', () => {
     expect(
       (await db.query('select * from event_submissions')).rows,
     ).toHaveLength(0);
+  });
+  it('keeps RLS helpers and trigger functions off the anonymous RPC surface', async () => {
+    await db.exec('reset role; set role anon; reset request.jwt.claim.sub');
+    for (const call of [
+      `select public.is_circle_host('${circle}')`,
+      `select public.is_circle_member('${circle}')`,
+      `select public.can_read_profile('${a}')`,
+      `select public.owns_offer('${offer}')`,
+      `select public.initialize_circle()`,
+      `select public.initialize_profile()`,
+    ]) {
+      await expect(db.query(call)).rejects.toThrow(/permission denied/);
+    }
+    // owns_provider backs the anon-visible offer and event policies.
+    expect(
+      (await db.query<{ owns: boolean }>(`select public.owns_provider('${org}') as owns`)).rows[0],
+    ).toEqual({ owns: false });
+    await asUser(a);
+    await expect(db.query('select public.guard_membership()')).rejects.toThrow(
+      /permission denied/,
+    );
+    expect(
+      (await db.query<{ host: boolean }>(`select public.is_circle_host('${circle}') as host`)).rows[0],
+    ).toEqual({ host: true });
   });
 });
