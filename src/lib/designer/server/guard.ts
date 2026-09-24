@@ -104,9 +104,9 @@ export async function readJson(request: Request, maxBytes: number): Promise<unkn
 }
 
 type Bucket = { count: number; resetAt: number };
-export type LimitName = 'ai' | 'concerts' | 'jev' | 'spotify' | 'research' | 'mcp';
+export type LimitName = 'ai' | 'concerts' | 'jev' | 'spotify' | 'research' | 'mcp' | 'voice';
 /** Per client per 10 minutes. `research` counts only cache misses; `mcp` counts JSON-RPC messages. */
-const LIMITS: Record<LimitName, number> = { ai: AI_CALLS_PER_WINDOW, concerts: 20, jev: 10, spotify: 10, research: 4, mcp: 240 };
+const LIMITS: Record<LimitName, number> = { ai: AI_CALLS_PER_WINDOW, concerts: 20, jev: 10, spotify: 10, research: 4, mcp: 240, voice: 8 };
 const buckets = new Map<string, Bucket>();
 
 /** Key when the client can't be identified: everyone shares one bucket (conservative, never per-caller). */

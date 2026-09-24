@@ -330,6 +330,15 @@ export function DiscoveryExperience() {
             </button>
           )}
         </label>
+        {/* Phones: the offer sits right under the box instead of a screen below it. */}
+        {planOffer && (
+          <Link
+            href={planOffer.href}
+            className="flex min-h-11 basis-full items-center gap-2 text-[14px] font-medium text-bone underline decoration-bone/40 underline-offset-4 md:hidden"
+          >
+            Not on the calendar yet · Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span>
+          </Link>
+        )}
         <button
           className={`btn btn-ghost ${styles.locationButton}`}
           onClick={() => {

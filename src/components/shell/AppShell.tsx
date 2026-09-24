@@ -126,7 +126,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </Link>
           {isDemoMode() && (
             <span
-              className="tag shrink-0 text-signal"
+              className="tag shrink-0 text-saffron"
               title={DEMO_LABEL}
             >
               Demo · simulated

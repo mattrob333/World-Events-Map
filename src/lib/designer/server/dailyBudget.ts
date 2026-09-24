@@ -24,7 +24,7 @@
  * The day rolls over at 00:00 UTC.
  */
 
-export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds';
+export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice';
 
 type PoolConfig = { env: string; unit: 'usd' | 'calls'; fallback: number };
 
@@ -40,6 +40,8 @@ const POOLS: Record<BudgetPool, PoolConfig> = {
   jev: { env: 'JEV_DESIGNER_DAILY_CALLS', unit: 'calls', fallback: 400 },
   /** Ticketmaster + SeatGeek requests (Ticketmaster's free quota is 5,000/day). */
   eventFeeds: { env: 'EVENT_FEED_DAILY_CALLS', unit: 'calls', fallback: 2000 },
+  /** OpenAI Realtime voice sessions (each capped at a few minutes of audio). */
+  voice: { env: 'VOICE_DAILY_SESSIONS', unit: 'calls', fallback: 60 },
 };
 
 function readNumber(name: string, fallback: number): number {
