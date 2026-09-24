@@ -1,15 +1,18 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
+import { parseProfileLocally } from '@/lib/designer/profile';
 import { pickActiveProfile, profileLabel, useDesignerStore } from '@/lib/designer/store';
 import { planTripHref } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
-import { readTypedVibe, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
-import { useRealtime, type VoicePhase } from '@/lib/voice/useRealtime';
+import { placeFromTypedTrip, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { checklistFor, type VibeMode } from '@/lib/voice/vibeChecklist';
+import { useRealtime } from '@/lib/voice/useRealtime';
 import { SunOrb } from './SunOrb';
+import { useLiveTranscript } from './useLiveTranscript';
 
 type PageVoice = NonNullable<ReturnType<typeof useVoiceStore.getState>['page']>;
 
@@ -29,41 +32,50 @@ function waitForPage(intent: VibeTarget['intent'], timeoutMs = 10_000): Promise<
   });
 }
 
-const STATUS: Record<VoicePhase, string> = {
-  idle: 'Tap the sun to talk',
-  connecting: 'Waking up…',
-  listening: 'Listening',
-  thinking: 'Thinking',
-  speaking: 'Talking',
-  error: 'Voice isn’t available',
-  ended: 'Tap the sun to talk again',
-};
-
 /**
- * The voice concierge behind the header's Vibe button. It captures the
- * profile or starts a trip from any page: a tool that belongs to another page
- * opens that page and runs through what it registered (useVoicePage). Typing
- * works over the same live session, or, when voice isn't set up, is routed on
- * the device: talk about yourself builds the profile, a place starts a trip.
+ * The Vibe stage behind the header's sun and the "Set your vibe" prompt: a
+ * full-screen place to talk, not a text box with a mic.
  */
 export function SunModal() {
   const open = useVoiceStore((s) => s.open);
-  return open ? <SunSession /> : null;
+  return open ? <VibeStage /> : null;
 }
 
-function SunSession() {
+type Phase = 'intro' | 'talking' | 'recap' | 'typing' | 'building';
+
+const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
+  profile: {
+    kicker: 'Set your vibe',
+    title: 'Tell us how you get down.',
+    lede: 'Talk like you’d talk to a friend. Two minutes, tops.',
+    build: 'Build my vibe',
+    placeholder: 'I’m from Atlanta, Braves fan, Fred again.. on repeat, omakase or taco trucks, and I travel with…',
+  },
+  trip: {
+    kicker: 'Plan a trip',
+    title: 'All right, let’s vibe.',
+    lede: 'Where you’re thinking, when, and who’s coming. Say it how you’d say it.',
+    build: 'Build the trip',
+    placeholder: 'Lisbon, second week of October, me and Sam. One great seafood lunch, no touristy fado.',
+  },
+};
+
+function VibeStage() {
   const setOpen = useVoiceStore((s) => s.setOpen);
   const page = useVoiceStore((s) => s.page);
   const router = useRouter();
   const rt = useRealtime();
-  const [typing, setTyping] = useState(false);
-  const [draft, setDraft] = useState('');
-  const [notes, setNotes] = useState<string[]>([]);
-  const [voiceOff, setVoiceOff] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const dictation = useLiveTranscript();
   const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
+  const [mode, setMode] = useState<VibeMode>(hasProfile ? 'trip' : 'profile');
+  const [phase, setPhase] = useState<Phase>('intro');
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const transcriptEnd = useRef<HTMLSpanElement>(null);
+  const copy = COPY[mode];
 
+  // ── Routing shared by the live AI conversation and the dictation path ──────
   const reach = useCallback(async (target: VibeTarget): Promise<PageVoice | null> => {
     const here = useVoiceStore.getState().page;
     if (here?.intent === target.intent) return here;
@@ -112,42 +124,15 @@ function SunSession() {
     return [who, page?.context() ?? ''].filter(Boolean).join(' ');
   }, [page]);
 
-  const begin = useCallback(async (withMic: boolean) => {
-    setNotes([]);
-    const result = await rt.start({
-      intent: 'vibe',
-      context: context(),
-      handlers: handlers(),
-      withMic,
-      textOnly: !withMic,
-    });
-    if (result === 'mic-denied') {
-      setTyping(true);
-      setNotes(['No microphone, so we’ll type. Allow the mic in your browser to talk instead.']);
-      void rt.start({ intent: 'vibe', context: context(), handlers: handlers(), withMic: false, textOnly: true });
-    } else if (result === 'not-configured') {
-      setVoiceOff(true);
-      setTyping(true);
-    }
-  }, [context, handlers, rt]);
-
-  // Start listening as soon as the modal opens (the tap that opened it is the gesture).
-  const beginRef = useRef(begin);
-  const stopRef = useRef(rt.stop);
+  // ── Setup: is the live AI voice on for this site? ──────────────────────────
+  const stopRealtime = useRef(rt.stop);
   useEffect(() => {
     let cancelled = false;
     void fetch('/api/voice/session', { cache: 'no-store' })
       .then((response) => (response.ok ? (response.json() as Promise<{ enabled?: boolean }>) : { enabled: false }))
       .catch(() => ({ enabled: false }))
-      .then(({ enabled }) => {
-        if (cancelled) return;
-        if (enabled) void beginRef.current(true);
-        else {
-          setVoiceOff(true);
-          setTyping(true);
-        }
-      });
-    const stop = stopRef.current;
+      .then(({ enabled }) => { if (!cancelled) setVoiceEnabled(Boolean(enabled)); });
+    const stop = stopRealtime.current;
     return () => {
       cancelled = true;
       stop('idle');
@@ -155,144 +140,296 @@ function SunSession() {
   }, []);
 
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
+    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
     window.addEventListener('keydown', onKey);
     dialogRef.current?.focus();
-    return () => window.removeEventListener('keydown', onKey);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+    };
   }, [setOpen]);
 
-  useEffect(() => {
-    if (typing) inputRef.current?.focus();
-  }, [typing]);
+  // ── What was said so far ────────────────────────────────────────────────────
+  const aiSaid = rt.lines.filter((line) => line.who === 'you').map((line) => line.text).join(' ');
+  const spoken = voiceEnabled ? aiSaid : dictation.text;
+  const live = voiceEnabled ? rt.live : dictation.status === 'listening';
+  const checklist = useMemo(() => checklistFor(mode, `${spoken} ${dictation.interim}`), [mode, spoken, dictation.interim]);
+  const covered = checklist.filter((item) => item.done).length;
 
-  const switchToTyping = () => {
-    setTyping(true);
-    if (rt.connected()) rt.setTextOnly(true);
+  useEffect(() => {
+    transcriptEnd.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+  }, [spoken, dictation.interim, rt.lines.length]);
+
+  // A blocked mic or a dead speech service drops straight to typing, said plainly.
+  const micProblem = voiceEnabled ? null
+    : dictation.status === 'denied' ? 'The microphone is blocked for this site. Allow it in your browser settings, or type it below.'
+    : dictation.status === 'error' ? 'Speech-to-text stopped working. Type the rest below.'
+    : null;
+  const view: Phase = micProblem && phase === 'talking' ? 'typing' : phase;
+  const shownNote = note ?? (view === 'typing' ? micProblem : null);
+
+  const startTalking = async () => {
+    setNote(null);
+    setPhase('talking');
+    if (!voiceEnabled) {
+      dictation.start();
+      return;
+    }
+    const result = await rt.start({ intent: 'vibe', context: context(), handlers: handlers(), withMic: true, textOnly: false });
+    if (result === 'mic-denied') {
+      setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it below.');
+      setPhase('typing');
+    } else if (result === 'not-configured') {
+      setVoiceEnabled(false);
+      dictation.start();
+    }
   };
 
-  const submit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const text = draft.trim();
-    if (!text) return;
-    setDraft('');
-    if (rt.connected()) {
-      rt.say(text);
-      return;
-    }
-    const note = (line: string) => setNotes((prev) => [...prev.slice(-5), `You: ${text}`, line]);
-    const read = readTypedVibe(text, hasProfile);
-    const here = useVoiceStore.getState().page;
-    // On the trip designer or Now, a typed place fills that page in place.
-    if (read.kind === 'trip' && here?.fallback && (here.intent === 'trip' || here.intent === 'now')) {
-      note(await here.fallback(text));
-      return;
-    }
-    if (read.kind === 'trip') {
+  const done = () => {
+    if (voiceEnabled) {
+      // The live concierge already acted as they talked; close on their word.
+      rt.stop('ended');
       setOpen(false);
-      router.push(read.place ? planTripHref(read.place) : '/trips/designer');
       return;
     }
+    dictation.stop();
+    setPhase('recap');
+  };
+
+  const build = async () => {
+    const text = dictation.text.trim();
     if (text.length < 10) {
-      note('Tell me a little more: where home is, what’s on repeat, how you eat, who you travel with.');
+      setNote(mode === 'profile' ? 'Say a bit more first: where home is, what you love, who you travel with.' : 'Say where you’re thinking of going first.');
       return;
     }
-    note('Building your vibe…');
+    setPhase('building');
+    if (mode === 'trip') {
+      const place = placeFromTypedTrip(text);
+      const here = useVoiceStore.getState().page;
+      if (here?.intent === 'trip' && here.fallback) await here.fallback(text);
+      else router.push(place ? planTripHref(place) : '/trips/designer');
+      setOpen(false);
+      return;
+    }
     const board = await reach({ intent: 'board', href: '/moodboard' });
     const reply = board?.handlers.describe_me ? await board.handlers.describe_me({ summary: text }) : 'Error: the profile page did not open. Try again.';
-    if (reply.startsWith('Error')) note(reply.replace(/^Error:\s*/, ''));
-    else setOpen(false);
+    if (reply.startsWith('Error')) {
+      setNote(reply.replace(/^Error:\s*/, ''));
+      setPhase('recap');
+    } else {
+      setOpen(false);
+    }
   };
 
-  const orbTap = () => {
-    if (voiceOff || rt.live || rt.phase === 'connecting') return;
-    setTyping(false);
-    void begin(true);
-  };
+  const recapFacts = useMemo(() => {
+    if (view !== 'recap' || mode !== 'profile') return [];
+    const p = parseProfileLocally(dictation.text);
+    const crew = p.family.map((member) => `${member.name ?? member.label}${member.age !== undefined ? ` (${member.age})` : ''}`).join(', ');
+    return [
+      ['Home', p.hometown],
+      ['Teams', p.teams.join(', ')],
+      ['Music', [...(p.artists ?? []), ...p.music].slice(0, 4).join(', ')],
+      ['Food', p.food.join(', ')],
+      ['Crew', crew],
+    ].filter((entry): entry is [string, string] => Boolean(entry[1]));
+  }, [view, mode, dictation.text]);
+  const recapPlace = view === 'recap' && mode === 'trip' ? placeFromTypedTrip(dictation.text) : null;
+
+  const orbLevels = useCallback(() => (voiceEnabled ? rt.levels() : { mic: dictation.activity(), sun: 0 }), [voiceEnabled, rt, dictation]);
+  const canTalk = voiceEnabled || dictation.supported;
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/70 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm sm:items-center" onClick={() => setOpen(false)}>
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={hasProfile ? 'Vibe' : 'Set your vibe'}
-        tabIndex={-1}
-        onClick={(event) => event.stopPropagation()}
-        className="surface relative flex w-full max-w-[420px] flex-col items-center gap-4 rounded-[var(--radius-sheet,28px)] px-5 pb-5 pt-6 outline-none"
-      >
-        <button type="button" onClick={() => setOpen(false)} className="btn btn-ghost absolute right-3 top-3 w-11 p-0 text-[13px]" aria-label="Close">
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={copy.kicker}
+      tabIndex={-1}
+      className="vibe-stage fixed inset-0 z-[80] flex flex-col text-bone outline-none"
+    >
+      {/* Top bar: what we're capturing, and a way out. */}
+      <div className="flex items-center justify-between gap-3 px-4 pb-2 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-8">
+        <div className="flex gap-1 rounded-full bg-surface-1/80 p-1" role="tablist" aria-label="What are we talking about?">
+          {(['profile', 'trip'] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              aria-selected={mode === value}
+              disabled={view === 'talking' || view === 'building'}
+              onClick={() => setMode(value)}
+              className={`min-h-10 rounded-full px-4 text-[13px] font-medium transition-colors ${mode === value ? 'bg-surface-3 text-bone' : 'text-ink-muted hover:text-bone'}`}
+            >
+              {value === 'profile' ? 'About me' : 'A trip'}
+            </button>
+          ))}
+        </div>
+        <button type="button" onClick={() => setOpen(false)} className="flex size-11 items-center justify-center rounded-full bg-surface-1/80 text-[15px] text-ink-soft hover:text-bone" aria-label="Close">
           ✕
         </button>
-        <button
-          type="button"
-          onClick={orbTap}
-          aria-label={rt.live ? STATUS[rt.phase] : 'Start talking'}
-          className="rounded-full focus-visible:shadow-[var(--focus-ring)]"
-        >
-          <SunOrb levels={rt.levels} size={typing ? 120 : 220} active={rt.live} />
-        </button>
-        <p className="eyebrow" aria-live="polite">{voiceOff ? 'Typing' : typing && rt.live ? 'Typing' : STATUS[rt.phase]}</p>
+      </div>
 
-        <ol className="flex max-h-48 w-full flex-col gap-1.5 overflow-y-auto text-[14px] leading-snug" aria-live="polite">
-          {rt.lines.map((line, i) => (
-            <li
-              key={i}
-              className={
-                line.who === 'you'
-                  ? 'self-end rounded-2xl bg-surface-3 px-3 py-1.5 text-bone'
-                  : line.who === 'done'
-                    ? 'self-center text-[12px] text-saffron'
-                    : 'self-start text-ink-soft'
-              }
-            >
-              {line.text}
-            </li>
-          ))}
-          {notes.map((note, i) => (
-            <li key={`n${i}`} className="self-start text-ink-soft">{note}</li>
-          ))}
-        </ol>
-        {rt.error && rt.phase === 'error' && !voiceOff && <p className="notice w-full text-[13px]">{rt.error}</p>}
-        {voiceOff && <p className="notice w-full text-[13px]">Voice isn’t set up on this site yet. Type below; it does the same things.</p>}
-        {rt.lines.length === 0 && notes.length === 0 && (
-          <p className="text-center text-[14px] leading-snug text-ink-soft">
-            {hasProfile
-              ? 'Where to next? Say where, when, and who’s coming. Or tell me something new about you.'
-              : 'Tell us how you get down: where home is, who you root for, what’s on repeat, how you eat, and who you travel with.'}
-          </p>
-        )}
-
-        {typing ? (
-          <form onSubmit={submit} className="flex w-full gap-2">
-            <input
-              ref={inputRef}
-              value={draft}
-              onChange={(event) => setDraft(event.target.value)}
-              maxLength={1000}
-              placeholder={hasProfile ? 'Lisbon, second week of October, me and Sam' : 'I’m from Atlanta, Braves fan, omakase or taco trucks…'}
-              className="field min-h-11 flex-1"
-              aria-label="Type to dope.travel"
-            />
-            <button type="submit" className="btn btn-primary">Send</button>
-          </form>
+      <div className="mx-auto flex w-full max-w-[760px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
+        {view === 'intro' ? (
+          <div className="flex flex-1 flex-col overflow-y-auto pb-2 pt-2 sm:pt-10">
+            <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{copy.kicker}</p>
+            <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[60px]">{copy.title}</h2>
+            <p className="mt-2 max-w-[34ch] text-[15px] leading-snug text-ink-soft sm:mt-3 sm:text-[18px]">{copy.lede}</p>
+            <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Talk about</p>
+            <ul className="mt-2.5 flex flex-col gap-2 sm:mt-3 sm:gap-3">
+              {checklist.map((item) => (
+                <li key={item.key} className="flex items-start gap-3">
+                  <span aria-hidden="true" className="mt-[7px] size-2 shrink-0 rotate-45 rounded-[2px] bg-saffron" />
+                  <span className="text-[15.5px] leading-snug sm:text-[19px]">
+                    <strong className="font-semibold text-bone">{item.label}</strong>
+                    <span className="text-ink-soft"> · {item.hint}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : (
-          <button type="button" onClick={switchToTyping} className="min-h-11 text-[12px] text-ink-subtle underline-offset-4 hover:text-ink-soft hover:underline">
-            Type instead like a caveman
-          </button>
+          <div className="flex flex-1 flex-col overflow-hidden pt-2">
+            {/* The checklist rides along as chips that tick as each part gets covered. */}
+            <ul className="flex flex-wrap gap-1.5" aria-label={`${covered} of ${checklist.length} covered`}>
+              {checklist.map((item) => (
+                <li
+                  key={item.key}
+                  className={`flex min-h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-medium transition-colors duration-300 ${item.done ? 'bg-saffron/15 text-saffron' : 'bg-surface-1/80 text-ink-muted'}`}
+                >
+                  <span aria-hidden="true">{item.done ? '✓' : '○'}</span>
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+
+            {view === 'recap' || view === 'typing' || view === 'building' ? (
+              <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
+                {view !== 'typing' && (
+                  <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
+                    {view === 'building' ? 'On it' : 'Here’s what I heard'}
+                  </p>
+                )}
+                {recapFacts.length > 0 && (
+                  <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[15px]">
+                    {recapFacts.map(([label, value]) => (
+                      <div key={label} className="contents">
+                        <dt className="text-ink-muted">{label}</dt>
+                        <dd className="text-bone">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                {recapPlace && (
+                  <p className="mt-3 font-display text-[28px] leading-tight">
+                    {recapPlace.place}{recapPlace.region ? <span className="text-ink-soft">, {recapPlace.region}</span> : null}
+                  </p>
+                )}
+                <label className="mt-4 flex flex-1 flex-col">
+                  <span className="text-[12px] text-ink-muted">{view === 'typing' ? 'Type it like you’d say it' : 'Tap to fix anything I got wrong'}</span>
+                  <textarea
+                    value={dictation.text}
+                    onChange={(event) => dictation.setText(event.target.value.slice(0, 4000))}
+                    placeholder={copy.placeholder}
+                    autoFocus={view === 'typing'}
+                    disabled={view === 'building'}
+                    className="mt-2 min-h-[9rem] flex-1 resize-none rounded-[20px] bg-surface-1/80 p-4 font-display text-[20px] leading-snug text-bone outline-none placeholder:text-ink-subtle focus-visible:shadow-[var(--focus-ring)] sm:text-[22px]"
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="mt-5 flex-1 overflow-y-auto pb-3" aria-live="polite">
+                {voiceEnabled ? (
+                  <ol className="flex flex-col gap-3 font-display text-[24px] leading-snug sm:text-[30px]">
+                    {rt.lines.map((line, i) => (
+                      <li key={i} className={line.who === 'you' ? 'text-bone' : line.who === 'done' ? 'font-sans text-[13px] text-saffron' : 'text-ink-soft'}>
+                        {line.text}
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p className="font-display text-[28px] leading-[1.18] sm:text-[36px]">
+                    {dictation.text && <span className="text-bone">{dictation.text} </span>}
+                    {dictation.interim && <span className="text-ink-muted">{dictation.interim}</span>}
+                    {!dictation.text && !dictation.interim && <span className="text-ink-subtle">Listening… start with {checklist.find((item) => !item.done)?.label.toLowerCase() ?? 'anything'}.</span>}
+                  </p>
+                )}
+                <span ref={transcriptEnd} />
+              </div>
+            )}
+          </div>
         )}
-        <p className="text-center text-[11px] leading-snug text-ink-subtle">
-          {voiceOff
-            ? 'What you type stays on this device.'
-            : 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'}
+
+        {shownNote && <p className="notice mb-3 text-[13px]" role="status">{shownNote}</p>}
+      </div>
+
+      {/* The dock: the sun is the button. */}
+      <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-3 px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-2 sm:px-8">
+        {view === 'intro' && (
+          <>
+            {canTalk ? (
+              <button type="button" onClick={() => void startTalking()} className="group flex flex-col items-center gap-2 rounded-full focus-visible:shadow-[var(--focus-ring)]" aria-label="Start talking">
+                <SunOrb size={112} active={false} />
+                <span className="text-[15px] font-semibold text-bone">Tap to start talking</span>
+              </button>
+            ) : (
+              <p className="text-center text-[13px] text-ink-soft">This browser can’t turn speech into text. Chrome, Edge and Safari can.</p>
+            )}
+            <button type="button" onClick={() => { setNote(null); setPhase('typing'); }} className={canTalk ? 'min-h-11 text-[13px] text-ink-muted underline-offset-4 hover:text-ink-soft hover:underline' : 'btn btn-primary'}>
+              {canTalk ? 'Type instead like a caveman' : 'Type it'}
+            </button>
+          </>
+        )}
+
+        {view === 'talking' && (
+          <div className="flex w-full items-center justify-between gap-4">
+            <button
+              type="button"
+              onClick={() => (live ? (voiceEnabled ? rt.stop('ended') : dictation.stop()) : void startTalking())}
+              className="flex min-h-12 min-w-24 items-center justify-center rounded-full bg-surface-1/80 px-4 text-[14px] text-ink-soft hover:text-bone"
+            >
+              {live ? 'Pause' : 'Resume'}
+            </button>
+            <div className="flex flex-col items-center">
+              <SunOrb size={96} active={live} levels={orbLevels} />
+              <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">{live ? 'Listening' : 'Paused'}</span>
+            </div>
+            <button type="button" onClick={done} className="btn btn-primary min-h-12 min-w-24">
+              I’m done
+            </button>
+          </div>
+        )}
+
+        {(view === 'recap' || view === 'typing') && (
+          <div className="flex w-full items-center justify-between gap-3">
+            {canTalk ? (
+              <button type="button" onClick={() => void startTalking()} className="flex min-h-12 items-center rounded-full bg-surface-1/80 px-4 text-[14px] text-ink-soft hover:text-bone">
+                {dictation.text ? 'Keep talking' : 'Talk instead'}
+              </button>
+            ) : <span />}
+            <button type="button" onClick={() => void build()} className="btn btn-primary min-h-12 px-6">
+              {copy.build} <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        )}
+
+        {view === 'building' && <p className="min-h-12 text-[14px] text-ink-soft" aria-live="polite">{mode === 'profile' ? 'Building your vibe…' : 'Opening your trip…'}</p>}
+
+        <p className="max-w-[60ch] text-center text-[11px] leading-snug text-ink-subtle">
+          {voiceEnabled
+            ? 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'
+            : mode === 'profile'
+              ? 'Your browser turns speech into text (Chrome uses Google’s speech service). dope.travel gets the text only to sort it into your board, keeps none of it, and saves the board on this device.'
+              : 'Your browser turns speech into text (Chrome uses Google’s speech service). The trip is planned on this device.'}
         </p>
       </div>
     </div>
   );
 }
 
-/** The sun button that opens the concierge. */
+/** The sun button that opens the stage. */
 export function SunButton({ className = '' }: { className?: string }) {
   const setOpen = useVoiceStore((s) => s.setOpen);
   const hydrated = useHydrated();

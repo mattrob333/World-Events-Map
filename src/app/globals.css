@@ -304,6 +304,14 @@
     border: 1px solid transparent;
     box-shadow: var(--shadow-soft-2), 0 10px 40px -12px rgb(242 107 42 / 0.45);
   }
+  /* The Vibe stage: a full-screen evening sky, the sun low on the horizon. */
+  .vibe-stage {
+    background:
+      radial-gradient(120% 55% at 50% 108%, rgb(242 107 42 / 0.32), transparent 62%),
+      radial-gradient(90% 40% at 50% 100%, rgb(247 197 72 / 0.18), transparent 60%),
+      radial-gradient(80% 50% at 85% -5%, rgb(142 77 184 / 0.22), transparent 70%),
+      var(--color-void, #050505);
+  }
   .sun-glyph-glow {
     box-shadow: 0 0 0 4px rgb(247 197 72 / 0.12), 0 0 22px rgb(242 107 42 / 0.55);
     animation: sun-glyph-breathe 3.6s ease-in-out infinite;
