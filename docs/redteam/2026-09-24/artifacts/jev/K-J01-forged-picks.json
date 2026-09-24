@@ -1,0 +1,68 @@
+{
+  "label": "K-J01-forged-picks",
+  "at": "2026-09-24T06:03:16.490Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, trip organizer, not technical. He planned a Lisbon trip with his crew (Matt, Sam, Priya) and shared the invite link in a large group chat that includes people he barely knows.",
+      "workflow": "A message arrives with a dope.travel link. He taps it. The page /trips/join opens with the headline and one button.",
+      "visible_on_screen": "Eyebrow: 'SHARED TRIP'. Headline: 'Sam sent their picks. 0 votes.' Body: 'Add them to your trip. If they voted before, their new picks replace the old ones.' Button: 'Add their picks'.",
+      "hidden_fact": "The link was forged by a stranger from the group chat. It carries Matt's OWN traveler id with the display name 'Sam'. Pressing the button replaces all of Matt's own votes with nothing. After merging, the page says: 'Sam's 0 picks are in.' Matt's votes are gone and nothing on screen names Matt.",
+      "share_disclosure_seen_by_organizer_earlier": "Under the Invite button: 'Anyone with the link can see the plan and who's going (names, kids' ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.'"
+    },
+    "questions": {
+      "would_notice": {
+        "type": "noul",
+        "instructions": "Probability that Matt notices, before pressing 'Add their picks', that this link will erase his own votes rather than add Sam's."
+      },
+      "harm": {
+        "type": "score",
+        "instructions": "How serious is it for a group-trip organizer that anyone holding the invite link can silently overwrite any traveler's votes (including the organizer's) by sending a 'picks' link under a friendly name?",
+        "criteria": [
+          "No real harm",
+          "Minor annoyance, easily fixed",
+          "Meaningful: group decisions silently corrupted",
+          "Severe: the voting feature cannot be trusted"
+        ]
+      },
+      "disclosure_adequate": {
+        "type": "noul",
+        "instructions": "Probability that the share disclosure text shown to Matt is enough for him to understand that anyone holding the invite link can also send picks that overwrite other travelers' votes."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "would_notice": {
+        "type": "noul",
+        "noul": 0.15
+      },
+      "harm": {
+        "type": "score",
+        "score": 2.92,
+        "confidence": 0.92,
+        "legend": {
+          "0": "No real harm",
+          "1": "Minor annoyance, easily fixed",
+          "2": "Meaningful: group decisions silently corrupted",
+          "3": "Severe: the voting feature cannot be trusted"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0,
+          "2": 0.07,
+          "3": 0.93
+        }
+      },
+      "disclosure_adequate": {
+        "type": "noul",
+        "noul": 0.28
+      }
+    },
+    "usage": {
+      "input_tokens": 717,
+      "output_tokens": 56
+    }
+  }
+}
