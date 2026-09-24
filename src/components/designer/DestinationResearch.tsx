@@ -15,6 +15,7 @@ import type {
 } from '@/lib/research/destinationSources';
 import { writeResearchCache } from '@/lib/designer/deviceData';
 import { handoffNote, openTableSearch } from '@/lib/booking/partners';
+import { PicksBasket } from './PicksBasket';
 import styles from './designer.module.css';
 
 /*
@@ -471,6 +472,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
               </div>
             )}
           </div>
+          {place ? <PicksBasket trip={trip} research={place} placeName={name} /> : null}
         </>
       ) : null}
     </section>

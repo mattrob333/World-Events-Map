@@ -43,6 +43,8 @@ export function SunModal() {
 
 type Phase = 'intro' | 'talking' | 'recap' | 'typing' | 'building';
 
+type Recommendation = { id: string; name: string; city: string; country: string; when: string; planBy: string | null; reason: string | null; slug: string | null };
+
 const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
   profile: {
     kicker: 'Set your vibe',
@@ -71,6 +73,7 @@ function VibeStage() {
   const [phase, setPhase] = useState<Phase>('intro');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [note, setNote] = useState<string | null>(null);
+  const [recs, setRecs] = useState<Recommendation[] | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const transcriptEnd = useRef<HTMLSpanElement>(null);
   const copy = COPY[mode];
@@ -172,6 +175,7 @@ function VibeStage() {
 
   const startTalking = async () => {
     setNote(null);
+    setRecs(null);
     setPhase('talking');
     if (!voiceEnabled) {
       dictation.start();
@@ -206,6 +210,29 @@ function VibeStage() {
     }
     setPhase('building');
     if (mode === 'trip') {
+      // trip-router@1 decides what they asked for before anything else runs.
+      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[] };
+      let routed: Routed | null = null;
+      try {
+        const response = await fetch('/api/designer/route-trip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, hasProfile, today: new Date().toISOString().slice(0, 10) }),
+        });
+        routed = response.ok ? ((await response.json()) as Routed) : null;
+      } catch {
+        routed = null;
+      }
+      if (routed?.route === 'follow_up' && routed.question) {
+        setNote(routed.question);
+        setPhase('recap');
+        return;
+      }
+      if (routed?.route === 'recommend') {
+        setRecs(routed.recommendations ?? []);
+        setPhase('recap');
+        return;
+      }
       const place = placeFromTypedTrip(text);
       const here = useVoiceStore.getState().page;
       if (here?.intent === 'trip' && here.fallback) await here.fallback(text);
@@ -311,6 +338,28 @@ function VibeStage() {
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
                     {view === 'building' ? 'On it' : 'Here’s what I heard'}
                   </p>
+                )}
+                {recs && (
+                  <div className="mt-3 flex flex-col gap-2" aria-live="polite">
+                    {recs.length ? (
+                      <>
+                        <p className="text-[15px] text-ink-soft">Here’s where I’d go right now, from our calendar:</p>
+                        {recs.map((rec) => (
+                          <div key={rec.id} className="rounded-[18px] bg-surface-1/80 p-4">
+                            <p className="font-display text-[22px] leading-tight text-bone">{rec.city}<span className="text-ink-soft">, {rec.country}</span></p>
+                            <p className="mt-0.5 text-[13px] text-ink-soft">{rec.name} · <span className="text-saffron">{rec.when}</span>{rec.planBy ? ` · ${rec.planBy}` : ''}</p>
+                            {rec.reason && <p className="mt-1 text-[13px] text-ink-muted">{rec.reason}</p>}
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              <button type="button" className="btn btn-primary btn-sm" onClick={() => { router.push(planTripHref({ place: rec.city, region: rec.country })); setOpen(false); }}>Plan this</button>
+                              {rec.slug && <button type="button" className="btn btn-ghost btn-sm" onClick={() => { router.push(`/destinations/${rec.slug}?event=${encodeURIComponent(rec.id)}`); setOpen(false); }}>See the place</button>}
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      <p className="text-[15px] text-ink-soft">Nothing on our calendar fits that right now. Name a place, or try a different kind of trip.</p>
+                    )}
+                  </div>
                 )}
                 {recapFacts.length > 0 && (
                   <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[15px]">
