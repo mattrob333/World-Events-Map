@@ -1,0 +1,59 @@
+{
+  "label": "F-J07-itinerary",
+  "at": "2026-09-24T06:02:15.841Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "A 3-night family city trip Atlanta to Nashville, 2 adults and boys 8 and 12.",
+      "screen": "Trip canvas days",
+      "visible": "Day 1 slots: Leave home ('Car to the airport' pick, 'Airport lounge warm-up'), The flight ('ATL → Nashville. Route idea, not a fare.' options 'Daytime flight', 'Overnight flight'), Arrival & transfer, Dinner. Day 2 'Nashville with kids': Morning, Lunch, Afternoon, Après ('Rooftop at golden hour' pick, 'Spa hour'), Dinner, Late night ('Cocktails in Nashville' pick, 'Early night', 'Rock cover bands in Nashville'). Day 3: Après pick 'Spa hour'. Day 4: Morning, Lunch, Head to the airport, Fly home. Cards open Google Maps or YouTube searches. Badge 'Drafted on this device'."
+    },
+    "questions": {
+      "fit": {
+        "type": "score",
+        "instructions": "How well does this default plan fit a family city trip from Atlanta to Nashville?",
+        "criteria": [
+          "Poor fit, obviously templated",
+          "Some fit, several wrong defaults",
+          "Good fit with minor oddities",
+          "Excellent fit"
+        ]
+      },
+      "apres_confusing": {
+        "type": "noul",
+        "instructions": "Probability an 'Après' slot on a Nashville city trip confuses Matt."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "fit": {
+        "type": "score",
+        "score": 1.78,
+        "confidence": 0.6,
+        "legend": {
+          "0": "Poor fit, obviously templated",
+          "1": "Some fit, several wrong defaults",
+          "2": "Good fit with minor oddities",
+          "3": "Excellent fit"
+        },
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.25,
+          "2": 0.63,
+          "3": 0.09
+        }
+      },
+      "apres_confusing": {
+        "type": "noul",
+        "noul": 0.53
+      }
+    },
+    "usage": {
+      "input_tokens": 611,
+      "output_tokens": 36
+    }
+  }
+}

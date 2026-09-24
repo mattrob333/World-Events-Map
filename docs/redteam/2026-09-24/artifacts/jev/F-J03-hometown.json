@@ -1,0 +1,40 @@
+{
+  "label": "F-J03-hometown",
+  "at": "2026-09-24T06:02:13.641Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Set up a Nashville trip from his board.",
+      "screen": "/trips/designer setup on phone",
+      "visible": "Fields: 'First day' 11/23/2026, 'Nights' 7, 'Traveling from' showing 'Atlanta, Georgia' in grey placeholder text (the field is actually empty; the board did not capture his hometown). Who's going: 'Mood board + party' (selected), chips: You ×, Son (12) · kid ×, Son (8) · kid ×, Kid · kid ×, Kid · kid ×, Kelly ×. Button 'Design the itinerary'. Nothing says flights and fares need 'Traveling from' to be filled."
+    },
+    "questions": {
+      "thinks_filled": {
+        "type": "noul",
+        "instructions": "Probability Matt believes 'Traveling from' is already filled in with his hometown and leaves it."
+      },
+      "removes_phantoms": {
+        "type": "noul",
+        "instructions": "Probability Matt removes the two extra 'Kid · kid' travelers before designing the trip."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "thinks_filled": {
+        "type": "noul",
+        "noul": 0.67
+      },
+      "removes_phantoms": {
+        "type": "noul",
+        "noul": 0.47
+      }
+    },
+    "usage": {
+      "input_tokens": 530,
+      "output_tokens": 43
+    }
+  }
+}

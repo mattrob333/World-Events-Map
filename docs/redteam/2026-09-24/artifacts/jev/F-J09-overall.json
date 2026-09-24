@@ -1,0 +1,58 @@
+{
+  "label": "F-J09-overall",
+  "at": "2026-09-24T06:02:16.967Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "From 'talk about me' to a trip his crew can vote on.",
+      "outcome": "He typed a ramble; the board got 4 kids and no name/hometown/artists; Spotify paste failed with advice to use the ramble; he fixed the travelers and hometown by hand in the designer; the Nashville plan built instantly; live research took about 18 s with a 'Looking around Nashville…' line; flights showed per-adult fares; stays links were sized to 2 adults, 2 kids with ages; the invite link copied; a friend joined as 'You' by mistake and overwrote Matt's votes when merged; guests saw 'Research just ran a few times'."
+    },
+    "questions": {
+      "completion": {
+        "type": "score",
+        "instructions": "How completely was the job done?",
+        "criteria": [
+          "Not done",
+          "Done only with workarounds a typical user would not find",
+          "Done with notable friction and some wrong data",
+          "Done smoothly"
+        ]
+      },
+      "would_return": {
+        "type": "noul",
+        "instructions": "Probability Matt uses this again for his next real trip."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "completion": {
+        "type": "score",
+        "score": 1.94,
+        "confidence": 0.94,
+        "legend": {
+          "0": "Not done",
+          "1": "Done only with workarounds a typical user would not find",
+          "2": "Done with notable friction and some wrong data",
+          "3": "Done smoothly"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.06,
+          "2": 0.94,
+          "3": 0
+        }
+      },
+      "would_return": {
+        "type": "noul",
+        "noul": 0.51
+      }
+    },
+    "usage": {
+      "input_tokens": 550,
+      "output_tokens": 34
+    }
+  }
+}

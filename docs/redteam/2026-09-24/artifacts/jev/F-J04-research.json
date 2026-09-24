@@ -1,0 +1,92 @@
+{
+  "label": "F-J04-research",
+  "at": "2026-09-24T06:02:14.081Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Read the live destination research for Nashville and decide what the trip will cost and what to do.",
+      "screen": "Trip canvas, research panel 'NASHVILLE, RIGHT NOW', phone",
+      "visible": "Intro: 'Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.' Button 'Refresh'. Tabs (horizontally scrolling): Top spots 10, Hidden gems 8, Instagram 10, TikTok 8, Eat 10, Nights out 10, Tripadvisor 10, Yelp 10, Events, Flights 4. Flights tab: big cards '$308 Frontier ATL → BNA · 1 stop · 6h 23m Departs 2026-10-09 at 10:11', '$347 Southwest ATL → BNA · nonstop · 1h 10m' (x3). Footnote below the cards (below the fold on phone): 'ATL ⇄ BNA, 2026-10-09 to 2026-10-12. Typical for this route: $130–$240. Round trip, one adult, economy, from Google Flights, fetched 1 min ago. Fares move fast; confirm before you book.' Matt's party on the trip is 2 adults and 2 kids. Hidden gems footnote: 'Rated 4.6+ with 30–1,500 Google reviews: loved, not overrun. From Google Maps, fetched 1 min ago.' Events tab: 'The events feed is down on the provider’s side right now.' footnote 'From Google Events. Listings and ratings are theirs; check hours and bookings with each place.' Tripadvisor tab includes 'Tennessee Aquarium ★ 4.6 (7.2K)' (it is in Chattanooga, about 2 hours away) among Nashville sights. Instagram tab includes a post from @executiveinngoodlettsville: 'Enjoy a comfortable stay at Executive Inn & Suites, Goodlettsville...' labeled 'INSTAGRAM · THE PARTHENON'.",
+      "refresh": "He taps Refresh. It returns in under half a second; the footnote still says 'fetched 2 min ago' and nothing visibly changes."
+    },
+    "questions": {
+      "fare_party": {
+        "type": "noul",
+        "instructions": "Probability Matt reads $347 as the total flight cost for his family rather than per adult."
+      },
+      "fare_indicative": {
+        "type": "noul",
+        "instructions": "Probability Matt understands these fares are indicative search results, not bookable held prices."
+      },
+      "gems_defined": {
+        "type": "noul",
+        "instructions": "Probability Matt understands how 'Hidden gems' were chosen (a rating/review-count rule, not an editor)."
+      },
+      "events_honest": {
+        "type": "score",
+        "instructions": "Rate the honesty and helpfulness of the Events tab state.",
+        "criteria": [
+          "Misleading",
+          "Honest but confusing (contradictory footnote)",
+          "Honest, no next step",
+          "Honest with a useful next step"
+        ]
+      },
+      "refresh_feedback": {
+        "type": "noul",
+        "instructions": "Probability Matt believes Refresh fetched new live data."
+      },
+      "all_in_nashville": {
+        "type": "noul",
+        "instructions": "Probability Matt assumes every Tripadvisor and Instagram item shown is actually in or about Nashville."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "fare_party": {
+        "type": "noul",
+        "noul": 0.31
+      },
+      "fare_indicative": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "gems_defined": {
+        "type": "noul",
+        "noul": 0.62
+      },
+      "events_honest": {
+        "type": "score",
+        "score": 1.84,
+        "confidence": 0.78,
+        "legend": {
+          "0": "Misleading",
+          "1": "Honest but confusing (contradictory footnote)",
+          "2": "Honest, no next step",
+          "3": "Honest with a useful next step"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.16,
+          "2": 0.79,
+          "3": 0.03
+        }
+      },
+      "refresh_feedback": {
+        "type": "noul",
+        "noul": 0.53
+      },
+      "all_in_nashville": {
+        "type": "noul",
+        "noul": 0.7
+      }
+    },
+    "usage": {
+      "input_tokens": 1029,
+      "output_tokens": 112
+    }
+  }
+}

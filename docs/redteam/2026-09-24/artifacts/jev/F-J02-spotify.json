@@ -1,0 +1,68 @@
+{
+  "label": "F-J02-spotify",
+  "at": "2026-09-24T06:02:13.091Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Optionally add his music by pasting a public Spotify playlist link.",
+      "screen": "/moodboard, 'Add your Spotify' panel",
+      "before": "Text: 'Got a favorites playlist? Paste it (optional)' [input]. Button 'Connect Spotify' (disabled). Next to it: 'Sign-in isn’t set up yet; paste a public playlist link instead.' Fine print: 'A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device...'",
+      "after_paste": "He pastes https://open.spotify.com/playlist/... and taps 'Read this playlist'. Red error: 'Spotify isn’t hooked up on this app yet. For now, name your favorite artists and genres in your ramble above.' (His ramble already named Foo Fighters, Pearl Jam and Tom Petty; the board showed only 'Rock', none of the artists.)"
+    },
+    "questions": {
+      "expect_paste_works": {
+        "type": "noul",
+        "instructions": "Before tapping, probability Matt expects pasting a public playlist link will work."
+      },
+      "honesty": {
+        "type": "score",
+        "instructions": "Rate the honesty of how the app communicates that Spotify is unavailable, across the before and after states.",
+        "criteria": [
+          "Misleading: it invites an action that cannot work",
+          "Mixed: honest error only after a failed attempt",
+          "Honest up front but no useful path",
+          "Honest up front with a working alternative"
+        ]
+      },
+      "fallback_useful": {
+        "type": "noul",
+        "instructions": "Probability the suggested fallback ('name your favorite artists ... in your ramble') actually gets Matt's artists onto his board, given what happened when he already did that."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expect_paste_works": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "honesty": {
+        "type": "score",
+        "score": 0.87,
+        "confidence": 0.13,
+        "legend": {
+          "0": "Misleading: it invites an action that cannot work",
+          "1": "Mixed: honest error only after a failed attempt",
+          "2": "Honest up front but no useful path",
+          "3": "Honest up front with a working alternative"
+        },
+        "probabilities": {
+          "0": 0.48,
+          "1": 0.32,
+          "2": 0.04,
+          "3": 0.16
+        }
+      },
+      "fallback_useful": {
+        "type": "noul",
+        "noul": 0.2
+      }
+    },
+    "usage": {
+      "input_tokens": 678,
+      "output_tokens": 56
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[1a] no IP headers, 10 calls -> allowed 4 (shared "anonymous" bucket)
+[1b] 100 calls, rotating X-Real-IP -> allowed 100
+[1c] 100 calls, rotating X-Vercel-Forwarded-For -> allowed 100
+[1d] 100 calls, rotating X-Forwarded-For only -> allowed 4 (XFF is ignored -> all "anonymous")
+[1e] after attacker spends 4 on "anonymous", a real user without proxy headers allowed? false
+[1f] 1000 jev calls rotating X-Real-IP -> allowed 1000
+[2a] one request with flights: provider calls { calls: 8, billedUsd: 0.085 } reported capUsd 0.1 spentUsd 0.085
+[2b] Lisbon x5 with varied food string: provider calls { calls: 35, billedUsd: 0.325 }
+[2c] 60 distinct places sequential (cost header present):  { calls: 217, billedUsd: 2 } (daily cap $2)
+[2d] 60 distinct places CONCURRENT (cost header present): { calls: 420, billedUsd: 3.9 } (daily cap $2)
+[2e] 60 distinct places sequential, Treg omits x-treg-cost-micro: { calls: 420, billedUsd: 3.9 } (daily cap $2)
+[2f] cached place + 30 different flight dates -> new provider calls 30 { calls: 37, billedUsd: 0.665 }

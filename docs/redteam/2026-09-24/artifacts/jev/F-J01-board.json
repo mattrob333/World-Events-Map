@@ -1,0 +1,76 @@
+{
+  "label": "F-J01-board",
+  "at": "2026-09-24T06:02:12.406Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Build a profile by typing a ramble (no microphone), then plan a trip his crew can vote on.",
+      "screen": "/moodboard after tapping 'Build my mood board'",
+      "what_he_typed": "I'm Matt, 44, from Atlanta. Die-hard Braves fan, we go to Truist Park a lot. Two boys, Jack is 12 and Sam is 8, and my wife Kelly. I love live rock, Foo Fighters, Pearl Jam, Tom Petty, and honestly a great cover band at a bar is my favorite night out. We loved a trip to Nashville a few years back for the honky tonks, and the beach at 30A. I'm into BBQ, craft beer and tacos. Kids are into baseball and roller coasters.",
+      "visible": "Your board · badges 'Sorted on this device', 'Mood imagery · not your photos'. Summary: 'travels with wife and 4 kids · into Atlanta Braves, Rock, Beaches, Baseball.' THE CREW tile: 'Travels with 5': Son 12, Son 8, Kid, Kid, Kelly Wife. Chips with × remove buttons: Teams: Atlanta Braves; Music: Rock; Favorite trips: Nashville; Into: Beaches, Baseball; Food: BBQ, Tacos. The 'Travels with' chips have no remove button. No name, age or hometown shown anywhere. No field to edit the board except removing chips. Buttons: 'Save my board', 'Plan a trip with this board →'."
+    },
+    "questions": {
+      "accurate": {
+        "type": "noul",
+        "instructions": "Probability that Matt, glancing at this board, would judge it an accurate summary of what he typed."
+      },
+      "notice_kids": {
+        "type": "noul",
+        "instructions": "Probability Matt notices the board says he has 4 kids (he has 2) before moving on to plan the trip."
+      },
+      "can_fix": {
+        "type": "score",
+        "instructions": "How well can Matt correct the wrong facts (4 kids, missing hometown, missing name, missing favorite artists) from this screen?",
+        "criteria": [
+          "No way to correct them",
+          "Only by guessing how to rephrase the ramble and rebuilding",
+          "Partial: can remove some wrong chips but not the kids or add missing facts",
+          "Can correct everything directly"
+        ]
+      },
+      "trust": {
+        "type": "noul",
+        "instructions": "Probability that seeing '4 kids' and missing hometown reduces Matt's trust in the rest of the app's planning."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "accurate": {
+        "type": "noul",
+        "noul": 0.42
+      },
+      "notice_kids": {
+        "type": "noul",
+        "noul": 0.32
+      },
+      "can_fix": {
+        "type": "score",
+        "score": 1.62,
+        "confidence": 0.62,
+        "legend": {
+          "0": "No way to correct them",
+          "1": "Only by guessing how to rephrase the ramble and rebuilding",
+          "2": "Partial: can remove some wrong chips but not the kids or add missing facts",
+          "3": "Can correct everything directly"
+        },
+        "probabilities": {
+          "0": 0.1,
+          "1": 0.18,
+          "2": 0.72,
+          "3": 0
+        }
+      },
+      "trust": {
+        "type": "noul",
+        "noul": 0.64
+      }
+    },
+    "usage": {
+      "input_tokens": 837,
+      "output_tokens": 70
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "label": "F-J06-merge",
+  "at": "2026-09-24T06:02:15.296Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Collect the crew's picks back into his plan.",
+      "screen": "/trips/join opened from a picks link on Matt's phone",
+      "visible": "Headline 'You sent their picks. 4 votes.' 'Add them to your trip. If they voted before, their new picks replace the old ones.' Button 'Add their picks'. After tapping: 'You’s 4 picks are in.' and 'See the group’s faves →'. (Behind the scenes a friend who picked 'You' sent these; Matt's own love for 'Nashville with kids' that he added after sending the invite has been erased.)"
+    },
+    "questions": {
+      "understands": {
+        "type": "noul",
+        "instructions": "Probability Matt understands that tapping 'Add their picks' will replace his own votes."
+      },
+      "clarity": {
+        "type": "score",
+        "instructions": "How clear is this screen about who sent the picks and what will change?",
+        "criteria": [
+          "Confusing and destructive",
+          "Confusing but harmless",
+          "Clear enough",
+          "Very clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands": {
+        "type": "noul",
+        "noul": 0.22
+      },
+      "clarity": {
+        "type": "score",
+        "score": 0.17,
+        "confidence": 0.83,
+        "legend": {
+          "0": "Confusing and destructive",
+          "1": "Confusing but harmless",
+          "2": "Clear enough",
+          "3": "Very clear"
+        },
+        "probabilities": {
+          "0": 0.9,
+          "1": 0.05,
+          "2": 0.04,
+          "3": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 541,
+      "output_tokens": 36
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "label": "F-J05-invite",
+  "at": "2026-09-24T06:02:14.696Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 44, from Atlanta, Braves fan, two boys aged 8 and 12, wife Kelly, loves live rock and cover bands, uses his phone (390px wide) most of the time. Not technical.",
+      "job": "Get his crew voting: a friend, Dave, opens the invite link Matt pasted in the group chat.",
+      "screen": "/trips/join on Dave's phone",
+      "visible": "Eyebrow 'SHARED TRIP'. Headline 'You’re invited. Nashville.' 'Fri, Oct 9 → Mon, Oct 12 · 3 nights. Say who you are, tap ♥ on what you’re into, and send your picks back. No sign-up: the trip came inside the link.' 'WHO ARE YOU?' radio chips: 😎 You, 🌺 Son (12), 🏂 Son (8), ⚾ Kelly. Input 'Not on the list? Add yourself' (placeholder 'Your name'). Button 'Join and vote →'. Nowhere does it say whose trip this is ('You' is Matt, the organizer, whose name the app never learned)."
+    },
+    "questions": {
+      "knows_whose": {
+        "type": "noul",
+        "instructions": "Probability Dave can tell from this screen whose trip it is."
+      },
+      "taps_you": {
+        "type": "noul",
+        "instructions": "Probability a friend like Dave taps 'You' believing it means himself."
+      },
+      "privacy_ok": {
+        "type": "noul",
+        "instructions": "Probability Matt would be comfortable that anyone forwarded this link sees his kids' ages, his hometown (Atlanta, Georgia), and his and Kelly's interest tags."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_whose": {
+        "type": "noul",
+        "noul": 0.23
+      },
+      "taps_you": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "privacy_ok": {
+        "type": "noul",
+        "noul": 0.31
+      }
+    },
+    "usage": {
+      "input_tokens": 590,
+      "output_tokens": 58
+    }
+  }
+}

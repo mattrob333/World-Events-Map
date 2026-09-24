@@ -1,0 +1,39 @@
+{
+  "label": "F-J08-guest-research",
+  "at": "2026-09-24T06:02:16.434Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Dave, Matt's friend, on his phone, just joined Matt's Nashville trip via the invite link.",
+      "screen": "Trip canvas research panel",
+      "visible": "'NASHVILLE, RIGHT NOW' 'Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.' Red: 'Research just ran a few times. Give it ten minutes. The idea cards above still work.' (The idea cards are below this panel. Dave has not run anything; the limit is shared with others on his network.) No retry button."
+    },
+    "questions": {
+      "understands": {
+        "type": "noul",
+        "instructions": "Probability Dave understands why research is unavailable and what to do."
+      },
+      "blames_self": {
+        "type": "noul",
+        "instructions": "Probability Dave thinks he did something wrong."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "blames_self": {
+        "type": "noul",
+        "noul": 0.47
+      }
+    },
+    "usage": {
+      "input_tokens": 429,
+      "output_tokens": 40
+    }
+  }
+}
