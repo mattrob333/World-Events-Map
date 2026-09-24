@@ -1,0 +1,4 @@
+organizer: p1 Matt | organizer votes before: {"d0-depart":{"any:lounge":{"p1":1},"any:car-to-airport":{"p1":1}}}
+UI would say: Sam’s 0 picks are in | added: false
+organizer votes after: {"d0-depart":{"any:lounge":{},"any:car-to-airport":{}}}
+participant list after (names): p1=Matt, p2=Sam
