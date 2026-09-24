@@ -20,20 +20,21 @@ const monthName = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateStri
  * lib/alerts/leadTimes.ts), never live availability.
  */
 export function ComingUp({ today, events, onOpen }: { today: string; events: readonly WorldEvent[]; onOpen: (event: WorldEvent) => void }) {
-  const [open, setOpen] = useState(true);
+  // null until the stored choice is read: desktop shows the calendar, phones hide
+  // it with CSS, so reading the choice never shifts the page.
+  const [choice, setChoice] = useState<boolean | null>(null);
   useEffect(() => {
     let stored: string | null = null;
     try { stored = window.localStorage.getItem(OPEN_KEY); } catch { /* storage can be off */ }
-    if (stored === '0' || (stored === null && window.matchMedia('(max-width: 640px)').matches)) {
-      const timer = window.setTimeout(() => setOpen(false), 0);
-      return () => window.clearTimeout(timer);
-    }
+    const phone = window.matchMedia('(max-width: 640px)').matches;
+    const timer = window.setTimeout(() => setChoice(stored === '1' ? true : stored === '0' ? false : !phone), 0);
+    return () => window.clearTimeout(timer);
   }, []);
+  const open = choice ?? true;
   const toggle = () => {
-    setOpen((value) => {
-      try { window.localStorage.setItem(OPEN_KEY, value ? '0' : '1'); } catch { /* in-memory still works */ }
-      return !value;
-    });
+    const visible = choice ?? !window.matchMedia('(max-width: 640px)').matches;
+    try { window.localStorage.setItem(OPEN_KEY, visible ? '0' : '1'); } catch { /* in-memory still works */ }
+    setChoice(!visible);
   };
 
   const lanes = useMemo(() => buildLanes(events, today), [events, today]);
@@ -55,13 +56,14 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
           <strong>{weekday(today)}, {shortDate(today)}</strong>
           <span className={styles.summary}>{summary}</span>
         </p>
-        <button type="button" className={styles.toggle} onClick={toggle} aria-expanded={open}>
-          {open ? 'Hide calendar' : 'Show calendar'} <span aria-hidden="true">{open ? '▴' : '▾'}</span>
+        <button type="button" className={styles.toggle} onClick={toggle} aria-expanded={open} data-undecided={choice === null || undefined}>
+          <span className={styles.whenOpen}>Hide calendar <span aria-hidden="true">▴</span></span>
+          <span className={styles.whenClosed}>Show calendar <span aria-hidden="true">▾</span></span>
         </button>
       </div>
 
       {open && (
-        <>
+        <div className={choice === null ? styles.bodyUndecided : undefined}>
           <div className={styles.scroller} tabIndex={0} aria-label="Next eight weeks, scroll sideways">
             <div className={styles.grid} style={{ ['--days' as string]: DAYS }}>
               <div className={styles.dayRow} aria-hidden="true">
@@ -131,7 +133,7 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
             <span><b data-urgency="open" />Plan by</span>
             <span className={styles.legendNote}>Plan-by dates are editorial booking windows for the best rooms, tables and spots, not live availability.</span>
           </p>
-        </>
+        </div>
       )}
     </section>
   );

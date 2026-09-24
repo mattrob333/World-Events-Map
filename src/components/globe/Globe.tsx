@@ -60,6 +60,8 @@ export interface GlobeProps {
   initialView?: GeoPoint;
   /** Render only when location provenance is browser or explicit city choice. */
   viewerMarker?: ViewerMarkerInfo;
+  /** Stop drawing frames (the stage is off-screen). The scene stays mounted. */
+  paused?: boolean;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -154,6 +156,7 @@ export function GlobeCanvas({
   className,
   initialView = DEFAULT_INITIAL_VIEW,
   viewerMarker,
+  paused = false,
   onContextLost,
   onContextRestored,
 }: GlobeCanvasProps) {
@@ -197,6 +200,7 @@ export function GlobeCanvas({
       ref={canvasRef}
       className={className}
       dpr={[1, 2]}
+      frameloop={paused ? 'never' : 'always'}
       gl={{
         antialias: true,
         powerPreference: 'high-performance',
@@ -284,6 +288,7 @@ function GlobeImpl({
   className,
   initialView = DEFAULT_INITIAL_VIEW,
   viewerMarker,
+  paused,
 }: GlobeProps) {
   const [contextLost, setContextLost] = useState(false);
   const [unsupported, setUnsupported] = useState(false);
@@ -318,6 +323,7 @@ function GlobeImpl({
           winterMode={winterMode}
           initialView={initialView}
           viewerMarker={viewerMarker}
+          paused={paused}
           onContextLost={handleLost}
           onContextRestored={handleRestored}
         />

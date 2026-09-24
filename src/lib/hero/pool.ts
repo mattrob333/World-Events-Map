@@ -22,7 +22,7 @@ export type HeroPhoto = {
 };
 
 export const HERO_POOL: HeroPhoto[] = pool as HeroPhoto[];
-export const HERO_WIDTHS = [800, 1600] as const;
+export const HERO_WIDTHS = [800, 1200, 1600] as const;
 
 export function heroSrc(photo: Pick<HeroPhoto, 'id'>, width: (typeof HERO_WIDTHS)[number]): string {
   return `/hero-pool/w${width}/${photo.id}.webp`;

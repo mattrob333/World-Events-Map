@@ -175,7 +175,13 @@
 .legend b { width: 8px; height: 8px; }
 .legendNote { flex-basis: 100%; }
 
+/* The label follows aria-expanded; before the stored choice is read, phones show "Show". */
+.toggle[aria-expanded='false'] .whenOpen,
+.toggle[aria-expanded='true'] .whenClosed { display: none; }
 @media (max-width: 640px) {
+  .bodyUndecided { display: none; }
+  .toggle[data-undecided] .whenOpen { display: none; }
+  .toggle[data-undecided] .whenClosed { display: inline; }
   .shell { --col: 40px; padding-inline: 16px; }
   .summary { flex-basis: 100%; }
 }

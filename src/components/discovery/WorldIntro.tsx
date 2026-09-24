@@ -327,7 +327,7 @@ export function WorldIntro({
   return (
     <section className={styles.intro} aria-label="Discover your next journey">
       <div className={styles.hero}>
-        <div className={styles.heroPhoto} role="img" aria-label="Illustrative collage of a rooftop gathering, ski terrace, yacht trip, and beach escape" />
+        <div className={styles.heroPhoto} aria-hidden="true" />
         <HeroPool />
         <div className={styles.heroShade} aria-hidden="true" />
         <div className={styles.heroCopy}>

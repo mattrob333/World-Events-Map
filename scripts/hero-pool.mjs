@@ -4,7 +4,7 @@
  *
  *   node scripts/hero-pool.mjs <picks.json> <dir of 1920px JPEGs>
  *
- * Writes public/hero-pool/w800|w1600/<id>.webp and src/lib/hero/pool.json
+ * Writes public/hero-pool/w800|w1200|w1600/<id>.webp and src/lib/hero/pool.json
  * (place label, credit, license, source page). Same photographs, resized and
  * re-encoded, so each credit and license still applies.
  */
@@ -26,7 +26,7 @@ for (const pick of picks) {
     console.warn(`skip ${pick.id}: not downloaded`);
     continue;
   }
-  for (const width of [800, 1600]) {
+  for (const width of [800, 1200, 1600]) {
     const dir = path.join(ROOT, 'public/hero-pool', `w${width}`);
     await fs.mkdir(dir, { recursive: true });
     const file = path.join(dir, `${pick.id}.webp`);

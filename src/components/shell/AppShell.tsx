@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { NavLink } from './NavLink';
 import { usePathname } from 'next/navigation';
 import { useEffect, useId, useState } from 'react';
 import { cn } from '@/components/ui';
@@ -12,7 +12,9 @@ import dynamic from 'next/dynamic';
 const CurrentMemberChip = dynamic(() => import('@/components/social/CurrentMemberChip').then((m) => m.CurrentMemberChip), { ssr: false });
 const SocialRoot = dynamic(() => import('@/components/social/MemberProfileSheet').then((m) => m.SocialRoot), { ssr: false });
 import { CommandPalette, SearchTrigger } from './CommandPalette';
-import { SunButton, SunModal } from '@/components/voice/SunModal';
+import { SunButton, SunGlyph, SunModal } from '@/components/voice/SunModal';
+import { useDesignerStore } from '@/lib/designer/store';
+import { useVoiceStore } from '@/lib/voice/registry';
 import { ProfileSwitcher } from './ProfileSwitcher';
 import { ResumeTrip } from './ResumeTrip';
 
@@ -90,7 +92,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const morePanelId = useId();
-  const completed = useOnboardingStore((s) => s.completed);
   const skip = useOnboardingStore((s) => s.skip);
 
   useEffect(() => setMounted(true), []);
@@ -107,7 +108,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const world = pathname === '/';
   // The lens invitation belongs to the front door only: on every page it pushed
   // content down, and on /moodboard it competed with the board's own flow (UFR2-J13).
-  const showOnboarding = mounted && !completed && world;
+  const skipped = useOnboardingStore((s) => s.skipped);
+  const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
+  const setVibeOpen = useVoiceStore((s) => s.setOpen);
+  // The vibe is the way in: prompt until there's a profile, unless they said not now.
+  const showVibePrompt = mounted && world && !hasProfile && !skipped;
   const moreHref = currentMoreHref(pathname);
   const profileCurrent = activePath(pathname, PROFILE_HREF);
 
@@ -122,11 +127,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Opaque: at 90% the page text showed through while scrolling (UFR2-J11). */}
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0 pt-[env(safe-area-inset-top)]">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-4 px-4 sm:px-5">
-          <Link href="/" className="flex min-h-11 shrink-0 items-center" aria-label="dope.travel home">
+          <NavLink href="/" className="flex min-h-11 shrink-0 items-center" aria-label="dope.travel home">
             {/* One drawn lockup, so ".travel" always shares the wordmark's baseline. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
             <img src="/brand/dope-travel-lockup.svg" alt="" width={95} height={32} className="h-8 w-auto" />
-          </Link>
+          </NavLink>
           {isDemoMode() && (
             <span
               className="tag shrink-0 text-saffron"
@@ -137,7 +142,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           )}
           <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-surface-1 p-1 shadow-[var(--shadow-inset)] lg:flex">
             {PRIMARY.map((item) => (
-              <Link
+              <NavLink
                 key={item.href}
                 href={item.href}
                 className={cn(
@@ -147,7 +152,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 aria-current={activePath(pathname, item.href) ? 'page' : undefined}
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
@@ -156,7 +161,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
             {isDemoMode() && <CurrentMemberChip className="hidden lg:flex" mountRoot={false} />}
             {/* lg and up: below that, Now lives in More so one route never lights twice. */}
-            <Link
+            <NavLink
               href="/now"
               aria-current={activePath(pathname, '/now') ? 'page' : undefined}
               className={cn(
@@ -165,9 +170,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               )}
             >
               Now
-            </Link>
+            </NavLink>
             <ProfileSwitcher className="hidden lg:block" />
-            <Link
+            <NavLink
               href={PROFILE_HREF}
               aria-current={profileCurrent ? 'page' : undefined}
               className={cn(
@@ -176,7 +181,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               )}
             >
               Profile
-            </Link>
+            </NavLink>
           </div>
         </div>
       </header>
@@ -184,17 +189,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Outside the glass header: its backdrop-filter would trap the fixed sheet and invitation strip. */}
       {isDemoMode() && <SocialRoot />}
 
-      {showOnboarding && (
-        // A floating strip, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
-        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:left-6 lg:w-[28rem]">
-          <div className="surface-raised mx-auto flex max-w-[1600px] items-center justify-between gap-3 rounded-[var(--radius-control)] py-2 pl-4 pr-2 text-[13px] text-ink-soft">
-            <span>Set your traveler lens. It takes under a minute.</span>
+      {showVibePrompt && (
+        // A floating card, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
+        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:left-6 lg:w-[26rem]">
+          <div className="vibe-prompt mx-auto flex max-w-[1600px] items-center gap-3 rounded-[20px] py-3 pl-3 pr-2">
+            <SunGlyph size={40} glow />
+            <span className="min-w-0 flex-1">
+              <strong className="block text-[15px] font-semibold leading-tight text-bone">Set your vibe</strong>
+              <span className="block text-[12.5px] leading-snug text-ink-soft">Tell us how you get down. Two minutes, talk or type.</span>
+            </span>
             <span className="flex shrink-0 items-center gap-1">
-              <Link href={`/welcome?from=${encodeURIComponent(pathname)}`} className="btn btn-ghost btn-sm">
-                Begin
-              </Link>
-              <button type="button" onClick={skip} className="min-h-11 rounded-full px-3 text-ink-muted hover:text-bone" aria-label="Skip the traveler lens for now">
-                Skip
+              <button type="button" onClick={() => setVibeOpen(true)} className="btn btn-primary btn-sm">
+                Let&apos;s go
+              </button>
+              <button type="button" onClick={skip} className="min-h-11 rounded-full px-2.5 text-[12px] text-ink-muted hover:text-bone" aria-label="Not now: hide the vibe prompt">
+                Not now
               </button>
             </span>
           </div>
@@ -218,7 +227,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <ul className="grid grid-cols-5">
           {MOBILE.map((item) => (
             <li key={item.href}>
-              <Link
+              <NavLink
                 href={item.href}
                 aria-current={activePath(pathname, item.href) ? 'page' : undefined}
                 className={cn(
@@ -229,7 +238,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 {activePath(pathname, item.href) ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
                 <TabGlyph name={item.icon} />
                 {item.label}
-              </Link>
+              </NavLink>
             </li>
           ))}
           <li>
@@ -267,7 +276,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 lg:hidden"
           >
             {MORE_ITEMS.map((item) => (
-              <Link
+              <NavLink
                 key={item.href}
                 href={item.href}
                 role="menuitem"
@@ -278,7 +287,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               >
                 <span className="text-[15px] font-medium">{item.label}{moreHref === item.href ? <span className="sr-only"> (current page)</span> : null}</span>
                 <span className="text-[12px] text-ink-subtle">{item.hint}</span>
-              </Link>
+              </NavLink>
             ))}
           </div>
         </>

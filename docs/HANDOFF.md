@@ -73,6 +73,14 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
   - Plan-by dates come from the editorial booking windows in `src/lib/alerts` (when the best rooms, tables and spots usually go). They are not flight, hotel or restaurant availability; the UI says so. Separate flight/hotel/restaurant deadlines would need live data we don't have.
   - `whyNow()` feeds the hero card ("Happening now", timing, the event's own first reason, plan-by) and the "Worth catching now" cards.
   - Hero photos carry a per-photo `focusY` in `src/lib/hero/pool.json`; the credit caption sits bottom-left.
+- **Speed pass (2026-09-24), measured with a production build in headless Chrome (phone = 4x CPU throttle, slow 4G):**
+  - Home was a client-only render (reading the URL made the static page bail out to "Opening your world…"). It now renders per request (`src/app/page.tsx`, `dynamic = 'force-dynamic'`). Phone LCP went from about 3.8 s to 1.5 s; desktop LCP about 0.5 s.
+  - The WebGL globe mounts only within a screen of view (or when a flight is requested) and stops drawing frames off-screen. Desktop main-thread work on load dropped from 6.2 s to 1.4 s.
+  - Header and tab-bar links prefetch on hover, focus or touch (`NavLink`) instead of fetching every section twice on load.
+  - `/api/events` (445 KB) waits for idle, polls every 5 min instead of 1, and only re-ranks when the calendar actually changed.
+  - The hero has a server-rendered lead photo, a 1200 px variant for phones, and no longer downloads the old collage or the run's last photo up front. The calendar no longer shifts layout on phones (CLS 0.28 to 0).
+  - Not done: the Fraunces variable fonts (about 264 KB) carry every axis; shrinking them means pinning axes and changing the type.
+- **"Set your vibe" prompt:** the floating strip that said "Set your traveler lens" is now the Vibe prompt. It shows until there's a profile (or "Not now"), and opens the Sun modal.
 - **Source library (research only, not wired in):** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
 - **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central). Migrations 001–006 were applied on 2026-09-24 with the owner watching.
   - `006_advisor_hardening.sql` closes the RPC surface of the trigger functions and the RLS helpers, wraps `auth.uid()` in `(select …)` in 22 policies, and adds 5 foreign-key indexes. It doesn't change any access rules. `src/lib/platform/__tests__/rls.test.ts` now runs against 001 + 003 + 006.

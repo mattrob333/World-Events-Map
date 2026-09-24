@@ -296,6 +296,25 @@
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-soft-2);
   }
+  /* The floating "Set your vibe" prompt: a raised card with a golden-hour edge. */
+  .vibe-prompt {
+    background:
+      linear-gradient(var(--color-surface-3), var(--color-surface-3)) padding-box,
+      linear-gradient(120deg, rgb(247 197 72 / 0.7), rgb(242 107 42 / 0.55), rgb(228 87 126 / 0.6)) border-box;
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-soft-2), 0 10px 40px -12px rgb(242 107 42 / 0.45);
+  }
+  .sun-glyph-glow {
+    box-shadow: 0 0 0 4px rgb(247 197 72 / 0.12), 0 0 22px rgb(242 107 42 / 0.55);
+    animation: sun-glyph-breathe 3.6s ease-in-out infinite;
+  }
+  @keyframes sun-glyph-breathe {
+    0%, 100% { box-shadow: 0 0 0 4px rgb(247 197 72 / 0.12), 0 0 18px rgb(242 107 42 / 0.45); }
+    50% { box-shadow: 0 0 0 6px rgb(247 197 72 / 0.16), 0 0 28px rgb(242 107 42 / 0.7); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sun-glyph-glow { animation: none; }
+  }
   /* The one hero module on a page. */
   .surface-hero {
     background: var(--gradient-sunrise-wash), var(--color-surface-2);
