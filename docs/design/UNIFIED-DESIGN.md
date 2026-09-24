@@ -4,7 +4,7 @@ Agreed 2026-09-24 after a four-way critique panel (brand, interaction, systems, 
 
 ## The idea in one paragraph
 
-A travel magazine at golden hour. The room is a cool evening sky. Things you touch are soft, rounded objects that sit a little above it, with a lit top edge and a deep soft shadow underneath, and sink when pressed or selected. Big Fraunces headlines and real photography carry the premium feel (kept from MERIDIAN). The sun from the logo is the only saturated color, and it appears once per screen: normally on the single primary button.
+A travel magazine at golden hour. The room is true black with neutral charcoal surfaces (never navy: the owner's hard rule is no blue on black). Things you touch are soft, rounded objects that sit a little above it, with a lit top edge and a deep soft shadow underneath, and sink when pressed or selected. Big Fraunces headlines and real photography carry the premium feel (kept from MERIDIAN). The sun from the logo is the only saturated color, and it appears once per screen: normally on the single primary button.
 
 ## Hard rules (enforced in review)
 
@@ -12,7 +12,7 @@ A travel magazine at golden hour. The room is a cool evening sky. Things you tou
 2. **Three surfaces.** Page (`surface-0`), raised object (`.surface`, or `.surface-raised` for popovers and the one hero module), and sunken well (`.surface-well`, inputs and selected states). Not every section is a card: sections are open type on the page, and cards are for things you act on.
 3. **One primary, one secondary, one text link.** `.btn .btn-primary` (gradient pill, dark ink), `.btn .btn-ghost` (raised pill, bone ink), and an underlined text link. No beige slabs, no green CTAs, no outline-only mono buttons.
 4. **Selected is pressed, not filled.** `.chip-on` sinks into the surface with saffron ink and a saffron rim. Never the CTA gradient, never solid beige, so "selected" can't be mistaken for "tap me".
-5. **Brand colors only.** Evening, Bone, Brass, Saffron, Tangerine, Flamingo, Dusk. No Tailwind orange-300 or pink-300 pastels, no cyan, no rainbow conic gradients. Data encodings (heat ramp, category colors, globe) are exempt and untouched.
+5. **Brand colors only, and no blue surfaces.** Black, charcoal, Bone, Brass, Saffron, Tangerine, Flamingo, Dusk. No Tailwind orange-300 or pink-300 pastels, no cyan, no rainbow conic gradients. Data encodings (heat ramp, category colors, globe) are exempt and untouched.
 6. **Readable type.** Nothing below 11px. Readable copy uses `ink-muted` (#a8a598) or brighter. `ink-faint` is decoration and disabled states only; disclaimers that carry product truth use `ink-subtle` (#8f8c80, 5:1) or brighter.
 7. **Labels are sans.** Eyebrows are 11–12px sans, semibold, tracked caps, in brass. Mono is for data: times, prices, codes, counts.
 8. **Touch targets ≥ 44px** (visual 36px chips keep a 44px hit area).
@@ -20,7 +20,7 @@ A travel magazine at golden hour. The room is a cool evening sky. Things you tou
 
 ## Tokens (in `globals.css`)
 
-- Surfaces: `surface-0` #04050a (page), `surface-1` #0c0f19 (wells), `surface-2` #131726 (cards), `surface-3` #1b2033 (raised), `surface-4` #242a40 (hover).
+- Surfaces (neutral, no blue): `surface-0` #050505 (page), `surface-1` #0f0f0f (wells), `surface-2` #181818 (cards), `surface-3` #212121 (raised), `surface-4` #2b2b2b (hover).
 - Ink: bone #f4f1ea, `ink-soft` #c9c5b9, `ink-muted` #a8a598, `ink-subtle` #8f8c80, `ink-faint` #6b6a63 (decoration only).
 - Radii: `--radius-chip` 999px, `--radius-control` 14px, `--radius-card` 22px, `--radius-sheet` 32px.
 - Elevation: `--shadow-soft-1/2/3` (lit top rim, inner rim, deep soft drop), `--shadow-inset` (pressed/sunken), `--shadow-glow` (primary button only).
@@ -35,7 +35,7 @@ A travel magazine at golden hour. The room is a cool evening sky. Things you tou
 
 - **The sunset pill:** the primary button, filled with the CTA gradient.
 - **The horizon band:** the three stripes from the logo's sun. Used for the active nav marker and section dividers.
-- **Soft objects on an evening sky:** raised rounded cards with a lit top edge; selected things sink.
+- **Soft objects on black:** raised rounded cards with a lit top edge; selected things sink.
 - **Big Fraunces, quiet chrome:** headlines do the talking; labels are small sans in brass.
 
 ## Known follow-ups (not in this pass)

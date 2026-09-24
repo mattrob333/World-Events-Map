@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 };
 
 const PALETTE = [
-  { name: 'Evening', hex: '#04050A', note: 'Deep, cool night sky. The room everything sits in.', ink: '#F4F1EA' },
-  { name: 'Bone', hex: '#F4F1EA', note: 'Type and quiet surfaces.', ink: '#0B0E18' },
-  { name: 'Brass', hex: '#C8A866', note: 'The house metal. Chrome, rules, active states.', ink: '#0B0E18' },
-  { name: 'Saffron', hex: '#F7C548', note: 'Top of the sun. Brand moments only.', ink: '#0B0E18' },
-  { name: 'Tangerine', hex: '#F26B2A', note: 'The sun’s middle. Brand moments only.', ink: '#0B0E18' },
-  { name: 'Flamingo', hex: '#E4577E', note: 'Hype moments, sparingly.', ink: '#0B0E18' },
+  { name: 'After Dark', hex: '#050505', note: 'True black. The room everything sits in; surfaces are neutral charcoal, never navy.', ink: '#F4F1EA' },
+  { name: 'Bone', hex: '#F4F1EA', note: 'Type and quiet surfaces.', ink: '#0e0e0e' },
+  { name: 'Brass', hex: '#C8A866', note: 'The house metal. Chrome, rules, active states.', ink: '#0e0e0e' },
+  { name: 'Saffron', hex: '#F7C548', note: 'Top of the sun. Brand moments only.', ink: '#0e0e0e' },
+  { name: 'Tangerine', hex: '#F26B2A', note: 'The sun’s middle. Brand moments only.', ink: '#0e0e0e' },
+  { name: 'Flamingo', hex: '#E4577E', note: 'Hype moments, sparingly.', ink: '#0e0e0e' },
   { name: 'Dusk', hex: '#8E4DB8', note: 'The psychedelic hint. Gradient tails only.', ink: '#F4F1EA' },
 ];
 

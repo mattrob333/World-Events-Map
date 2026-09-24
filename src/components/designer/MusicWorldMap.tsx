@@ -81,7 +81,7 @@ export function MusicWorldMap({ events, selected, onSelect }: { events: LiveEven
               aria-label={`${pin.city}: ${pin.events.length} ${pin.events.length === 1 ? 'show' : 'shows'}`}
             >
               <circle r={r + 6} fill={KIND_STYLE[pin.kind].color} opacity={on ? 0.35 : 0.18} />
-              <circle r={r} fill={KIND_STYLE[pin.kind].color} stroke={on ? '#fff' : '#0b0e18'} strokeWidth={on ? 2.5 : 1.5} />
+              <circle r={r} fill={KIND_STYLE[pin.kind].color} stroke={on ? '#fff' : '#050505'} strokeWidth={on ? 2.5 : 1.5} />
               {pin.events.length > 1 ? (
                 <text textAnchor="middle" dy="0.35em" className={styles.mapCount}>
                   {pin.events.length}

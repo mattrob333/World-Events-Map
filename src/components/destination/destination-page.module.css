@@ -30,16 +30,16 @@
 .mainPhoto .photoImage { object-position: center 45%; transform: scale(1.005); }
 .photoShade { position: absolute; inset: 0; pointer-events: none; }
 .mainPhoto .photoShade {
-  background: linear-gradient(90deg, rgb(4 5 10 / 0.84) 0%, rgb(4 5 10 / 0.32) 52%, transparent 100%),
-    linear-gradient(0deg, rgb(4 5 10 / 0.93) 0%, rgb(4 5 10 / 0.12) 59%, rgb(4 5 10 / 0.31) 100%);
+  background: linear-gradient(90deg, rgb(5 5 5 / 0.84) 0%, rgb(5 5 5 / 0.32) 52%, transparent 100%),
+    linear-gradient(0deg, rgb(5 5 5 / 0.93) 0%, rgb(5 5 5 / 0.12) 59%, rgb(5 5 5 / 0.31) 100%);
 }
 
 .heroCopy { position: relative; z-index: 1; display: flex; height: 100%; flex-direction: column; justify-content: space-between; padding: clamp(1.25rem, 2.6vw, 2.5rem); }
-.heroTopline { display: flex; align-items: center; gap: 0.75rem; color: var(--color-brass-bright); text-shadow: 0 1px 6px rgb(4 5 10 / 0.9); }
+.heroTopline { display: flex; align-items: center; gap: 0.75rem; color: var(--color-brass-bright); text-shadow: 0 1px 6px rgb(5 5 5 / 0.9); }
 .star { font-size: 1.05rem; color: var(--color-saffron); }
 .heroToplineRule { display: block; width: 3rem; }
 .heroBottom { max-width: 48rem; }
-.heroCountry { color: var(--color-brass-bright); font-size: 0.75rem; text-shadow: 0 2px 8px rgb(4 5 10 / 0.9); }
+.heroCountry { color: var(--color-brass-bright); font-size: 0.75rem; text-shadow: 0 2px 8px rgb(5 5 5 / 0.9); }
 .heroCountry span { padding: 0 0.4rem; }
 .heroBottom h1 { margin: 0.2rem 0 0.4rem; font-family: var(--font-display); font-size: clamp(4.25rem, 8.1vw, 9.4rem); font-weight: 400; letter-spacing: -0.06em; line-height: 0.95; color: var(--color-bone); text-shadow: 0 4px 30px rgb(0 0 0 / 0.6); }
 .heroTagline { max-width: 38rem; color: var(--color-bone); font-family: var(--font-display); font-size: clamp(1.1rem, 1.6vw, 1.65rem); line-height: 1.25; text-shadow: 0 2px 8px rgb(0 0 0 / 0.9); }
@@ -52,7 +52,7 @@
 .heroSide { display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 0.75rem; height: 100%; min-height: 0; }
 .heroSideSingle { grid-template-rows: 1fr; }
 .sidePhoto { position: relative; min-height: 0; margin: 0; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface-2); box-shadow: var(--shadow-soft-2); }
-.sidePhoto .photoShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.92), rgb(4 5 10 / 0) 68%); }
+.sidePhoto .photoShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.92), rgb(5 5 5 / 0) 68%); }
 .sidePhoto .photoImage { transition: transform 0.8s var(--ease-glide); }
 .sidePhoto:hover .photoImage { transform: scale(1.035); }
 .sideCaption { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 1.25rem; }
@@ -153,7 +153,7 @@
 @media (max-width: 550px) {
   .heroMain, .heroCopy { height: 30rem; }
   .heroCopy { padding: 1.25rem; }
-  .mainPhoto .photoShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.95), rgb(4 5 10 / 0.07) 75%), linear-gradient(90deg, rgb(4 5 10 / 0.3), transparent); }
+  .mainPhoto .photoShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.95), rgb(5 5 5 / 0.07) 75%), linear-gradient(90deg, rgb(5 5 5 / 0.3), transparent); }
   .heroActions { gap: 0.5rem; }
   .primaryAction, .secondaryAction { flex: 1 1 auto; padding: 0 1.1rem; }
   .heroSide { grid-template-rows: 10.5rem; height: 10.5rem; }

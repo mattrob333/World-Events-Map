@@ -482,7 +482,7 @@
   border-radius: calc(var(--radius-sheet) - 10px);
   overflow: hidden;
   background-image:
-    linear-gradient(180deg, rgb(4 5 10 / 0.5), transparent 38%, rgb(4 5 10 / 0.35)),
+    linear-gradient(180deg, rgb(5 5 5 / 0.5), transparent 38%, rgb(5 5 5 / 0.35)),
     url('/supporting/now-rooftop-night.jpg');
   background-position: center, center 55%;
   background-size: cover;
@@ -515,7 +515,7 @@
   z-index: 2;
   border-radius: var(--radius-chip);
   padding: 5px 10px;
-  background: rgb(4 5 10 / 0.78);
+  background: rgb(5 5 5 / 0.78);
   color: var(--color-ink-soft);
   font: 11px/1.35 var(--font-sans);
 }

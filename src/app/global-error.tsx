@@ -20,7 +20,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body style={{ margin: 0, minHeight: '100vh', background: '#04050a', color: '#f4f1ea', fontFamily: 'Georgia, serif' }}>
+      <body style={{ margin: 0, minHeight: '100vh', background: '#050505', color: '#f4f1ea', fontFamily: 'Georgia, serif' }}>
         <main style={{ maxWidth: 560, margin: '0 auto', padding: '18vh 20px' }}>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: 22 }}>dope.travel</p>
           <h1 style={{ fontWeight: 400, fontSize: 30, lineHeight: 1.2 }}>dope.travel stopped working.</h1>

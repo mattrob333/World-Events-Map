@@ -40,8 +40,8 @@
 .heroShade {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgb(4 5 10 / 0.94) 0%, rgb(8 10 18 / 0.88) 28%, rgb(12 15 25 / 0.6) 52%, rgb(12 15 25 / 0.18) 83%),
-    linear-gradient(0deg, rgb(4 5 10 / 0.65), transparent 55%);
+    linear-gradient(90deg, rgb(5 5 5 / 0.94) 0%, rgb(10 10 10 / 0.88) 28%, rgb(15 15 15 / 0.6) 52%, rgb(15 15 15 / 0.18) 83%),
+    linear-gradient(0deg, rgb(5 5 5 / 0.65), transparent 55%);
 }
 
 .heroCredit,
@@ -50,7 +50,7 @@
   z-index: 2;
   border-radius: var(--radius-chip);
   padding: 5px 10px;
-  background: rgb(4 5 10 / 0.78);
+  background: rgb(5 5 5 / 0.78);
   color: var(--color-ink-soft);
   font: 11px/1.35 var(--font-sans);
 }
@@ -81,7 +81,7 @@
   font: 400 clamp(54px, 5.5vw, 96px)/0.96 var(--font-display);
   letter-spacing: -0.045em;
   text-wrap: balance;
-  text-shadow: 0 4px 35px rgb(2 5 11 / 0.6);
+  text-shadow: 0 4px 35px rgb(5 5 5 / 0.6);
 }
 
 .hero h1 em { color: var(--color-brass-bright); font-weight: 400; }
@@ -92,7 +92,7 @@
   color: var(--color-ink-soft);
   font-size: clamp(15px, 1.3vw, 18px);
   line-height: 1.6;
-  text-shadow: 0 2px 12px rgb(5 9 20 / 0.6);
+  text-shadow: 0 2px 12px rgb(9 9 9 / 0.6);
 }
 
 .heroActions {
@@ -369,8 +369,8 @@
   background-repeat: no-repeat;
 }
 
-.snowScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.5), transparent 55%), url('/supporting/trips-aspen-snow.jpg'); background-position: center, center 52%; }
-.seaScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.5), transparent 55%), url('/supporting/trips-monaco-yacht-show-yacht-2022.jpg'); background-position: center, center 53%; }
+.snowScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.5), transparent 55%), url('/supporting/trips-aspen-snow.jpg'); background-position: center, center 52%; }
+.seaScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.5), transparent 55%), url('/supporting/trips-monaco-yacht-show-yacht-2022.jpg'); background-position: center, center 53%; }
 
 .roomImage span {
   position: absolute;
@@ -378,7 +378,7 @@
   bottom: 12px;
   padding: 5px 10px;
   border-radius: var(--radius-chip);
-  background: rgb(4 5 10 / 0.72);
+  background: rgb(5 5 5 / 0.72);
   color: var(--color-ink-soft);
   font: 600 11px/1.2 var(--font-sans);
   letter-spacing: 0.08em;
@@ -493,7 +493,7 @@
 
 @media (max-width: 860px) {
   .hero { min-height: 460px; padding: 45px 6vw; }
-  .heroShade { background: linear-gradient(90deg, rgb(4 5 10 / 0.94), rgb(8 10 18 / 0.86) 48%, rgb(12 15 25 / 0.4)), linear-gradient(0deg, rgb(4 5 10 / 0.7), transparent 55%); }
+  .heroShade { background: linear-gradient(90deg, rgb(5 5 5 / 0.94), rgb(10 10 10 / 0.86) 48%, rgb(15 15 15 / 0.4)), linear-gradient(0deg, rgb(5 5 5 / 0.7), transparent 55%); }
   .content { padding: 54px 6vw 85px; }
   .sectionHeader { align-items: start; flex-direction: column; gap: 10px; }
   .sectionHeader > p { max-width: 550px; }
@@ -504,7 +504,7 @@
   .hero { min-height: 550px; align-items: end; margin: 8px 8px 0; border-radius: var(--radius-card); padding: 35px 20px 64px; }
   .heroImage { background-position: 47% center; }
   .heroCredit { right: 12px; bottom: 12px; max-width: calc(100% - 24px); }
-  .heroShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.97) 0%, rgb(8 10 18 / 0.88) 50%, rgb(8 10 18 / 0.72) 78%, rgb(8 10 18 / 0.35) 100%); }
+  .heroShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.97) 0%, rgb(10 10 10 / 0.88) 50%, rgb(10 10 10 / 0.72) 78%, rgb(10 10 10 / 0.35) 100%); }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .heroLead { font-size: 15px; }
   .heroActions { display: grid; }

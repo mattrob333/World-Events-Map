@@ -174,7 +174,7 @@
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: radial-gradient(circle at 75% 26%, #e7d7b869, transparent 24%), linear-gradient(155deg, #7b6041, #141b25 70%);
+  background: radial-gradient(circle at 75% 26%, #e7d7b869, transparent 24%), linear-gradient(155deg, #7b6041, #1b1b1b 70%);
 }
 .art::after {
   content: '';
@@ -190,7 +190,7 @@
 .art[data-photo='true']::after {
   z-index: 0;
   opacity: 1;
-  background: linear-gradient(180deg, rgb(4 6 9 / 0.79), rgb(4 6 9 / 0.16) 42%, rgb(4 6 9 / 0.89));
+  background: linear-gradient(180deg, rgb(6 6 6 / 0.79), rgb(6 6 6 / 0.16) 42%, rgb(6 6 6 / 0.89));
   mix-blend-mode: normal;
 }
 .artTexture {
@@ -207,11 +207,11 @@
   display: none;
 }
 /* Editorial art tones (illustration, not data). */
-.blue::before { background: radial-gradient(circle at 75% 30%, #ebf4f19e, transparent 19%), linear-gradient(140deg, #a0adb4, #233c4e 54%, #101e27); }
-.rose::before { background: radial-gradient(circle at 70% 26%, #f2d7bbab, transparent 21%), linear-gradient(135deg, #8f686e, #5a3a50 46%, #221d2b); }
-.green::before { background: radial-gradient(ellipse at 70% 30%, #b6e6ce7d, transparent 24%), linear-gradient(140deg, #456e69, #193a43 56%, #101a20); }
-.violet::before { background: radial-gradient(circle at 74% 25%, #ebbaaa85, transparent 19%), linear-gradient(145deg, #6b515f, #3b354d 55%, #171b2b); }
-.gold::before { background: radial-gradient(circle at 73% 28%, #f1d0a680, transparent 20%), linear-gradient(145deg, #927255, #533a32 51%, #1a1d24); }
+.blue::before { background: radial-gradient(circle at 75% 30%, #ebf4f19e, transparent 19%), linear-gradient(140deg, #a0adb4, #393939 54%, #1c1c1c); }
+.rose::before { background: radial-gradient(circle at 70% 26%, #f2d7bbab, transparent 21%), linear-gradient(135deg, #8f686e, #5a3a50 46%, #1f1f1f); }
+.green::before { background: radial-gradient(ellipse at 70% 30%, #b6e6ce7d, transparent 24%), linear-gradient(140deg, #456e69, #363636 56%, #191919); }
+.violet::before { background: radial-gradient(circle at 74% 25%, #ebbaaa85, transparent 19%), linear-gradient(145deg, #6b515f, #383838 55%, #1c1c1c); }
+.gold::before { background: radial-gradient(circle at 73% 28%, #f1d0a680, transparent 20%), linear-gradient(145deg, #927255, #533a32 51%, #1d1d1d); }
 .archiveImage {
   position: absolute;
   inset: 0;
@@ -267,7 +267,7 @@
   gap: 4px;
   padding: 2px;
   border-radius: var(--radius-chip);
-  background: rgb(4 5 10 / 0.72);
+  background: rgb(5 5 5 / 0.72);
   backdrop-filter: blur(10px);
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
   color: var(--color-bone);

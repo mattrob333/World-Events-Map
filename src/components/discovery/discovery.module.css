@@ -290,7 +290,7 @@
   width: 290px;
   padding: 24px 22px 0;
   border-radius: var(--radius-card);
-  background: var(--gradient-surface), rgb(19 23 38 / 0.94);
+  background: var(--gradient-surface), rgb(24 24 24 / 0.94);
   box-shadow: var(--shadow-soft-2);
   backdrop-filter: blur(14px);
 }
@@ -468,7 +468,7 @@
 .card0 {
   background:
     var(--gradient-surface),
-    radial-gradient(ellipse at 80% 0%, rgb(66 96 103 / 0.4), transparent 75%), var(--color-surface-2);
+    radial-gradient(ellipse at 80% 0%, rgb(91 91 91 / 0.4), transparent 75%), var(--color-surface-2);
 }
 .card1 {
   background:
@@ -1010,7 +1010,7 @@
   height: 490px;
   min-height: 490px;
   max-height: none;
-  background: radial-gradient(ellipse at 50% 38%, #172a3d 0%, #0b1320 45%, var(--color-surface-0) 82%);
+  background: radial-gradient(ellipse at 50% 38%, #292929 0%, #131313 45%, var(--color-surface-0) 82%);
 }
 .globe {
   inset: 0 25%;
@@ -1319,7 +1319,7 @@
     z-index: 1;
     width: 35%;
     pointer-events: none;
-    background: linear-gradient(90deg, rgb(4 5 10 / 0.93) 5%, rgb(4 5 10 / 0.79) 72%, transparent);
+    background: linear-gradient(90deg, rgb(5 5 5 / 0.93) 5%, rgb(5 5 5 / 0.79) 72%, transparent);
   }
 }
 .spotlight[data-selected='true'] {
@@ -1431,7 +1431,7 @@
   height: 560px;
   min-height: 560px;
   overflow: hidden;
-  background: radial-gradient(ellipse at 50% 42%, #1f3550 0%, #0d1928 42%, var(--color-surface-0) 85%);
+  background: radial-gradient(ellipse at 50% 42%, #343434 0%, #181818 42%, var(--color-surface-0) 85%);
 }
 .globe {
   inset: 0;

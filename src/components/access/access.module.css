@@ -12,15 +12,15 @@
 @media (min-width: 1700px) { .hero { margin: 0 auto; } }
 .heroImage, .heroShade { position: absolute; inset: 0; z-index: -2; }
 .heroImage { background: url('/supporting/access-port-hercule-zairon.jpg') center 53% / cover no-repeat; }
-.heroShade { z-index: -1; background: linear-gradient(90deg, rgb(4 5 10 / 0.94) 0%, rgb(4 5 10 / 0.82) 32%, rgb(4 5 10 / 0.45) 58%, rgb(4 5 10 / 0.1) 88%), linear-gradient(0deg, rgb(4 5 10 / 0.6), transparent 55%); }
-.heroCredit { position: absolute; right: 18px; bottom: 16px; z-index: 1; max-width: calc(100% - 36px); border-radius: var(--radius-chip); padding: 5px 11px; background: rgb(4 5 10 / 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--color-ink-soft); font: 400 11px/1.35 var(--font-sans); }
+.heroShade { z-index: -1; background: linear-gradient(90deg, rgb(5 5 5 / 0.94) 0%, rgb(5 5 5 / 0.82) 32%, rgb(5 5 5 / 0.45) 58%, rgb(5 5 5 / 0.1) 88%), linear-gradient(0deg, rgb(5 5 5 / 0.6), transparent 55%); }
+.heroCredit { position: absolute; right: 18px; bottom: 16px; z-index: 1; max-width: calc(100% - 36px); border-radius: var(--radius-chip); padding: 5px 11px; background: rgb(5 5 5 / 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--color-ink-soft); font: 400 11px/1.35 var(--font-sans); }
 .heroCredit a, .photoCredit a { color: var(--color-ink-soft); text-decoration: underline; text-decoration-color: rgb(244 241 234 / 0.35); text-underline-offset: 2px; }
 .heroCredit a:hover, .photoCredit a:hover { color: var(--color-bone); }
 .heroContent { max-width: 700px; }
 .hero .eyebrow { color: var(--color-brass-bright); }
-.hero h1 { margin: 14px 0 14px; font: 400 clamp(56px, 5.4vw, 86px)/.96 var(--font-display); letter-spacing: -.045em; text-wrap: balance; text-shadow: 0 4px 30px rgb(4 5 10 / 0.6); }
+.hero h1 { margin: 14px 0 14px; font: 400 clamp(56px, 5.4vw, 86px)/.96 var(--font-display); letter-spacing: -.045em; text-wrap: balance; text-shadow: 0 4px 30px rgb(5 5 5 / 0.6); }
 .hero h1 em { color: var(--color-brass-bright); font-weight: 400; }
-.heroContent > p:not(.eyebrow) { max-width: 505px; margin: 0; color: var(--color-ink-soft); font-size: clamp(15px, 1.25vw, 17px); line-height: 1.55; text-shadow: 0 2px 10px rgb(4 5 10 / 0.6); }
+.heroContent > p:not(.eyebrow) { max-width: 505px; margin: 0; color: var(--color-ink-soft); font-size: clamp(15px, 1.25vw, 17px); line-height: 1.55; text-shadow: 0 2px 10px rgb(5 5 5 / 0.6); }
 .heroAction { margin-top: 28px; gap: 14px; padding: 0 24px; }
 .heroNote { display: block; margin-top: 18px; color: var(--color-ink-muted); font-size: 12px; }
 
@@ -86,14 +86,14 @@
 
 /* ── Photography: the photo is the subject; labels stay small and out of its way ── */
 .sceneWrap { position: relative; }
-.offerScene { position: relative; min-height: 220px; background-color: var(--color-surface-3); background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%); background-size: cover; background-repeat: no-repeat; }
-.aspenStayScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%), url('/supporting/access-aspen-gondola.jpg'); background-position: center, center 48%; }
-.aspenAviationScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%), url('/supporting/access-aspen-airport.jpg'); background-position: center, center 68%; }
-.aspenGroundScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%), url('/supporting/access-aspen-winter-street.jpg'); background-position: center, center 48%; }
-.monacoYachtScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%), url('/supporting/access-monaco-yachts.jpg'); background-position: center, center 53%; }
-.courchevelScene { background-image: linear-gradient(0deg, rgb(4 5 10 / 0.8), rgb(4 5 10 / 0) 55%), url('/supporting/access-courchevel-slopes.jpg'); background-position: center, center 60%; }
-.scenePlace { position: absolute; left: 20px; bottom: 16px; color: var(--color-bone); font: 400 30px/1 var(--font-display); letter-spacing: -.02em; text-shadow: 0 2px 14px rgb(4 5 10 / 0.8); }
-.sceneLabel { position: absolute; left: 14px; top: 14px; background: rgb(4 5 10 / 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--color-ink-soft); }
+.offerScene { position: relative; min-height: 220px; background-color: var(--color-surface-3); background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%); background-size: cover; background-repeat: no-repeat; }
+.aspenStayScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%), url('/supporting/access-aspen-gondola.jpg'); background-position: center, center 48%; }
+.aspenAviationScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%), url('/supporting/access-aspen-airport.jpg'); background-position: center, center 68%; }
+.aspenGroundScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%), url('/supporting/access-aspen-winter-street.jpg'); background-position: center, center 48%; }
+.monacoYachtScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%), url('/supporting/access-monaco-yachts.jpg'); background-position: center, center 53%; }
+.courchevelScene { background-image: linear-gradient(0deg, rgb(5 5 5 / 0.8), rgb(5 5 5 / 0) 55%), url('/supporting/access-courchevel-slopes.jpg'); background-position: center, center 60%; }
+.scenePlace { position: absolute; left: 20px; bottom: 16px; color: var(--color-bone); font: 400 30px/1 var(--font-display); letter-spacing: -.02em; text-shadow: 0 2px 14px rgb(5 5 5 / 0.8); }
+.sceneLabel { position: absolute; left: 14px; top: 14px; background: rgb(5 5 5 / 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--color-ink-soft); }
 /* Credit sits under the photo as a caption, never over the subject. */
 .photoCredit { margin: 0; padding: 8px 20px 0; color: var(--color-ink-subtle); font: 400 11px/1.4 var(--font-sans); }
 .offerFrame .photoCredit { padding: 10px 22px 0; }
@@ -114,7 +114,7 @@
   .hero { min-height: 520px; align-items: end; margin: 0 16px; padding: 64px 20px 28px; border-radius: var(--radius-card); }
   .heroImage { background-position: 53% center; }
   .heroCredit { top: 12px; right: 12px; bottom: auto; max-width: calc(100% - 24px); }
-  .heroShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.97), rgb(4 5 10 / 0.82) 45%, rgb(4 5 10 / 0.3) 100%); }
+  .heroShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.97), rgb(5 5 5 / 0.82) 45%, rgb(5 5 5 / 0.3) 100%); }
   .hero h1 { font-size: clamp(50px, 14vw, 72px); }
   .heroAction { width: 100%; justify-content: space-between; }
   .content { padding: 24px 16px 70px; }
