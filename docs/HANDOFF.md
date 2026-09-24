@@ -75,7 +75,9 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
     - The six `meridian_*` tables have RLS on with no policies (server-only by design).
     - Unused-index notices, expected on a new database.
     - The Auth connection-strategy notice.
-- **Vercel connector:** it's scoped to project `takeoff-speed` only, so `world-events-map-onq7` returns 404. Until the connector is re-scoped, the owner sets env vars and redeploys by hand. Production serves `main`.
+- **Vercel:** the connector reaches team "matt's projects". `world-events-map-onq7` is the one live project, and Production serves `main`. The duplicate projects `world-events-map` and `meridian` (same repo) were paused on 2026-09-24.
+  - Set on Production + Preview: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (publishable key), `CRON_SECRET` (sensitive, generated), `TYPESAFE_MODEL=jev-latest`.
+  - Still needed from the owner: `SUPABASE_SERVICE_ROLE_KEY`. The Supabase connector doesn't expose secret keys.
 - **Before a public launch:** flip `robots: { index: false }` in `src/app/layout.tsx`, fix red-team clusters A and B, and turn off Vercel Authentication for Production. Until then keep `TREG_TOKEN`, `OPENAI_API_KEY` and `VOICE_ENABLED` off Production.
 - **Mobile audit:** fixed in aa663c9. Remaining P1/P2 items:
   - home hero first on phones

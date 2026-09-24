@@ -53,16 +53,6 @@
   transform: scale(1.018);
   animation: heroReveal 1.5s ease-out both;
 }
-.heroPhoto::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background: url('/meridian-social-moments.webp') center 46% / cover no-repeat;
-  animation: heroMood 22s ease-in-out 3s infinite;
-}
-/* On phones the second collage layer never shows through the photo pool; skip its download. */
-@media (max-width: 640px) { .heroPhoto::after { display: none; } }
 
 /* The living photo pool sits over the collage and crossfades slowly. */
 .heroPool { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
@@ -78,6 +68,8 @@
   transition: opacity 1.6s ease, transform 10s linear;
 }
 .heroPool img.heroPoolOn { opacity: 1; transform: scale(1.0); }
+/* The outgoing photo stays opaque underneath until the incoming one covers it. */
+.heroPool img.heroPoolUnder { opacity: 1; transform: scale(1.0); transition: none; }
 .heroPlace {
   position: absolute;
   right: var(--gutter);
@@ -651,7 +643,6 @@
 .boardControls .boardPause { font: 13px var(--font-mono); }
 
 @keyframes heroReveal { from { opacity: 0.6; transform: scale(1.06); } to { opacity: 1; transform: scale(1.018); } }
-@keyframes heroMood { 0%, 18%, 85%, 100% { opacity: 0; } 33%, 70% { opacity: 0.32; } }
 @keyframes lightPass { 0%, 75%, 100% { background-position: 100% 0; } 45% { background-position: 0 0; } }
 
 @media (max-width: 1300px) {

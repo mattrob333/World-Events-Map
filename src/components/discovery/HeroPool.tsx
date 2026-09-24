@@ -54,9 +54,12 @@ export function HeroPool() {
   }, [current, loaded, run.length, index]);
 
   if (!run.length) return null;
-  // Mount the current photo and the next one (so it's loaded before the fade).
+  // Mount the previous photo (held fully visible underneath, so a crossfade
+  // never reveals the collage), the current one fading in on top, and the
+  // next one (so it's loaded before its fade).
   const next = run[(index + 1) % run.length];
-  const mounted = [...new Set([current, next])];
+  const previous = run.length > 2 ? run[(index - 1 + run.length) % run.length] : undefined;
+  const mounted = [...new Set([previous, current, next].filter((photo): photo is HeroPhoto => Boolean(photo)))];
 
   return (
     <>
@@ -72,7 +75,13 @@ export function HeroPool() {
             decoding="async"
             fetchPriority={photo === current && index === 0 ? 'high' : 'low'}
             onLoad={() => setLoaded((value) => ({ ...value, [photo.id]: true }))}
-            className={photo === current && loaded[photo.id] ? styles.heroPoolOn : undefined}
+            className={
+              photo === current && loaded[photo.id]
+                ? styles.heroPoolOn
+                : photo === previous && loaded[photo.id]
+                  ? styles.heroPoolUnder
+                  : undefined
+            }
           />
         ))}
       </div>
