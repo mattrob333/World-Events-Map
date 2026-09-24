@@ -385,7 +385,7 @@ function CommunityContent({
             key={value}
             role="tab"
             aria-selected={tab === value}
-            className={`${styles.button} ${styles.secondary} ${tab === value ? styles.active : ''}`}
+            className={`${styles.button} ${styles.secondary} ${styles.tab} ${tab === value ? styles.active : ''}`}
             onClick={() => setTab(value)}
           >
             {value === 'circles'

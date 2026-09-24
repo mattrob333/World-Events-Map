@@ -12,7 +12,7 @@ import { localIsoDate, slotForTime, tripMoment } from '@/lib/designer/tripNow';
 import { ScenePlaybook } from '@/components/designer/ScenePlaybook';
 import { RightNow, useNow } from '@/components/designer/TripExtras';
 import { useHydrated } from '@/components/designer/useHydrated';
-import styles from '@/components/designer/designer.module.css';
+import styles from './now.module.css';
 
 /**
  * Profile-driven "go here now" ideas for wherever the traveler is. Uses the
@@ -51,43 +51,43 @@ export function NowForYou({ initialCity }: { initialCity?: string }) {
   if (!hydrated) return null;
 
   return (
-    <section className="mb-8" aria-labelledby="now-for-you-title">
+    <section className={styles.forYouSection} aria-labelledby="now-for-you-title">
       {liveTrip ? <RightNow trip={liveTrip.trip} destination={liveTrip.destination} lookup={cardLookup(liveTrip.trip)} now={now} nowLink={false} /> : null}
-      <div className={styles.panel}>
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#f7c548]">
-          {SLOT_META[slot].emoji} {SLOT_META[slot].label} · for {profile?.name ?? 'you'}
+      <div className={styles.forYou}>
+        <p className={styles.kicker}>
+          <span aria-hidden>{SLOT_META[slot].emoji}</span> {SLOT_META[slot].label} · for {profile?.name ?? 'you'}
         </p>
-        <h2 id="now-for-you-title" className="mt-1 font-display text-[28px] leading-tight text-ink">
+        <h2 id="now-for-you-title">
           {city ? (liveTrip ? `More ideas in ${city}` : `Right now in ${city}`) : 'Where are you right now?'}
         </h2>
-        <form className="mt-3 flex flex-wrap items-end gap-2" onSubmit={submit}>
-          <label className={`${styles.label} min-w-0 flex-1`}>
+        <form className={styles.cityForm} onSubmit={submit}>
+          <label className={styles.cityLabel}>
             City
-            <input className={styles.input} value={cityInput} maxLength={60} placeholder={tripCity || 'Nashville'} onChange={(e) => setCityInput(e.target.value)} />
+            <input className="field" value={cityInput} maxLength={60} placeholder={tripCity || 'Nashville'} onChange={(e) => setCityInput(e.target.value)} />
           </label>
-          <button type="submit" className={styles.ghost} disabled={!cityInput.trim()}>
+          <button type="submit" className="btn btn-ghost" disabled={!cityInput.trim()}>
             Show me
           </button>
         </form>
         {ideas.length ? (
-          <div className={styles.stayGrid}>
+          <div className={styles.ideaGrid}>
             {ideas.map((card) => (
-              <a key={card.id} className={styles.stayLink} href={card.link?.href} target="_blank" rel="noopener noreferrer">
+              <a key={card.id} className={styles.ideaLink} href={card.link?.href} target="_blank" rel="noopener noreferrer">
                 <span className="text-[22px]" aria-hidden>
                   {card.emoji}
                 </span>
                 <span className="text-[15px] font-semibold text-ink">{card.title} ↗</span>
-                <span className="text-[12px] text-ink-muted">{card.blurb}</span>
+                <span className="text-[13px] text-ink-muted">{card.blurb}</span>
               </a>
             ))}
           </div>
         ) : null}
         {city ? (
-          <p className="mt-2 text-[11px] leading-4 text-ink-faint">Each idea opens a live Maps search near {city}, shaped by your board. Check it’s open before you go.</p>
+          <p className={styles.forYouFoot}>Each idea opens a live Maps search near {city}, shaped by your board. Check it’s open before you go.</p>
         ) : null}
         {!profile ? (
-          <p className="mt-3 text-[13px] text-ink-muted">
-            <Link href="/moodboard" className="text-[#fdba74] underline underline-offset-4">
+          <p className={styles.forYouHint}>
+            <Link href="/moodboard">
               Make your board
             </Link>{' '}
             and these ideas follow your food, music, and crew.

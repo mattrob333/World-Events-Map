@@ -33,14 +33,14 @@ export function EventCard({ event }: { event: LiveEvent }) {
         ) : null}
       </span>
       <span className="grid gap-1 p-3">
-        <span className="text-[11px] uppercase tracking-[0.12em] text-[#fdba74]">
+        <span className="text-[11px] uppercase tracking-[0.12em] text-brass">
           {formatDate(event.date)}
           {event.time ? ` · ${event.time}` : ''}
         </span>
         <span className="text-[14px] font-semibold leading-5 text-ink">{event.name}</span>
         <span className="text-[12px] text-ink-muted">{[event.venue, event.city, event.country].filter(Boolean).join(' · ')}</span>
-        {event.kind === 'festival' && event.artist ? <span className="text-[12px] text-[#f9a8d4]">{event.artist} is on the bill</span> : null}
-        <span className="text-[11px] text-ink-faint">
+        {event.kind === 'festival' && event.artist ? <span className="text-[12px] text-brass-bright">{event.artist} is on the bill</span> : null}
+        <span className="text-[11px] text-ink-subtle">
           {SOURCE_LABEL[event.source]}
           {event.price ? ` · listed ${event.price}, check current price` : ''}
         </span>

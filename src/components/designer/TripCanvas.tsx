@@ -95,7 +95,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           <span className={styles.heroGradient} style={{ ['--a' as string]: destination.palette[0], ['--b' as string]: destination.palette[1] }} aria-hidden />
         )}
         <span className={styles.heroShade} />
-        <p className={styles.eyebrow} style={{ color: '#fed7aa' }}>
+        <p className={`${styles.eyebrow} ${styles.heroEyebrow}`}>
           {destination.region ? `${destination.region} · ` : ''}{formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights
         </p>
         <h1 className="mt-2 font-display text-[clamp(40px,8vw,84px)] leading-[0.95]">{destination.name}</h1>
@@ -103,7 +103,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className={styles.countdown}>{countdown.big}</p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] opacity-80">{countdown.small}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">{countdown.small}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span className={`${styles.badge} ${trip.engine === 'claude' ? styles.badgeAi : ''}`}>
@@ -118,7 +118,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
 
       <div className={styles.toolbar} role="toolbar" aria-label="Voting and sorting">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[12px] text-ink-faint">Voting as</span>
+          <span className="text-[12px] text-ink-subtle">Voting as</span>
           {trip.participants.map((person) => (
             <button
               key={person.id}
@@ -158,7 +158,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           </button>
         </div>
       </div>
-      <p className="mt-3 text-[12px] leading-5 text-ink-faint">
+      <p className="mt-3 text-[12px] leading-5 text-ink-subtle">
         Drag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes
         save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas:
         check hours, prices, and bookings with each venue.

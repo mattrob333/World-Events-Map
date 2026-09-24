@@ -46,8 +46,10 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
       {mode === 'feed' && <><ResearchPulse /><div className={styles.layout}>
         <div className={styles.stream}>
           <div className={styles.channels} aria-label="Discovery channels">
-            <button type="button" aria-pressed={view === 'scene'} onClick={() => setView('scene')}>The scene <span>✦</span></button>
-            <button type="button" aria-pressed={view === 'wire'} onClick={() => setView('wire')}>Travel wire <span>↗</span></button>
+            <div className={styles.segment}>
+              <button type="button" aria-pressed={view === 'scene'} onClick={() => setView('scene')}>The scene <span>✦</span></button>
+              <button type="button" aria-pressed={view === 'wire'} onClick={() => setView('wire')}>Travel wire <span>↗</span></button>
+            </div>
             <span className={styles.channelHint}>{view === 'scene' ? 'A little inspiration goes a long way' : 'What the connected sources actually report'}</span>
           </div>
           {view === 'scene' ? <ActivityStream /> : <div className={styles.wire}><div className={styles.wireIntro}><span className={styles.kicker}>SIGNAL NETWORK</span><h2>A world worth keeping up with.</h2><p>Source observations and meaningful changes. Each update carries its evidence; the wire stays quiet when no fresh readings are available.</p></div><TravelWire /></div>}

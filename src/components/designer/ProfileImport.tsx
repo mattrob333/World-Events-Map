@@ -49,7 +49,7 @@ export function ProfileImport() {
         ) : profile ? (
           <>
             <h1 className={styles.headline}>
-              Here’s you, <span className={styles.gradientText}>as your agent sees you.</span>
+              Here’s you, <span className={styles.accentText}>as your agent sees you.</span>
             </h1>
             <p className={styles.lede}>
               Check it over. Saving keeps it on this device only; dope.travel never received this profile, because it traveled in the link itself.

@@ -28,7 +28,7 @@ function Pick({ slot, lookup, label }: { slot: Slot; lookup: (id: string) => Des
         {card?.emoji ?? SLOT_META[slot.kind].emoji}
       </span>
       <span className="min-w-0">
-        <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
+        <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-brass">
           {label} · {slot.label}
         </span>
         <span className="block text-[15px] font-semibold text-ink">{card?.title ?? 'Free time'}</span>
@@ -53,7 +53,7 @@ export function RightNow({ trip, destination, lookup, now, nowLink = true }: { t
   const city = destination.id === 'maldives' ? 'Male' : destination.name;
   return (
     <section className={styles.nowCard} aria-labelledby="trip-now-title">
-      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#f7c548]">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">
         <span className={styles.nowPulse} aria-hidden />
         Day {day.index + 1} of {trip.days.length} · you’re here
       </p>
@@ -95,7 +95,7 @@ export function StaysPanel({ trip, destination }: { trip: Itinerary; destination
           </a>
         ))}
       </div>
-      <p className="mt-2 text-[11px] leading-4 text-ink-faint">Search links, not listings: prices and availability are on each site. Check guest counts and kids’ ages there before you book.</p>
+      <p className="mt-2 text-[11px] leading-4 text-ink-subtle">Search links, not listings: prices and availability are on each site. Check guest counts and kids’ ages there before you book.</p>
     </section>
   );
 }
@@ -179,7 +179,7 @@ export function InvitePanel({ trip, votes, voter, destination }: { trip: Itinera
       {link ? (
         <textarea className={styles.shareBox} readOnly rows={3} value={link} aria-label="Share link" onFocus={(e) => e.currentTarget.select()} />
       ) : null}
-      <p className="mt-2 text-[11px] leading-4 text-ink-faint">
+      <p className="mt-2 text-[11px] leading-4 text-ink-subtle">
         Anyone with the link can see the plan and who’s going (names, kids’ ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.
       </p>
     </section>

@@ -238,7 +238,7 @@ function PartnerStudioContent() {
         </p>
       )}
       {!client ? (
-        <section className={styles.card}>
+        <section className={`${styles.card} ${styles.preview}`}>
           <h2>Partner applications are not open in this preview.</h2>
           <p>
             Nothing has been submitted or saved. When the partner studio opens,

@@ -1,10 +1,11 @@
+/* Afterglow (docs/design/UNIFIED-DESIGN.md): soft raised objects on the
+   evening sky, one sunset pill per form, pressed selection, sunken wells. */
 .page {
   /* Sit inside AppShell instead of claiming a second full viewport. */
   min-height: 0;
   overflow: visible;
-  background:
-    radial-gradient(ellipse at 80% 0, #121624 0, transparent 45%), var(--color-void);
-  color: var(--color-ink);
+  background: var(--gradient-sunrise-wash), var(--color-surface-0);
+  color: var(--color-bone);
   padding: 28px clamp(20px, 5vw, 80px) 96px;
   font: 15px/1.6 var(--font-sans);
 }
@@ -14,14 +15,20 @@
   justify-content: space-between;
   gap: 18px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #ffffff20;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
 }
 .nav a {
-  color: #e3c18a;
+  color: var(--color-brass-bright);
   text-decoration: none;
 }
-.inlineLink { color: #e3c18a; text-decoration: underline; text-underline-offset: 3px; }
-.inlineLink:hover { color: #f7dfb6; }
+.inlineLink {
+  color: var(--color-brass-bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.inlineLink:hover {
+  color: var(--color-bone);
+}
 .brand {
   letter-spacing: 0.28em;
   font-size: 15px;
@@ -36,18 +43,29 @@
   max-width: 780px;
 }
 .eyebrow {
-  color: #e3c18a;
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  color: var(--color-brass);
 }
 .hero h1 {
-  font: clamp(36px, 5vw, 64px)/1.1 var(--font-display);
+  font: clamp(36px, 5vw, 64px)/1.08 var(--font-display);
+  letter-spacing: -0.02em;
   margin: 12px 0 18px;
 }
 .hero p,
 .muted {
-  color: #aeb4bf;
+  color: var(--color-ink-muted);
+}
+.hero p {
+  max-width: 640px;
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  margin: 0;
 }
 .grid {
   display: grid;
@@ -60,16 +78,22 @@
   flex-direction: column;
   gap: 20px;
 }
+.stack > .between h2 {
+  margin: 0;
+  font: 22px/1.25 var(--font-display);
+}
 .card {
-  background: #141b25;
-  border: 1px solid #ffffff16;
+  background: var(--gradient-surface), var(--color-surface-2);
+  box-shadow: var(--shadow-soft-1);
+  border: 0;
   padding: 26px;
-  border-radius: 14px;
+  border-radius: var(--radius-card);
   min-width: 0;
 }
 .card h2 {
-  font: 28px/1.25 var(--font-display);
-  margin: 0 0 16px;
+  font: 28px/1.2 var(--font-display);
+  letter-spacing: -0.01em;
+  margin: 8px 0 16px;
 }
 .card h3 {
   font-size: 18px;
@@ -89,6 +113,7 @@
   justify-content: space-between;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 .form {
   display: grid;
@@ -97,94 +122,153 @@
 .form label {
   display: grid;
   gap: 6px;
-  color: #d6d9df;
+  color: var(--color-ink-soft);
   font-size: 13px;
 }
 .form input,
 .form textarea,
 .form select {
   width: 100%;
-  background: #0b111a;
-  border: 1px solid #ffffff30;
-  color: #f5eee3;
-  border-radius: 7px;
-  padding: 12px;
-  font: inherit;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
+  border: 0;
+  color: var(--color-bone);
+  border-radius: var(--radius-control);
+  padding: 12px 16px;
+  font: 16px/1.4 var(--font-sans);
   min-height: 44px;
+}
+.form input::placeholder,
+.form textarea::placeholder {
+  color: var(--color-ink-subtle);
 }
 .form textarea {
   min-height: 94px;
   resize: vertical;
 }
-.form input:focus,
-.form textarea:focus,
-.form select:focus {
-  outline: 2px solid #dbb77e;
-  outline-offset: 2px;
+.form input:focus-visible,
+.form textarea:focus-visible,
+.form select:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-inset), var(--focus-ring);
 }
+/* The sunset pill: one per form or screen. */
 .button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   min-height: 44px;
-  padding: 10px 18px;
-  border-radius: 7px;
-  border: 1px solid #d1ae71;
-  background: #d1ae71;
-  color: #15110b;
-  font-weight: 650;
+  padding: 0 20px;
+  border-radius: var(--radius-chip);
+  border: 0;
+  background: var(--gradient-cta);
+  color: var(--color-on-accent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), var(--shadow-glow);
+  font: 600 14px/1 var(--font-sans);
   cursor: pointer;
   text-decoration: none;
-  font-size: 13px;
+  transition:
+    transform var(--duration-instant) var(--ease-glide),
+    box-shadow var(--duration-quick) var(--ease-glide),
+    background-color var(--duration-quick) var(--ease-glide);
+}
+.button:hover {
+  transform: translateY(-1px);
+}
+.button:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
 }
 .button:disabled {
   opacity: 0.45;
   cursor: wait;
+  transform: none;
+  box-shadow: none;
 }
+/* Secondary: a raised bone-ink pill. */
 .secondary {
-  background: transparent;
-  color: #e3c18a;
-  border-color: #ffffff35;
+  background: var(--gradient-surface), var(--color-surface-3);
+  color: var(--color-bone);
+  box-shadow: var(--shadow-soft-1);
+}
+.secondary:hover {
+  background: var(--gradient-surface), var(--color-surface-4);
 }
 .tabs {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin: 0 0 24px;
   flex-wrap: wrap;
 }
-.active {
-  background: #eee3d0;
-  color: #161616;
+/* Tabs are chips: selected sinks with saffron ink, never a fill. */
+.tab {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
 }
+.active {
+  background: var(--color-surface-1);
+  color: var(--color-saffron);
+  box-shadow: var(--shadow-inset), inset 0 0 0 1px rgb(247 197 72 / 0.4);
+}
+/* The one "preview / not connected / status" treatment: a sunken well. */
 .notice {
-  border: 1px solid #d4b27e50;
-  background: #b8903b12;
-  padding: 16px 20px;
-  border-radius: 8px;
+  display: block;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
   margin: 18px 0;
-  color: #e8d2ac;
+  color: var(--color-ink-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.notice strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--color-bone);
+  font-weight: 600;
+}
+.notice p {
+  margin: 0;
+}
+.notice .button {
+  margin: 10px 0 0;
+}
+.stack > .notice,
+.grid > .notice {
+  margin: 0;
 }
 .error {
-  border-color: #e2918150;
   color: #f3b5a9;
 }
+.notice.error {
+  box-shadow: var(--shadow-inset), inset 0 0 0 1px rgb(228 87 126 / 0.35);
+}
 .tag {
-  display: inline-block;
-  padding: 3px 8px;
-  border: 1px solid #ffffff25;
-  border-radius: 99px;
-  color: #bbd9ca;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: var(--radius-chip);
+  background: rgb(255 255 255 / 0.06);
+  color: var(--color-ink-soft);
   font-size: 11px;
-  letter-spacing: 0.04em;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
 }
 .list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 .item {
-  border-top: 1px solid #ffffff15;
-  padding-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-control);
+  background: rgb(255 255 255 / 0.025);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.045);
 }
 .chat {
   max-height: 340px;
@@ -196,8 +280,9 @@
 }
 .message {
   padding: 12px 14px;
-  border-radius: 9px;
-  background: #ffffff07;
+  border-radius: 18px;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
 }
 .message p {
   white-space: pre-wrap;
@@ -206,11 +291,12 @@
 }
 .small {
   font-size: 12px;
-  color: #aeb4bf;
+  line-height: 1.55;
+  color: var(--color-ink-subtle);
 }
 .empty {
   padding: 26px 0;
-  color: #aeb4bf;
+  color: var(--color-ink-muted);
 }
 .split {
   display: grid;
@@ -221,25 +307,33 @@
   display: flex !important;
   grid-template-columns: auto 1fr;
   align-items: center;
+  gap: 10px !important;
+  min-height: 44px;
 }
-.check input {
-  width: 18px;
-  min-height: 18px;
+.form .check input {
+  width: 20px;
+  min-height: 20px;
+  padding: 0;
+  accent-color: var(--color-saffron);
+  box-shadow: none;
 }
+/* A selected circle card sinks, like a selected chip. */
 .selected {
-  border-color: #d1ae7180;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset), inset 0 0 0 1px rgb(247 197 72 / 0.4);
 }
 .card button:focus-visible,
-.nav a:focus-visible {
-  outline: 2px solid #dbb77e;
-  outline-offset: 4px;
+.nav a:focus-visible,
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 @media (max-width: 800px) {
   .grid {
     grid-template-columns: 1fr;
   }
   .page {
-    padding: 20px 18px 50px;
+    padding: 20px 16px 50px;
   }
   .hero {
     padding-top: 32px;

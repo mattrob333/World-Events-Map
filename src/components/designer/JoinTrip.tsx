@@ -125,7 +125,7 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
     <>
       <h1 className={styles.headline}>
         {handoff ? 'Your agent planned this.' : from ? `${from} wants you on this trip.` : 'You’re invited.'}{' '}
-        <span className={styles.gradientText}>{destination?.name ?? 'Somewhere good'}.</span>
+        <span className={styles.accentText}>{destination?.name ?? 'Somewhere good'}.</span>
       </h1>
       <p className={styles.lede}>
         {formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights.{' '}
@@ -202,7 +202,7 @@ function MergeReply({ reply }: { reply: TripReply }) {
   return (
     <>
       <h1 className={styles.headline}>
-        {reply.participant.name} sent their picks. <span className={styles.gradientText}>{count} votes.</span>
+        {reply.participant.name} sent their picks. <span className={styles.accentText}>{count} votes.</span>
       </h1>
       <p className={styles.lede}>
         {trip?.id === reply.tripId

@@ -152,7 +152,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
     <div>
       <p className={styles.eyebrow}>Trip designer · step 2 of 2</p>
       <h1 className={styles.headline}>
-        Where are we going? <span className={styles.gradientText}>Let’s build the hype.</span>
+        Where are we going? <span className={styles.accentText}>Let’s build the hype.</span>
       </h1>
       <p className={styles.lede}>
         Pick a place and dates, add the crew, and we’ll lay out the whole trip as a timeline of ideas: every slot a row of options
@@ -167,7 +167,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
           className={`${styles.destCard} ${styles.destCardAnywhere} ${destination === 'custom' ? styles.destCardOn : ''}`}
           onClick={() => setDestination('custom')}
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-80">✦ Anywhere</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">✦ Anywhere</span>
           <span className={styles.destName}>Somewhere else</span>
           <span className="mt-1 text-[12.5px] leading-5 opacity-90">Type any city, beach, or mountain town.</span>
         </button>
@@ -185,7 +185,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
               <img className={styles.heroImage} src={d.hero} alt="" />
             ) : null}
             <span className={styles.heroShade} />
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-80">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">
               {KIND_LABEL[d.kind]} · {d.region}
             </span>
             <span className={styles.destName}>{d.name}</span>
@@ -197,7 +197,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
       {destination === 'custom' ? (
         <div className={styles.panel}>
           <div className="flex flex-wrap items-end gap-3">
-            <label className={`${styles.label} min-w-0 flex-1`}>
+            <label className={`${styles.label} min-w-[min(100%,16rem)] flex-1`}>
               Where to?
               <input
                 className={styles.input}
@@ -216,7 +216,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
               ))}
             </div>
           </div>
-          <p className="mt-2 text-[12px] leading-5 text-ink-faint">
+          <p className="mt-2 text-[12px] leading-5 text-ink-subtle">
             We lay out the days from your crew’s food and music. Every idea opens a live search, so nothing is made up.
           </p>
         </div>
@@ -258,7 +258,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
                 onClick={() => toggleBoard(board)}
                 aria-pressed={selectedBoards.has(board.id)}
               >
-                <span className={styles.avatar} style={{ background: 'linear-gradient(135deg,#f97316,#ec4899)' }}>
+                <span className={styles.avatar} style={{ background: 'var(--color-brass)' }}>
                   ✨
                 </span>
                 {board.profile.name ?? board.profile.hometown ?? 'Mood board'} + party
@@ -268,11 +268,11 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
         ) : (
           <p className="mt-2 text-[13px] text-ink-muted">
             No mood boards on this device yet.{' '}
-            <Link href="/moodboard" className="text-[#fdba74] underline underline-offset-4">
+            <Link href="/moodboard" className="text-brass-bright underline underline-offset-4">
               Make one by talking
             </Link>{' '}
             or{' '}
-            <button type="button" className="text-[#fdba74] underline underline-offset-4" onClick={useExample}>
+            <button type="button" className="text-brass-bright underline underline-offset-4" onClick={useExample}>
               use the example family
             </button>
             .

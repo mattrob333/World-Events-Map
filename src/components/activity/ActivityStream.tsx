@@ -165,7 +165,7 @@ function SceneCard({ scene, featured, onFeature }: {
         </a>}
         <div className={styles.tags}>{scene.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
         <div className={styles.cardActions}>
-          <button type="button" onClick={() => toggle({ verb: 'save', kind: 'event', id: scene.event.id, label: scene.event.name, href: scene.href })}
+          <button type="button" className="chip" onClick={() => toggle({ verb: 'save', kind: 'event', id: scene.event.id, label: scene.event.name, href: scene.href })}
             aria-pressed={saved} aria-label={`${saved ? 'Remove saved' : 'Save'} ${scene.event.name}`}>
             <span aria-hidden="true">{saved ? '◆' : '◇'}</span> {saved ? 'Saved' : 'Save idea'}
           </button>
@@ -206,7 +206,7 @@ export function ActivityStream() {
           <div><h2>Out in the <em>world.</em></h2><p>Scenes from the curated calendar, brought to life by dope.travel editorial. Follow a feeling, find your next place.</p></div>
           <div className={styles.replayControl}>
             <span className={styles.replayLabel}>EDITORIAL SAMPLE REPLAY</span>
-            <button type="button" aria-pressed={replaying} onClick={() => setReplaying((value) => !value)}>
+            <button type="button" className="btn btn-ghost" aria-pressed={replaying} onClick={() => setReplaying((value) => !value)}>
               <span aria-hidden="true">{replaying ? 'Ⅱ' : '▷'}</span> {replaying ? 'Pause replay' : 'Play replay'}
             </button>
           </div>
@@ -214,7 +214,7 @@ export function ActivityStream() {
       </div>
       <div className={styles.filters} aria-label="Filter scenes">
         {ACTIVITY_FILTERS.map(({ id, label }) => <button key={id} type="button" onClick={() => selectFilter(id)}
-          className={filter === id ? styles.filterActive : ''} aria-pressed={filter === id}>{label}</button>)}
+          className="chip" aria-pressed={filter === id}>{label}</button>)}
       </div>
 
       <div className={styles.layout}>
@@ -225,7 +225,7 @@ export function ActivityStream() {
               featured={scene.event.id === featured?.event.id}
               onFeature={() => { setFeaturedIndex(scenes.findIndex((item) => item.event.id === scene.event.id)); setReplaying(false); }} />)}
           </div>
-          {sortedScenes.length > 2 && <button className={styles.more} type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? 'Show fewer scenes ↑' : `Explore ${sortedScenes.length - 2} more scenes ↓`}</button>}
+          {sortedScenes.length > 2 && <button className={`btn btn-ghost ${styles.more}`} type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? 'Show fewer scenes ↑' : `Explore ${sortedScenes.length - 2} more scenes ↓`}</button>}
         </div>
 
         <aside className={styles.side} aria-label="Scene activity">

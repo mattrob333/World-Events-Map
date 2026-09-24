@@ -54,13 +54,13 @@ function TopCard({ card, onDecide }: { card: DesignerCard; onDecide: (value: 1 |
           {card.emoji}
         </span>
       )}
-      <motion.span className={styles.deckStamp} style={{ opacity: love, left: 24, color: '#4ade80', rotate: -12 }}>
+      <motion.span className={styles.deckStamp} style={{ opacity: love, left: 24, color: '#f7c548', rotate: -12 }}>
         LOVE IT
       </motion.span>
-      <motion.span className={styles.deckStamp} style={{ opacity: pass, right: 24, color: '#f87171', rotate: 12 }}>
+      <motion.span className={styles.deckStamp} style={{ opacity: pass, right: 24, color: '#e4577e', rotate: 12 }}>
         PASS
       </motion.span>
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-80">{card.media === 'poster' ? 'Idea' : card.media}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">{card.media === 'poster' ? 'Idea' : card.media}</p>
       <h3 className="mt-1 font-display text-[32px] leading-none">{card.title}</h3>
       <p className="mt-2 text-[14px] leading-6 opacity-90">{card.blurb}</p>
     </motion.div>
@@ -113,7 +113,7 @@ export function SwipeDeck({ title, cards, voter, participants, onVoterChange, on
             {card ? (
               <TopCard key={card.id} card={card} onDecide={decide} />
             ) : (
-              <motion.div key="done" className={`${styles.deckCard} grid place-items-center text-center`} style={{ background: 'linear-gradient(160deg,#f97316,#db2777)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <motion.div key="done" className={`${styles.deckCard} ${styles.deckDone} grid place-items-center text-center`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <div>
                   <p className="text-[64px]" aria-hidden>🎉</p>
                   <p className="font-display text-[30px]">That’s every option.</p>
@@ -135,7 +135,7 @@ export function SwipeDeck({ title, cards, voter, participants, onVoterChange, on
             )}
           </AnimatePresence>
         </div>
-        <p className="text-[12px] text-ink-faint" aria-live="polite">
+        <p className="text-[12px] text-ink-subtle" aria-live="polite">
           {card ? `${index + 1} of ${cards.length} · swipe right to love, left to pass` : `${cards.length} of ${cards.length}`}
         </p>
         {card ? (

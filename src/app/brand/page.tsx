@@ -125,9 +125,8 @@ export default function BrandPage() {
           </div>
         ) : (
           <p className={styles.pending}>
-            Brand art is generated with Treg’s image models (GPT Image 2.5 and Gemini 3 Pro Image) by <code>npm run brand:assets</code> once{' '}
-            <code>TREG_TOKEN</code> is set. Six pieces are planned: Riviera terrace, alpine après, a night of live music, family at sea, a sun poster, and a
-            wave texture.
+            Brand art is on its way. Six pieces are planned: Riviera terrace, alpine après, a night of live music, family at sea, a sun poster, and a wave
+            texture.
           </p>
         )}
       </section>

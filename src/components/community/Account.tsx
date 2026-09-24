@@ -184,15 +184,17 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
           <p className={styles.muted}>
             Your home airport also becomes the source for future aviation matching. dope.travel will not show a personalized charter estimate until the actual origin is known.
           </p>
-          <a href="/constellation" className={styles.button}>
-            Open Constellation
-          </a>
-          <a href="/community" className={`${styles.button} ${styles.secondary}`}>
-            Explore travel circles
-          </a>
-          <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>
-            Edit traveler lens
-          </a>
+          <div className={styles.row}>
+            <a href="/constellation" className={styles.button}>
+              Open Constellation
+            </a>
+            <a href="/community" className={`${styles.button} ${styles.secondary}`}>
+              Explore travel circles
+            </a>
+            <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>
+              Edit traveler lens
+            </a>
+          </div>
         </aside>
       </div>
     </PlatformShell>

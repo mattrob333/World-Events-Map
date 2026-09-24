@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Chip } from '@/components/ui';
+import { Chip } from '@/components/ui';
 import {
   INTEREST_OPTIONS,
   TRAVELER_KIND_COPY,
@@ -74,7 +74,7 @@ export function OnboardingView({
   if (finished) {
     return (
       <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 text-center">
-        <p className="label-sm text-brass">Saved</p>
+        <p className="eyebrow">Saved</p>
         <h1 className="mt-3 font-display text-3xl text-ink">Saved on this device only.</h1>
         <p className="mt-3 text-[14px] text-ink-muted">Nothing was published. Taking you back…</p>
       </main>
@@ -85,17 +85,27 @@ export function OnboardingView({
 
   return (
     <main className="mx-auto max-w-xl px-4 py-12">
-      <p className="label-sm text-brass">
-        {stepNumber} / {totalSteps}
-      </p>
-      <h1 className="mt-3 font-display text-4xl text-ink">{STEP_COPY[step].title}</h1>
-      <p className="mt-3 text-[14px] text-ink-muted">{STEP_COPY[step].body}</p>
-      <p className="mt-1 text-[12px] text-ink-faint">
+      <div className="flex items-center gap-3">
+        <p className="eyebrow">
+          {stepNumber} / {totalSteps}
+        </p>
+        <span className="flex flex-1 gap-1.5" aria-hidden="true">
+          {Array.from({ length: totalSteps }, (_, index) => (
+            <span
+              key={index}
+              className={`h-1.5 flex-1 rounded-full ${index < stepNumber ? 'bg-[image:var(--gradient-cta)]' : 'bg-surface-3'}`}
+            />
+          ))}
+        </span>
+      </div>
+      <h1 className="mt-5 font-display text-4xl leading-[1.08] text-ink">{STEP_COPY[step].title}</h1>
+      <p className="mt-3 text-[15px] text-ink-muted">{STEP_COPY[step].body}</p>
+      <p className="notice mt-4">
         Saved on this device only. Nothing is published, and nothing here personalizes dope.travel yet.
       </p>
 
       {step === 'traveler' && (
-        <div className="mt-8 grid gap-2" role="group" aria-label="Traveler kind">
+        <div className="mt-8 grid gap-3" role="group" aria-label="Traveler kind">
           {TRAVELER_KINDS.map((kind) => {
             const selected = draft.travelerKind === kind;
             return (
@@ -104,10 +114,10 @@ export function OnboardingView({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => onPatch({ travelerKind: kind })}
-                className={`glass rounded-[3px] p-4 text-left ${selected ? 'ring-2 ring-inset ring-brass' : ''}`}
+                className={`surface min-h-11 w-full p-4 text-left transition-[background-color,box-shadow] duration-200 ${selected ? 'bg-surface-1 shadow-[var(--shadow-inset)] ring-2 ring-inset ring-brass' : 'hover:bg-surface-3 active:shadow-[var(--shadow-inset)]'}`}
               >
-                <p className="text-[15px] text-ink">{TRAVELER_KIND_COPY[kind].title}</p>
-                <p className="mt-1 text-[12px] text-ink-muted">{TRAVELER_KIND_COPY[kind].body}</p>
+                <p className={`text-[15px] font-semibold ${selected ? 'text-saffron' : 'text-ink'}`}>{TRAVELER_KIND_COPY[kind].title}</p>
+                <p className="mt-1 text-[13px] text-ink-muted">{TRAVELER_KIND_COPY[kind].body}</p>
               </button>
             );
           })}
@@ -116,22 +126,22 @@ export function OnboardingView({
 
       {step === 'home' && (
         <div className="mt-8 grid gap-4">
-          <label className="grid gap-1 text-[12px] text-ink-muted">
+          <label className="grid gap-2 text-[13px] text-ink-soft">
             Home region
             <input
               value={draft.homeRegion}
               onChange={(event) => onPatch({ homeRegion: event.target.value })}
-              className="h-10 border border-ink/15 bg-transparent px-3 text-[14px] text-ink"
+              className="field h-11 w-full"
               placeholder="Rockies, Southeast, Île-de-France…"
               maxLength={120}
             />
           </label>
-          <label className="grid gap-1 text-[12px] text-ink-muted">
+          <label className="grid gap-2 text-[13px] text-ink-soft">
             Home airport (optional)
             <input
               value={draft.homeAirport}
               onChange={(event) => onPatch({ homeAirport: event.target.value.toUpperCase() })}
-              className="h-10 border border-ink/15 bg-transparent px-3 text-[14px] text-ink"
+              className="field h-11 w-full"
               placeholder="KASE"
               maxLength={4}
             />
@@ -140,10 +150,12 @@ export function OnboardingView({
       )}
 
       {step === 'interests' && (
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-8 flex flex-wrap gap-2.5">
           {INTEREST_OPTIONS.map((interest) => (
             <Chip
               key={interest}
+              size="md"
+              className="min-h-11 px-4 text-[14px]"
               active={draft.interests.includes(interest)}
               onClick={() => {
                 const next = draft.interests.includes(interest)
@@ -159,12 +171,12 @@ export function OnboardingView({
       )}
 
       {step === 'mode' && (
-        <label className="mt-8 grid gap-1 text-[12px] text-ink-muted">
+        <label className="mt-8 grid gap-2 text-[13px] text-ink-soft">
           Mode name
           <input
             value={draft.modeName}
             onChange={(event) => onPatch({ modeName: event.target.value })}
-            className="h-10 border border-ink/15 bg-transparent px-3 text-[14px] text-ink"
+            className="field h-11 w-full"
             placeholder={
               draft.travelerKind === 'family'
                 ? 'Family ski'
@@ -178,7 +190,7 @@ export function OnboardingView({
       )}
 
       {step === 'visibility' && (
-        <div className="mt-8 grid gap-2" role="group" aria-label="Visibility">
+        <div className="mt-8 grid gap-3" role="group" aria-label="Visibility">
           {(['private', 'discoverable'] as const).map((value) => {
             const selected = draft.visibility === value;
             return (
@@ -186,11 +198,11 @@ export function OnboardingView({
                 key={value}
                 type="button"
                 aria-pressed={selected}
-                className={`glass rounded-[3px] p-4 text-left ${selected ? 'ring-2 ring-inset ring-brass' : ''}`}
+                className={`surface min-h-11 w-full p-4 text-left transition-[background-color,box-shadow] duration-200 ${selected ? 'bg-surface-1 shadow-[var(--shadow-inset)] ring-2 ring-inset ring-brass' : 'hover:bg-surface-3 active:shadow-[var(--shadow-inset)]'}`}
                 onClick={() => onPatch({ visibility: value })}
               >
-                <p className="text-[15px] text-ink">{value === 'private' ? 'Private' : 'Discoverable'}</p>
-                <p className="mt-1 text-[12px] text-ink-muted">
+                <p className={`text-[15px] font-semibold ${selected ? 'text-saffron' : 'text-ink'}`}>{value === 'private' ? 'Private' : 'Discoverable'}</p>
+                <p className="mt-1 text-[13px] text-ink-muted">
                   {value === 'private'
                     ? 'Only you. The product still works.'
                     : 'Not published — needs a member account and your confirmation later. Never precise location, never private modes.'}
@@ -202,24 +214,28 @@ export function OnboardingView({
       )}
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {stepNumber > 1 && (
-            <button type="button" className="text-[12px] text-ink-muted hover:text-ink" onClick={onBack}>
+            <button type="button" className="btn btn-ghost" onClick={onBack}>
               ‹ Back
             </button>
           )}
-          <button type="button" className="text-[12px] text-ink-muted" onClick={onSkip}>
+          <button
+            type="button"
+            className="min-h-11 px-2 text-[14px] text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+            onClick={onSkip}
+          >
             Skip and enter World
           </button>
         </div>
         {!isLast ? (
-          <Button variant="commit" onClick={onContinue}>
+          <button type="button" className="btn btn-primary min-w-36" onClick={onContinue}>
             Continue
-          </Button>
+          </button>
         ) : (
-          <Button variant="commit" onClick={onFinish}>
+          <button type="button" className="btn btn-primary min-w-36" onClick={onFinish}>
             Enter World
-          </Button>
+          </button>
         )}
       </div>
     </main>

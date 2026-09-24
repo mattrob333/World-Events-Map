@@ -134,7 +134,7 @@ function Flights({ section }: { section: FlightSection }) {
           <span className="text-[12px] text-ink-muted">
             {flight.from} → {flight.to} · {flight.stops === 0 ? 'nonstop' : `${flight.stops} stop${flight.stops === 1 ? '' : 's'}`} · {hours(flight.durationMin)}
           </span>
-          <span className="text-[11px] text-ink-faint">Departs {flight.departs.replace(' ', ' at ')}</span>
+          <span className="text-[11px] text-ink-subtle">Departs {flight.departs.replace(' ', ' at ')}</span>
         </a>
       ))}
     </div>
@@ -250,14 +250,14 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
               return (
                 <button key={id} type="button" role="tab" aria-selected={active === id} className={`${styles.segBtn} ${active === id ? styles.segOn : ''}`} onClick={() => setTab(id)}>
                   {label}
-                  {count ? <span className="ml-1 opacity-70">{count}</span> : null}
+                  {count ? <span className={styles.researchCount}>{count}</span> : null}
                 </button>
               );
             })}
           </div>
           <div className="mt-2" role="tabpanel">
             <SectionBody id={active} section={current as ResearchSection<unknown>} />
-            <p className="mt-2 text-[11px] leading-4 text-ink-faint">{footnote(active, current as ResearchSection<unknown>)}</p>
+            <p className="mt-2 text-[11px] leading-4 text-ink-subtle">{footnote(active, current as ResearchSection<unknown>)}</p>
           </div>
         </>
       ) : null}

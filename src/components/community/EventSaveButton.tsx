@@ -20,7 +20,7 @@ function DeviceSave({ eventId, label, signInHref }: { eventId: string; label: st
       <button
         type="button"
         aria-pressed={saved}
-        className={`${styles.button} ${saved ? styles.secondary : ''}`}
+        className={`${styles.button} ${styles.secondary} ${saved ? styles.active : ''}`}
         onClick={() => toggle({ verb: 'save', kind: 'event', id: eventId, label, href: `/?event=${encodeURIComponent(eventId)}` })}
       >
         {saved ? 'Saved on this device ✓' : 'Save on this device'}
@@ -65,7 +65,7 @@ export function EventSaveButton({ eventId, label = 'Saved event' }: { eventId: s
   if (!client) return <DeviceSave eventId={eventId} label={label} />;
   if (loading)
     return (
-      <button className={styles.button} disabled>
+      <button className={`${styles.button} ${styles.secondary}`} disabled>
         Checking your saved events…
       </button>
     );
@@ -80,7 +80,7 @@ export function EventSaveButton({ eventId, label = 'Saved event' }: { eventId: s
   return (
     <div>
       <button
-        className={`${styles.button} ${saved && readyFor === identity ? styles.secondary : ''}`}
+        className={`${styles.button} ${styles.secondary} ${saved && readyFor === identity ? styles.active : ''}`}
         disabled={busy || readyFor !== identity}
         onClick={async () => {
           setBusy(true);

@@ -319,7 +319,7 @@ export function DiscoveryExperience() {
           )}
         </label>
         <button
-          className={styles.locationButton}
+          className={`btn btn-ghost ${styles.locationButton}`}
           onClick={() => {
             // A blocked browser cannot be re-prompted; send the traveler to the
             // city picker instead of a button that appears to do nothing.
@@ -399,7 +399,7 @@ export function DiscoveryExperience() {
           { name: 'Europe', lat: 47, lon: 12, distance: 3.5 },
           { name: 'Asia Pacific', lat: 25, lon: 125, distance: 4.2 },
           { name: 'Africa', lat: 0, lon: 23, distance: 4.2 },
-        ].map((region) => <button key={region.name} type="button" onClick={() => { setJourneyEventId(null); select(null); flyTo({ lat: region.lat, lon: region.lon }, region.distance); }}>{region.name}</button>)}
+        ].map((region) => <button key={region.name} type="button" className="chip" onClick={() => { setJourneyEventId(null); select(null); flyTo({ lat: region.lat, lon: region.lon }, region.distance); }}>{region.name}</button>)}
       </nav>
       <section id="world-map" className={styles.world} data-selected={storyFocus ? 'true' : undefined} aria-label="Explore the world map" tabIndex={-1}>
         <div className={styles.globe}>
@@ -523,7 +523,7 @@ export function DiscoveryExperience() {
               )}
               {/* Sticky inside the scrolling spotlight so the next step never hides below its fold (UFR-A09, B11). */}
               <div className={styles.spotlightActions}>
-                <Link className={styles.primary} href={destinationHref(spotlight.id)}>
+                <Link className={`btn btn-primary ${styles.primary}`} href={destinationHref(spotlight.id)}>
                   Open {spotlight.city} <span>↗</span>
                 </Link>
                 <Link
@@ -545,12 +545,12 @@ export function DiscoveryExperience() {
                   : 'Great trips start a little ahead. Explore the calendar to find your next moment.'}
               </p>
               {query && (
-                <button className={styles.primary} onClick={() => useCommandStore.getState().openWith(query)}>
+                <button className={`btn btn-primary ${styles.primary}`} onClick={() => useCommandStore.getState().openWith(query)}>
                   Search all of dope.travel for “{query}”
                 </button>
               )}
               <button
-                className={styles.primary}
+                className={`btn ${query ? 'btn-ghost' : 'btn-primary'} ${styles.primary}`}
                 onClick={query ? () => setQuery('') : beginPlanning}
               >
                 {query ? 'Clear search' : 'Explore future dates'} <span>↗</span>
@@ -572,7 +572,7 @@ export function DiscoveryExperience() {
               <span className={styles.eyebrow}>{modeActive ? 'YOUR TRIP SHORTLIST' : planMode ? 'THE PULSE' : 'WORLD HEAT'}</span>
               <h2>{modeActive ? 'Places for this trip' : planMode ? 'On your horizon' : 'Places with a pull'}</h2>
             </div>
-            <span className={styles.curated}>{signalStatus === 'enriched' ? 'UPDATED SIGNALS' : 'MODELED'}</span>
+            <span className={`tag ${styles.curated}`}>{signalStatus === 'enriched' ? 'UPDATED SIGNALS' : 'MODELED'}</span>
           </div>
           <p className={styles.pulseIntro}>
             {modeActive
@@ -642,7 +642,7 @@ export function DiscoveryExperience() {
       <section className={styles.nextSection}>
         <div className={styles.sectionHeading}>
           <div>
-            <span className={styles.eyebrow}>A LITTLE FURTHER AHEAD</span>
+            <span className={styles.eyebrow}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />A LITTLE FURTHER AHEAD</span>
             <h2>Make your next move.</h2>
           </div>
           <button className={styles.textLink} onClick={beginPlanning}>
@@ -685,7 +685,7 @@ export function DiscoveryExperience() {
       </section>
 
       <section className={styles.directory}>
-        <button onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
+        <button className="btn btn-ghost" onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
           {showAll ? '−' : '+'} Browse all {scenes.length}{' '}
           {modeActive ? 'events for this trip' : planMode ? 'events in this window' : 'events on the calendar today'}
         </button>

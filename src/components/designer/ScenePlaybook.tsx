@@ -150,7 +150,7 @@ export function ScenePlaybook({
             <span className="grid gap-1">
               <strong className="text-[14px] text-ink">{scene.label}</strong>
               <span className="text-[12px] text-ink-muted">{scene.why}</span>
-              <span className="text-[11.5px] text-ink-faint">Look for: {scene.venues.join(' · ')}</span>
+              <span className="text-[11.5px] text-ink-subtle">Look for: {scene.venues.join(' · ')}</span>
             </span>
           </li>
         ))}

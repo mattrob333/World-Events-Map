@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Button, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
-import { FixtureBanner, OpportunityCardView } from '@/components/shell';
+import { OpportunityCardView } from '@/components/shell';
 import {
   INSPIRATION_FIXTURE_DISCLOSURE,
   INSPIRATION_KIND_LABEL,
@@ -43,25 +43,25 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
 
   return (
     <main className="px-4 py-10 sm:px-8">
-      <p className="label-sm text-brass">Circles</p>
-      <h1 className="mt-2 font-display text-5xl text-ink">Trip rooms</h1>
-      <p className="mt-3 max-w-xl text-[14px] text-ink-muted">
+      <p className="eyebrow">Circles</p>
+      <h1 className="mt-3 font-display text-5xl text-ink">Trip rooms</h1>
+      <p className="mt-3 max-w-xl text-[15px] leading-6 text-ink-muted">
         A Circle is a trip, not a chat thread. Live Circles still live in Community for members who are signed in.
       </p>
-      {selectedEvent && <section className="mt-8 rounded-[3px] border border-brass/35 bg-brass-wash px-5 py-5">
-        <p className="label-sm text-brass">Your selected occasion · curated calendar</p>
+      {selectedEvent && <section className="surface-hero mt-8 px-6 py-6">
+        <p className="eyebrow">Your selected occasion · curated calendar</p>
         <h2 className="mt-2 font-display text-3xl text-ink">{selectedEvent.name}</h2>
-        <p className="mt-2 text-[13px] text-ink">{selectedEvent.city}, {selectedEvent.country} · {formatDateRange(selectedEvent.start, selectedEvent.end)}</p>
-        <p className="mt-3 max-w-2xl text-[12px] leading-5 text-ink-muted">This is the occasion you chose to plan around. No Circle or booking has been created. Confirm the event dates and access with the organizer before committing travel.</p>
-        <div className="mt-4 flex flex-wrap gap-4 text-[13px]">
-          <Link href={`/community?event=${encodeURIComponent(selectedEvent.id)}`} className="text-brass hover:text-brass-bright">Continue in Community to start a real Circle ↗</Link>
-          <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="text-ink-muted hover:text-ink">Review event details ↗</Link>
+        <p className="mt-2 font-mono text-[13px] text-ink-soft">{selectedEvent.city}, {selectedEvent.country} · {formatDateRange(selectedEvent.start, selectedEvent.end)}</p>
+        <p className="mt-3 max-w-2xl text-[13px] leading-5 text-ink-muted">This is the occasion you chose to plan around. No Circle or booking has been created. Confirm the event dates and access with the organizer before committing travel.</p>
+        <div className="mt-5 flex flex-wrap gap-2.5">
+          <Link href={`/community?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-primary">Continue in Community to start a real Circle ↗</Link>
+          <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-ghost">Review event details ↗</Link>
         </div>
-        <p className="mt-2 text-[11px] text-ink-muted">Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.</p>
+        <p className="mt-3 text-[12px] text-ink-subtle">Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.</p>
       </section>}
       {slug ? (
-        <section className="mt-8 border border-brass/25 bg-brass-wash px-4 py-4">
-          <p className="label-sm text-brass">Exploring {placeName}</p>
+        <section className="notice mt-8 p-5">
+          <p className="eyebrow">Exploring {placeName}</p>
           {matching.length === 0 ? (
             <p className="mt-2 max-w-xl text-[13px] text-ink-muted">
               No sample trip room for this destination yet. Live Circles still live in Community
@@ -72,38 +72,38 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
               The sample rooms below are separate example trips. Their events and dates may differ from your selected occasion.
             </p>
           )}
-          <div className="mt-3 flex flex-wrap gap-4 text-[13px]">
+          <div className="mt-4 flex flex-wrap gap-2.5">
             {pulse ? (
-              <Link href={`/destinations/${pulse.slug}`} className="text-brass">
+              <Link href={`/destinations/${pulse.slug}`} className="btn btn-ghost btn-sm min-h-11">
                 Back to {pulse.name}
               </Link>
             ) : null}
-            <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="text-brass">
+            <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="btn btn-ghost btn-sm min-h-11">
               {selectedEvent ? 'Find real Circles for this event' : 'Open Community Circles'}
             </Link>
           </div>
         </section>
       ) : null}
-      <FixtureBanner>{TRIP_ROOM_DISCLOSURE}</FixtureBanner>
+      <p role="note" className="notice mt-6 max-w-3xl">{TRIP_ROOM_DISCLOSURE}</p>
       {matching.length > 0 ? (
         <div className="mt-8">
           <h2 className="mb-3 font-display text-2xl text-ink">Other sample trips in {placeName}</h2>
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
           {matching.map((trip) => (
             <TripRoomCard key={trip.id} trip={trip} />
           ))}
           </div>
         </div>
       ) : null}
-      <h2 className="mt-8 font-display text-2xl text-ink">More sample trip rooms</h2>
-      <div className="mt-8 grid gap-3 lg:grid-cols-2">
+      <h2 className="mt-10 font-display text-2xl text-ink">More sample trip rooms</h2>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
         {rest.map((trip) => (
           <TripRoomCard key={trip.id} trip={trip} />
         ))}
       </div>
-      <p className="mt-8 text-[13px] text-ink-muted">
+      <p className="mt-8 text-[14px] text-ink-muted">
         Already a member?{' '}
-        <Link href="/community" className="text-brass">
+        <Link href="/community" className="text-brass-bright underline underline-offset-4">
           Open live Circles
         </Link>
         .
@@ -122,14 +122,14 @@ function TripRoomCard({
   return (
     <Link
       href={`/circles/${trip.id}`}
-      className={cn('glass rounded-[3px] p-5', highlight && 'border border-brass/40')}
+      className={cn('surface transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-surface-3 hover:shadow-[var(--shadow-soft-2)] active:translate-y-px active:shadow-[var(--shadow-inset)] focus-visible:shadow-[var(--focus-ring)] focus-visible:outline-none flex flex-col p-6', highlight && 'shadow-[var(--shadow-soft-1),inset_0_0_0_1px_rgb(247_197_72/0.4)]')}
     >
-      <p className="label-sm text-brass">{trip.destinationLabel}</p>
-      <h2 className="mt-2 font-display text-3xl text-ink">{trip.name}</h2>
-      <p className="mt-2 text-[12px] text-ink-muted">
+      <p className="eyebrow">{trip.destinationLabel}</p>
+      <h2 className="mt-3 font-display text-3xl text-ink">{trip.name}</h2>
+      <p className="mt-2 font-mono text-[13px] text-ink-soft">
         {formatDateRange(trip.start, trip.end)} · {trip.travelMode}
       </p>
-      <p className="mt-4 text-[13px] text-ink-muted">{trip.nextDecision}</p>
+      <p className="mt-4 text-[14px] leading-6 text-ink-muted">{trip.nextDecision}</p>
     </Link>
   );
 }
@@ -154,7 +154,7 @@ export function TripRoom({ id }: { id: string }) {
           title="This trip room is not on the preview board."
           body="Sample rooms exist for Aspen and Monte-Carlo. Live Circles remain under Community."
           action={
-            <Link href="/circles" className="text-brass">
+            <Link href="/circles" className="btn btn-ghost">
               All trip rooms
             </Link>
           }
@@ -171,16 +171,16 @@ export function TripRoom({ id }: { id: string }) {
 
   return (
     <main className="px-4 pb-20 pt-6 sm:px-8">
-      <FixtureBanner>{TRIP_ROOM_DISCLOSURE}</FixtureBanner>
-      <header className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <p role="note" className="notice">{TRIP_ROOM_DISCLOSURE}</p>
+      <header className="surface-hero mt-6 flex flex-col gap-5 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="label-sm text-brass">
+          <p className="eyebrow">
             {trip.destinationLabel} · {trip.travelMode}
           </p>
           <h1 className="mt-2 font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] text-ink">
             {trip.name}
           </h1>
-          <p className="mt-3 text-[13px] text-ink-muted">
+          <p className="mt-3 font-mono text-[13px] text-ink-soft">
             {formatDateRange(trip.start, trip.end)} · {trip.status}
           </p>
         </div>
@@ -198,14 +198,14 @@ export function TripRoom({ id }: { id: string }) {
         </div>
       </header>
 
-      <div className="mt-8 flex gap-1 overflow-x-auto" role="tablist" aria-label="Trip room sections">
+      <div className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 py-1 sm:mx-0 sm:px-0" role="tablist" aria-label="Trip room sections">
         {TABS.map((item) => (
           <button
             key={item}
             type="button"
             role="tab"
             aria-selected={tab === item}
-            className={`label min-h-11 shrink-0 rounded-[2px] px-3 py-3 ${tab === item ? 'bg-brass-wash text-brass' : 'text-ink-muted'}`}
+            className={`chip min-h-11 shrink-0 px-4 text-[14px] capitalize ${tab === item ? 'chip-on' : ''}`}
             onClick={() => setTab(item)}
           >
             {item}
@@ -223,7 +223,7 @@ export function TripRoom({ id }: { id: string }) {
             <p className="font-display text-4xl">{pulse?.score ?? '—'}</p>
             <p className="mt-2 text-[13px] text-ink-muted">{pulse?.whyNow}</p>
             {pulse && (
-              <Link href={`/destinations/${pulse.slug}`} className="mt-3 inline-block text-[12px] text-brass">
+              <Link href={`/destinations/${pulse.slug}`} className="btn btn-ghost btn-sm mt-4 min-h-11 self-start">
                 Open destination →
               </Link>
             )}
@@ -244,14 +244,14 @@ export function TripRoom({ id }: { id: string }) {
 
       {tab === 'inspiration' && (
         <div className="mt-8 grid gap-4">
-          <FixtureBanner>{INSPIRATION_FIXTURE_DISCLOSURE}</FixtureBanner>
+          <p role="note" className="notice">{INSPIRATION_FIXTURE_DISCLOSURE}</p>
           <div className="columns-1 gap-3 sm:columns-2 lg:columns-3">
             {board.map((item) => (
-              <article key={item.id} className="glass mb-3 break-inside-avoid p-4">
-                <p className="label-sm text-brass">{INSPIRATION_KIND_LABEL[item.kind]}</p>
+              <article key={item.id} className="surface mb-4 break-inside-avoid p-5">
+                <p className="eyebrow">{INSPIRATION_KIND_LABEL[item.kind]}</p>
                 <h3 className="mt-2 font-display text-2xl text-ink">{item.title}</h3>
-                {item.subtitle && <p className="mt-1 text-[12px] text-ink-muted">{item.subtitle}</p>}
-                {item.note && <p className="mt-2 text-[12px] text-ink-muted">{item.note}</p>}
+                {item.subtitle && <p className="mt-1 text-[13px] text-ink-muted">{item.subtitle}</p>}
+                {item.note && <p className="mt-2 text-[13px] text-ink-muted">{item.note}</p>}
                 <div className="mt-4 flex flex-wrap gap-2">
                   {(['mustDo', 'maybe', 'skip'] as InspirationVote[]).map((vote) => (
                     <Button
@@ -291,13 +291,13 @@ export function TripRoom({ id }: { id: string }) {
 
       {tab === 'people' && (
         <div className="mt-8 grid gap-3">
-          <FixtureBanner>Editorial portraits standing in for a roster. Not live members.</FixtureBanner>
+          <p role="note" className="notice">Editorial portraits standing in for a roster. Not live members.</p>
           {members.map((portrait) =>
             portrait ? (
               <Link
                 key={portrait.person.handle}
                 href={`/people/${portrait.person.handle}`}
-                className="glass flex items-center gap-3 p-4"
+                className="surface transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-surface-3 hover:shadow-[var(--shadow-soft-2)] active:translate-y-px active:shadow-[var(--shadow-inset)] focus-visible:shadow-[var(--focus-ring)] focus-visible:outline-none flex items-center gap-3 p-4"
               >
                 <Avatar seed={portrait.person.avatarSeed} name={portrait.person.displayName} size={44} />
                 <div>
@@ -312,7 +312,7 @@ export function TripRoom({ id }: { id: string }) {
 
       {tab === 'access' && (
         <div className="mt-8 grid gap-4">
-          <FixtureBanner>{ACCESS_FIXTURE_DISCLOSURE}</FixtureBanner>
+          <p role="note" className="notice">{ACCESS_FIXTURE_DISCLOSURE}</p>
           <div className="grid gap-3 lg:grid-cols-2">
             {offers.map((offer) => (
               <OpportunityCardView key={offer.id} offer={offer} />
@@ -326,7 +326,7 @@ export function TripRoom({ id }: { id: string }) {
           <p className="text-[13px] text-ink-muted">
             Live Circle chat stays on the signed-in Community surface. This preview does not invent messages.
           </p>
-          <Link href="/community" className="mt-4 inline-block text-[12px] text-brass">
+          <Link href="/community" className="btn btn-ghost btn-sm mt-4 min-h-11">
             Open Community chat →
           </Link>
         </Panel>

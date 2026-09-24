@@ -326,17 +326,19 @@ export function WorldIntro({
           <span className={styles.kicker}><span aria-hidden="true">✦</span> THE WORLD IS AN INVITATION</span>
           <h1>{story.first} <em>{story.emphasis}</em></h1>
           <p>{story.description}</p>
+          <div className={styles.heroActions}>
           {featured && (estimate?.airHours === 0 && destinations.byEventId.get(featured.id) ? (
             // Already there: flying a route to your own city makes no sense (red team UFR-C10).
-            <Link className={styles.heroCta} href={`/destinations/${destinations.byEventId.get(featured.id)!.slug}?event=${encodeURIComponent(featured.id)}`}>
+            <Link className={`btn btn-primary ${styles.heroCta}`} href={`/destinations/${destinations.byEventId.get(featured.id)!.slug}?event=${encodeURIComponent(featured.id)}`}>
               You&apos;re here · see {featured.city} <span aria-hidden="true">↗</span>
             </Link>
           ) : (
-            <button type="button" className={styles.heroCta} onClick={() => launchJourney(featured, activeJourney?.photo)}>
+            <button type="button" className={`btn btn-primary ${styles.heroCta}`} onClick={() => launchJourney(featured, activeJourney?.photo)}>
               <span className={styles.jet} aria-hidden="true">✈</span> Fly to {featured.city} <span aria-hidden="true">↗</span>
             </button>
           ))}
           <a className={styles.secondaryCta} href="#departure-board">See what is calling <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>
           <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : 'THE NEXT POSSIBILITY'}</span><span aria-hidden="true">✦ dope.travel</span></div>
@@ -366,15 +368,15 @@ export function WorldIntro({
       <section className={styles.tripFinder} aria-labelledby="trip-finder-title">
         <div className={styles.finderIntro}>
           <div>
-            <span className={styles.kicker}>START WITH A FEELING / 001</span>
+            <span className={styles.kicker}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />START WITH A FEELING / 001</span>
             <h2 id="trip-finder-title">What kind of trip calls to you?</h2>
             <p>Choose when and what you love. The places and departure board will follow.</p>
           </div>
-          <div className={styles.finderSelection} aria-live="polite">
-            <span>YOUR EDITORIAL SHORTLIST</span>
+          <div className={`surface ${styles.finderSelection}`} aria-live="polite">
+            <span className="eyebrow">YOUR EDITORIAL SHORTLIST</span>
             <strong>{selectedSeasonLabel} · {selectedInterestLabel}</strong>
             <small>{filtering ? `${picks.length} places to explore` : 'A little of everything'}</small>
-            <Link href={`/trips?season=${season}&interest=${interest}${familySki ? '#family-ski' : ''}`}>
+            <Link className="btn btn-ghost" href={`/trips?season=${season}&interest=${interest}${familySki ? '#family-ski' : ''}`}>
               {familySki ? 'Start a family ski trip' : 'Explore trip planning'} <span aria-hidden="true">↗</span>
             </Link>
           </div>
@@ -382,17 +384,17 @@ export function WorldIntro({
         <div className={styles.finderControls}>
           <fieldset className={styles.finderGroup}>
             <legend>When</legend>
-            <div>{SEASONS.map((option) => <button key={option.value} type="button" aria-pressed={season === option.value} onClick={() => chooseSeason(option.value)}>{option.label}</button>)}</div>
+            <div>{SEASONS.map((option) => <button key={option.value} type="button" className="chip" aria-pressed={season === option.value} onClick={() => chooseSeason(option.value)}>{option.label}</button>)}</div>
           </fieldset>
           <fieldset className={styles.finderGroup}>
             <legend>What</legend>
-            <div>{INTERESTS.map((option) => <button key={option.value} type="button" aria-pressed={interest === option.value} onClick={() => chooseInterest(option.value)}>{option.label}</button>)}</div>
+            <div>{INTERESTS.map((option) => <button key={option.value} type="button" className="chip" aria-pressed={interest === option.value} onClick={() => chooseInterest(option.value)}>{option.label}</button>)}</div>
           </fieldset>
         </div>
         {interest === 'ski' && <div className={styles.snowOutlook} role="note">
           <div><span>SNOW OUTLOOK</span><strong>Plan the week. Check the mountain.</strong></div>
           <p>These are curated ski dates, not a snow report. Snow depth, recent snowfall, forecast, open lifts, and family terrain still need a verified resort or weather source before you decide where conditions are best.</p>
-          <span className={styles.snowStatus}>LIVE CONDITIONS · SOURCE NEEDED</span>
+          <span className={`tag ${styles.snowStatus}`}>LIVE CONDITIONS · SOURCE NEEDED</span>
           <div className={styles.snowLinks} aria-label="Official mountain condition reports">
             <span>CHECK OFFICIAL REPORTS ↗</span>
             <a href="https://www.aspensnowmass.com/four-mountains/aspen-mountain/snow-and-grooming-report" target="_blank" rel="noopener noreferrer">Aspen Snowmass</a>
@@ -406,7 +408,7 @@ export function WorldIntro({
 
       <div className={styles.radar} id="departure-board">
         <div className={styles.radarHeading}>
-          <div><span className={styles.kicker}>{filtering ? `${selectedSeasonLabel.toUpperCase()} / ${selectedInterestLabel.toUpperCase()}` : 'THE SHORTLIST / 001'}</span><h2>{story.heading}</h2></div>
+          <div><span className={styles.kicker}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />{filtering ? `${selectedSeasonLabel.toUpperCase()} / ${selectedInterestLabel.toUpperCase()}` : 'THE SHORTLIST / 001'}</span><h2>{story.heading}</h2></div>
           <p>{filtering ? 'Current and future occasions on the curated calendar. Tap a place to explore.' : 'Tap a place to fly there. Then follow the story.'}</p>
         </div>
         {picks.length ? <div className={styles.radarCards} role="list" aria-label="Places on the radar">
@@ -439,9 +441,9 @@ export function WorldIntro({
           </div>
         </div>
         <div className={styles.boardControls}>
-          <button type="button" className={styles.boardPause} onClick={() => setBoardPaused((value) => !value)} disabled={reducedMotion} aria-label={reducedMotion ? 'Automatic movement is off for reduced motion' : boardPaused ? 'Resume departure ticker' : 'Pause departure ticker'} aria-pressed={boardPaused || reducedMotion}>{boardPaused || reducedMotion ? '▶' : 'Ⅱ'}</button>
-          <button type="button" onClick={() => scrollBoard(-1)} aria-label="Scroll departures left">‹</button>
-          <button type="button" onClick={() => scrollBoard(1)} aria-label="Scroll departures right">›</button>
+          <button type="button" className={`btn btn-ghost ${styles.boardPause}`} onClick={() => setBoardPaused((value) => !value)} disabled={reducedMotion} aria-label={reducedMotion ? 'Automatic movement is off for reduced motion' : boardPaused ? 'Resume departure ticker' : 'Pause departure ticker'} aria-pressed={boardPaused || reducedMotion}>{boardPaused || reducedMotion ? '▶' : 'Ⅱ'}</button>
+          <button type="button" className="btn btn-ghost" onClick={() => scrollBoard(-1)} aria-label="Scroll departures left">‹</button>
+          <button type="button" className="btn btn-ghost" onClick={() => scrollBoard(1)} aria-label="Scroll departures right">›</button>
         </div>
       </div>
     </section>

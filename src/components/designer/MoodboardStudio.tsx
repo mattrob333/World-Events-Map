@@ -194,7 +194,16 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
               aria-pressed={listening}
               aria-label={listening ? 'Stop listening' : 'Start talking'}
             >
-              {listening ? '■' : '🎙️'}
+              <svg className={styles.micIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                {listening ? (
+                  <rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" stroke="none" />
+                ) : (
+                  <>
+                    <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" stroke="none" />
+                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" />
+                  </>
+                )}
+              </svg>
             </button>
           </div>
           <div className="grid w-full gap-3">
@@ -346,14 +355,14 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
                   <div key={entry.id} className={styles.savedCard}>
                     <span
                       className={styles.savedSwatch}
-                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : '#334155' }}
+                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : 'var(--color-surface-3)' }}
                       aria-hidden
                     >
                       {tile?.emoji ?? '✨'}
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[14px] text-ink">{entry.profile.name ?? entry.profile.hometown ?? 'My board'}</p>
-                      <p className="truncate text-[12px] text-ink-faint">{entry.profile.summary || 'Saved board'}</p>
+                      <p className="truncate text-[12px] text-ink-subtle">{entry.profile.summary || 'Saved board'}</p>
                     </div>
                     <button
                       type="button"
