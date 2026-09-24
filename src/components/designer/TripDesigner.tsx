@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { DESTINATIONS, type DestinationKind } from '@/lib/designer/catalog';
 import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, participantStyle, type Itinerary, type Participant, type TripDestination } from '@/lib/designer/itinerary';
@@ -356,9 +357,11 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
   const mounted = useHydrated();
   const [notice, setNotice] = useState<string | undefined>();
   const [withId, setWithId] = useState(initialWith);
-  // Read once on the client: Setup only renders after hydration.
+  // Read once on first load (also on a client-side navigation, where
+  // window.location is not updated yet). It only prefills "Where to?".
+  const searchParams = useSearchParams();
   const [placeParam, setPlaceParam] = useState<PlanPlace | undefined>(() =>
-    typeof window === 'undefined' ? undefined : planPlaceFromParams(new URLSearchParams(window.location.search)) ?? undefined,
+    planPlaceFromParams(new URLSearchParams(searchParams?.toString() ?? '')) ?? undefined,
   );
   const trip = useDesignerStore((state) => state.trip);
   const setTrip = useDesignerStore((state) => state.setTrip);
