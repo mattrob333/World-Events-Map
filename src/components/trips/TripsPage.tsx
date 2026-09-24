@@ -239,7 +239,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           </p>
           <div className={styles.heroActions}>
             <button type="button" onClick={revealSkiPlanner} className={styles.primaryAction}>Start a family ski trip <span aria-hidden="true">↗</span></button>
-            <Link href="/trips/designer" className={styles.secondaryAction}>Open the trip designer <span aria-hidden="true">✨</span></Link>
+            <Link href="/trips/designer" className={styles.secondaryAction}>Open the trip designer</Link>
             <a href="#sample-rooms" className={styles.secondaryAction}>Preview a trip room <span aria-hidden="true">↓</span></a>
           </div>
           <p className={styles.heroNote}>Aspen ski archive, 2007. Shared trips require membership; saved places stay on this device.</p>

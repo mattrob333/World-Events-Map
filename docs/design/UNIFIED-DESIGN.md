@@ -8,7 +8,7 @@ A travel magazine at golden hour. The room is a cool evening sky. Things you tou
 
 ## Hard rules (enforced in review)
 
-1. **One gradient moment per screen.** The golden-hour gradient appears on the primary button or one hero moment, not both. No gradient text except the /brand tagline and the moodboard title.
+1. **One gradient moment per screen.** The golden-hour gradient appears on the primary button or one hero moment (the logo sun and the mood board mic count), not both. No gradient text except the /brand tagline.
 2. **Three surfaces.** Page (`surface-0`), raised object (`.surface`, or `.surface-raised` for popovers and the one hero module), and sunken well (`.surface-well`, inputs and selected states). Not every section is a card: sections are open type on the page, and cards are for things you act on.
 3. **One primary, one secondary, one text link.** `.btn .btn-primary` (gradient pill, dark ink), `.btn .btn-ghost` (raised pill, bone ink), and an underlined text link. No beige slabs, no green CTAs, no outline-only mono buttons.
 4. **Selected is pressed, not filled.** `.chip-on` sinks into the surface with saffron ink and a saffron rim. Never the CTA gradient, never solid beige, so "selected" can't be mistaken for "tap me".

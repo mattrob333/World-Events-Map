@@ -592,18 +592,17 @@
 }
 
 .introSteps span {
+  /* Plain steps, not pills: nothing here is tappable. */
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-chip);
-  background: rgb(255 255 255 / 0.05);
-  white-space: nowrap;
+  padding: 0 14px 0 0;
 }
 
 .introSteps b {
   color: var(--color-saffron);
-  font: 600 11px/1 var(--font-mono);
+  font: 600 12px/1 var(--font-sans);
+  letter-spacing: 0.08em;
 }
 
 .introDisclosure {

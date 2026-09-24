@@ -55,7 +55,7 @@ export function NowForYou({ initialCity }: { initialCity?: string }) {
       {liveTrip ? <RightNow trip={liveTrip.trip} destination={liveTrip.destination} lookup={cardLookup(liveTrip.trip)} now={now} nowLink={false} /> : null}
       <div className={styles.forYou}>
         <p className={styles.kicker}>
-          <span aria-hidden>{SLOT_META[slot].emoji}</span> {SLOT_META[slot].label} · for {profile?.name ?? 'you'}
+          {SLOT_META[slot].label} · for {profile?.name ?? 'you'}
         </p>
         <h2 id="now-for-you-title">
           {city ? (liveTrip ? `More ideas in ${city}` : `Right now in ${city}`) : 'Where are you right now?'}

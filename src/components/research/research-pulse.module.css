@@ -83,14 +83,9 @@
   display: flex;
   flex-direction: column;
   min-height: 268px;
-  border-radius: var(--radius-card);
-  background: var(--gradient-surface), var(--color-surface-2);
-  box-shadow: var(--shadow-soft-1);
-  overflow: hidden;
+  /* Lanes are open columns inside the hero module: one card layer, not three. */
+  border-top: 1px solid rgb(255 255 255 / 0.07);
 }
-.articleLane { background: var(--gradient-surface), radial-gradient(120% 80% at 0% 0%, rgb(242 107 42 / 0.1), transparent 60%), var(--color-surface-2); }
-.socialLane { background: var(--gradient-surface), radial-gradient(120% 80% at 0% 0%, rgb(228 87 126 / 0.09), transparent 60%), var(--color-surface-2); }
-.offerLane { background: var(--gradient-surface), radial-gradient(120% 80% at 0% 0%, rgb(247 197 72 / 0.08), transparent 60%), var(--color-surface-2); }
 .laneHeading {
   display: flex;
   justify-content: space-between;

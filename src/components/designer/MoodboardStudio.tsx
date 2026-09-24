@@ -177,7 +177,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
       <div className={styles.inner}>
         <p className={styles.eyebrow}>Mood board · step 1 of 2</p>
         <h1 className={styles.headline}>
-          Tell us about you. <span className={styles.gradientText}>We’ll make the board.</span>
+          Tell us about you. <span className={styles.accentText}>We’ll make the board.</span>
         </h1>
         <p className={styles.lede}>
           Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
@@ -224,7 +224,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
             {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
             <div className={styles.row}>
               <button type="button" className={styles.cta} onClick={build} disabled={busy}>
-                {busy ? 'Sorting…' : '✨ Build my mood board'}
+                {busy ? 'Sorting…' : 'Build my mood board'}
               </button>
               <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
                 Try an example

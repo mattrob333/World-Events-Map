@@ -32,7 +32,7 @@
 .path { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 24px 0 64px; }
 .path > div { padding: 20px 22px; }
 .path > div > span { display: flex; align-items: baseline; gap: 10px; }
-.stepNumber { color: var(--color-saffron); font: 500 13px/1 var(--font-mono); letter-spacing: 0; }
+.stepNumber { color: var(--color-saffron); font: 600 13px/1 var(--font-sans); letter-spacing: 0.08em; }
 .path p { max-width: 315px; margin: 10px 0 0; color: var(--color-ink-soft); font-size: 14px; line-height: 1.5; }
 
 /* ── Selected sample: the one raised hero module on the page ── */

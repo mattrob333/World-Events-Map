@@ -83,8 +83,8 @@ function DestinationActions({ event, planningHref, destination }: {
   });
   return <div className="mt-6">
     <div className="flex flex-wrap gap-2">
-      <button type="button" aria-pressed={saved} onClick={() => intent('save')} className="chip min-h-11">{saved ? 'Saved ✓' : 'Save this event'}</button>
-      <button type="button" aria-pressed={watched} onClick={() => intent('watch')} className="chip min-h-11">{watched ? 'Watching ✓' : 'Watch this event'}</button>
+      <button type="button" aria-pressed={saved} onClick={() => intent('save')} className="btn btn-ghost">{saved ? 'Saved ✓' : 'Save this event'}</button>
+      <button type="button" aria-pressed={watched} onClick={() => intent('watch')} className="btn btn-ghost">{watched ? 'Watching ✓' : 'Watch this event'}</button>
       <Link href={planningHref} className="btn btn-ghost h-auto min-h-11 whitespace-normal py-2.5 text-left">Plan around {event.name} ↗</Link>
     </div>
     <p className="mt-3 text-[12px] leading-5 text-ink-subtle">Save and Watch stay on this device. Watch does not send notifications.</p>

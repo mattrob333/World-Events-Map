@@ -326,7 +326,7 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
 
       <div className={`${styles.row} mt-6`}>
         <button type="button" className={styles.cta} onClick={create} disabled={busy}>
-          {busy ? 'Designing your week…' : '✨ Design the itinerary'}
+          {busy ? 'Designing your week…' : 'Design the itinerary'}
         </button>
         {error ? (
           <p className={styles.error} role="alert">
