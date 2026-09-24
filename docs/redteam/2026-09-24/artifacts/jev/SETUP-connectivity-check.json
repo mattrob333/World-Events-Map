@@ -1,0 +1,29 @@
+{
+  "label": "SETUP-connectivity-check",
+  "at": "2026-09-24T05:15:18.206Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "connectivity check"
+    },
+    "questions": {
+      "ok": {
+        "type": "noul",
+        "instructions": "Is this request a connectivity check?"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "ok": {
+        "type": "noul",
+        "noul": 0.88
+      }
+    },
+    "usage": {
+      "input_tokens": 283,
+      "output_tokens": 20
+    }
+  }
+}

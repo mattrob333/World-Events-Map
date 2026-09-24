@@ -1,0 +1,19 @@
+{
+  "label": "JEV-PING",
+  "at": "2026-09-24T05:15:05.849Z",
+  "status": 400,
+  "request": {
+    "state": {
+      "persona": "connectivity check"
+    },
+    "questions": {
+      "ok": {
+        "type": "noul",
+        "question": "Is this a connectivity check?"
+      }
+    }
+  },
+  "response": {
+    "detail": "Noul question must have criteria or instructions: ok"
+  }
+}
