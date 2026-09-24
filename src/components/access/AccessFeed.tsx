@@ -57,10 +57,12 @@ const OFFER_PHOTOS: Record<string, { className: string; description: string; con
 function OfferScene({ offer }: { offer: OpportunityCard }) {
   const photo = OFFER_PHOTOS[offer.id];
   return (
-    <div className={`${styles.offerScene} ${photo?.className ?? ''}`} role="group" aria-label={photo ? `${photo.description}; archive photography, not the pictured offer` : `${offer.destinationLabel} preview offer`}>
-      <span className={styles.scenePlace}>{offer.destinationLabel}</span>
-      <span className={styles.sceneLabel}>{photo?.context ?? 'Preview offer'}</span>
-      {photo && <span className={styles.photoCredit}>Photo, display crop: <a href={photo.source} target="_blank" rel="noreferrer">{photo.author} ↗</a> · <a href={photo.licenseHref} target="_blank" rel="noreferrer">{photo.license}</a></span>}
+    <div className={styles.sceneWrap}>
+      <div className={`${styles.offerScene} ${photo?.className ?? ''}`} role="group" aria-label={photo ? `${photo.description}; archive photography, not the pictured offer` : `${offer.destinationLabel} preview offer`}>
+        <span className={styles.scenePlace}>{offer.destinationLabel}</span>
+        <span className={`tag ${styles.sceneLabel}`}>{photo?.context ?? 'Preview offer'}</span>
+      </div>
+      {photo && <p className={styles.photoCredit}>Photo, display crop: <a href={photo.source} target="_blank" rel="noreferrer">{photo.author} ↗</a> · <a href={photo.licenseHref} target="_blank" rel="noreferrer">{photo.license}</a></p>}
     </div>
   );
 }
@@ -77,10 +79,10 @@ function AccessHero({ note }: { note: string }) {
       <div className={styles.heroShade} />
       <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Monaco_Port_Hercule_17.jpg" target="_blank" rel="noreferrer">Zairon ↗</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></span>
       <div className={styles.heroContent}>
-        <p className={styles.eyebrow}>dope.travel / ACCESS</p>
+        <p className={`eyebrow ${styles.eyebrow}`}>dope.travel / ACCESS</p>
         <h1 id="access-title">Make the trip <em>happen.</em></h1>
         <p>Explore stays, arrivals and moments around the trip. Start with a possibility; the provider confirms every detail.</p>
-        <a className={styles.heroAction} href="#opportunities">Explore opportunities <span aria-hidden="true">↘</span></a>
+        <a className={`btn btn-primary ${styles.heroAction}`} href="#opportunities">Explore opportunities <span aria-hidden="true">↘</span></a>
         <span className={styles.heroNote}>{note}</span>
       </div>
     </section>
@@ -115,48 +117,48 @@ function PartnerAccess({ client }: { client: NonNullable<ReturnType<typeof usePl
       <AccessHero note="Offers from reviewed partners · inquiries, not bookings" />
       <div className={styles.content}>
         {staleSample && (
-          <p className={styles.empty} role="status">
+          <p className={`notice ${styles.empty}`} role="status">
             That link pointed to a sample from the product preview. Samples are not shown now that partner offers are connected; here are the real ones.
           </p>
         )}
-        <p className={styles.disclosure}>
+        <p className={`notice ${styles.disclosure}`}>
           Offers here come from reviewed travel partners. Asking about one sends an inquiry, not a booking: the provider confirms dates, price and terms when they reply.
         </p>
         <section id="opportunities" className={styles.listing} aria-labelledby="opportunities-title">
           <div className={styles.listingHeader}>
-            <div><p className={styles.eyebrow}>FROM OUR PARTNERS</p><h2 id="opportunities-title">Find your way in.</h2></div>
+            <div><p className={`eyebrow ${styles.eyebrow}`}>FROM OUR PARTNERS</p><h2 id="opportunities-title">Find your way in.</h2></div>
           </div>
           {state.status === 'loading' ? (
-            <p className={styles.empty} role="status">Loading partner offers…</p>
+            <p className={`notice ${styles.empty}`} role="status">Loading partner offers…</p>
           ) : state.status === 'error' ? (
-            <p className={styles.empty} role="status">Partner offers could not be loaded just now. Nothing has been sent or held. Try again in a moment.</p>
+            <p className={`notice ${styles.empty}`} role="status">Partner offers could not be loaded just now. Nothing has been sent or held. Try again in a moment.</p>
           ) : offers.length === 0 ? (
-            <p className={styles.empty}>No partner offers are published yet. dope.travel does not invent availability while we wait.</p>
+            <p className={`notice ${styles.empty}`}>No partner offers are published yet. dope.travel does not invent availability while we wait.</p>
           ) : (
             <div className={styles.offerGrid}>
               {offers.map((offer) => (
-                <article key={offer.id} className={`${styles.offerFrame} glass flex flex-col gap-3 p-4`}>
+                <article key={offer.id} className={`surface ${styles.offerFrame} ${styles.partnerCard}`}>
                   <div className="flex items-start justify-between gap-3">
-                    <span className="label-sm text-brass">{PARTNER_OFFER_KIND_LABEL[offer.kind]} · {offer.destination}</span>
-                    <span className="label-sm text-ink-muted">{offerAvailabilityLabel(offer)}</span>
+                    <span className="eyebrow">{PARTNER_OFFER_KIND_LABEL[offer.kind]} · {offer.destination}</span>
+                    <span className="tag">{offerAvailabilityLabel(offer)}</span>
                   </div>
                   <h3 className="font-display text-[22px] leading-tight text-ink">{offer.title}</h3>
-                  <p className="text-[13px] leading-5 text-ink-muted">{offer.description}</p>
-                  <p className="text-[12px] text-ink">Verified partner: {offer.provider_name}</p>
+                  <p className="text-[14px] leading-6 text-ink-soft">{offer.description}</p>
+                  <p className="text-[13px] text-bone">Verified partner: {offer.provider_name}</p>
                   <div>
-                    <p className="text-[13px] text-ink">{offer.price_label || 'Ask the provider for a quote'}</p>
-                    <p className="text-[11px] text-ink-muted">{OFFER_PRICE_QUALIFIER}</p>
+                    <p className="tabular text-[13px] text-brass-bright">{offer.price_label || 'Ask the provider for a quote'}</p>
+                    <p className="text-[12px] text-ink-muted">{OFFER_PRICE_QUALIFIER}</p>
                   </div>
-                  <Link className={styles.askLink} href={`/community?tab=offers&offer=${encodeURIComponent(offer.id)}`}>
+                  <Link className="btn btn-ghost self-start" href={`/community?tab=offers&offer=${encodeURIComponent(offer.id)}`}>
                     Ask {offer.provider_name} <span aria-hidden="true">↗</span>
                   </Link>
-                  <p className="text-[10px] leading-4 text-ink-faint">This sends a request, not a booking. Offer ends {new Date(offer.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.</p>
+                  <p className="text-[12px] leading-5 text-ink-subtle">This sends a request, not a booking. Offer ends {new Date(offer.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.</p>
                 </article>
               ))}
             </div>
           )}
         </section>
-        <p className={styles.partnerNote}>Are you a travel provider? <Link href="/partners">Explore the partner studio ↗</Link></p>
+        <p className={styles.partnerNote}>Are you a travel provider? <Link className={styles.textLink} href="/partners">Explore the partner studio ↗</Link></p>
       </div>
     </main>
   );
@@ -192,24 +194,24 @@ function SampleAccess() {
       <AccessHero note="Place archive photography · sample opportunities, not live inventory" />
 
       <div className={styles.content}>
-        <p className={styles.disclosure}>{ACCESS_FIXTURE_DISCLOSURE}</p>
+        <p className={`notice ${styles.disclosure}`}>{ACCESS_FIXTURE_DISCLOSURE}</p>
         <section className={styles.path} aria-label="How access works">
-          <div><span>01 / DISCOVER</span><p>Choose a stay, arrival or experience that fits your trip.</p></div>
-          <div><span>02 / ASK</span><p>Draft the request you would make. No provider is contacted in this preview.</p></div>
-          <div><span>03 / CONFIRM</span><p>In a connected service, the provider would confirm terms before any reservation.</p></div>
+          <div className="surface"><span className="eyebrow"><span className={styles.stepNumber}>01</span>DISCOVER</span><p>Choose a stay, arrival or experience that fits your trip.</p></div>
+          <div className="surface"><span className="eyebrow"><span className={styles.stepNumber}>02</span>ASK</span><p>Draft the request you would make. No provider is contacted in this preview.</p></div>
+          <div className="surface"><span className="eyebrow"><span className={styles.stepNumber}>03</span>CONFIRM</span><p>In a connected service, the provider would confirm terms before any reservation.</p></div>
         </section>
 
         {offerId && !selected && (
-          <p className={styles.empty} role="status">That sample is no longer listed. Here are the others.</p>
+          <p className={`notice ${styles.empty}`} role="status">That sample is no longer listed. Here are the others.</p>
         )}
 
         {selected && (
           <section className={styles.selected} aria-labelledby="selected-offer-title">
-            <div className={styles.sectionTop}><p className={styles.eyebrow}>YOUR SELECTED SAMPLE</p><Link href="/access">See all opportunities ↗</Link></div>
-            <div className={styles.selectedGrid}>
+            <div className={styles.sectionTop}><p className={`eyebrow ${styles.eyebrow}`}>YOUR SELECTED SAMPLE</p><Link className={styles.textLink} href="/access">See all opportunities ↗</Link></div>
+            <div className={`surface-raised ${styles.selectedGrid}`}>
               <OfferScene offer={selected} />
               <div className={styles.selectedBody}>
-                <p className={styles.offerKind}>{OPPORTUNITY_KIND_LABEL[selected.kind]} · Sample · {selected.availabilityLabel}</p>
+                <p className={styles.offerKind}><span className="eyebrow">{OPPORTUNITY_KIND_LABEL[selected.kind]}</span><span className="tag">Sample</span><span className="tag">{selected.availabilityLabel}</span></p>
                 <h2 id="selected-offer-title" ref={selectedRef} tabIndex={-1} className={styles.selectedTitle}>{selected.title}</h2>
                 <p className={styles.offerSubtitle}>{selected.subtitle} · {offerWindowLabel(selected)}</p>
                 <p className={styles.offerBody}>{selected.body}</p>
@@ -222,16 +224,16 @@ function SampleAccess() {
 
         <section id="opportunities" className={styles.listing} aria-labelledby="opportunities-title">
           <div className={styles.listingHeader}>
-            <div><p className={styles.eyebrow}>THE POSSIBILITIES</p><h2 id="opportunities-title">{selected ? 'More ways to make it yours.' : 'Find your way in.'}</h2></div>
+            <div><p className={`eyebrow ${styles.eyebrow}`}>THE POSSIBILITIES</p><h2 id="opportunities-title">{selected ? 'More ways to make it yours.' : 'Find your way in.'}</h2></div>
             <p>Every offer below is a sample. A real inquiry would depend on the provider confirming the dates, price and terms.</p>
           </div>
           {scopedLabel && (
-            <p className={styles.scopeNote}>Showing samples for {scopedLabel}. <Link href="/access">See every destination ↗</Link></p>
+            <p className={styles.scopeNote}>Showing samples for {scopedLabel}. <Link className={styles.textLink} href="/access">See every destination ↗</Link></p>
           )}
           {kinds.length > 1 && (
             <div className={styles.filters} aria-label="Filter opportunities">
               {(['all', ...kinds] as const).map((item) => (
-                <button key={item} type="button" className={activeKind === item ? styles.activeFilter : ''} aria-pressed={activeKind === item} onClick={() => setKind(item)}>
+                <button key={item} type="button" className={activeKind === item ? 'chip chip-on' : 'chip'} aria-pressed={activeKind === item} onClick={() => setKind(item)}>
                   {item === 'all' ? 'All ideas' : OPPORTUNITY_KIND_LABEL[item]}
                 </button>
               ))}
@@ -239,15 +241,15 @@ function SampleAccess() {
           )}
           <div className={styles.offerGrid}>
             {offers.map((offer) => (
-              <div className={styles.offerFrame} key={offer.id}>
+              <div className={`surface ${styles.offerFrame}`} key={offer.id}>
                 <OfferScene offer={offer} />
                 <OpportunityCardView offer={offer} />
               </div>
             ))}
           </div>
-          {offers.length === 0 && <p className={styles.empty}>No more samples here. Explore the world for your next destination.</p>}
+          {offers.length === 0 && <p className={`notice ${styles.empty}`}>No more samples here. Explore the world for your next destination.</p>}
         </section>
-        <p className={styles.partnerNote}>Are you a travel provider? <Link href="/partners">Explore the partner studio ↗</Link></p>
+        <p className={styles.partnerNote}>Are you a travel provider? <Link className={styles.textLink} href="/partners">Explore the partner studio ↗</Link></p>
       </div>
     </main>
   );
@@ -280,18 +282,18 @@ function InquiryBox({ offer }: { offer: OpportunityCard }) {
           setPreviewed(true);
         }}
       >
-        <label>Dates<input value={dates} maxLength={80} onChange={(event) => setDates(event.target.value)} placeholder="e.g. 20–27 Dec" /></label>
-        <label>Party<input value={party} maxLength={40} onChange={(event) => setParty(event.target.value)} placeholder="e.g. 2 adults, 2 children" /></label>
-        <label>Note<textarea value={note} maxLength={400} onChange={(event) => setNote(event.target.value)} placeholder="What would make this right for you?" /></label>
-        <button type="submit">Preview my request <span aria-hidden="true">↗</span></button>
+        <label>Dates<input className="field" value={dates} maxLength={80} onChange={(event) => setDates(event.target.value)} placeholder="e.g. 20–27 Dec" /></label>
+        <label>Party<input className="field" value={party} maxLength={40} onChange={(event) => setParty(event.target.value)} placeholder="e.g. 2 adults, 2 children" /></label>
+        <label>Note<textarea className="field" value={note} maxLength={400} onChange={(event) => setNote(event.target.value)} placeholder="What would make this right for you?" /></label>
+        <button type="submit" className="btn btn-primary">Preview my request <span aria-hidden="true">↗</span></button>
       </form>
       {previewed && (
-        <div className={styles.previewStatus} role="status">
+        <div className={`notice ${styles.previewStatus}`} role="status">
           <pre className={styles.draftText}>{draft}</pre>
           <p>Nothing was sent and nothing is held. Partners are not connected in this preview; when they are, requests like this go to the provider and replies appear in Community → Your requests.</p>
           <p>
-            <Link href={`/destinations/${destinationSlug(offer)}`}>Keep planning {offer.destinationLabel} ↗</Link>
-            {offer.eventId ? <> · <Link href={`/?event=${encodeURIComponent(offer.eventId)}`}>See the occasion ↗</Link></> : null}
+            <Link className={styles.textLink} href={`/destinations/${destinationSlug(offer)}`}>Keep planning {offer.destinationLabel} ↗</Link>
+            {offer.eventId ? <> · <Link className={styles.textLink} href={`/?event=${encodeURIComponent(offer.eventId)}`}>See the occasion ↗</Link></> : null}
           </p>
         </div>
       )}

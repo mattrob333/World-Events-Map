@@ -21,7 +21,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
     <div className="space-y-3">
       <button
         type="button"
-        className="w-full rounded-xl border border-brass/40 px-4 py-3 text-left text-sm text-brass-bright"
+        className="btn btn-ghost w-full justify-start"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
@@ -30,10 +30,10 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
       {(!compact || open) && (isSkiEvent ? (
         satelliteUrl && terrainUrl ? (
           <div className="space-y-2">
-            <p className="label-sm text-brass">Explore the mountain</p>
+            <p className="eyebrow">Explore the mountain</p>
             <div className="grid gap-2 sm:grid-cols-2">
               <a
-                className="rounded-xl border border-signal/30 bg-signal/5 px-4 py-3 text-sm text-signal"
+                className="btn btn-ghost h-auto min-h-11 justify-start whitespace-normal py-3 text-left"
                 href={satelliteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -41,7 +41,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
                 View satellite imagery ↗
               </a>
               <a
-                className="rounded-xl border border-brass/40 bg-brass/5 px-4 py-3 text-sm text-brass-bright"
+                className="btn btn-ghost h-auto min-h-11 justify-start whitespace-normal py-3 text-left"
                 href={terrainUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -57,7 +57,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
       ) : (
         <>
           <a
-            className="block w-full rounded-xl border border-signal/30 bg-signal/5 px-4 py-3 text-sm text-signal"
+            className="btn btn-ghost h-auto min-h-11 w-full justify-start whitespace-normal py-3 text-left"
             href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -76,7 +76,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
             title={`Neighborhood map of ${event.city}`}
             loading="lazy"
             referrerPolicy="no-referrer"
-            className="h-64 w-full rounded-xl border-0"
+            className="h-64 w-full rounded-[var(--radius-control)] border-0 shadow-[var(--shadow-soft-1)]"
             src={`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(box)}&layer=mapnik`}
           />
           <p className="text-xs leading-relaxed text-ink-muted">

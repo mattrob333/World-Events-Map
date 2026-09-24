@@ -71,7 +71,7 @@ export function LivePulse({
       className="border-t border-white/10 pt-5 mt-5"
       aria-label="Fresh opportunities"
     >
-      <p className="text-[10px] tracking-[.16em] uppercase text-brass-bright">
+      <p className="eyebrow text-brass-bright">
         {planning ? 'Access for your trip' : 'Just released'}
       </p>
       {offers.map((offer) => (
@@ -105,7 +105,7 @@ export function LivePulse({
         </p>
       )}
       {checked && !error && (
-        <p className="text-[10px] text-ink-muted mt-3">
+        <p className="text-[12px] leading-5 text-ink-subtle mt-3">
           Checked{' '}
           {new Date(checked).toLocaleTimeString([], {
             hour: '2-digit',
@@ -116,7 +116,7 @@ export function LivePulse({
       )}
       {posts.length > 0 && (
         <div className="mt-5">
-          <p className="text-[10px] tracking-[.16em] text-brass-bright">
+          <p className="eyebrow text-brass-bright">
             FROM THE SCENE · X
           </p>
           {posts.slice(0, 2).map((post) => (

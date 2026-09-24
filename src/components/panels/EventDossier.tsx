@@ -133,12 +133,12 @@ export function EventDossier({ className }: EventDossierProps) {
             // The top offset is `--chrome-h`, measured and published by the
             // shell — the scrubber collapses, so no constant could be right.
             'glass-deep fixed left-4 right-4 z-30 flex overflow-hidden md:right-auto md:w-[min(32rem,46vw)] md:z-40',
-            // Phone bottom nav is h-14 (3.5rem). Keep the briefing clear of it.
-            'bottom-[4.75rem] max-h-[calc(100dvh-8.25rem)] md:bottom-4 md:max-h-[calc(100dvh-5rem)]',
-            'flex-col rounded-[3px] outline-none',
+            // Phone bottom nav is h-16 (4rem) plus the safe area. Keep the briefing clear of it.
+            'bottom-[calc(5rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh-9.5rem)] md:bottom-4 md:max-h-[calc(100dvh-5.5rem)]',
+            'flex-col rounded-[var(--radius-card)] outline-none',
             className,
           )}
-          style={{ top: '3.5rem' }}
+          style={{ top: '4rem' }}
           initial={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, x: -20 }}
@@ -183,23 +183,23 @@ export function EventDossier({ className }: EventDossierProps) {
 
           <ScrollArea contentClassName="flex flex-col gap-6 px-5 pb-6">
             <PlaceGallery key={event.id} event={event} />
-            <div className="grid grid-cols-2 gap-2 text-sm">
+            <div className="grid grid-cols-2 gap-2">
               {destination && (
                 <Link
-                  className="col-span-2 rounded-[2px] border border-commit/40 px-3 py-3 text-center text-commit"
+                  className="btn btn-ghost col-span-2"
                   href={`/destinations/${destination.slug}`}
                 >
                   Open {event.city} destination →
                 </Link>
               )}
               <Link
-                className="rounded-[2px] bg-brass/90 px-3 py-3 text-center font-medium text-void"
+                className="btn btn-primary px-3"
                 href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
               >
                 Find access & stays ↗
               </Link>
               <Link
-                className="rounded-[2px] border border-brass/40 px-3 py-3 text-center text-brass-bright"
+                className="btn btn-ghost px-3"
                 href={destination
                   ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
                   : `/circles?event=${encodeURIComponent(event.id)}`}
@@ -241,11 +241,11 @@ export function EventDossier({ className }: EventDossierProps) {
 
             {/* ── Access: the thing that actually decides it ──────────── */}
             <Section label="Access">
-              <div className="border-l border-brass py-0.5 pl-4">
+              <div className="surface-well px-4 py-3.5">
                 <p className="font-display text-[15px] leading-[1.45] text-ink">
                   {event.accessNote}
                 </p>
-                <p className="mt-2 text-[11px] leading-4 text-ink-muted">
+                <p className="mt-2 text-[12px] leading-5 text-ink-muted">
                   {event.providerId ? 'Approved submission · confirm access and availability with the host' : TIER_NOTE[event.tier]}
                 </p>
               </div>
@@ -257,7 +257,7 @@ export function EventDossier({ className }: EventDossierProps) {
                 {event.whyGo.map((line) => (
                   <li key={line} className="flex gap-3">
                     <span aria-hidden className="mt-2 h-px w-3 shrink-0 bg-brass-deep" />
-                    <span className="text-[12.5px] leading-[1.55] text-ink">{line}</span>
+                    <span className="text-[13px] leading-[1.55] text-ink-soft">{line}</span>
                   </li>
                 ))}
               </ul>
@@ -265,7 +265,7 @@ export function EventDossier({ className }: EventDossierProps) {
 
             {/* ── The read ───────────────────────────────────────────── */}
             <Section label="The read">
-              <p className="text-[12.5px] leading-[1.65] text-ink-muted">
+              <p className="text-[13px] leading-[1.65] text-ink-muted">
                 {event.description}
               </p>
             </Section>
@@ -274,7 +274,7 @@ export function EventDossier({ className }: EventDossierProps) {
             <Section label="Venues">
               <ul className="flex flex-col gap-1.5">
                 {event.venues.map((v) => (
-                  <li key={v} className="text-[12px] leading-4 text-ink">
+                  <li key={v} className="text-[13px] leading-5 text-ink-soft">
                     {v}
                   </li>
                 ))}
@@ -389,7 +389,7 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
-        <h2 className="label shrink-0 text-ink-muted">{label}</h2>
+        <h2 className="eyebrow shrink-0">{label}</h2>
         <Rule variant="ghost" />
       </div>
       {children}

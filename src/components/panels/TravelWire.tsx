@@ -119,7 +119,7 @@ export function TravelWire({
       data-wire-fixture={fixture ? 'true' : undefined}
     >
       <div className={styles.headerRow}>
-        <p className="text-[10px] tracking-[.16em] uppercase text-brass-bright">
+        <p className="eyebrow text-brass-bright">
           {chrome.live && <span className={styles.liveMark} aria-hidden />}
           {chrome.title}
         </p>
@@ -209,14 +209,14 @@ function WireCardView({
     >
       <div className={styles.cardTop}>
         <div className={styles.entity}>
-          <p className="text-[10px] tracking-[.16em] uppercase text-brass-bright">
+          <p className="eyebrow text-brass-bright">
             <span className={rising ? styles.rising : undefined}>{cardBadge(card)}</span>
             {fixture && ' · Fixture'}
           </p>
           {entity && <p className="text-sm leading-snug mt-1">{entity}</p>}
         </div>
         <p
-          className={`${styles.asOf} text-[10px] tracking-[.12em] uppercase text-ink-muted`}
+          className={`${styles.asOf} text-[11px] tracking-[.12em] uppercase text-ink-muted`}
           title={asOf.absolute ?? undefined}
         >
           {asOf.label}
@@ -247,7 +247,7 @@ function WireCardView({
         ))}
       </div>
       {shareNote && (
-        <p className="text-[10px] text-ink-muted mt-2">{shareNote}</p>
+        <p className="text-[12px] leading-5 text-ink-subtle mt-2">{shareNote}</p>
       )}
     </article>
   );
@@ -334,14 +334,14 @@ function WhySheet({
     >
       {card && (
         <div className={styles.whyBody}>
-          <p className="text-[10px] tracking-[.16em] uppercase text-brass-bright">
+          <p className="eyebrow text-brass-bright">
             WHY?
           </p>
           <p className="font-display text-[15px] leading-5 text-ink">{card.headline}</p>
           <dl className={styles.whyRows}>
             {whyRows(card).map((row) => (
               <div key={row.label} className={styles.whyRow}>
-                <dt className="text-[10px] tracking-[.12em] uppercase text-ink-muted">
+                <dt className="text-[11px] tracking-[.12em] uppercase text-ink-muted">
                   {row.label}
                 </dt>
                 <dd className="text-xs text-ink text-right">{row.value}</dd>

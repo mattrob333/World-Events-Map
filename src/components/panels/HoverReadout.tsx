@@ -112,7 +112,7 @@ export function HoverReadout({ className }: HoverReadoutProps) {
           role="region"
           aria-label={`Preview of ${event.name}`}
           data-meridian-hover-card
-          className={cn('glass-deep fixed z-50 rounded-[3px]', styles.card, className)}
+          className={cn('glass-deep fixed z-50 rounded-[var(--radius-control)]', styles.card, className)}
           style={{ left, top, width }}
           onPointerEnter={() => { cancelHide(); overCard.current = true; setOverSurface(false); }}
           onPointerLeave={() => { overCard.current = false; scheduleHide(); }}
