@@ -397,8 +397,11 @@
   }
   /* Selected = pressed into the surface and lit with saffron, never a fill. */
   .chip-on,
+  .chip-on:hover,
   .chip[aria-pressed='true'],
-  .chip[aria-selected='true'] {
+  .chip[aria-pressed='true']:hover,
+  .chip[aria-selected='true'],
+  .chip[aria-selected='true']:hover {
     background: var(--color-surface-1);
     color: #f7c548;
     box-shadow: var(--shadow-inset), inset 0 0 0 1px rgb(247 197 72 / 0.4);

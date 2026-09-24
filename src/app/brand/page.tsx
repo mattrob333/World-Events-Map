@@ -90,7 +90,7 @@ export default function BrandPage() {
         <p className={`font-display ${styles.specimen}`}>The terrace, the band, the crew.</p>
         <p className={`font-display ${styles.specimenItalic}`}>Less itinerary, more legend.</p>
         <p className={styles.copy}>
-          Fraunces with its soft, slightly wonky 70s cut for display; the system sans for everything you read quickly; mono for labels and data.
+          Fraunces with its soft, slightly wonky 70s cut for display; the system sans for everything you read quickly, labels included; mono only for data like times and prices.
         </p>
       </section>
 
