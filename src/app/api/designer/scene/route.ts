@@ -1,8 +1,8 @@
-import { searchCityScene, type EventSource, type LiveEvent, type SceneResponse } from '@/lib/designer/concerts';
+import { EventFeedBudgetError, searchCityScene, type EventSource, type LiveEvent, type SceneResponse } from '@/lib/designer/concerts';
 import { listenerSummary, readTaste, readWindow } from '@/lib/designer/music-input';
 import { publicScene, scenePlaybook, sceneSearchLinks } from '@/lib/designer/scene';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
+import { jevBudgetAvailable, jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -36,9 +36,16 @@ export async function POST(request: Request) {
   const fetchedAt = new Date().toISOString();
   let events: LiveEvent[] = [];
   let judged = false;
+  let listed = sources;
   if (sources.length && consumeProviderCall(request, 'concerts')) {
-    events = await searchCityScene({ city, ...readWindow(body), scenes: playbook.map((scene) => scene.key) }, keys);
-    if (events.length && jevConfigured() && consumeProviderCall(request, 'jev')) {
+    try {
+      events = await searchCityScene({ city, ...readWindow(body), scenes: playbook.map((scene) => scene.key) }, keys);
+    } catch (cause) {
+      if (!(cause instanceof EventFeedBudgetError)) throw cause;
+      // Today's event-feed budget is spent: no listings, so claim no sources.
+      listed = [];
+    }
+    if (events.length && jevConfigured() && jevBudgetAvailable() && consumeProviderCall(request, 'jev')) {
       const fit = await jevEventFit(listenerSummary(taste), events);
       if (fit.size) {
         judged = true;
@@ -50,5 +57,5 @@ export async function POST(request: Request) {
       }
     }
   }
-  return jsonOk({ city, fetchedAt, sources, judged, scenes, events } satisfies SceneResponse);
+  return jsonOk({ city, fetchedAt, sources: listed, judged, scenes, events } satisfies SceneResponse);
 }

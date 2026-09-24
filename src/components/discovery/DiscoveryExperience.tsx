@@ -35,6 +35,11 @@ import { discoveryQuery, readDiscoveryState, type DiscoveryState } from './journ
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { formatDateRange } from '@/components/ui/tokens';
 import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
+import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search';
+import { planTripOffer } from '@/lib/search/planPlace';
+
+// Built on the first search, not on page load.
+let searchIndex: SearchHit[] | null = null;
 
 const dateLabel = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', {
@@ -111,6 +116,13 @@ export function DiscoveryExperience() {
     };
   }, [syncLocalToday]);
   const planMode = planning || focus !== rangeStart;
+  // "Make it searchable": a place the editorial calendar doesn't cover can still
+  // become a trip in the designer. Matches keep the existing search behaviour.
+  const planOffer = useMemo(() => {
+    if (!query.trim()) return null;
+    searchIndex ??= buildSearchCatalog();
+    return planTripOffer(query, searchCatalog(query, searchIndex));
+  }, [query]);
   const modeActive = !planMode && !query && (tripMode.season !== 'all' || tripMode.interest !== 'all');
   const modeLabel = `${SEASON_LABEL[tripMode.season]} · ${INTEREST_LABEL[tripMode.interest]}`;
   const modeEvents = useMemo(
@@ -289,7 +301,7 @@ export function DiscoveryExperience() {
             · {dateLabel(focus)} ·{' '}
             <span aria-live="polite">
               {viewer.source === 'chosen'
-                ? `Viewing ${viewer.cityLabel}${viewer.deviceFailure === 'denied'
+                ? `Viewing ${viewer.cityLabel}${viewer.status === 'locating' ? ' · finding your device location…' : viewer.deviceFailure === 'denied'
                   ? ' · device location is blocked, still using this city'
                   : viewer.deviceFailure === 'unavailable' ? ' · device location unavailable, still using this city' : ''}`
                 : viewer.status === 'granted'
@@ -328,13 +340,14 @@ export function DiscoveryExperience() {
           }}
           disabled={viewer.status === 'locating'}
         >
-          {viewer.status === 'denied' || viewer.deviceFailure === 'denied'
+          {/* Locating wins over a chosen city: a pending prompt must show progress (UFR2-J09). */}
+          {viewer.status === 'locating'
+            ? 'Finding you…'
+            : viewer.status === 'denied' || viewer.deviceFailure === 'denied'
             ? 'Location blocked · pick a city'
             : viewer.source === 'chosen' ? 'Use device location' : viewer.status === 'granted'
             ? 'Recenter near me'
-            : viewer.status === 'locating'
-              ? 'Finding your position…'
-              : 'Use my location'}
+            : 'Use my location'}
         </button>
         <label className={styles.cityChoice}>
           <span>Viewing area</span>
@@ -541,10 +554,17 @@ export function DiscoveryExperience() {
                 {query
                   ? planMode
                     ? 'Nothing in these dates matches. Try another city or interest, or clear your search.'
-                    : 'This box only searches what is happening today. dope.travel search covers every place and date.'
+                    : planOffer
+                      ? `“${planOffer.label}” isn’t on the editorial calendar yet. You can still plan it: the trip designer lays out the days on this device.`
+                      : 'This box only searches what is happening today. dope.travel search covers every place and date.'
                   : 'Great trips start a little ahead. Explore the calendar to find your next moment.'}
               </p>
-              {query && (
+              {query && planOffer && (
+                <Link className={`btn btn-primary ${styles.primary}`} href={planOffer.href}>
+                  Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span>
+                </Link>
+              )}
+              {query && !planOffer && (
                 <button className={`btn btn-primary ${styles.primary}`} onClick={() => useCommandStore.getState().openWith(query)}>
                   Search all of dope.travel for “{query}”
                 </button>

@@ -68,6 +68,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<NowResult | null>(null);
+  const [city, setCity] = useState(initialCity ?? '');
 
   useEffect(() => {
     if (!client || !user) return;
@@ -169,14 +170,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
 
   const hasModes = visibleModes.length > 0;
 
-  return (
-    <PlatformShell
-      eyebrow="NOW · local decision engine"
-      title="Where should we go right now?"
-      description="Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory."
-    >
-      <NowForYou initialCity={initialCity} />
-      {!providerConfigured && <NowUnavailable />}
+  const layout = (
       <div className={styles.layout}>
         <form className={styles.controls} onSubmit={submit}>
           {!providerConfigured && (
@@ -312,6 +306,35 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
           )}
         </section>
       </div>
+  );
+
+  return (
+    <PlatformShell
+      eyebrow={providerConfigured ? 'NOW · local decision engine' : 'NOW · ideas for this hour'}
+      title="Where should we go right now?"
+      description={
+        providerConfigured
+          ? 'Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory.'
+          : 'Type the city you are in for a few ideas that fit this hour.'
+      }
+    >
+      {!providerConfigured && (
+        <p className={`${styles.connectionNote} ${styles.connectionNoteTop}`} role="note">
+          <strong>Not connected yet:</strong> venue-by-venue picks (distance, how busy) need a provider this preview doesn&apos;t have. The ideas below are Maps searches, and your location is not requested.
+        </p>
+      )}
+      <NowForYou initialCity={initialCity} onCity={setCity} />
+      {providerConfigured ? (
+        layout
+      ) : (
+        <>
+          <NowUnavailable city={city} />
+          <details className={styles.howItWorks}>
+            <summary>How NOW will work</summary>
+            {layout}
+          </details>
+        </>
+      )}
     </PlatformShell>
   );
 }

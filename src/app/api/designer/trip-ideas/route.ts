@@ -1,4 +1,4 @@
-import { searchArtistEvents, searchTeamGames, type EventSource } from '@/lib/designer/concerts';
+import { EventFeedBudgetError, searchArtistEvents, searchTeamGames, type EventSource } from '@/lib/designer/concerts';
 import { readWindow, textList } from '@/lib/designer/music-input';
 import { curatedOccasions } from '@/lib/designer/occasions';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
@@ -32,10 +32,18 @@ export async function POST(request: Request) {
   const sources = (Object.keys(keys) as EventSource[]).filter((key) => keys[key]);
   const fetchedAt = new Date().toISOString();
   if (!sources.length || !consumeProviderCall(request, 'concerts')) return jsonOk({ sources: [], ideas: [], fetchedAt } satisfies TripIdeasResponse);
-  const [music, games] = await Promise.all([
-    artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
-    teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
-  ]);
+  let music: Awaited<ReturnType<typeof searchArtistEvents>>;
+  let games: Awaited<ReturnType<typeof searchTeamGames>>;
+  try {
+    [music, games] = await Promise.all([
+      artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
+      teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
+    ]);
+  } catch (cause) {
+    // Today's event-feed budget is spent: same answer as feeds being off.
+    if (cause instanceof EventFeedBudgetError) return jsonOk({ sources: [], ideas: [], fetchedAt } satisfies TripIdeasResponse);
+    throw cause;
+  }
   const ideas = rankTripIdeas([...music, ...games], { occasions: curatedOccasions({ startDate, endDate }), excludeCity: homeCity, limit: 8 });
   return jsonOk({ sources, ideas, fetchedAt } satisfies TripIdeasResponse);
 }

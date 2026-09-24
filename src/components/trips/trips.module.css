@@ -211,6 +211,7 @@
 
 .plannerIntro li span { color: var(--color-saffron); font: 600 12px/1.7 var(--font-mono); }
 .plannerIntro .privacyNote { max-width: 490px; color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; }
+.plannerIntro > p.unavailableNote { max-width: 510px; margin: 0 0 18px; color: var(--color-ink-soft); font-size: 14px; line-height: 1.55; }
 
 /* "Awaiting connection" is the shared sunken notice. */
 .researchState {
@@ -307,6 +308,10 @@
 .createdActions { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 3px; }
 .rooms { scroll-margin-top: 85px; }
 .yourTrail { margin-top: 80px; }
+/* When something is kept, the trail leads the page (UFR2-J04). */
+.trailLead { max-width: 1660px; margin: 0 auto; padding: 28px 4vw 36px; }
+.yourTrailLead { margin-top: 0; }
+.yourTrailLead .trailCard { min-height: 0; }
 
 .sectionHeader {
   display: flex;
@@ -451,6 +456,8 @@
 .intentList a:hover { background: var(--gradient-surface), var(--color-surface-4); }
 .intentList a:active { box-shadow: var(--shadow-inset); }
 .intentVerb { flex-shrink: 0; color: var(--color-brass-bright); font-size: 12px; }
+.intentText { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+.intentDetail { color: var(--color-ink-muted); font-size: 12px; }
 
 .emptyTrail {
   padding: 18px 20px;
@@ -515,6 +522,8 @@
   .roomImage { min-height: 220px; }
   .roomCredit { right: 18px; top: 18px; max-width: calc(100% - 36px); }
   .yourTrail { margin-top: 65px; }
+  .trailLead { padding: 20px 16px 28px; }
+  .yourTrailLead { margin-top: 0; }
   .trailCard { min-height: 0; padding: 20px; }
   .formSplit { grid-template-columns: 1fr; }
   .plannerCard { padding: 22px 16px; border-radius: var(--radius-card); }

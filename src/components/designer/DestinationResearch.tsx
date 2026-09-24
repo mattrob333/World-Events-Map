@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { DesignerDestination } from '@/lib/designer/catalog';
 import { cityAirport, originAirport } from '@/lib/designer/airports';
 import type { Itinerary } from '@/lib/designer/itinerary';
@@ -15,8 +15,23 @@ import type {
 } from '@/lib/research/destinationSources';
 import styles from './designer.module.css';
 
-const STORE_PREFIX = 'dope.research.v1:';
+/*
+ * Research costs money (paid provider calls), so it never runs on a page
+ * view: it runs when someone taps "Look around", or shows what this device
+ * already fetched. Guests' copies and AI-handoff links open with no cache on
+ * the device, so they wait for a tap too.
+ *
+ * The device keeps the place's listings per place (name + region) and the
+ * fares per route and dates, so a new taste or new dates never re-runs the
+ * whole lookup on their own.
+ */
+const LEGACY_PREFIX = 'dope.research.v1:';
+const PLACE_PREFIX = 'dope.research.v2:place:';
+const FARES_PREFIX = 'dope.research.v2:fares:';
 const FRESH_MS = 6 * 60 * 60 * 1000;
+
+type PlaceResearch = Omit<Research, 'flights'>;
+type Stored<T> = { savedAt: string; value: T };
 
 type TabId = 'topSpots' | 'hiddenGems' | 'food' | 'nightlife' | 'tripadvisor' | 'yelp' | 'instagram' | 'tiktok' | 'events' | 'flights';
 const TABS: { id: TabId; label: string }[] = [
@@ -32,18 +47,18 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'flights', label: 'Flights' },
 ];
 
-function readStored(key: string): Research | null {
+const fresh = (iso: unknown) => typeof iso === 'string' && Date.now() - Date.parse(iso) < FRESH_MS;
+
+function readJson(key: string): unknown {
   try {
     const raw = window.localStorage.getItem(key);
-    if (!raw) return null;
-    const value = JSON.parse(raw) as Research;
-    return typeof value?.generatedAt === 'string' && Date.now() - Date.parse(value.generatedAt) < FRESH_MS ? value : null;
+    return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
   }
 }
 
-function store(key: string, value: Research) {
+function write(key: string, value: unknown) {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch {
@@ -51,7 +66,25 @@ function store(key: string, value: Research) {
   }
 }
 
-function ago(iso: string | null): string {
+/** What this device already has: listings for the place, fares for the route and dates. */
+function readCache(placeKey: string, faresKey: string | null, legacyKey: string): { place: PlaceResearch | null; fares: FlightSection | null } {
+  const storedPlace = readJson(placeKey) as Stored<PlaceResearch> | null;
+  const storedFares = faresKey ? (readJson(faresKey) as Stored<FlightSection> | null) : null;
+  let place = storedPlace && fresh(storedPlace.savedAt) && storedPlace.value?.configured ? storedPlace.value : null;
+  let fares = storedFares && fresh(storedFares.savedAt) ? storedFares.value : null;
+  if (!place) {
+    // Results saved before the per-place split still count on this device.
+    const legacy = readJson(legacyKey) as Research | null;
+    if (legacy?.configured && fresh(legacy.generatedAt) && legacy.topSpots) {
+      const { flights, ...rest } = legacy;
+      place = rest;
+      fares ??= faresKey && flights?.status !== 'skipped' ? flights : null;
+    }
+  }
+  return { place, fares };
+}
+
+function ago(iso: string | null | undefined): string {
   if (!iso) return '';
   const minutes = Math.round((Date.now() - Date.parse(iso)) / 60_000);
   if (minutes < 1) return 'just now';
@@ -62,6 +95,8 @@ function ago(iso: string | null): string {
 }
 
 const compact = (n: number) => new Intl.NumberFormat(undefined, { notation: 'compact', maximumFractionDigits: 1 }).format(n);
+const money = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const shortDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 
 function Photo({ src, alt, tall }: { src?: string; alt?: string; tall?: boolean }) {
   const [failed, setFailed] = useState(false);
@@ -97,13 +132,13 @@ function PostCard({ post }: { post: ResearchPost }) {
       <Photo src={post.image?.url} alt={post.image?.alt} tall />
       <span className={styles.researchBody}>
         <span className={styles.researchMeta}>
-          @{post.author} · {ago(post.publishedAt)}
+          @{post.author} · posted {ago(post.publishedAt)}
           {post.views !== undefined ? ` · ${compact(post.views)} views` : ''}
         </span>
         <span className={styles.researchSnippet}>{post.caption}</span>
         <span className={styles.researchSource}>
           {post.platform}
-          {post.location ? ` · ${post.location}` : ` · ${post.about}`} ↗
+          {post.location ? ` · ${post.location}` : ` · found for ${post.about}`} ↗
         </span>
       </span>
     </a>
@@ -123,49 +158,103 @@ function EventCard({ event }: { event: ResearchEvent }) {
   );
 }
 
-function Flights({ section }: { section: FlightSection }) {
+type Party = { adults: number; kids: number };
+
+/** Fares are per adult; the qualifier and any party estimate sit above the cards, where they're read first. */
+function Flights({ section, party }: { section: FlightSection; party: Party }) {
   const hours = (min: number) => `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m`;
+  const cheapest = section.items[0]?.price;
+  const typical = section.typical;
+  const versusTypical = (price: number) => (!typical ? null : price < typical[0] ? 'below the usual range' : price > typical[1] ? 'above the usual range' : 'in the usual range');
   return (
-    <div className={styles.stayGrid}>
-      {section.items.map((flight) => (
-        <a key={flight.id} className={styles.stayLink} href={section.link ?? 'https://www.google.com/travel/flights'} target="_blank" rel="noopener noreferrer">
-          <span className={styles.stayName}>${flight.price.toLocaleString()}</span>
-          <span className="text-[13px] text-ink">{flight.airlines.join(' + ') || 'Airline not listed'}</span>
-          <span className="text-[12px] text-ink-muted">
-            {flight.from} → {flight.to} · {flight.stops === 0 ? 'nonstop' : `${flight.stops} stop${flight.stops === 1 ? '' : 's'}`} · {hours(flight.durationMin)}
-          </span>
-          <span className="text-[11px] text-ink-subtle">Departs {flight.departs.replace(' ', ' at ')}</span>
-        </a>
+    <>
+      <p className={styles.researchFareNote}>
+        <strong>Each fare is for one adult, round trip, economy.</strong> Indicative prices from Google Flights, fetched {ago(section.fetchedAt)}. Fares move fast; confirm before you book.
+      </p>
+      {cheapest !== undefined && (party.adults > 1 || party.kids > 0) ? (
+        <p className={styles.researchFareNote}>
+          Rough estimate for your crew: about <strong>{money(cheapest * Math.max(party.adults, 1))}</strong> for {Math.max(party.adults, 1)} adult{Math.max(party.adults, 1) === 1 ? '' : 's'} at the cheapest fare shown.
+          {party.kids > 0 ? ` Kids’ fares aren’t shown here, so this leaves out ${party.kids === 1 ? 'the 1 kid' : `the ${party.kids} kids`}.` : ''}
+        </p>
+      ) : null}
+      {typical ? (
+        <p className={styles.researchFareNote}>
+          Google Flights says a round trip on this route usually costs {money(typical[0])}–{money(typical[1])} per adult for these dates. Below that is a good price; above it is pricier than usual.
+        </p>
+      ) : null}
+      <div className={styles.stayGrid}>
+        {section.items.map((flight) => {
+          const range = versusTypical(flight.price);
+          return (
+            <a key={flight.id} className={styles.stayLink} href={section.link ?? 'https://www.google.com/travel/flights'} target="_blank" rel="noopener noreferrer">
+              <span className={styles.stayName}>
+                {money(flight.price)} <span className={styles.researchPer}>per adult · round trip</span>
+              </span>
+              <span className="text-[13px] text-ink">{flight.airlines.join(' + ') || 'Airline not listed'}</span>
+              <span className="text-[12px] text-ink-muted">
+                {flight.from} → {flight.to} · {flight.stops === 0 ? 'nonstop' : `${flight.stops} stop${flight.stops === 1 ? '' : 's'}`} · {hours(flight.durationMin)}
+              </span>
+              <span className="text-[11px] text-ink-subtle">Departs {flight.departs.replace(' ', ' at ')}{range ? ` · ${range}` : ''}</span>
+            </a>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+function SectionBody({ id, section, party }: { id: TabId; section: ResearchSection<unknown>; party: Party }) {
+  if (section.status !== 'ok') return <div className={styles.stripEmpty}>{section.note ?? 'Nothing here yet.'}</div>;
+  if (id === 'flights') return <Flights section={section as FlightSection} party={party} />;
+  return (
+    <>
+      {id === 'instagram' || id === 'tiktok' ? <p className={`tag ${styles.researchVet}`}>Recent public posts · not vetted</p> : null}
+      <div className={styles.strip}>
+        {id === 'instagram' || id === 'tiktok'
+          ? (section.items as ResearchPost[]).map((post) => <PostCard key={post.id} post={post} />)
+          : id === 'events'
+            ? (section.items as ResearchEvent[]).map((event) => <EventCard key={event.id} event={event} />)
+            : (section.items as ResearchSpot[]).map((spot) => <SpotCard key={spot.id} spot={spot} />)}
+      </div>
+    </>
+  );
+}
+
+const eventsSearch = (place: string) => `https://www.google.com/search?q=${encodeURIComponent(`events in ${place}`)}&ibp=htl;events`;
+
+/** Footnotes follow the section's status: no "listings are theirs" line under a section that has no listings. */
+function footnote(id: TabId, section: ResearchSection<unknown>, place: string): ReactNode {
+  const when = section.fetchedAt ? `, fetched ${ago(section.fetchedAt)}` : '';
+  const eventsLink = (
+    <a className="underline underline-offset-2" href={eventsSearch(place)} target="_blank" rel="noopener noreferrer">
+      Search Google for events in {place} ↗
+    </a>
+  );
+  if (section.status === 'unavailable' || section.status === 'skipped') return id === 'events' ? eventsLink : null;
+  if (section.status === 'empty') return id === 'events' ? <>Checked {section.source}{when}. {eventsLink}</> : `Checked ${section.source}${when}.`;
+  if (id === 'flights') {
+    const flights = section as FlightSection;
+    return flights.route ? `${flights.route.from} ⇄ ${flights.route.to}, ${shortDate(flights.route.depart)} to ${shortDate(flights.route.return)}. From ${section.source}${when}.` : `From ${section.source}${when}.`;
+  }
+  if (id === 'hiddenGems') return `${section.note ?? ''} From ${section.source}${when}.`;
+  if (id === 'instagram' || id === 'tiktok') {
+    return `Public posts from ${section.source}${when}, not checked by us. We leave out ads, hotel promos and giveaways we can spot; “posted” is when it went up, and the photo can be older. Tap through to see each on ${section.source}.`;
+  }
+  return `From ${section.source}${when}. Listings and ratings are theirs; check hours and bookings with each place.`;
+}
+
+function Skeletons() {
+  return (
+    <div className={styles.strip} aria-hidden>
+      {[0, 1, 2].map((index) => (
+        <span key={index} className={styles.researchSkeleton}>
+          <span className={styles.researchSkeletonPhoto} />
+          <span className={styles.researchSkeletonLine} />
+          <span className={`${styles.researchSkeletonLine} ${styles.researchSkeletonShort}`} />
+        </span>
       ))}
     </div>
   );
-}
-
-function SectionBody({ id, section }: { id: TabId; section: ResearchSection<unknown> }) {
-  if (section.status !== 'ok') return <div className={styles.stripEmpty}>{section.note ?? 'Nothing here yet.'}</div>;
-  if (id === 'flights') return <Flights section={section as FlightSection} />;
-  return (
-    <div className={styles.strip}>
-      {id === 'instagram' || id === 'tiktok'
-        ? (section.items as ResearchPost[]).map((post) => <PostCard key={post.id} post={post} />)
-        : id === 'events'
-          ? (section.items as ResearchEvent[]).map((event) => <EventCard key={event.id} event={event} />)
-          : (section.items as ResearchSpot[]).map((spot) => <SpotCard key={spot.id} spot={spot} />)}
-    </div>
-  );
-}
-
-function footnote(id: TabId, section: ResearchSection<unknown>): string {
-  const when = section.fetchedAt ? `, fetched ${ago(section.fetchedAt)}` : '';
-  if (id === 'flights') {
-    const flights = section as FlightSection;
-    const route = flights.route ? `${flights.route.from} ⇄ ${flights.route.to}, ${flights.route.depart} to ${flights.route.return}. ` : '';
-    const typical = flights.typical ? `Typical for this route: $${flights.typical[0]}–$${flights.typical[1]}. ` : '';
-    return `${route}${typical}Round trip, one adult, economy, from ${section.source}${when}. Fares move fast; confirm before you book.`;
-  }
-  if (id === 'hiddenGems') return `${section.note ?? ''} From ${section.source}${when}.`;
-  if (id === 'instagram' || id === 'tiktok') return `Recent public posts from ${section.source}${when}. Tap through to see them on ${section.source}.`;
-  return `From ${section.source}${when}. Listings and ratings are theirs; check hours and bookings with each place.`;
 }
 
 /** Live research for the trip's place: real listings and posts, each labeled with source and fetch time. */
@@ -182,71 +271,149 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
       ...(from && to ? { from, to, depart: trip.startDate, nights: trip.nights } : {}),
     };
   }, [name, destination.region, destination.gateway.iata, destination.name, trip.taste, trip.hometown, trip.startDate, trip.nights]);
-  const key = `${STORE_PREFIX}${JSON.stringify(request)}`;
-  const [research, setResearch] = useState<Research | null>(null);
+  const placeKey = `${PLACE_PREFIX}${JSON.stringify([request.name, request.region ?? ''])}`;
+  const faresKey = request.from ? `${FARES_PREFIX}${JSON.stringify([request.from, request.to, request.depart, request.nights])}` : null;
+  const legacyKey = `${LEGACY_PREFIX}${JSON.stringify(request)}`;
+  const cacheId = `${placeKey}|${faresKey ?? ''}`;
+  const party = useMemo<Party>(() => ({
+    adults: trip.participants.filter((person) => person.kind === 'adult').length,
+    kids: trip.participants.filter((person) => person.kind === 'kid').length,
+  }), [trip.participants]);
+
+  const [place, setPlace] = useState<PlaceResearch | null>(null);
+  const [fares, setFares] = useState<FlightSection | null>(null);
+  const [readFor, setReadFor] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState('');
+  const [status, setStatus] = useState('');
   const [tab, setTab] = useState<TabId | null>(null);
 
-  const load = useCallback(async (force: boolean) => {
-    if (!force) {
-      const stored = readStored(key);
-      if (stored) {
-        setResearch(stored);
-        return;
-      }
-    }
-    setLoading(true);
+  // Show what this device already fetched for this place (the canvas renders only after hydration).
+  if (readFor !== cacheId) {
+    const cached = readCache(placeKey, faresKey, legacyKey);
+    setReadFor(cacheId);
+    setPlace(cached.place);
+    setFares(cached.fares);
     setError('');
+    setStatus('');
+  }
+
+  useEffect(() => {
+    if (!loading) return;
+    const started = Date.now();
+    const timer = window.setInterval(() => setElapsed(Math.round((Date.now() - started) / 1000)), 1000);
+    return () => window.clearInterval(timer);
+  }, [loading]);
+
+  async function run(kind: 'first' | 'refresh' | 'fares') {
+    if (loading) return;
+    setLoading(true);
+    setElapsed(0);
+    setError('');
+    setStatus('');
     try {
       const response = await fetch('/api/designer/research', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(request) });
-      const body = (await response.json()) as Research | { error?: string };
-      if (!response.ok || !('topSpots' in body)) throw new Error(('error' in body && body.error) || 'Research is unavailable right now.');
-      setResearch(body);
-      if (body.configured) store(key, body);
+      const body = (await response.json().catch(() => ({}))) as Research | { error?: string | { message?: string } };
+      if (!response.ok || !('topSpots' in body)) {
+        const message = 'error' in body ? (typeof body.error === 'string' ? body.error : body.error?.message) : undefined;
+        throw new Error(message || 'Research is unavailable right now.');
+      }
+      const { flights, ...rest } = body;
+      if (kind !== 'first' && place?.configured) {
+        // The server answers repeats from its cache; say so instead of implying a new fetch.
+        const sameListings = rest.topSpots.fetchedAt !== null && rest.topSpots.fetchedAt === place.topSpots.fetchedAt;
+        const sameFares = !fares || flights.fetchedAt === fares.fetchedAt;
+        const cachedFlag = (body as { cached?: unknown }).cached === true;
+        const unchanged = cachedFlag || body.spentUsd === 0 || (sameListings && sameFares);
+        const fetchedAt = rest.topSpots.fetchedAt ?? flights.fetchedAt ?? body.generatedAt;
+        setStatus(kind === 'fares'
+          ? flights.status === 'ok' ? 'Fares loaded.' : ''
+          : unchanged ? `Already up to date (fetched ${ago(fetchedAt)}).` : 'Updated just now.');
+      }
+      setPlace(rest);
+      setFares(request.from ? flights : null);
+      if (body.configured) {
+        write(placeKey, { savedAt: new Date().toISOString(), value: rest } satisfies Stored<PlaceResearch>);
+        if (faresKey && (flights.status === 'ok' || flights.status === 'empty')) write(faresKey, { savedAt: new Date().toISOString(), value: flights } satisfies Stored<FlightSection>);
+      }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Research is unavailable right now.');
     } finally {
       setLoading(false);
     }
-  }, [key, request]);
+  }
 
-  useEffect(() => {
-    void load(false);
-  }, [load]);
-
-  const tabs = research ? TABS.filter(({ id }) => research[id].status !== 'skipped' || id === 'flights') : [];
-  const active: TabId = tab ?? tabs.find(({ id }) => research?.[id].status === 'ok')?.id ?? 'topSpots';
-  const current = research?.[active];
+  const flightsSection: FlightSection | null = !request.from
+    ? { status: 'skipped', source: 'Google Flights', fetchedAt: null, note: 'Add a home city with a known airport to see real fares.', items: [] }
+    : fares;
+  const sectionFor = (id: TabId): ResearchSection<unknown> | null => (!place ? null : id === 'flights' ? flightsSection : place[id]);
+  const tabs = place ? TABS.filter(({ id }) => id === 'flights' || sectionFor(id)?.status !== 'skipped') : [];
+  const active: TabId = tab ?? tabs.find(({ id }) => sectionFor(id)?.status === 'ok')?.id ?? 'topSpots';
+  const current = sectionFor(active);
+  const note = current ? footnote(active, current, name) : null;
 
   return (
-    <section className={styles.panel} aria-labelledby="research-title">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p id="research-title" className={styles.factTitle}>
-          {name}, right now
-        </p>
-        {research?.configured ? (
-          <button type="button" className={styles.miniBtn} onClick={() => void load(true)} disabled={loading}>
-            {loading ? 'Looking…' : 'Refresh'}
+    <section className={styles.panel} aria-labelledby="research-title" aria-busy={loading}>
+      <div className={styles.researchHead}>
+        <h2 id="research-title" className={styles.factTitle}>
+          What’s good in {name}
+        </h2>
+        {loading ? (
+          <span className={`tag ${styles.researchChip}`} role={place ? 'status' : undefined}>
+            <span className={styles.researchDot} aria-hidden />
+            {place ? 'Refreshing…' : `Looking… ${elapsed}s`}
+          </span>
+        ) : place?.configured ? (
+          <button type="button" className={styles.miniBtn} onClick={() => void run('refresh')}>
+            Refresh
           </button>
         ) : null}
       </div>
       <p className="mt-1 text-[13px] leading-5 text-ink-muted">
-        Real places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.
+        Real places and recent posts from Google Maps, Tripadvisor, Yelp, Instagram and TikTok{request.from ? ', plus fares from Google Flights' : ''}. Tap any card to open it at the source.
       </p>
+      {status ? <p className={`${styles.researchStatus} mt-2`} role="status">{status}</p> : null}
 
-      {!research && loading ? <div className={`${styles.stripEmpty} mt-3`} role="status">Looking around {name}…</div> : null}
-      {error ? <p className={`${styles.error} mt-3`} role="alert">{error} The idea cards above still work.</p> : null}
-
-      {research && !research.configured ? (
-        <div className={`${styles.stripEmpty} mt-3`}>Live research isn’t connected here yet. The idea cards above open real searches in the meantime.</div>
+      {!place && !loading ? (
+        <div className={styles.researchStart}>
+          <p className="text-[13px] leading-5 text-ink-soft">
+            Nothing runs until you ask. A live look takes about 15 seconds.
+          </p>
+          <button type="button" className={styles.ghost} onClick={() => void run('first')}>
+            Look around {name}
+          </button>
+        </div>
       ) : null}
 
-      {research?.configured && current ? (
+      {!place && loading ? (
+        <div className="mt-3">
+          <p className={styles.researchStatus} role="status">
+            Looking around {name}… {elapsed < 20 ? 'about 15 seconds' : 'still going; a few sources are slow'}.
+          </p>
+          <Skeletons />
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <p className={styles.error} role="alert">{error} The idea cards below still work.</p>
+          <button type="button" className={styles.miniBtn} onClick={() => void run(place ? 'refresh' : 'first')} disabled={loading}>
+            Try again
+          </button>
+        </div>
+      ) : null}
+
+      {place && !place.configured ? (
+        <p className="notice mt-3">Live research isn’t connected here yet. The idea cards below open real searches in the meantime.</p>
+      ) : null}
+
+      {place?.configured ? (
         <>
           <div className={styles.researchTabs} role="tablist" aria-label="Research sources">
             {tabs.map(({ id, label }) => {
-              const count = research[id].status === 'ok' ? research[id].items.length : 0;
+              const section = sectionFor(id);
+              const count = section?.status === 'ok' ? section.items.length : 0;
               return (
                 <button key={id} type="button" role="tab" aria-selected={active === id} className={`${styles.segBtn} ${active === id ? styles.segOn : ''}`} onClick={() => setTab(id)}>
                   {label}
@@ -256,8 +423,21 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
             })}
           </div>
           <div className="mt-2" role="tabpanel">
-            <SectionBody id={active} section={current as ResearchSection<unknown>} />
-            <p className="mt-2 text-[11px] leading-4 text-ink-subtle">{footnote(active, current as ResearchSection<unknown>)}</p>
+            {current ? (
+              <>
+                <SectionBody id={active} section={current} party={party} />
+                {note ? <p className="mt-2 text-[11px] leading-4 text-ink-subtle">{note}</p> : null}
+              </>
+            ) : (
+              <div className={styles.researchStart}>
+                <p className="text-[13px] leading-5 text-ink-soft">
+                  Fares for {request.from} ⇄ {request.to} on these dates aren’t loaded on this device yet.
+                </p>
+                <button type="button" className={styles.miniBtn} onClick={() => void run('fares')} disabled={loading}>
+                  {loading ? 'Checking…' : 'Check fares'}
+                </button>
+              </div>
+            )}
           </div>
         </>
       ) : null}

@@ -1,6 +1,6 @@
 import { isIsoDate } from '@/lib/designer/itinerary';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { researchDestination, type ResearchRequest } from '@/lib/research/destination';
+import { researchCacheMisses, researchDestination, type ResearchRequest } from '@/lib/research/destination';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -23,7 +23,9 @@ function addDays(iso: string, days: number) {
  * Live destination research for the trip canvas: top spots, hidden gems,
  * Tripadvisor and Yelp, recent Instagram and TikTok posts, events, and
  * fares when both airports are known. Paid calls go through Treg with a
- * per-run cap; without a token every section says it isn't connected.
+ * per-run cap and a daily cap; without a token every section says it isn't
+ * connected. Flights only for a plausible trip: departing after today and
+ * within ~11 months, 1–30 nights (so date variants can't be minted freely).
  */
 export async function POST(request: Request) {
   const boundary = checkBoundary(request);
@@ -52,8 +54,11 @@ export async function POST(request: Request) {
     // Google Flights sells about eleven months out; past dates have no fares.
     if (depart > today && depart <= addDays(today, 330)) req.flight = { from, to, depart, return: addDays(depart, nights) };
   }
-  if (process.env.TREG_TOKEN && !consumeProviderCall(request, 'research')) {
-    return jsonError(429, 'RESEARCH_COOLDOWN', 'Research just ran a few times. Give it ten minutes.');
+  // Only new paid work spends a limiter token: reopening a cached place (a
+  // guest's copy, a refresh) never gets a 429. Total spend is bounded by the
+  // daily budget in destination.ts, not by this per-client limiter.
+  if (process.env.TREG_TOKEN && researchCacheMisses(req) > 0 && !consumeProviderCall(request, 'research')) {
+    return jsonError(429, 'RESEARCH_COOLDOWN', 'New research ran a few times from your connection. Give it ten minutes; places already looked up still load.');
   }
   const research = await researchDestination(req, {
     log: (receipt) => console.info('treg research call', receipt.endpoint, receipt.callId, receipt.costMicro),

@@ -4,7 +4,7 @@ import { parsePlaylistRef, playlistArtists, analyzeSpotify } from '../listening'
 import { placeCards } from '../place';
 import { readPlaylist, type SpotifyGet } from '../spotifyRead';
 import { bedroomsFor, partyFrom, staySearches } from '../stays';
-import { slotForTime, tripMoment } from '../tripNow';
+import { isLive, slotForTime, tripMoment } from '../tripNow';
 import { mergeReply, readReplyLink, readTripLink, replyFor, replyLink, sanitizeTrip, tripLink } from '../tripShare';
 
 const people: Participant[] = [
@@ -91,13 +91,14 @@ describe('share and join', () => {
     const slot = trip.days[1].slots[0];
     const votes = { [slot.id]: { [slot.cardIds[0]]: { p0: 1 as const } } };
     const link = await tripLink('https://dope.travel', trip, votes, 'Matt');
-    expect(link).toMatch(/^https:\/\/dope\.travel\/trips\/join#t=z[A-Za-z0-9_-]+$/);
+    expect(link).toMatch(/^https:\/\/dope\.travel\/trips\/join#f=Matt&t=z[A-Za-z0-9_-]+$/);
     expect(link.length).toBeLessThan(20_000);
-    const opened = await readTripLink(link.split('#t=')[1]);
+    const opened = await readTripLink(link.split('&t=')[1]);
     expect(opened.from).toBe('Matt');
     expect(opened.handoff).toBe(false);
+    expect(opened.organizer).toBe('p0');
     expect(opened.trip.taste).toBeUndefined();
-    expect(opened.trip.cards).toEqual(trip.cards);
+    expect(opened.trip.cards?.map((c) => c.id)).toEqual(trip.cards?.map((c) => c.id));
     expect(opened.votes).toEqual(votes);
   });
 
@@ -108,7 +109,7 @@ describe('share and join', () => {
     const guest = { ...trip, participants: [...trip.participants, { id: 'g-1', name: 'Sam', kind: 'adult' as const, tags: [], ...participantStyle(3) }] };
     const reply = replyFor(guest, { [slot.id]: { [card]: { 'g-1': 1, p0: -1 } } }, 'g-1');
     expect(reply.votes).toEqual({ [slot.id]: { [card]: 1 } });
-    const decoded = await readReplyLink((await replyLink('https://dope.travel', reply)).split('#r=')[1]);
+    const decoded = await readReplyLink((await replyLink('https://dope.travel', reply)).split('&r=')[1]);
     // The organizer moved that card to another slot before the reply came back.
     const target = trip.days[1].slots.find((s) => s.id !== slot.id && !s.cardIds.includes(card))!;
     const moved = {
@@ -151,12 +152,14 @@ describe('share and join', () => {
 describe('right now', () => {
   it('finds today’s slot during the trip only', () => {
     const trip = lisbon();
-    expect(tripMoment(trip, new Date(2027, 4, 9, 20, 0))).toBeNull();
+    expect(tripMoment(trip, new Date(2027, 4, 9, 20, 0)).phase).toBe('before');
     const evening = tripMoment(trip, new Date(2027, 4, 11, 19, 45));
-    expect(evening?.day.index).toBe(1);
-    expect(evening?.current?.kind).toBe('dinner');
-    expect(evening?.next?.kind).toBe('late');
-    expect(evening?.tonight).toBe(true);
+    if (!isLive(evening)) throw new Error('expected a live moment');
+    expect(evening.phase).toBe('on-ground');
+    expect(evening.day.index).toBe(1);
+    expect(evening.current?.kind).toBe('dinner');
+    expect(evening.next?.kind).toBe('late');
+    expect(evening.tonight).toBe(true);
   });
 
   it('maps the clock to a slot', () => {

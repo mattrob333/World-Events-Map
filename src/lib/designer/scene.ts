@@ -76,13 +76,15 @@ export type TasteInput = {
   topArtists?: string[];
 };
 
-export function tasteFrom(profile: { music: string[]; listening?: ListeningProfile }): TasteInput {
+export function tasteFrom(profile: { music: string[]; artists?: string[]; listening?: ListeningProfile }): TasteInput {
   const l = profile.listening;
+  // Spotify's top artists first, then the ones the traveler named (UFR2-H01).
+  const artists = [...new Set([...(l?.topArtists ?? []), ...(profile.artists ?? [])])].slice(0, 10);
   return {
     genres: [...(l?.genres ?? []), ...profile.music.map((m) => m.toLowerCase())],
     eras: l?.eras,
     energy: l?.energy,
-    topArtists: l?.topArtists,
+    topArtists: artists.length ? artists : l?.topArtists,
   };
 }
 

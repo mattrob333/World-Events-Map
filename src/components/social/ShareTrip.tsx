@@ -13,6 +13,9 @@ import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import { InviteDialog } from './InviteDialog';
 import { useSocialGroups } from './hooks';
 
+/** The invite strip floats above the phone tab bar and, on desktop, sits bottom-left clear of the dossier (UFR2-J06). */
+const INVITE_STRIP = 'surface-raised fixed inset-x-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-[55] p-4 md:inset-x-auto md:bottom-6 md:left-6 md:w-[26rem]';
+
 export interface ShareTripProps {
   eventId: string;
   /** Share the cabin as well as the event. */
@@ -213,7 +216,7 @@ function InvitationStrip() {
         <motion.aside
           key="invite-missing"
           className={cn(
-            'glass-deep fixed bottom-6 left-1/2 z-[55] w-[min(30rem,92vw)] -translate-x-1/2 p-4',
+            INVITE_STRIP,
           )}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -228,16 +231,16 @@ function InvitationStrip() {
             browser that created them, so a shared link cannot open them yet. Nothing was joined.
           </p>
           <div className="mt-3 flex justify-end">
-            <Button variant="quiet" size="sm" onClick={dismiss}>
+            <button type="button" className="btn btn-ghost btn-sm" onClick={dismiss}>
               OK
-            </Button>
+            </button>
           </div>
         </motion.aside>
       )}
       {show && group && event && (
         <motion.aside
           className={cn(
-            'glass-deep fixed bottom-6 left-1/2 z-[55] w-[min(30rem,92vw)] -translate-x-1/2 p-4',
+            INVITE_STRIP,
           )}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -247,40 +250,37 @@ function InvitationStrip() {
         >
           <p className="label text-brass">You were sent this</p>
           <h2 className="font-display mt-2.5 text-[19px] leading-6 text-ink">{group.name}</h2>
-          <p className="label-sm mt-2 text-ink-faint">
+          <p className="label-sm mt-2 text-ink-subtle">
             {event.name} · {event.city} · {formatDateRange(event.start, event.end)}
           </p>
 
           <Rule variant="ghost" className="my-3" />
 
-          <div className="flex items-end justify-between gap-4">
-            <div className="min-w-0">
-              <p className="text-[12px] leading-[18px] text-ink-muted">
-                {hostMember ? `${hostMember.name} is hosting.` : 'Hosted cabin.'}{' '}
-                {group.members.length}/{group.capacity} aboard
-                {group.jet ? ` · ${group.jet.aircraft}` : ''}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-2">
-              <Button variant="quiet" size="sm" onClick={dismiss}>
-                Not this time
-              </Button>
-              {aboard ? (
-                <span className="label text-brass">You are on it</span>
-              ) : (
-                <Button
-                  variant="brass"
-                  size="md"
-                  disabled={seatsLeft === 0}
-                  onClick={() => {
-                    joinGroup(group.id);
-                    dismiss();
-                  }}
-                >
-                  {seatsLeft === 0 ? 'Manifest closed (preference)' : `Take a seat — ${seatsLeft} left`}
-                </Button>
-              )}
-            </div>
+          <p className="text-[13px] leading-5 text-ink-muted">
+            {hostMember ? `${hostMember.name} is hosting.` : 'Hosted cabin.'}{' '}
+            {group.members.length}/{group.capacity} aboard
+            {group.jet ? ` · ${group.jet.aircraft}` : ''}
+          </p>
+          {/* Stacked on phones so the copy keeps its width (UFR2-J06). */}
+          <div className="mt-3 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <button type="button" className="btn btn-ghost" onClick={dismiss}>
+              Not this time
+            </button>
+            {aboard ? (
+              <span className="label inline-flex min-h-11 items-center text-brass">You are on it</span>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary"
+                disabled={seatsLeft === 0}
+                onClick={() => {
+                  joinGroup(group.id);
+                  dismiss();
+                }}
+              >
+                {seatsLeft === 0 ? 'Manifest closed (preference)' : `Take a seat — ${seatsLeft} left`}
+              </button>
+            )}
           </div>
         </motion.aside>
       )}

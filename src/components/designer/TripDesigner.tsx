@@ -9,6 +9,7 @@ import { EXAMPLE_RAMBLE } from '@/lib/designer/moodboard';
 import { parseProfileLocally, profileTags, type TravelerProfile } from '@/lib/designer/profile';
 import { mergeTastes, tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { planPlaceFromParams, type PlanPlace } from '@/lib/search/planPlace';
 import styles from './designer.module.css';
 import { useHydrated } from './useHydrated';
 import { TripCanvas } from './TripCanvas';
@@ -54,9 +55,11 @@ export function placeFromInput(value: string, kind: DestinationKind): PlaceSpec 
 
 const KIND_LABEL: Record<DestinationKind, string> = { city: '🏙️ City', beach: '🏝️ Beach', ski: '⛷️ Ski' };
 
-function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; initialWith?: string; onCreate: (trip: Itinerary, notice?: string) => void }) {
+function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedProfile[]; initialWith?: string; initialPlace?: PlanPlace; onCreate: (trip: Itinerary, notice?: string) => void }) {
   const [destination, setDestination] = useState<TripDestination>('custom');
-  const [placeText, setPlaceText] = useState('');
+  // ?place=Munich&region=Germany (from a destination or search) fills "Where to?";
+  // it never creates the trip or runs research on its own.
+  const [placeText, setPlaceText] = useState(() => (initialPlace ? [initialPlace.place, initialPlace.region].filter(Boolean).join(', ') : ''));
   const [placeKind, setPlaceKind] = useState<DestinationKind>('city');
   const [startDate, setStartDate] = useState(() => localIso(60));
   const [nights, setNights] = useState(7);
@@ -342,6 +345,10 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
   const mounted = useHydrated();
   const [notice, setNotice] = useState<string | undefined>();
   const [withId, setWithId] = useState(initialWith);
+  // Read once on the client: Setup only renders after hydration.
+  const [placeParam, setPlaceParam] = useState<PlanPlace | undefined>(() =>
+    typeof window === 'undefined' ? undefined : planPlaceFromParams(new URLSearchParams(window.location.search)) ?? undefined,
+  );
   const trip = useDesignerStore((state) => state.trip);
   const setTrip = useDesignerStore((state) => state.setTrip);
   const clearTrip = useDesignerStore((state) => state.clearTrip);
@@ -353,24 +360,26 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
       <div className={styles.inner}>
         {!mounted ? (
           <p className="py-16 text-ink-muted">Opening the designer…</p>
-        ) : trip && !withId ? (
+        ) : trip && !withId && !placeParam ? (
           <>
             {notice ? <p className={styles.notice}>{notice}</p> : null}
             <TripCanvas
               trip={trip}
               onRestart={() => {
-                if (window.confirm('Start a new trip? This clears the current draft and its votes from this device.')) {
+                if (window.confirm('Start a new trip? This clears the current draft and its votes from this device, and picks links friends haven’t sent back yet can’t be added to a new trip.')) {
                   clearTrip();
                   setNotice(undefined);
                 }
               }}
             />
           </>
-        ) : trip && withId ? (
+        ) : trip && (withId || placeParam) ? (
           <ReplacePrompt
+            place={placeParam?.place}
             onKeep={() => {
               window.history.replaceState(null, '', '/trips/designer');
               setWithId(undefined);
+              setPlaceParam(undefined);
             }}
             onReplace={clearTrip}
           />
@@ -379,12 +388,14 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
             key={withId ?? 'new'}
             boards={boards}
             initialWith={withId}
+            initialPlace={placeParam}
             onCreate={(created, message) => {
               setTrip(created);
               setNotice(message);
-              if (withId) {
+              if (withId || placeParam) {
                 window.history.replaceState(null, '', '/trips/designer');
                 setWithId(undefined);
+                setPlaceParam(undefined);
               }
               window.scrollTo({ top: 0 });
             }}
@@ -395,11 +406,11 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
   );
 }
 
-function ReplacePrompt({ onKeep, onReplace }: { onKeep: () => void; onReplace: () => void }) {
+function ReplacePrompt({ place, onKeep, onReplace }: { place?: string; onKeep: () => void; onReplace: () => void }) {
   return (
     <div className={styles.panel}>
       <p className="font-display text-[26px] text-ink">You already have a trip in the works.</p>
-      <p className="mt-2 text-[14px] text-ink-muted">Keep designing it, or start a new trip with this mood board? Starting over clears the draft and its votes on this device.</p>
+      <p className="mt-2 text-[14px] text-ink-muted">Keep designing it, or start a new trip {place ? `to ${place}` : 'with this mood board'}? Starting over clears the draft and its votes on this device.</p>
       <div className={`${styles.row} mt-4`}>
         <button
           type="button"

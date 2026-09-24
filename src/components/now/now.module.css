@@ -894,3 +894,66 @@
     transition: none;
   }
 }
+
+/* ── Provider off: one-line notice first, the preview folded away ───────── */
+
+.connectionNoteTop {
+  margin: 0 0 16px;
+}
+
+.connectionNoteTop strong {
+  color: var(--color-bone);
+  font-weight: 600;
+}
+
+.ideaLabel {
+  margin: 16px 0 0;
+  color: var(--color-ink-subtle);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ideaLabel + .ideaGrid {
+  margin-top: 8px;
+}
+
+.howItWorks {
+  margin: 0 0 24px;
+}
+
+.howItWorks > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-chip);
+  background: var(--gradient-surface), var(--color-surface-3);
+  box-shadow: var(--shadow-soft-1);
+  color: var(--color-bone);
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.howItWorks > summary::-webkit-details-marker {
+  display: none;
+}
+
+.howItWorks > summary::after {
+  content: '＋';
+  margin-left: 10px;
+  color: var(--color-brass);
+}
+
+.howItWorks[open] > summary::after {
+  content: '－';
+}
+
+.howItWorks > summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.howItWorks[open] > summary {
+  margin-bottom: 16px;
+}

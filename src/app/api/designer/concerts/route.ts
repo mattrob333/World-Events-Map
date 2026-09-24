@@ -1,7 +1,7 @@
-import { MAX_CONCERT_ARTISTS, concertLinks, searchArtistEvents, type ConcertResult, type EventSource } from '@/lib/designer/concerts';
+import { EventFeedBudgetError, MAX_CONCERT_ARTISTS, concertLinks, searchArtistEvents, type ConcertResult, type EventSource } from '@/lib/designer/concerts';
 import { readTaste, readWindow, textList, listenerSummary } from '@/lib/designer/music-input';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
+import { jevBudgetAvailable, jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -34,9 +34,16 @@ export async function POST(request: Request) {
   if (!sources.length || !consumeProviderCall(request, 'concerts')) {
     return jsonOk({ source: 'links', sources: [], fetchedAt, concerts: [], links } satisfies ConcertResult);
   }
-  let concerts = await searchArtistEvents({ artists, city, ...window }, keys);
+  let concerts: ConcertResult['concerts'];
+  try {
+    concerts = await searchArtistEvents({ artists, city, ...window }, keys);
+  } catch (cause) {
+    // Today's event-feed budget is spent: the same honest links-only answer as an unconfigured feed.
+    if (cause instanceof EventFeedBudgetError) return jsonOk({ source: 'links', sources: [], fetchedAt, concerts: [], links } satisfies ConcertResult);
+    throw cause;
+  }
   // Jev only judges tribute acts here: an artist's own show is a fit by definition.
-  if (jevConfigured() && body.taste && concerts.some((c) => c.kind === 'tribute') && consumeProviderCall(request, 'jev')) {
+  if (jevConfigured() && jevBudgetAvailable() && body.taste && concerts.some((c) => c.kind === 'tribute') && consumeProviderCall(request, 'jev')) {
     const tributes = concerts.filter((c) => c.kind === 'tribute');
     const fit = await jevEventFit(listenerSummary(readTaste(body.taste)), tributes);
     concerts = concerts.map((c) => (fit.has(c.id) ? { ...c, fit: fit.get(c.id) } : c));

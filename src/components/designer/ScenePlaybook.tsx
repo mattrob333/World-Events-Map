@@ -65,6 +65,7 @@ export function ScenePlaybook({
   endDate,
   title = 'Your live-music playbook',
   compact = false,
+  tonight = false,
 }: {
   taste: TasteInput;
   persona?: Persona | null;
@@ -73,6 +74,8 @@ export function ScenePlaybook({
   endDate?: string;
   title?: string;
   compact?: boolean;
+  /** The window is today: say "tonight", and only promise shows when listings are in. */
+  tonight?: boolean;
 }) {
   const playbook = useMemo(() => scenePlaybook(taste), [taste]);
   const [cityInput, setCityInput] = useState(initialCity);
@@ -104,11 +107,21 @@ export function ScenePlaybook({
 
   if (!playbook.length) return null;
 
+  const current = result && result.city.toLowerCase() === city.split(',')[0].trim().toLowerCase() ? result : null;
+  const genre = taste.genres[0]?.trim().toLowerCase() || 'music';
+  const feedsOff = Boolean(current && !current.sources.length);
+  // Only a heading over real listings promises tonight's shows; otherwise it says where to look.
+  const heading = tonight
+    ? current?.events.length
+      ? `Live music tonight in ${current.city}`
+      : `Where to find live ${genre} tonight`
+    : title;
+
   return (
     <section className={compact ? styles.panel : 'mt-10'} aria-labelledby="playbook-title">
       <div className={styles.row}>
         <h2 id="playbook-title" className={compact ? 'text-[17px] font-semibold text-ink' : 'font-display text-[26px] text-ink'}>
-          {title}
+          {heading}
         </h2>
         {persona ? <span className={`${styles.badge} ${styles.badgeAi}`}>Read by Jev</span> : null}
       </div>
@@ -181,25 +194,30 @@ export function ScenePlaybook({
       {state === 'loading' ? <p className="mt-3 text-[13px] text-ink-muted">Looking in {city}…</p> : null}
       {state === 'failed' ? <p className={styles.notice}>Live music could not be checked right now.</p> : null}
 
-      {result && result.city.toLowerCase() === city.split(',')[0].trim().toLowerCase() ? (
+      {current ? (
         <div className="mt-4">
           <div className={styles.row}>
-            <p className={styles.factTitle}>In {result.city}{startDate ? ' on your dates' : ''}</p>
+            <p className={styles.factTitle}>In {current.city}{tonight ? ' tonight' : startDate ? ' on your dates' : ''}</p>
             <span className={styles.badge}>
-              {result.sources.length ? `${result.sources.join(' + ')}${result.judged ? ' · ranked by Jev' : ''}` : 'Event feeds not connected'}
+              {current.sources.length ? `${current.sources.join(' + ')}${current.judged ? ' · ranked by Jev' : ''}` : 'Event feeds not connected'}
             </span>
           </div>
-          {result.events.length ? (
+          {feedsOff ? (
+            <p className="mt-2 text-[13px] leading-5 text-ink-muted">
+              Gig listings aren’t connected, so we can’t see who’s playing {tonight ? 'tonight' : 'on your dates'}; these open Maps searches for bars that usually have a band.
+            </p>
+          ) : null}
+          {current.events.length ? (
             <div className={styles.strip}>
-              {result.events.map((event) => (
+              {current.events.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
-          ) : result.sources.length ? (
-            <p className="mt-2 text-[13px] text-ink-muted">No listed shows match your scenes{startDate ? ' on those dates' : ''}. Bars with house bands rarely list on ticket sites; try these:</p>
+          ) : current.sources.length ? (
+            <p className="mt-2 text-[13px] text-ink-muted">No listed shows match your scenes{tonight ? ' tonight' : startDate ? ' on those dates' : ''}. Bars with house bands rarely list on ticket sites; try these:</p>
           ) : null}
           <div className="mt-3 flex flex-wrap gap-2">
-            {result.scenes.flatMap((scene) =>
+            {current.scenes.flatMap((scene) =>
               scene.links.slice(0, 1).map((link) => (
                 <a key={link.href} className={styles.ghost} href={link.href} target="_blank" rel="noopener noreferrer">
                   {scene.emoji} {link.label} ↗

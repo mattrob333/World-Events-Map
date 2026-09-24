@@ -179,17 +179,49 @@ export function hiddenGems(spots: ResearchSpot[], exclude: Set<string>, limit = 
     .slice(0, limit);
 }
 
-/** Tripadvisor "Things to do": real sights only; bookable tour products are left out. */
-export function parseTripadvisor(json: unknown): ResearchSpot[] {
-  const places = list(obj(json)?.places);
+const cityOf = (location: string) => location.split(',')[0].trim();
+
+/**
+ * True when a listing's "City, Region" location is the requested place.
+ * Conservative: a row with no location is kept, and so is a row in the
+ * city most of the listing is in (Tripadvisor may spell the place its own
+ * way, "Lisbon" for "Lisboa"). Only a clear outlier, like a Chattanooga
+ * aquarium in a Nashville list, is dropped.
+ */
+export function inPlace(location: string | undefined, wanted: string | undefined, dominantCity?: string): boolean {
+  if (!location || !wanted) return true;
+  const city = cityOf(location);
+  if (mentions(location, wanted) || mentions(wanted, city)) return true;
+  return Boolean(dominantCity) && fold(city) === dominantCity;
+}
+
+/** The city most located rows share, when it covers more than half of them. */
+function dominantCity(locations: string[]): string | undefined {
+  const counts = new Map<string, number>();
+  for (const location of locations) counts.set(fold(cityOf(location)), (counts.get(fold(cityOf(location))) ?? 0) + 1);
+  const [city, count] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0] ?? [];
+  return city && count && count * 2 > locations.length && count >= 2 ? city : undefined;
+}
+
+/**
+ * Tripadvisor "Things to do": real sights only; bookable tour products are
+ * left out, and so are sights Tripadvisor places in another town. `place`
+ * defaults to the search's own `q` ("Nashville, Tennessee").
+ */
+export function parseTripadvisor(json: unknown, place?: string): ResearchSpot[] {
+  const root = obj(json);
+  const places = list(root?.places);
+  const wanted = (place ?? str(obj(root?.search_parameters)?.q, 120))?.split(',')[0]?.trim() || undefined;
+  const rows = places.slice(0, 30).map(obj).filter((row): row is Obj => Boolean(row) && row?.place_type === 'ATTRACTION');
+  const dominant = dominantCity(rows.map((row) => str(row.location, 120)).filter((value): value is string => Boolean(value)));
   const spots: ResearchSpot[] = [];
-  for (const raw of places.slice(0, 30)) {
-    const row = obj(raw);
-    if (!row || row.place_type !== 'ATTRACTION') continue;
+  for (const row of rows) {
     const name = str(row.title, 120);
     const url = safeUrl(row.link, ['tripadvisor.com']);
     const id = str(row.place_id, 40);
+    const location = str(row.location, 120);
     if (!name || !url || !id) continue;
+    if (!inPlace(location, wanted, dominant)) continue;
     const image = safeUrl(row.thumbnail, ['tripadvisor.com'], true);
     spots.push({
       id: `ta:${id}`,
@@ -198,6 +230,7 @@ export function parseTripadvisor(json: unknown): ResearchSpot[] {
       url,
       rating: num(row.rating),
       reviews: num(row.reviews),
+      address: location,
       snippet: str(obj(row.highlighted_review)?.text, 200),
       image: image ? { url: image, alt: `${name}, photo from its Tripadvisor listing` } : undefined,
     });
@@ -257,9 +290,35 @@ export function aboutPlace(caption: string, location: string | undefined, names:
   return names.some((name) => mentions(location, name) || mentions(words, name));
 }
 
+const LODGING_ACCOUNT = /(hotel|inn|suites?|motel|resort|hostel|lodge|bnb|airbnb|vrbo|rentals?|stays?|apartments?|villas?)/i;
+const STAY_PITCH = /\b(stay|stays|rooms?|suites?|check[- ]?in|amenities|per night|nightly rates?|book (now|direct|your)|reserve)\b/i;
+const HOTEL_PITCH = /\b(comfortable stay|book your stay|book direct|our (hotel|rooms|suites|property))\b/i;
+const GIVEAWAY = /\b(giveaway|give ?away|giving away|enter to win|win (a|two|2|free|tickets))\b/i;
+const SALES = /(link in (our |my )?bio|(use|promo|discount) code|\b\d{1,2}% off\b|shop now|\bdm (us |me )?(to|for) (book|order))/i;
+const MONTHS = 'jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sept?(ember)?|oct(ober)?|nov(ember)?|dec(ember)?';
+const THROWBACK = /(#?\b(tbt|throwback|flashback|fbf)\b|\bback in (19|20)\d\d\b)/i;
+const MONTH_YEAR = new RegExp(`\\b(${MONTHS})\\.?,?\\s+((19|20)\\d\\d)\\b`, 'gi');
+
+/**
+ * Hashtag feeds carry promotions. `drop`: a hotel or inn selling stays, a
+ * giveaway, or a throwback whose caption dates it (a "Feb 2020" photo posted
+ * today is not a recent look at the place). `down`: a "link in bio" or
+ * discount-code sale, kept but shown last.
+ */
+export function promoLevel(author: string, caption: string, now = Date.now()): 'drop' | 'down' | null {
+  if (GIVEAWAY.test(caption) || HOTEL_PITCH.test(caption)) return 'drop';
+  if (LODGING_ACCOUNT.test(author) && STAY_PITCH.test(caption)) return 'drop';
+  if (THROWBACK.test(caption)) return 'drop';
+  const year = new Date(now).getUTCFullYear();
+  const years = [...caption.matchAll(MONTH_YEAR)].map((match) => Number(match[0].match(/(19|20)\d\d/)?.[0]));
+  if (years.some((dated) => dated < year)) return 'drop';
+  return SALES.test(caption) ? 'down' : null;
+}
+
 export function parseInstagram(json: unknown, about: string, names: string[], now = Date.now()): ResearchPost[] {
   const posts = list(obj(obj(obj(json)?.output)?.data)?.posts);
   const kept: ResearchPost[] = [];
+  const demoted = new Set<string>();
   for (const raw of posts.slice(0, 40)) {
     const row = obj(raw);
     if (!row || row.isAd === true || row.paidPartnership === true || row.private === true) continue;
@@ -271,6 +330,9 @@ export function parseInstagram(json: unknown, about: string, names: string[], no
     if (!url || !/^https:\/\/(www\.)?instagram\.com\/(p|reel)\/[\w-]+\/$/.test(url)) continue;
     if (!author || !/^[A-Za-z0-9._]{1,30}$/.test(author) || !caption || !publishedAt) continue;
     if (!aboutPlace(caption, location, names)) continue;
+    const promo = promoLevel(author, caption, now);
+    if (promo === 'drop') continue;
+    if (promo === 'down') demoted.add(url);
     const photo = list(row.media).map(obj).find((media) => media?.type === 'photo');
     const image = safeUrl(photo?.url, ['cdninstagram.com', 'fbcdn.net'], true);
     kept.push({
@@ -285,7 +347,7 @@ export function parseInstagram(json: unknown, about: string, names: string[], no
       image: image ? { url: image, alt: `Instagram photo by @${author}` } : undefined,
     });
   }
-  return kept.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  return kept.sort((a, b) => Number(demoted.has(a.url)) - Number(demoted.has(b.url)) || b.publishedAt.localeCompare(a.publishedAt));
 }
 
 export function parseTikTok(json: unknown, about: string, names: string[], now = Date.now()): ResearchPost[] {
@@ -301,6 +363,7 @@ export function parseTikTok(json: unknown, about: string, names: string[], now =
     if (!author || !/^[A-Za-z0-9._]{2,30}$/.test(author) || !id || !/^\d{12,25}$/.test(id) || !caption || !publishedAt) continue;
     // TikTok search already matched the words; still require the place in the caption (hashtags count here).
     if (!names.some((name) => mentions(caption, name) || fold(caption).includes(fold(name)))) continue;
+    if (promoLevel(author, caption, now) === 'drop') continue;
     kept.push({
       id: `tt:${id}`,
       platform: 'TikTok',

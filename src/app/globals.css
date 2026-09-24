@@ -332,9 +332,17 @@
       color var(--duration-quick) var(--ease-glide);
   }
   .btn-sm {
+    position: relative;
     min-height: 36px;
     padding: 0 14px;
     font-size: 0.8125rem;
+  }
+  /* Visual 36px, 44px hit area (design rule 8). Shared with .chip below. */
+  .btn-sm::before,
+  .chip::before {
+    content: '';
+    position: absolute;
+    inset: -4px 0;
   }
   /* The sunset pill: the one primary action on a screen. */
   .btn-primary {
@@ -377,6 +385,7 @@
   }
 
   .chip {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 6px;

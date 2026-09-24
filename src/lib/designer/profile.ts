@@ -15,6 +15,8 @@ export type FamilyMember = {
   name?: string;
   age?: number;
   note?: string;
+  /** The count came from a bare plural ("the kids"), not a number the traveler said. */
+  guessed?: boolean;
 };
 
 export type TravelStyle = {
@@ -45,6 +47,8 @@ export type TravelerProfile = {
   heritage: string[];
   teams: string[];
   music: string[];
+  /** Artists and bands they named. Optional so older saved boards still load. */
+  artists?: string[];
   /** Concerts, festivals, live events they love. */
   events: string[];
   family: FamilyMember[];
@@ -197,56 +201,222 @@ function sentences(text: string): string[] {
 
 // --- on-device parser -------------------------------------------------------
 
+/** "I'm", "Im", "I’m", "I am", in any case the traveler typed it. */
+const I_AM = String.raw`(?:[Ii]['’]?[Mm]|[Ii]\s+[Aa][Mm])\b`;
+const CAP_WORD = String.raw`[A-Z][a-zà-ÿ'’-]+`;
+
+/** Capitalized words after "I'm" that are not names. */
+const NOT_NAMES = new Set([
+  'from', 'originally', 'here', 'in', 'on', 'at', 'so', 'just', 'really', 'pretty', 'very', 'not', 'into', 'also', 'big', 'huge',
+  'a', 'an', 'the', 'married', 'single', 'retired', 'based', 'living', 'currently', 'still', 'always', 'obsessed', 'totally', 'going',
+  'looking', 'planning', 'trying', 'thinking', 'sure', 'ready', 'done', 'new', 'old', 'back', 'getting', 'hoping', 'dying', 'down', 'up',
+  'mostly', 'basically', 'honestly', 'definitely', 'probably', 'actually', 'kind', 'sort', 'half', 'part', 'fully', 'good', 'fine',
+]);
+
+function isName(word: string | undefined): word is string {
+  if (!word) return false;
+  const lower = word.toLowerCase();
+  return !NOT_NAMES.has(lower) && !NATIONALITIES[lower] && !TEAMS[lower] && !MUSIC.includes(lower) && !INTERESTS[lower] && !FOOD[lower];
+}
+
 function parseAge(text: string): number | undefined {
   const match =
-    text.match(/\b(?:i'?m|i am|i’m)\s+(?:a\s+)?(\d{2})\b/i) ??
+    text.match(new RegExp(String.raw`\b${I_AM}\s+(?:a\s+)?(\d{2})\b(?!\s*(?:%|kids|years? (?:together|married)))`)) ??
+    // "I'm Matt, 44"
+    text.match(new RegExp(String.raw`\b${I_AM}\s+${CAP_WORD},\s*(\d{2})\b(?!\s*%)`)) ??
     text.match(/\b(\d{2})[- ]years?[- ]old\s+(?:man|woman|guy|dad|mom|mother|father|person)\b/i) ??
-    text.match(/\bi(?:'m| am|’m)\s+(?:a\s+)?(\d{2})[- ]years?[- ]old/i);
+    text.match(new RegExp(String.raw`\b${I_AM}\s+(?:a\s+)?(\d{2})[- ]years?[- ]old`));
   const age = match ? Number(match[1]) : undefined;
   return age && age >= 13 && age <= 110 ? age : undefined;
 }
 
 function parseName(text: string): string | undefined {
-  const match = text.match(/\b(?:my name is|i'?m called|call me|this is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
-  return match?.[1];
+  const called = text.match(new RegExp(String.raw`\b(?:[Mm]y name is|${I_AM}\s+called|[Cc]all me|[Tt]his is)\s+(${CAP_WORD}(?:\s+${CAP_WORD})?)`));
+  if (called && isName(called[1].split(/\s+/)[0])) return called[1];
+  // "I'm Matt, 44" / "I'm Matt from Atlanta" / "Hi, I'm Matt." — a capitalized word right after "I'm" that isn't a nationality or filler.
+  const intro = text.match(new RegExp(String.raw`\b${I_AM}\s+(${CAP_WORD})(?=\s*(?:,|\.|!|;|—|-|\s+(?:and|from|here)\b|$))`));
+  return isName(intro?.[1]) ? intro[1] : undefined;
 }
 
 const PLACE = String.raw`(?:St\.\s)?[A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*){0,3}`;
 
-function parseHometown(text: string): string | undefined {
-  const place = `(${PLACE}(?:,\\s*${PLACE})?)`;
-  const match =
-    text.match(new RegExp(`\\b(?:i'?m|i am|i’m)\\s+(?:originally\\s+)?from\\s+${place}`)) ??
-    text.match(new RegExp(`\\b(?:live in|living in|based in|grew up in)\\s+${place}`)) ??
-    text.match(new RegExp(`\\bfrom\\s+(${PLACE},\\s*${PLACE})`));
-  return match?.[1]?.trim();
+const US_STATES = [
+  'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware', 'florida', 'georgia', 'hawaii',
+  'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan',
+  'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey', 'new mexico', 'new york',
+  'north carolina', 'north dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina', 'south dakota',
+  'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'west virginia', 'wisconsin', 'wyoming', 'ontario', 'quebec',
+  'british columbia', 'bahia', 'minas gerais', 'rio de janeiro', 'são paulo', 'sao paulo',
+];
+const COUNTRIES = new Set([
+  ...Object.values(NATIONALITIES).map((c) => c.toLowerCase()), 'usa', 'us', 'uk', 'united states', 'brasil', 'the netherlands',
+  'new zealand', 'south africa', 'costa rica', 'belgium', 'austria', 'denmark', 'norway', 'finland', 'iceland', 'israel', 'turkey',
+]);
+
+/** "Georgia", "GA", "Portugal": accepted as the part after a city's comma. */
+function isRegion(value: string): boolean {
+  const lower = value.toLowerCase();
+  return /^[A-Z]{2}$/.test(value) || US_STATES.includes(lower) || COUNTRIES.has(lower);
 }
+
+function parseHometown(text: string): string | undefined {
+  const place = String.raw`(${PLACE})(?:,\s*(${PLACE}))?`;
+  // Up to four short tokens between "I'm" and "from": a name, an age, "originally", "a 44-year-old man".
+  const filler = String.raw`(?:\s+(?:originally|a|an|\d{2}(?:[- ]years?[- ]old)?,?|(?:man|woman|guy|dad|mom|mother|father),?|${CAP_WORD},?)){0,4}`;
+  const patterns = [
+    new RegExp(String.raw`\b${I_AM}${filler}\s+[Ff]rom\s+${place}`),
+    new RegExp(String.raw`\b[Ww]e(?:['’]re|\s+are)\s+(?:originally\s+)?from\s+${place}`),
+    new RegExp(String.raw`(?:^|[.!?]\s+)(?:[Oo]riginally\s+)?[Ff]rom\s+${place}`),
+    new RegExp(String.raw`\b(?:[Ll]ive in|[Ll]iving in|[Bb]ased in|[Gg]rew up in|[Hh]ometown is)\s+${place}`),
+    new RegExp(String.raw`\bfrom\s+(${PLACE}),\s*(${PLACE})`),
+  ];
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    const city = match?.[1]?.trim();
+    if (!city || /^(The|My|Our|A|An|I|We|It|Here|There)$/.test(city)) continue;
+    const region = match?.[2]?.trim();
+    return region && isRegion(region) ? `${city}, ${region}` : city;
+  }
+  return undefined;
+}
+
+// --- artists ---------------------------------------------------------------
+
+/** Well-known artists matched case-sensitively, so "future" or "journey" in a sentence never counts. */
+const KNOWN_ARTISTS = [
+  'Foo Fighters', 'Pearl Jam', 'Tom Petty', 'Taylor Swift', 'Beyoncé', 'Beyonce', 'Kendrick Lamar', 'Bad Bunny', 'Metallica',
+  'Radiohead', 'Coldplay', 'U2', 'The Rolling Stones', 'Rolling Stones', 'The Beatles', 'Led Zeppelin', 'Pink Floyd',
+  'Bruce Springsteen', 'Bob Dylan', 'Bob Marley', 'Zac Brown Band', 'Luke Combs', 'Morgan Wallen', 'Chris Stapleton',
+  'Dave Matthews Band', 'Phish', 'Grateful Dead', 'Dead & Company', 'Billy Joel', 'Elton John', 'Fleetwood Mac', 'Outkast',
+  'OutKast', 'Ludacris', 'Travis Scott', 'Kanye West', 'Jay-Z', 'Eminem', 'Post Malone', 'Harry Styles', 'Ed Sheeran', 'Adele',
+  'Bruno Mars', 'Dua Lipa', 'Billie Eilish', 'SZA', 'The Weeknd', 'Rihanna', 'Lady Gaga', 'Madonna', 'Michael Jackson',
+  'Stevie Wonder', 'Red Hot Chili Peppers', 'Nirvana', 'Green Day', 'Blink-182', 'The Killers', 'Arctic Monkeys', 'Kings of Leon',
+  'The Black Keys', 'Tame Impala', 'Daft Punk', 'Calvin Harris', 'David Guetta', 'Anitta', 'Caetano Veloso', 'Gilberto Gil',
+  'Jorge Ben Jor', 'Seu Jorge', 'Karol G', 'J Balvin', 'Shakira', 'Burna Boy', 'Wizkid', 'BTS', 'Dolly Parton', 'Johnny Cash',
+  'Willie Nelson', 'George Strait', 'Kenny Chesney', 'Jimmy Buffett', 'Widespread Panic', 'Allman Brothers', 'Lynyrd Skynyrd',
+  'AC/DC', 'Bon Jovi', 'Oasis', 'Miles Davis', 'John Coltrane', 'Norah Jones', 'Zach Bryan', 'Noah Kahan', 'Olivia Rodrigo',
+  'Sabrina Carpenter', 'Chappell Roan', 'Kacey Musgraves', 'Jason Isbell', 'Tyler Childers', 'Hozier', 'Mumford & Sons',
+  'The Lumineers', 'Vampire Weekend', 'LCD Soundsystem', 'Gorillaz', 'Beastie Boys', 'Wu-Tang Clan', 'Lauryn Hill', 'Erykah Badu',
+  'Frank Ocean', 'Doja Cat', 'Snoop Dogg', 'Dr. Dre', 'Tupac', 'The Strokes', 'John Mayer', 'Jack Johnson', 'Sublime', 'Khruangbin',
+];
+
+const ARTIST_ALIAS: Record<string, string> = { Beyonce: 'Beyoncé', 'Rolling Stones': 'The Rolling Stones', OutKast: 'Outkast' };
+
+const MUSIC_CUE = /\b(music|bands?|artists?|singers?|listen(?:ing)?|playlists?|concerts?|gigs?|shows?|tour|rock|jazz|hip[- ]hop|rap|country|pop|house|techno|edm|r&b|soul|funk|metal|punk|indie|folk|blues|reggae|samba|grunge)\b/i;
+const TRAVEL_CUE = /\b(trips?|visit(?:ed)?|went to|been to|towns?|city|cities|beach(?:es)?|vacation|holiday|live in|lived in)\b/i;
+const LEAD_IN = /^(?:(?:and|but|plus|also|honestly|really)\s+)*(?:(?:i|we)(?:['’]m| am| are|['’]re)?\s+)?(?:(?:really|also|just|totally)\s+)?(?:(?:my|our)\s+)?(?:love|loved|like|dig|adore|listen to|into|big fan of|huge fan of|fan of|obsessed with|favorites? (?:are|is)|favorite (?:bands?|artists?|singers?) (?:are|is))\s+/i;
+const STRONG_CUE = /\b(?:fan of|listen(?:ing)? to|obsessed with|favorite (?:bands?|artists?|singers?|groups?) (?:are|is))\s*$/i;
+const NAME_SEGMENT = /^(?:[A-Z0-9][\w'’.!$&/-]*)(?:\s+(?:[A-Z0-9][\w'’.!$&/-]*|of|the|and|de|da|do|y|n['’]))*$/;
+const NOT_ARTIST_FIRST = /^(I|I['’]m|We|We['’]re|She|She['’]s|He|He['’]s|They|My|Our|It|That|This|So|And|But|Honestly|Also|Plus|The|A|An)$/;
+
+function notArtist(value: string, profile: TravelerProfile): boolean {
+  const lower = value.toLowerCase();
+  const first = value.split(/\s+/)[0];
+  if (value.length > 40 || value.split(/\s+/).length > 5) return true;
+  if (NOT_ARTIST_FIRST.test(value) || (NOT_ARTIST_FIRST.test(first) && value.split(/\s+/).length === 1)) return true;
+  if (/^(She|He|We|I|They|It)['’]/.test(first)) return true;
+  if (TEAMS[lower] || Object.values(TEAMS).some((team) => team.toLowerCase() === lower)) return true;
+  if (FESTIVALS.includes(lower) || MUSIC.includes(lower) || NATIONALITIES[lower] || INTERESTS[lower] || FOOD[lower]) return true;
+  if (COUNTRIES.has(lower) || US_STATES.includes(lower)) return true;
+  const known = [profile.name, profile.hometown?.split(',')[0], ...profile.family.map((m) => m.name)].filter(Boolean).map((v) => v!.toLowerCase());
+  return known.includes(lower);
+}
+
+function parseArtists(text: string, profile: TravelerProfile): string[] {
+  const found: string[] = [];
+  for (const artist of KNOWN_ARTISTS) {
+    const escaped = artist.replace(/[.*+?^${}()|[\]\\&/]/g, '\\$&');
+    if (new RegExp(`(^|[^A-Za-z0-9])${escaped}($|[^A-Za-z0-9])`).test(text)) found.push(ARTIST_ALIAS[artist] ?? artist);
+  }
+  for (const sentence of sentences(text)) {
+    if (!MUSIC_CUE.test(sentence) || TRAVEL_CUE.test(sentence)) continue;
+    const segments = sentence.replace(/[.!?]+$/, '').split(/\s*[,;]\s*|\s+(?:and|&|plus)\s+/);
+    let run: string[] = [];
+    let before = '';
+    const flush = () => {
+      // A list that follows "in", "at" or "to" is places, not artists.
+      if (run.length >= 2 && !/\b(in|at|to|around|near|from|like)\s+(?:[A-Z][\w'’-]*\s*)*$|\b(in|at|to|around|near|from|like)\s*$/.test(before)) found.push(...run);
+      run = [];
+    };
+    for (const raw of segments) {
+      const segment = raw.trim();
+      if (!segment) continue;
+      const stripped = segment.replace(LEAD_IN, '');
+      const cue = segment.slice(0, segment.length - stripped.length);
+      if (NAME_SEGMENT.test(stripped) && !notArtist(stripped, profile)) {
+        // A run opened by "I love…" / "listen to…" is introduced as music, whatever came before.
+        if (!run.length && cue) before = '';
+        run.push(stripped);
+        if (STRONG_CUE.test(cue)) found.push(stripped);
+        continue;
+      }
+      flush();
+      before = segment;
+    }
+    flush();
+  }
+  return uniq(found).slice(0, 10);
+}
+
+// --- family ------------------------------------------------------------------
+
+const AGE_TOKEN = /\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen)\b(?!\s*(?:years? (?:together|married)|%))/gi;
 
 function parseFamily(text: string, profile: TravelerProfile) {
   const family: FamilyMember[] = [];
   const lower = text.toLowerCase();
 
-  // "two young sons, 8 and 12" / "a daughter who's 5" / "my son Leo, 10"
+  // "two young sons, 8 and 12" / "a daughter who's 5" / "my son Leo, 10" / "Two boys, Jack is 12 and Sam is 8"
   const groupPattern =
-    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our)?\s*(?:young|little|teenage|grown|adult|older|younger|\s)*\s*(sons|daughters|kids|boys|girls|son|daughter|kid)\b([^.;]{0,60})/gi;
+    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our)?\s*(?:young|little|teenage|grown|adult|older|younger|\s)*\s*(sons|daughters|kids|boys|girls|children|son|daughter|kid|child)\b(?=([^.;!?]{0,60}))/gi;
   for (const match of text.matchAll(groupPattern)) {
     const countWord = (match[1] ?? '').toLowerCase();
     const word = match[2].toLowerCase();
-    const rest = match[3] ?? '';
-    const info = RELATIONS[word];
+    const info = RELATIONS[word] ?? (word.startsWith('child') ? RELATIONS.kid : undefined);
     if (!info) continue;
-    const ages = [...rest.matchAll(/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen)\b(?!\s*(?:years? (?:together|married)|%))/gi)]
-      .map((m) => toNumber(m[1]))
-      .filter((n): n is number => n !== undefined && n < 60);
-    const plural = word.endsWith('s') || countWord === 'twins';
-    const count = NUMBER_WORDS[countWord] ?? (plural ? Math.max(ages.length, 2) : 1);
-    const nameMatch = rest.match(/^\s*,?\s*(?:named|called)?\s*([A-Z][a-z]+)\b/);
+    // Only the words about these kids: stop at the next person ("and my wife Kelly", "a daughter").
+    const rest = (match[3] ?? '').split(/\b(?:wife|husband|partner|girlfriend|boyfriend|fianc\S*|mom|dad|mother|father|brother|sister|sons?|daughters?|kids?|boys|girls|child(?:ren)?|I|I['’]m|we)\b/)[0];
+    const ages = [...rest.matchAll(AGE_TOKEN)].map((m) => toNumber(m[1])).filter((n): n is number => n !== undefined && n < 60);
+    // "Jack is 12 and Sam is 8" / "Jack, 12" → names that line up with ages.
+    const pairs = [...rest.matchAll(/\b([A-Z][a-z]+)(?:,|\s+is|\s+who['’]s|['’]s|\s*\()?\s+(\d{1,2})\b/g)].filter((m) => isName(m[1]));
+    const names = pairs.length === ages.length ? pairs.map((m) => m[1]) : [];
+    const plural = word.endsWith('s') || word === 'children' || countWord === 'twins';
+    const singleName = rest.match(/^\s*,?\s*(?:named|called)?\s*([A-Z][a-z]+)\b/)?.[1];
+    const explicit = NUMBER_WORDS[countWord];
+    const kids = family.filter((member) => member.relation === 'child');
+
+    if (explicit === undefined && kids.length) {
+      // "the kids", "my son", "the boys are 8 and 12": a reference to kids already counted.
+      const open = kids.filter((kid) => kid.age === undefined);
+      ages.forEach((age, i) => {
+        const kid = open[i];
+        if (kid) {
+          kid.age = age;
+          kid.name ??= names[i];
+          kid.guessed = undefined;
+        } else {
+          family.push({ relation: 'child', label: info.label, age, name: names[i] });
+        }
+      });
+      if (!plural && singleName && isName(singleName) && !kids.some((kid) => kid.name === singleName)) {
+        const target = kids.find((kid) => !kid.name && (kid.label === info.label || kid.label === 'Kid'));
+        if (target) {
+          target.name = singleName;
+          if (target.label === 'Kid') target.label = info.label;
+        }
+      }
+      continue;
+    }
+
+    const count = explicit ?? (ages.length || (plural ? 2 : 1));
+    const guessed = explicit === undefined && !ages.length && plural;
     for (let i = 0; i < Math.min(count, 8); i += 1) {
       family.push({
         relation: info.relation,
         label: info.label,
         age: ages[i],
-        name: count === 1 ? nameMatch?.[1] : undefined,
+        name: count === 1 ? (isName(singleName) ? singleName : undefined) : names[i],
+        ...(guessed ? { guessed: true } : {}),
       });
     }
   }
@@ -326,6 +496,8 @@ export function parseProfileLocally(raw: string): TravelerProfile {
   parseFamily(text, profile);
   profile.heritage = uniq(profile.heritage);
   profile.favoriteTrips = parseTrips(text);
+  const artists = parseArtists(text, profile).filter((artist) => !profile.favoriteTrips.includes(artist));
+  if (artists.length) profile.artists = artists;
   profile.summary = summarize(profile);
   return profile;
 }
@@ -342,9 +514,14 @@ export function summarize(profile: TravelerProfile): string {
   }
   const loves = [...profile.teams.slice(0, 1), ...profile.music.slice(0, 2), ...profile.interests.slice(0, 2)];
   if (loves.length) parts.push(`into ${loves.join(', ')}`);
-  const artists = profile.listening?.topArtists.slice(0, 2) ?? [];
+  const artists = profileArtists(profile).slice(0, 2);
   if (artists.length) parts.push(`has ${artists.join(' and ')} on repeat`);
   return parts.length ? `${parts.join(' · ')}.` : '';
+}
+
+/** Every artist we know they love: Spotify's top artists first, then the ones they named. */
+export function profileArtists(profile: Pick<TravelerProfile, 'artists' | 'listening'>): string[] {
+  return uniq([...(profile.listening?.topArtists ?? []), ...(profile.artists ?? [])]).slice(0, 10);
 }
 
 /** Coerces untrusted JSON (AI output, device storage) into a safe profile. */
@@ -366,6 +543,7 @@ export function normalizeProfile(input: unknown): TravelerProfile {
       name: str(member.name, 40),
       age: num(member.age, 0, 110),
       note: str(member.note, 60),
+      ...(member.guessed === true ? { guessed: true } : {}),
     }];
   });
   return {
@@ -375,6 +553,10 @@ export function normalizeProfile(input: unknown): TravelerProfile {
     heritage: list(source.heritage, 6),
     teams: list(source.teams, 8),
     music: list(source.music, 10),
+    ...(() => {
+      const artists = list(source.artists, 10);
+      return artists.length ? { artists } : {};
+    })(),
     events: list(source.events, 10),
     family,
     favoriteTrips: list(source.favoriteTrips, 8),

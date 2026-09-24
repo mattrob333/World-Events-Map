@@ -1,71 +1,105 @@
 import 'server-only';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { concertLinks, searchArtistEvents, searchCityScene, searchTeamGames, type EventSource, type LiveEvent } from '@/lib/designer/concerts';
+import { concertLinks, searchArtistEvents, searchCityScene, searchTeamGames, type LiveEvent } from '@/lib/designer/concerts';
 import { curatedOccasions } from '@/lib/designer/occasions';
 import { BUDGETS, PACES, SOCIAL_LEVELS, normalizeProfile, parseProfileLocally, summarize, type TravelerProfile } from '@/lib/designer/profile';
 import { publicScene, scenePlaybook, sceneSearchLinks } from '@/lib/designer/scene';
 import { DESTINATIONS, type DestinationId } from '@/lib/designer/catalog';
 import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, isIsoDate, participantStyle, resolveDestination, type Participant } from '@/lib/designer/itinerary';
-import { importUrl } from '@/lib/designer/share';
+import { eventKeys, eventSourceLabel, serverCapabilities, type Capabilities } from '@/lib/designer/capabilities';
+import { MAX_SHARE_CHARS, encodeProfile, importUrl } from '@/lib/designer/share';
 import { partyFrom, staySearches } from '@/lib/designer/stays';
 import { tripLink } from '@/lib/designer/tripShare';
 import { PlaylistUnavailableError } from '@/lib/designer/spotifyRead';
 import { rankTripIdeas } from '@/lib/designer/tripIdeas';
 import { consumeProviderCall } from '@/lib/designer/server/guard';
-import { PlaylistInputError, readPublicPlaylist, spotifyAppConfigured } from '@/lib/designer/server/spotifyApp';
+import { PlaylistInputError, readPublicPlaylist } from '@/lib/designer/server/spotifyApp';
 
 /**
  * dope.travel for AI agents. A traveler tells their own agent "connect to
  * dope.travel and set up my profile"; the agent interviews them, calls
  * dope_save_profile, and hands back a private import link. Discovery tools
- * return real provider events (Ticketmaster, SeatGeek) and curated
- * occasions, never invented listings. Nothing here books or pays.
+ * return real provider events (Ticketmaster, SeatGeek) when those feeds are
+ * configured, search links when they aren't, and curated occasions; never
+ * invented listings. Every promise of live data is worded from
+ * serverCapabilities(), read at call time. Nothing here books or pays.
  */
 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD');
 const shortList = (max: number, desc: string) => z.array(z.string().min(1).max(80)).max(max).describe(desc);
 
 /** What the traveler sees first, word for word. Five prompts, then they ramble. */
-export const OPENING_MESSAGE = `Welcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:
+export function openingMessage(caps: Pick<Capabilities, 'spotifyPlaylist'> = { spotifyPlaylist: false }): string {
+  const playlist = caps.spotifyPlaylist ? ' Got a Spotify playlist of favorites? Paste the link.' : ' Name the artists you love most.';
+  return `Welcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:
 
 1. An experience you loved: where, who you were with, and what made it great.
 2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.
 3. Food: what you crave, what you go out of your way for, what you avoid.
-4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any). Got a Spotify playlist of favorites? Paste the link.
+4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any).${playlist}
 5. Your best moment ever on a trip: the night or day you still tell people about.
 
 No right answers. When you’re done, I’ll build your dope.travel profile.`;
+}
 
-const PROFILE_GUIDE = {
-  purpose:
-    'dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with.',
-  openingMessage: OPENING_MESSAGE,
-  howToRun: [
-    'Show the opening message as written, then let the traveler talk. Do not turn it into a questionnaire.',
-    'While they ramble, silently fill the checklist below. Record only what they say; never guess ages, names, or nationalities.',
-    'Afterwards, ask at most two short follow-ups, only for the highest-value gaps (usually: who they travel with, and where they fly from). Skip follow-ups if they seem done.',
-    'Call dope_save_profile with the structured fields, their best moments in their own words, their full ramble as `about`, and `spotifyPlaylist` if they pasted a public playlist link.',
-    'Give them the returned link and say it keeps their profile private: it saves on their own device.',
-  ],
-  checklist: {
-    identity: 'name (first or nickname), age only if stated, hometown, heritage',
-    crew: 'family and friends they travel with: relation, label, name, age, notes (e.g. "Brazilian", "vegetarian")',
-    experiences: 'favoriteTrips (places) and bestMoments (1–3 short stories in their words, the heart of the profile)',
-    style: `budget (${BUDGETS.join(', ')}), pace (${PACES.join(', ')}), social (${SOCIAL_LEVELS.join(', ')}), lodging (include social hostels if they like meeting people), homeAirport (IATA), avoid, bucketList, languages, notes`,
-    food: 'food (cuisines, dishes, favorite kinds of places) and style.dietary',
-    music: 'music (genres), events (concerts, festivals), teams (full names)',
-    interests: 'activities they mention (skiing, diving, golf, art…)',
-  },
-  privacy:
-    'dope.travel does not store the profile from this tool. It returns a link whose data lives in the URL fragment (never sent to the server); the traveler opens it and saves the profile on their own device. Treat the link as private.',
-};
+/** Plain-language status of each live provider, for agents to relay honestly. */
+function providerStatus(caps: Capabilities) {
+  return {
+    events: caps.events
+      ? `Event listings are connected (${eventSourceLabel(caps.eventSources)}). dope_find_events, dope_trip_ideas and dope_live_music_scene return real listings.`
+      : 'Event listings (Ticketmaster, SeatGeek) aren’t set up on this server. dope_find_events returns search links instead of listings, dope_trip_ideas can’t rank cities, and dope_live_music_scene gives the kinds of nights to look for with map searches but no dated events. Don’t promise listings.',
+    spotifyPlaylist: caps.spotifyPlaylist
+      ? 'Public Spotify playlist links can be read (dope_read_playlist, or spotifyPlaylist on dope_save_profile).'
+      : 'Spotify isn’t connected on this server, so playlist links can’t be read. Ask the traveler to name their favorite artists instead and pass them as profile.artists.',
+  };
+}
 
-const SERVER_INSTRUCTIONS = `You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk:
+function profileGuide(caps: Capabilities) {
+  return {
+    purpose:
+      'dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with.',
+    whenToUse:
+      'Use the opening message when the traveler asks to set up (or redo) their dope.travel profile, or has no profile and wants trips shaped around them. If they asked for a trip, events, or stays first, help with that directly and offer the profile afterwards.',
+    openingMessage: openingMessage(caps),
+    howToRun: [
+      'Show the opening message as written, then let the traveler talk. Do not turn it into a questionnaire.',
+      'While they ramble, silently fill the checklist below. Record only what they say; never guess ages, names, or nationalities.',
+      'Afterwards, ask at most two short follow-ups, only for the highest-value gaps (usually: who they travel with, and where they fly from). Skip follow-ups if they seem done.',
+      caps.spotifyPlaylist
+        ? 'Call dope_save_profile with the structured fields, their best moments in their own words, their full ramble as `about`, and `spotifyPlaylist` if they pasted a public playlist link.'
+        : 'Call dope_save_profile with the structured fields (including the artists they named), their best moments in their own words, and their full ramble as `about`. Spotify isn’t connected here, so don’t ask for a playlist link.',
+      'Give them the returned link. Say that you built it through dope.travel, which didn’t keep a copy, and that opening it saves the profile on their own device.',
+    ],
+    checklist: {
+      identity: 'name (first or nickname), age only if stated, hometown, heritage',
+      crew: 'family and friends they travel with: relation, label, name, age, notes (e.g. "Brazilian", "vegetarian")',
+      experiences: 'favoriteTrips (places) and bestMoments (1–3 short stories in their words, the heart of the profile)',
+      style: `budget (${BUDGETS.join(', ')}), pace (${PACES.join(', ')}), social (${SOCIAL_LEVELS.join(', ')}), lodging (include social hostels if they like meeting people), homeAirport (IATA), avoid, bucketList, languages, notes`,
+      food: 'food (cuisines, dishes, favorite kinds of places) and style.dietary',
+      music: 'artists (the bands and singers they name), music (genres), events (concerts, festivals), teams (full names)',
+      interests: 'activities they mention (skiing, diving, golf, art…)',
+    },
+    liveData: providerStatus(caps),
+    connectionCheck: 'If you can read this guide, the dope.travel connection works.',
+    privacy:
+      'dope.travel processes this call to build the link and does not keep a copy of the profile. The data lives in the link’s fragment (the part after #, which browsers never send to a server); the traveler opens it and saves the profile on their own device. Treat the link as private.',
+  };
+}
 
-${OPENING_MESSAGE}
+function serverInstructions(caps: Capabilities): string {
+  return `You are connected to dope.travel, which plans trips around a traveler's music, teams, food and crew.
 
-While they talk, extract what you can for their profile (call dope_profile_guide for the full checklist). Ask at most two short follow-ups, then call dope_save_profile and give them the private link it returns. Other tools find events, trip ideas, and live music for their taste.`;
+When the traveler asks to set up their dope.travel profile (or has none yet and wants trips shaped around them), greet them with this message, word for word, then let them talk:
+
+${openingMessage(caps)}
+
+If instead they ask for a trip, events or stays first, help with that directly and offer the profile afterwards; don't open with the five prompts.
+
+While they talk, extract what you can for their profile (call dope_profile_guide for the full checklist). Ask at most two short follow-ups, then call dope_save_profile and give them the private link it returns. Other tools plan trips, find stays, events, trip ideas and live music for their taste.
+
+What's live on this server: ${providerStatus(caps).events} ${providerStatus(caps).spotifyPlaylist}`;
+}
 
 const familySchema = z.object({
   relation: z.enum(['partner', 'child', 'parent', 'sibling', 'friend', 'other']),
@@ -86,6 +120,7 @@ const profileInput = {
       heritage: shortList(6, 'Countries or cultures').optional(),
       teams: shortList(8, 'Full team names').optional(),
       music: shortList(10, 'Genres').optional(),
+      artists: shortList(10, 'Artists and bands they named').optional(),
       events: shortList(10, 'Concerts, festivals, live events').optional(),
       family: z.array(familySchema).max(12).optional(),
       favoriteTrips: shortList(8, 'Places they loved').optional(),
@@ -117,6 +152,8 @@ function mergeProfiles(structured: TravelerProfile, parsed: TravelerProfile | nu
   for (const key of ['heritage', 'teams', 'music', 'events', 'favoriteTrips', 'interests', 'food'] as const) {
     merged[key] = [...new Set([...structured[key], ...parsed[key]])];
   }
+  const artists = [...new Set([...(structured.artists ?? []), ...(parsed.artists ?? [])])];
+  if (artists.length) merged.artists = artists;
   merged.name ??= parsed.name;
   merged.age ??= parsed.age;
   merged.hometown ??= parsed.hometown;
@@ -128,7 +165,8 @@ function missingFields(profile: TravelerProfile): string[] {
   const missing: string[] = [];
   if (!profile.hometown) missing.push('hometown');
   if (!profile.family.length) missing.push('who they travel with');
-  if (!profile.music.length && !profile.events.length) missing.push('music and live events');
+  if (!profile.music.length && !profile.events.length && !profile.artists?.length) missing.push('music and live events');
+  else if (!profile.artists?.length && !profile.listening) missing.push('a few favorite artists');
   if (!profile.teams.length) missing.push('teams (if they follow any)');
   if (!profile.favoriteTrips.length) missing.push('a favorite trip and why');
   if (!profile.bestMoments?.length) missing.push('their best moment on a trip');
@@ -139,9 +177,38 @@ function missingFields(profile: TravelerProfile): string[] {
   return missing;
 }
 
-function providerKeys() {
-  const keys = { ticketmaster: process.env.TICKETMASTER_API_KEY || undefined, seatgeek: process.env.SEATGEEK_CLIENT_ID || undefined };
-  return { keys, sources: (Object.keys(keys) as EventSource[]).filter((key) => keys[key]) };
+/** Search links for teams when event listings aren't available. */
+function teamLinks(teams: string[], city?: string) {
+  return teams.flatMap((team) => [
+    { team, label: `${team} games on Ticketmaster`, href: `https://www.ticketmaster.com/search?q=${encodeURIComponent(team)}` },
+    { team, label: `${team} schedule`, href: `https://www.google.com/search?q=${encodeURIComponent(`${team} schedule${city ? ` ${city}` : ''}`)}` },
+  ]);
+}
+
+/** Today in UTC, a day early so a traveler west of UTC can still start "today". */
+function earliestDate(now = new Date()): string {
+  return new Date(now.getTime() - 86_400_000).toISOString().slice(0, 10);
+}
+
+function pastDate(value: string | undefined, label: string): string | null {
+  return value && value < earliestDate() ? `${label} ${value} is in the past. Use a date from today on.` : null;
+}
+
+/**
+ * A soft check that a typed place is a place: letters, a vowel in each word,
+ * no long consonant runs or keyboard mashing. Real names still pass
+ * ("Szczecin", "Llanfairpwllgwyngyll", "São Paulo", "東京").
+ */
+export function looksLikePlace(value: string): boolean {
+  const text = value.normalize('NFC').trim();
+  const letters = text.match(/\p{L}/gu)?.length ?? 0;
+  if (letters < 2 || letters < text.replace(/\s/g, '').length * 0.6) return false;
+  if (/https?:|www\.|@|[<>{}]/i.test(text)) return false;
+  if (/asdf|qwer|zxcv|hjkl|sdfg|dfgh|xcvb|uiop/i.test(text)) return false;
+  return text
+    .split(/[\s,.'’-]+/)
+    .filter((word) => /^[a-z]+$/i.test(word))
+    .every((word) => word.length < 3 || (/[aeiouyw]/i.test(word) && !/[^aeiouyw\s]{6,}/i.test(word)));
 }
 
 function result<T extends Record<string, unknown>>(structured: T, text: string) {
@@ -167,7 +234,9 @@ const CURATED_IDS = DESTINATIONS.map((d) => d.id) as [DestinationId, ...Destinat
 
 export function createDopeMcpServer(context: { origin: string; request: Request }): McpServer {
   async function readPlaylistSafely(link: string) {
-    if (!spotifyAppConfigured()) return { note: 'Playlist reading isn’t set up on this server, so the music came from what they said. They can connect Spotify in the app.' };
+    if (!serverCapabilities().spotifyPlaylist) {
+      return { note: 'Spotify isn’t connected on this server, so the playlist wasn’t read and the music came from what they said. Ask them to name a few favorite artists.' };
+    }
     if (!consumeProviderCall(context.request, 'spotify')) return { note: 'Playlist reading is busy right now; try again in a few minutes.' };
     try {
       return { listening: await readPublicPlaylist(link) };
@@ -177,7 +246,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     }
   }
 
-  const server = new McpServer({ name: 'dope-travel', version: '1.1.0' }, { instructions: SERVER_INSTRUCTIONS });
+  // Tool descriptions and instructions are built per request, so they follow the server's current config.
+  const caps = serverCapabilities();
+  const server = new McpServer({ name: 'dope-travel', version: '1.2.0' }, { instructions: serverInstructions(caps) });
 
   server.registerPrompt(
     'dope_start',
@@ -188,7 +259,7 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
           role: 'user' as const,
           content: {
             type: 'text' as const,
-            text: `Set up my dope.travel profile. Start by showing me this, exactly, then let me ramble:\n\n${OPENING_MESSAGE}`,
+            text: `Set up my dope.travel profile. Start by showing me this, exactly, then let me ramble:\n\n${openingMessage(serverCapabilities())}`,
           },
         },
       ],
@@ -199,33 +270,45 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     'dope_profile_guide',
     {
       title: 'How to build a dope.travel profile',
-      description: 'Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.',
+      description:
+        'Returns the opening message to show the traveler, how to run the ramble, the checklist of what to extract, and which live data (events, Spotify) this server has. Call this first; it also confirms the connection works.',
       annotations: { readOnlyHint: true, openWorldHint: false },
     },
-    async () => result(PROFILE_GUIDE, JSON.stringify(PROFILE_GUIDE, null, 2)),
+    async () => {
+      const guide = profileGuide(serverCapabilities());
+      return result(guide, JSON.stringify(guide, null, 2));
+    },
   );
 
   server.registerTool(
     'dope_save_profile',
     {
       title: 'Save a traveler profile',
-      description:
-        'Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler to open and save on their device. Also reports what is still missing so you can ask follow-ups.',
+      description: `Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler to open and save on their device. dope.travel doesn’t keep a copy. Also reports what is still missing so you can ask follow-ups.${
+        caps.spotifyPlaylist ? '' : ' Spotify isn’t connected on this server: put the artists they name in profile.artists.'
+      }`,
       inputSchema: profileInput,
-      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: caps.spotifyPlaylist },
     },
     async ({ about, profile, spotifyPlaylist }) => {
       if (!about && !profile && !spotifyPlaylist) return failure('Send `profile` fields, `about` text, or both. Call dope_profile_guide for the fields.');
       const structured = normalizeProfile(profile ?? {});
-      const merged = mergeProfiles(structured, about ? parseProfileLocally(about) : null);
+      // Merging can push lists past their caps, so the result is normalized again.
+      const merged = normalizeProfile(mergeProfiles(structured, about ? parseProfileLocally(about) : null));
       const playlist = spotifyPlaylist ? await readPlaylistSafely(spotifyPlaylist) : null;
-      const withMusic = playlist?.listening ? { ...merged, listening: playlist.listening } : merged;
+      const withMusic = playlist?.listening ? normalizeProfile({ ...merged, listening: playlist.listening }) : merged;
       const final = { ...withMusic, summary: withMusic.summary || summarize(withMusic) };
+      const encoded = encodeProfile(final);
+      if (encoded.length > MAX_SHARE_CHARS) {
+        return failure(
+          `The profile is too big to fit in a link (${encoded.length.toLocaleString('en-US')} characters; the limit is ${MAX_SHARE_CHARS.toLocaleString('en-US')}). Shorten bestMoments and style.notes, send fewer list items, or leave out \`about\` if the structured fields already cover it, then call dope_save_profile again.`,
+        );
+      }
       const url = importUrl(context.origin, final);
       const missing = missingFields(final);
       return result(
         { importUrl: url, profile: final, missing, ...(playlist?.note ? { playlistNote: playlist.note } : {}) },
-        `Profile ready. Give the traveler this private link to open and save it on their device:\n${url}\n\n${
+        `Profile ready. Give the traveler this private link; opening it saves the profile on their device. dope.travel built it without keeping a copy:\n${url}\n\n${
           playlist?.listening ? `Read their playlist “${playlist.listening.fromPlaylist}”: ${playlist.listening.topArtists.slice(0, 6).join(', ')}.\n\n` : ''
         }${playlist?.note ? `${playlist.note}\n\n` : ''}${missing.length ? `Still worth asking about: ${missing.join(', ')}.` : 'Nothing important is missing.'}`,
       );
@@ -236,8 +319,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     'dope_find_events',
     {
       title: 'Find events for artists and teams',
-      description:
-        'Upcoming shows by the traveler’s artists, festivals with them on the lineup, tribute and cover acts, and games for their teams (away games flagged). Real Ticketmaster/SeatGeek listings; returns search links when feeds are not connected.',
+      description: caps.events
+        ? `Upcoming shows by the traveler’s artists, festivals with them on the lineup, tribute and cover acts, and games for their teams (away games flagged). Real ${eventSourceLabel(caps.eventSources)} listings.`
+        : 'Event listings aren’t set up on this server, so this returns search links (Ticketmaster, Bandsintown, team schedules) for the traveler’s artists and teams, not listings.',
       inputSchema: {
         artists: shortList(5, 'Artist names').optional(),
         teams: shortList(4, 'Full team names').optional(),
@@ -249,10 +333,16 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     },
     async ({ artists = [], teams = [], city, startDate, endDate }) => {
       if (!artists.length && !teams.length) return failure('Pass at least one artist or team.');
-      const { keys, sources } = providerKeys();
-      if (!sources.length || !consumeProviderCall(context.request, 'concerts')) {
-        const links = concertLinks(artists, city);
-        return result({ sources: [], events: [], links }, `Event feeds are not connected right now. Search links:\n${links.map((l) => `- ${l.label}: ${l.href}`).join('\n')}`);
+      const past = pastDate(endDate, 'endDate');
+      if (past) return failure(past);
+      const { keys, sources } = eventKeys();
+      const busy = sources.length > 0 && !consumeProviderCall(context.request, 'concerts');
+      if (!sources.length || busy) {
+        const links = [...concertLinks(artists, city), ...teamLinks(teams, city)];
+        const why = busy
+          ? 'Event listings are busy right now (too many searches in a few minutes), so here are search links instead:'
+          : 'Event listings aren’t set up on this server, so these are search links, not listings:';
+        return result({ sources: [], events: [], links, listings: busy ? 'busy' : 'not-configured' }, `${why}\n${links.map((l) => `- ${l.label}: ${l.href}`).join('\n')}`);
       }
       const [music, games] = await Promise.all([
         artists.length ? searchArtistEvents({ artists, city, startDate, endDate }, keys) : Promise.resolve([]),
@@ -261,7 +351,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
       const events = [...music, ...games].sort((a, b) => a.date.localeCompare(b.date));
       return result(
         { sources, fetchedAt: new Date().toISOString(), events },
-        events.length ? `${events.length} events (${sources.join(' + ')}):\n${events.slice(0, 40).map(eventLine).join('\n')}` : 'No upcoming events found for those artists or teams.',
+        events.length
+          ? `${events.length} events (${eventSourceLabel(sources)}):\n${events.slice(0, 40).map(eventLine).join('\n')}`
+          : `No upcoming events found on ${eventSourceLabel(sources)} for those artists or teams.`,
       );
     },
   );
@@ -270,8 +362,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     'dope_trip_ideas',
     {
       title: 'Rank trip ideas around what they love',
-      description:
-        'Finds the cities and short windows where the traveler’s artists, festivals, and teams line up, favoring places that also overlap a curated dope.travel occasion. Best first.',
+      description: caps.events
+        ? 'Finds the cities and short windows where the traveler’s artists, festivals, and teams line up, favoring places that also overlap a curated dope.travel occasion. Best first.'
+        : 'Ranks cities where the traveler’s artists and teams line up. Needs event listings, which aren’t set up on this server; use dope_curated_occasions instead.',
       inputSchema: {
         artists: shortList(5, 'Artist names').optional(),
         teams: shortList(4, 'Full team names').optional(),
@@ -284,10 +377,11 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     },
     async ({ artists = [], teams = [], startDate, endDate, homeCity, maxNights }) => {
       if (!artists.length && !teams.length) return failure('Pass at least one artist or team.');
-      const { keys, sources } = providerKeys();
-      if (!sources.length || !consumeProviderCall(context.request, 'concerts')) {
-        return failure('Event feeds are not connected right now, so trip ideas cannot be ranked. Try dope_curated_occasions instead.');
-      }
+      const past = pastDate(endDate, 'endDate');
+      if (past) return failure(past);
+      const { keys, sources } = eventKeys();
+      if (!sources.length) return failure('Event listings aren’t set up on this server, so trip ideas can’t be ranked. Try dope_curated_occasions instead.');
+      if (!consumeProviderCall(context.request, 'concerts')) return failure('Event listings are busy right now; try again in a few minutes, or use dope_curated_occasions.');
       const [music, games] = await Promise.all([
         artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
         teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
@@ -306,8 +400,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     'dope_live_music_scene',
     {
       title: 'Live music for their taste in a city',
-      description:
-        'The kinds of nights this traveler would love (e.g. rock cover bands, jazz rooms) and matching listed events in a city and date window, plus map searches for bars with house bands that never list on ticket sites.',
+      description: caps.events
+        ? 'The kinds of nights this traveler would love (e.g. rock cover bands, jazz rooms) and matching listed events in a city and date window, plus map searches for bars with house bands that never list on ticket sites.'
+        : 'The kinds of nights this traveler would love (e.g. rock cover bands, jazz rooms) in a city, with map searches for the rooms to look for. Event listings aren’t set up on this server, so no dated events are included.',
       inputSchema: {
         city: z.string().min(2).max(60),
         genres: shortList(16, 'Genres they listen to'),
@@ -320,18 +415,27 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     },
     async ({ city, genres, topArtists, eras, startDate, endDate }) => {
       const cityName = city.split(',')[0].trim();
+      if (!looksLikePlace(cityName)) return failure(`“${cityName}” doesn’t look like a city. Pass a real city name, like "Austin" or "Lisbon, Portugal".`);
+      const past = pastDate(endDate, 'endDate');
+      if (past) return failure(past);
       const playbook = scenePlaybook({ genres: genres.map((g) => g.toLowerCase()), topArtists, eras });
       if (!playbook.length) return failure('Those genres did not map to any live-music scene. Try broader genres like rock, jazz, hip hop, house.');
       const scenes = playbook.map((scene) => ({ ...publicScene(scene), links: sceneSearchLinks(scene, cityName) }));
-      const { keys, sources } = providerKeys();
-      const events = sources.length && consumeProviderCall(context.request, 'concerts')
+      const { keys, sources } = eventKeys();
+      const busy = sources.length > 0 && !consumeProviderCall(context.request, 'concerts');
+      const events = sources.length && !busy
         ? await searchCityScene({ city: cityName, startDate, endDate, scenes: playbook.map((s) => s.key) }, keys)
         : [];
+      const listingNote = !sources.length
+        ? '\n\nEvent listings aren’t set up on this server, so there are no dated events here. The map searches above are the way in.'
+        : busy
+          ? '\n\nEvent listings are busy right now, so dated events were skipped; try again in a few minutes.'
+          : events.length
+            ? `\n\nListed in ${cityName} (${eventSourceLabel(sources)}):\n${events.slice(0, 20).map(eventLine).join('\n')}`
+            : `\n\nNothing matching is listed on ${eventSourceLabel(sources)} in ${cityName} for those dates.`;
       return result(
-        { city: cityName, sources, scenes, events },
-        `${scenes.map((s) => `${s.emoji} ${s.label}: ${s.why} Look for ${s.venues.join(', ')}. ${s.links[0]?.href ?? ''}`).join('\n')}${
-          events.length ? `\n\nListed in ${cityName}:\n${events.slice(0, 20).map(eventLine).join('\n')}` : ''
-        }`,
+        { city: cityName, sources: busy ? [] : sources, scenes, events, listings: !sources.length ? 'not-configured' : busy ? 'busy' : 'ok' },
+        `${scenes.map((s) => `${s.emoji} ${s.label}: ${s.why} Look for ${s.venues.join(', ')}. ${s.links[0]?.href ?? ''}`).join('\n')}${listingNote}`,
       );
     },
   );
@@ -357,8 +461,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     'dope_read_playlist',
     {
       title: 'Read a Spotify playlist',
-      description:
-        'Reads a public Spotify playlist link: its top artists, genres, eras, and energy, the same summary the app builds. Use it to learn the traveler’s taste, then pass the link to dope_save_profile.',
+      description: caps.spotifyPlaylist
+        ? 'Reads a public Spotify playlist link: its top artists, genres, eras, and energy, the same summary the app builds. Use it to learn the traveler’s taste, then pass the link to dope_save_profile.'
+        : 'Spotify isn’t connected on this server, so playlist links can’t be read. Ask the traveler to name their favorite artists and pass them as profile.artists to dope_save_profile.',
       inputSchema: { link: z.string().min(10).max(300).describe('https://open.spotify.com/playlist/…') },
       annotations: { readOnlyHint: true, openWorldHint: true },
     },
@@ -380,12 +485,12 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     {
       title: 'Plan a trip',
       description:
-        'Lays out a day-by-day trip (morning to late night) for any city, beach, or ski town, shaped by the crew’s food and music, and returns a private link that opens it in dope.travel. Every idea is a live Maps/YouTube/Instagram search, not an invented venue. Also returns stay searches sized to the party.',
+        'Lays out a day-by-day trip (morning to late night) for any city, beach, or ski town, shaped by the crew’s food and music, and returns a private link that opens it in dope.travel as the traveler’s own trip, taste included. Every idea is a live Maps/YouTube/Instagram search, not an invented venue. Also returns stay searches sized to the party.',
       inputSchema: {
         place: z.string().min(2).max(80).optional().describe('Anywhere, e.g. "Lisbon, Portugal". Omit if using a curated destination.'),
         kind: z.enum(['city', 'beach', 'ski']).optional().describe('What kind of trip, for a typed place. Default city.'),
         destination: z.enum(CURATED_IDS).optional().describe('A curated destination id instead of `place`'),
-        startDate: date,
+        startDate: date.describe('First day, today or later'),
         nights: z.number().int().min(1).max(MAX_NIGHTS),
         travelers: z.array(travelerSchema).min(1).max(MAX_PARTICIPANTS).describe('The traveler first, then their crew'),
         hometown: z.string().max(60).optional(),
@@ -393,10 +498,13 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
         music: shortList(8, 'Genres they love').optional(),
         artists: shortList(8, 'Artists they love').optional(),
       },
-      annotations: { readOnlyHint: true, openWorldHint: false },
+      // The link it returns opens a page that looks the place up live.
+      annotations: { readOnlyHint: true, openWorldHint: true },
     },
     async ({ place, kind = 'city', destination, startDate, nights, travelers, hometown, foods, music = [], artists = [] }) => {
       if (!isIsoDate(startDate)) return failure('Use a real YYYY-MM-DD start date.');
+      const past = pastDate(startDate, 'startDate');
+      if (past) return failure(past);
       if (!place && !destination) return failure('Pass `place` (anywhere) or a curated `destination`.');
       const participants: Participant[] = travelers.map((t, i) => ({
         id: `p${i}`,
@@ -408,8 +516,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
       }));
       const [name, ...rest] = (place ?? '').split(',').map((part) => part.trim()).filter(Boolean);
       if (place && !name) return failure('Say where: a city or town name, like "Lisbon, Portugal".');
+      if (place && !looksLikePlace(place)) return failure(`“${place}” doesn’t look like a place. Ask the traveler where they want to go, then pass a city or town, like "Lisbon, Portugal".`);
       const taste = music.length || artists.length ? { genres: music.map((m) => m.toLowerCase()), topArtists: artists } : undefined;
-      const trip = composeLocally({
+      const composed = composeLocally({
         destination: place ? 'custom' : destination!,
         place: place ? { name: name.slice(0, 60), region: rest.join(', ').slice(0, 60) || undefined, kind } : undefined,
         startDate,
@@ -419,12 +528,21 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
         foods,
         taste,
       });
+      // The traveler's own trip keeps their taste (UFR2-H12); invites they send later still strip it.
+      const trip = taste ? { ...composed, taste } : composed;
       const where = resolveDestination(trip)!;
-      const link = await tripLink(context.origin, trip, {}, participants[0].name, { handoff: true });
+      const link = await tripLink(context.origin, trip, {}, participants[0].name, { handoff: true, includeTaste: true });
       const stays = staySearches({ place: [where.name, where.region].filter(Boolean).join(', '), checkIn: startDate, nights: trip.nights, party: partyFrom(participants) });
       const lookup = new Map((trip.cards ?? []).map((card) => [card.id, card]));
+      const skiTrip = (place ? kind : where.kind) === 'ski';
       const outline = trip.days
-        .map((day) => `Day ${day.index + 1} (${day.date}): ${day.slots.map((slot) => `${slot.label}: ${lookup.get(slot.cardIds[0])?.title ?? slot.note ?? '—'}`).join(' · ')}`)
+        .map((day) => {
+          const slots = day.slots
+            .filter((slot) => skiTrip || slot.kind !== 'apres')
+            .map((slot) => ({ label: slot.label, what: lookup.get(slot.cardIds[0])?.title ?? slot.note }))
+            .filter((slot) => slot.what);
+          return `Day ${day.index + 1} (${day.date}): ${slots.length ? slots.map((slot) => `${slot.label}: ${slot.what}`).join(' · ') : 'open'}`;
+        })
         .join('\n');
       return result(
         { tripUrl: link, stays, days: trip.days.length, destination: where.name },
@@ -441,7 +559,7 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
         'Airbnb, Vrbo, and Booking.com searches with the dates, adults, kids’ ages, and a bedroom estimate filled in. These are search links, not listings or prices.',
       inputSchema: {
         place: z.string().min(2).max(80),
-        checkIn: date,
+        checkIn: date.describe('Today or later'),
         nights: z.number().int().min(1).max(30),
         adults: z.number().int().min(1).max(16),
         kidAges: z.array(z.number().int().min(0).max(17)).max(10).optional(),
@@ -451,6 +569,9 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
     },
     async ({ place, checkIn, nights, adults, kidAges = [], lodging }) => {
       if (!isIsoDate(checkIn)) return failure('Use a real YYYY-MM-DD check-in date.');
+      const past = pastDate(checkIn, 'checkIn');
+      if (past) return failure(past);
+      if (!looksLikePlace(place)) return failure(`“${place}” doesn’t look like a place. Pass a city, town, or neighborhood, like "Lisbon, Portugal".`);
       const stays = staySearches({ place, checkIn, nights, party: { adults, kids: kidAges.length, kidAges }, lodging });
       return result({ stays }, stays.map((s) => `- ${s.label} (${s.note}): ${s.href}`).join('\n'));
     },

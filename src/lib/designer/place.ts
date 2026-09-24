@@ -67,6 +67,7 @@ export function placeCards(place: PlaceSpec, options: { tags: string[]; foods?: 
     { slot: ['dinner'], title: `The dinner in ${place.name}`, blurb: 'The table worth booking ahead.', emoji: '🕯️', tags: ['food'], link: maps(`best restaurants ${where}`), palette: ['#7f1d1d', '#fecaca'] },
     ...(kids ? [{ slot: ['dinner'] as SlotKind[], title: 'Family dinner, zero stress', blurb: 'Good food, loud room, nobody minds the kids.', emoji: '🍕', tags: ['kids', 'hearty'], link: maps(`family friendly restaurant ${where}`), palette: ['#b91c1c', '#fee2e2'] as [string, string] }] : []),
     { slot: ['late'], title: `Cocktails in ${place.name}`, blurb: 'The bar with a story.', emoji: '🍸', tags: ['nightlife'], link: maps(`best cocktail bar ${where}`), palette: ['#4c1d95', '#ddd6fe'] },
+    ...(kids ? [{ slot: ['late'] as SlotKind[], title: 'Dessert and an evening stroll', blurb: 'Ice cream, a lit-up square, everyone still smiling at bedtime.', emoji: '🍨', tags: ['kids', 'food'], link: maps(`dessert ice cream ${where}`), palette: ['#db2777', '#fce7f3'] as [string, string] }] : []),
   ];
 
   for (const food of (options.foods ?? []).slice(0, 3)) {
@@ -78,7 +79,8 @@ export function placeCards(place: PlaceSpec, options: { tags: string[]; foods?: 
       seeds.push({ slot: ['late'], title: `${scene.label} in ${place.name}`, blurb: scene.why, emoji: scene.emoji, tags: ['nightlife', 'music'], link: { href: link.href, label: 'Search Maps' }, palette: ['#6b21a8', '#f5d0fe'] });
     }
   } else {
-    seeds.push({ slot: ['late'], title: `Live music tonight in ${place.name}`, blurb: 'Whoever’s playing, wherever it’s loud.', emoji: '🎤', tags: ['music', 'nightlife'], link: maps(`live music bar ${where}`), palette: ['#831843', '#fbcfe8'] });
+    // Maps knows which bars usually have a band, not who is on tonight, so the card doesn't promise tonight.
+    seeds.push({ slot: ['late'], title: `Find a live-music bar in ${place.name}`, blurb: 'A Maps search for bars that usually have a band. Check their page for tonight.', emoji: '🎤', tags: ['music', 'nightlife'], link: maps(`live music bar ${where}`), palette: ['#831843', '#fbcfe8'] });
   }
 
   return seeds.map((seed, index) => ({

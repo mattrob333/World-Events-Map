@@ -8,6 +8,9 @@ export interface PlacePhoto {
   license: string;
   photographed: string | null;
   subject: 'event' | 'place';
+  /** Original pixel size on Commons, when known; bounds the thumbnail widths we request. */
+  width?: number;
+  height?: number;
 }
 
 type MetadataValue = { value?: unknown };
@@ -16,6 +19,8 @@ type ImageInfo = {
   url?: unknown;
   descriptionurl?: unknown;
   mime?: unknown;
+  width?: unknown;
+  height?: unknown;
   extmetadata?: Record<string, MetadataValue>;
 };
 type CommonsPage = { title?: unknown; imageinfo?: ImageInfo[] };
@@ -141,6 +146,11 @@ export function isSeasonalPlacePhoto(photo: PlacePhoto, event: WorldEvent): bool
   return monthDistance <= 1;
 }
 
+function pixelSize(width: unknown, height: unknown): Pick<PlacePhoto, 'width' | 'height'> {
+  const valid = (value: unknown): value is number => typeof value === 'number' && Number.isInteger(value) && value > 0 && value < 100_000;
+  return valid(width) && valid(height) ? { width, height } : {};
+}
+
 export function selectCommonsPhotos(rawPages: unknown, event: WorldEvent, subject: 'event' | 'place', max = 5): PlacePhoto[] {
   if (!rawPages || typeof rawPages !== 'object') return [];
   const pages = Object.values(rawPages as Record<string, CommonsPage>);
@@ -168,6 +178,7 @@ export function selectCommonsPhotos(rawPages: unknown, event: WorldEvent, subjec
       license,
       photographed: date || null,
       subject,
+      ...pixelSize(info.width, info.height),
     };
     if (!isSeasonalPlacePhoto(photo, event)) continue;
     seen.add(photo.sourceUrl);

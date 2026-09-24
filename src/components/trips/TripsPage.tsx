@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { SignInCard } from '@/components/community/PlatformShell';
 import { formatDateRange } from '@/components/ui/tokens';
-import { INTENT_LABEL, useIntentStore } from '@/lib/intent';
+import { useIntentStore, type IntentRecord } from '@/lib/intent';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { circleInviteUrl } from '@/lib/trips/circleInvite';
 import { clearSkiDrafts, skiDraftKey } from '@/lib/trips/skiDraft';
 import { TRIP_ROOM_FIXTURES } from '@/lib/trips';
 import { EVENT_INDEX } from '@/lib/data/events';
+import { useHydrated } from '@/components/designer/useHydrated';
 import { createFamilySkiCircle as runFamilySkiCreation } from './createFamilySkiCircle';
 import {
   buildPrivateSkiBrief,
@@ -63,8 +64,13 @@ export function TripsPage({ featuredSki = false, eventId = '' }: { featuredSki?:
 }
 
 function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean; eventId: string; auth: ReturnType<typeof usePlatformAuth> }) {
-  const items = useIntentStore((state) => state.items);
+  const storedItems = useIntentStore((state) => state.items);
+  // Saved places live on this device: render them after hydration so the server
+  // markup (which cannot see them) matches the first client render.
+  const hydrated = useHydrated();
+  const items = hydrated ? storedItems : [];
   const { client, user, loading } = auth;
+  const previewOnly = !loading && !client;
   const linkedEvent = eventId ? EVENT_INDEX.get(eventId) : undefined;
   const [showSkiPlanner, setShowSkiPlanner] = useState(featuredSki || Boolean(linkedEvent));
   const [today] = useState(localToday);
@@ -84,6 +90,9 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
   const watched = items.filter((item) => item.verb === 'watch');
   const going = items.filter((item) => item.verb === 'idGo');
   const returnList = [...watched, ...going];
+  // When something is kept, the trail leads and the ski CTA steps down from the
+  // gradient (UFR2-J04). A ski deep link keeps the planner as the point of the visit.
+  const hasTrail = saved.length + returnList.length > 0 && !featuredSki && !linkedEvent;
 
   useEffect(() => {
     if (!client) return;
@@ -227,6 +236,8 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
 
   return (
     <main className={styles.page}>
+      {/* A traveler who kept something comes here to find it: it leads (UFR2-J04). */}
+      {hasTrail && <div className={styles.trailLead}><YourTrail saved={saved} returnList={returnList} lead /></div>}
       <section className={styles.hero} aria-labelledby="trips-title">
         <div className={styles.heroImage} role="img" aria-label="Julia Mancuso skiing Aspen's World Cup downhill course in 2007" />
         <div className={styles.heroShade} />
@@ -238,7 +249,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
             Keep the places that stay with you. Then shape the next trip around the people and moments that matter.
           </p>
           <div className={styles.heroActions}>
-            <button type="button" onClick={revealSkiPlanner} className={styles.primaryAction}>Start a family ski trip <span aria-hidden="true">↗</span></button>
+            <button type="button" onClick={revealSkiPlanner} className={hasTrail ? styles.secondaryAction : styles.primaryAction}>Start a family ski trip <span aria-hidden="true">↗</span></button>
             <Link href="/trips/designer" className={styles.secondaryAction}>Open the trip designer</Link>
             <a href="#sample-rooms" className={styles.secondaryAction}>Preview a trip room <span aria-hidden="true">↓</span></a>
           </div>
@@ -251,16 +262,29 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           <div className={styles.plannerIntro}>
             <p className={styles.eyebrow}>START WITH THE PEOPLE</p>
             <h2 id="family-ski-title">Plan the snow, <em>together.</em></h2>
-            <p>Begin with two regions and the shape of your trip. Create a Circle, send its link to the other family, then use the private conversation to compare towns and stays.</p>
-            <ol>
-              <li><span>01</span> Choose a window and what your family needs.</li>
-              <li><span>02</span> Share the Circle link with your friend.</li>
-              <li><span>03</span> Approve their request, then shortlist together.</li>
-            </ol>
-            <p className={styles.privacyNote}>The Circle name, region, and dates are visible to signed-in members. Household details and budget are posted only to its accepted-member conversation. A link is an invitation to request access, not automatic entry.</p>
+            {previewOnly ? <>
+              {/* No member services: say so before any step, and make the steps the ones that work (UFR2-J05). */}
+              <p className={styles.unavailableNote} role="note">
+                Shared trip rooms aren&apos;t available on this preview. Nothing you enter is saved on dope.travel, but you can copy your brief and send it to the other family yourself.
+              </p>
+              <p>Begin with two regions and the shape of your trip. Copy the brief, send it to the other family, and compare towns and stays together.</p>
+              <ol>
+                <li><span>01</span> Choose a window and what your family needs.</li>
+                <li><span>02</span> Copy the trip brief.</li>
+                <li><span>03</span> Send it to the other family, then shortlist together.</li>
+              </ol>
+            </> : <>
+              <p>Begin with two regions and the shape of your trip. Create a Circle, send its link to the other family, then use the private conversation to compare towns and stays.</p>
+              <ol>
+                <li><span>01</span> Choose a window and what your family needs.</li>
+                <li><span>02</span> Share the Circle link with your friend.</li>
+                <li><span>03</span> Approve their request, then shortlist together.</li>
+              </ol>
+              <p className={styles.privacyNote}>The Circle name, region, and dates are visible to signed-in members. Household details and budget are posted only to its accepted-member conversation. A link is an invitation to request access, not automatic entry.</p>
+            </>}
             <div className={styles.researchState}>
               <p className={styles.eyebrow}>RESEARCH BRIEF / AWAITING CONNECTION</p>
-              <p>Your Circle records what to investigate together. Trip-specific research is awaiting source connections; no result here represents a current quote or available room.</p>
+              <p>{previewOnly ? 'Your brief lists' : 'Your Circle records'} what to investigate together. Trip-specific research is awaiting source connections; no result here represents a current quote or available room.</p>
               <dl>
                 <div><dt>Snow &amp; forecast</dt><dd>Resort and weather sources pending</dd></div>
                 <div><dt>Stays &amp; prices</dt><dd>Lodging inventory and quotes pending</dd></div>
@@ -271,11 +295,6 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           </div>
           <div className={styles.plannerCard}>
             <p className={styles.eyebrow}>FAMILY SKI TRIP / FIRST DRAFT</p>
-            {!loading && !client && (
-              <p className={styles.unavailableNote} role="note">
-                Shared trip rooms aren&apos;t available on this preview. Nothing you enter is saved on dope.travel, but you can copy your brief and send it to the other family yourself.
-              </p>
-            )}
             <h3>What should we compare?</h3>
             {linkedEvent && (
               <p className={styles.fieldNote}>Starting from {linkedEvent.name}. Change anything below.</p>
@@ -386,44 +405,62 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           </div>
         </section>
 
-        <section className={styles.yourTrail} aria-labelledby="your-trail-title">
-          <div className={styles.sectionHeader}>
-            <div>
-              <p className={styles.eyebrow}>YOUR TRAIL</p>
-              <h2 id="your-trail-title">The places you come back to.</h2>
-            </div>
-            <p>These choices are private to this device. Watch is a return list without notifications; I&apos;d go does not match you with travelers yet.</p>
-          </div>
-          <div className={styles.trailGrid}>
-            <section className={styles.trailCard} aria-labelledby="saved-title">
-              <div className={styles.trailHeading}><span className={styles.trailIndex}>01</span><h3 id="saved-title">Saved places</h3><span className={styles.count}>{saved.length}</span></div>
-              {saved.length ? (
-                <ul className={styles.intentList}>{saved.map((item) => (
-                  <li key={`${item.kind}-${item.id}`}><Link href={item.href}><span>{item.label}</span><span className={styles.intentVerb}>{INTENT_LABEL[item.verb]} ↗</span></Link></li>
-                ))}</ul>
-              ) : (
-                <div className={styles.emptyTrail}>
-                  <p>Nothing here yet. Begin with a place you would make time for.</p>
-                  <Link href="/">Explore the world <span aria-hidden="true">↗</span></Link>
-                </div>
-              )}
-            </section>
-            <section className={styles.trailCard} aria-labelledby="return-title">
-              <div className={styles.trailHeading}><span className={styles.trailIndex}>02</span><h3 id="return-title">On your radar</h3><span className={styles.count}>{returnList.length}</span></div>
-              {returnList.length ? (
-                <ul className={styles.intentList}>{returnList.map((item) => (
-                  <li key={`${item.verb}-${item.kind}-${item.id}`}><Link href={item.href}><span>{item.label}</span><span className={styles.intentVerb}>{INTENT_LABEL[item.verb]} ↗</span></Link></li>
-                ))}</ul>
-              ) : (
-                <div className={styles.emptyTrail}>
-                  <p>Watch a destination when the timing is not quite right, then come back when it is.</p>
-                  <Link href="/">See what is happening <span aria-hidden="true">↗</span></Link>
-                </div>
-              )}
-            </section>
-          </div>
-        </section>
+        {!hasTrail && <YourTrail saved={saved} returnList={returnList} lead={false} />}
       </div>
     </main>
+  );
+}
+
+const TRAIL_STATUS: Record<IntentRecord['verb'], string> = { save: 'Saved', watch: 'Watching', idGo: 'I’d go' };
+
+/** "Munich · 19 Sep – 4 Oct 2026 · Saved", with the occasion name as a second line. */
+export function trailRow(item: Pick<IntentRecord, 'verb' | 'kind' | 'id' | 'label'>): { line: string; detail?: string } {
+  const status = TRAIL_STATUS[item.verb];
+  const event = item.kind === 'event' ? EVENT_INDEX.get(item.id) : undefined;
+  if (event) return { line: `${event.city} · ${formatDateRange(event.start, event.end)} · ${status}`, detail: event.name };
+  return { line: `${item.label} · ${status}` };
+}
+
+function TrailList({ items }: { items: IntentRecord[] }) {
+  return <ul className={styles.intentList}>{items.map((item) => {
+    const row = trailRow(item);
+    return <li key={`${item.verb}-${item.kind}-${item.id}`}><Link href={item.href}>
+      <span className={styles.intentText}><span>{row.line}</span>{row.detail && <span className={styles.intentDetail}>{row.detail}</span>}</span>
+      <span className={styles.intentVerb}>Open <span aria-hidden="true">↗</span></span>
+    </Link></li>;
+  })}</ul>;
+}
+
+function YourTrail({ saved, returnList, lead }: { saved: IntentRecord[]; returnList: IntentRecord[]; lead: boolean }) {
+  return (
+    <section className={lead ? `${styles.yourTrail} ${styles.yourTrailLead}` : styles.yourTrail} aria-labelledby="your-trail-title">
+      <div className={styles.sectionHeader}>
+        <div>
+          <p className={styles.eyebrow}>YOUR TRAIL</p>
+          <h2 id="your-trail-title">{lead ? 'What you kept.' : 'The places you come back to.'}</h2>
+        </div>
+        <p>These choices are private to this device. Watch is a return list without notifications; I&apos;d go does not match you with travelers yet.</p>
+      </div>
+      <div className={styles.trailGrid}>
+        <section className={styles.trailCard} aria-labelledby="saved-title">
+          <div className={styles.trailHeading}><span className={styles.trailIndex}>01</span><h3 id="saved-title">Saved places</h3><span className={styles.count}>{saved.length}</span></div>
+          {saved.length ? <TrailList items={saved} /> : (
+            <div className={styles.emptyTrail}>
+              <p>Nothing here yet. Begin with a place you would make time for.</p>
+              <Link href="/">Explore the world <span aria-hidden="true">↗</span></Link>
+            </div>
+          )}
+        </section>
+        <section className={styles.trailCard} aria-labelledby="return-title">
+          <div className={styles.trailHeading}><span className={styles.trailIndex}>02</span><h3 id="return-title">On your radar</h3><span className={styles.count}>{returnList.length}</span></div>
+          {returnList.length ? <TrailList items={returnList} /> : (
+            <div className={styles.emptyTrail}>
+              <p>Watch a destination when the timing is not quite right, then come back when it is.</p>
+              <Link href="/">See what is happening <span aria-hidden="true">↗</span></Link>
+            </div>
+          )}
+        </section>
+      </div>
+    </section>
   );
 }

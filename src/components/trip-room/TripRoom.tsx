@@ -24,6 +24,7 @@ import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { todayISO } from '@/lib/buzz/dates';
 import { Avatar } from '@/components/social';
 import { track } from '@/lib/analytics';
+import { getPlatformClient } from '@/lib/platform/client';
 
 const TABS = ['overview', 'inspiration', 'plan', 'people', 'access', 'chat'] as const;
 type Tab = (typeof TABS)[number];
@@ -40,6 +41,7 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
     ? TRIP_ROOM_FIXTURES.filter((trip) => trip.destinationSlug !== slug)
     : TRIP_ROOM_FIXTURES;
   const placeName = pulse?.name ?? slug;
+  const membershipConfigured = Boolean(getPlatformClient());
 
   return (
     <main className="px-4 py-10 sm:px-8">
@@ -53,11 +55,22 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
         <h2 className="mt-2 font-display text-3xl text-ink">{selectedEvent.name}</h2>
         <p className="mt-2 font-mono text-[13px] text-ink-soft">{selectedEvent.city}, {selectedEvent.country} · {formatDateRange(selectedEvent.start, selectedEvent.end)}</p>
         <p className="mt-3 max-w-2xl text-[13px] leading-5 text-ink-muted">This is the occasion you chose to plan around. No Circle or booking has been created. Confirm the event dates and access with the organizer before committing travel.</p>
-        <div className="mt-5 flex flex-wrap gap-2.5">
-          <Link href={`/community?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-primary">Continue in Community to start a real Circle ↗</Link>
-          <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-ghost">Review event details ↗</Link>
-        </div>
-        <p className="mt-3 text-[12px] text-ink-subtle">Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.</p>
+        {membershipConfigured ? <>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <Link href={`/community?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-primary">Continue in Community to start a real Circle ↗</Link>
+            <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-ghost">Review event details ↗</Link>
+          </div>
+          <p className="mt-3 text-[12px] text-ink-subtle">Community requires a connected membership. Enter your travel dates in its Circle form; they are not prefilled here.</p>
+        </> : <>
+          {/* No glowing primary into a flow that cannot finish (design rule 9, UFR2-J03). */}
+          <p className="notice mt-4 max-w-2xl px-4 py-3 text-[13px] leading-5 text-ink-muted" role="note">
+            Shared Circles need membership, which is not connected on this preview. You can still plan {selectedEvent.city} on this device in the trip designer.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2.5">
+            <Link href={`/trips/designer?${new URLSearchParams({ place: selectedEvent.city, region: selectedEvent.country }).toString()}`} className="btn btn-ghost">Plan {selectedEvent.city} in the trip designer ↗</Link>
+            <Link href={`/?event=${encodeURIComponent(selectedEvent.id)}`} className="btn btn-ghost">Review event details ↗</Link>
+          </div>
+        </>}
       </section>}
       {slug ? (
         <section className="notice mt-8 p-5">
@@ -78,9 +91,9 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
                 Back to {pulse.name}
               </Link>
             ) : null}
-            <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="btn btn-ghost btn-sm min-h-11">
+            {membershipConfigured ? <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="btn btn-ghost btn-sm min-h-11">
               {selectedEvent ? 'Find real Circles for this event' : 'Open Community Circles'}
-            </Link>
+            </Link> : null}
           </div>
         </section>
       ) : null}

@@ -58,13 +58,28 @@ const MORE_LINKS = [
   { href: '/account', label: 'Profile', hint: 'Your traveler lens' },
 ] as const;
 
+// Mirrors getPlatformClient(): member services exist only with both public keys.
+const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+// Until membership exists, "Profile" is the traveler's on-device mood board,
+// not an account page that says "not connected" (UFR2-H16).
+const PROFILE_HREF = MEMBERSHIP_CONFIGURED ? '/account' : '/moodboard';
+const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/account');
+
 function activePath(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function moreIsActive(pathname: string): boolean {
-  return MORE_LINKS.some((item) => activePath(pathname, item.href));
+/**
+ * The one More item for this route: the most specific match, so /trips/designer
+ * lights "Trip designer" and not "Trips" too. The header's Profile link already
+ * marks its own route, so More stays dark there (UFR2-J10).
+ */
+export function currentMoreHref(pathname: string, profileHref: string = PROFILE_HREF): string | null {
+  const match = MORE_LINKS
+    .filter((item) => item.href !== profileHref && activePath(pathname, item.href))
+    .sort((a, b) => b.href.length - a.href.length)[0];
+  return match?.href ?? null;
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -87,9 +102,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [moreOpen]);
 
   const world = pathname === '/';
-  const welcome = pathname.startsWith('/welcome');
-  // Providers on the partner studio are not being asked about their own travel.
-  const showOnboarding = mounted && !completed && !welcome && !pathname.startsWith('/partners');
+  // The lens invitation belongs to the front door only: on every page it pushed
+  // content down, and on /moodboard it competed with the board's own flow (UFR2-J13).
+  const showOnboarding = mounted && !completed && world;
+  const moreHref = currentMoreHref(pathname);
+  const profileCurrent = activePath(pathname, PROFILE_HREF);
 
   return (
     <div className={cn('min-h-dvh bg-void text-ink', world && 'bg-transparent')}>
@@ -99,7 +116,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         Skip to content
       </a>
-      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0/90 backdrop-blur-xl">
+      {/* Opaque: at 90% the page text showed through while scrolling (UFR2-J11). */}
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-4 px-4 sm:px-5">
           <Link href="/" className="flex shrink-0 items-center" aria-label="dope.travel home">
             {/* One drawn lockup, so ".travel" always shares the wordmark's baseline. */}
@@ -120,7 +138,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'rounded-full px-3.5 py-2 text-[13px] font-medium leading-none text-ink-muted transition-colors hover:text-bone',
+                  'inline-flex min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium leading-none text-ink-muted transition-colors hover:text-bone',
                   activePath(pathname, item.href) && 'bg-surface-3 text-bone shadow-soft-1',
                 )}
                 aria-current={activePath(pathname, item.href) ? 'page' : undefined}
@@ -133,20 +151,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
             {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" mountRoot={false} />}
+            {/* md and up: below that, Now lives in More so one route never lights twice. */}
             <Link
               href="/now"
+              aria-current={activePath(pathname, '/now') ? 'page' : undefined}
               className={cn(
-                'hidden min-h-9 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone sm:inline-flex',
-                pathname.startsWith('/now') && 'bg-surface-3 text-bone shadow-soft-1',
+                'hidden min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone md:inline-flex',
+                activePath(pathname, '/now') && 'bg-surface-3 text-bone shadow-soft-1',
               )}
             >
               Now
             </Link>
             <Link
-              href="/account"
+              href={PROFILE_HREF}
+              aria-current={profileCurrent ? 'page' : undefined}
               className={cn(
-                'inline-flex min-h-9 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone',
-                pathname.startsWith('/account') && 'bg-surface-3 text-bone shadow-soft-1',
+                'inline-flex min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone',
+                profileCurrent && 'bg-surface-3 text-bone shadow-soft-1',
               )}
             >
               Profile
@@ -165,7 +186,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link href={`/welcome?from=${encodeURIComponent(pathname)}`} className="btn btn-ghost btn-sm">
                 Begin
               </Link>
-              <button type="button" onClick={skip} className="min-h-9 rounded-full px-3 text-ink-muted hover:text-bone">
+              <button type="button" onClick={skip} className="min-h-11 rounded-full px-3 text-ink-muted hover:text-bone" aria-label="Skip the traveler lens for now">
                 Skip
               </button>
             </span>
@@ -185,7 +206,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <nav
         aria-label="Mobile primary"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <ul className="grid grid-cols-5">
           {MOBILE.map((item) => (
@@ -209,15 +230,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               type="button"
               className={cn(
                 'relative flex h-16 w-full flex-col items-center justify-center gap-1 text-[11px] font-medium text-ink-subtle',
-                (moreOpen || moreIsActive(pathname)) && 'text-saffron',
+                (moreOpen || moreHref) && 'text-saffron',
               )}
+              aria-current={moreHref ? 'page' : undefined}
               aria-expanded={moreOpen}
               aria-controls={morePanelId}
               aria-haspopup="menu"
               aria-label="More"
               onClick={() => setMoreOpen((open) => !open)}
             >
-              {moreIsActive(pathname) ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
+              {moreHref ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
               <TabGlyph name="more" />
               More
             </button>
@@ -237,17 +259,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             role="menu"
             className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 md:hidden"
           >
-            {MORE_LINKS.map((item) => (
+            {MORE_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 role="menuitem"
                 className={cn(
                   'flex min-h-12 items-center justify-between gap-3 rounded-[var(--radius-control)] px-3 text-ink-soft hover:bg-surface-4',
-                  activePath(pathname, item.href) && 'bg-surface-1 text-saffron shadow-[var(--shadow-inset)]',
+                  moreHref === item.href && 'bg-surface-1 text-saffron shadow-[var(--shadow-inset)]',
                 )}
               >
-                <span className="text-[15px] font-medium">{item.label}</span>
+                <span className="text-[15px] font-medium">{item.label}{moreHref === item.href ? <span className="sr-only"> (current page)</span> : null}</span>
                 <span className="text-[12px] text-ink-subtle">{item.hint}</span>
               </Link>
             ))}

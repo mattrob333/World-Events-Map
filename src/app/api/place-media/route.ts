@@ -7,7 +7,13 @@ import type { EventCategory, WorldEvent } from '@/lib/types';
 export const runtime = 'nodejs';
 
 const CACHE_MS = 6 * 60 * 60 * 1000;
-const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=300, stale-while-revalidate=3600' };
+// Found photos are stable for hours: the browser keeps them an hour and the CDN
+// six, serving stale for a day while it refreshes, so repeat visits skip both this
+// function and the Commons search. An empty answer may be a Commons outage, so it
+// is only held briefly.
+const CACHE_HEADERS = { 'Cache-Control': 'public, max-age=3600, s-maxage=21600, stale-while-revalidate=86400' };
+const EMPTY_CACHE_HEADERS = { 'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' };
+const cacheHeaders = (photos: PlacePhoto[]) => (photos.length ? CACHE_HEADERS : EMPTY_CACHE_HEADERS);
 const cache = new Map<string, { expires: number; photos: PlacePhoto[] }>();
 const inflight = new Map<string, Promise<PlacePhoto[]>>();
 // These are editorial search hints, never user-supplied query strings. Generic
@@ -35,7 +41,9 @@ async function searchCommons(query: string, event: WorldEvent, subject: 'event' 
   url.search = new URLSearchParams({
     action: 'query', format: 'json', formatversion: '2', generator: 'search',
     gsrsearch: query, gsrnamespace: '6', gsrlimit: '10',
-    prop: 'imageinfo', iiprop: 'url|mime|extmetadata', iiurlwidth: '1000',
+    // 1280 is a Wikimedia standard thumbnail width (others are rejected when
+    // hotlinked); size lets the client request smaller standard widths safely.
+    prop: 'imageinfo', iiprop: 'url|size|mime|extmetadata', iiurlwidth: '1280',
     iiextmetadatafilter: 'Artist|Credit|LicenseShortName|DateTimeOriginal',
   }).toString();
   const response = await fetch(url, {
@@ -60,7 +68,7 @@ export async function GET(request: Request) {
 
   const cached = cache.get(eventId);
   if (cached && cached.expires > Date.now()) {
-    return NextResponse.json({ photos: cached.photos, source: 'Wikimedia Commons' }, { headers: CACHE_HEADERS });
+    return NextResponse.json({ photos: cached.photos, source: 'Wikimedia Commons' }, { headers: cacheHeaders(cached.photos) });
   }
 
   let pending = inflight.get(eventId);
@@ -75,7 +83,7 @@ export async function GET(request: Request) {
   // letting a crawler evict entries and re-trigger upstream searches.
   if (!cache.has(eventId) && cache.size >= Math.max(EVENT_INDEX.size, 1)) cache.delete(cache.keys().next().value!);
   cache.set(eventId, { photos, expires: Date.now() + (photos.length ? CACHE_MS : 5 * 60 * 1000) });
-  return NextResponse.json({ photos, source: 'Wikimedia Commons' }, { headers: CACHE_HEADERS });
+  return NextResponse.json({ photos, source: 'Wikimedia Commons' }, { headers: cacheHeaders(photos) });
 }
 
 async function loadPhotos(event: WorldEvent): Promise<PlacePhoto[]> {

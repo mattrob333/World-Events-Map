@@ -1,5 +1,6 @@
 import 'server-only';
 import type { LiveEvent } from '../concerts';
+import { remaining, take } from './dailyBudget';
 
 /**
  * Jev (TypeSafe) as a structured judge of musical taste: it reads a
@@ -43,6 +44,15 @@ export function jevConfigured(): boolean {
   return Boolean(process.env.TYPESAFE_API_KEY);
 }
 
+/**
+ * True while today's Jev budget (JEV_DESIGNER_DAILY_CALLS, per instance) has
+ * room. Every upstream request is counted in `ask`, so a fit batch of eight
+ * events costs eight; this check only lets routes say so up front.
+ */
+export function jevBudgetAvailable(): boolean {
+  return remaining('jev') > 0;
+}
+
 type Obj = Record<string, unknown>;
 const obj = (v: unknown): Obj | null => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Obj) : null);
 const unit = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1 ? v : null);
@@ -50,6 +60,8 @@ const unit = (v: unknown): number | null => (typeof v === 'number' && Number.isF
 async function ask(state: Obj, questions: Obj, fetchImpl: typeof fetch): Promise<Obj | null> {
   const apiKey = process.env.TYPESAFE_API_KEY;
   if (!apiKey) return null;
+  // One unit of the daily Jev budget per upstream request, taken before sending.
+  if (!take('jev')) return null;
   try {
     const response = await fetchImpl(ENDPOINT, {
       method: 'POST',

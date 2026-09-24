@@ -6,6 +6,7 @@ import { Button, cn, withAppKeyGuard } from '@/components/ui';
 import { SEARCH_GROUP_LABEL, SEARCH_GROUPS, buildSearchCatalog, searchCatalog, type SearchGroup, type SearchHit } from '@/lib/search';
 import { useIntentStore } from '@/lib/intent';
 import { track } from '@/lib/analytics';
+import { planTripOffer } from '@/lib/search/planPlace';
 import { useCommandStore } from './commandStore';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
@@ -78,6 +79,8 @@ export function CommandPalette() {
     group,
     hits: hits.filter((hit) => hit.group === group),
   })).filter((entry) => entry.hits.length > 0);
+  // A place the calendar doesn't cover can still become a trip (owner: "make it searchable").
+  const planOffer = planTripOffer(query, hits);
 
   if (!open) return null;
 
@@ -95,7 +98,7 @@ export function CommandPalette() {
         role="dialog"
         aria-modal="true"
         aria-label="Search dope.travel"
-        className="glass-deep w-full max-w-xl overflow-hidden rounded-[3px]"
+        className="surface-raised w-full max-w-xl overflow-hidden"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <label className="flex items-center gap-3 border-b border-ink/10 px-4 py-3">
@@ -112,7 +115,20 @@ export function CommandPalette() {
           <kbd className="label-sm hidden text-ink-faint sm:inline">ESC</kbd>
         </label>
         <div className="max-h-[min(28rem,60vh)] overflow-y-auto p-2">
-          {grouped.length === 0 ? (
+          {planOffer && (
+            <section className="mb-2">
+              <h2 className="label-sm px-3 py-2 text-ink-muted">Not on the calendar yet</h2>
+              <Link
+                href={planOffer.href}
+                onClick={() => setOpen(false)}
+                className="flex min-h-11 flex-col justify-center rounded-[var(--radius-control)] px-3 py-2 hover:bg-surface-4"
+              >
+                <span className="block text-[14px] font-medium text-bone">Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span></span>
+                <span className="block text-[12px] text-ink-muted">Opens the trip designer on this device. Nothing is booked or searched until you ask.</span>
+              </Link>
+            </section>
+          )}
+          {grouped.length === 0 && !planOffer ? (
             <p className="px-3 py-8 text-[13px] text-ink-muted">
               Nothing matches. Try a city, a person, or an occasion.
             </p>
@@ -128,7 +144,7 @@ export function CommandPalette() {
                       <Link
                         href={hit.href}
                         onClick={() => setOpen(false)}
-                        className="block rounded-[2px] px-3 py-2 hover:bg-ink/6"
+                        className="block rounded-[var(--radius-control)] px-3 py-2 hover:bg-surface-4"
                       >
                         <span className="block text-[13px] text-ink">{hit.title}</span>
                         <span className="block text-[11px] text-ink-muted">{hit.subtitle}</span>
@@ -141,7 +157,7 @@ export function CommandPalette() {
           )}
         </div>
         <div className="flex items-center justify-between border-t border-ink/10 px-4 py-2">
-          <p className="text-[10px] text-ink-faint">
+          <p className="text-[11px] text-ink-subtle">
             Local catalog plus editorial fixtures. Not a live member index.
           </p>
           <Button size="sm" variant="quiet" onClick={() => setOpen(false)}>
@@ -163,7 +179,7 @@ export function SearchTrigger({ className }: { className?: string }) {
         setOpen(true);
       }}
       className={cn(
-        'inline-flex min-h-10 min-w-10 items-center justify-center gap-2 rounded-full bg-surface-1 px-3 text-[13px] text-ink-muted shadow-[var(--shadow-inset)] hover:text-bone sm:justify-start sm:px-4',
+        'inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-surface-1 px-3 text-[13px] text-ink-muted shadow-[var(--shadow-inset)] hover:text-bone sm:justify-start sm:px-4',
         className,
       )}
       aria-label="Open search"

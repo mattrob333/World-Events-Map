@@ -3,7 +3,7 @@
 import { useMemo, useState, type DragEvent } from 'react';
 import { SLOT_META, searchLinks, type DesignerCard } from '@/lib/designer/catalog';
 import { cardLookup, daysUntil, resolveDestination, type Itinerary, type Slot } from '@/lib/designer/itinerary';
-import { localIsoDate, tripMoment } from '@/lib/designer/tripNow';
+import { isLive, tripMoment, type TripMoment } from '@/lib/designer/tripNow';
 import { useDesignerStore } from '@/lib/designer/store';
 import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
@@ -11,17 +11,20 @@ import { DestinationResearch } from './DestinationResearch';
 import { DRAG_MIME, IdeaCard } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
-import { InvitePanel, RightNow, StaysPanel, useNow } from './TripExtras';
+import { GuestBar, InvitePanel, RightNow, StaysPanel, useNow, usePicksSender } from './TripExtras';
 
 function formatDay(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 
-function countdownLabel(days: number): { big: string; small: string } {
+function countdownLabel(days: number, moment: TripMoment, place: string, totalDays: number): { big: string; small: string } {
+  if (moment.phase === 'after') return { big: `That was ${place}`, small: moment.daysAgo === 1 ? '1 day ago' : `${moment.daysAgo} days ago` };
+  if (moment.phase === 'travel-out') return { big: 'Today', small: 'travel day · go go go' };
+  if (moment.phase === 'travel-home') return { big: 'Last day', small: 'safe travels home' };
+  if (moment.phase === 'on-ground') return { big: `Day ${moment.day.index + 1} of ${totalDays}`, small: 'enjoy every minute' };
   if (days > 1) return { big: `${days} days`, small: 'until wheels up' };
   if (days === 1) return { big: 'Tomorrow', small: 'pack tonight' };
-  if (days === 0) return { big: 'Today', small: 'go go go' };
-  return { big: 'Underway', small: 'enjoy every minute' };
+  return { big: 'Today', small: 'go go go' };
 }
 
 type Drag = { cardId: string; from: string } | null;
@@ -33,6 +36,11 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const vote = useDesignerStore((state) => state.vote);
   const moveCard = useDesignerStore((state) => state.moveCard);
   const pickCard = useDesignerStore((state) => state.pickCard);
+  const joinedAs = useDesignerStore((state) => state.joinedAs);
+  const previousTrip = useDesignerStore((state) => state.previousTrip);
+  const restorePreviousTrip = useDesignerStore((state) => state.restorePreviousTrip);
+  // Guest copies vote as the joined identity; "pass the phone" is an explicit, warned escape.
+  const [passPhone, setPassPhone] = useState(false);
   const [sort, setSort] = useState<SortMode>('curated');
   const [filter, setFilter] = useState<SlotFilter>('all');
   const [drag, setDrag] = useState<Drag>(null);
@@ -42,10 +50,21 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const destination = resolveDestination(trip)!;
   const lookup = useMemo(() => cardLookup(trip), [trip]);
   const now = useNow();
-  const live = tripMoment(trip, now) !== null;
-  const today = localIsoDate(now);
-  const voter = trip.participants.find((person) => person.id === activeId) ?? trip.participants[0];
-  const countdown = countdownLabel(daysUntil(trip.startDate));
+  const moment = tripMoment(trip, now);
+  const live = isLive(moment);
+  const over = moment.phase === 'after';
+  // The trip day, not the calendar date: at 01:30 tonight is still yesterday's night out.
+  const today = live ? moment.day.date : trip.startDate;
+  const guest = trip.joinedFrom !== undefined;
+  const organizerName = trip.joinedFrom || 'the organizer';
+  const me = guest ? trip.participants.find((person) => person.id === (joinedAs ?? activeId)) : undefined;
+  const active = trip.participants.find((person) => person.id === activeId) ?? trip.participants[0];
+  const voter = me && !passPhone ? me : active;
+  // On a guest copy the organizer is never a voting choice: their votes live on their own device.
+  const voters = guest ? trip.participants.filter((person, index) => index > 0 || person.id === me?.id) : trip.participants;
+  const picks = usePicksSender(trip, votes, me, destination);
+  const setAside = previousTrip && previousTrip.trip.id !== trip.id ? resolveDestination(previousTrip.trip)?.name ?? 'other' : null;
+  const countdown = countdownLabel(daysUntil(trip.startDate), moment, destination.name, trip.days.length);
   const endDate = trip.days[trip.days.length - 1]?.date ?? trip.startDate;
 
   const moveTargets = useMemo(
@@ -102,8 +121,15 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         <p className="mt-2 max-w-xl text-[15px] opacity-90">{destination.tagline}</p>
         <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className={styles.countdown}>{countdown.big}</p>
+            <p className={styles.countdown} style={over ? { fontSize: 'clamp(34px, 7vw, 64px)' } : undefined}>
+              {countdown.big}
+            </p>
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-90">{countdown.small}</p>
+            {over ? (
+              <button type="button" className={`${styles.cta} mt-3`} onClick={onRestart}>
+                Plan the next one
+              </button>
+            ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span className={`${styles.badge} ${trip.engine === 'claude' ? styles.badgeAi : ''}`}>
@@ -119,7 +145,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
       <div className={styles.toolbar} role="toolbar" aria-label="Voting and sorting">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-[12px] text-ink-subtle">Voting as</span>
-          {trip.participants.map((person) => (
+          {(me && !passPhone ? [me] : voters).map((person) => (
             <button
               key={person.id}
               type="button"
@@ -133,6 +159,29 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
               {person.name}
             </button>
           ))}
+          {me ? (
+            passPhone ? (
+              <button
+                type="button"
+                className={styles.miniBtn}
+                onClick={() => {
+                  setActive(me.id);
+                  setPassPhone(false);
+                }}
+              >
+                Back to {me.name}
+              </button>
+            ) : (
+              <button type="button" className={styles.miniBtn} onClick={() => setPassPhone(true)}>
+                Someone else voting? (pass the phone)
+              </button>
+            )
+          ) : null}
+          {me && passPhone ? (
+            <p className="w-full text-[12px] leading-5 text-ink-muted" role="note">
+              Votes made as someone else stay on this phone. Only {me.name}’s picks go to {organizerName}; everyone else can send their own from their phone.
+            </p>
+          ) : null}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className={styles.seg} role="group" aria-label="Sort each row">
@@ -153,16 +202,28 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
               </button>
             ))}
           </div>
-          <button type="button" className={styles.miniBtn} onClick={onRestart}>
-            New trip
-          </button>
         </div>
       </div>
       <p className="mt-3 text-[12px] leading-5 text-ink-subtle">
-        Drag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes
-        save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas:
-        check hours, prices, and bookings with each venue.
+        {guest
+          ? `Tap 👍 on what you’re into and 👎 on what you’d skip. Your votes stay on this phone until you tap “Send to ${trip.joinedFrom || 'organizer'}”. Cards are ideas: check hours, prices, and bookings with each venue.`
+          : 'Drag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas: check hours, prices, and bookings with each venue.'}
       </p>
+      {/* Clearing the trip is not a filter: a quiet text action, away from the toggles (UFR2-J12). */}
+      <div className="flex justify-end">
+        <button type="button" className={styles.restartLink} onClick={onRestart}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7" /><path d="M4 4v4.5h4.5" /></svg>
+          Start a new trip
+        </button>
+      </div>
+      {setAside ? (
+        <div className={`${styles.row} mt-3`}>
+          <p className="text-[12px] leading-5 text-ink-muted">Your {setAside} trip is set aside on this device.</p>
+          <button type="button" className={styles.miniBtn} onClick={restorePreviousTrip}>
+            Restore my {setAside} trip
+          </button>
+        </div>
+      ) : null}
 
       <DestinationResearch trip={trip} destination={destination} />
 
@@ -170,9 +231,10 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         <ScenePlaybook
           taste={trip.taste}
           initialCity={destination.id === 'maldives' ? 'Male' : destination.name}
-          startDate={live ? today : trip.startDate}
-          endDate={live ? today : endDate}
-          title={live ? `Live music tonight in ${destination.name}` : `Live music for your crew in ${destination.name}`}
+          startDate={over ? undefined : live ? today : trip.startDate}
+          endDate={over ? undefined : live ? today : endDate}
+          tonight={live}
+          title={`Live music for your crew in ${destination.name}`}
           compact
         />
       ) : null}
@@ -261,12 +323,19 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
       ))}
 
       <StaysPanel trip={trip} destination={destination} />
-      <InvitePanel trip={trip} votes={votes} voter={voter} destination={destination} />
+      <InvitePanel trip={trip} votes={votes} voter={guest ? me : voter} destination={destination} picks={guest ? picks : undefined} />
+      {me ? (
+        <>
+          <GuestBar picks={picks} />
+          {/* Room under the last panel so the fixed phone bar never covers it. */}
+          <div className="h-24 md:hidden" aria-hidden />
+        </>
+      ) : null}
 
       {swipe && voter ? (
         <SwipeDeck
           key={voter.id}
-          participants={trip.participants}
+          participants={me && !passPhone ? [me] : voters}
           onVoterChange={setActive}
           title={`${swipe.label}, day ${Number(swipe.id.match(/^d(\d+)/)?.[1] ?? 0) + 1}`}
           cards={swipe.cardIds.map((id) => lookup(id)).filter((card): card is DesignerCard => Boolean(card))}

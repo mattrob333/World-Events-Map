@@ -823,6 +823,26 @@
   inset: -4px 0;
 }
 
+/* "Start a new trip": a quiet text action with an icon, not a pill among the filters (UFR2-J12). */
+.restartLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-muted);
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-color: rgb(168 165 152 / 0.4);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.restartLink:hover { color: var(--color-bone); }
+.restartLink:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 8px; }
+
 .strip {
   display: flex;
   gap: 12px;
@@ -993,9 +1013,10 @@
   position: relative;
   display: inline-grid;
   place-items: center;
-  min-width: 40px;
-  min-height: 36px;
-  padding: 0 8px;
+  /* 44px square: 90 thumbs on a phone screen are the most-tapped thing here (UFR2-J07). */
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 10px;
   border-radius: var(--radius-chip);
   font-size: 13px;
   color: var(--color-bone);
@@ -1004,11 +1025,6 @@
   transition: background-color var(--duration-quick) var(--ease-glide), box-shadow var(--duration-quick) var(--ease-glide);
 }
 
-.voteBtn::after {
-  content: '';
-  position: absolute;
-  inset: -4px -1px;
-}
 
 .voteBtn:hover:not(:disabled) { background: var(--gradient-surface), var(--color-surface-4); }
 .voteBtn:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -1048,7 +1064,7 @@
 
 .moveSelect {
   max-width: 100%;
-  min-height: 36px;
+  min-height: 44px;
   margin: 0 8px 8px;
   padding: 0 10px;
   border: 0;
@@ -1458,4 +1474,111 @@
 
 @media (max-width: 480px) {
   .researchCard { width: 72vw; max-width: 260px; }
+}
+
+.researchHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 36px;
+}
+
+/* "Looking… 9s": a label, not a control. */
+.researchChip {
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.researchDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-brass);
+  animation: researchPulse 1.2s var(--ease-glide) infinite;
+}
+
+@keyframes researchPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+.researchStatus {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+}
+
+/* The tap-to-run block: a well, so it reads as a place for content, with a ghost action. */
+.researchStart {
+  composes: surface-well from global;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px 16px;
+}
+
+.researchVet {
+  margin-top: 10px;
+}
+
+/* Fare qualifiers sit above the cards, where they're read first. */
+.researchFareNote {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-ink-muted);
+}
+
+.researchFareNote strong {
+  color: var(--color-bone);
+  font-weight: 600;
+}
+
+.researchPer {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+}
+
+.researchSkeleton {
+  composes: surface from global;
+  flex: none;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  padding-bottom: 16px;
+}
+
+.researchSkeletonPhoto,
+.researchSkeletonLine {
+  display: block;
+  background: linear-gradient(90deg, var(--color-surface-3) 0%, rgb(255 255 255 / 0.07) 50%, var(--color-surface-3) 100%) 0 0 / 200% 100%;
+  animation: researchShimmer 1.4s linear infinite;
+}
+
+.researchSkeletonPhoto { aspect-ratio: 4 / 3; }
+.researchSkeletonLine { height: 12px; margin: 0 14px; border-radius: 6px; }
+.researchSkeletonShort { width: 55%; }
+
+@keyframes researchShimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .researchDot,
+  .researchSkeletonPhoto,
+  .researchSkeletonLine { animation: none; }
+}
+
+@media (max-width: 480px) {
+  .researchSkeleton { width: 72vw; max-width: 260px; }
 }

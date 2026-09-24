@@ -1,6 +1,6 @@
 import { listenerSummary, readTaste, textList } from '@/lib/designer/music-input';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { jevConfigured, jevPersona } from '@/lib/designer/server/jevMusic';
+import { jevBudgetAvailable, jevConfigured, jevPersona } from '@/lib/designer/server/jevMusic';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -19,6 +19,7 @@ export async function POST(request: Request) {
   const taste = readTaste(body.taste);
   if (!taste.genres.length && !taste.topArtists?.length) return jsonError(400, 'TASTE_REQUIRED', 'Add some music you love first.');
   if (!jevConfigured()) return jsonOk({ persona: null, reason: 'not_configured' });
+  if (!jevBudgetAvailable()) return jsonOk({ persona: null, reason: 'daily_limit' });
   if (!consumeProviderCall(request, 'jev')) return jsonOk({ persona: null, reason: 'rate_limited' });
   const persona = await jevPersona(
     listenerSummary(taste, {

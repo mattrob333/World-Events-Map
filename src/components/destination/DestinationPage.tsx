@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
 import { FixtureBanner, OpportunityCardView, ProvenanceNote } from '@/components/shell';
 import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
@@ -17,7 +17,8 @@ import { track } from '@/lib/analytics';
 import { todayISO } from '@/lib/buzz/dates';
 import { DistanceFromCity } from './DistanceFromCity';
 import { Avatar } from '@/components/social';
-import { PlaceGallery } from '@/components/place-media/PlaceGallery';
+import { RemoteHeroPhoto, useRemoteHeroPhoto } from './DestinationHeroPhoto';
+import { photoImageProps } from '@/lib/place-media/sources';
 import { VenueMap } from '@/components/panels/VenueMap';
 import { useIntentStore } from '@/lib/intent';
 import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curated';
@@ -67,10 +68,42 @@ export function DestinationPage({ slug, focusEventId = '' }: { slug: string; foc
   return <DestinationLoaded pulse={pulse} tab={tab} onTab={setTab} focusEventId={focusEventId} />;
 }
 
-function DestinationActions({ event, planningHref, destination }: {
+/**
+ * "Keep {place}": the one action on a destination that always succeeds in an
+ * unconfigured build. It saves the occasion (or the place) on this device, the
+ * same record as "Save this event", so every surface agrees (UFR2-J03).
+ */
+function KeepPlace({ event, slug, place, className = '' }: {
+  event?: WorldEvent;
+  slug: string;
+  place: string;
+  className?: string;
+}) {
+  const items = useIntentStore((state) => state.items);
+  const toggle = useIntentStore((state) => state.toggle);
+  const record = event
+    ? { verb: 'save' as const, kind: 'event' as const, id: event.id, label: event.name, href: `/?event=${encodeURIComponent(event.id)}` }
+    : { verb: 'save' as const, kind: 'destination' as const, id: slug, label: place, href: `/destinations/${slug}` };
+  const kept = items.some((item) => item.verb === 'save' && item.kind === record.kind && item.id === record.id);
+  if (kept) {
+    return <span className={cn('flex flex-wrap items-center gap-x-3 gap-y-1', className)}>
+      <Link href="/trips" className="btn btn-ghost" aria-label={`Kept ${place} on this device. See it in Trips`}>
+        Kept <span aria-hidden="true">✓</span> · see in Trips <span aria-hidden="true">↗</span>
+      </Link>
+      <button type="button" onClick={() => toggle(record)} className={styles.undoKeep}>Undo</button>
+    </span>;
+  }
+  return <button type="button" onClick={() => toggle(record)} className={cn('btn btn-primary', className)}>
+    Keep {place}
+  </button>;
+}
+
+function DestinationActions({ event, planningHref, destination, circlesHref }: {
   event?: WorldEvent;
   planningHref: string;
   destination: string;
+  /** Set only when membership is not configured: the group-trip link, labelled as unavailable. */
+  circlesHref?: string;
 }) {
   const items = useIntentStore((state) => state.items);
   const toggle = useIntentStore((state) => state.toggle);
@@ -88,10 +121,11 @@ function DestinationActions({ event, planningHref, destination }: {
       <Link href={planningHref} className="btn btn-ghost h-auto min-h-11 whitespace-normal py-2.5 text-left">Plan around {event.name} ↗</Link>
     </div>
     <p className="mt-3 text-[12px] leading-5 text-ink-subtle">Save and Watch stay on this device. Watch does not send notifications.</p>
+    {circlesHref && <Link href={circlesHref} className={styles.friendsLink}>Plan with friends (needs membership; not in this preview)</Link>}
   </div>;
 }
 
-function PhotoCredit({ photo, className = '' }: { photo: PlacePhoto; className?: string }) {
+function PhotoCredit({ photo, className = '', archive = false }: { photo: PlacePhoto; className?: string; archive?: boolean }) {
   return <a
     className={`${styles.photoCredit} ${className}`}
     href={photo.sourceUrl}
@@ -99,15 +133,22 @@ function PhotoCredit({ photo, className = '' }: { photo: PlacePhoto; className?:
     rel="noopener noreferrer"
     title={`${photo.title} · ${photo.credit} · ${photo.license}`}
   >
-    {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗
+    {photoArchiveLabel(photo)}{archive && ' · Wikimedia Commons archive, may be from an earlier year'} · {photo.credit} · {photo.license} ↗
   </a>;
 }
 
 function PhotoTile({ photo, city, large = false }: { photo: DestinationPhoto; city: string; large?: boolean }) {
   return <figure className={large ? styles.mainPhoto : styles.sidePhoto}>
-    {/* Local editorial archive images are deliberately served without third-party image requests. */}
+    {/* Local editorial archive images with pre-built WebP sizes (scripts/editorial-derivatives.mjs). */}
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img className={styles.photoImage} src={photo.imageUrl} alt={`${city}: ${photo.title}`} loading={large ? 'eager' : 'lazy'} />
+    <img
+      className={styles.photoImage}
+      {...photoImageProps(photo, large ? 'hero' : 'side')}
+      alt={`${city}: ${photo.title}`}
+      loading={large ? 'eager' : 'lazy'}
+      fetchPriority={large ? 'high' : 'auto'}
+      decoding={large ? 'auto' : 'async'}
+    />
     <div className={styles.photoShade} aria-hidden="true" />
     {!large && <figcaption className={styles.sideCaption}>
       <span className={`eyebrow ${styles.photoEyebrow}`}>{photo.theme === 'experience' ? 'The experience' : photo.theme === 'town' ? 'Around town' : 'The setting'}</span>
@@ -119,11 +160,17 @@ function PhotoTile({ photo, city, large = false }: { photo: DestinationPhoto; ci
 
 type EditorialCard = { id: string; eyebrow: string; title: string; copy: string; source: 'sample' | 'calendar'; href?: string };
 
-function calendarTheme(reason: string): string {
-  if (/airport|altiport|landing|transfer|flight|customs/i.test(reason)) return 'Getting there';
-  if (/restaurant|dining|table|lunch|chef|Michelin|wine/i.test(reason)) return 'At the table';
-  if (/hotel|chalet|stay|suite|staff/i.test(reason)) return 'Where to stay';
-  if (/ski|piste|lift|mountain|terrain|slope|gondola|powder/i.test(reason)) return 'On the mountain';
+/**
+ * Labels a curated "why go" note. Whole words only, and drink/table terms are
+ * checked before lodging so "the gallery stays open past the tents" is not
+ * filed under "Where to stay" (UFR2-J08).
+ */
+export function calendarTheme(reason: string): string {
+  if (/\b(airports?|altiports?|landings?|transfers?|flights?|customs)\b/i.test(reason)) return 'Getting there';
+  if (/\b(bars?|pubs?|beer|biergartens?|beer halls?|tents?|cocktails?|taverns?|nightlife|clubs?)\b/i.test(reason)) return 'Drinks and late nights';
+  if (/\b(restaurants?|dining|tables?|lunch|dinner|chefs?|michelin|wine|brasseries?|bistros?)\b/i.test(reason)) return 'At the table';
+  if (/\b(hotels?|chalets?|suites?|lodges?|lodging|stay|places to stay)\b/i.test(reason)) return 'Where to stay';
+  if (/\b(ski|skiing|pistes?|lifts?|mountains?|terrain|slopes?|gondolas?|powder)\b/i.test(reason)) return 'On the mountain';
   return 'The local scene';
 }
 
@@ -164,6 +211,32 @@ function DestinationLoaded({
 }) {
   // Samples and live partner inventory never share a screen.
   const platformConnected = Boolean(usePlatformAuth().client);
+  const factBarRef = useRef<HTMLDivElement>(null);
+  const momentRef = useRef<HTMLElement>(null);
+  const [factsPast, setFactsPast] = useState(false);
+  const [momentInView, setMomentInView] = useState(false);
+  useEffect(() => {
+    const facts = factBarRef.current;
+    const moment = momentRef.current;
+    if (!facts || typeof IntersectionObserver === 'undefined') return;
+    // The sticky header is 56px tall; a facts bar hidden under it counts as gone.
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === facts) {
+          const top = entry.rootBounds?.top ?? 56;
+          setFactsPast(!entry.isIntersecting && entry.boundingClientRect.bottom <= top + 1);
+        } else {
+          setMomentInView(entry.isIntersecting);
+        }
+      }
+    }, { rootMargin: '-56px 0px 0px 0px' });
+    observer.observe(facts);
+    if (moment) observer.observe(moment);
+    return () => observer.disconnect();
+  }, []);
+  // The pill is a shortcut back to planning, never a cover over the facts or the
+  // panel that already holds the same actions.
+  const showStickyPlan = factsPast && !momentInView;
   const events = pulse.eventIds
     .map((id) => EVENT_INDEX.get(id))
     .filter((event): event is NonNullable<typeof event> => Boolean(event));
@@ -178,11 +251,19 @@ function DestinationLoaded({
     .filter((event) => event.end >= today)
     .sort((a, b) => a.start.localeCompare(b.start))[0];
   const skiOccasion = nextEvent && (nextEvent.category === 'ski' || nextEvent.secondaryCategories?.includes('ski'));
-  const planningHref = nextEvent
-    ? skiOccasion
-      ? `/trips?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
-      : `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
+  const circlesHref = nextEvent
+    ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(nextEvent.id)}`
     : `/circles?destination=${encodeURIComponent(pulse.slug)}`;
+  // Without membership a Circle is a dead end, so "Start a trip" opens the
+  // on-device trip designer with the place filled in. The designer does not
+  // run paid research until the traveler asks for it (UFR2-J03).
+  const designerHref = `/trips/designer?${new URLSearchParams({ place: pulse.name, region: pulse.country }).toString()}`;
+  const planningHref = nextEvent && skiOccasion
+    ? `/trips?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
+    : platformConnected ? circlesHref : designerHref;
+  const eventPlanningHref = (event: WorldEvent) => platformConnected
+    ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`
+    : designerHref;
   const destinationPhotos = curatedPhotosForDestination(pulse.slug);
   const eventPhotos = events.flatMap((event) => curatedPhotoForEvent(event.id) ?? []);
   const eventPhoto = curatedPhotoForEvent(nextEvent?.id ?? '')
@@ -191,6 +272,8 @@ function DestinationLoaded({
   const leadPhoto = destinationPhotos[0]
     ?? (eventPhoto ? { ...eventPhoto, caption: pulse.name, theme: 'landscape' as const } : null);
   const supportingPhotos = destinationPhotos.filter((photo) => photo.sourceUrl !== leadPhoto?.sourceUrl).slice(0, 2);
+  // No reviewed local photo: the lead occasion's Commons photo, or the gradient.
+  const remoteHero = useRemoteHeroPhoto(leadPhoto ? null : (nextEvent ?? events[0])?.id ?? null);
   const edit = destinationEdit(inspiration, nextEvent ?? events[0]);
 
   return (
@@ -201,21 +284,29 @@ function DestinationLoaded({
       </div>
 
       <section className={cn(styles.hero, !supportingPhotos.length && styles.heroSolo)} aria-label={`Discover ${pulse.name}`}>
-        <div className={styles.heroMain}>
+        <div className={cn(styles.heroMain, !leadPhoto && remoteHero.photo && remoteHero.frame === 'side' && styles.heroMainFramed)}>
           {leadPhoto
             ? <PhotoTile photo={leadPhoto} city={pulse.name} large />
-            : <div className={styles.noPhoto}><PlaceGallery event={events[0]!} /></div>}
+            : <RemoteHeroPhoto hero={remoteHero} city={pulse.name} />}
           <div className={styles.heroCopy}>
             <div className={`eyebrow ${styles.heroTopline}`}><span className={styles.star} aria-hidden="true">✳</span> A PLACE WORTH THE JOURNEY <span className={`horizon-band ${styles.heroToplineRule}`} /></div>
             <div className={styles.heroBottom}>
               <p className={`eyebrow ${styles.heroCountry}`}>{pulse.country} <span aria-hidden="true">·</span> {pulse.archetypes.slice(0, 2).join(' / ')}</p>
               <h1>{pulse.name}</h1>
               <p className={styles.heroTagline}>{nextEvent?.tagline ?? 'Find your next reason to go.'}</p>
-              <div className={styles.heroActions}>
+              {platformConnected ? <div className={styles.heroActions}>
                 <Link href={planningHref} className={`btn btn-primary ${styles.primaryAction}`}>Start a trip <span aria-hidden="true">↗</span></Link>
                 <a href="#destination-edit" className={`btn btn-ghost ${styles.secondaryAction}`}>Get a feel for it <span aria-hidden="true">↓</span></a>
-              </div>
+              </div> : <>
+                {/* Unconfigured: the single primary is the action that always works (UFR2-J03). */}
+                <div className={styles.heroActions}>
+                  <KeepPlace event={nextEvent} slug={pulse.slug} place={pulse.name} className={styles.primaryAction} />
+                  <Link href={planningHref} className={`btn btn-ghost ${styles.secondaryAction}`}>Start a trip <span aria-hidden="true">↗</span></Link>
+                </div>
+                <p className={styles.heroHint}>Keep saves it on this device. <a href="#destination-edit">Get a feel for it <span aria-hidden="true">↓</span></a></p>
+              </>}
               {leadPhoto && <PhotoCredit photo={leadPhoto} className={styles.mainCredit} />}
+              {!leadPhoto && remoteHero.photo && <PhotoCredit photo={remoteHero.photo} className={styles.mainCredit} archive />}
             </div>
           </div>
         </div>
@@ -227,7 +318,7 @@ function DestinationLoaded({
         {supportingPhotos.map((photo) => <PhotoCredit key={photo.sourceUrl} photo={photo} />)}
       </div>}
 
-      <div className={`surface-well ${styles.factBar}`}>
+      <div ref={factBarRef} className={`surface-well ${styles.factBar}`}>
         <div><span className={`eyebrow ${styles.factLabel}`}>Next occasion</span><strong>{nextEvent ? nextEvent.name : 'Explore the calendar'}</strong></div>
         <div><span className={`eyebrow ${styles.factLabel}`}>When to go</span><strong>{nextEvent ? formatDateRange(nextEvent.start, nextEvent.end) : 'Dates to be announced'}</strong></div>
         <div><span className={`eyebrow ${styles.factLabel}`}>The edit</span><strong>{events.length} curated {events.length === 1 ? 'occasion' : 'occasions'} · {pulse.archetypes[0] ?? 'travel'}</strong></div>
@@ -264,14 +355,14 @@ function DestinationLoaded({
           </div>}
         </section>
 
-        <aside className={`surface ${styles.moment}`}>
+        <aside ref={momentRef} className={`surface ${styles.moment}`}>
           <div className={`eyebrow ${styles.momentHeader}`}><span>01 / THE MOMENT</span><span aria-hidden="true">✦</span></div>
           <p className={`eyebrow ${styles.momentKicker}`}>Next on the calendar</p>
           {nextEvent ? <>
             <h2>{nextEvent.name}</h2>
             <p className={styles.momentDate}>{formatDateRange(nextEvent.start, nextEvent.end)}</p>
             <p className={styles.momentSummary}>{nextEvent.tagline}</p>
-            <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} />
+            <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} circlesHref={platformConnected ? undefined : circlesHref} />
           </> : <p className={styles.momentSummary}>No future occasion is listed for this destination yet.</p>}
           <div id="destination-map" className={styles.mapPanel}>
             <p className={`eyebrow ${styles.momentKicker}`}>Find your way around</p>
@@ -350,7 +441,7 @@ function DestinationLoaded({
                 </div>
                 <div className="flex flex-col items-start gap-2 sm:items-end">
                   <p className="tabular text-[12px] text-ink-muted">{formatDateRange(event.start, event.end)}</p>
-                  <Link href={`/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`} className="btn btn-ghost btn-sm">Plan around this event ↗</Link>
+                  <Link href={eventPlanningHref(event)} className="btn btn-ghost btn-sm">Plan around this event ↗</Link>
                 </div>
               </div>
             ))}
@@ -441,14 +532,16 @@ function DestinationLoaded({
         )}
       </section>
 
-      <div className="sticky bottom-24 z-20 mt-10 flex justify-end md:bottom-6">
+      {/* Appears only once the facts bar has scrolled away, so it never sits over
+          the dates and distance on the first screen (UFR2-J11). */}
+      {showStickyPlan && <div className={styles.stickyPlanDock}>
         <Link
           href={planningHref}
           className={`btn btn-ghost ${styles.stickyPlan}`}
         >
-          {nextEvent ? `Plan ${nextEvent.name}` : 'Explore trip planning'}
+          {nextEvent ? `Plan ${nextEvent.name}` : 'Explore trip planning'} <span aria-hidden="true">↗</span>
         </Link>
-      </div>
+      </div>}
     </main>
   );
 }

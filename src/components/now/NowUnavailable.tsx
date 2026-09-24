@@ -8,18 +8,24 @@ import { isHappeningToday } from '@/lib/data/scene-time';
 import { indexDestinations } from '@/lib/pulse';
 import styles from './now.module.css';
 
+/** "Lisbon, Portugal" and "lisbon" name the same city. */
+function sameCity(a: string, b: string): boolean {
+  const norm = (value: string) => value.split(',')[0].trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return Boolean(a && b) && norm(a) === norm(b);
+}
+
 /**
- * NOW cannot pick venues without its provider. Instead of a form that ends in
- * a disabled button, give the traveler something useful from the curated
- * calendar: what is on today and the destination guide for where they are.
- * No location is requested here.
+ * NOW cannot pick venues without its provider. The one-line notice above
+ * "For you" says so; this block adds what the curated calendar can offer:
+ * what is on today in the traveler's city (only there) and the destination
+ * guides. No location is requested here.
  */
-export function NowUnavailable() {
+export function NowUnavailable({ city = '' }: { city?: string }) {
   const router = useRouter();
   const [now] = useState(() => new Date());
   const { onToday, destinations } = useMemo(() => {
     const index = indexDestinations(EVENTS);
-    const today = EVENTS.filter((event) => isHappeningToday(event, now))
+    const today = EVENTS.filter((event) => sameCity(event.city, city) && isHappeningToday(event, now))
       .slice(0, 3)
       .flatMap((event) => {
         const destination = index.byEventId.get(event.id);
@@ -27,19 +33,18 @@ export function NowUnavailable() {
       });
     const all = [...index.pulses].sort((a, b) => a.name.localeCompare(b.name));
     return { onToday: today, destinations: all };
-  }, [now]);
+  }, [now, city]);
 
   return (
     <section className={styles.unavailable} aria-labelledby="now-unavailable-title">
-      <p className={styles.kicker}>NOW · not connected yet</p>
-      <h2 id="now-unavailable-title">NOW can&apos;t pick venues tonight.</h2>
+      <p className={styles.kicker}>From the world calendar</p>
+      <h2 id="now-unavailable-title">More ways in</h2>
       <p>
-        Live nearby venue search is awaiting its provider, so there are no recommendations to show.
-        Your location is not requested. Here is what the curated calendar can still offer.
+        NOW can&apos;t pick specific venues yet, so here is what the curated calendar can offer. Your location is not requested.
       </p>
       {onToday.length > 0 && (
         <div>
-          <span className={styles.kicker}>On today</span>
+          <span className={styles.kicker}>On today in {city.split(',')[0]}</span>
           <ul className={styles.unavailableList}>
             {onToday.map(({ event, destination }) => (
               <li key={event.id}>

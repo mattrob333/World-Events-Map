@@ -57,6 +57,15 @@ type Props = {
   onDragEnd: () => void;
 };
 
+/** "google.com", "youtube.com": so a card never hides where its link goes. */
+function linkHost(href: string): string {
+  try {
+    return new URL(href).hostname.replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
 export function IdeaCard({
   card,
   slotId,
@@ -99,7 +108,7 @@ export function IdeaCard({
         <p className={styles.cardBlurb}>{card.blurb}</p>
         {card.link ? (
           <a className={styles.cardLink} href={card.link.href} target="_blank" rel="noopener noreferrer">
-            {card.link.label} ↗
+            {card.link.label} ↗<span className="ml-1 opacity-70">· {linkHost(card.link.href)}</span>
           </a>
         ) : null}
       </div>

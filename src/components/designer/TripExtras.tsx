@@ -5,7 +5,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { SLOT_META, type DesignerCard, type DesignerDestination } from '@/lib/designer/catalog';
 import type { Itinerary, Participant, Slot } from '@/lib/designer/itinerary';
 import { partyFrom, staySearches } from '@/lib/designer/stays';
-import { tripMoment } from '@/lib/designer/tripNow';
+import { originAirport } from '@/lib/designer/airports';
+import { isLive, mapsNearYou, tripMoment } from '@/lib/designer/tripNow';
+import { clearDeviceData } from '@/lib/designer/deviceData';
+import { useDesignerStore } from '@/lib/designer/store';
 import { replyFor, replyLink, tripLink } from '@/lib/designer/tripShare';
 import type { TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
@@ -20,8 +23,13 @@ export function useNow(): Date {
   return now;
 }
 
-function Pick({ slot, lookup, label }: { slot: Slot; lookup: (id: string) => DesignerCard | undefined; label: string }) {
+const TRAVEL_SLOTS = new Set(['depart', 'flight', 'arrive']);
+
+function Pick({ slot, lookup, label, until, near }: { slot: Slot; lookup: (id: string) => DesignerCard | undefined; label: string; until?: string; near?: { name: string; region?: string } }) {
   const card = lookup(slot.cardIds[0]);
+  // From "Right now", a Maps link searches around the phone (the city is left out; the app sends no location).
+  const link = card?.link ? ((near && mapsNearYou(card.link.href, near)) ?? card.link) : undefined;
+  const travel = TRAVEL_SLOTS.has(slot.kind);
   const body = (
     <>
       <span className={styles.nowPickEmoji} style={{ ['--a' as string]: card?.palette[0] ?? '#f26b2a', ['--b' as string]: card?.palette[1] ?? '#8e4db8' }} aria-hidden>
@@ -30,14 +38,16 @@ function Pick({ slot, lookup, label }: { slot: Slot; lookup: (id: string) => Des
       <span className="min-w-0">
         <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-brass">
           {label} · {slot.label}
+          {until ? ` · until ${until}` : ''}
         </span>
-        <span className="block text-[15px] font-semibold text-ink">{card?.title ?? 'Free time'}</span>
-        {card?.link ? <span className="block text-[12px] text-ink-muted">{card.link.label} ↗</span> : null}
+        <span className="block text-[15px] font-semibold text-ink">{card?.title ?? (travel ? slot.label : 'Free time')}</span>
+        {travel && slot.note ? <span className="block text-[12px] text-ink-muted">{slot.note}</span> : null}
+        {link ? <span className="block text-[12px] text-ink-muted">{link.label} ↗</span> : null}
       </span>
     </>
   );
-  return card?.link ? (
-    <a className={styles.nowPick} href={card.link.href} target="_blank" rel="noopener noreferrer">
+  return link ? (
+    <a className={styles.nowPick} href={link.href} target="_blank" rel="noopener noreferrer">
       {body}
     </a>
   ) : (
@@ -45,25 +55,38 @@ function Pick({ slot, lookup, label }: { slot: Slot; lookup: (id: string) => Des
   );
 }
 
-/** Shows today's plan when the trip is underway, plus a jump to NOW for something nearby. */
+/**
+ * Today's plan while the trip is on: a travel-day card until arrival, the
+ * current and next pick on the ground, and the airport run on the last day.
+ * Nothing before the trip or after it (the hero covers those).
+ */
 export function RightNow({ trip, destination, lookup, now, nowLink = true }: { trip: Itinerary; destination: DesignerDestination; lookup: (id: string) => DesignerCard | undefined; now: Date; nowLink?: boolean }) {
   const moment = tripMoment(trip, now);
-  if (!moment) return null;
-  const { day, current, next } = moment;
+  if (!isLive(moment)) return null;
+  const { day, current, next, phase, until } = moment;
   const city = destination.id === 'maldives' ? 'Male' : destination.name;
+  const from = originAirport(trip.hometown);
+  const onGround = phase === 'on-ground';
+  const near = onGround ? { name: destination.name, region: destination.region } : undefined;
+  const eyebrow = phase === 'travel-out' ? 'travel day' : phase === 'travel-home' ? 'heading home' : 'you’re here';
+  const heading =
+    phase === 'travel-out'
+      ? `Travel day · ${from ? `${from} → ` : 'to '}${destination.name}`
+      : phase === 'travel-home'
+        ? `Heading home from ${destination.name}`
+        : `${current || next ? 'Right now in ' : 'Tonight in '}${destination.name}`;
   return (
     <section className={styles.nowCard} aria-labelledby="trip-now-title">
       <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">
         <span className={styles.nowPulse} aria-hidden />
-        Day {day.index + 1} of {trip.days.length} · you’re here
+        Day {day.index + 1} of {trip.days.length} · {eyebrow}
       </p>
       <h2 id="trip-now-title" className="mt-1 font-display text-[28px] leading-tight text-ink">
-        {current || next ? 'Right now in ' : 'Tonight in '}
-        {destination.name}
+        {heading}
       </h2>
-      {current ? <Pick slot={current} lookup={lookup} label="Now" /> : null}
-      {next ? <Pick slot={next} lookup={lookup} label="Up next" /> : null}
-      {nowLink ? (
+      {current ? <Pick slot={current} lookup={lookup} label="Now" until={until} near={near} /> : null}
+      {next ? <Pick slot={next} lookup={lookup} label="Up next" near={near} /> : null}
+      {nowLink && onGround ? (
         <div className={`${styles.row} mt-3`}>
           <Link className={styles.cta} href={`/now?city=${encodeURIComponent(city)}`}>
             Something else nearby, right now →
@@ -117,22 +140,97 @@ async function shareOrCopy(url: string, title: string, text: string): Promise<'s
   }
 }
 
-/** Invite friends with a link; on a friend's copy, send their picks back. */
-export function InvitePanel({ trip, votes, voter, destination }: { trip: Itinerary; votes: TripVotes; voter?: Participant; destination: DesignerDestination }) {
+/** Sends this guest's own picks back to the organizer (shared by the guest bar and the invite panel). */
+export type PicksSender = { send: () => Promise<void>; status: string; error: string; link: string; count: number; me?: Participant; to: string };
+
+export function usePicksSender(trip: Itinerary, votes: TripVotes, me: Participant | undefined, destination: DesignerDestination): PicksSender {
   const [link, setLink] = useState('');
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
-  const guest = trip.joinedFrom !== undefined;
-  // The placeholder name "You" would read as “You wants you on this trip” to a friend.
-  const organizer = useMemo(() => {
-    const name = trip.participants[0]?.name;
-    return name && !/^you$/i.test(name) ? name : undefined;
-  }, [trip.participants]);
+  const to = trip.joinedFrom || 'the organizer';
+  const count = useMemo(() => {
+    if (!me) return 0;
+    let n = 0;
+    for (const slot of Object.values(votes)) for (const card of Object.values(slot)) if (Object.hasOwn(card, me.id)) n += 1;
+    return n;
+  }, [votes, me]);
 
-  async function invite() {
+  async function send() {
     setError('');
+    if (!me) return;
     try {
-      const url = await tripLink(window.location.origin, trip, votes, organizer);
+      const url = await replyLink(window.location.origin, replyFor(trip, votes, me.id));
+      setLink(url);
+      const result = await shareOrCopy(url, `${me.name}’s picks`, `My picks for ${destination.name}. Tap to add them to the trip.`);
+      setStatus(result === 'copied' ? `Link copied. Send it to ${to}.` : result === 'shared' ? 'Sent. Vote more and send again anytime.' : 'Copy the picks link at the bottom of the page.');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not build the link.');
+    }
+  }
+
+  return { send, status, error, link, count, me, to };
+}
+
+/**
+ * On a guest copy: who you are, how many picks you've made, and the one action
+ * that gets them to the organizer. Pinned above the phone tab bar (h-16 + safe
+ * area); a compact sticky bar on desktop.
+ */
+export function GuestBar({ picks }: { picks: PicksSender }) {
+  const { me, to, count, status, error } = picks;
+  if (!me) return null;
+  return (
+    <div
+      className="fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-30 md:sticky md:inset-x-auto md:bottom-4 md:mx-auto md:mt-6 md:max-w-2xl"
+      role="region"
+      aria-label="Your picks"
+    >
+      <div className="surface-raised flex items-center gap-3 px-3 py-2">
+        <span className={styles.avatar} style={{ background: me.color }} aria-hidden>
+          {me.emoji}
+        </span>
+        <p className="min-w-0 flex-1 text-[13px] leading-5 text-ink">
+          <span className="block truncate">
+            You’re {me.name} on {to === 'the organizer' ? 'this' : `${to}’s`} trip · {count} pick{count === 1 ? '' : 's'}
+          </span>
+          <span className={`block truncate text-[12px] ${error ? 'text-flamingo' : 'text-ink-muted'}`} role="status">
+            {error || status || (count ? 'Your picks stay on this phone until you send them.' : 'Tap 👍 on what you’re into.')}
+          </span>
+        </p>
+        <button type="button" className={`${styles.cta} shrink-0`} onClick={() => void picks.send()}>
+          Send to {to === 'the organizer' ? 'organizer' : to}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Invite friends with a link; on a friend's copy, send their picks back. */
+export function InvitePanel({ trip, votes, voter, destination, picks }: { trip: Itinerary; votes: TripVotes; voter?: Participant; destination: DesignerDestination; picks?: PicksSender }) {
+  const renameParticipant = useDesignerStore((state) => state.renameParticipant);
+  const clearAll = useDesignerStore((state) => state.clearAll);
+  const [link, setLink] = useState('');
+  const [status, setStatus] = useState('');
+  const [error, setError] = useState('');
+  const [naming, setNaming] = useState(false);
+  const [hostName, setHostName] = useState('');
+  const [clearing, setClearing] = useState(false);
+  const guest = trip.joinedFrom !== undefined;
+  const ownSender = usePicksSender(trip, votes, voter, destination);
+  const sender = picks ?? ownSender;
+  const host = trip.participants[0];
+  // The placeholder name "You" would read as “You wants you on this trip” to a friend: ask first.
+  const placeholder = !guest && Boolean(host) && /^you$/i.test(host.name.trim());
+
+  async function invite(forTrip: Itinerary = trip) {
+    setError('');
+    const name = forTrip.participants[0]?.name;
+    if (!guest && name && /^you$/i.test(name.trim())) {
+      setNaming(true);
+      return;
+    }
+    try {
+      const url = await tripLink(window.location.origin, forTrip, votes, guest ? trip.joinedFrom || undefined : name);
       setLink(url);
       const result = await shareOrCopy(url, `${destination.name} trip`, `Help plan our ${destination.name} trip: tap ♥ on what you’re into.`);
       setStatus(result === 'copied' ? 'Link copied. Paste it in the group chat.' : result === 'shared' ? 'Sent.' : 'Copy the link below.');
@@ -141,17 +239,21 @@ export function InvitePanel({ trip, votes, voter, destination }: { trip: Itinera
     }
   }
 
-  async function sendPicks() {
-    setError('');
-    if (!voter) return;
-    try {
-      const url = await replyLink(window.location.origin, replyFor(trip, votes, voter.id));
-      setLink(url);
-      const result = await shareOrCopy(url, `${voter.name}’s picks`, `My picks for ${destination.name}. Tap to add them to the trip.`);
-      setStatus(result === 'copied' ? `Link copied. Send it to ${trip.joinedFrom || 'the organizer'}.` : result === 'shared' ? 'Sent.' : 'Copy the link below.');
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Could not build the link.');
+  function saveName() {
+    const name = hostName.trim().slice(0, 30);
+    if (!name || /^you$/i.test(name) || !host) {
+      setError('Type the name your friends know you by.');
+      return;
     }
+    renameParticipant(host.id, name);
+    setNaming(false);
+    void invite({ ...trip, participants: trip.participants.map((p) => (p.id === host.id ? { ...p, name } : p)) });
+  }
+
+  function clearDevice() {
+    clearAll();
+    clearDeviceData();
+    setClearing(false);
   }
 
   return (
@@ -161,27 +263,75 @@ export function InvitePanel({ trip, votes, voter, destination }: { trip: Itinera
       </p>
       <p className="mt-1 text-[13px] leading-5 text-ink-muted">
         {guest
-          ? `Vote as ${voter?.name ?? 'yourself'}, then send your picks back. They merge into the organizer’s plan.`
+          ? `You’re voting as ${voter?.name ?? 'yourself'}. Your picks stay on this phone until you send them; they merge into ${sender.to}’s plan when ${sender.to === 'the organizer' ? 'they open' : `${sender.to} opens`} the link.`
           : 'The whole trip travels inside the link, so there’s no sign-up. Friends vote on their own phone and send their picks back with one tap.'}
       </p>
-      <div className={`${styles.row} mt-3`}>
-        {guest ? (
-          <button type="button" className={styles.cta} onClick={sendPicks} disabled={!voter}>
-            Send my picks back
+      {naming && !guest ? (
+        <form
+          className="mt-3"
+          onSubmit={(event) => {
+            event.preventDefault();
+            saveName();
+          }}
+        >
+          <label className={styles.label}>
+            What should your crew see you as?
+            <input className={styles.input} value={hostName} maxLength={30} placeholder="Your first name" autoFocus onChange={(e) => setHostName(e.target.value)} />
+          </label>
+          <div className={`${styles.row} mt-3`}>
+            <button type="submit" className={styles.cta}>
+              Save and invite
+            </button>
+            <button type="button" className={styles.ghost} onClick={() => setNaming(false)}>
+              Not now
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className={`${styles.row} mt-3`}>
+          {guest ? (
+            <button type="button" className={styles.cta} onClick={() => void sender.send()} disabled={!voter}>
+              Send my picks to {sender.to === 'the organizer' ? 'the organizer' : sender.to}
+            </button>
+          ) : null}
+          <button type="button" className={guest ? styles.ghost : styles.cta} onClick={() => void invite()}>
+            {guest ? 'Share the trip' : 'Invite people'}
           </button>
-        ) : null}
-        <button type="button" className={guest ? styles.ghost : styles.cta} onClick={invite}>
-          {guest ? 'Share the trip' : 'Invite people'}
-        </button>
-      </div>
+        </div>
+      )}
+      {placeholder && !naming ? <p className="mt-2 text-[12px] text-ink-muted">You’re “You” on this trip. We’ll ask what name to show your friends first.</p> : null}
       {status ? <p className="mt-2 text-[12px] text-ink-muted" role="status">{status}</p> : null}
-      {error ? <p className={styles.error} role="alert">{error}</p> : null}
-      {link ? (
-        <textarea className={styles.shareBox} readOnly rows={3} value={link} aria-label="Share link" onFocus={(e) => e.currentTarget.select()} />
-      ) : null}
+      {sender.status && guest ? <p className="mt-2 text-[12px] text-ink-muted" role="status">{sender.status}</p> : null}
+      {error || (guest && sender.error) ? <p className={styles.error} role="alert">{error || sender.error}</p> : null}
+      {link ? <textarea className={styles.shareBox} readOnly rows={3} value={link} aria-label="Share link" onFocus={(e) => e.currentTarget.select()} /> : null}
+      {guest && sender.link ? <textarea className={styles.shareBox} readOnly rows={2} value={sender.link} aria-label="Picks link" onFocus={(e) => e.currentTarget.select()} /> : null}
       <p className="mt-2 text-[11px] leading-4 text-ink-subtle">
-        Anyone with the link can see the plan and who’s going (names, kids’ ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.
+        {guest
+          ? 'Your picks link carries your name and your votes. “Share the trip” sends the plan, names, kids’ ages, home city, and everyone’s votes so far. '
+          : 'The invite carries names, kids’ ages, home city, the plan, and everyone’s votes so far, to anyone the link reaches. Interests, adults’ ages, and listening details stay on this device. '}
+        Picks sync when a link is opened, not live.
       </p>
+      <div className="mt-3 border-t border-white/[0.06] pt-3">
+        {clearing ? (
+          <div role="alertdialog" aria-labelledby="clear-device-title">
+            <p id="clear-device-title" className="text-[13px] leading-5 text-ink-muted">
+              Delete the trip, votes, saved mood boards, any trip set aside, and cached research from this browser? Links you already sent keep working for whoever has them.
+            </p>
+            <div className={`${styles.row} mt-2`}>
+              <button type="button" className={styles.ghost} onClick={clearDevice}>
+                Delete everything
+              </button>
+              <button type="button" className={styles.ghost} onClick={() => setClearing(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button type="button" className={styles.miniBtn} onClick={() => setClearing(true)}>
+            Clear everything on this device
+          </button>
+        )}
+      </div>
     </section>
   );
 }

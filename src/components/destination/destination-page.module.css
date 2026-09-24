@@ -59,8 +59,27 @@
 .photoEyebrow { color: var(--color-brass-bright); text-shadow: 0 1px 6px rgb(0 0 0 / 0.9); }
 .sideTitle { color: var(--color-bone); font-family: var(--font-display); font-size: clamp(1.15rem, 1.7vw, 1.65rem); line-height: 1.1; text-shadow: 0 2px 12px #000; }
 .mobileCredits { display: none; }
-.noPhoto { position: absolute; inset: 0; display: grid; align-items: center; background: var(--gradient-sunrise-wash), var(--color-surface-2); }
-.noPhoto > section { opacity: 0.5; }
+/* No reviewed local photo. The warm charcoal wash is both the loading state and
+   the fallback; a Commons photo fades in over it once it has decoded. A wide,
+   sharp landscape fills the frame; anything else is framed on the right so a
+   small or portrait original is never stretched behind the title. */
+.heroFallback { position: absolute; inset: 0; background: radial-gradient(70% 90% at 88% 30%, rgb(242 107 42 / 0.12), transparent 62%), var(--gradient-sunrise-wash), linear-gradient(165deg, var(--color-surface-2), var(--color-surface-1)); }
+.heroFallback ~ figure .photoImage { opacity: 0; transition: opacity 0.45s var(--ease-glide); }
+.heroFallback ~ figure[data-loaded] .photoImage { opacity: 1; }
+.framedPhoto { position: absolute; inset: 0 0 0 auto; width: min(44%, 36rem); margin: 0; }
+.framedPhoto .photoImage { object-position: center 35%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%); mask-image: linear-gradient(90deg, transparent, #000 40%); }
+.framedPhoto .photoShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.55), transparent 40%); }
+@media (min-width: 741px) {
+  .heroMainFramed .heroBottom { max-width: min(48rem, 58%); }
+}
+@media (max-width: 740px) {
+  .framedPhoto { inset: 0; width: auto; }
+  .framedPhoto .photoImage { -webkit-mask-image: none; mask-image: none; }
+  .framedPhoto .photoShade { background: linear-gradient(0deg, rgb(5 5 5 / 0.95), rgb(5 5 5 / 0.1) 75%), linear-gradient(90deg, rgb(5 5 5 / 0.3), transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroFallback ~ figure .photoImage { transition: none; }
+}
 
 /* Fact tray: one sunken well holding the facts, with the map link as a raised pill. */
 .factBar { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr auto; align-items: center; gap: 0.25rem; margin-top: 0.75rem; border-radius: var(--radius-card); padding: 0.4rem; }
@@ -123,7 +142,23 @@
 .offerCards > article a[href] { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
 .offerCards > article > p:last-child { font-size: 0.75rem; line-height: 1.5; color: var(--color-ink-subtle); }
 
-.stickyPlan { box-shadow: var(--shadow-soft-2); }
+/* Unconfigured hero: Keep is the one primary; a quiet line under it. */
+.heroHint { margin-top: 0.4rem; color: var(--color-ink-soft); font-size: 0.75rem; line-height: 1.4; text-shadow: 0 1px 6px rgb(0 0 0 / 0.9); }
+.heroHint a { display: inline-flex; min-height: 2.75rem; align-items: center; margin: -0.5rem 0 -0.75rem 0.35rem; color: var(--color-bone); text-decoration: underline; text-decoration-color: rgb(244 241 234 / 0.4); text-underline-offset: 3px; }
+.heroHint a:hover { text-decoration-color: var(--color-bone); }
+.undoKeep { min-height: 2.75rem; padding: 0 0.25rem; border: 0; background: transparent; color: var(--color-ink-soft); font-size: 0.8125rem; text-decoration: underline; text-decoration-color: rgb(244 241 234 / 0.35); text-underline-offset: 3px; cursor: pointer; text-shadow: 0 1px 6px rgb(0 0 0 / 0.9); }
+.undoKeep:hover { color: var(--color-bone); }
+.undoKeep:focus-visible, .heroHint a:focus-visible, .friendsLink:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
+.friendsLink { display: inline-flex; min-height: 2.75rem; align-items: center; margin-top: 0.25rem; color: var(--color-ink-muted); font-size: 0.8125rem; line-height: 1.35; text-decoration: underline; text-decoration-color: rgb(168 165 152 / 0.4); text-underline-offset: 3px; }
+.friendsLink:hover { color: var(--color-bone); }
+
+/* The "Plan …" pill floats above the phone tab bar and only after the facts
+   bar has scrolled away (UFR2-J11). */
+.stickyPlanDock { position: fixed; right: 1rem; bottom: calc(5rem + env(safe-area-inset-bottom)); z-index: 30; display: flex; justify-content: flex-end; pointer-events: none; animation: stickyIn var(--duration-quick, 180ms) var(--ease-glide, ease-out); }
+.stickyPlanDock > * { pointer-events: auto; }
+.stickyPlan { max-width: calc(100vw - 2rem); overflow: hidden; text-overflow: ellipsis; background: var(--gradient-surface), var(--color-surface-3); box-shadow: var(--shadow-soft-3); }
+@keyframes stickyIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (min-width: 768px) { .stickyPlanDock { right: 1.5rem; bottom: 1.5rem; } }
 
 @media (max-width: 1050px) {
   .belowHero { grid-template-columns: 1fr; }
@@ -169,4 +204,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sidePhoto .photoImage, .tab { transition: none; }
+  .stickyPlanDock { animation: none; }
 }

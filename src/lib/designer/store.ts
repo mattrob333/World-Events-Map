@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import type { Itinerary } from './itinerary';
 import type { ListeningProfile } from './listening';
 import type { ParseEngine, TravelerProfile } from './profile';
-import { mergeReply as mergeReplyInto, type TripReply } from './tripShare';
+import { isSafeId, mergeReply as mergeReplyInto, type MergeSummary, type TripReply } from './tripShare';
 import { moveCard as moveCardBetween, type TripVotes } from './votes';
 
 export type SavedProfile = {
@@ -15,11 +15,22 @@ export type SavedProfile = {
   updatedAt: string;
 };
 
+/** The trip a shared invite replaced on this device, kept so it can be restored. */
+export type SavedTrip = { trip: Itinerary; votes: TripVotes; activeParticipant: string | null; joinedAs: string | null };
+
 interface DesignerState {
   profiles: SavedProfile[];
   trip: Itinerary | null;
   votes: TripVotes;
   activeParticipant: string | null;
+  /** On a guest copy: who this device joined as. Only their picks are sent back. */
+  joinedAs: string | null;
+  /** One slot: the trip an invite replaced. */
+  previousTrip: SavedTrip | null;
+  /** Per traveler id: the send time of the newest picks link merged into this trip. */
+  lastMergedAt: Record<string, string>;
+  /** In memory only: the state before the last merge, for Undo. */
+  mergeUndo: { tripId: string; trip: Itinerary; votes: TripVotes; lastMergedAt: Record<string, string> } | null;
   /** Board in progress: survives the Spotify sign-in redirect. */
   draftRamble: string;
   draftListening: ListeningProfile | null;
@@ -28,10 +39,19 @@ interface DesignerState {
   saveProfile: (profile: SavedProfile) => void;
   removeProfile: (id: string) => void;
   setTrip: (trip: Itinerary) => void;
-  /** Opens a shared trip on this device, keeping everyone's votes so far. */
+  /**
+   * Opens a shared trip on this device, keeping everyone's votes so far. A
+   * different trip already here moves to `previousTrip` instead of being lost.
+   */
   importTrip: (trip: Itinerary, votes: TripVotes, me: string) => void;
-  /** Merges a friend's picks link; throws if it belongs to another trip. */
-  mergeReply: (reply: TripReply) => { added: boolean };
+  /** Swaps the previous trip back in (the current one takes its slot). */
+  restorePreviousTrip: () => void;
+  /** Merges a friend's picks link; throws if it belongs to another trip. `as` merges into an existing traveler. */
+  mergeReply: (reply: TripReply, options?: { as?: string }) => MergeSummary;
+  /** Restores the trip and votes from before the last merge. */
+  undoMerge: () => boolean;
+  /** Renames a traveler (the organizer's "What should your crew see you as?"). */
+  renameParticipant: (id: string, name: string) => void;
   clearTrip: () => void;
   setActiveParticipant: (id: string) => void;
   /** Toggles by default (tap again to clear); swipes pass toggle=false to set. */
@@ -67,6 +87,10 @@ export const useDesignerStore = create<DesignerState>()(
       trip: null,
       votes: {},
       activeParticipant: null,
+      joinedAs: null,
+      previousTrip: null,
+      lastMergedAt: {},
+      mergeUndo: null,
       draftRamble: '',
       draftListening: null,
       setDraftRamble: (draftRamble) => set({ draftRamble }),
@@ -74,16 +98,63 @@ export const useDesignerStore = create<DesignerState>()(
       saveProfile: (profile) =>
         set((state) => ({ profiles: [profile, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12) })),
       removeProfile: (id) => set((state) => ({ profiles: state.profiles.filter((entry) => entry.id !== id) })),
-      setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null }),
-      importTrip: (trip, votes, me) => set({ trip, votes, activeParticipant: me }),
-      mergeReply: (reply) => {
-        const { trip, votes } = get();
+      setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null, joinedAs: null, lastMergedAt: {}, mergeUndo: null }),
+      importTrip: (trip, votes, me) =>
+        set((state) => {
+          const replacing = state.trip && state.trip.id !== trip.id;
+          return {
+            trip,
+            votes,
+            activeParticipant: me,
+            joinedAs: trip.joinedFrom !== undefined ? me : null,
+            ...(replacing
+              ? {
+                  previousTrip: { trip: state.trip!, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs },
+                  lastMergedAt: {},
+                  mergeUndo: null,
+                }
+              : {}),
+          };
+        }),
+      restorePreviousTrip: () =>
+        set((state) => {
+          if (!state.previousTrip) return {};
+          const saved = state.previousTrip;
+          return {
+            trip: saved.trip,
+            votes: saved.votes,
+            activeParticipant: saved.activeParticipant,
+            joinedAs: saved.joinedAs,
+            previousTrip: state.trip ? { trip: state.trip, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs } : null,
+            lastMergedAt: {},
+            mergeUndo: null,
+          };
+        }),
+      mergeReply: (reply, options) => {
+        const { trip, votes, lastMergedAt } = get();
         if (!trip) throw new Error('Open the trip on this device first, then tap the picks link again.');
-        const merged = mergeReplyInto(trip, votes, reply);
-        set({ trip: merged.trip, votes: merged.votes });
-        return { added: merged.added };
+        const merged = mergeReplyInto(trip, votes, reply, options);
+        const who = merged.summary.participantId;
+        const at = reply.at ?? new Date().toISOString();
+        const known = Object.hasOwn(lastMergedAt, who) ? lastMergedAt[who] : undefined;
+        const nextMerged = { ...lastMergedAt };
+        if (isSafeId(who) && (!known || Date.parse(at) > Date.parse(known))) nextMerged[who] = at;
+        set({ trip: merged.trip, votes: merged.votes, lastMergedAt: nextMerged, mergeUndo: { tripId: trip.id, trip, votes, lastMergedAt } });
+        return merged.summary;
       },
-      clearTrip: () => set({ trip: null, votes: {}, activeParticipant: null }),
+      undoMerge: () => {
+        const { mergeUndo, trip } = get();
+        if (!mergeUndo || trip?.id !== mergeUndo.tripId) return false;
+        set({ trip: mergeUndo.trip, votes: mergeUndo.votes, lastMergedAt: mergeUndo.lastMergedAt, mergeUndo: null });
+        return true;
+      },
+      renameParticipant: (id, name) =>
+        set((state) => {
+          const clean = name.trim().slice(0, 30);
+          if (!state.trip || !clean) return {};
+          return { trip: { ...state.trip, participants: state.trip.participants.map((p) => (p.id === id ? { ...p, name: clean } : p)) } };
+        }),
+      clearTrip: () => set({ trip: null, votes: {}, activeParticipant: null, joinedAs: null, lastMergedAt: {}, mergeUndo: null }),
       setActiveParticipant: (id) => set({ activeParticipant: id }),
       vote: (slotId, cardId, participantId, value, toggle = true) =>
         set((state) => {
@@ -111,7 +182,19 @@ export const useDesignerStore = create<DesignerState>()(
         });
       },
       pickCard: (slotId, cardId) => get().moveCard(cardId, slotId, slotId, 0),
-      clearAll: () => set({ profiles: [], trip: null, votes: {}, activeParticipant: null, draftRamble: '', draftListening: null }),
+      clearAll: () =>
+        set({
+          profiles: [],
+          trip: null,
+          votes: {},
+          activeParticipant: null,
+          joinedAs: null,
+          previousTrip: null,
+          lastMergedAt: {},
+          mergeUndo: null,
+          draftRamble: '',
+          draftListening: null,
+        }),
     }),
     {
       name: 'meridian.designer.v1',
@@ -121,6 +204,9 @@ export const useDesignerStore = create<DesignerState>()(
         trip: state.trip,
         votes: state.votes,
         activeParticipant: state.activeParticipant,
+        joinedAs: state.joinedAs,
+        previousTrip: state.previousTrip,
+        lastMergedAt: state.lastMergedAt,
         draftRamble: state.draftRamble,
         draftListening: state.draftListening,
       }),

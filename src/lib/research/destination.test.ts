@@ -1,8 +1,9 @@
-import { beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
-import { CAP_MICRO, researchDestination, resetResearchCacheForTests } from './destination';
+import { budgetSnapshot, resetDailyBudgetsForTests } from '@/lib/designer/server/dailyBudget';
+import { CAP_MICRO, foodTerm, researchCacheMisses, researchDestination, resetResearchCacheForTests, sceneKey } from './destination';
 import {
   aboutPlace,
   hiddenGems,
@@ -28,7 +29,11 @@ const castle = {
 };
 const tasca = { ...castle, name: 'Tasca do Chico', placeId: 'ChIJtasca', rating: 4.7, reviewCount: 640, category: 'Fado venue', image: 'https://evil.example/pic.jpg' };
 
-beforeEach(() => resetResearchCacheForTests());
+beforeEach(() => {
+  resetResearchCacheForTests();
+  resetDailyBudgetsForTests();
+});
+afterEach(() => vi.unstubAllEnvs());
 
 it('reads Google Maps places, keeps only Google photos, and resizes the same photo', () => {
   const spots = parseGoogleMaps(mapsJson([castle, tasca, { ...castle, placeId: 'closed', permanentlyClosed: true }, { name: 'No link' }]));
@@ -177,4 +182,99 @@ it('stops starting paid calls once the run would pass its cap', async () => {
   const reserved = calls.reduce((sum, endpoint) => sum + (endpoint.startsWith('serpapi') ? 20_000 : 5_000), 0);
   expect(reserved).toBeLessThanOrEqual(CAP_MICRO);
   expect(research.spentUsd).toBeGreaterThan(0);
+});
+
+const CEILING: Record<string, number> = {
+  'anyapi.google.serp.maps': 5000, 'serpapi.x.tripadvisor-search': 20_000, 'serpapi.x.yelp-search': 20_000,
+  'anyapi.instagram.hashtag_recent_posts': 5000, 'anyapi.tiktok.search.videos': 5000,
+  'dataforseo.x.serp-google-events-live-advanced': 5000, 'serpapi.x.google-flights': 20_000,
+};
+
+/** A Treg double that bills the full ceiling (or omits the cost header) and answers after a tick, so runs overlap. */
+function billingTreg(costHeader: 'ceiling' | 'missing') {
+  const billed: { endpoint: string; micro: number; body: string }[] = [];
+  const fetchImpl = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+    const url = String(input);
+    if (url.startsWith('https://www.tiktok.com/oembed')) return new Response('{}');
+    const endpoint = new URL(url).pathname.replace('/call/', '');
+    billed.push({ endpoint, micro: CEILING[endpoint], body: `${url} ${typeof init?.body === 'string' ? init.body : ''}` });
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    const headers: Record<string, string> = costHeader === 'ceiling' ? { 'x-treg-cost-micro': String(CEILING[endpoint]) } : {};
+    const body = endpoint === 'anyapi.google.serp.maps' ? mapsJson([castle, tasca]) : endpoint === 'serpapi.x.google-flights' ? { best_flights: [] } : {};
+    return new Response(JSON.stringify(body), { status: 200, headers });
+  });
+  return { billed, total: () => billed.reduce((sum, call) => sum + call.micro, 0), fetchImpl: fetchImpl as unknown as typeof fetch };
+}
+
+it('never lets 50 concurrent fresh runs bill past the daily cap', async () => {
+  vi.stubEnv('TREG_RESEARCH_DAILY_USD', '1');
+  const { total, fetchImpl } = billingTreg('ceiling');
+  const runs = Array.from({ length: 50 }, (_, i) => researchDestination(
+    { name: `Place ${String.fromCharCode(97 + (i % 26))}${i}`, flight: { from: 'JFK', to: 'LIS', depart: '2026-10-15', return: `2026-10-${String(16 + (i % 10)).padStart(2, '0')}` } },
+    { token: 'k', fetchImpl, now: () => NOW },
+  ));
+  const results = await Promise.all(runs);
+  expect(total()).toBeGreaterThan(0);
+  expect(total()).toBeLessThanOrEqual(1_000_000);
+  expect(budgetSnapshot('research', NOW).spent).toBe(total());
+  expect(budgetSnapshot('research', NOW).reserved).toBe(0);
+  // Flights never take more than their own share (default $0.40).
+  expect(budgetSnapshot('researchFlights', NOW).spent).toBeLessThanOrEqual(400_000);
+  // Runs that found the day spent say so instead of claiming "no results".
+  expect(results.some((r) => r.topSpots.note?.includes('today’s live-research budget'))).toBe(true);
+});
+
+it('charges the full ceiling when Treg sends no cost header, so the cap still holds', async () => {
+  vi.stubEnv('TREG_RESEARCH_DAILY_USD', '0.5');
+  const { total, fetchImpl } = billingTreg('missing');
+  await Promise.all(Array.from({ length: 50 }, (_, i) => researchDestination({ name: `Town${i}x` }, { token: 'k', fetchImpl, now: () => NOW })));
+  expect(total()).toBeLessThanOrEqual(500_000);
+  expect(budgetSnapshot('research', NOW).spent).toBe(total());
+  const one = await researchDestination({ name: 'Fresh' }, { token: 'k', fetchImpl: billingTreg('missing').fetchImpl, now: () => NOW + 86_400_000 });
+  // A new UTC day: the ceiling-charged spend is reported for this request.
+  expect(one.spentUsd).toBeGreaterThan(0);
+});
+
+it('maps free-text food and scene into a small fixed set', () => {
+  expect(foodTerm('Really good fresh SEAFOOD please')).toBe('seafood');
+  expect(foodTerm('Barbecue')).toBe('bbq');
+  expect(foodTerm('grandma’s secret recipe 123')).toBeUndefined();
+  expect(sceneKey('Rock cover bands')).toBe('rock-covers');
+  expect(sceneKey('jazz')).toBe('jazz');
+  expect(sceneKey('xyzzy nights 42')).toBeUndefined();
+});
+
+it('caches the place without the scene or food: only the steered map searches vary, and only by known values', async () => {
+  const { billed, fetchImpl } = billingTreg('ceiling');
+  const deps = { token: 'k', fetchImpl, now: () => NOW };
+  await researchDestination({ name: 'Nashville', region: 'Tennessee', scene: 'Rock cover bands' }, deps);
+  const first = billed.length;
+  expect(researchCacheMisses({ name: 'Nashville', region: 'Tennessee', scene: 'Rock cover bands' }, NOW)).toBe(0);
+  // A guest's copy without the scene: only the default nightlife search is new.
+  expect(researchCacheMisses({ name: 'Nashville', region: 'Tennessee' }, NOW)).toBe(1);
+  await researchDestination({ name: 'Nashville', region: 'Tennessee' }, deps);
+  expect(billed.length).toBe(first + 1);
+  // Unknown free text maps to the defaults, which are cached now: no new calls at all.
+  for (const scene of ['zzz one', 'zzz two', 'zzz three']) {
+    for (const food of ['mystery a', 'mystery b']) {
+      await researchDestination({ name: 'Nashville', region: 'Tennessee', scene, food }, deps);
+    }
+  }
+  expect(billed.length).toBe(first + 1);
+  // Nothing free-text is ever sent upstream in a steered query.
+  expect(billed.some((call) => call.body.includes('zzz') || call.body.includes('mystery'))).toBe(false);
+});
+
+it('gives flights their own share of the day', async () => {
+  vi.stubEnv('TREG_FLIGHTS_DAILY_USD', '0.04');
+  const { billed, fetchImpl } = billingTreg('ceiling');
+  const deps = { token: 'k', fetchImpl, now: () => NOW };
+  const trip = (ret: string) => ({ name: 'Lisbon', flight: { from: 'JFK', to: 'LIS', depart: '2026-10-15', return: ret } });
+  await researchDestination(trip('2026-10-20'), deps);
+  await researchDestination(trip('2026-10-21'), deps);
+  const third = await researchDestination(trip('2026-10-22'), deps);
+  expect(billed.filter((call) => call.endpoint === 'serpapi.x.google-flights')).toHaveLength(2);
+  expect(third.flights.status).toBe('unavailable');
+  expect(third.flights.note).toMatch(/budget/);
+  expect(third.topSpots.status).toBe('ok');
 });
