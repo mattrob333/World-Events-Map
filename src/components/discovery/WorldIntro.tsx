@@ -10,6 +10,7 @@ import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curat
 import { photoImageProps } from '@/lib/place-media/sources';
 import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
+import { whyNow } from '@/lib/discovery/whyNow';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
 import { HeroPool } from './HeroPool';
@@ -36,7 +37,7 @@ const HERO_STORIES: Record<TripInterest, { first: string; emphasis: string; desc
   all: {
     first: 'The best stories', emphasis: 'start somewhere.',
     description: 'Find the moment. Follow the feeling. See how far a single place can take you.',
-    heading: 'Places worth a detour.',
+    heading: 'Worth catching now.',
   },
   ski: {
     first: 'A winter together', emphasis: 'starts here.',
@@ -85,8 +86,9 @@ function calendarTiming(event: WorldEvent, focus: string) {
   return { phase: 'plan' as const, label: 'PLAN', detail: `${leadDays} days ahead` };
 }
 
-function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
+function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: number; today: string; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
   const { event, slug } = pick;
+  const why = whyNow(event, today);
   const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -123,6 +125,8 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
         <span className={styles.cardTop}><span>{event.category}</span><span>{dateLabel(event.start)}</span></span>
         <span className={styles.cardCity}>{event.city}</span>
         <span className={styles.cardEvent}>{event.name}</span>
+        <span className={styles.cardWhen} data-tone={why.tone}>{why.when}</span>
+        {why.planBy && <span className={styles.cardPlan} data-urgency={why.planBy.urgency}>{why.planBy.label}</span>}
         <span className={styles.cardFly}><span aria-hidden="true">✈</span> Fly there on the globe <span aria-hidden="true">↗</span></span>
       </button>
       <div className={styles.cardBottom}>
@@ -195,6 +199,7 @@ export function WorldIntro({
     });
   }, [destinations, focus, filtering, interest, seasonalEvents]);
   const featured = activeJourney?.event ?? picks[0]?.event;
+  const featuredWhy = featured ? whyNow(featured, focus) : null;
   const estimate = origin && featured ? estimateRoute(origin, featured.coords) : null;
   const departures = useMemo(() => {
     if (filtering) return seasonalEvents.slice(0, 12);
@@ -344,7 +349,7 @@ export function WorldIntro({
           </div>
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>
-          <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : 'THE NEXT POSSIBILITY'}</span><span aria-hidden="true">✦ dope.travel</span></div>
+          <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : featuredWhy?.tone === 'now' ? 'HAPPENING NOW' : featuredWhy?.tone === 'soon' ? 'STARTING SOON' : 'WORTH PLANNING NOW'}</span><span aria-hidden="true">✦ dope.travel</span></div>
           <div className={styles.passPicture}>
             {displayedFeaturedPhoto ? (
               // Curated images are local; Commons search results were checked before storage.
@@ -359,9 +364,10 @@ export function WorldIntro({
             <span className={styles.passPlace}><small>TO</small><strong>{featured.city}</strong></span>
           </div>
           <div className={styles.passMeta}>
-            <span>{featured.name} · {dateLabel(featured.start)}</span>
+            <span>{featured.name} · {featuredWhy?.when ?? dateLabel(featured.start)}</span>
             <strong>{estimate ? `${estimate.distanceKm.toLocaleString()} km · ${estimate.label}` : 'Choose your city for a route estimate'}</strong>
           </div>
+          {featuredWhy?.reason && <p className={styles.passWhy}>{featuredWhy.reason}{featuredWhy.planBy ? <span data-urgency={featuredWhy.planBy.urgency}> · {featuredWhy.planBy.label}</span> : null}</p>}
           <small className={styles.passFoot}>{estimate ? 'Indicative straight-line distance and airtime; no live flight schedule.' : 'Flight animation begins from your current globe view.'}</small>
           {displayedFeaturedPhoto && <a className={styles.passCredit} href={displayedFeaturedPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {displayedFeaturedPhoto.credit} · {displayedFeaturedPhoto.license} ↗</a>}
         </div>}
@@ -414,7 +420,7 @@ export function WorldIntro({
           <p>{filtering ? 'Current and future occasions on the curated calendar. Tap a place to explore.' : 'Tap a place to fly there. Then follow the story.'}</p>
         </div>
         {picks.length ? <div className={styles.radarCards} role="list" aria-label="Places on the radar">
-          {picks.map((pick, index) => <div role="listitem" key={pick.event.id}><RadarCard pick={pick} index={index} onTravel={launchJourney} /></div>)}
+          {picks.map((pick, index) => <div role="listitem" key={pick.event.id}><RadarCard pick={pick} index={index} today={focus} onTravel={launchJourney} /></div>)}
         </div> : <p className={styles.emptySelection}>No upcoming calendar entries match this combination. Try another season or interest.</p>}
         <div className={styles.radarDisclosure}>Destinations from the curated calendar. Photo labels link to licensed Wikimedia Commons archive imagery and may show earlier years. Demand is modeled.</div>
       </div>

@@ -1,0 +1,181 @@
+/* The "coming up" calendar: today on the left, eight weeks out. */
+.shell {
+  --col: 44px;
+  padding: 10px 3.2% 12px;
+  background: var(--color-surface-0);
+  border-top: 1px solid rgb(244 241 234 / 0.06);
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.today {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
+  min-width: 0;
+}
+.kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-saffron);
+}
+.today strong { font-size: 0.9375rem; color: var(--color-bone); }
+.summary { font-size: 0.8125rem; color: var(--color-ink-soft); }
+.toggle {
+  flex: none;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-chip);
+  background: var(--color-surface-1);
+  color: var(--color-ink-soft);
+  font-size: 0.8125rem;
+}
+.toggle:hover { color: var(--color-bone); background: var(--color-surface-2); }
+
+.scroller {
+  margin-top: 10px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  border-radius: 14px;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
+}
+.scroller:focus-visible { outline: none; box-shadow: var(--shadow-inset), var(--focus-ring); }
+.grid {
+  position: relative;
+  width: calc(var(--days) * var(--col));
+  padding-bottom: 8px;
+}
+/* Today's column runs the full height of the calendar. */
+.grid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--col);
+  background: rgb(247 197 72 / 0.07);
+  pointer-events: none;
+}
+.dayRow { display: flex; }
+.day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--col);
+  flex: none;
+  padding: 16px 0 4px;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-soft);
+}
+.day small { font-size: 0.625rem; color: var(--color-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day em {
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  font-style: normal;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+}
+.day[data-weekend] { background: rgb(244 241 234 / 0.025); }
+.day[data-today] { color: var(--color-saffron); font-weight: 700; }
+.day[data-today] em { color: var(--color-saffron); }
+
+.lanes { margin: 0; padding: 0; list-style: none; }
+.lane { position: relative; height: 27px; }
+.bar {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: calc(var(--from) * var(--col) + 2px);
+  width: calc((var(--to) - var(--from)) * var(--col) - 4px);
+  min-width: calc(var(--col) - 4px);
+  overflow: hidden;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: var(--color-surface-3);
+  color: var(--color-ink-soft);
+  font-size: 0.75rem;
+  line-height: 24px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bar strong { color: var(--color-bone); font-weight: 600; }
+.bar[data-tone='now'] { background: rgb(247 197 72 / 0.22); box-shadow: inset 3px 0 0 var(--color-saffron); }
+.bar[data-tone='soon'] { background: rgb(242 107 42 / 0.2); box-shadow: inset 3px 0 0 var(--color-tangerine); }
+.bar:hover, .bar:focus-visible { color: var(--color-bone); outline: none; box-shadow: var(--focus-ring); }
+
+/* Plan-by: a diamond on the date, a dashed lead to the trip it's for. */
+.lead {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--from) * var(--col));
+  width: calc((var(--to) - var(--from)) * var(--col));
+  border-top: 1px dashed rgb(244 241 234 / 0.25);
+  pointer-events: none;
+}
+.plan {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: calc(var(--col-n, 0) * var(--col) + var(--col) / 2 - 12px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px;
+  color: var(--color-ink-soft);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+.plan i,
+.legend b {
+  display: inline-block;
+  flex: none;
+  width: 11px;
+  height: 11px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  background: var(--color-signal);
+}
+.plan[data-urgency='closing'] i, .legend b[data-urgency='closing'] { background: var(--color-saffron); }
+.plan[data-urgency='critical'] i, .legend b[data-urgency='critical'] { background: var(--color-flamingo); }
+.plan span { padding: 2px 8px; border-radius: 6px; background: var(--color-surface-2); color: var(--color-bone); }
+.plan:hover span, .plan:focus-visible span { background: var(--color-surface-3); }
+.plan:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  margin: 8px 0 0;
+  font-size: 0.6875rem;
+  color: var(--color-ink-muted);
+}
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 14px; height: 8px; border-radius: 3px; }
+.legend i[data-tone='now'] { background: rgb(247 197 72 / 0.5); }
+.legend i[data-tone='soon'] { background: rgb(242 107 42 / 0.5); }
+.legend b { width: 8px; height: 8px; }
+.legendNote { flex-basis: 100%; }
+
+@media (max-width: 640px) {
+  .shell { --col: 40px; padding-inline: 16px; }
+  .summary { flex-basis: 100%; }
+}

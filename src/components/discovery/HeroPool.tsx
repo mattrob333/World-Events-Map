@@ -72,6 +72,7 @@ export function HeroPool() {
             srcSet={heroSrcSet(photo)}
             sizes="100vw"
             alt=""
+            style={{ objectPosition: `62% ${photo.focusY ?? 55}%` }}
             decoding="async"
             fetchPriority={photo === current && index === 0 ? 'high' : 'low'}
             onLoad={() => setLoaded((value) => ({ ...value, [photo.id]: true }))}

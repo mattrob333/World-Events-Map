@@ -24,6 +24,7 @@ import { greatCircleDistanceKm } from '@/lib/geo/projection';
 import { googleMapsViewUrl } from '@/lib/geo/map-links';
 import { useViewerLocation } from '@/lib/location/useViewerLocation';
 import { LocationPicker } from './LocationPicker';
+import { ComingUp } from './ComingUp';
 import { OPENING_GLOBE_DISTANCE } from '@/lib/geo/camera';
 import { EVENTS } from '@/lib/data/events';
 import { indexDestinations } from '@/lib/pulse';
@@ -345,6 +346,10 @@ export function DiscoveryExperience() {
           </button>
         )}
       </div>
+
+      {!planMode && !query && (
+        <ComingUp today={rangeStart} events={modeActive ? modeEvents : EVENTS} onOpen={travelFromCard} />
+      )}
 
       {planMode && (
         <section

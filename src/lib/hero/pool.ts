@@ -17,6 +17,8 @@ export type HeroPhoto = {
   license: string;
   licenseUrl: string;
   sourceUrl: string;
+  /** Vertical focus for the wide hero crop, 0 (top) .. 100 (bottom): where the people are. */
+  focusY?: number;
 };
 
 export const HERO_POOL: HeroPhoto[] = pool as HeroPhoto[];

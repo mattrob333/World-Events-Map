@@ -72,18 +72,16 @@
 .heroPool img.heroPoolUnder { opacity: 1; transform: scale(1.0); transition: none; }
 .heroPlace {
   position: absolute;
-  right: var(--gutter);
+  left: var(--gutter);
   bottom: 12px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   align-items: baseline;
   gap: 4px 10px;
-  max-width: min(560px, 70%);
+  max-width: min(560px, 60%);
   margin: 0;
   font-size: 0.75rem;
   color: var(--color-ink-subtle);
-  text-align: right;
 }
 .heroPlaceName { color: var(--color-bone); font-weight: 600; letter-spacing: 0.01em; }
 .heroPlaceName span { color: var(--color-saffron); }
@@ -253,6 +251,16 @@
 }
 .passMeta span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .passMeta strong { color: var(--color-bone); font-weight: 600; text-align: right; }
+.passWhy {
+  margin: 10px 4px 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-ink-soft);
+}
+.passWhy span { color: var(--color-signal); font-weight: 600; }
+.passWhy span[data-urgency='closing'] { color: var(--color-saffron); }
+.passWhy span[data-urgency='critical'] { color: var(--color-flamingo); }
+.passWhy span[data-urgency='passed'] { color: var(--color-ink-muted); font-weight: 500; }
 .passFoot {
   display: block;
   margin-top: 10px;
@@ -486,6 +494,24 @@
   letter-spacing: -0.03em;
   text-shadow: 0 2px 10px #070707;
 }
+.cardWhen,
+.cardPlan {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-bone);
+}
+.cardWhen::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--color-ink-muted); }
+.cardWhen[data-tone='now']::before { background: var(--color-saffron); box-shadow: 0 0 0 3px rgb(247 197 72 / 0.25); }
+.cardWhen[data-tone='soon']::before { background: var(--color-tangerine); }
+.cardPlan { margin-top: 2px; font-weight: 500; color: var(--color-signal); }
+.cardPlan[data-urgency='closing'] { color: var(--color-saffron); }
+.cardPlan[data-urgency='critical'] { color: var(--color-flamingo); }
+.cardPlan[data-urgency='passed'] { color: var(--color-ink-muted); }
 .cardEvent {
   display: -webkit-box;
   -webkit-line-clamp: 1;
