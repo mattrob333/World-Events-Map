@@ -163,14 +163,14 @@ export function SearchTrigger({ className }: { className?: string }) {
         setOpen(true);
       }}
       className={cn(
-        'inline-flex h-8 items-center gap-2 rounded-[2px] border border-ink/10 px-2.5 text-[11px] text-ink-muted hover:border-ink/25 hover:text-ink',
+        'inline-flex min-h-10 min-w-10 items-center justify-center gap-2 rounded-full bg-surface-1 px-3 text-[13px] text-ink-muted shadow-[var(--shadow-inset)] hover:text-bone sm:justify-start sm:px-4',
         className,
       )}
       aria-label="Open search"
     >
-      <span aria-hidden>⌕</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.2-4.2" /></svg>
       <span className="hidden sm:inline">Search</span>
-      <kbd className="label-sm hidden text-ink-faint lg:inline">⌘K</kbd>
+      <kbd className="hidden rounded-md bg-surface-3 px-1.5 py-0.5 font-mono text-[11px] text-ink-subtle lg:inline">⌘K</kbd>
     </button>
   );
 }

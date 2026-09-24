@@ -24,7 +24,7 @@ export interface PanelProps extends Omit<ComponentPropsWithoutRef<'section'>, 't
 }
 
 /**
- * The house surface. Black glass, one-pixel edge, tight corners.
+ * The house surface: a soft raised object on the evening sky (Afterglow).
  *
  * Panels are always translucent: the globe is the light in this room and must
  * read through every surface sitting on it.
@@ -44,7 +44,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        'relative flex min-h-0 flex-col rounded-[3px]',
+        'relative flex min-h-0 flex-col rounded-[var(--radius-card)]',
         surface === 'glass' && 'glass',
         surface === 'deep' && 'glass-deep',
         className,

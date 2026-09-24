@@ -4,38 +4,40 @@ export type ButtonVariant = 'brass' | 'ghost' | 'quiet' | 'commit';
 export type ButtonSize = 'sm' | 'md';
 
 export const BUTTON_BASE =
-  'inline-flex select-none items-center justify-center gap-2 rounded-[2px] ' +
-  'whitespace-nowrap border transition-colors ' +
-  'duration-[var(--duration-instant)] ease-[var(--ease-glide)] ' +
-  'disabled:pointer-events-none disabled:opacity-35';
+  'inline-flex select-none items-center justify-center gap-2 rounded-full ' +
+  'whitespace-nowrap border transition-[background-color,box-shadow,color,transform] ' +
+  'duration-[var(--duration-instant)] ease-[var(--ease-glide)] active:translate-y-px ' +
+  'disabled:pointer-events-none disabled:opacity-40';
 
+/** Visual heights 36/44px; the small size keeps a 44px hit area via padding-block on touch. */
 export const BUTTON_SIZES: Record<ButtonSize, string> = {
-  sm: 'h-6 px-2.5',
-  md: 'h-8 px-3.5',
+  sm: 'min-h-9 px-4',
+  md: 'min-h-11 px-5',
 };
 
 /**
- * Brass is the only chrome colour in the product and this is the only place it
- * fills a surface — and then only as a 10% wash, never a solid. A solid brass
- * button would read as a call to action; nothing here is calling.
+ * Afterglow buttons (docs/design/UNIFIED-DESIGN.md). Raised soft pills on the
+ * evening sky; "on" sinks into the surface with saffron ink. `commit` is the
+ * one primary action on a screen: the sunset pill. Never green.
  */
+const RAISED = 'border-transparent bg-surface-3 shadow-soft-1 hover:bg-surface-4';
+const PRESSED = 'border-transparent bg-surface-1 shadow-[var(--shadow-inset),inset_0_0_0_1px_rgb(247_197_72/0.4)] text-saffron';
 export const BUTTON_VARIANTS: Record<ButtonVariant, { off: string; on: string }> = {
   brass: {
-    off: 'border-brass-deep/60 bg-brass-wash text-brass hover:border-brass hover:text-brass-bright',
-    on: 'border-brass bg-brass-wash text-brass-bright',
+    off: `${RAISED} text-brass-bright hover:text-bone`,
+    on: PRESSED,
   },
   ghost: {
-    off: 'border-ink/10 bg-transparent text-ink-muted hover:border-ink/20 hover:text-ink',
-    on: 'border-brass/70 bg-brass-wash text-brass',
+    off: `${RAISED} text-ink-soft hover:text-bone`,
+    on: PRESSED,
   },
   quiet: {
-    off: 'border-transparent bg-transparent text-ink-muted hover:text-ink',
-    on: 'border-transparent bg-transparent text-brass',
+    off: 'border-transparent bg-transparent text-ink-muted hover:text-bone',
+    on: 'border-transparent bg-transparent text-saffron',
   },
-  // Primary trip action. Signal green wash — still translucent, never a solid fill.
   commit: {
-    off: 'border-commit/50 bg-commit/10 text-commit hover:border-commit hover:text-ink',
-    on: 'border-commit bg-commit/15 text-ink',
+    off: 'border-transparent bg-[image:var(--gradient-cta)] text-on-accent font-semibold shadow-[inset_0_1px_0_rgb(255_255_255/0.35),var(--shadow-glow)] hover:-translate-y-px',
+    on: 'border-transparent bg-[image:var(--gradient-cta)] text-on-accent font-semibold shadow-[inset_0_2px_6px_rgb(0_0_0/0.25)]',
   },
 };
 
@@ -50,7 +52,7 @@ export function buttonClassName({
     BUTTON_BASE,
     BUTTON_SIZES[size],
     BUTTON_VARIANTS[variant].off,
-    caps ? 'label' : 'text-[12px] leading-none',
+    caps ? 'label' : 'text-[13px] leading-none',
     className,
   );
 }

@@ -22,11 +22,30 @@ const PRIMARY = [
 ] as const;
 
 const MOBILE = [
-  { href: '/', label: 'World' },
-  { href: '/circles', label: 'Circles' },
-  { href: '/people', label: 'People' },
-  { href: '/access', label: 'Access' },
+  { href: '/', label: 'World', icon: 'world' },
+  { href: '/circles', label: 'Circles', icon: 'circles' },
+  { href: '/people', label: 'People', icon: 'people' },
+  { href: '/access', label: 'Access', icon: 'access' },
 ] as const;
+
+type TabIcon = (typeof MOBILE)[number]['icon'] | 'more';
+
+/** Line icons for the phone tab bar: 22px, 1.6 stroke, currentColor. */
+function TabGlyph({ name }: { name: TabIcon }) {
+  const common = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true };
+  switch (name) {
+    case 'world':
+      return (<svg {...common}><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5S9.4 5.9 12 3.5z" /></svg>);
+    case 'circles':
+      return (<svg {...common}><circle cx="9" cy="12" r="5.5" /><circle cx="15" cy="12" r="5.5" /></svg>);
+    case 'people':
+      return (<svg {...common}><circle cx="12" cy="8.5" r="3.5" /><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5" /></svg>);
+    case 'access':
+      return (<svg {...common}><circle cx="8.5" cy="12" r="3.5" /><path d="M12 12h8.5M17.5 12v3M20.5 12v2" /></svg>);
+    default:
+      return (<svg {...common}><circle cx="6" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="18" cy="12" r="1.2" /></svg>);
+  }
+}
 
 // Phone bottom bar only has five slots. NOW, Trips, and Profile live here
 // so they stay reachable without crowding the primary tabs.
@@ -80,8 +99,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         Skip to content
       </a>
-      <header className="glass sticky top-0 z-40 border-b border-ink/10">
-        <div className="mx-auto flex h-12 max-w-[1600px] items-center gap-4 px-3 sm:px-5">
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-4 px-4 sm:px-5">
           <Link href="/" className="flex shrink-0 items-center" aria-label="dope.travel home">
             {/* One drawn lockup, so ".travel" always shares the wordmark's baseline. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
@@ -89,20 +108,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </Link>
           {isDemoMode() && (
             <span
-              className="label-sm shrink-0 border border-signal/40 px-1.5 py-1 text-signal"
+              className="tag shrink-0 text-signal"
               title={DEMO_LABEL}
             >
               Demo · simulated
             </span>
           )}
-          <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-surface-1 p-1 shadow-[var(--shadow-inset)] md:flex">
             {PRIMARY.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'label px-2.5 py-2 text-ink-muted hover:text-ink',
-                  activePath(pathname, item.href) && 'text-brass',
+                  'rounded-full px-3.5 py-2 text-[13px] font-medium leading-none text-ink-muted transition-colors hover:text-bone',
+                  activePath(pathname, item.href) && 'bg-surface-3 text-bone shadow-soft-1',
                 )}
                 aria-current={activePath(pathname, item.href) ? 'page' : undefined}
               >
@@ -117,8 +136,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               href="/now"
               className={cn(
-                'label hidden px-2 py-2 text-ink-muted hover:text-ink sm:inline',
-                pathname.startsWith('/now') && 'text-brass',
+                'hidden min-h-9 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone sm:inline-flex',
+                pathname.startsWith('/now') && 'bg-surface-3 text-bone shadow-soft-1',
               )}
             >
               Now
@@ -126,8 +145,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               href="/account"
               className={cn(
-                'label px-2 py-2 text-ink-muted hover:text-ink',
-                pathname.startsWith('/account') && 'text-brass',
+                'inline-flex min-h-9 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone',
+                pathname.startsWith('/account') && 'bg-surface-3 text-bone shadow-soft-1',
               )}
             >
               Profile
@@ -139,17 +158,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {isDemoMode() && <SocialRoot />}
 
       {showOnboarding && (
-        <div className="border-b border-brass/20 bg-brass-wash px-4 py-2 text-[12px] text-brass-bright">
-          <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-2">
-            <span>Set your traveler lens — it takes under a minute, and you can skip.</span>
-            <span className="flex gap-3">
-              <Link
-                href={`/welcome?from=${encodeURIComponent(pathname)}`}
-                className="underline decoration-brass/40 underline-offset-4"
-              >
+        <div className="px-3 pt-3 sm:px-5">
+          <div className="surface mx-auto flex max-w-[1600px] items-center justify-between gap-3 rounded-[var(--radius-control)] py-2 pl-4 pr-2 text-[13px] text-ink-soft">
+            <span>Set your traveler lens. It takes under a minute.</span>
+            <span className="flex shrink-0 items-center gap-1">
+              <Link href={`/welcome?from=${encodeURIComponent(pathname)}`} className="btn btn-ghost btn-sm">
                 Begin
               </Link>
-              <button type="button" onClick={skip} className="text-ink-muted hover:text-ink">
+              <button type="button" onClick={skip} className="min-h-9 rounded-full px-3 text-ink-muted hover:text-bone">
                 Skip
               </button>
             </span>
@@ -160,7 +176,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div
         id="main"
         className={cn(
-          'pb-16 md:pb-0',
+          'pb-20 md:pb-0',
           !world && 'mx-auto max-w-[1600px]',
         )}
       >
@@ -169,18 +185,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <nav
         aria-label="Mobile primary"
-        className="glass fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
       >
         <ul className="grid grid-cols-5">
           {MOBILE.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
+                aria-current={activePath(pathname, item.href) ? 'page' : undefined}
                 className={cn(
-                  'flex h-14 items-center justify-center label-sm text-ink-muted',
-                  activePath(pathname, item.href) && 'text-brass',
+                  'relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium text-ink-subtle',
+                  activePath(pathname, item.href) && 'text-saffron',
                 )}
               >
+                {activePath(pathname, item.href) ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
+                <TabGlyph name={item.icon} />
                 {item.label}
               </Link>
             </li>
@@ -189,8 +208,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               className={cn(
-                'flex h-14 w-full items-center justify-center label-sm text-ink-muted',
-                (moreOpen || moreIsActive(pathname)) && 'text-brass',
+                'relative flex h-16 w-full flex-col items-center justify-center gap-1 text-[11px] font-medium text-ink-subtle',
+                (moreOpen || moreIsActive(pathname)) && 'text-saffron',
               )}
               aria-expanded={moreOpen}
               aria-controls={morePanelId}
@@ -198,6 +217,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-label="More"
               onClick={() => setMoreOpen((open) => !open)}
             >
+              {moreIsActive(pathname) ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
+              <TabGlyph name="more" />
               More
             </button>
           </li>
@@ -208,13 +229,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             aria-label="Close more menu"
-            className="fixed inset-x-0 bottom-14 top-0 z-[45] bg-void/50 md:hidden"
+            className="fixed inset-x-0 bottom-16 top-0 z-[45] bg-void/60 md:hidden"
             onClick={() => setMoreOpen(false)}
           />
           <div
             id={morePanelId}
             role="menu"
-            className="glass-deep fixed inset-x-0 bottom-14 z-50 border-t border-ink/10 px-3 py-3 md:hidden"
+            className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 md:hidden"
           >
             {MORE_LINKS.map((item) => (
               <Link
@@ -222,12 +243,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 role="menuitem"
                 className={cn(
-                  'flex items-baseline justify-between gap-3 px-3 py-3 text-ink-muted',
-                  activePath(pathname, item.href) && 'text-brass',
+                  'flex min-h-12 items-center justify-between gap-3 rounded-[var(--radius-control)] px-3 text-ink-soft hover:bg-surface-4',
+                  activePath(pathname, item.href) && 'bg-surface-1 text-saffron shadow-[var(--shadow-inset)]',
                 )}
               >
-                <span className="label">{item.label}</span>
-                <span className="text-[12px] text-ink-faint">{item.hint}</span>
+                <span className="text-[15px] font-medium">{item.label}</span>
+                <span className="text-[12px] text-ink-subtle">{item.hint}</span>
               </Link>
             ))}
           </div>

@@ -20,10 +20,8 @@ export interface ChipProps
 }
 
 /**
- * The filter atom. Off-state is a hairline outline with muted ink; on-state
- * lights the brass and nothing else — no fills, no colour, no scale change.
- * The whole filter bar should read as a set of engraved words that either
- * catch the light or don't.
+ * The filter atom (Afterglow): a raised soft pill; on-state sinks into the
+ * surface with saffron ink, so "selected" never looks like a call to action.
  */
 export const Chip = forwardRef<HTMLButtonElement, ChipProps>(function Chip(
   {
@@ -48,14 +46,9 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(function Chip(
       aria-pressed={readOnly ? undefined : active}
       disabled={readOnly ? true : rest.disabled}
       className={cn(
-        'group inline-flex select-none items-center gap-1.5 rounded-[2px] border',
-        'transition-colors duration-[var(--duration-instant)] ease-[var(--ease-glide)]',
-        size === 'sm' ? 'h-6 px-2' : 'h-7 px-2.5',
-        active
-          ? 'border-brass/70 bg-brass-wash text-brass'
-          : 'border-ink/10 bg-transparent text-ink-muted',
-        !readOnly && !active && 'hover:border-ink/25 hover:text-ink',
-        !readOnly && active && 'hover:border-brass',
+        'group chip select-none',
+        size === 'sm' ? 'min-h-8 px-3' : 'min-h-9 px-3.5',
+        active && 'chip-on',
         readOnly && 'cursor-default disabled:opacity-100',
         'disabled:pointer-events-none',
         className,
@@ -72,9 +65,9 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(function Chip(
           {icon}
         </span>
       ) : null}
-      <span className="label-sm">{children}</span>
+      <span className="text-[13px] leading-none">{children}</span>
       {count !== undefined ? (
-        <span className={cn('tabular text-[10px]', active ? 'text-brass' : 'text-ink-muted')}>
+        <span className={cn('tabular text-[11px]', active ? 'text-saffron' : 'text-ink-subtle')}>
           {count}
         </span>
       ) : null}
