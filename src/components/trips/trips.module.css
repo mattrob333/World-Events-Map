@@ -504,7 +504,7 @@
   .hero { min-height: 550px; align-items: end; margin: 8px 8px 0; border-radius: var(--radius-card); padding: 35px 20px 64px; }
   .heroImage { background-position: 47% center; }
   .heroCredit { right: 12px; bottom: 12px; max-width: calc(100% - 24px); }
-  .heroShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.97) 0%, rgb(8 10 18 / 0.86) 43%, rgb(8 10 18 / 0.2) 100%); }
+  .heroShade { background: linear-gradient(0deg, rgb(4 5 10 / 0.97) 0%, rgb(8 10 18 / 0.88) 50%, rgb(8 10 18 / 0.72) 78%, rgb(8 10 18 / 0.35) 100%); }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .heroLead { font-size: 15px; }
   .heroActions { display: grid; }

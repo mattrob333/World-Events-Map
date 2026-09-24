@@ -19,7 +19,7 @@ export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   size?: ButtonSize;
   /** Leading mark. Keep it to a 12–14px line glyph. */
   icon?: ReactNode;
-  /** Renders the label in `.label` small caps. On by default — it is the house voice. */
+  /** Renders the label in `.label` small caps. Off by default: Afterglow labels are sentence-case sans. */
   caps?: boolean;
   /** Persistent on-state, for buttons that are really toggles. */
   selected?: boolean;
@@ -30,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     variant = 'ghost',
     size = 'sm',
     icon,
-    caps = true,
+    caps = false,
     selected = false,
     className,
     children,
@@ -51,7 +51,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         BASE,
         SIZES[size],
         selected ? v.on : v.off,
-        caps ? 'label' : 'text-[12px] leading-none',
+        caps ? 'label' : 'text-[13px] leading-none',
         className,
       )}
       {...rest}

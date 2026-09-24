@@ -93,7 +93,7 @@ export function OnboardingView({
           {Array.from({ length: totalSteps }, (_, index) => (
             <span
               key={index}
-              className={`h-1.5 flex-1 rounded-full ${index < stepNumber ? 'bg-[image:var(--gradient-cta)]' : 'bg-surface-3'}`}
+              className={`h-1.5 flex-1 rounded-full ${index < stepNumber ? 'bg-brass' : 'bg-surface-3'}`}
             />
           ))}
         </span>

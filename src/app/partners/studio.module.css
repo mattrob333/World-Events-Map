@@ -248,6 +248,9 @@
   padding: 45px 0 20px;
 }
 .footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-brass-bright);
   text-decoration: underline;
   text-underline-offset: 4px;

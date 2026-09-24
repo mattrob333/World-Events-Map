@@ -615,6 +615,9 @@
   color: var(--color-ink-subtle);
 }
 .footer > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: 0.8125rem;
   white-space: nowrap;
   color: var(--color-bone);
@@ -1043,7 +1046,7 @@
   white-space: nowrap;
 }
 .spotlight {
-  top: 160px;
+  top: 176px;
   left: 3.2%;
   width: min(26%, 295px);
   padding-top: 11px;
@@ -1462,4 +1465,15 @@
   margin-top: 10px;
   padding: 10px 0 2px;
   background: linear-gradient(0deg, var(--color-surface-0) 72%, transparent);
+}
+
+/* Mid widths: the status line takes its own row so the search well keeps a
+   usable width. */
+@media (max-width: 1200px) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .status {
+    flex-basis: 100%;
+  }
 }

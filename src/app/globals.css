@@ -17,7 +17,7 @@
  * still renders identically with no CDN.
  */
 
-@theme {
+@theme static {
   /* ── Surfaces: evening sky ────────────────────────────────────────── */
   --color-void: #04050a;
   --color-abyss: #070911;

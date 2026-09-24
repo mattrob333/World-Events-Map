@@ -99,7 +99,7 @@ export function TravelerProfile({ handle }: { handle: string }) {
       <p className="mt-10 max-w-2xl font-display text-2xl leading-snug text-ink">
         {portrait.philosophy}
       </p>
-      <Button className="mt-6" variant="ghost" disabled title="Live connections are not enabled on fixture portraits.">
+      <Button className="mt-6 min-h-11" variant="ghost" disabled title="Live connections are not enabled on fixture portraits.">
         Connect
       </Button>
       <p className="mt-2 text-[12px] text-ink-subtle">

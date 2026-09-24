@@ -55,7 +55,7 @@ export function Panel({
         <header className="shrink-0 px-4 pt-3.5">
           <div className="flex min-h-4 items-baseline justify-between gap-4">
             {title ? (
-              <h2 className="label text-ink-muted truncate">{title}</h2>
+              <h2 className="eyebrow truncate">{title}</h2>
             ) : (
               <span />
             )}

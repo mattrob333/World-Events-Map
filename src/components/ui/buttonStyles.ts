@@ -45,7 +45,7 @@ export const BUTTON_VARIANTS: Record<ButtonVariant, { off: string; on: string }>
 export function buttonClassName({
   variant = 'ghost',
   size = 'sm',
-  caps = true,
+  caps = false,
   className,
 }: { variant?: ButtonVariant; size?: ButtonSize; caps?: boolean; className?: string } = {}): string {
   return cn(

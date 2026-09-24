@@ -33,7 +33,7 @@ export function GlobeControls({ className }: GlobeControlsProps) {
   return (
     <div
       className={cn(
-        'glass flex w-fit items-center gap-1.5 rounded-[3px] px-2.5 py-2',
+        'surface flex w-fit items-center gap-1 rounded-full px-2 py-1.5',
         className,
       )}
     >
@@ -99,8 +99,8 @@ export function GlobeControls({ className }: GlobeControlsProps) {
               aria-label={`${q.value} quality`}
               onClick={() => setQuality(q.value)}
               className={cn(
-                'label-sm h-6 px-1.5 transition-colors duration-[var(--duration-instant)]',
-                quality === q.value ? 'text-brass' : 'text-ink-muted hover:text-ink',
+                'min-h-9 min-w-9 rounded-full px-2 text-[11px] font-semibold tracking-[0.08em] transition-colors duration-[var(--duration-instant)]',
+                quality === q.value ? 'bg-surface-1 text-saffron shadow-[var(--shadow-inset)]' : 'text-ink-muted hover:text-bone',
               )}
             >
               {q.label}

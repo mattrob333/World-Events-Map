@@ -11,8 +11,8 @@ export function ProvenanceNote({
   className?: string;
 }) {
   return (
-    <p className={cn('text-[11px] leading-4 text-ink-muted', className)}>
-      <span className="label-sm mr-2 text-brass">{PROVENANCE_LABEL[kind]}</span>
+    <p className={cn('text-[12px] leading-5 text-ink-muted', className)}>
+      <span className="eyebrow mr-2">{PROVENANCE_LABEL[kind]}</span>
       {children}
     </p>
   );
@@ -22,7 +22,7 @@ export function FixtureBanner({ children }: { children: string }) {
   return (
     <p
       role="note"
-      className="border border-brass/25 bg-brass-wash px-3 py-2 text-[11px] leading-4 text-brass-bright"
+      className="notice"
     >
       {children}
     </p>

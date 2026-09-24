@@ -230,6 +230,7 @@
 }
 .passCredit {
   display: block;
+  padding-block: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -365,7 +366,7 @@
 .radarCard {
   --tone: #356d70;
   position: relative;
-  height: 272px;
+  height: 284px;
   overflow: hidden;
   border-radius: var(--radius-card);
   background: var(--tone);
@@ -480,11 +481,14 @@
   justify-content: center;
   gap: 2px;
   min-height: 50px;
-  padding: 0 16px 10px;
+  padding: 0 16px 12px;
   background: rgb(4 5 10 / 0.96);
 }
 .cardBottom a:first-child {
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
+  min-height: 32px;
   width: fit-content;
   color: var(--color-bone);
   font-size: 0.75rem;
