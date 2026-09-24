@@ -170,6 +170,8 @@ function GraphScene({
       <OrbitControls
         makeDefault
         enablePan={false}
+        // Wheel zoom would hijack page scrolling over the canvas.
+        enableZoom={false}
         enableDamping
         dampingFactor={0.07}
         minDistance={7}

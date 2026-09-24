@@ -220,11 +220,20 @@ function CameraRigImpl({
     };
 
     const onWheel = (e: WheelEvent) => {
-      // Wheel over the planet zooms it; outside the canvas the page still
-      // scrolls. At a zoom limit, release an ordinary wheel back to the page.
+      // A plain wheel or two-finger trackpad swipe belongs to the page: the
+      // globe sits inside a scrolling page, and hijacking the scroll while the
+      // pointer happens to be over it zooms the planet by surprise. Zoom takes
+      // an explicit gesture instead: a trackpad pinch (browsers report it as
+      // ctrl+wheel) or ctrl/⌘ + wheel. When the page can't scroll anyway,
+      // the plain wheel zooms as before.
+      const zoomGesture = e.ctrlKey || e.metaKey;
+      const root = document.scrollingElement ?? document.documentElement;
+      if (!zoomGesture && root.scrollHeight > root.clientHeight + 1) return;
       const deltaY = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientHeight : 1);
-      const next = clampDistance(state.target.radius * Math.exp(deltaY * ZOOM_SENSITIVITY));
-      if (Math.abs(next - state.target.radius) < 1e-5 && !e.ctrlKey && !e.metaKey) return;
+      // Cap each event so one fast flick can't slam the camera into the surface.
+      const step = THREE.MathUtils.clamp(deltaY, -120, 120);
+      const next = clampDistance(state.target.radius * Math.exp(step * ZOOM_SENSITIVITY));
+      if (Math.abs(next - state.target.radius) < 1e-5 && !zoomGesture) return;
       e.preventDefault();
       stopAuto();
       state.target.radius = next;

@@ -631,7 +631,7 @@ export function DiscoveryExperience() {
           </div>
         </div>
         <div className={styles.globeHint}>
-          DRAG TO ORBIT <span>·</span> SCROLL OR PINCH TO ZOOM
+          DRAG TO ORBIT <span>·</span> PINCH OR ⌘/CTRL + SCROLL TO ZOOM
         </div>
         <div className={styles.globeControls}>
           <GlobeControls />
