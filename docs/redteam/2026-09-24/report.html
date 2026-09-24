@@ -1,0 +1,199 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>dope.travel Red Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#070707;--s1:#101010;--s2:#171717;--s3:#212121;--line:#2a2a2a;--ink:#f4f1ea;--soft:#c9c5b9;--muted:#a8a598;--subtle:#8f8c80;--brass:#c8a866;--saffron:#f7c548;--tang:#f26b2a;--flam:#e4577e;--dusk:#8e4db8;--ok:#7ed69a;--warn:#f2b84b;--bad:#ef6b6b;
+--display:"Fraunces",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans);margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:32px 72px}
+a{color:var(--saffron)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-.02em}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.1;margin-bottom:6px}
+h3{font-size:20px;line-height:1.2}
+.eyebrow{font:600 11px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+.sun{height:6px;width:64px;background:linear-gradient(var(--saffron),var(--saffron)) 0 0/100% 1px no-repeat,linear-gradient(var(--tang),var(--tang)) 0 50%/100% 1.5px no-repeat,linear-gradient(var(--flam),var(--flam)) 0 100%/100% 2px no-repeat}
+.lede{color:var(--soft);max-width:65ch;font-size:16px}
+.meta{color:var(--subtle);font:13px/1.5 var(--mono)}
+header.top{display:grid;gap:14px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.statusline{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--s2);color:var(--soft);font-size:13px;width:fit-content}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--warn)}
+section{padding-top:44px;display:grid;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:grid;gap:2px}
+.stat b{font:500 30px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:13px}
+.top5{display:grid;gap:12px;counter-reset:n}
+.top5 li{list-style:none;background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px 18px 16px 58px;position:relative}
+.top5 li::before{counter-increment:n;content:counter(n);position:absolute;left:18px;top:14px;font:600 22px/1 var(--display);color:var(--saffron)}
+.top5 h3{margin-bottom:4px}
+.top5 p{margin:0;color:var(--soft)}
+.callout{border-radius:14px;padding:14px 16px;background:rgba(242,107,42,.08);box-shadow:inset 3px 0 0 var(--tang);color:var(--soft)}
+.callout strong{color:var(--ink)}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(120px,190px) 1fr 36px;align-items:center;gap:12px;font-size:13px}
+.bar i{display:block;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--saffron),var(--tang))}
+.bar em{font-style:normal;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.clusters{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.cl{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+.cl .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.cl p{margin:0;color:var(--soft);font-size:14px}
+.cl .ids{font:12px/1.5 var(--mono);color:var(--subtle)}
+.pri{font:600 11px/1 var(--sans);letter-spacing:.08em;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.p0{background:rgba(239,107,107,.14);color:#ff9d9d}.p1{background:rgba(242,184,75,.14);color:var(--warn)}.p2{background:rgba(168,165,152,.14);color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls button{font:500 13px/1 var(--sans);color:var(--muted);background:var(--s2);border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer;min-height:40px}
+.controls button[aria-pressed="true"]{color:var(--saffron);background:var(--s1);border-color:rgba(247,197,72,.45)}
+.controls input{font:14px var(--sans);color:var(--ink);background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-height:40px;flex:1 1 220px}
+.controls button:focus-visible,.controls input:focus-visible,a:focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--s1)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 11px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brass);position:sticky;top:0;background:var(--s1)}
+tr:last-child td{border-bottom:0}
+td.id{font:500 13px var(--mono);white-space:nowrap}
+.sev{font:500 12px/1.3 var(--sans);color:var(--soft);white-space:nowrap}
+.sev.hot{color:#ff9d9d}
+.st{font:600 11px/1 var(--sans);letter-spacing:.06em;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.st-open{background:rgba(168,165,152,.14);color:var(--muted)}
+.st-fixing{background:rgba(242,184,75,.14);color:var(--warn)}
+.st-fixed{background:rgba(126,214,154,.14);color:var(--ok)}
+.st-owner{background:rgba(142,77,184,.2);color:#c9a2ec}
+.count{color:var(--muted);font-size:13px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.card ul{margin:8px 0 0;padding-left:18px;color:var(--soft)}
+.card li{margin:4px 0}
+.personas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.persona{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:4px}
+.persona b{font:500 18px/1.2 var(--display)}
+.persona span{color:var(--soft);font-size:14px}
+.persona small{color:var(--subtle);font:12px var(--mono)}
+footer{padding-top:44px;color:var(--subtle);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head><body><div class="wrap">
+<header class="top">
+  <div class="sun" aria-hidden="true"></div>
+  <p class="eyebrow">UserFlow red team · second pass</p>
+  <h1>What the red team found in dope.travel</h1>
+  <p class="lede">Six testers used the app like real people in a real browser, on phone and desktop, after the mood board, trip designer, share links, AI connection, live research and the redesign landed. Jev judged the hard calls. This page groups the 84 findings by what causes them and tracks the fixes.</p>
+  <p class="meta">24 Sep 2026 · branch claude/review-recent-work-5li9lw · build 386241b · updated 24 Sep 2026</p>
+  <span class="statusline"><span class="dot" aria-hidden="true"></span>Fixes in progress: seven engineers working through all ten groups</span>
+</header>
+
+<section aria-labelledby="glance">
+  <h2 id="glance">At a glance</h2>
+  <div class="stats">
+    <div class="stat"><b>84</b><span>findings, in 10 root causes</span></div>
+    <div class="stat"><b>28 / 31</b><span>earlier fixes still pass (1 phone regression)</span></div>
+    <div class="stat"><b>41</b><span>Jev judgment calls, all answered</span></div>
+    <div class="stat"><b>$0.11</b><span>paid research spent during the audit</span></div>
+    <div class="stat"><b id="fixedCount">0</b><span>fixed so far</span></div>
+  </div>
+  <p class="callout"><strong>Before the research key goes on a public URL:</strong> keep <code>TREG_TOKEN</code> in the Vercel Preview environment only (it sits behind Vercel sign-in) until the spending controls in group A are fixed and reviewed.</p>
+</section>
+
+<section aria-labelledby="top">
+  <h2 id="top">The five that matter most</h2>
+  <ol class="top5">
+    <li><h3>Anyone can run up paid research</h3><p>Research started on every trip page view, including friends opening an invite. The $2/day cap lived in one server's memory and failed under load (60 runs billed $3.90), and scripts could get around the rate limit and the same-origin check.</p></li>
+    <li><h3>Share links can be forged</h3><p>A friend could vote as the organizer and erase his votes, a crafted link could break the page, and a trip link could carry a fake "Sign in to dope.travel" button.</p></li>
+    <li><h3>Share links reveal your music taste</h3><p>Blurbs like "Because you listen to hip hop" travelled in the invite link, while the page promised taste stays on your device.</p></li>
+    <li><h3>The mood board gets you wrong</h3><p>It invented two extra kids, dropped your name and hometown even for its own example sentence, never captured artists, and couldn't be corrected.</p></li>
+    <li><h3>"Right now" doesn't know where you are in the trip</h3><p>Lunch at 9pm on the last day with no airport, "you're here" while still at JFK, and "Underway" forever after the trip.</p></li>
+  </ol>
+</section>
+
+<section aria-labelledby="sev">
+  <h2 id="sev">Findings by severity</h2>
+  <div class="bars" id="bars"></div>
+</section>
+
+<section aria-labelledby="causes">
+  <h2 id="causes">Ten root causes</h2>
+  <div class="clusters" id="clusters"></div>
+</section>
+
+<section aria-labelledby="all">
+  <h2 id="all">Every finding</h2>
+  <div class="controls" role="group" aria-label="Filter findings">
+    <button type="button" data-p="all" aria-pressed="true">All testers</button>
+    <button type="button" data-p="F" aria-pressed="false">F · Owner</button>
+    <button type="button" data-p="G" aria-pressed="false">G · Friend</button>
+    <button type="button" data-p="H" aria-pressed="false">H · AI agent</button>
+    <button type="button" data-p="I" aria-pressed="false">I · Mid-trip</button>
+    <button type="button" data-p="J" aria-pressed="false">J · Regression</button>
+    <button type="button" data-p="K" aria-pressed="false">K · Security</button>
+    <input id="q" type="search" placeholder="Search findings, e.g. kids, fares, link" aria-label="Search findings">
+  </div>
+  <p class="count" id="count"></p>
+  <div class="tablewrap"><table>
+    <thead><tr><th scope="col">ID</th><th scope="col">Severity</th><th scope="col">Group</th><th scope="col">What happens</th><th scope="col">Status</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</section>
+
+<section aria-labelledby="who">
+  <h2 id="who">Who tested</h2>
+  <div class="personas">
+    <div class="persona"><small>F</small><b>The owner</b><span>Ramble, build a profile, plan Nashville, read live research, invite the crew. Phone first.</span></div>
+    <div class="persona"><small>G</small><b>The invited friend</b><span>Open the invite on a phone, vote, send picks back; the organizer merges.</span></div>
+    <div class="persona"><small>H</small><b>Bring your AI</b><span>Connect an AI through /agents and the MCP server; build a profile and a trip with tools.</span></div>
+    <div class="persona"><small>I</small><b>On the ground tonight</b><span>Day 2 of a Lisbon trip on a low battery: what now, live music, NOW.</span></div>
+    <div class="persona"><small>J</small><b>First-time explorer</b><span>Retest every 09-23 fix and sweep the redesign for regressions.</span></div>
+    <div class="persona"><small>K</small><b>Hostile outsider</b><span>Cost exposure, forged links, SSRF, secrets and headers.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="held">
+  <h2 id="held">What held up</h2>
+  <div class="two">
+    <div class="card"><h3>Honest where it counts</h3><ul>
+      <li>Distances are labelled indicative; saved places agree on every screen.</li>
+      <li>Every research tab shows its source and fetch time, and photos match their labels.</li>
+      <li>"Hidden gems" is a stated rule; the Events outage is stated plainly.</li>
+      <li>Stays links are sized to the party.</li></ul></div>
+    <div class="card"><h3>Solid underneath</h3><ul>
+      <li>No secrets in the client code or pages; no server-side request forgery.</li>
+      <li>The normal share-and-merge path attributes votes correctly.</li>
+      <li>The redesign: no sideways scroll on phones, no text under 11 px, readable disclaimers, visible focus rings.</li>
+      <li>The globe scroll fix works: plain scroll moves the page, pinch or ⌘/Ctrl zooms.</li></ul></div>
+  </div>
+</section>
+
+<footer>Full detail, evidence and acceptance tests: <a href="https://github.com/mattrob333/World-Events-Map/blob/claude/review-recent-work-5li9lw/docs/redteam/2026-09-24/REPORT.md">REPORT.md on GitHub</a> and the six persona files beside it.</footer>
+</div>
+<script>
+const ROWS = [{"id": "F01", "p": "F", "sev": "LOGIC FAILURE", "c": "D", "t": "The mood board invents two extra kids whenever \"the kids\" is mentioned again, so stays get searched for six people.", "s": "fixing"}, {"id": "F02", "p": "F", "sev": "LOGIC FAILURE", "c": "D", "t": "Name, age and hometown are dropped for ordinary phrasing, including the page's own example (\"I'm 44, from Atlanta\"); named artists are never captured.", "s": "fixing"}, {"id": "F03", "p": "F", "sev": "AMBIGUITY", "c": "D", "t": "The empty \"Traveling from\" field shows \"Atlanta, Georgia\" as a placeholder and reads as already filled, so fares silently skip.", "s": "fixing"}, {"id": "F04", "p": "F", "sev": "DEAD END", "c": "G", "t": "With Spotify unconfigured the panel still invites a playlist paste, which fails, then suggests naming artists in the ramble, which the parser drops.", "s": "fixing"}, {"id": "F05", "p": "F", "sev": "COST EXPOSURE", "c": "A", "t": "Share links drop music taste, so each friend's research request misses the cache and would start a new paid run.", "s": "fixing"}, {"id": "F06", "p": "F", "sev": "STATE FAILURE", "c": "B", "t": "A guest can pick the organizer's name; merging their picks erases the organizer's own votes.", "s": "fixing"}, {"id": "F07", "p": "F", "sev": "AMBIGUITY", "c": "E", "t": "The invite never says whose trip it is; the organizer shows up as \"You\".", "s": "fixing"}, {"id": "F08", "p": "F", "sev": "PRIVACY", "c": "C", "t": "Share links carry adults' interest tags and ages that the disclosure doesn't mention.", "s": "fixing"}, {"id": "F09", "p": "F", "sev": "AMBIGUITY", "c": "G", "t": "Fare cards lead with \"$347\"; \"one adult\" is only in a footnote below the fold, for a party of four.", "s": "fixing"}, {"id": "F10", "p": "F", "sev": "POOR FEEDBACK", "c": "A", "t": "Refresh returns the cached result with the same fetch time and still uses up rate-limit quota.", "s": "fixing"}, {"id": "F11", "p": "F", "sev": "RECOVERY FAILURE", "c": "A", "t": "Guests see \"Research just ran a few times\" with no retry, and the fallback points to cards that are below, not above.", "s": "fixing"}, {"id": "F12", "p": "F", "sev": "AMBIGUITY", "c": "G", "t": "Research shows items outside the place (Tennessee Aquarium for Nashville), hotel promos, and an old photo labeled \"1 h ago\".", "s": "fixing"}, {"id": "F13", "p": "F", "sev": "LOGIC FAILURE", "c": "F", "t": "A Nashville family city trip gets ski \"Apr\u00e8s\" slots, an overnight flight for a 1-hour hop, and cocktails as the late-night pick.", "s": "fixing"}, {"id": "F14", "p": "F", "sev": "POOR FEEDBACK", "c": "I", "t": "Research takes about 18 s with static text two screens below the fold.", "s": "fixing"}, {"id": "F15", "p": "F", "sev": "POLISH", "c": "G", "t": "The Events outage footnote contradicts itself.", "s": "fixing"}, {"id": "F16", "p": "F", "sev": "MISSING STEP", "c": "D", "t": "The mood board can't be corrected, and an unsaved board is lost on reload.", "s": "fixing"}, {"id": "G01", "p": "G", "sev": "PERMISSION FAILURE", "c": "B", "t": "A friend can vote as anyone, including the organizer, and their picks silently overwrite that person's votes.", "s": "fixing"}, {"id": "G02", "p": "G", "sev": "MISSING STEP", "c": "E", "t": "\"Send my picks back\" is 25 phone screens down, and the only hint names a button guests don't have.", "s": "fixing"}, {"id": "G03", "p": "G", "sev": "PRIVACY", "c": "C", "t": "The invite link reveals the organizer's music taste in card blurbs, while the UI says taste stays on the device.", "s": "fixing"}, {"id": "G04", "p": "G", "sev": "COST EXPOSURE", "c": "A", "t": "Every friend's phone starts a paid research run on first open; the server cache is in memory.", "s": "fixing"}, {"id": "G05", "p": "G", "sev": "STATE FAILURE", "c": "B", "t": "A friend who added themselves and reopens the invite loses their votes; duplicate identical travelers appear.", "s": "fixing"}, {"id": "G06", "p": "G", "sev": "STATE FAILURE", "c": "B", "t": "An older picks link silently overwrites newer picks.", "s": "fixing"}, {"id": "G07", "p": "G", "sev": "RECOVERY FAILURE", "c": "B", "t": "Joining on a phone that has its own trip deletes it permanently; Cancel is a dead end.", "s": "fixing"}, {"id": "G08", "p": "G", "sev": "POOR FEEDBACK", "c": "B", "t": "A cut-off link shows a raw browser exception (\"Failed to execute 'atob'\", \"Failed to fetch\").", "s": "fixing"}, {"id": "G09", "p": "G", "sev": "LOGIC FAILURE", "c": "B", "t": "The merge message counts what the link contains, not what landed, and counts passes as picks.", "s": "fixing"}, {"id": "G10", "p": "G", "sev": "AMBIGUITY", "c": "B", "t": "The organizer opening his own invite is told he's invited and must pick his name first.", "s": "fixing"}, {"id": "G11", "p": "G", "sev": "POOR FEEDBACK", "c": "B", "t": "A reply for a trip that's gone gives wrong advice and doesn't name the trip.", "s": "fixing"}, {"id": "G12", "p": "G", "sev": "EDGE CASE", "c": "B", "t": "A crafted link inflates to about 40 MB before the size check (5 s).", "s": "fixing"}, {"id": "H01", "p": "H", "sev": "LOGIC FAILURE", "c": "D", "t": "An agent-built profile has no field for favorite artists, so \"your artists on tour\" never works from the AI path.", "s": "fixing"}, {"id": "H02", "p": "H", "sev": "DEAD END", "c": "H", "t": "After saving an imported profile the page shows only \"Saved\" with no next step.", "s": "fixing"}, {"id": "H03", "p": "H", "sev": "PRIVACY", "c": "C", "t": "The import page says dope.travel never received the profile, but the agent sent it to the server.", "s": "fixing"}, {"id": "H04", "p": "H", "sev": "COST EXPOSURE", "c": "A", "t": "Opening any AI-made trip link runs paid research automatically, for any place string, even nonsense.", "s": "fixing"}, {"id": "H05", "p": "H", "sev": "AMBIGUITY", "c": "G", "t": "/agents promises Ticketmaster and SeatGeek listings that aren't configured.", "s": "fixing"}, {"id": "H06", "p": "H", "sev": "POOR FEEDBACK", "c": "G", "t": "\"Connect Spotify in the app\" sends people in a loop when Spotify isn't configured.", "s": "fixing"}, {"id": "H07", "p": "H", "sev": "LOGIC FAILURE", "c": "D", "t": "A saved-profile link can exceed the length limit, and merged lists skip their caps.", "s": "fixing"}, {"id": "H08", "p": "H", "sev": "POOR FEEDBACK", "c": "G", "t": "find_events silently drops sports teams when event feeds are off.", "s": "fixing"}, {"id": "H09", "p": "H", "sev": "AMBIGUITY", "c": "G", "t": "live_music_scene never says listings aren't connected; \"not connected right now\" reads as an outage.", "s": "fixing"}, {"id": "H10", "p": "H", "sev": "AMBIGUITY", "c": "G", "t": "The AI is told to open with five prompts even when the traveler asked for a trip first.", "s": "fixing"}, {"id": "H11", "p": "H", "sev": "UX FRICTION", "c": "H", "t": "/agents has no copy button, no per-app steps and no way to check the connection works.", "s": "fixing"}, {"id": "H12", "p": "H", "sev": "STATE FAILURE", "c": "D", "t": "Music taste passed to plan_trip is dropped from the traveler's own trip link.", "s": "fixing"}, {"id": "H13", "p": "H", "sev": "SECURITY", "c": "J", "t": "The MCP endpoint has no rate limit and a streamed body bypasses its 64 KB cap.", "s": "fixing"}, {"id": "H14", "p": "H", "sev": "COST EXPOSURE", "c": "A", "t": "Once event feeds are on, one call makes about 28 upstream requests but counts once.", "s": "fixing"}, {"id": "H15", "p": "H", "sev": "EDGE CASE", "c": "J", "t": "Past dates and nonsense places are accepted by plan_trip and find_stays.", "s": "fixing"}, {"id": "H16", "p": "H", "sev": "AMBIGUITY", "c": "H", "t": "Nav \"Profile\" goes to membership while the profile actually lives on the mood board.", "s": "owner"}, {"id": "H17", "p": "H", "sev": "EDGE CASE", "c": "J", "t": "GET on the MCP endpoint returns an empty stream instead of 405.", "s": "fixing"}, {"id": "H18", "p": "H", "sev": "POLISH", "c": "F", "t": "The AI plan outline prints Apr\u00e8s slots on city trips and many empty slots.", "s": "fixing"}, {"id": "I01", "p": "I", "sev": "LOGIC FAILURE", "c": "F", "t": "On the last day, \"Right now\" shows lunch until midnight; the airport and flight never appear.", "s": "fixing"}, {"id": "I02", "p": "I", "sev": "LOGIC FAILURE", "c": "F", "t": "On arrival day, while still at JFK, the card says \"You're here, right now in Lisbon\".", "s": "fixing"}, {"id": "I03", "p": "I", "sev": "AMBIGUITY", "c": "G", "t": "\"Live music tonight\" has no information about tonight when ticket feeds aren't connected.", "s": "fixing"}, {"id": "I04", "p": "I", "sev": "AMBIGUITY", "c": "G", "t": "/now shows ideas and then says there are no recommendations; its \"On today\" list is worldwide.", "s": "fixing"}, {"id": "I05", "p": "I", "sev": "LOGIC FAILURE", "c": "F", "t": "After the trip ends the header says \"Underway \u00b7 enjoy every minute\" forever.", "s": "fixing"}, {"id": "I06", "p": "I", "sev": "UX FRICTION", "c": "F", "t": "\"Right now\" names a category, not a place, and each pick is a city-wide Maps search.", "s": "fixing"}, {"id": "I07", "p": "I", "sev": "EDGE CASE", "c": "F", "t": "At 01:30 the night out is dropped and the card jumps to tomorrow morning.", "s": "fixing"}, {"id": "I08", "p": "I", "sev": "STATE FAILURE", "c": "H", "t": "A city typed on /now isn't kept in the URL, so reload or share reverts.", "s": "fixing"}, {"id": "I09", "p": "I", "sev": "AMBIGUITY", "c": "G", "t": "/now ignores the trip's music taste without a mood board, and says \"shaped by your board\" without one.", "s": "fixing"}, {"id": "I10", "p": "I", "sev": "POLISH", "c": "F", "t": "\"Now\" switches slots 30\u201360 minutes before the times shown, and /now uses a different table.", "s": "fixing"}, {"id": "I11", "p": "I", "sev": "POLISH", "c": "G", "t": "\"More ideas\" repeats what \"Right now\" already says.", "s": "fixing"}, {"id": "I12", "p": "I", "sev": "COST EXPOSURE", "c": "A", "t": "Opening the trip page mid-trip runs paid research without a tap.", "s": "fixing"}, {"id": "J01", "p": "J", "sev": "VISUAL REGRESSION", "c": "G", "t": "Regression of a 09-23 fix: NOW's \"not connected\" notice now sits under the phone tab bar.", "s": "fixing"}, {"id": "J02", "p": "J", "sev": "AMBIGUITY", "c": "G", "t": "NOW \"For you\" claims ideas are shaped by your board when there's no board, above \"no recommendations\".", "s": "fixing"}, {"id": "J03", "p": "J", "sev": "DEAD END", "c": "H", "t": "The destination's only glowing button, \"Start a trip\", ends at \"Membership is not connected yet\".", "s": "fixing"}, {"id": "J04", "p": "J", "sev": "UX FRICTION", "c": "H", "t": "Saving works, but on phones Trips is hidden under More and saved places are 2.7 screens down.", "s": "fixing"}, {"id": "J05", "p": "J", "sev": "AMBIGUITY", "c": "H", "t": "On phones the family-ski page promises a Circle link before saying shared rooms aren't available.", "s": "fixing"}, {"id": "J06", "p": "J", "sev": "VISUAL REGRESSION", "c": "I", "t": "The demo invite strip overlaps the phone tab bar and wraps one word per line.", "s": "fixing"}, {"id": "J07", "p": "J", "sev": "VISUAL REGRESSION", "c": "I", "t": "Chips and small buttons are 36 px with no 44 px tap area; designer vote buttons 40\u00d736.", "s": "fixing"}, {"id": "J08", "p": "J", "sev": "LOGIC FAILURE", "c": "I", "t": "A bar note is labeled \"Where to stay\" because \"stays open\" matched.", "s": "fixing"}, {"id": "J09", "p": "J", "sev": "POOR FEEDBACK", "c": "I", "t": "The location button shows no \"finding you\" state when a city is already chosen.", "s": "fixing"}, {"id": "J10", "p": "J", "sev": "POLISH", "c": "I", "t": "Active-state gaps in the nav: none on Now, two items lit in More.", "s": "fixing"}, {"id": "J11", "p": "J", "sev": "UX FRICTION", "c": "I", "t": "On phones the sticky \"Plan \u2026\" pill covers the destination's date and distance.", "s": "fixing"}, {"id": "J12", "p": "J", "sev": "POLISH", "c": "I", "t": "\"New trip\" sits among the filter toggles and looks like one.", "s": "fixing"}, {"id": "J13", "p": "J", "sev": "UX FRICTION", "c": "I", "t": "The traveler-lens banner takes about 110 px on every phone page.", "s": "fixing"}, {"id": "K01", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "The $2/day research cap is per server instance, in memory, and fails open (60 concurrent runs billed $3.90).", "s": "fixing"}, {"id": "K02", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "The per-IP limiter trusts client headers: bypassable, or usable to lock everyone out.", "s": "fixing"}, {"id": "K03", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "The same-origin check trusts request headers, so any script can call paid routes.", "s": "fixing"}, {"id": "K04", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "The research cache is easy to bust with varied food/scene text or flight dates.", "s": "fixing"}, {"id": "K05", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "Paid Jev calls on persona, scene and concerts have no daily cap.", "s": "fixing"}, {"id": "K06", "p": "K", "sev": "SECURITY", "c": "B", "t": "A crafted share link pollutes Object.prototype and silently breaks joining in that tab.", "s": "fixing"}, {"id": "K07", "p": "K", "sev": "PERMISSION FAILURE", "c": "B", "t": "Anyone with the invite can forge picks that erase any traveler's votes, including the organizer's.", "s": "fixing"}, {"id": "K08", "p": "K", "sev": "SECURITY", "c": "B", "t": "Shared trip cards accept any https link, so a trip can carry a fake \"Sign in to dope.travel\"; names allow bidi tricks.", "s": "fixing"}, {"id": "K09", "p": "K", "sev": "COST EXPOSURE", "c": "A", "t": "Crafted join links turn friends' browsers into a research botnet.", "s": "fixing"}, {"id": "K10", "p": "K", "sev": "SECURITY", "c": "J", "t": "No security headers: no frame-ancestors, no nosniff, and X-Powered-By is sent.", "s": "fixing"}, {"id": "K11", "p": "K", "sev": "EDGE CASE", "c": "J", "t": "The MCP body cap only checks the declared Content-Length.", "s": "fixing"}, {"id": "K12", "p": "K", "sev": "POLISH", "c": "J", "t": "/agents builds the MCP URL from the Host header.", "s": "fixing"}, {"id": "K13", "p": "K", "sev": "PRIVACY", "c": "C", "t": "The raw spoken ramble persists on the device, there's no \"clear everything\", and the research cache is never pruned.", "s": "fixing"}];
+const CL = {
+ A:["Paid research runs on page views, and its guards don't hold","P0","Research on tap only, a daily budget that holds under load, a trusted rate limit, and an origin allowlist."],
+ B:["Share and reply links are trusted too much","P0","Block prototype pollution, allowlist card links, protect the organizer's votes, and make merges safe with undo."],
+ C:["Share links and devices keep more than they say","P1","Strip taste, tags and adult ages from links, fix the disclosure copy, and add a clear-everything control."],
+ D:["The mood board misunderstands people","P1","Parser fixes with tests, an editable \"Did we get you right?\" strip, and an artists field."],
+ E:["The friend's job is hidden","P1","A sticky guest bar to send picks, and ask the organizer's name before inviting."],
+ F:["Trip phases are wrong","P1","\"Right now\" knows travel days, the last day, late nights and the trip's end; itineraries fit the trip."],
+ G:["Copy promises data that isn't connected","P1","One capability flag drives every promise; NOW stops contradicting itself; fares say per adult."],
+ H:["Next steps that dead-end","P2","Keep a place as the main action, show your saved trail first, and fix the AI import page."],
+ I:["Redesign follow-through","P2","44 px tap areas, the sticky pill, the demo strip, nav states, the lens banner and loading states."],
+ J:["Hardening","P2","Security headers, MCP body and rate limits, and a configured site URL."]
+};
+const SEV_ORDER=["COST EXPOSURE","SECURITY","PERMISSION FAILURE","PRIVACY","LOGIC FAILURE","STATE FAILURE","DEAD END","MISSING STEP","RECOVERY FAILURE","AMBIGUITY","POOR FEEDBACK","VISUAL REGRESSION","UX FRICTION","EDGE CASE","POLISH"];
+const HOT=new Set(["COST EXPOSURE","SECURITY","PERMISSION FAILURE","PRIVACY"]);
+const STATUS={open:["Open","st-open"],fixing:["Fixing","st-fixing"],fixed:["Fixed","st-fixed"],owner:["Your call","st-owner"]};
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById('fixedCount').textContent=ROWS.filter(r=>r.s==='fixed').length+' / 84';
+const counts={};ROWS.forEach(r=>counts[r.sev]=(counts[r.sev]||0)+1);
+const max=Math.max(...Object.values(counts));
+document.getElementById('bars').innerHTML=SEV_ORDER.filter(s=>counts[s]).map(s=>`<div class="bar"><span>${s.charAt(0)+s.slice(1).toLowerCase()}</span><i style="width:${(counts[s]/max*100).toFixed(1)}%"></i><em>${counts[s]}</em></div>`).join('');
+document.getElementById('clusters').innerHTML=Object.entries(CL).map(([k,[t,p,fix]])=>{const ids=ROWS.filter(r=>r.c===k);const done=ids.filter(r=>r.s==='fixed').length;return `<div class="cl"><div class="hd"><h3>${k} · ${esc(t)}</h3><span class="pri ${p.toLowerCase()}">${p}</span></div><p>${esc(fix)}</p><p class="ids">${ids.map(r=>r.id).join(' · ')}</p><p class="count">${done} of ${ids.length} fixed</p></div>`}).join('');
+let persona='all';
+function render(){const q=document.getElementById('q').value.trim().toLowerCase();const list=ROWS.filter(r=>(persona==='all'||r.p===persona)&&(!q||(r.id+' '+r.t+' '+r.sev).toLowerCase().includes(q)));
+ document.getElementById('rows').innerHTML=list.map(r=>{const [lab,cls]=STATUS[r.s]||STATUS.open;return `<tr><td class="id">${r.id}</td><td><span class="sev ${HOT.has(r.sev)?'hot':''}">${r.sev.charAt(0)+r.sev.slice(1).toLowerCase()}</span></td><td class="id">${r.c}</td><td>${esc(r.t)}</td><td><span class="st ${cls}">${lab}</span></td></tr>`}).join('');
+ document.getElementById('count').textContent=`${list.length} of ${ROWS.length} findings`;}
+document.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{persona=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));render();}));
+document.getElementById('q').addEventListener('input',render);
+render();
+</script>
+</body></html>

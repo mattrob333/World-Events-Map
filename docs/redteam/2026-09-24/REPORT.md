@@ -2,6 +2,8 @@
 
 Discovery pass (no application code changed) · 2026-09-24 · branch `claude/review-recent-work-5li9lw` @ `386241b` (Afterglow redesign round 2)
 
+Readable version: [report.html](report.html) (open it in a browser), also published at https://claude.ai/artifact/AzVqdkvN91gyKLujAxF7gb.
+
 Per-persona detail, test tables and evidence: [findings-F](findings-F.md) · [findings-G](findings-G.md) · [findings-H](findings-H.md) · [findings-I](findings-I.md) · [findings-J](findings-J.md) · [findings-K](findings-K.md) · tester brief: [BRIEF.md](BRIEF.md) · previous audit: [2026-09-23](../2026-09-23/REPORT.md)
 
 ## 1. Executive summary
