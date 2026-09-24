@@ -68,6 +68,12 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
 - **Truth rules:** only rows linking to the provider's own domain are kept; images come only from that provider's CDN, so each photo is the listing's or post's own. Instagram and TikTok posts must name the place in their words or tagged location (hashtags alone don't count on Instagram), no ads or paid partnerships, and nothing older than 60 days. "Hidden gems" is a stated rule (4.6+ with 30–1,500 Google reviews), not an editorial call. Every tab shows source and fetch time.
 - **Instagram/TikTok terms:** the panel hot-links post images from the platform CDNs and links out to each post; nothing is re-hosted. Fine for the owner's personal use. Before opening to others, switch to official embeds or revisit terms (see `docs/RESEARCH-PIPELINE.md`).
 
+## Red team 2026-09-24 (second pass)
+
+Report: `docs/redteam/2026-09-24/REPORT.md`. Retest of the 09-23 fixes: 28/31 pass, 1 regression (NOW notice under the phone tab bar). 84 new findings in ten clusters. **Before `TREG_TOKEN` goes on any public URL, fix cluster A** (research runs on page load, and its budget is per-instance, in-memory and fails open; the limiter and origin checks trust request headers). Until then, keep the key in the Vercel Preview environment only, which sits behind Vercel sign-in. Cluster B (forged or impersonated picks links, prototype pollution from link ids, any-https card links) is the other P0. Both are HIGH_CAPABILITY_ONLY under AGENTS.md.
+
+The design system is documented in `docs/design/UNIFIED-DESIGN.md` ("Afterglow"); the four-way critique that produced it and the round-2 adversarial review are summarized there.
+
 ## Open caveats
 
 - The Spotify playlist reading is tested against sample data only. Confirm it against the real API once keys exist; the 2026 API renamed `/tracks` to `/items`, and artist `genres` may be empty.

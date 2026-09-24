@@ -1,0 +1,81 @@
+{
+  "label": "J-03-start-trip",
+  "at": "2026-09-24T06:23:52.175Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Anonymous first-time visitor to dope.travel (a travel discovery site), on an iPhone-sized phone, no account, no prior knowledge of the product vocabulary. Wants to find a place worth going to, understand why and how far, and keep it for later.",
+      "job": "Having found Oktoberfest in Munich, take the next step toward actually going.",
+      "workflow": "On the Munich destination page (phone). First screen shows: A PLACE WORTH THE JOURNEY, Munich, one big glowing orange gradient button 'Start a trip ↗' (the only gradient button on screen) and a secondary 'Get a feel for it ↓'. A sticky pill at the bottom says 'Plan Oktoberfest'. Save this event is about 3 phone screens further down.",
+      "what_happens_on_tap": "Start a trip opens a Circles page: 'Trip rooms. A Circle is a trip, not a chat thread. Live Circles still live in Community for members who are signed in.' It shows the chosen occasion and 'No Circle or booking has been created', then a button 'Continue in Community to start a real Circle ↗'. The Community page then says membership is not connected in this preview; there is no sign-in available.",
+      "no_account": true
+    },
+    "questions": {
+      "expectation": {
+        "type": "choice",
+        "instructions": "Before tapping, what does the user most likely expect 'Start a trip' to do?",
+        "criteria": {
+          "trip_plan": "Open a personal trip plan or itinerary for Munich they can build alone",
+          "save": "Save the place for later",
+          "group_room": "Create a group room to plan with friends",
+          "booking": "Start booking flights or hotels"
+        }
+      },
+      "reaches_outcome": {
+        "type": "noul",
+        "instructions": "Probability the user gets any usable trip-planning outcome by following Start a trip and its continuation links in this preview."
+      },
+      "cta_honesty": {
+        "type": "score",
+        "instructions": "Is giving this CTA the single most prominent style on the page appropriate given what it leads to?",
+        "criteria": [
+          "Inappropriate: the most prominent action leads to an unavailable flow",
+          "Questionable",
+          "Acceptable",
+          "Appropriate"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expectation": {
+        "type": "choice",
+        "choice": "trip_plan",
+        "confidence": 0.68,
+        "probabilities": {
+          "trip_plan": 0.76,
+          "group_room": 0.17,
+          "save": 0.02,
+          "booking": 0.05
+        }
+      },
+      "reaches_outcome": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "cta_honesty": {
+        "type": "score",
+        "score": 0.01,
+        "confidence": 0.99,
+        "legend": {
+          "0": "Inappropriate: the most prominent action leads to an unavailable flow",
+          "1": "Questionable",
+          "2": "Acceptable",
+          "3": "Appropriate"
+        },
+        "probabilities": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 758,
+      "output_tokens": 87
+    }
+  }
+}

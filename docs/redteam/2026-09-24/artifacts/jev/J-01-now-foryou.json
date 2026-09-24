@@ -1,0 +1,75 @@
+{
+  "label": "J-01-now-foryou",
+  "at": "2026-09-24T06:23:51.273Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Anonymous first-time visitor to dope.travel (a travel discovery site), on an iPhone-sized phone, no account, no prior knowledge of the product vocabulary. Wants to find a place worth going to, understand why and how far, and keep it for later.",
+      "job": "Decide what to do right now in the city they are in (Nashville).",
+      "workflow": "Opened the NOW page from the More menu on the phone. Typed Nashville in the City box and tapped Show me.",
+      "visible_in_order_top_to_bottom": [
+        "Eyebrow: NOW · LOCAL DECISION ENGINE. Headline: Where should we go right now?",
+        "Body: Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory.",
+        "Card: MORNING · FOR YOU. Heading: Right now in Nashville. City field (Nashville), Show me button.",
+        "Three idea links: 'Walk Nashville's best neighborhoods' (Coffee in hand, no plan, the good streets.), 'The sights worth it in Nashville' (The famous ones that actually earn it.), 'Nashville's food market' (Graze, people-watch, eat standing up.). Each opens a Google Maps search.",
+        "Small text: Each idea opens a live Maps search near Nashville, shaped by your board. Check it's open before you go.",
+        "Small text: Make your board and these ideas follow your food, music, and crew. (The user has NOT made a board.)",
+        "About one and a half phone screens further down: NOW · NOT CONNECTED YET. Heading: NOW can't pick venues tonight. Body: Live nearby venue search is awaiting its provider, so there are no recommendations to show. Your location is not requested. Here is what the curated calendar can still offer. Then ON TODAY: three curated events on other continents (Masai Mara, Neiafu, Baa Atoll)."
+      ]
+    },
+    "questions": {
+      "believes_personalized": {
+        "type": "noul",
+        "instructions": "Probability the user believes the three Nashville ideas were personalized to them (shaped by their own board or taste)."
+      },
+      "contradiction": {
+        "type": "noul",
+        "instructions": "Probability the user perceives a contradiction between the Nashville ideas and the later statement that there are no recommendations to show."
+      },
+      "honesty": {
+        "type": "score",
+        "instructions": "How honestly does this screen represent what NOW can actually do today?",
+        "criteria": [
+          "Misleading: implies a live, personalized decision engine that is not working",
+          "Mixed: some honest labels but the overall impression overstates capability",
+          "Mostly honest: minor overstatement",
+          "Fully honest and clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "believes_personalized": {
+        "type": "noul",
+        "noul": 0.25
+      },
+      "contradiction": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "honesty": {
+        "type": "score",
+        "score": 1,
+        "confidence": 0.51,
+        "legend": {
+          "0": "Misleading: implies a live, personalized decision engine that is not working",
+          "1": "Mixed: some honest labels but the overall impression overstates capability",
+          "2": "Mostly honest: minor overstatement",
+          "3": "Fully honest and clear"
+        },
+        "probabilities": {
+          "0": 0.25,
+          "1": 0.59,
+          "2": 0.08,
+          "3": 0.08
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 844,
+      "output_tokens": 57
+    }
+  }
+}

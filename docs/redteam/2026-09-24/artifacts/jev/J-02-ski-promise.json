@@ -1,0 +1,74 @@
+{
+  "label": "J-02-ski-promise",
+  "at": "2026-09-24T06:23:51.822Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Anonymous first-time visitor to dope.travel (a travel discovery site), on an iPhone-sized phone, no account, no prior knowledge of the product vocabulary. Wants to find a place worth going to, understand why and how far, and keep it for later.",
+      "job": "Plan an Aspen Christmas ski week with another family and get the plan in front of them.",
+      "workflow": "Tapped Start a trip from the Aspen journey; landed on the Trips page family-ski section on a phone. Reading top to bottom.",
+      "visible_in_order_top_to_bottom": [
+        "First screen: START WITH THE PEOPLE. Plan the snow, together. Begin with two regions and the shape of your trip. Create a Circle, send its link to the other family, then use the private conversation to compare towns and stays.",
+        "Steps: 01 Choose a window and what your family needs. 02 Share the Circle link with your friend. 03 Approve their request, then shortlist together.",
+        "Privacy note about who sees the Circle name and dates.",
+        "RESEARCH BRIEF / AWAITING CONNECTION box with four 'pending' rows.",
+        "Only after scrolling about 1.3 phone screens: FAMILY SKI TRIP / FIRST DRAFT. Note: Shared trip rooms aren't available on this preview. Nothing you enter is saved on dope.travel, but you can copy your brief and send it to the other family yourself.",
+        "Form (prefilled Aspen, 19 Dec 2026 - 3 Jan 2027) and, about 3 screens down, the button Copy our trip brief."
+      ]
+    },
+    "questions": {
+      "expects_circle_link": {
+        "type": "noul",
+        "instructions": "Probability that, after the first screen, the user expects dope.travel to create a shareable Circle link for the other family."
+      },
+      "notices_unavailable_before_filling": {
+        "type": "noul",
+        "instructions": "Probability the user understands that shared trip rooms are unavailable before they start filling in the form."
+      },
+      "clarity": {
+        "type": "score",
+        "instructions": "How clear is the path to getting the plan to the other family?",
+        "criteria": [
+          "Misleading: promises a shared link that cannot be made",
+          "Unclear until deep in the page",
+          "Clear with some friction",
+          "Immediately clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "expects_circle_link": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "notices_unavailable_before_filling": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "clarity": {
+        "type": "score",
+        "score": 0.57,
+        "confidence": 0.43,
+        "legend": {
+          "0": "Misleading: promises a shared link that cannot be made",
+          "1": "Unclear until deep in the page",
+          "2": "Clear with some friction",
+          "3": "Immediately clear"
+        },
+        "probabilities": {
+          "0": 0.56,
+          "1": 0.32,
+          "2": 0.1,
+          "3": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 755,
+      "output_tokens": 61
+    }
+  }
+}

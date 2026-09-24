@@ -1,0 +1,58 @@
+{
+  "label": "J-06-demo-invite",
+  "at": "2026-09-24T06:23:53.390Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "A guest invited by a friend; opens the friend's link on an iPhone in a demo build of dope.travel (simulated members, labelled 'Demo · simulated' in the header).",
+      "job": "Understand the invitation and accept a seat in the friend's cabin.",
+      "visible": "The event panel for Mara River Crossings fills most of the screen. Floating over its lower half and overlapping the bottom tab bar is a box: YOU WERE SENT THIS. Long Weekend — Masai Mara. MARA RIVER CROSSINGS · MASAI MARA · 26 JUL – 30 SEP 2026 (small faint caps). Then a very narrow column where the text wraps one word per line: 'Marius / Oyelaran / is / hosting. / 3/6 / aboard' — the last line is partly hidden behind the tab bar. To its right: 'Not this time' (plain text button) and 'Take a seat — 3 left' (dark rounded button, not the bright primary style)."
+    },
+    "questions": {
+      "understands_host": {
+        "type": "noul",
+        "instructions": "Probability the guest correctly understands who is hosting and how many seats are taken."
+      },
+      "accept_clear": {
+        "type": "score",
+        "instructions": "How clear is it how to accept?",
+        "criteria": [
+          "Unclear",
+          "Findable with effort",
+          "Clear",
+          "Obvious"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_host": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "accept_clear": {
+        "type": "score",
+        "score": 1.89,
+        "confidence": 0.64,
+        "legend": {
+          "0": "Unclear",
+          "1": "Findable with effort",
+          "2": "Clear",
+          "3": "Obvious"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.22,
+          "2": 0.64,
+          "3": 0.13
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 564,
+      "output_tokens": 37
+    }
+  }
+}

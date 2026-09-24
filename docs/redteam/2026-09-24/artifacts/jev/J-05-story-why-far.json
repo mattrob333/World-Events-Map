@@ -1,0 +1,100 @@
+{
+  "label": "J-05-story-why-far",
+  "at": "2026-09-24T06:23:53.004Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Anonymous first-time visitor to dope.travel (a travel discovery site), on an iPhone-sized phone, no account, no prior knowledge of the product vocabulary. Wants to find a place worth going to, understand why and how far, and keep it for later.",
+      "job": "Find a place worth going to and understand why and how far.",
+      "workflow": "On the home page (phone) they chose New York as their city, chose Fall and Culture & food, and tapped the first shortlist card 'Munich · Oktoberfest · Fly there on the globe'. The globe flew to Munich.",
+      "visible": "THIS IS YOUR DESTINATION. Munich, GERMANY / CULTURAL. Oktoberfest. Sixteen days on the Theresienwiese, fourteen big tents, six breweries and no substitutes. 19 Sep – 04 Oct 2026 · Theresienwiese. WHAT MAKES IT WORTH THE TRIP: Six breweries, litre steins, and a rule that you must be seated to drink; Käfer's gallery stays open past the tents and is where Munich actually sits. NEW YORK → MUNICH. 6,490 km · ~8h 30m in the air. Primary button 'Open Munich ↗'; link 'Start a Circle here →'. Small print: Editorial event details; verify dates and access with organizers. Distance and airtime are indicative, not a flight schedule.",
+      "context": "Today is 24 Sep 2026, so Oktoberfest is already under way."
+    },
+    "questions": {
+      "why_clear": {
+        "type": "score",
+        "instructions": "Does the user understand why this place is worth the trip?",
+        "criteria": [
+          "No",
+          "Vaguely",
+          "Mostly",
+          "Clearly"
+        ]
+      },
+      "howfar_clear": {
+        "type": "score",
+        "instructions": "Does the user understand how far it is from them and that it is an estimate?",
+        "criteria": [
+          "No",
+          "Distance shown but read as a real flight schedule",
+          "Understood as approximate",
+          "Clearly understood as indicative"
+        ]
+      },
+      "next_action": {
+        "type": "choice",
+        "instructions": "What is the user's most likely next action?",
+        "criteria": {
+          "open": "Tap Open Munich",
+          "circle": "Tap Start a Circle here",
+          "back": "Go back to the shortlist",
+          "leave": "Leave the site"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "why_clear": {
+        "type": "score",
+        "score": 2.89,
+        "confidence": 0.89,
+        "legend": {
+          "0": "No",
+          "1": "Vaguely",
+          "2": "Mostly",
+          "3": "Clearly"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.01,
+          "2": 0.03,
+          "3": 0.94
+        }
+      },
+      "howfar_clear": {
+        "type": "score",
+        "score": 2.44,
+        "confidence": 0.44,
+        "legend": {
+          "0": "No",
+          "1": "Distance shown but read as a real flight schedule",
+          "2": "Understood as approximate",
+          "3": "Clearly understood as indicative"
+        },
+        "probabilities": {
+          "0": 0.12,
+          "1": 0.02,
+          "2": 0.15,
+          "3": 0.71
+        }
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "circle",
+        "confidence": 0.34,
+        "probabilities": {
+          "circle": 0.51,
+          "open": 0.46,
+          "back": 0.03,
+          "leave": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 819,
+      "output_tokens": 75
+    }
+  }
+}

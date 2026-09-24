@@ -1,0 +1,81 @@
+{
+  "label": "J-04-keep-refind",
+  "at": "2026-09-24T06:23:52.576Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Anonymous first-time visitor to dope.travel (a travel discovery site), on an iPhone-sized phone, no account, no prior knowledge of the product vocabulary. Wants to find a place worth going to, understand why and how far, and keep it for later.",
+      "job": "Come back to the place they saved (Oktoberfest) a day later on the same phone.",
+      "workflow": "Earlier they tapped 'Save this event' on the Munich page and it changed to 'Saved ✓' with the note 'Save and Watch stay on this device.' Now they open the site again.",
+      "navigation_visible": "Bottom tab bar: World, Circles, People, Access, More. 'Trips' is only inside the More menu, listed as 'Trips — Saved, watched, and I'd go'.",
+      "trips_page": "First screen: DOPE.TRAVEL / YOUR TRIPS. A place becomes a plan. Keep the places that stay with you. Glowing primary button 'Start a family ski trip ↗', then 'Open the trip designer', 'Preview a trip room ↓'. Saved places section is about 2.7 phone screens down, under a sample trip room gallery: 'YOUR TRAIL. The places you come back to. 01 Saved places 1' with one row: 'Oktoberfest' on the left and 'Save ↗' on the right (the whole row is a link to the event on the globe)."
+    },
+    "questions": {
+      "finds_within_30s": {
+        "type": "noul",
+        "instructions": "Probability the user finds their saved Oktoberfest within 30 seconds without help."
+      },
+      "save_label": {
+        "type": "choice",
+        "instructions": "What does the user most likely think the 'Save ↗' label on the saved row means?",
+        "criteria": {
+          "status": "It is a label saying this item is a save",
+          "action_save": "A button to save it (again)",
+          "open": "A link to open the saved item",
+          "unclear": "Unclear / ignores it"
+        }
+      },
+      "keep_quality": {
+        "type": "score",
+        "instructions": "How well does the product let a first-time visitor keep and re-find a place?",
+        "criteria": [
+          "Poor: saved item is hard to find",
+          "Weak",
+          "Adequate",
+          "Good"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "finds_within_30s": {
+        "type": "noul",
+        "noul": 0.44
+      },
+      "save_label": {
+        "type": "choice",
+        "choice": "open",
+        "confidence": 0.59,
+        "probabilities": {
+          "unclear": 0.03,
+          "action_save": 0.2,
+          "status": 0.08,
+          "open": 0.69
+        }
+      },
+      "keep_quality": {
+        "type": "score",
+        "score": 0.91,
+        "confidence": 0.47,
+        "legend": {
+          "0": "Poor: saved item is hard to find",
+          "1": "Weak",
+          "2": "Adequate",
+          "3": "Good"
+        },
+        "probabilities": {
+          "0": 0.31,
+          "1": 0.49,
+          "2": 0.17,
+          "3": 0.03
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 780,
+      "output_tokens": 87
+    }
+  }
+}
