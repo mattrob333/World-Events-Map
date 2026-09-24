@@ -67,7 +67,7 @@
   z-index: -1;
   background:
     linear-gradient(90deg, rgb(4 5 10 / 0.94) 0%, rgb(6 8 16 / 0.86) 28%, rgb(6 8 16 / 0.45) 50%, rgb(6 8 16 / 0.08) 72%, rgb(6 8 16 / 0.5) 100%),
-    linear-gradient(0deg, var(--color-surface-0) 0%, rgb(4 5 10 / 0.6) 18%, transparent 52%);
+    linear-gradient(0deg, var(--color-surface-0) 0%, rgb(4 5 10 / 0.72) 14%, transparent 46%);
 }
 .hero::after {
   content: '';
@@ -631,7 +631,7 @@
   .departureBoard { margin-inline: 5%; }
 }
 @media (max-width: 650px) {
-  .hero { display: block; min-height: 640px; padding: 32px 16px 250px; }
+  .hero { display: block; min-height: 0; padding: 32px 16px 20px; }
   .heroPhoto { background-position: 46% center; }
   .heroShade {
     background: linear-gradient(180deg, rgb(4 5 10 / 0.92) 0, rgb(6 8 16 / 0.78) 40%, rgb(6 8 16 / 0.4) 62%, var(--color-surface-0) 100%);
@@ -640,19 +640,20 @@
   .heroCopy h1 { max-width: 420px; font-size: clamp(44px, 12vw, 61px); margin: 16px 0 12px; }
   .heroCopy p { max-width: 360px; font-size: 0.9375rem; }
   .heroActions { gap: 8px 20px; margin-top: 22px; }
-  .routePass { left: 16px; right: 16px; width: auto; bottom: 40px; padding: 14px; }
+  /* On phones the pass joins the flow under the copy instead of floating. */
+  .routePass { position: relative; right: auto; bottom: auto; width: auto; margin-top: 150px; padding: 14px; }
   .passPicture { height: 64px; margin-top: 10px; }
   .passRoute { margin-top: 12px; }
   .passPlace strong { font-size: 19px; }
   .passMeta { flex-wrap: wrap; }
   .passMeta strong { text-align: left; }
-  .imageDisclosure { bottom: 12px; left: 16px; right: auto; }
+  .imageDisclosure { position: static; display: block; margin-top: 12px; }
   .tripFinder { padding: 40px 16px 24px; }
   .finderIntro { display: block; }
   .finderIntro h2 { font-size: 32px; }
-  .finderSelection { display: grid; grid-template-columns: minmax(0, 1fr) auto; max-width: none; margin-top: 20px; padding: 16px; }
-  .finderSelection strong { font-size: 19px; }
-  .finderSelection a { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+  .finderSelection { grid-template-columns: 1fr; max-width: none; margin-top: 20px; padding: 18px; }
+  .finderSelection strong { font-size: 20px; }
+  .finderSelection a { grid-column: 1; grid-row: auto; margin-top: 14px; justify-self: start; }
   .finderControls { gap: 16px; margin-top: 22px; }
   .finderGroup { display: block; width: 100%; }
   .finderGroup legend { float: none; margin-bottom: 10px; }

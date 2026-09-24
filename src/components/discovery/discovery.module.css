@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex: 1 1 auto;
+  flex: 1 1 260px;
   max-width: 420px;
   min-height: 44px;
   padding: 0 16px;
@@ -1025,7 +1025,7 @@
 .worldHeading {
   top: 24px;
   left: 3.2%;
-  width: min(27%, 310px);
+  width: min(30%, 360px);
 }
 .worldHeading h2 {
   font-size: clamp(31px, 3vw, 43px);
@@ -1033,7 +1033,7 @@
   margin: 8px 0 7px;
 }
 .worldHeading p {
-  max-width: 285px;
+  max-width: 360px;
   font-size: 0.8125rem;
   line-height: 1.4;
   /* One line only: a wrapped occasion name collided with the spotlight below
@@ -1043,7 +1043,7 @@
   white-space: nowrap;
 }
 .spotlight {
-  top: 152px;
+  top: 160px;
   left: 3.2%;
   width: min(26%, 295px);
   padding-top: 11px;

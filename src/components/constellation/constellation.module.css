@@ -6,24 +6,22 @@
 }
 
 .panel {
-  background: color-mix(in oklab, #0b0e18 94%, transparent);
-  border: 1px solid #ffffff12;
-  border-radius: 14px;
-  padding: 18px;
+  background: var(--gradient-surface), var(--color-surface-2);
+  border-radius: var(--radius-card);
+  padding: 20px;
   min-width: 0;
-  box-shadow: inset 0 1px 0 #ffffff08, 0 24px 60px -36px #000;
+  box-shadow: var(--shadow-soft-1);
 }
 
 .canvasShell {
   position: relative;
   min-height: 640px;
   overflow: hidden;
-  border-radius: 14px;
-  border: 1px solid #c8a86635;
+  border-radius: var(--radius-sheet);
   background:
     radial-gradient(circle at 50% 45%, #172032 0, #080b12 42%, #030409 78%),
     #030409;
-  box-shadow: inset 0 0 80px #0008, 0 24px 70px -42px #000;
+  box-shadow: inset 0 0 80px rgb(0 0 0 / 0.5), var(--shadow-soft-3);
 }
 
 .canvasShell::before {
@@ -42,8 +40,8 @@
 .canvasMeta {
   position: absolute;
   z-index: 2;
-  top: 14px;
-  left: 16px;
+  top: 18px;
+  left: 22px;
   pointer-events: none;
 }
 
@@ -55,10 +53,11 @@
 }
 
 .canvasMeta span {
-  color: #797a77;
-  font-size: 10px;
+  color: var(--color-ink-subtle);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
 }
 
 .modeSelect,
@@ -69,19 +68,32 @@
 
 .modeSelect,
 .textInput {
-  min-height: 42px;
-  border: 1px solid #ffffff22;
-  border-radius: 8px;
-  background: #070b12;
-  color: #f4f1ea;
-  padding: 9px 10px;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
+  color: var(--color-bone);
+  padding: 0 14px;
+  font: 16px/1.2 var(--font-sans);
+}
+
+.modeSelect:focus-visible,
+.textInput:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-inset), var(--focus-ring);
+}
+
+.range {
+  min-height: 44px;
+  accent-color: var(--color-saffron);
 }
 
 .controlGroup {
   display: grid;
   gap: 8px;
-  padding: 14px 0;
-  border-top: 1px solid #ffffff10;
+  padding: 16px 0;
+  border-top: 1px solid rgb(255 255 255 / 0.06);
 }
 
 .controlGroup:first-of-type {
@@ -90,10 +102,11 @@
 }
 
 .label {
-  color: #8f908d;
-  font-size: 10px;
+  color: var(--color-brass);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
 }
 
 .toggle {
@@ -101,12 +114,18 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: #d3d0c9;
-  font-size: 12px;
+  min-height: 44px;
+  color: var(--color-ink-soft);
+  font-size: 13px;
 }
 
 .toggle input {
-  accent-color: #c8a866;
+  accent-color: var(--color-saffron);
+}
+
+.toggle input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
 }
 
 .legend {
@@ -119,8 +138,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #a8a598;
-  font-size: 11px;
+  color: var(--color-ink-muted);
+  font-size: 12px;
 }
 
 .dot {
@@ -141,7 +160,7 @@
 .nodeLabel strong {
   display: block;
   color: #f4f1ea;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
@@ -150,16 +169,16 @@
   display: block;
   margin-top: 2px;
   color: #a8a598;
-  font-size: 8px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
 
 .score {
   font-family: var(--font-mono);
   font-size: 54px;
   line-height: 1;
-  color: #e6cf9b;
+  color: var(--color-brass-bright);
 }
 
 .reasonList {
@@ -174,44 +193,67 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  border-top: 1px solid #ffffff10;
+  border-top: 1px solid rgb(255 255 255 / 0.06);
   padding-top: 9px;
-  color: #b9b7b0;
-  font-size: 12px;
+  color: var(--color-ink-muted);
+  font-size: 13px;
 }
 
 .reasonList code {
-  color: #5ee0c8;
+  color: var(--color-brass-bright);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
 }
 
+/* The sunset pill. */
 .action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: 42px;
-  border-radius: 8px;
-  border: 1px solid #c8a866;
-  background: #c8a866;
-  color: #090a0c;
-  font-weight: 700;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--radius-chip);
+  background: var(--gradient-cta);
+  color: var(--color-on-accent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), var(--shadow-glow);
+  font: 600 14px/1 var(--font-sans);
+  text-decoration: none;
   cursor: pointer;
 }
 
 .action:disabled {
   opacity: 0.45;
   cursor: wait;
+  box-shadow: none;
 }
 
+.action:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Secondary: raised bone-ink pill. */
 .quietAction {
-  background: transparent;
-  color: #e6cf9b;
-  border-color: #c8a86655;
+  margin-top: 8px;
+  background: var(--gradient-surface), var(--color-surface-3);
+  color: var(--color-bone);
+  box-shadow: var(--shadow-soft-1);
+}
+
+.quietAction:hover {
+  background: var(--gradient-surface), var(--color-surface-4);
 }
 
 .notice {
   margin-top: 12px;
-  color: #9fd9ca;
-  font-size: 11px;
+  padding: 12px 14px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
+  color: var(--color-ink-muted);
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -219,11 +261,12 @@
   color: #f0a794;
 }
 
+/* Empty / not connected: the shared sunken notice treatment. */
 .empty {
-  padding: 36px;
-  border: 1px dashed #c8a86645;
-  border-radius: 14px;
-  background: #0c1018;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-inset);
   text-align: center;
 }
 
@@ -233,7 +276,7 @@
 }
 
 .empty p {
-  color: #a8a598;
+  color: var(--color-ink-muted);
   max-width: 620px;
   margin: 0 auto 18px;
 }
