@@ -1,6 +1,6 @@
 # dope.travel handoff
 
-Read this first when picking up the work in a new session. Last updated 2026-09-24.
+Read this first when picking up the work in a new session. Last updated 2026-09-24 (destination research landed).
 
 ## What we're building and for whom
 
@@ -35,12 +35,14 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
   - BestTime venue scoring is still unconfigured.
 - **Brand:** `/brand` page, SVG logos in `public/brand`. `npm run brand:assets` generates imagery with Treg image models. It has not run yet, and the `src/lib/brand/assets.json` manifest is empty.
 
+- **Destination research (trip canvas, "{Place}, right now"):** live through Treg for any place, curated or typed-in. Tabs: Top spots, Hidden gems, Instagram, TikTok, Eat, Nights out, Tripadvisor, Yelp, Events, Flights. Code: `src/lib/research/destination.ts` (orchestrator, cap, cache), `destinationSources.ts` (parsers), `tregClient.ts` (shared Treg transport), route `POST /api/designer/research`, UI `src/components/designer/DestinationResearch.tsx`. Details under "Destination research" below.
+
 ## Keys
 
 | Status | Key | Notes |
 |---|---|---|
 | Connected | `TYPESAFE_API_KEY` | Jev |
-| Connected | `TREG_TOKEN` | Just added; verify it's visible |
+| Connected | `TREG_TOKEN` | Verified 2026-09-24 in the Claude environment. **Also add it to the Vercel project `world-events-map-onq7` (Preview + Production)** or the research panel says "not connected" there. |
 | Connected but unused | `OPENAI_API_KEY` | |
 | Still needed | `ANTHROPIC_API_KEY` + `MERIDIAN_DESIGNER_AI=on` | AI parsing and curation |
 | Still needed | `NEXT_PUBLIC_SPOTIFY_CLIENT_ID` + `SPOTIFY_CLIENT_SECRET` | Spotify |
@@ -50,16 +52,20 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
 
 ## Next up, in order
 
-1. **Verify Treg.** Confirm `TREG_TOKEN` is set (check presence only; never print it). Check the pinned endpoints in `src/lib/research/treg.ts` (`anyapi.instagram.hashtag_recent_posts`, `anyapi.tiktok.search.videos`) against https://treg.to/catalog and https://treg.to/docs with one cheap call each.
-2. **Destination research for any place.** When a trip is planned for a typed-in place, pull real, current info through Treg:
-   - top spots and hidden gems from Tripadvisor, Yelp and Google;
-   - recent Instagram and TikTok posts for the place and its venues;
-   - events and flights where the catalog has them.
-
-   Show it on the trip canvas with source and fetch time. Images must be real and must match what they're labeled as. Cache per place and cap spend per trip. Fall back to the current search cards when Treg is unavailable.
+1. ~~Verify Treg~~ Done 2026-09-24. Both pinned endpoints exist in the catalog and returned live data (Instagram $0.0015, TikTok $0.0007).
+2. ~~Destination research for any place~~ First version done 2026-09-24; **get the owner's UI feedback on the preview** and iterate. Open ideas: "add to day" from a research card into a slot; use research spots as the idea cards themselves; venue-level Instagram is thin (venue hashtags are rarely used), so consider TikTok-only for venues.
 3. **Brand imagery.** Run `npm run brand:assets` (a few cents per image, capped), review the results, and wire the good ones in.
 4. **Personal end-to-end test.** Ask the owner for a real upcoming trip. Plan it with his profile and his playlist, invite his crew, and fix whatever feels off.
 5. **Later:** Supabase accounts for live group voting and syncing profiles across devices. That work is HIGH_CAPABILITY under AGENTS.md: migrations and RLS need a careful review.
+
+## Destination research
+
+- **Sources and prices (Treg catalog, checked 2026-09-24):** `anyapi.google.serp.maps` ×3 (~$0.00175 each: attractions, food, nightlife steered by the crew's top music scene), `serpapi.x.tripadvisor-search` (~$0.015; tour products dropped, sights kept), `serpapi.x.yelp-search` (~$0.015), `anyapi.instagram.hashtag_recent_posts` (place, plus the top sight's hashtag), `anyapi.tiktok.search.videos` (place, plus top sight), `dataforseo.x.serp-google-events-live-advanced` (~$0.002), `serpapi.x.google-flights` (~$0.015, only when home and destination airports are both known and the start date is 1–330 days out). TikTok covers come from TikTok's free public oEmbed.
+- **Real run for Lisbon:** 13 s, $0.055; every tab filled except Events.
+- **Events are down at the provider:** DataForSEO answers `50304 temporarily unavailable` (no charge), and SerpApi's `google_events` engine is unsupported through Treg. The tab says so honestly. The DataForSEO item parser follows its documented fields but hasn't been checked against a live response; check it when the feed returns.
+- **Spend:** every call carries its own `X-Treg-Route-Max-Cost` ceiling. A run stops starting calls once reserved ceilings would pass $0.10 (flights have their own $0.02 ceiling). There's a per-instance daily ceiling of $2 and 4 runs per 10 minutes per client. Results are cached 6 h per place on the server (failures 10 min) and 6 h per trip on the device, and Treg's own archive is accepted (24 h for places, 1 h for social). These caps are per server instance, not durable; a durable budget is needed before opening to others.
+- **Truth rules:** only rows linking to the provider's own domain are kept; images come only from that provider's CDN, so each photo is the listing's or post's own. Instagram and TikTok posts must name the place in their words or tagged location (hashtags alone don't count on Instagram), no ads or paid partnerships, and nothing older than 60 days. "Hidden gems" is a stated rule (4.6+ with 30–1,500 Google reviews), not an editorial call. Every tab shows source and fetch time.
+- **Instagram/TikTok terms:** the panel hot-links post images from the platform CDNs and links out to each post; nothing is re-hosted. Fine for the owner's personal use. Before opening to others, switch to official embeds or revisit terms (see `docs/RESEARCH-PIPELINE.md`).
 
 ## Open caveats
 

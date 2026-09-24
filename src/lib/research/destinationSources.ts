@@ -23,6 +23,8 @@ export type ResearchSpot = {
   price?: string;
   snippet?: string;
   image?: ResearchImage;
+  lat?: number;
+  lng?: number;
 };
 
 export type ResearchPost = {
@@ -157,6 +159,8 @@ export function parseGoogleMaps(json: unknown): ResearchSpot[] {
       category: str(row.category, 60),
       address: str(row.address, 160),
       image: image ? { url: image, alt: `${name}, photo from its Google Maps listing` } : undefined,
+      lat: num(row.latitude),
+      lng: num(row.longitude),
     });
   }
   return spots;

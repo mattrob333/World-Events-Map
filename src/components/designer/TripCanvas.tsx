@@ -7,6 +7,7 @@ import { localIsoDate, tripMoment } from '@/lib/designer/tripNow';
 import { useDesignerStore } from '@/lib/designer/store';
 import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
+import { DestinationResearch } from './DestinationResearch';
 import { DRAG_MIME, IdeaCard } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
@@ -162,6 +163,8 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas:
         check hours, prices, and bookings with each venue.
       </p>
+
+      <DestinationResearch trip={trip} destination={destination} />
 
       {trip.taste?.genres.length ? (
         <ScenePlaybook

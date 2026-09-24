@@ -69,8 +69,8 @@ export async function readJson(request: Request, maxBytes: number): Promise<unkn
 }
 
 type Bucket = { count: number; resetAt: number };
-type LimitName = 'ai' | 'concerts' | 'jev' | 'spotify';
-const LIMITS: Record<LimitName, number> = { ai: AI_CALLS_PER_WINDOW, concerts: 20, jev: 10, spotify: 10 };
+type LimitName = 'ai' | 'concerts' | 'jev' | 'spotify' | 'research';
+const LIMITS: Record<LimitName, number> = { ai: AI_CALLS_PER_WINDOW, concerts: 20, jev: 10, spotify: 10, research: 4 };
 const buckets = new Map<string, Bucket>();
 
 function clientKey(request: Request): string {

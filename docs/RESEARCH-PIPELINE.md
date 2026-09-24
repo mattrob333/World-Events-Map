@@ -21,3 +21,7 @@ This is automated editorial screening of Exa source-extracted highlights and Tre
 The scheduled route returns source status and publish/review/reject counts; it does not expose credentials, vendor responses, or unpublished rows. Treg call IDs and micro-USD charges are written to server logs for billing reconciliation. This first rotation is a controlled pilot rather than complete worldwide coverage. Tune the destination set, Jev thresholds, and spend limits from observed quality and actual provider bills before expanding it.
 
 Relevant provider references: [Exa Search API](https://exa.ai/docs/reference/search), [Treg API](https://treg.to/docs), [Treg catalog](https://treg.to/catalog), [TypeSafe API](https://docs.typesafe.ai/api.md), [Vercel cron limits](https://vercel.com/docs/cron-jobs/usage-and-pricing).
+
+## Trip-canvas destination research
+
+Separate from the scheduled pulse above: `POST /api/designer/research` researches any place on demand for the trip canvas (Google Maps, Tripadvisor, Yelp, Instagram, TikTok, Google Events and Google Flights through Treg). It spends at most $0.10 per run plus $0.02 for fares, caches per place, and says "not connected" without `TREG_TOKEN`. Instagram and TikTok images are hot-linked from the platform CDNs for the owner's personal use; revisit this before opening the app to others. See `docs/HANDOFF.md`, "Destination research".
