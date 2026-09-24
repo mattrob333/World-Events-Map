@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import type { Itinerary } from './itinerary';
 import type { ListeningProfile } from './listening';
 import type { ParseEngine, TravelerProfile } from './profile';
+import { mergeReply as mergeReplyInto, type TripReply } from './tripShare';
 import { moveCard as moveCardBetween, type TripVotes } from './votes';
 
 export type SavedProfile = {
@@ -27,6 +28,10 @@ interface DesignerState {
   saveProfile: (profile: SavedProfile) => void;
   removeProfile: (id: string) => void;
   setTrip: (trip: Itinerary) => void;
+  /** Opens a shared trip on this device, keeping everyone's votes so far. */
+  importTrip: (trip: Itinerary, votes: TripVotes, me: string) => void;
+  /** Merges a friend's picks link; throws if it belongs to another trip. */
+  mergeReply: (reply: TripReply) => { added: boolean };
   clearTrip: () => void;
   setActiveParticipant: (id: string) => void;
   /** Toggles by default (tap again to clear); swipes pass toggle=false to set. */
@@ -70,6 +75,14 @@ export const useDesignerStore = create<DesignerState>()(
         set((state) => ({ profiles: [profile, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12) })),
       removeProfile: (id) => set((state) => ({ profiles: state.profiles.filter((entry) => entry.id !== id) })),
       setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null }),
+      importTrip: (trip, votes, me) => set({ trip, votes, activeParticipant: me }),
+      mergeReply: (reply) => {
+        const { trip, votes } = get();
+        if (!trip) throw new Error('Open the trip on this device first, then tap the picks link again.');
+        const merged = mergeReplyInto(trip, votes, reply);
+        set({ trip: merged.trip, votes: merged.votes });
+        return { added: merged.added };
+      },
       clearTrip: () => set({ trip: null, votes: {}, activeParticipant: null }),
       setActiveParticipant: (id) => set({ activeParticipant: id }),
       vote: (slotId, cardId, participantId, value, toggle = true) =>

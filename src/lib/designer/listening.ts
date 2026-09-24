@@ -19,6 +19,8 @@ export type ListeningProfile = {
   roots: string[];
   familyListening: boolean;
   playlistHints: string[];
+  /** The playlist the traveler pointed us at ("Liked Songs" or its name), when they did. */
+  fromPlaylist?: string;
 };
 
 export type SpotifyImport = {
@@ -26,7 +28,39 @@ export type SpotifyImport = {
   tracks: { album?: { release_date?: string }; artists?: { name: string }[] }[];
   recent: { played_at: string }[];
   playlists: { name: string }[];
+  /** A playlist the traveler linked; its artists outrank their top artists. */
+  focus?: { name: string; artists: { name: string; genres?: string[] }[]; tracks: SpotifyImport['tracks'] };
 };
+
+export type PlaylistRef = { kind: 'liked' } | { kind: 'playlist'; id: string };
+
+/**
+ * Reads a pasted Spotify link: a playlist URL (with or without /intl-xx/ and
+ * ?si=), a spotify:playlist: URI, or the Liked Songs page / the word "liked".
+ */
+export function parsePlaylistRef(input: string): PlaylistRef | null {
+  const text = input.trim();
+  if (!text) return null;
+  if (/^(liked( songs)?|favou?rites)$/i.test(text) || /open\.spotify\.com\/collection\/tracks/i.test(text)) return { kind: 'liked' };
+  const match = text.match(/^spotify:playlist:([A-Za-z0-9]{16,40})$/) ?? text.match(/^https?:\/\/open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?playlist\/([A-Za-z0-9]{16,40})(?:[/?#].*)?$/i);
+  return match ? { kind: 'playlist', id: match[1] } : null;
+}
+
+/** Artists on a playlist, most-played first, with how many tracks each has. */
+export function playlistArtists(tracks: { artists?: { id?: string; name: string }[] }[]): { id?: string; name: string; count: number }[] {
+  const byName = new Map<string, { id?: string; name: string; count: number }>();
+  for (const track of tracks) {
+    for (const artist of track.artists ?? []) {
+      const name = artist.name?.trim();
+      if (!name) continue;
+      const key = name.toLowerCase();
+      const entry = byName.get(key) ?? { id: artist.id, name, count: 0 };
+      entry.count += 1;
+      byName.set(key, entry);
+    }
+  }
+  return [...byName.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
 
 export type ListeningInsight = { id: string; emoji: string; title: string; detail: string };
 
@@ -73,7 +107,22 @@ function hourLocal(iso: string): number {
   return new Date(iso).getHours();
 }
 
-export function analyzeSpotify(data: SpotifyImport, now = new Date(), hourOf: (iso: string) => number = hourLocal): ListeningProfile {
+export function analyzeSpotify(input: SpotifyImport, now = new Date(), hourOf: (iso: string) => number = hourLocal): ListeningProfile {
+  // A linked playlist leads: its artists first, its tracks for the eras.
+  const focus = input.focus;
+  const seen = new Set<string>();
+  const artists = [...(focus?.artists ?? []), ...input.artists].filter((artist) => {
+    const key = artist.name.trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  const data: SpotifyImport = {
+    ...input,
+    artists,
+    tracks: focus?.tracks.length ? focus.tracks : input.tracks,
+    playlists: focus ? [{ name: focus.name }, ...input.playlists] : input.playlists,
+  };
   const genreCounts = new Map<string, number>();
   for (const [index, artist] of data.artists.entries()) {
     const weight = Math.max(1, 20 - index);
@@ -123,6 +172,7 @@ export function analyzeSpotify(data: SpotifyImport, now = new Date(), hourOf: (i
     roots,
     familyListening,
     playlistHints,
+    ...(focus ? { fromPlaylist: focus.name.slice(0, 80) } : {}),
   };
 }
 
@@ -194,5 +244,6 @@ export function normalizeListening(input: unknown): ListeningProfile | undefined
     roots: strings(s.roots, 6),
     familyListening: s.familyListening === true,
     playlistHints: strings(s.playlistHints, 10),
+    fromPlaylist: typeof s.fromPlaylist === 'string' && s.fromPlaylist.trim() ? s.fromPlaylist.trim().slice(0, 80) : undefined,
   };
 }

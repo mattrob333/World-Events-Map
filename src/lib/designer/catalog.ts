@@ -20,7 +20,7 @@ export type CardMedia = 'photo' | 'video' | 'reel' | 'poster';
 
 export type DesignerCard = {
   id: string;
-  destination: DestinationId | 'any';
+  destination: DestinationId | 'any' | 'custom';
   slots: SlotKind[];
   title: string;
   /** Short hype line, written as an idea. */
@@ -35,12 +35,15 @@ export type DesignerCard = {
 
 export type DestinationId = 'st-moritz' | 'aspen' | 'courchevel' | 'maldives';
 
+export type DestinationKind = 'ski' | 'beach' | 'city';
+
 export type DesignerDestination = {
-  id: DestinationId;
+  id: DestinationId | 'custom';
   name: string;
   region: string;
-  kind: 'ski' | 'beach';
-  hero: string;
+  kind: DestinationKind;
+  /** Curated destinations have an editorial hero; typed-in places use a gradient. */
+  hero?: string;
   hashtag: string;
   palette: [string, string];
   gateway: { iata: string; airport: string; onward: string };
@@ -187,13 +190,13 @@ const ANY: DesignerCard[] = [
 export const CATALOG: DesignerCard[] = [...ST_MORITZ, ...ASPEN, ...COURCHEVEL, ...MALDIVES, ...ANY];
 export const CARD_INDEX = new Map(CATALOG.map((card) => [card.id, card]));
 
-export function cardsFor(destination: DestinationId): DesignerCard[] {
+export function cardsFor(destination: DestinationId | 'custom'): DesignerCard[] {
   return CATALOG.filter((card) => card.destination === destination || card.destination === 'any');
 }
 
 export function searchLinks(destination: DesignerDestination, slot: SlotKind): { href: string; label: string }[] {
   const topic: Partial<Record<SlotKind, string>> = {
-    morning: destination.kind === 'ski' ? 'skiing' : 'snorkeling', lunch: 'lunch', afternoon: 'things to do',
+    morning: destination.kind === 'ski' ? 'skiing' : destination.kind === 'beach' ? 'snorkeling' : 'walking tour', lunch: 'lunch', afternoon: 'things to do',
     apres: destination.kind === 'ski' ? 'apres ski' : 'sunset', dinner: 'restaurants', late: 'nightlife',
   };
   const term = topic[slot];

@@ -1,14 +1,16 @@
 'use client';
 
 import { useMemo, useState, type DragEvent } from 'react';
-import { CARD_INDEX, DESTINATION_INDEX, SLOT_META, searchLinks, type DesignerCard } from '@/lib/designer/catalog';
-import { daysUntil, type Itinerary, type Slot } from '@/lib/designer/itinerary';
+import { SLOT_META, searchLinks, type DesignerCard } from '@/lib/designer/catalog';
+import { cardLookup, daysUntil, resolveDestination, type Itinerary, type Slot } from '@/lib/designer/itinerary';
+import { localIsoDate, tripMoment } from '@/lib/designer/tripNow';
 import { useDesignerStore } from '@/lib/designer/store';
 import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
 import { DRAG_MIME, IdeaCard } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
+import { InvitePanel, RightNow, StaysPanel, useNow } from './TripExtras';
 
 function formatDay(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
@@ -36,7 +38,11 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const [dropSlot, setDropSlot] = useState<string | null>(null);
   const [swipe, setSwipe] = useState<Slot | null>(null);
 
-  const destination = DESTINATION_INDEX.get(trip.destination)!;
+  const destination = resolveDestination(trip)!;
+  const lookup = useMemo(() => cardLookup(trip), [trip]);
+  const now = useNow();
+  const live = tripMoment(trip, now) !== null;
+  const today = localIsoDate(now);
   const voter = trip.participants.find((person) => person.id === activeId) ?? trip.participants[0];
   const countdown = countdownLabel(daysUntil(trip.startDate));
   const endDate = trip.days[trip.days.length - 1]?.date ?? trip.startDate;
@@ -81,11 +87,15 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   return (
     <div>
       <header className={styles.hero}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- local editorial file */}
-        <img className={styles.heroImage} src={destination.hero} alt="" />
+        {destination.hero ? (
+          /* eslint-disable-next-line @next/next/no-img-element -- local editorial file */
+          <img className={styles.heroImage} src={destination.hero} alt="" />
+        ) : (
+          <span className={styles.heroGradient} style={{ ['--a' as string]: destination.palette[0], ['--b' as string]: destination.palette[1] }} aria-hidden />
+        )}
         <span className={styles.heroShade} />
         <p className={styles.eyebrow} style={{ color: '#fed7aa' }}>
-          {destination.region} · {formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights
+          {destination.region ? `${destination.region} · ` : ''}{formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights
         </p>
         <h1 className="mt-2 font-display text-[clamp(40px,8vw,84px)] leading-[0.95]">{destination.name}</h1>
         <p className="mt-2 max-w-xl text-[15px] opacity-90">{destination.tagline}</p>
@@ -102,6 +112,8 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           </div>
         </div>
       </header>
+
+      <RightNow trip={trip} destination={destination} lookup={lookup} now={now} />
 
       <div className={styles.toolbar} role="toolbar" aria-label="Voting and sorting">
         <div className="flex flex-wrap items-center gap-2">
@@ -147,7 +159,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
       </div>
       <p className="mt-3 text-[12px] leading-5 text-ink-faint">
         Drag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes
-        are saved on this device only; live group voting across phones needs accounts and is not built yet. Cards are ideas:
+        save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas:
         check hours, prices, and bookings with each venue.
       </p>
 
@@ -155,9 +167,9 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         <ScenePlaybook
           taste={trip.taste}
           initialCity={destination.id === 'maldives' ? 'Male' : destination.name}
-          startDate={trip.startDate}
-          endDate={endDate}
-          title={`Live music for your crew in ${destination.name}`}
+          startDate={live ? today : trip.startDate}
+          endDate={live ? today : endDate}
+          title={live ? `Live music tonight in ${destination.name}` : `Live music for your crew in ${destination.name}`}
           compact
         />
       ) : null}
@@ -176,7 +188,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           <div className={styles.timeline}>
             {day.slots.map((slot) => {
               const ordered = filterSlot(orderSlot(slot.cardIds, votes[slot.id], sort), votes[slot.id], filter, voter?.id);
-              const cards = ordered.map((id) => CARD_INDEX.get(id)).filter((card): card is DesignerCard => Boolean(card));
+              const cards = ordered.map((id) => lookup(id)).filter((card): card is DesignerCard => Boolean(card));
               const links = searchLinks(destination, slot.kind);
               return (
                 <div
@@ -245,13 +257,16 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
         </section>
       ))}
 
+      <StaysPanel trip={trip} destination={destination} />
+      <InvitePanel trip={trip} votes={votes} voter={voter} destination={destination} />
+
       {swipe && voter ? (
         <SwipeDeck
           key={voter.id}
           participants={trip.participants}
           onVoterChange={setActive}
           title={`${swipe.label}, day ${Number(swipe.id.match(/^d(\d+)/)?.[1] ?? 0) + 1}`}
-          cards={swipe.cardIds.map((id) => CARD_INDEX.get(id)).filter((card): card is DesignerCard => Boolean(card))}
+          cards={swipe.cardIds.map((id) => lookup(id)).filter((card): card is DesignerCard => Boolean(card))}
           voter={voter}
           onVote={(cardId, value) => vote(swipe.id, cardId, voter.id, value, false)}
           onPick={(cardId) => pickCard(swipe.id, cardId)}

@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { DESTINATIONS, type DestinationId } from '@/lib/designer/catalog';
-import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, participantStyle, type Itinerary, type Participant } from '@/lib/designer/itinerary';
+import { DESTINATIONS, type DestinationKind } from '@/lib/designer/catalog';
+import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, participantStyle, type Itinerary, type Participant, type TripDestination } from '@/lib/designer/itinerary';
+import type { PlaceSpec } from '@/lib/designer/place';
 import { EXAMPLE_RAMBLE } from '@/lib/designer/moodboard';
 import { parseProfileLocally, profileTags, type TravelerProfile } from '@/lib/designer/profile';
 import { mergeTastes, tasteFrom } from '@/lib/designer/scene';
@@ -42,8 +43,21 @@ export function travelersFromBoard(board: { id: string; profile: TravelerProfile
   return people;
 }
 
+/** "Lisbon, Portugal" → { name: 'Lisbon', region: 'Portugal' }. */
+export function placeFromInput(value: string, kind: DestinationKind): PlaceSpec | undefined {
+  const cleaned = value.replace(/\s+/g, ' ').trim().slice(0, 80);
+  if (cleaned.length < 2) return undefined;
+  const [name, ...rest] = cleaned.split(',').map((part) => part.trim()).filter(Boolean);
+  if (!name) return undefined;
+  return { name: name.slice(0, 60), region: rest.join(', ').slice(0, 60) || undefined, kind };
+}
+
+const KIND_LABEL: Record<DestinationKind, string> = { city: '🏙️ City', beach: '🏝️ Beach', ski: '⛷️ Ski' };
+
 function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; initialWith?: string; onCreate: (trip: Itinerary, notice?: string) => void }) {
-  const [destination, setDestination] = useState<DestinationId>('st-moritz');
+  const [destination, setDestination] = useState<TripDestination>('custom');
+  const [placeText, setPlaceText] = useState('');
+  const [placeKind, setPlaceKind] = useState<DestinationKind>('city');
   const [startDate, setStartDate] = useState(() => localIso(60));
   const [nights, setNights] = useState(7);
   const initialBoard = boards.find((board) => board.id === initialWith) ?? boards[0];
@@ -93,13 +107,27 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
       setError('Pick a start date from today onward.');
       return;
     }
-    setBusy(true);
+    const place = destination === 'custom' ? placeFromInput(placeText, placeKind) : undefined;
+    if (destination === 'custom' && !place) {
+      setError('Type where you’re going, like “Lisbon, Portugal”.');
+      return;
+    }
     const participants: Participant[] = travelers.map((t, i) => ({ id: `p${i}`, name: t.name, kind: t.kind, age: t.age, tags: t.tags, ...participantStyle(i) }));
     const boardIds = new Set(travelers.map((t) => t.board));
     const chosenBoards = boards.filter((b) => boardIds.has(b.id));
     const profileNotes = chosenBoards.map((b) => b.profile.summary).filter(Boolean);
     const taste = mergeTastes(chosenBoards.map((b) => tasteFrom(b.profile)));
     const input = { destination, startDate, nights, hometown: hometown.trim() || undefined, participants };
+    if (place) {
+      // Anywhere trips are built on this device from live searches, shaped by the crew's food and music.
+      const foods = [...new Set(chosenBoards.flatMap((b) => b.profile.food))].slice(0, 3);
+      onCreate(
+        { ...composeLocally({ ...input, place, foods, taste }), taste },
+        `Every card for ${place.name} opens a live search: Maps, YouTube, or Instagram. Check hours and bookings before you go.`,
+      );
+      return;
+    }
+    setBusy(true);
     try {
       const response = await fetch('/api/designer/itinerary', {
         method: 'POST',
@@ -132,6 +160,17 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
       </p>
 
       <div className={styles.destGrid} role="radiogroup" aria-label="Destination">
+        <button
+          type="button"
+          role="radio"
+          aria-checked={destination === 'custom'}
+          className={`${styles.destCard} ${styles.destCardAnywhere} ${destination === 'custom' ? styles.destCardOn : ''}`}
+          onClick={() => setDestination('custom')}
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-80">✦ Anywhere</span>
+          <span className={styles.destName}>Somewhere else</span>
+          <span className="mt-1 text-[12.5px] leading-5 opacity-90">Type any city, beach, or mountain town.</span>
+        </button>
         {DESTINATIONS.map((d) => (
           <button
             key={d.id}
@@ -141,17 +180,47 @@ function Setup({ boards, initialWith, onCreate }: { boards: SavedProfile[]; init
             className={`${styles.destCard} ${destination === d.id ? styles.destCardOn : ''}`}
             onClick={() => setDestination(d.id)}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element -- local editorial file */}
-            <img className={styles.heroImage} src={d.hero} alt="" />
+            {d.hero ? (
+              /* eslint-disable-next-line @next/next/no-img-element -- local editorial file */
+              <img className={styles.heroImage} src={d.hero} alt="" />
+            ) : null}
             <span className={styles.heroShade} />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-80">
-              {d.kind === 'ski' ? '⛷️ Ski' : '🏝️ Beach'} · {d.region}
+              {KIND_LABEL[d.kind]} · {d.region}
             </span>
             <span className={styles.destName}>{d.name}</span>
             <span className="mt-1 text-[12.5px] leading-5 opacity-90">{d.tagline}</span>
           </button>
         ))}
       </div>
+
+      {destination === 'custom' ? (
+        <div className={styles.panel}>
+          <div className="flex flex-wrap items-end gap-3">
+            <label className={`${styles.label} min-w-0 flex-1`}>
+              Where to?
+              <input
+                className={styles.input}
+                value={placeText}
+                maxLength={80}
+                placeholder="Lisbon, Portugal"
+                autoComplete="off"
+                onChange={(e) => setPlaceText(e.target.value)}
+              />
+            </label>
+            <div className={styles.seg} role="group" aria-label="Kind of trip">
+              {(['city', 'beach', 'ski'] as DestinationKind[]).map((value) => (
+                <button key={value} type="button" className={`${styles.segBtn} ${placeKind === value ? styles.segOn : ''}`} onClick={() => setPlaceKind(value)} aria-pressed={placeKind === value}>
+                  {KIND_LABEL[value]}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="mt-2 text-[12px] leading-5 text-ink-faint">
+            We lay out the days from your crew’s food and music. Every idea opens a live search, so nothing is made up.
+          </p>
+        </div>
+      ) : null}
 
       <div className={styles.panel}>
         <div className={styles.fieldGrid}>

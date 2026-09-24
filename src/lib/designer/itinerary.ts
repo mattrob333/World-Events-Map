@@ -4,9 +4,12 @@ import {
   SLOT_META,
   cardsFor,
   type DesignerCard,
+  type DesignerDestination,
   type DestinationId,
+  type DestinationKind,
   type SlotKind,
 } from './catalog';
+import { customDestination, placeCards, type PlaceSpec } from './place';
 import type { TasteInput } from './scene';
 
 export type ParticipantKind = 'adult' | 'kid';
@@ -42,9 +45,15 @@ export type Day = {
 
 export type ComposeEngine = 'claude' | 'on-device';
 
+export type TripDestination = DestinationId | 'custom';
+
 export type Itinerary = {
   id: string;
-  destination: DestinationId;
+  destination: TripDestination;
+  /** Set when the trip is to a typed-in place rather than a curated destination. */
+  place?: PlaceSpec;
+  /** Search-backed idea cards generated for a typed-in place. */
+  cards?: DesignerCard[];
   startDate: string;
   nights: number;
   hometown?: string;
@@ -54,15 +63,34 @@ export type Itinerary = {
   createdAt: string;
   /** Group music taste from the travelers' boards; attached on the device, never sent to the composer. */
   taste?: TasteInput;
+  /** Set on a friend's copy opened from a share link: who shared it. */
+  joinedFrom?: string;
 };
 
 export type ComposeInput = {
-  destination: DestinationId;
+  destination: TripDestination;
+  place?: PlaceSpec;
   startDate: string;
   nights: number;
   hometown?: string;
   participants: Participant[];
+  /** Favorite foods, used only for typed-in places. */
+  foods?: string[];
+  /** Group music taste, used only for typed-in places (composed on the device). */
+  taste?: TasteInput;
 };
+
+/** The destination a trip points at, curated or typed-in. */
+export function resolveDestination(trip: Pick<Itinerary, 'destination' | 'place'>): DesignerDestination | undefined {
+  if (trip.destination === 'custom') return trip.place ? customDestination(trip.place) : undefined;
+  return DESTINATION_INDEX.get(trip.destination);
+}
+
+/** Looks up a card by id, including a typed-in place's generated cards. */
+export function cardLookup(trip: Pick<Itinerary, 'cards'> | null | undefined): (id: string) => DesignerCard | undefined {
+  const extra = new Map((trip?.cards ?? []).map((card) => [card.id, card]));
+  return (id) => extra.get(id) ?? CARD_INDEX.get(id);
+}
 
 export const MAX_NIGHTS = 14;
 export const MAX_PARTICIPANTS = 10;
@@ -114,12 +142,12 @@ export function groupTags(participants: Participant[]): string[] {
   return [...tags];
 }
 
-function dayShape(index: number, lastIndex: number, tags: string[], kind: 'ski' | 'beach'): SlotKind[] {
+function dayShape(index: number, lastIndex: number, tags: string[], kind: DestinationKind): SlotKind[] {
   const wantsLate = tags.includes('nightlife') || tags.includes('music') || !tags.includes('kids');
   if (index === 0) return ['depart', 'flight', 'arrive', 'dinner'];
   if (index === lastIndex) return ['morning', 'lunch', 'depart', 'flight'];
   const middle: SlotKind[] = ['morning', 'lunch', 'afternoon', 'apres', 'dinner'];
-  if (wantsLate || kind === 'beach') middle.push('late');
+  if (wantsLate || kind !== 'ski') middle.push('late');
   return middle;
 }
 
@@ -136,8 +164,8 @@ export function scoreCard(card: DesignerCard, tags: string[], slot: SlotKind): n
   return score;
 }
 
-export function candidatesFor(destination: DestinationId, slot: SlotKind, tags: string[]): DesignerCard[] {
-  return cardsFor(destination)
+export function candidatesFor(destination: TripDestination, slot: SlotKind, tags: string[], extra: DesignerCard[] = []): DesignerCard[] {
+  return [...extra, ...cardsFor(destination)]
     .filter((card) => card.slots.includes(slot))
     .map((card) => ({ card, score: scoreCard(card, tags, slot) }))
     .sort((a, b) => b.score - a.score || a.card.id.localeCompare(b.card.id))
@@ -145,11 +173,18 @@ export function candidatesFor(destination: DestinationId, slot: SlotKind, tags: 
 }
 
 function travelNote(input: ComposeInput, slot: SlotKind, dayIndex: number, lastIndex: number): string | undefined {
-  const destination = DESTINATION_INDEX.get(input.destination);
+  const destination = resolveDestination(input);
   if (!destination) return undefined;
   const home = homeAirport(input.hometown);
   const homeLabel = input.hometown ? `${input.hometown}${home ? ` (${home})` : ''}` : 'home';
   if (dayIndex === 0 && slot === 'depart') return `Leave ${homeLabel} for the airport.`;
+  if (!destination.gateway.iata) {
+    if (dayIndex === 0 && slot === 'flight') return `${home ?? 'Your airport'} → ${destination.name}. Route idea, not a fare.`;
+    if (dayIndex === 0 && slot === 'arrive') return `Land near ${destination.name}, then head to your stay.`;
+    if (dayIndex === lastIndex && slot === 'depart') return 'Transfer back to the airport.';
+    if (dayIndex === lastIndex && slot === 'flight') return `${destination.name} → ${home ?? 'home'}. Route idea, not a fare.`;
+    return undefined;
+  }
   if (dayIndex === 0 && slot === 'flight') return `${home ?? 'Your airport'} → ${destination.gateway.iata}. Route idea, not a fare.`;
   if (dayIndex === 0 && slot === 'arrive') return `${destination.gateway.airport} (${destination.gateway.iata}), then ${destination.gateway.onward}.`;
   if (dayIndex === lastIndex && slot === 'depart') return `Transfer back to ${destination.gateway.airport} (${destination.gateway.iata}).`;
@@ -164,9 +199,9 @@ function slotLabel(kind: SlotKind, dayIndex: number, lastIndex: number): string 
   return SLOT_META[kind].label;
 }
 
-function hypeFor(day: Day): { title: string; hype: string } {
+function hypeFor(day: Day, lookup: (id: string) => DesignerCard | undefined): { title: string; hype: string } {
   const leads = day.slots
-    .map((slot) => CARD_INDEX.get(slot.cardIds[0]))
+    .map((slot) => lookup(slot.cardIds[0]))
     .filter((card): card is DesignerCard => Boolean(card && card.destination !== 'any'));
   if (!leads.length) return { title: day.index === 0 ? 'Wheels up' : 'Travel day', hype: 'The trip starts the moment you lock the front door.' };
   const title = leads.slice(0, 2).map((card) => card.emoji).join(' ') + ' ' + leads[0].title.split(/[,:]/)[0];
@@ -179,16 +214,18 @@ function hypeFor(day: Day): { title: string; hype: string } {
  * ranked idea cards. Deterministic, so the canvas works without any AI.
  */
 export function composeLocally(input: ComposeInput, now = new Date()): Itinerary {
-  const destination = DESTINATION_INDEX.get(input.destination);
-  if (!destination) throw new Error('Choose a destination from the list.');
+  const destination = resolveDestination(input);
+  if (!destination) throw new Error('Choose a destination or type where you’re going.');
   const nights = Math.min(Math.max(1, Math.round(input.nights)), MAX_NIGHTS);
   const tags = groupTags(input.participants);
+  const cards = input.destination === 'custom' && input.place ? placeCards(input.place, { tags, foods: input.foods, taste: input.taste }) : undefined;
+  const lookup = cardLookup({ cards });
   const lastIndex = nights;
   const usedLeads = new Set<string>();
 
   const days: Day[] = Array.from({ length: nights + 1 }, (_, index) => {
     const slots = dayShape(index, lastIndex, tags, destination.kind).map((kind) => {
-      const ranked = candidatesFor(input.destination, kind, tags);
+      const ranked = candidatesFor(input.destination, kind, tags, cards);
       const fresh = ranked.findIndex((card) => !usedLeads.has(card.id) && card.destination !== 'any');
       const leadIndex = fresh >= 0 && kind !== 'depart' && kind !== 'flight' ? fresh : 0;
       const ordered = ranked.length ? [ranked[leadIndex], ...ranked.filter((_, i) => i !== leadIndex)] : [];
@@ -203,12 +240,13 @@ export function composeLocally(input: ComposeInput, now = new Date()): Itinerary
       } satisfies Slot;
     });
     const day: Day = { index, date: addDays(input.startDate, index), title: '', hype: '', slots };
-    return { ...day, ...hypeFor(day) };
+    return { ...day, ...hypeFor(day, lookup) };
   });
 
   return {
     id: `trip-${now.getTime().toString(36)}`,
     destination: input.destination,
+    ...(input.destination === 'custom' ? { place: input.place, cards } : {}),
     startDate: input.startDate,
     nights,
     hometown: input.hometown,
@@ -235,7 +273,7 @@ export function applyCuration(base: Itinerary, curation: Curation, tags: string[
     const slots = day.slots.map((slot) => {
       const pick = curated.slots.find((entry) => entry.id === slot.id);
       if (!pick) return slot;
-      const pool = candidatesFor(base.destination, slot.kind, tags).map((card) => card.id);
+      const pool = candidatesFor(base.destination, slot.kind, tags, base.cards).map((card) => card.id);
       const allowed = new Set(pool);
       const chosen = [...new Set(pick.cardIds.filter((id) => allowed.has(id)))];
       if (!chosen.length) return slot;

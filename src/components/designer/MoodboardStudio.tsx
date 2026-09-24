@@ -125,6 +125,16 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
     }
   }
 
+  // A playlist link read without sign-in lands here; build the board once it is in the store.
+  const buildOnImport = useRef(false);
+  useEffect(() => {
+    if (!buildOnImport.current || !spotify) return;
+    buildOnImport.current = false;
+    void build();
+    // build reads the latest listening; it only needs to run when that arrives.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotify]);
+
   const autoBuilt = useRef(false);
   useEffect(() => {
     if (!spotifyJustConnected || !mounted || !spotify || autoBuilt.current) return;
@@ -227,6 +237,10 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
         {mounted ? (
           <SpotifyPanel
             listening={spotify}
+            onImported={(imported) => {
+              buildOnImport.current = true;
+              setDraftListening(imported);
+            }}
             onDisconnect={() => {
               setDraftListening(null);
               if (result?.profile.listening) setResult({ ...result, profile: { ...result.profile, listening: undefined } });

@@ -20,6 +20,7 @@ describe('POST /api/mcp', () => {
     const list = await (await POST(rpc('tools/list'))).json();
     expect(list.result.tools.map((t: { name: string }) => t.name)).toEqual([
       'dope_profile_guide', 'dope_save_profile', 'dope_find_events', 'dope_trip_ideas', 'dope_live_music_scene', 'dope_curated_occasions',
+      'dope_read_playlist', 'dope_plan_trip', 'dope_find_stays',
     ]);
   });
 

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
 const TOOLS = [
   ['dope_profile_guide', 'The five-prompt opener and everything your AI listens for while you ramble.'],
   ['dope_save_profile', 'Turns the interview into your profile and hands you a private link to save it on your device.'],
+  ['dope_read_playlist', 'Paste a public Spotify playlist and it reads the artists, genres, and eras into your music profile.'],
+  ['dope_plan_trip', 'A day-by-day trip anywhere, shaped by your crew’s food and music, with a private link that opens it as your trip.'],
+  ['dope_find_stays', 'Airbnb, Vrbo, and Booking.com searches with your dates, party size, and kids’ ages filled in.'],
   ['dope_find_events', 'Your artists on tour, festivals with them on the bill, tribute bands, and your team’s games (away games flagged).'],
   ['dope_trip_ideas', 'Cities and dates where the things you love line up, favoring ones during something special.'],
   ['dope_live_music_scene', 'Your kind of night in any city: the rooms to look for and what’s listed on your dates.'],

@@ -6,6 +6,7 @@ import { PlatformShell } from '@/components/community/PlatformShell';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import type { NowIntent, NowResult, NowVibe } from '@/lib/now/types';
 import styles from './now.module.css';
+import { NowForYou } from './NowForYou';
 import { NowUnavailable } from './NowUnavailable';
 
 const INTENTS: { value: NowIntent; label: string; note: string }[] = [
@@ -51,7 +52,7 @@ function mapHref(lat: number, lng: number, name: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name} ${lat},${lng}`)}`;
 }
 
-export function NowExperience({ providerConfigured }: { providerConfigured: boolean }) {
+export function NowExperience({ providerConfigured, initialCity }: { providerConfigured: boolean; initialCity?: string }) {
   const { client, user } = usePlatformAuth();
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
@@ -174,6 +175,7 @@ export function NowExperience({ providerConfigured }: { providerConfigured: bool
       title="Where should we go right now?"
       description="Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory."
     >
+      <NowForYou initialCity={initialCity} />
       {!providerConfigured && <NowUnavailable />}
       <div className={styles.layout}>
         <form className={styles.controls} onSubmit={submit}>
