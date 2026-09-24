@@ -8,7 +8,7 @@
 //     no-unused-vars / no-unused-expressions downgraded to warnings
 //
 // Rule policy: errors fail `npm run lint`; warnings are reported, never hidden.
-// Anything deliberately left as a warning is listed in docs/phase0/LINT-BASELINE.md.
+// Anything deliberately left as a warning is listed in docs/LINT-BASELINE.md.
 
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
@@ -38,7 +38,7 @@ const config = [
     // (Three.js objects mutated inside useFrame, latest-value refs read by the
     // frame loop, SSR-safe mount effects). Each is a design decision, not a
     // mechanical fix, so they are reported as warnings rather than hidden —
-    // see docs/phase0/LINT-BASELINE.md for the per-site list.
+    // see docs/LINT-BASELINE.md for the per-site list.
     name: 'meridian/react-compiler-rules-as-warnings',
     rules: {
       'react-hooks/immutability': 'warn',

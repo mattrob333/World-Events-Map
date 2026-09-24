@@ -10,7 +10,7 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
 
 ## Standing rules
 
-- Work and push only on `claude/review-recent-work-5li9lw`. No PR unless he asks.
+- `main` is the current build: on 2026-09-24 the owner made this branch's work the new `main` (a fresh start, no users yet). Work on a `claude/…` branch, and merge to `main` only when he asks.
 - Follow `AGENTS.md`: `npm run gate` must pass (lint, typecheck, tests, build). Provider truth: never invent venues, prices or listings; label sources and fetch times; show honest "not connected" states.
 - Never print secrets, read `.env` files, or ask for keys in chat. Keys go in the environment settings (Claude) and the Vercel project (live site).
 - **Look (owner feedback 2026-09-24):** the first rebrand hue-shifted every surface to warm brown, and he called it a saturation knob, not a design. The rule now: the base is a cool evening sky (the original navy near-blacks, bone ink, brass chrome), and the golden-hour gradient is used only for brand moments (the sun logo, trip heroes, one hype line). Never tint whole pages again. The header uses the one-piece lockup SVG (`public/brand/dope-travel-lockup.svg`) so ".travel" shares the wordmark's baseline.
@@ -66,9 +66,7 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
 
 ## Where we are (end of 2026-09-24 session)
 
-- **Waiting on the owner to approve the plan:** https://claude.ai/artifact/Kz7L6DgjJ7wPpPSZgLNCrN (copy in `docs/plans/2026-09-24-lets-vibe.html`; agent notes in `docs/plans/2026-09-24-lets-vibe-agent-notes.md`).
-  - It covers the Stage (a full-page voice screen), the Your Vibe rename, the streaming trip canvas, Jev as the ranker (Jev doesn't stream), the personalized homepage, and 4 phases.
-- **Source library:** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
+- **Source library (research only, not wired in):** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
 - **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central). Migrations 001–006 were applied on 2026-09-24 with the owner watching.
   - `006_advisor_hardening.sql` closes the RPC surface of the trigger functions and the RLS helpers, wraps `auth.uid()` in `(select …)` in 22 policies, and adds 5 foreign-key indexes. It doesn't change any access rules. `src/lib/platform/__tests__/rls.test.ts` now runs against 001 + 003 + 006.
   - Advisor leftovers, all accepted:
@@ -77,12 +75,8 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
     - The six `meridian_*` tables have RLS on with no policies (server-only by design).
     - Unused-index notices, expected on a new database.
     - The Auth connection-strategy notice.
-- **Vercel connector:** it's scoped to project `takeoff-speed` only, so `world-events-map-onq7` returns 404. Until the connector is re-scoped, the owner sets env vars and redeploys by hand. Production serves `main` (last merged: PR #17); this branch deploys as its own Preview (PR #18).
-- **Open owner decisions:**
-  - Launch now with voice and live research off in Production, or wait for the durable budget (phase 4).
-  - Permission to query Treg's free catalog (Hotels/Events/Ticketmaster coverage).
-  - The Jev video link he meant.
-- **Before a public launch:** flip `robots: { index: false }` in `src/app/layout.tsx`, merge to `main` via a PR (only when he asks), and turn off Vercel Authentication for Production.
+- **Vercel connector:** it's scoped to project `takeoff-speed` only, so `world-events-map-onq7` returns 404. Until the connector is re-scoped, the owner sets env vars and redeploys by hand. Production serves `main`.
+- **Before a public launch:** flip `robots: { index: false }` in `src/app/layout.tsx`, fix red-team clusters A and B, and turn off Vercel Authentication for Production. Until then keep `TREG_TOKEN`, `OPENAI_API_KEY` and `VOICE_ENABLED` off Production.
 - **Mobile audit:** fixed in aa663c9. Remaining P1/P2 items:
   - home hero first on phones
   - /now CLS
