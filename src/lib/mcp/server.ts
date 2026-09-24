@@ -20,28 +20,46 @@ import { consumeProviderCall } from '@/lib/designer/server/guard';
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD');
 const shortList = (max: number, desc: string) => z.array(z.string().min(1).max(80)).max(max).describe(desc);
 
+/** What the traveler sees first, word for word. Five prompts, then they ramble. */
+export const OPENING_MESSAGE = `Welcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:
+
+1. An experience you loved: where, who you were with, and what made it great.
+2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.
+3. Food: what you crave, what you go out of your way for, what you avoid.
+4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any).
+5. Your best moment ever on a trip: the night or day you still tell people about.
+
+No right answers. When you’re done, I’ll build your dope.travel profile.`;
+
 const PROFILE_GUIDE = {
   purpose:
-    'dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with. The richer the profile, the better every trip.',
-  howToInterview: [
-    'Ask conversationally, a few questions at a time. Record only what the traveler says; never guess ages, names, or nationalities.',
-    'Start with: where they live and fly from, who they travel with (partner, kids and ages, friends), and one trip they still talk about and why.',
-    'Music: favorite artists, genres, decades, concerts or festivals they would travel for. Sports: teams they follow.',
-    'How they travel: budget comfort (shoestring, comfortable, premium, no-limit), pace (slow, balanced, packed), and how social they want to be (recharge-solo, small-crew, meet-everyone).',
-    'Where they like to sleep. Include social options: a great hostel with a bar can beat a hotel for meeting people.',
-    'Food and dietary needs, languages, hard no’s (cruises, tour buses, long layovers), and a bucket list.',
-    'Finish by reading the profile back and asking what is missing or wrong.',
+    'dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with.',
+  openingMessage: OPENING_MESSAGE,
+  howToRun: [
+    'Show the opening message as written, then let the traveler talk. Do not turn it into a questionnaire.',
+    'While they ramble, silently fill the checklist below. Record only what they say; never guess ages, names, or nationalities.',
+    'Afterwards, ask at most two short follow-ups, only for the highest-value gaps (usually: who they travel with, and where they fly from). Skip follow-ups if they seem done.',
+    'Call dope_save_profile with the structured fields, their best moments in their own words, and their full ramble as `about`.',
+    'Give them the returned link and say it keeps their profile private: it saves on their own device.',
   ],
-  fields: {
-    name: 'First name or nickname', age: 'Number, only if stated', hometown: 'City, region', heritage: 'Countries or cultures they identify with',
-    teams: 'Full team names, e.g. "Atlanta Braves"', music: 'Genres', events: 'Concerts, festivals, live events they love',
-    family: 'Travel companions: relation (partner, child, parent, sibling, friend, other), label, name, age, note',
-    favoriteTrips: 'Places they loved', interests: 'Activities', food: 'Cuisines and dishes', summary: 'One warm sentence in second person',
-    style: `budget (${BUDGETS.join(', ')}), pace (${PACES.join(', ')}), social (${SOCIAL_LEVELS.join(', ')}), lodging[], homeAirport (IATA), dietary[], avoid[], bucketList[], languages[], notes`,
+  checklist: {
+    identity: 'name (first or nickname), age only if stated, hometown, heritage',
+    crew: 'family and friends they travel with: relation, label, name, age, notes (e.g. "Brazilian", "vegetarian")',
+    experiences: 'favoriteTrips (places) and bestMoments (1–3 short stories in their words, the heart of the profile)',
+    style: `budget (${BUDGETS.join(', ')}), pace (${PACES.join(', ')}), social (${SOCIAL_LEVELS.join(', ')}), lodging (include social hostels if they like meeting people), homeAirport (IATA), avoid, bucketList, languages, notes`,
+    food: 'food (cuisines, dishes, favorite kinds of places) and style.dietary',
+    music: 'music (genres), events (concerts, festivals), teams (full names)',
+    interests: 'activities they mention (skiing, diving, golf, art…)',
   },
   privacy:
     'dope.travel does not store the profile from this tool. It returns a link whose data lives in the URL fragment (never sent to the server); the traveler opens it and saves the profile on their own device. Treat the link as private.',
 };
+
+const SERVER_INSTRUCTIONS = `You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk:
+
+${OPENING_MESSAGE}
+
+While they talk, extract what you can for their profile (call dope_profile_guide for the full checklist). Ask at most two short follow-ups, then call dope_save_profile and give them the private link it returns. Other tools find events, trip ideas, and live music for their taste.`;
 
 const familySchema = z.object({
   relation: z.enum(['partner', 'child', 'parent', 'sibling', 'friend', 'other']),
@@ -52,7 +70,7 @@ const familySchema = z.object({
 });
 
 const profileInput = {
-  about: z.string().max(6000).optional().describe('Optional free text in the traveler’s own words; parsed to fill gaps in the structured fields.'),
+  about: z.string().max(12000).optional().describe('The traveler’s full ramble, in their own words. Used to fill any gaps in the structured fields.'),
   profile: z
     .object({
       name: z.string().max(40).optional(),
@@ -67,6 +85,7 @@ const profileInput = {
       interests: shortList(14, 'Activities').optional(),
       food: shortList(8, 'Cuisines and dishes').optional(),
       summary: z.string().max(240).optional(),
+      bestMoments: z.array(z.string().min(1).max(400)).max(5).optional().describe('Their best moments on trips, 1–3 short stories in their own words'),
       style: z
         .object({
           budget: z.enum(BUDGETS).optional(),
@@ -105,6 +124,8 @@ function missingFields(profile: TravelerProfile): string[] {
   if (!profile.music.length && !profile.events.length) missing.push('music and live events');
   if (!profile.teams.length) missing.push('teams (if they follow any)');
   if (!profile.favoriteTrips.length) missing.push('a favorite trip and why');
+  if (!profile.bestMoments?.length) missing.push('their best moment on a trip');
+  if (!profile.food.length && !profile.style?.dietary.length) missing.push('food');
   if (!profile.style?.budget) missing.push('budget comfort');
   if (!profile.style?.social) missing.push('how social they want to be');
   if (!profile.style?.lodging.length) missing.push('where they like to stay');
@@ -130,13 +151,29 @@ function eventLine(event: LiveEvent): string {
 }
 
 export function createDopeMcpServer(context: { origin: string; request: Request }): McpServer {
-  const server = new McpServer({ name: 'dope-travel', version: '1.0.0' }, { instructions: PROFILE_GUIDE.purpose });
+  const server = new McpServer({ name: 'dope-travel', version: '1.1.0' }, { instructions: SERVER_INSTRUCTIONS });
+
+  server.registerPrompt(
+    'dope_start',
+    { title: 'Start my dope.travel profile', description: 'Opens the five-part ramble that builds a traveler profile.' },
+    () => ({
+      messages: [
+        {
+          role: 'user' as const,
+          content: {
+            type: 'text' as const,
+            text: `Set up my dope.travel profile. Start by showing me this, exactly, then let me ramble:\n\n${OPENING_MESSAGE}`,
+          },
+        },
+      ],
+    }),
+  );
 
   server.registerTool(
     'dope_profile_guide',
     {
       title: 'How to build a dope.travel profile',
-      description: 'Returns the profile fields and an interview script. Call this first, then interview the traveler and call dope_save_profile.',
+      description: 'Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.',
       annotations: { readOnlyHint: true, openWorldHint: false },
     },
     async () => result(PROFILE_GUIDE, JSON.stringify(PROFILE_GUIDE, null, 2)),

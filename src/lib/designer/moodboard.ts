@@ -12,7 +12,7 @@ export type BentoItem = { label: string; emoji?: string; sub?: string };
 
 export type BentoCard = {
   id: string;
-  kind: 'home' | 'crew' | 'teams' | 'roots' | 'sound' | 'vibe' | 'live' | 'trips' | 'into' | 'food' | 'style';
+  kind: 'home' | 'crew' | 'teams' | 'roots' | 'sound' | 'vibe' | 'live' | 'trips' | 'into' | 'food' | 'style' | 'moment';
   eyebrow: string;
   title: string;
   body?: string;
@@ -196,6 +196,15 @@ export function bentoCards(profile: TravelerProfile): BentoCard[] {
       id: 'into', kind: 'into', size: profile.interests.length > 3 ? 'wide' : 'sm', eyebrow: 'Into', title: profile.interests[0],
       items: profile.interests.slice(1).map((interest) => ({ label: interest, emoji: INTEREST_IMAGE.find(([pattern]) => pattern.test(interest))?.[2] })),
       emoji: match?.[2] ?? '⭐', palette: TRIP_PALETTES[2], image: match?.[1] || undefined,
+    });
+  }
+
+  if (profile.bestMoments?.length) {
+    cards.push({
+      id: 'moment', kind: 'moment', size: 'wide', eyebrow: 'Best moment on the road',
+      title: `“${profile.bestMoments[0].length > 140 ? `${profile.bestMoments[0].slice(0, 137)}…` : profile.bestMoments[0]}”`,
+      items: profile.bestMoments.slice(1, 3).map((moment) => ({ label: moment.length > 60 ? `${moment.slice(0, 57)}…` : moment, emoji: '✦' })),
+      emoji: '🌅', palette: ['#F26B2A', '#8E4DB8'],
     });
   }
 

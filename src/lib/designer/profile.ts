@@ -53,6 +53,8 @@ export type TravelerProfile = {
   food: string[];
   /** One sentence, in the traveler's own spirit. */
   summary: string;
+  /** Their best moments on trips, in their own words: the stories they still tell. */
+  bestMoments?: string[];
   /** Imported from Spotify on this device; never produced by the AI parser. */
   listening?: ListeningProfile;
   /** How they like to travel. Filled by the traveler or their own AI agent. */
@@ -381,6 +383,13 @@ export function normalizeProfile(input: unknown): TravelerProfile {
     summary: str(source.summary, 240) ?? '',
     listening: normalizeListening(source.listening),
     style: normalizeStyle(source.style),
+    bestMoments: (() => {
+      const moments = (Array.isArray(source.bestMoments) ? source.bestMoments : [])
+        .filter((m): m is string => typeof m === 'string' && m.trim().length > 0)
+        .map((m) => m.trim().slice(0, 400))
+        .slice(0, 5);
+      return moments.length ? moments : undefined;
+    })(),
   };
 }
 

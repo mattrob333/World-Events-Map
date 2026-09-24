@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const TOOLS = [
-  ['dope_profile_guide', 'The interview your agent runs: who you travel with, your music and teams, how social you want to be, where you like to stay.'],
+  ['dope_profile_guide', 'The five-prompt opener and everything your AI listens for while you ramble.'],
   ['dope_save_profile', 'Turns the interview into your profile and hands you a private link to save it on your device.'],
   ['dope_find_events', 'Your artists on tour, festivals with them on the bill, tribute bands, and your team’s games (away games flagged).'],
   ['dope_trip_ideas', 'Cities and dates where the things you love line up, favoring ones during something special.'],
@@ -40,7 +40,11 @@ export default async function AgentsPage() {
         </p>
         <p className={styles.copy}>Then say something like:</p>
         <p className={`font-display ${styles.specimenItalic}`}>
-          “Connect to dope.travel and set up my travel profile. Interview me properly, then find trips around my music and teams.”
+          “Set up my dope.travel profile.”
+        </p>
+        <p className={styles.copy}>
+          Your AI opens with five prompts: an experience you loved, how you like to travel, food, music, and your best moment ever on a trip. Then you just ramble,
+          typed or spoken, as long as you like. It picks out what matters, asks a follow-up or two at most, and hands you a private link to your profile.
         </p>
       </section>
 

@@ -23,6 +23,29 @@ describe('POST /api/mcp', () => {
     ]);
   });
 
+  it('opens with the five-part ramble invitation on connect', async () => {
+    const init = await (await POST(rpc('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'test', version: '1' } }))).json();
+    const instructions: string = init.result.instructions;
+    expect(instructions).toMatch(/Ramble, go on tangents/);
+    for (const topic of ['An experience you loved', 'How you like to travel', 'Food', 'Music', 'Your best moment ever on a trip']) {
+      expect(instructions).toContain(topic);
+    }
+    const prompts = await (await POST(rpc('prompts/list'))).json();
+    expect(prompts.result.prompts.map((p: { name: string }) => p.name)).toEqual(['dope_start']);
+    const start = await (await POST(rpc('prompts/get', { name: 'dope_start' }))).json();
+    expect(start.result.messages[0].content.text).toContain('Your best moment ever on a trip');
+  });
+
+  it('keeps best moments in the traveler’s own words', async () => {
+    const body = await (await POST(rpc('tools/call', { name: 'dope_save_profile', arguments: {
+      about: 'We went to a tiny hostel in Lisbon and the bar downstairs was legit.',
+      profile: { bestMoments: ['Ran the most legendary night in a tiny hostel room in Lisbon.'], style: { lodging: ['social hostel with a bar'] } },
+    } }))).json();
+    const out = body.result.structuredContent;
+    expect(out.profile.bestMoments).toEqual(['Ran the most legendary night in a tiny hostel room in Lisbon.']);
+    expect(out.missing).not.toContain('their best moment on a trip');
+  });
+
   it('saves a profile into a private import link without storing it', async () => {
     const body = await (await POST(rpc('tools/call', { name: 'dope_save_profile', arguments: { profile: { hometown: 'Atlanta, Georgia', style: { social: 'small-crew' } } } }))).json();
     const out = body.result.structuredContent;

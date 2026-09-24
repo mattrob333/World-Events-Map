@@ -8,6 +8,7 @@ function Card({ card }: { card: BentoCard }) {
   return (
     <article
       className={`${styles.bento} ${styles[`bento_${card.size}`]} ${card.image ? styles.bentoPhoto : ''}`}
+      data-kind={card.kind}
       style={{ ['--a' as string]: a, ['--b' as string]: b }}
       aria-label={`${card.eyebrow}: ${card.title}`}
     >

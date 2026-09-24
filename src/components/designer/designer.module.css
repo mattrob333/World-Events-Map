@@ -1209,3 +1209,10 @@
   background: linear-gradient(160deg, #2a1a12, #140e0a);
   border: 1px solid #ffffff14;
 }
+
+/* A traveler's own words read as a quote, not a headline. */
+.bento[data-kind='moment'] .bentoTitle {
+  font-size: 21px;
+  font-style: italic;
+  line-height: 1.25;
+}
