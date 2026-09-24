@@ -1,0 +1,5528 @@
+{
+ "generated_at": "2026-09-24",
+ "method": "Live GET with User-Agent 'dope.travel-feed-check/1.0 (https://dope.travel)'; parsed with feedparser 6.0; live = valid RSS/Atom, dated items, newest item < 30 days. items_per_week = dated items in the last 28 days (or extrapolated from the feed's span if it holds less than 7 days).",
+ "beats": [
+  "medical",
+  "psychedelic",
+  "wild",
+  "adults-only",
+  "new-sports",
+  "hacks",
+  "gear",
+  "hot"
+ ],
+ "counts": {
+  "live": 141,
+  "dropped": 57,
+  "by_beat": {
+   "hot": 76,
+   "adults-only": 25,
+   "hacks": 23,
+   "new-sports": 11,
+   "psychedelic": 9,
+   "gear": 16,
+   "wild": 14,
+   "medical": 8
+  },
+  "by_tier": {
+   "A": 24,
+   "B": 62,
+   "C": 55
+  }
+ },
+ "sources": [
+  {
+   "name": "Condé Nast Traveler",
+   "feed_url": "https://www.cntraveler.com/feed/rss",
+   "site_url": "https://www.cntraveler.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 68.1,
+   "cadence_note": "estimated from a short feed window (3.1 days, 30 items)",
+   "latest_item": "2026-09-23T21:32:04Z",
+   "latest_age_days": 0.8,
+   "items_in_feed": 30,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.97,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: © Condé Nast 2026)",
+   "tier": "A",
+   "notes": "Hotel openings, hot lists.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "AFAR",
+   "feed_url": "https://www.afar.com/rss",
+   "site_url": "https://www.afar.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 3.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-21T19:21:24Z",
+   "latest_age_days": 2.9,
+   "items_in_feed": 12,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Copyright ©2026 AFAR, All rights reserved.)",
+   "tier": "A",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Skift",
+   "feed_url": "https://skift.com/feed/",
+   "site_url": "https://skift.com",
+   "beats": [
+    "hot",
+    "hacks",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:53:01Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Trade news; some paywalled.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Points Guy",
+   "feed_url": "https://thepointsguy.com/feed/",
+   "site_url": "https://thepointsguy.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 68.6,
+   "cadence_note": "estimated from a short feed window (2.0 days, 20 items)",
+   "latest_item": "2026-09-24T14:00:56Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Affiliate card content mixed with news; filter card promos.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "One Mile at a Time",
+   "feed_url": "https://onemileatatime.com/feed/",
+   "site_url": "https://onemileatatime.com",
+   "beats": [
+    "hacks",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 79.7,
+   "cadence_note": "estimated from a short feed window (2.2 days, 25 items)",
+   "latest_item": "2026-09-24T15:43:18Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 25,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Airline/hotel loyalty; affiliate card links.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "View from the Wing",
+   "feed_url": "https://viewfromthewing.com/feed/",
+   "site_url": "https://viewfromthewing.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:04:50Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "High volume; opinionated.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Frequent Miler",
+   "feed_url": "https://frequentmiler.com/feed/",
+   "site_url": "https://frequentmiler.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 69.7,
+   "cadence_note": "estimated from a short feed window (2.0 days, 20 items)",
+   "latest_item": "2026-09-24T15:45:38Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Affiliate card content.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Head for Points",
+   "feed_url": "https://www.headforpoints.com/feed/",
+   "site_url": "https://www.headforpoints.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "UK/EU",
+   "language": "en",
+   "items_per_week": 31.9,
+   "cadence_note": "estimated from a short feed window (6.6 days, 30 items)",
+   "latest_item": "2026-09-24T10:00:00Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 30,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.97
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Loyalty Lobby",
+   "feed_url": "https://loyaltylobby.com/feed/",
+   "site_url": "https://loyaltylobby.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 46.0,
+   "cadence_note": "estimated from a short feed window (2.1 days, 14 items)",
+   "latest_item": "2026-09-24T14:35:19Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 14,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Live and Let's Fly",
+   "feed_url": "https://liveandletsfly.com/feed/",
+   "site_url": "https://liveandletsfly.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 34.7,
+   "cadence_note": "estimated from a short feed window (2.0 days, 10 items)",
+   "latest_item": "2026-09-24T14:39:28Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Paddle Your Own Kanoo",
+   "feed_url": "https://www.paddleyourownkanoo.com/feed/",
+   "site_url": "https://www.paddleyourownkanoo.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 18.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T02:24:08Z",
+   "latest_age_days": 0.6,
+   "items_in_feed": 100,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Airline industry news.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Thrifty Traveler",
+   "feed_url": "https://thriftytraveler.com/feed/",
+   "site_url": "https://thriftytraveler.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 34.7,
+   "cadence_note": "estimated from a short feed window (2.0 days, 10 items)",
+   "latest_item": "2026-09-24T15:09:52Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.9
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Deal posts are commercial: route to review.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Simple Flying",
+   "feed_url": "https://simpleflying.com/feed/",
+   "site_url": "https://simpleflying.com",
+   "beats": [
+    "hacks",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T16:00:15Z",
+   "latest_age_days": -0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.9,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Very high volume, route news.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Doctor of Credit",
+   "feed_url": "https://www.doctorofcredit.com/feed/",
+   "site_url": "https://www.doctorofcredit.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 96.9,
+   "cadence_note": "estimated from a short feed window (1.1 days, 15 items)",
+   "latest_item": "2026-09-24T15:00:09Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.47
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Mostly banking bonuses; keyword prefilter to travel.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Flight Deal",
+   "feed_url": "https://www.theflightdeal.com/feed/",
+   "site_url": "https://www.theflightdeal.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 111.5,
+   "cadence_note": "estimated from a short feed window (1.0 days, 16 items)",
+   "latest_item": "2026-09-24T15:53:59Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 16,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Fare deals: commercial, never auto-publish.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Eater (national)",
+   "feed_url": "https://www.eater.com/rss/index.xml",
+   "site_url": "https://www.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 4.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T19:30:49Z",
+   "latest_age_days": 0.9,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Eater NY",
+   "feed_url": "https://ny.eater.com/rss/index.xml",
+   "site_url": "https://ny.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "New York",
+   "language": "en",
+   "items_per_week": 8.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T20:46:03Z",
+   "latest_age_days": 0.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Eater LA",
+   "feed_url": "https://la.eater.com/rss/index.xml",
+   "site_url": "https://la.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "Los Angeles",
+   "language": "en",
+   "items_per_week": 10.3,
+   "cadence_note": "estimated from a short feed window (6.8 days, 10 items)",
+   "latest_item": "2026-09-23T21:05:00Z",
+   "latest_age_days": 0.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Eater Miami",
+   "feed_url": "https://miami.eater.com/rss/index.xml",
+   "site_url": "https://miami.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "Miami",
+   "language": "en",
+   "items_per_week": 0.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-09T13:00:00Z",
+   "latest_age_days": 15.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Pitchfork News",
+   "feed_url": "https://pitchfork.com/feed/feed-news/rss",
+   "site_url": "https://pitchfork.com/news",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 33.2,
+   "cadence_note": "estimated from a short feed window (6.1 days, 29 items)",
+   "latest_item": "2026-09-24T15:22:48Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 29,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.97,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: © Condé Nast 2026)",
+   "tier": "B",
+   "notes": "Touring announcements.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Billboard",
+   "feed_url": "https://www.billboard.com/c/music/feed/",
+   "site_url": "https://www.billboard.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:58:54Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.6
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Touring/festival news; high volume.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Atlas Obscura",
+   "feed_url": "https://www.atlasobscura.com/feeds/latest",
+   "site_url": "https://www.atlasobscura.com",
+   "beats": [
+    "hot",
+    "new-sports"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 5.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:00:00Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 27,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Odd places and competitions.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "VICE",
+   "feed_url": "https://www.vice.com/en/feed/",
+   "site_url": "https://www.vice.com",
+   "beats": [
+    "hot",
+    "psychedelic"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:48:36Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.6
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Travel vertical largely wound down.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Monocle",
+   "feed_url": "https://monocle.com/feed/",
+   "site_url": "https://monocle.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-23T23:06:00Z",
+   "latest_age_days": 0.7,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Wallpaper*",
+   "feed_url": "https://www.wallpaper.com/feeds/all",
+   "site_url": "https://www.wallpaper.com/travel",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 65.6,
+   "cadence_note": "estimated from a short feed window (5.3 days, 50 items)",
+   "latest_item": "2026-09-24T14:58:06Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Hotel design openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Highsnobiety",
+   "feed_url": "https://www.highsnobiety.com/feed/",
+   "site_url": "https://www.highsnobiety.com",
+   "beats": [
+    "hot",
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 94.7,
+   "cadence_note": "estimated from a short feed window (1.0 days, 14 items)",
+   "latest_item": "2026-09-24T15:00:38Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 14,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Highsnobiety)",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Gear Patrol",
+   "feed_url": "https://www.gearpatrol.com/feed/",
+   "site_url": "https://www.gearpatrol.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 255.4,
+   "cadence_note": "estimated from a short feed window (2.1 days, 75 items)",
+   "latest_item": "2026-09-24T15:56:24Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 75,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.91,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Affiliate commerce content.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Outside",
+   "feed_url": "https://www.outsideonline.com/feed/",
+   "site_url": "https://www.outsideonline.com",
+   "beats": [
+    "gear",
+    "wild",
+    "new-sports",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 35.2,
+   "cadence_note": "estimated from a short feed window (2.0 days, 10 items)",
+   "latest_item": "2026-09-24T15:17:42Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Field & Stream",
+   "feed_url": "https://www.fieldandstream.com/feed/",
+   "site_url": "https://www.fieldandstream.com",
+   "beats": [
+    "wild",
+    "gear"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 31.4,
+   "cadence_note": "estimated from a short feed window (2.2 days, 10 items)",
+   "latest_item": "2026-09-24T13:03:44Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.5
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Surfer",
+   "feed_url": "https://www.surfer.com/feed",
+   "site_url": "https://www.surfer.com",
+   "beats": [
+    "new-sports",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 45.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:35:28Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Paradium.AI Surfer is a registered trademark of Paradium.AI)",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Powder",
+   "feed_url": "https://www.powder.com/feed",
+   "site_url": "https://www.powder.com",
+   "beats": [
+    "hot",
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 25.1,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T10:13:00Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Paradium.AI Powder is a registered trademark of Paradium.AI)",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "SnowBrains",
+   "feed_url": "https://snowbrains.com/feed/",
+   "site_url": "https://snowbrains.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 78.8,
+   "cadence_note": "estimated from a short feed window (1.8 days, 20 items)",
+   "latest_item": "2026-09-24T15:46:54Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Ski news, high volume.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Robb Report Travel",
+   "feed_url": "https://robbreport.com/travel/feed/",
+   "site_url": "https://robbreport.com/travel/",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:00:00Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Luxury openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Unofficial Networks",
+   "feed_url": "https://unofficialnetworks.com/feed/",
+   "site_url": "https://unofficialnetworks.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 131.8,
+   "cadence_note": "estimated from a short feed window (2.7 days, 50 items)",
+   "latest_item": "2026-09-24T15:53:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Ski news, clickbait-leaning.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Ski Mag",
+   "feed_url": "https://www.skimag.com/feed/",
+   "site_url": "https://www.skimag.com",
+   "beats": [
+    "hot",
+    "gear"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 22.3,
+   "cadence_note": "estimated from a short feed window (3.1 days, 10 items)",
+   "latest_item": "2026-09-24T13:00:22Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Inertia",
+   "feed_url": "https://www.theinertia.com/feed/",
+   "site_url": "https://www.theinertia.com",
+   "beats": [
+    "new-sports",
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 35.9,
+   "cadence_note": "estimated from a short feed window (5.9 days, 30 items)",
+   "latest_item": "2026-09-24T15:47:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 30,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Surf/ski/outdoor.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Carryology",
+   "feed_url": "https://www.carryology.com/feed/",
+   "site_url": "https://www.carryology.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-16T05:52:26Z",
+   "latest_age_days": 8.4,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Bags and carry.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Pack Hacker",
+   "feed_url": "https://packhacker.com/feed/",
+   "site_url": "https://packhacker.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-15T09:00:00Z",
+   "latest_age_days": 9.3,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Travel bag reviews.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Uncrate",
+   "feed_url": "https://feeds.feedburner.com/uncrate",
+   "site_url": "https://uncrate.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 91.7,
+   "cadence_note": "estimated from a short feed window (1.1 days, 15 items)",
+   "latest_item": "2026-09-24T15:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": false,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Copyright 2026)",
+   "tier": "C",
+   "notes": "Product catalogue style.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Man of Many",
+   "feed_url": "https://manofmany.com/feed",
+   "site_url": "https://manofmany.com",
+   "beats": [
+    "gear",
+    "adults-only"
+   ],
+   "region": "AU/global",
+   "language": "en",
+   "items_per_week": 49.3,
+   "cadence_note": "estimated from a short feed window (1.4 days, 10 items)",
+   "latest_item": "2026-09-24T07:24:20Z",
+   "latest_age_days": 0.4,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Guardian Travel",
+   "feed_url": "https://www.theguardian.com/travel/rss",
+   "site_url": "https://www.theguardian.com/travel",
+   "beats": [
+    "hot",
+    "new-sports"
+   ],
+   "region": "UK/global",
+   "language": "en",
+   "items_per_week": 2.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T06:00:11Z",
+   "latest_age_days": 0.4,
+   "items_in_feed": 35,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Guardian RSS: headline, standfirst and link with attribution; full-text reuse only via Open Platform API under its licence. Link + short excerpt only.",
+   "tier": "A",
+   "notes": "Guardian has an Open Platform licence; RSS reuse still headline+link.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "NYT Travel",
+   "feed_url": "https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml",
+   "site_url": "https://www.nytimes.com/section/travel",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 10.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:00:37Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.6
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "NYT RSS terms: feeds are for personal, non-commercial use; attribution and link back required. Commercial display needs NYT permission. Treat as headline + link only until cleared.",
+   "tier": "A",
+   "notes": "NYT RSS terms: personal/non-commercial; link only for commercial use.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Independent Travel",
+   "feed_url": "https://www.independent.co.uk/travel/rss",
+   "site_url": "https://www.independent.co.uk/travel",
+   "beats": [
+    "hot",
+    "hacks"
+   ],
+   "region": "UK/global",
+   "language": "en",
+   "items_per_week": 56,
+   "cadence_note": "lower bound: feed holds only 8 items, all from the last day (true rate is at least 8/day)",
+   "latest_item": "2026-09-24T13:42:19Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 8,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Independent Digital News & Media Ltd or its affiliated companies. All rights reserved. 2026)",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Telegraph Travel",
+   "feed_url": "https://www.telegraph.co.uk/travel/rss.xml",
+   "site_url": "https://www.telegraph.co.uk/travel/",
+   "beats": [
+    "hot"
+   ],
+   "region": "UK/global",
+   "language": "en",
+   "items_per_week": 1.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-14T17:00:00Z",
+   "latest_age_days": 10.0,
+   "items_in_feed": 120,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Paywalled.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Euronews Travel",
+   "feed_url": "https://www.euronews.com/rss?level=vertical&name=travel",
+   "site_url": "https://www.euronews.com/travel",
+   "beats": [
+    "hot",
+    "hacks"
+   ],
+   "region": "Europe",
+   "language": "en",
+   "items_per_week": 26.1,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T10:24:49Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Euronews 2026)",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Matador Network",
+   "feed_url": "https://matadornetwork.com/feed/",
+   "site_url": "https://matadornetwork.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 5.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-21T13:30:00Z",
+   "latest_age_days": 3.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.5,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Travel Noire",
+   "feed_url": "https://travelnoire.com/rss",
+   "site_url": "https://travelnoire.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 23.5,
+   "cadence_note": "estimated from a short feed window (3.0 days, 10 items)",
+   "latest_item": "2026-09-24T15:00:43Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Travel Off Path",
+   "feed_url": "https://www.traveloffpath.com/feed/",
+   "site_url": "https://www.traveloffpath.com",
+   "beats": [
+    "hacks",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 27.4,
+   "cadence_note": "estimated from a short feed window (1.8 days, 7 items)",
+   "latest_item": "2026-09-24T15:29:09Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 7,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "SEO-heavy; strict Jev quality gate.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Caribbean Journal",
+   "feed_url": "https://www.caribjournal.com/feed/",
+   "site_url": "https://www.caribjournal.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "Caribbean",
+   "language": "en",
+   "items_per_week": 36.6,
+   "cadence_note": "estimated from a short feed window (1.9 days, 10 items)",
+   "latest_item": "2026-09-23T21:02:00Z",
+   "latest_age_days": 0.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Frequent adults-only resort openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Elite Traveler",
+   "feed_url": "https://www.elitetraveler.com/feed",
+   "site_url": "https://www.elitetraveler.com",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 34.2,
+   "cadence_note": "estimated from a short feed window (2.0 days, 10 items)",
+   "latest_item": "2026-09-24T08:42:27Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Luxury; advertorial risk.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hotel Designs",
+   "feed_url": "https://hoteldesigns.net/feed/",
+   "site_url": "https://hoteldesigns.net",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 13.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:04:10Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 99,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Hotel openings/design.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hospitality Net",
+   "feed_url": "https://www.hospitalitynet.org/rss/news.xml",
+   "site_url": "https://www.hospitalitynet.org",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 140,
+   "cadence_note": "lower bound: feed holds only 20 items, all from the last day (true rate is at least 20/day)",
+   "latest_item": "2026-09-24T14:39:00Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Press-release wire; openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Boutique Hotel News",
+   "feed_url": "https://www.boutiquehotelnews.com/rss",
+   "site_url": "https://www.boutiquehotelnews.com",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 11.2,
+   "cadence_note": "estimated from a short feed window (6.2 days, 10 items)",
+   "latest_item": "2026-09-24T12:05:15Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hotel Dive",
+   "feed_url": "https://www.hoteldive.com/feeds/news/",
+   "site_url": "https://www.hoteldive.com",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 11.5,
+   "cadence_note": "estimated from a short feed window (6.1 days, 10 items)",
+   "latest_item": "2026-09-24T13:35:32Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.7
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Industry news.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Dezeen",
+   "feed_url": "https://www.dezeen.com/feed/",
+   "site_url": "https://www.dezeen.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70.6,
+   "cadence_note": "estimated from a short feed window (5.0 days, 50 items)",
+   "latest_item": "2026-09-24T15:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Architecture; filter to hotels/travel.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "designboom",
+   "feed_url": "https://www.designboom.com/feed/",
+   "site_url": "https://www.designboom.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 57.6,
+   "cadence_note": "estimated from a short feed window (1.2 days, 10 items)",
+   "latest_item": "2026-09-24T15:15:09Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Architecture; filter to hotels.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "KFF Health News",
+   "feed_url": "https://kffhealthnews.org/feed/",
+   "site_url": "https://kffhealthnews.org",
+   "beats": [
+    "medical"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 11.1,
+   "cadence_note": "estimated from a short feed window (6.3 days, 10 items)",
+   "latest_item": "2026-09-24T09:00:02Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "KFF Health News states its stories may be republished free with attribution under its republishing guidelines. We still link + short excerpt; full reuse possible if guidelines are followed.",
+   "tier": "A",
+   "notes": "Republication allowed under their stated terms (CC-style, with attribution rules); still link+excerpt.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "STAT News",
+   "feed_url": "https://www.statnews.com/feed/",
+   "site_url": "https://www.statnews.com",
+   "beats": [
+    "medical",
+    "psychedelic"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 119.4,
+   "cadence_note": "estimated from a short feed window (1.2 days, 20 items)",
+   "latest_item": "2026-09-24T14:57:54Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: STAT Copyright 2026)",
+   "tier": "A",
+   "notes": "Keyword prefilter (clinic abroad, psilocybin).",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Psychedelic Alpha",
+   "feed_url": "https://psychedelicalpha.com/feed",
+   "site_url": "https://psychedelicalpha.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 4.1,
+   "cadence_note": "",
+   "latest_item": "2026-09-21T13:42:13Z",
+   "latest_age_days": 3.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.5,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Policy/industry.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Chacruna",
+   "feed_url": "https://chacruna.net/feed/",
+   "site_url": "https://chacruna.net",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "Latin America/global",
+   "language": "en",
+   "items_per_week": 1.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T04:42:43Z",
+   "latest_age_days": 1.5,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.9
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Ayahuasca/indigenous perspective.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Microdose (Lucid/Psychedelics Today newsletter)",
+   "feed_url": "https://themicrodose.substack.com/feed",
+   "site_url": "https://themicrodose.substack.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 1.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-21T15:05:13Z",
+   "latest_age_days": 3.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: UC Berkeley Center for the Science of Psychedelics)",
+   "tier": "B",
+   "notes": "Weekly newsletter.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Psychedelics Today",
+   "feed_url": "https://psychedelicstoday.com/feed/",
+   "site_url": "https://psychedelicstoday.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-16T21:07:41Z",
+   "latest_age_days": 7.8,
+   "items_in_feed": 100,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "DJ Mag",
+   "feed_url": "https://djmag.com/rss.xml",
+   "site_url": "https://djmag.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 54.0,
+   "cadence_note": "estimated from a short feed window (1.9 days, 15 items)",
+   "latest_item": "2026-09-24T14:51:08Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.93,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Dancing Astronaut",
+   "feed_url": "https://dancingastronaut.com/feed/",
+   "site_url": "https://dancingastronaut.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 0.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-16T22:49:04Z",
+   "latest_age_days": 7.7,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.2
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "EDM Identity",
+   "feed_url": "https://edmidentity.com/feed/",
+   "site_url": "https://edmidentity.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 26.1,
+   "cadence_note": "estimated from a short feed window (2.7 days, 10 items)",
+   "latest_item": "2026-09-24T01:20:20Z",
+   "latest_age_days": 0.6,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.7
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Consequence",
+   "feed_url": "https://consequence.net/feed/",
+   "site_url": "https://consequence.net",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 105,
+   "cadence_note": "lower bound: feed holds only 15 items, all from the last day (true rate is at least 15/day)",
+   "latest_item": "2026-09-24T15:47:46Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Tour/festival lineups.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "NME",
+   "feed_url": "https://www.nme.com/news/music/feed",
+   "site_url": "https://www.nme.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "UK/global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:19:31Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Pollstar",
+   "feed_url": "https://news.pollstar.com/feed/",
+   "site_url": "https://news.pollstar.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:30:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Touring trade.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "JamBase",
+   "feed_url": "https://www.jambase.com/feed",
+   "site_url": "https://www.jambase.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 71.7,
+   "cadence_note": "estimated from a short feed window (2.0 days, 20 items)",
+   "latest_item": "2026-09-24T15:56:02Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Tour dates.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hatch Magazine",
+   "feed_url": "https://www.hatchmag.com/rss.xml",
+   "site_url": "https://www.hatchmag.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T03:20:49Z",
+   "latest_age_days": 0.5,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Fly fishing.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Gink & Gasoline",
+   "feed_url": "https://www.ginkandgasoline.com/feed/",
+   "site_url": "https://www.ginkandgasoline.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 8.2,
+   "cadence_note": "estimated from a short feed window (4.3 days, 5 items)",
+   "latest_item": "2026-09-24T08:58:40Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 5,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Outdoor Life",
+   "feed_url": "https://www.outdoorlife.com/feed/",
+   "site_url": "https://www.outdoorlife.com",
+   "beats": [
+    "wild",
+    "gear"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 35.9,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T13:38:13Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Sport Fishing Magazine",
+   "feed_url": "https://www.sportfishingmag.com/feed/",
+   "site_url": "https://www.sportfishingmag.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T16:13:43Z",
+   "latest_age_days": 1.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Salt Water Sportsman",
+   "feed_url": "https://www.saltwatersportsman.com/feed/",
+   "site_url": "https://www.saltwatersportsman.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 3.3,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T13:00:00Z",
+   "latest_age_days": 1.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Marlin Magazine",
+   "feed_url": "https://www.marlinmag.com/feed/",
+   "site_url": "https://www.marlinmag.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "MeatEater",
+   "feed_url": "https://www.themeateater.com/feed",
+   "site_url": "https://www.themeateater.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 16.9,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T09:00:00Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.9,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Hunting/fishing.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Sporting Classics Daily",
+   "feed_url": "https://sportingclassicsdaily.com/feed/",
+   "site_url": "https://sportingclassicsdaily.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 7.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T13:13:39Z",
+   "latest_age_days": 1.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Safari/hunting.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Mongabay",
+   "feed_url": "https://news.mongabay.com/feed/",
+   "site_url": "https://news.mongabay.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 81.4,
+   "cadence_note": "estimated from a short feed window (2.8 days, 32 items)",
+   "latest_item": "2026-09-24T14:36:40Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 32,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "Mongabay offers a republishing programme under its own terms; verify per article. Default to link + short excerpt.",
+   "tier": "A",
+   "notes": "Conservation angle for hunting debates. Mongabay states articles may be republished under its terms; verify before any reuse beyond excerpt.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Padel Paper",
+   "feed_url": "https://thepadelpaper.com/feed/",
+   "site_url": "https://thepadelpaper.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 6.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:02:07Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Dink Pickleball",
+   "feed_url": "https://www.thedinkpickleball.com/feed/",
+   "site_url": "https://www.thedinkpickleball.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 50.1,
+   "cadence_note": "estimated from a short feed window (2.1 days, 15 items)",
+   "latest_item": "2026-09-23T15:46:46Z",
+   "latest_age_days": 1.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Sportico",
+   "feed_url": "https://www.sportico.com/feed/",
+   "site_url": "https://www.sportico.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 64.8,
+   "cadence_note": "estimated from a short feed window (1.1 days, 10 items)",
+   "latest_item": "2026-09-24T16:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Sports business.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Front Office Sports",
+   "feed_url": "https://frontofficesports.com/feed/",
+   "site_url": "https://frontofficesports.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 115.0,
+   "cadence_note": "estimated from a short feed window (3.0 days, 50 items)",
+   "latest_item": "2026-09-24T15:51:24Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 50,
+   "has_date": true,
+   "has_excerpt": false,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.2,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "SportsPro",
+   "feed_url": "https://www.sportspromedia.com/feed/",
+   "site_url": "https://www.sportspromedia.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 9.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T10:50:36Z",
+   "latest_age_days": 1.2,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Aspen Times",
+   "feed_url": "https://www.aspentimes.com/feed/",
+   "site_url": "https://www.aspentimes.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "Aspen",
+   "language": "en",
+   "items_per_week": 79.9,
+   "cadence_note": "estimated from a short feed window (1.8 days, 20 items)",
+   "latest_item": "2026-09-24T00:10:26Z",
+   "latest_age_days": 0.7,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Catalog destination.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Engadiner Post",
+   "feed_url": "https://www.engadinerpost.ch/rss.xml",
+   "site_url": "https://www.engadinerpost.ch",
+   "beats": [
+    "hot"
+   ],
+   "region": "St. Moritz / Engadin",
+   "language": "de",
+   "items_per_week": 54.9,
+   "cadence_note": "estimated from a short feed window (3.1 days, 24 items)",
+   "latest_item": "2026-09-24T15:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 24,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Catalog destination; German/Romansh.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Monaco Life",
+   "feed_url": "https://monacolife.net/feed/",
+   "site_url": "https://monacolife.net",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "Monaco",
+   "language": "en",
+   "items_per_week": 60.3,
+   "cadence_note": "estimated from a short feed window (1.2 days, 10 items)",
+   "latest_item": "2026-09-24T12:04:35Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.5
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Research target.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hotelier Maldives",
+   "feed_url": "https://www.hoteliermaldives.com/feed/",
+   "site_url": "https://www.hoteliermaldives.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "Maldives",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T13:42:23Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Catalog destination; resort openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Travel Trade Maldives",
+   "feed_url": "https://www.traveltrademaldives.com/feed/",
+   "site_url": "https://www.traveltrademaldives.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "Maldives",
+   "language": "en",
+   "items_per_week": 51.4,
+   "cadence_note": "estimated from a short feed window (1.4 days, 10 items)",
+   "latest_item": "2026-09-24T10:36:31Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Catalog destination.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Local Germany",
+   "feed_url": "https://www.thelocal.de/feeds/rss.php",
+   "site_url": "https://www.thelocal.de",
+   "beats": [
+    "hot"
+   ],
+   "region": "Germany (Munich)",
+   "language": "en",
+   "items_per_week": 4.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T13:26:33Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Research target Munich.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Local France",
+   "feed_url": "https://www.thelocal.fr/feeds/rss.php",
+   "site_url": "https://www.thelocal.fr",
+   "beats": [
+    "hot"
+   ],
+   "region": "France (Paris, Courchevel)",
+   "language": "en",
+   "items_per_week": 33.3,
+   "cadence_note": "estimated from a short feed window (4.2 days, 20 items)",
+   "latest_item": "2026-09-24T15:11:03Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "The Local Switzerland",
+   "feed_url": "https://www.thelocal.ch/feeds/rss.php",
+   "site_url": "https://www.thelocal.ch",
+   "beats": [
+    "hot"
+   ],
+   "region": "Switzerland (St. Moritz)",
+   "language": "en",
+   "items_per_week": 4.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T13:57:13Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Sortir à Paris",
+   "feed_url": "https://www.sortiraparis.com/rss/actualites",
+   "site_url": "https://www.sortiraparis.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "Paris",
+   "language": "fr",
+   "items_per_week": 700,
+   "cadence_note": "lower bound: feed holds only 100 items, all from the last day (true rate is at least 100/day)",
+   "latest_item": "2026-09-24T15:57:28Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 100,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Events listings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Mit Vergnügen München",
+   "feed_url": "https://muenchen.mitvergnuegen.com/feed",
+   "site_url": "https://muenchen.mitvergnuegen.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "Munich",
+   "language": "de",
+   "items_per_week": 8.1,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T07:55:49Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 12,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "City events.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Times of India – Jaipur",
+   "feed_url": "https://timesofindia.indiatimes.com/rssfeeds/3012544.cms",
+   "site_url": "https://timesofindia.indiatimes.com/city/jaipur",
+   "beats": [
+    "hot"
+   ],
+   "region": "Jaipur",
+   "language": "en",
+   "items_per_week": 145.2,
+   "cadence_note": "estimated from a short feed window (1.0 days, 20 items)",
+   "latest_item": "2026-09-23T19:29:28Z",
+   "latest_age_days": 0.9,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": false,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.15,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Copyright:(C) Thu, 24 Sep 2026 21:20:22 IST Bennett Coleman & Co. Ltd, http://in.indiatimes.com/poli)",
+   "tier": "B",
+   "notes": "Research target.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Reddit r/travel",
+   "feed_url": "https://www.reddit.com/r/travel/.rss",
+   "site_url": "https://www.reddit.com/r/travel",
+   "beats": [
+    "hacks",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 5.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:56:48Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 25,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.32
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "Reddit User Agreement + Data API Terms: user posts belong to users; commercial use of Reddit data needs Reddit's permission/licence. Use as a discovery signal only: link + title, no post text or images, no model training.",
+   "tier": "C",
+   "notes": "User posts; Reddit Data API/User Agreement terms. Reddit returns HTTP 429 to unauthenticated bursts; fetch at most once an hour with backoff.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Reddit r/onebag",
+   "feed_url": "https://www.reddit.com/r/onebag/.rss",
+   "site_url": "https://www.reddit.com/r/onebag",
+   "beats": [
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 7.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T07:15:39Z",
+   "latest_age_days": 0.4,
+   "items_in_feed": 25,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.4
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "Reddit User Agreement + Data API Terms: user posts belong to users; commercial use of Reddit data needs Reddit's permission/licence. Use as a discovery signal only: link + title, no post text or images, no model training.",
+   "tier": "C",
+   "notes": "User posts. Reddit returns HTTP 429 to unauthenticated bursts; fetch at most once an hour with backoff.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Reddit r/solotravel",
+   "feed_url": "https://www.reddit.com/r/solotravel/.rss",
+   "site_url": "https://www.reddit.com/r/solotravel",
+   "beats": [
+    "hacks"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 47.2,
+   "cadence_note": "estimated from a short feed window (3.7 days, 25 items)",
+   "latest_item": "2026-09-24T09:05:19Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 25,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "atom10",
+   "content_terms": "Reddit User Agreement + Data API Terms: user posts belong to users; commercial use of Reddit data needs Reddit's permission/licence. Use as a discovery signal only: link + title, no post text or images, no model training.",
+   "tier": "C",
+   "notes": "User posts. Reddit returns HTTP 429 to unauthenticated bursts; fetch at most once an hour with backoff.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: medical tourism when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=medical+tourism+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "medical"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 71.4,
+   "cadence_note": "estimated from a short feed window (7.0 days, 71 items)",
+   "latest_item": "2026-09-24T10:41:11Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 71,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: \"dental tourism\" OR \"stem cell clinic\" abroad when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=%22dental+tourism%22+OR+%22stem+cell+clinic%22+abroad+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "medical"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-21T04:34:00Z",
+   "latest_age_days": 3.5,
+   "items_in_feed": 4,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: psychedelic retreat OR ayahuasca OR psilocybin retreat when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=psychedelic+retreat+OR+ayahuasca+OR+psilocybin+retreat+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 10.1,
+   "cadence_note": "estimated from a short feed window (7.0 days, 10 items)",
+   "latest_item": "2026-09-22T23:11:24Z",
+   "latest_age_days": 1.7,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: fly fishing OR \"sport fishing\" destination travel when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=fly+fishing+OR+%22sport+fishing%22+destination+travel+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 20.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T11:29:00Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 39,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: trophy hunting OR safari hunting conservation when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=trophy+hunting+OR+safari+hunting+conservation+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 20.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T16:46:51Z",
+   "latest_age_days": 1.0,
+   "items_in_feed": 39,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.97,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: \"adults-only\" resort opening when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=%22adults-only%22+resort+opening+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 25.6,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T13:58:28Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 49,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: padel OR pickleball OR \"new sport\" travel when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=padel+OR+pickleball+OR+%22new+sport%22+travel+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "new-sports"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 26.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T12:41:44Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 51,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: airline miles OR loyalty program change when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=airline+miles+OR+loyalty+program+change+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 64.1,
+   "cadence_note": "estimated from a short feed window (7.0 days, 64 items)",
+   "latest_item": "2026-09-24T15:26:36Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 64,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: carry-on luggage review OR travel gear when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=carry-on+luggage+review+OR+travel+gear+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 37.9,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:30:00Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 73,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: new hotel opening 2026 when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=new+hotel+opening+2026+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 63.9,
+   "cadence_note": "estimated from a short feed window (6.9 days, 63 items)",
+   "latest_item": "2026-09-24T13:31:17Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 63,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: music festival lineup announced when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=music+festival+lineup+announced+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 58.9,
+   "cadence_note": "estimated from a short feed window (6.9 days, 58 items)",
+   "latest_item": "2026-09-24T15:57:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 58,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: Aspen OR \"St. Moritz\" OR Courchevel OR Maldives travel when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=Aspen+OR+%22St.+Moritz%22+OR+Courchevel+OR+Maldives+travel+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 57.1,
+   "cadence_note": "estimated from a short feed window (7.0 days, 57 items)",
+   "latest_item": "2026-09-24T14:50:12Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 57,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: Monaco OR Munich OR Jaipur OR Galapagos travel when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=Monaco+OR+Munich+OR+Jaipur+OR+Galapagos+travel+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 58.5,
+   "cadence_note": "estimated from a short feed window (6.9 days, 58 items)",
+   "latest_item": "2026-09-24T15:09:05Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 58,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Condé Nast Traveller (UK)",
+   "feed_url": "https://www.cntraveller.com/feed/rss",
+   "site_url": "https://www.cntraveller.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "UK/global",
+   "language": "en",
+   "items_per_week": 66.3,
+   "cadence_note": "estimated from a short feed window (3.2 days, 30 items)",
+   "latest_item": "2026-09-24T15:30:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 30,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: © Condé Nast 2026)",
+   "tier": "A",
+   "notes": "UK edition; distinct stories from US CNT.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Travel Daily News",
+   "feed_url": "https://www.traveldailynews.com/feed/",
+   "site_url": "https://www.traveldailynews.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:18:57Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Trade; press-release heavy.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Business Traveller",
+   "feed_url": "https://www.businesstraveller.com/feed/",
+   "site_url": "https://www.businesstraveller.com",
+   "beats": [
+    "hacks",
+    "adults-only"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 94.3,
+   "cadence_note": "estimated from a short feed window (1.3 days, 18 items)",
+   "latest_item": "2026-09-24T15:33:04Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 18,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Lounges, routes, hotel openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Hotel Management",
+   "feed_url": "https://www.hotelmanagement.net/rss.xml",
+   "site_url": "https://www.hotelmanagement.net",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "US/global",
+   "language": "en",
+   "items_per_week": 1.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T15:39:57Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Trade; openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Forbes Travel Guide Stories",
+   "feed_url": "https://stories.forbestravelguide.com/feed/",
+   "site_url": "https://stories.forbestravelguide.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 5.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T11:03:00Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 100,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Luxury; commercial ratings business.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "LA Times Travel",
+   "feed_url": "https://www.latimes.com/travel/rss2.0.xml",
+   "site_url": "https://www.latimes.com/travel",
+   "beats": [
+    "hot"
+   ],
+   "region": "US West/global",
+   "language": "en",
+   "items_per_week": 4.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T10:00:00Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 53,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.7
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Los Angeles Times © 2021)",
+   "tier": "A",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Upgraded Points",
+   "feed_url": "https://upgradedpoints.com/feed/",
+   "site_url": "https://upgradedpoints.com",
+   "beats": [
+    "hacks"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 124.4,
+   "cadence_note": "estimated from a short feed window (1.1 days, 20 items)",
+   "latest_item": "2026-09-24T15:26:22Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Affiliate card content.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "AirlineGeeks",
+   "feed_url": "https://airlinegeeks.com/feed/",
+   "site_url": "https://airlinegeeks.com",
+   "beats": [
+    "hacks",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 33.0,
+   "cadence_note": "estimated from a short feed window (2.1 days, 10 items)",
+   "latest_item": "2026-09-24T14:31:02Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Aviation news.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Aeroroutes",
+   "feed_url": "https://www.aeroroutes.com/?format=rss",
+   "site_url": "https://www.aeroroutes.com",
+   "beats": [
+    "hacks",
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 140,
+   "cadence_note": "lower bound: feed holds only 20 items, all from the last day (true rate is at least 20/day)",
+   "latest_item": "2026-09-24T15:00:29Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "A",
+   "notes": "Primary-ish route filings; terse items.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Cool Material",
+   "feed_url": "https://coolmaterial.com/feed/",
+   "site_url": "https://coolmaterial.com",
+   "beats": [
+    "gear"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 7.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:13:08Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 16,
+   "has_date": true,
+   "has_excerpt": false,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Product roundups.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "InsideHook",
+   "feed_url": "https://www.insidehook.com/feed",
+   "site_url": "https://www.insidehook.com",
+   "beats": [
+    "gear",
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 19.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T18:05:46Z",
+   "latest_age_days": 0.9,
+   "items_in_feed": 25,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Commerce-heavy.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Flylords",
+   "feed_url": "https://flylordsmag.com/feed/",
+   "site_url": "https://flylordsmag.com",
+   "beats": [
+    "wild"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 7.7,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T13:40:40Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.6
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Fly fishing destinations.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Festival Insights",
+   "feed_url": "https://www.festivalinsights.com/feed/",
+   "site_url": "https://www.festivalinsights.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 8.5,
+   "cadence_note": "",
+   "latest_item": "2026-09-23T14:59:23Z",
+   "latest_age_days": 1.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.2
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Festival trade.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Magnetic Magazine",
+   "feed_url": "https://www.magneticmag.com/feed/",
+   "site_url": "https://www.magneticmag.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:37:03Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.6
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Stereogum",
+   "feed_url": "https://www.stereogum.com/feed/",
+   "site_url": "https://www.stereogum.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 146.3,
+   "cadence_note": "estimated from a short feed window (1.9 days, 40 items)",
+   "latest_item": "2026-09-24T15:50:42Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 40,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Tour announcements.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Rolling Stone Music News",
+   "feed_url": "https://www.rollingstone.com/music/music-news/feed/",
+   "site_url": "https://www.rollingstone.com/music/music-news/",
+   "beats": [
+    "hot"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 70,
+   "cadence_note": "lower bound: feed holds only 10 items, all from the last day (true rate is at least 10/day)",
+   "latest_item": "2026-09-24T15:59:41Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "BrooklynVegan",
+   "feed_url": "https://www.brooklynvegan.com/feed/",
+   "site_url": "https://www.brooklynvegan.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 0.2,
+   "cadence_note": "",
+   "latest_item": "2026-09-16T01:39:10Z",
+   "latest_age_days": 8.6,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Tour/festival lineups.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Recommend",
+   "feed_url": "https://recommend.com/feed/",
+   "site_url": "https://recommend.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 58.8,
+   "cadence_note": "estimated from a short feed window (1.8 days, 15 items)",
+   "latest_item": "2026-09-24T15:40:26Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.33
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Travel-agent trade; all-inclusive openings.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "MAPS",
+   "feed_url": "https://maps.org/feed/",
+   "site_url": "https://maps.org",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 0.0,
+   "cadence_note": "",
+   "latest_item": "2026-08-25T19:46:01Z",
+   "latest_age_days": 29.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Advocacy nonprofit. Borderline: newest item 29.8 days old at check; likely to fall out.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Monaco Tribune",
+   "feed_url": "https://www.monaco-tribune.com/en/feed/",
+   "site_url": "https://www.monaco-tribune.com/en/",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "region": "Monaco",
+   "language": "en",
+   "items_per_week": 0.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-18T12:44:10Z",
+   "latest_age_days": 6.1,
+   "items_in_feed": 100,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Research target.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Süddeutsche Zeitung – München",
+   "feed_url": "https://rss.sueddeutsche.de/rss/Muenchen",
+   "site_url": "https://www.sueddeutsche.de/muenchen",
+   "beats": [
+    "hot"
+   ],
+   "region": "Munich",
+   "language": "de",
+   "items_per_week": 105,
+   "cadence_note": "lower bound: feed holds only 15 items, all from the last day (true rate is at least 15/day)",
+   "latest_item": "2026-09-24T15:15:03Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 15,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Süddeutsche Zeitung Digitale Medien GmbH – 2026)",
+   "tier": "A",
+   "notes": "Research target.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Sun.mv",
+   "feed_url": "https://sun.mv/feed",
+   "site_url": "https://sun.mv",
+   "beats": [
+    "hot"
+   ],
+   "region": "Maldives",
+   "language": "en",
+   "items_per_week": 140,
+   "cadence_note": "lower bound: feed holds only 20 items, all from the last day (true rate is at least 20/day)",
+   "latest_item": "2026-09-24T15:48:31Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": false,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "General news; keyword prefilter to tourism.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Le Dauphiné Libéré – Savoie",
+   "feed_url": "https://www.ledauphine.com/savoie/rss",
+   "site_url": "https://www.ledauphine.com/savoie",
+   "beats": [
+    "hot"
+   ],
+   "region": "Savoie (Courchevel)",
+   "language": "fr",
+   "items_per_week": 138.9,
+   "cadence_note": "estimated from a short feed window (1.0 days, 20 items)",
+   "latest_item": "2026-09-24T15:58:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Le Dauphiné Libéré)",
+   "tier": "B",
+   "notes": "Catalog destination region.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News (FR:fr): Courchevel when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=Courchevel+when%3A14d&hl=fr&gl=FR&ceid=FR:fr",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "FR",
+   "language": "fr",
+   "items_per_week": 30.0,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T11:44:44Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 53,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 0.98,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News (CH:de): \"St. Moritz\" when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=%22St.+Moritz%22+when%3A14d&hl=de&gl=CH&ceid=CH:de",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "hot"
+   ],
+   "region": "CH",
+   "language": "de",
+   "items_per_week": 23.6,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T09:50:20Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 45,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News (US:en): Maldives resort opening when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=Maldives+resort+opening+when%3A14d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "adults-only"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 29.8,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T14:50:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 57,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Health Policy Watch",
+   "feed_url": "https://healthpolicy-watch.news/feed/",
+   "site_url": "https://healthpolicy-watch.news",
+   "beats": [
+    "medical"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 11.6,
+   "cadence_note": "estimated from a short feed window (6.0 days, 10 items)",
+   "latest_item": "2026-09-24T12:28:01Z",
+   "latest_age_days": 0.1,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 1.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": true,
+    "last_modified": true
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Global health policy; keyword prefilter for cross-border care.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Medscape Medical News",
+   "feed_url": "https://www.medscape.com/cx/rssfeeds/2700.xml",
+   "site_url": "https://www.medscape.com",
+   "beats": [
+    "medical"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 140,
+   "cadence_note": "lower bound: feed holds only 20 items, all from the last day (true rate is at least 20/day)",
+   "latest_item": "2026-09-24T15:49:40Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 20,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only (feed rights line: Copyright 2026, Medscape)",
+   "tier": "C",
+   "notes": "Clinical news; keyword prefilter (abroad, tourism, clinic).",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News (GB:en): \"medical tourism\" when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=%22medical+tourism%22+when%3A14d&hl=en-GB&gl=GB&ceid=GB:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "medical"
+   ],
+   "region": "GB",
+   "language": "en",
+   "items_per_week": 58.4,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T11:50:47Z",
+   "latest_age_days": 0.2,
+   "items_in_feed": 95,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News (GB:en): \"cosmetic surgery\" abroad when:14d",
+   "feed_url": "https://news.google.com/rss/search?q=%22cosmetic+surgery%22+abroad+when%3A14d&hl=en-GB&gl=GB&ceid=GB:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "medical"
+   ],
+   "region": "GB",
+   "language": "en",
+   "items_per_week": 12.6,
+   "cadence_note": "",
+   "latest_item": "2026-09-24T07:59:36Z",
+   "latest_age_days": 0.3,
+   "items_in_feed": 24,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  },
+  {
+   "name": "Google News: psilocybin OR ayahuasca when:7d",
+   "feed_url": "https://news.google.com/rss/search?q=psilocybin+OR+ayahuasca+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+   "site_url": "https://news.google.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "region": "US",
+   "language": "en",
+   "items_per_week": 56.0,
+   "cadence_note": "estimated from a short feed window (7.0 days, 56 items)",
+   "latest_item": "2026-09-24T15:00:00Z",
+   "latest_age_days": 0.0,
+   "items_in_feed": 56,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1.0,
+    "excerpt": 1.0,
+    "image": 0.0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "Google News RSS has no published licence for commercial reuse; Google ToS bars automated access except as permitted. Use for discovery only: resolve to the publisher URL, attribute the publisher, link + short excerpt from the publisher, never Google's snippet. Consider a licensed news API if this becomes a core input.",
+   "tier": "C",
+   "notes": "Aggregator: links resolve via news.google.com redirect; must resolve to publisher URL before dedupe.",
+   "verified_at": "2026-09-24"
+  }
+ ],
+ "dropped": [
+  {
+   "name": "Travel + Leisure",
+   "tried": [
+    "https://www.travelandleisure.com/feeds/all",
+    "https://www.travelandleisure.com/rss",
+    "https://feeds-api.dotdashmeredith.com/v1/rss/google/b4a45e75-1f4b-4c2c-b1b9-a0b4b58f2a6e"
+   ],
+   "site_url": "https://www.travelandleisure.com",
+   "beats": [
+    "hot",
+    "adults-only",
+    "hacks"
+   ],
+   "reason": "HTTP 200 valid rss but zero items",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "Lonely Planet News",
+   "tried": [
+    "https://www.lonelyplanet.com/news/feed/atom/",
+    "https://www.lonelyplanet.com/news/feed",
+    "https://www.lonelyplanet.com/feed"
+   ],
+   "site_url": "https://www.lonelyplanet.com/news",
+   "beats": [
+    "hot",
+    "hacks"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "Secret Flying",
+   "tried": [
+    "https://www.secretflying.com/feed/"
+   ],
+   "site_url": "https://www.secretflying.com",
+   "beats": [
+    "hacks"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": "Fare deals: commercial, never auto-publish."
+  },
+  {
+   "name": "Time Out London",
+   "tried": [
+    "https://www.timeout.com/london/rss",
+    "https://www.timeout.com/london/news/rss",
+    "https://www.timeout.com/london/feed"
+   ],
+   "site_url": "https://www.timeout.com/london",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Time Out Paris",
+   "tried": [
+    "https://www.timeout.com/paris/en/rss",
+    "https://www.timeout.com/paris/en/news/rss"
+   ],
+   "site_url": "https://www.timeout.com/paris/en",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": "Catalog city."
+  },
+  {
+   "name": "Time Out New York",
+   "tried": [
+    "https://www.timeout.com/newyork/rss",
+    "https://www.timeout.com/newyork/news/rss"
+   ],
+   "site_url": "https://www.timeout.com/newyork",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Time Out News (global)",
+   "tried": [
+    "https://www.timeout.com/news/rss",
+    "https://www.timeout.com/rss"
+   ],
+   "site_url": "https://www.timeout.com/news",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Eater London",
+   "tried": [
+    "https://london.eater.com/rss/index.xml"
+   ],
+   "site_url": "https://london.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "stale: latest item 1318.1 days old",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Eater Denver",
+   "tried": [
+    "https://denver.eater.com/rss/index.xml"
+   ],
+   "site_url": "https://denver.eater.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "stale: latest item 117.8 days old",
+   "tier_if_fixed": "B",
+   "notes": "Covers Aspen openings."
+  },
+  {
+   "name": "Resident Advisor News",
+   "tried": [
+    "https://ra.co/xml/news.xml",
+    "https://www.residentadvisor.net/xml/rss_news.xml",
+    "https://ra.co/xml/rss_news.xml"
+   ],
+   "site_url": "https://ra.co/news",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "A",
+   "notes": "Club/festival news."
+  },
+  {
+   "name": "Hypebeast",
+   "tried": [
+    "https://hypebeast.com/travel/feed",
+    "https://hypebeast.com/feed"
+   ],
+   "site_url": "https://hypebeast.com",
+   "beats": [
+    "hot",
+    "gear"
+   ],
+   "reason": "HTTP 202 bot challenge page to a generic User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Fly Fisherman",
+   "tried": [
+    "https://www.flyfisherman.com/feed",
+    "https://www.flyfisherman.com/rss",
+    "https://www.flyfisherman.com/rss.xml"
+   ],
+   "site_url": "https://www.flyfisherman.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "GearJunkie",
+   "tried": [
+    "https://gearjunkie.com/feed"
+   ],
+   "site_url": "https://gearjunkie.com",
+   "beats": [
+    "gear"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": "Affiliate commerce content."
+  },
+  {
+   "name": "CNN Travel",
+   "tried": [
+    "http://rss.cnn.com/rss/edition_travel.rss"
+   ],
+   "site_url": "https://edition.cnn.com/travel",
+   "beats": [
+    "hot"
+   ],
+   "reason": "stale: latest item 959.0 days old",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Fodor's",
+   "tried": [
+    "https://www.fodors.com/feed",
+    "https://www.fodors.com/news/feed"
+   ],
+   "site_url": "https://www.fodors.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Travel Weekly",
+   "tried": [
+    "https://www.travelweekly.com/rss",
+    "https://www.travelweekly.com/RSS/All-Travel-Weekly-News"
+   ],
+   "site_url": "https://www.travelweekly.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": "Trade."
+  },
+  {
+   "name": "TravelPulse",
+   "tried": [
+    "https://www.travelpulse.com/rss/news.rss",
+    "https://www.travelpulse.com/rss"
+   ],
+   "site_url": "https://www.travelpulse.com",
+   "beats": [
+    "hot",
+    "adults-only"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": "Trade; many press-release rewrites."
+  },
+  {
+   "name": "Luxury Travel Advisor",
+   "tried": [
+    "https://www.luxurytraveladvisor.com/rss.xml"
+   ],
+   "site_url": "https://www.luxurytraveladvisor.com",
+   "beats": [
+    "adults-only"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": "Trade."
+  },
+  {
+   "name": "Travel Agent Central",
+   "tried": [
+    "https://www.travelagentcentral.com/rss.xml"
+   ],
+   "site_url": "https://www.travelagentcentral.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "reason": "stale: latest item 658.8 days old",
+   "tier_if_fixed": "C",
+   "notes": "Trade."
+  },
+  {
+   "name": "Hospitality Design",
+   "tried": [
+    "https://hospitalitydesign.com/feed/",
+    "https://hospitalitydesign.com/rss/"
+   ],
+   "site_url": "https://hospitalitydesign.com",
+   "beats": [
+    "adults-only",
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "IMTJ (International Medical Travel Journal)",
+   "tried": [
+    "https://www.imtj.com/feed/",
+    "https://www.laingbuissonnews.com/imtj/feed/",
+    "https://www.imtj.com/rss/"
+   ],
+   "site_url": "https://www.imtj.com",
+   "beats": [
+    "medical"
+   ],
+   "reason": "HTTP 200 returns HTML, not RSS/Atom; site autodiscovery points to treatmentabroad.com/feed/, which is empty",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "Medical Tourism Magazine",
+   "tried": [
+    "https://www.magazine.medicaltourism.com/feed",
+    "https://magazine.medicaltourism.com/feed",
+    "https://www.medicaltourism.com/feed"
+   ],
+   "site_url": "https://www.magazine.medicaltourism.com",
+   "beats": [
+    "medical"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "C",
+   "notes": "Published by Medical Tourism Association (industry body)."
+  },
+  {
+   "name": "Lucid News",
+   "tried": [
+    "https://www.lucid.news/feed/"
+   ],
+   "site_url": "https://www.lucid.news",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "stale: latest item 33.7 days old (borderline; publishes irregularly, recheck monthly)",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "DoubleBlind",
+   "tried": [
+    "https://doubleblindmag.com/feed/"
+   ],
+   "site_url": "https://doubleblindmag.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "HTTP 202 bot challenge page to a generic User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": "Some how-to content; noLinks applies."
+  },
+  {
+   "name": "Psymposia",
+   "tried": [
+    "https://www.psymposia.com/feed/"
+   ],
+   "site_url": "https://www.psymposia.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "stale: latest item 184.8 days old",
+   "tier_if_fixed": "B",
+   "notes": "Critical/investigative."
+  },
+  {
+   "name": "Microdosing Insights / Psychedelic Spotlight",
+   "tried": [
+    "https://psychedelicspotlight.com/feed/"
+   ],
+   "site_url": "https://psychedelicspotlight.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "HTTP 200 returns HTML, not RSS/Atom",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Festicket Magazine",
+   "tried": [
+    "https://www.festicket.com/magazine/feed/",
+    "https://www.festicket.com/magazine/rss/",
+    "https://www.festicket.com/blog/feed/"
+   ],
+   "site_url": "https://www.festicket.com/magazine/",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": "Ticket seller: commercial."
+  },
+  {
+   "name": "EDM.com",
+   "tried": [
+    "https://edm.com/.rss/full/",
+    "https://edm.com/feed",
+    "https://edm.com/rss"
+   ],
+   "site_url": "https://edm.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Mixmag",
+   "tried": [
+    "https://mixmag.net/rss.xml"
+   ],
+   "site_url": "https://mixmag.net",
+   "beats": [
+    "hot"
+   ],
+   "reason": "valid feed but items carry no dates (fails date rule)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Orvis News",
+   "tried": [
+    "https://news.orvis.com/feed"
+   ],
+   "site_url": "https://news.orvis.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "HTTP 202 bot challenge page to a generic User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": "Retailer blog."
+  },
+  {
+   "name": "Anglers Journal",
+   "tried": [
+    "https://www.anglersjournal.com/feed"
+   ],
+   "site_url": "https://www.anglersjournal.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "stale: latest item 304.3 days old",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Inside the Games",
+   "tried": [
+    "https://www.insidethegames.biz/rss",
+    "https://www.insidethegames.biz/articles.rss",
+    "https://www.insidethegames.biz/feed"
+   ],
+   "site_url": "https://www.insidethegames.biz",
+   "beats": [
+    "new-sports"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": "Olympic/minor sports."
+  },
+  {
+   "name": "Aspen Daily News",
+   "tried": [
+    "https://www.aspendailynews.com/search/?f=rss&t=article&l=50&s=start_time&sd=desc",
+    "https://www.aspendailynews.com/feed/"
+   ],
+   "site_url": "https://www.aspendailynews.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": "Catalog destination."
+  },
+  {
+   "name": "Maldives Insider",
+   "tried": [
+    "https://maldivesinsider.com/feed/",
+    "https://www.maldivesinsider.com/feed/"
+   ],
+   "site_url": "https://maldivesinsider.com",
+   "beats": [
+    "adults-only"
+   ],
+   "reason": "HTTP 522",
+   "tier_if_fixed": "C",
+   "notes": "Catalog destination."
+  },
+  {
+   "name": "Edition.mv",
+   "tried": [
+    "https://edition.mv/feed",
+    "https://edition.mv/rss"
+   ],
+   "site_url": "https://edition.mv",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Abendzeitung München",
+   "tried": [
+    "https://www.abendzeitung-muenchen.de/rss",
+    "https://www.abendzeitung-muenchen.de/muenchen/rss"
+   ],
+   "site_url": "https://www.abendzeitung-muenchen.de",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "SWI swissinfo.ch",
+   "tried": [
+    "https://www.swissinfo.ch/eng/rss",
+    "https://www.swissinfo.ch/service/eng/rssxml/latest-news-rss.xml"
+   ],
+   "site_url": "https://www.swissinfo.ch/eng",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Snowmass Sun / Aspen Times Snowmass",
+   "tried": [
+    "https://www.aspentimes.com/news/snowmass/feed/"
+   ],
+   "site_url": "https://www.aspentimes.com/news/snowmass",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 200 valid rss20 but zero items",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Washington Post Travel",
+   "tried": [
+    "https://feeds.washingtonpost.com/rss/lifestyle/travel"
+   ],
+   "site_url": "https://www.washingtonpost.com/travel",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 200 valid rss20 but zero items",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "Nomadic Matt",
+   "tried": [
+    "https://www.nomadicmatt.com/feed/"
+   ],
+   "site_url": "https://www.nomadicmatt.com",
+   "beats": [
+    "hacks"
+   ],
+   "reason": "stale: latest item 58.0 days old",
+   "tier_if_fixed": "C",
+   "notes": "Evergreen blog."
+  },
+  {
+   "name": "Switchback Travel",
+   "tried": [
+    "https://www.switchbacktravel.com/rss.xml"
+   ],
+   "site_url": "https://www.switchbacktravel.com",
+   "beats": [
+    "gear"
+   ],
+   "reason": "stale: latest item 138.8 days old",
+   "tier_if_fixed": "B",
+   "notes": "Tested gear reviews."
+  },
+  {
+   "name": "The Drake",
+   "tried": [
+    "https://drakemag.com/feed/"
+   ],
+   "site_url": "https://drakemag.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "stale: latest item 69.8 days old",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Africa Geographic",
+   "tried": [
+    "https://africageographic.com/feed/"
+   ],
+   "site_url": "https://africageographic.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "HTTP 500",
+   "tier_if_fixed": "B",
+   "notes": "Safari/conservation."
+  },
+  {
+   "name": "Petersen's Hunting",
+   "tried": [
+    "https://www.petersenshunting.com/rss",
+    "https://www.petersenshunting.com/feed"
+   ],
+   "site_url": "https://www.petersenshunting.com",
+   "beats": [
+    "wild"
+   ],
+   "reason": "HTTP 200 returns HTML, not RSS/Atom",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Your EDM",
+   "tried": [
+    "https://www.youredm.com/feed/"
+   ],
+   "site_url": "https://www.youredm.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 500",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Music Festival Wizard",
+   "tried": [
+    "https://www.musicfestivalwizard.com/feed/"
+   ],
+   "site_url": "https://www.musicfestivalwizard.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": "Festival lineups."
+  },
+  {
+   "name": "Third Wave",
+   "tried": [
+    "https://thethirdwave.co/feed/"
+   ],
+   "site_url": "https://thethirdwave.co",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "stale: latest item 97.9 days old",
+   "tier_if_fixed": "C",
+   "notes": "Commercial (sells courses)."
+  },
+  {
+   "name": "Psychedelic Science Review",
+   "tried": [
+    "https://psychedelicreview.com/feed/"
+   ],
+   "site_url": "https://psychedelicreview.com",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "stale: latest item 797.9 days old",
+   "tier_if_fixed": "B",
+   "notes": ""
+  },
+  {
+   "name": "Le Parisien – Paris",
+   "tried": [
+    "https://feeds.leparisien.fr/leparisien/rss/paris-75"
+   ],
+   "site_url": "https://www.leparisien.fr/paris-75/",
+   "beats": [
+    "hot"
+   ],
+   "reason": "valid feed but items carry no dates (fails date rule)",
+   "tier_if_fixed": "B",
+   "notes": "Research target."
+  },
+  {
+   "name": "Galapagos Conservancy",
+   "tried": [
+    "https://www.galapagos.org/feed/"
+   ],
+   "site_url": "https://www.galapagos.org",
+   "beats": [
+    "wild",
+    "hot"
+   ],
+   "reason": "stale: latest item 5241.8 days old",
+   "tier_if_fixed": "B",
+   "notes": "Research target."
+  },
+  {
+   "name": "Jetsetter",
+   "tried": [
+    "https://www.jetsetter.com/feed"
+   ],
+   "site_url": "https://www.jetsetter.com",
+   "beats": [
+    "adults-only"
+   ],
+   "reason": "stale: latest item 825.0 days old",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "TTG",
+   "tried": [
+    "https://www.ttgmedia.com/rss"
+   ],
+   "site_url": "https://www.ttgmedia.com",
+   "beats": [
+    "hot"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "C",
+   "notes": "Trade."
+  },
+  {
+   "name": "Hotelier Middle East",
+   "tried": [
+    "https://www.hoteliermiddleeast.com/feed"
+   ],
+   "site_url": "https://www.hoteliermiddleeast.com",
+   "beats": [
+    "adults-only"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Wirecutter",
+   "tried": [
+    "https://www.nytimes.com/wirecutter/rss/"
+   ],
+   "site_url": "https://www.nytimes.com/wirecutter",
+   "beats": [
+    "gear"
+   ],
+   "reason": "HTTP 403 to a generic bot User-Agent (blocked)",
+   "tier_if_fixed": "A",
+   "notes": ""
+  },
+  {
+   "name": "Padel Magazine UK",
+   "tried": [
+    "https://padelmagazine.co.uk/feed/"
+   ],
+   "site_url": "https://padelmagazine.co.uk",
+   "beats": [
+    "new-sports"
+   ],
+   "reason": "ConnectionError",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Luxury Travel Magazine",
+   "tried": [
+    "https://www.luxurytravelmagazine.com/rss.xml"
+   ],
+   "site_url": "https://www.luxurytravelmagazine.com",
+   "beats": [
+    "adults-only"
+   ],
+   "reason": "HTTP 404",
+   "tier_if_fixed": "C",
+   "notes": ""
+  },
+  {
+   "name": "Filter",
+   "tried": [
+    "https://filtermag.org/feed/"
+   ],
+   "site_url": "https://filtermag.org",
+   "beats": [
+    "psychedelic"
+   ],
+   "reason": "stale: latest item 42.9 days old",
+   "tier_if_fixed": "B",
+   "notes": "Drug-policy journalism."
+  }
+ ],
+ "volume_estimate_2026_09_24": {
+  "window": "items published in the 24h before the check, across all live feeds",
+  "fetched": 1016,
+  "after_canonical_url_and_title_dedupe": 971,
+  "after_topic_prefilter": 466,
+  "commercial_to_review_lane_no_jev": 26,
+  "after_per_source_daily_cap_A6_B4_C2": 249,
+  "jev_requests": 249,
+  "avg_input_tokens_per_request_est": 757,
+  "jev_price_usd_per_mtok_input": 0.042,
+  "jev_price_source": "https://docs.typesafe.ai/models.md (Jev 1.13; output tokens free)",
+  "est_daily_jev_usd": 0.008
+ }
+}

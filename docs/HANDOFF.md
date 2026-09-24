@@ -64,6 +64,30 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
   - Also fixed: S1–S4, S6, and the nits.
   - S5, a durable daily budget, is still an **open blocker for a public launch**. The caps are per instance.
 
+## Where we are (end of 2026-09-24 session)
+
+- **Waiting on the owner to approve the plan:** https://claude.ai/artifact/Kz7L6DgjJ7wPpPSZgLNCrN (copy in `docs/plans/2026-09-24-lets-vibe.html`; agent notes in `docs/plans/2026-09-24-lets-vibe-agent-notes.md`).
+  - It covers the Stage (a full-page voice screen), the Your Vibe rename, the streaming trip canvas, Jev as the ranker (Jev doesn't stream), the personalized homepage, and 4 phases.
+- **Source library:** 141 live feeds plus 57 dropped ones with reasons, in `docs/research/source-library-2026-09-24.json`.
+- **Supabase project "dope.travel"** (ref `lkexkbygtdsunicqkrgd`, Canada Central) was created by the owner.
+  - Migrations 001–005 are not applied yet.
+  - The Supabase connector could only see another org's projects, so the owner is reconnecting it to the right org. After that, apply the migrations with him watching (HIGH_CAPABILITY), run `get_advisors`, and put the keys in Vercel.
+- **Vercel connector:** it can list projects but gets 404/403 on the `world-events-map-onq7` project's env vars and deployments, so the owner sets env vars by hand for now.
+- **Open owner decisions:**
+  - Launch now with voice and live research off in Production, or wait for the durable budget (phase 4).
+  - Permission to query Treg's free catalog (Hotels/Events/Ticketmaster coverage).
+  - The Jev video link he meant.
+- **Before a public launch:** flip `robots: { index: false }` in `src/app/layout.tsx`, merge to `main` via a PR (only when he asks), and turn off Vercel Authentication for Production.
+- **Mobile audit:** fixed in aa663c9. Remaining P1/P2 items:
+  - home hero first on phones
+  - /now CLS
+  - a sticky CTA dock on the designer
+  - 15px body copy
+  - notices after the first action
+  - profile switcher on phones
+  - Fraunces subset
+  - lazy globe on phones
+
 ## Next up, in order
 
 1. ~~Verify Treg~~ Done 2026-09-24. Both pinned endpoints exist in the catalog and returned live data (Instagram $0.0015, TikTok $0.0007).
