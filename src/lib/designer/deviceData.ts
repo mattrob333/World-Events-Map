@@ -109,6 +109,8 @@ export function clearDeviceData(storage: KeyStore | null = browserStorage()): vo
   clearResearchCache(storage);
   try {
     storage?.removeItem(DESIGNER_STORAGE_KEY);
+    // The mood board's autosaved draft lives in sessionStorage.
+    if (typeof window !== 'undefined') window.sessionStorage?.removeItem('meridian.designer.draftBoard.v1');
   } catch {
     // Blocked storage: nothing was persisted.
   }

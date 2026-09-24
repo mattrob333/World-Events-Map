@@ -117,7 +117,7 @@ function IdentityStrip({ profile, onChange }: { profile: TravelerProfile; onChan
         Did we get you right?
       </p>
       <p className={`${styles.hint} mt-1`}>Fix anything we misheard. Trips use your home city for fares and your crew for rooms and picks.</p>
-      <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_96px_1.4fr]">
+      <div className="mt-3 grid grid-cols-[1fr_88px] gap-3 sm:grid-cols-[1fr_96px_1.4fr]">
         <label className={styles.label}>
           Name
           <input
@@ -146,7 +146,7 @@ function IdentityStrip({ profile, onChange }: { profile: TravelerProfile; onChan
             }}
           />
         </label>
-        <label className={styles.label}>
+        <label className={`${styles.label} col-span-2 sm:col-span-1`}>
           Home city
           <input
             className={styles.input}

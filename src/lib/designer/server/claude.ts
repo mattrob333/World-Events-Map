@@ -32,6 +32,7 @@ const ProfileSchema = z.object({
   heritage: z.array(z.string()),
   teams: z.array(z.string()),
   music: z.array(z.string()),
+  artists: z.array(z.string()),
   events: z.array(z.string()),
   family: z.array(
     z.object({
@@ -52,7 +53,7 @@ const PROFILE_SYSTEM = `You sort a traveler's spoken ramble into a travel profil
 Record only what the speaker actually said. Never guess ages, names, teams, or nationalities that were not stated; use null or an empty list instead.
 Normalize names (for example "the Braves" becomes "Atlanta Braves" only when the speaker's context makes the team unambiguous).
 "family" covers the people they travel with; put a partner's stated nationality in that member's "note" and in "heritage".
-"events" are concerts, festivals, and live events they mention. "favoriteTrips" are places they have been and loved.
+"music" is genres and styles; "artists" are specific bands and musicians they name (as stated, properly capitalized). "events" are concerts, festivals, and live events they mention. "favoriteTrips" are places they have been and loved.
 "summary" is one warm sentence in second person ("You're…") built only from stated facts.
 The transcript comes from speech-to-text, so fix obvious transcription slips but do not add facts.`;
 

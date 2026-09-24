@@ -113,17 +113,15 @@ describe('Wikimedia photo selection', () => {
 });
 
 describe('Commons pixel size', () => {
-  it('keeps the original width and height so the client can pick standard thumbnails', async () => {
-    const { selectCommonsPhotos } = await import('./media');
-    const { EVENT_INDEX } = await import('@/lib/data/events');
-    const event = EVENT_INDEX.get('monaco-yacht-show')!;
+  it('keeps the original width and height so the client can pick standard thumbnails', () => {
+    const monaco = EVENT_INDEX.get('monaco-yacht-show')!;
     const [photo] = selectCommonsPhotos({ 1: {
       title: 'File:Monaco Yacht Show 2024.jpg',
       imageinfo: [{ mime: 'image/jpeg', width: 4000, height: 3000,
         thumburl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/M.jpg/1280px-M.jpg',
         descriptionurl: 'https://commons.wikimedia.org/wiki/File:Monaco_Yacht_Show_2024.jpg',
         extmetadata: { LicenseShortName: { value: 'CC BY 4.0' } } }],
-    } }, event, 'event');
+    } }, monaco, 'event');
     expect(photo).toMatchObject({ width: 4000, height: 3000 });
   });
 });
