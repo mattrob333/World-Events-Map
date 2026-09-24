@@ -44,12 +44,25 @@ The owner is on mobile a lot. Test every UI change at phone width (390×844) as 
 |---|---|---|
 | Connected | `TYPESAFE_API_KEY` | Jev |
 | Connected | `TREG_TOKEN` | Verified 2026-09-24 in the Claude environment. **Also add it to the Vercel project `world-events-map-onq7` (Preview + Production)** or the research panel says "not connected" there. |
-| Connected but unused | `OPENAI_API_KEY` | |
+| Connected | `OPENAI_API_KEY` | Voice (the Sun). Also needs **`VOICE_ENABLED=1`**; voice stays off without it. Put both in Vercel Preview only until the budget is durable (review S5). |
 | Still needed | `ANTHROPIC_API_KEY` + `MERIDIAN_DESIGNER_AI=on` | AI parsing and curation |
 | Still needed | `NEXT_PUBLIC_SPOTIFY_CLIENT_ID` + `SPOTIFY_CLIENT_SECRET` | Spotify |
 | Still needed | `TICKETMASTER_API_KEY` | Event feed |
 | Optional | `SEATGEEK_CLIENT_ID` | Second event feed |
 | Still needed | `BESTTIME_API_KEY_PRIVATE` + Supabase keys | NOW |
+
+## Agent-first work (2026-09-24)
+
+See `docs/AGENTIC-PLAN.md` for the plan and its status.
+- **Built:** the Sun voice concierge (server-side call setup, a hard time cap, and the caveman typing fallback); travel profiles with a header switcher; pick up where you left off; and a rotating pool of 35 hero photos, all licensed and credited.
+- **Scaffolded:** The Wire's beats and story rules. The daily scout is specified in `docs/agents/daily-scout.md` but not running; it needs Anthropic/Supabase keys and a reviewed migration.
+- New env vars:
+  - `VOICE_ENABLED`, `VOICE_MAX_SECONDS`, `VOICE_DAILY_SESSIONS`, `VOICE_REALTIME_MODEL`.
+  - `EXTRA_ALLOWED_ORIGINS`: comma-separated extra hosts, e.g. `www.` plus the apex domain.
+- **Senior review (a Claude stand-in; Astra was not available and did not review):**
+  - Blocking items fixed: B1, voice cost; B2, two ReDoS patterns in the profile parser.
+  - Also fixed: S1–S4, S6, and the nits.
+  - S5, a durable daily budget, is still an **open blocker for a public launch**. The caps are per instance.
 
 ## Next up, in order
 

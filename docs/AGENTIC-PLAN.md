@@ -16,10 +16,14 @@ Owner brief (2026-09-24): make the site agentic and seamless. No forms: anywhere
 
 - **One component, everywhere:** `<SunButton intent="…">` opens `<SunModal>`. Pages pass an *intent* and a *tool set*: the trip designer ("where, when, who"), the mood board ("tell us about you"), NOW ("where are you, what do you feel like"), join ("who are you"), votes ("love it / pass").
 - **The orb:** a canvas sun rising over water. A gradient disc in the golden-hour colors cut by horizon bands like the logo, reflected in the water below with a slow shimmer. It breathes gently at rest, swells with the traveler's voice (mic level), and ripples when the agent speaks (remote audio level). Honors reduced motion.
-- **Session:** `POST /api/voice/session` (same-origin, rate limited, daily session cap, 5-minute key) returns an ephemeral key with page-specific instructions and tool schemas. The browser opens WebRTC to OpenAI, streams mic audio, plays the agent's voice, and executes function calls locally, returning results.
+- **Session:** the browser posts its WebRTC offer to `POST /api/voice/session`, which is same-origin, rate limited and daily capped.
+  - The server opens the call with OpenAI using the server key and the page's instructions and tool allowlist, then returns the answer.
+  - It hangs the call up server-side at the time cap.
+  - The browser executes function calls locally.
+  - Note: the browser can still send `session.update` on its own call, so the allowlist sets the starting config but isn't a hard boundary. Cost is bounded by the time cap, the limiter and the daily cap.
 - **Tools (client-side):** `set_trip_basics` (place, region, dates, nights, hometown), `set_crew` (people, kids' ages), `update_profile` (name, hometown, teams, artists, food, travel style), `switch_profile`, `create_trip` (compose and open), `vote` (love or pass the card on screen), `look_around` (tap-equivalent for paid research), `navigate` (a route in the app), `open_now` (city, mood).
 - **Fallback:** "Type instead like a caveman" swaps the orb for a text box that talks to the same agent over the data channel. With no key configured or the mic denied, it falls back to the existing on-device parser and forms, stated plainly.
-- **Cost guard:** daily session cap (`VOICE_DAILY_SESSIONS`), 5-minute sessions, same-origin boundary. Realtime audio is priced per minute of audio tokens; keep sessions short and task-focused.
+- **Cost guard:** a daily session cap (`VOICE_DAILY_SESSIONS`) and a server-side hang-up at `VOICE_MAX_SECONDS`. The caps are per instance until the durable budget exists (review S5), so keep voice on Preview until then.
 
 ## 2. Pick up where you left off
 
@@ -46,14 +50,17 @@ Profiles already save on the device (up to 12). Add an **active profile** ("Trav
 
 ## Build order
 
-1. The Sun (voice modal, orb, session route, designer and mood board tools, caveman fallback). *(this session)*
-2. Active travel profiles and the switcher. *(this session)*
-3. Pick up where you left off. *(this session)*
-4. Rotating hero pool from licensed Commons photos (static JSON), with city labels and credits. *(this session)*
-5. The Wire: beats, schema, and the scheduled agent. *(needs keys and storage: see Needs)*
+1. **Done.** The Sun: `SunOrb`, `SunModal` ("Type instead like a caveman"), the header Talk button, and `useRealtime`. Page tools cover the trip designer, mood board and NOW, plus `switch_profile` and `navigate`.
+   - The server does the SDP exchange, so the browser never holds a key, and it hangs the call up at `VOICE_MAX_SECONDS` (default 240). This fixes review B1.
+   - Voice is off unless `VOICE_ENABLED=1`.
+2. **Done.** Active travel profiles: the "As: Family / Solo / Crew" switcher, used by the designer crew, NOW taste and the Sun's context.
+3. **Done.** Pick up where you left off: the first front-door visit in a session opens the trip in progress; later visits show a Continue bar.
+4. **Done.** Hero pool: 35 licensed Commons photos in 27 places (`src/lib/hero/pool.json`, `public/hero-pool/`, `scripts/hero-pool.mjs`).
+   - Each visit gets a run with unseen photos first, crossfading slowly. Every photo is labelled with its place and credited.
+5. **Scaffolded.** The Wire: beats and story rules in `src/lib/wire/beats.ts`; agent spec in `docs/agents/daily-scout.md`. *(Running it needs keys and storage: see Needs.)*
 6. Durable pool refresh and story storage. *(needs Supabase)*
 
 ## What the owner needs to provide
 
-- `OPENAI_API_KEY` in the Vercel project (Preview first) for voice.
+- `OPENAI_API_KEY` **and `VOICE_ENABLED=1`** in the Vercel project (Preview first) for voice. Optional: `VOICE_MAX_SECONDS` (30–280, default 240), `VOICE_DAILY_SESSIONS` (default 60), `VOICE_REALTIME_MODEL`.
 - For the daily agent and The Wire: `ANTHROPIC_API_KEY`, Supabase keys (with migrations applied), optionally `EXA_API_KEY`, `PEXELS_API_KEY` or `UNSPLASH_ACCESS_KEY`.

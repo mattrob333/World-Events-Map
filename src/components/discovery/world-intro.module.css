@@ -61,6 +61,44 @@
   background: url('/meridian-social-moments.webp') center 46% / cover no-repeat;
   animation: heroMood 22s ease-in-out 3s infinite;
 }
+/* The living photo pool sits over the collage and crossfades slowly. */
+.heroPool { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.heroPool img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 45%;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 1.6s ease, transform 10s linear;
+}
+.heroPool img.heroPoolOn { opacity: 1; transform: scale(1.0); }
+.heroPlace {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 4px 10px;
+  max-width: min(560px, 70%);
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-ink-subtle);
+  text-align: right;
+}
+.heroPlaceName { color: var(--color-bone); font-weight: 600; letter-spacing: 0.01em; }
+.heroPlaceName span { color: var(--color-saffron); }
+.heroPlace a { color: var(--color-ink-subtle); text-decoration: none; }
+.heroPlace a:hover { color: var(--color-ink-soft); text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) {
+  .heroPool img { transition: opacity 0.2s linear; transform: none; }
+  .heroPool img.heroPoolOn { transform: none; }
+}
+
 /* Evening-sky scrim: cool on the copy side, open over the photo, and a long
    fade into the page so the hero has no hard bottom edge. */
 .heroShade {
@@ -628,7 +666,7 @@
   .heroCopy { width: 70%; }
   .heroCopy h1 { font-size: clamp(44px, 7vw, 65px); }
   .routePass { width: min(400px, 55%); right: 5%; bottom: 34px; }
-  .imageDisclosure { right: 5%; bottom: 10px; }
+  .imageDisclosure, .heroPlace { right: 5%; bottom: 10px; }
   .tripFinder { padding-inline: 5%; }
   .finderIntro { gap: 16px; }
   .finderSelection { min-width: 0; max-width: 300px; grid-template-columns: 1fr; row-gap: 4px; }
@@ -656,6 +694,8 @@
   .passMeta { flex-wrap: wrap; }
   .passMeta strong { text-align: left; }
   .imageDisclosure { position: static; display: block; margin-top: 12px; }
+  .hero:has(.heroPlace) { padding-bottom: 64px; }
+  .heroPlace { left: 16px; right: 16px; bottom: 12px; max-width: none; justify-content: flex-start; text-align: left; }
   .tripFinder { padding: 40px 16px 24px; }
   .finderIntro { display: block; }
   .finderIntro h2 { font-size: 32px; }

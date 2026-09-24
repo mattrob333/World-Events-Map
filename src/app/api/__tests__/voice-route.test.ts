@@ -8,7 +8,7 @@ import { resetDailyBudgetsForTests } from '@/lib/designer/server/dailyBudget';
 import { resetDesignerLimitsForTests } from '@/lib/designer/server/guard';
 import { callIdFrom, voiceSessionConfig } from '@/lib/voice/session';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
-import { POST } from '../voice/session/route';
+import { GET, POST } from '../voice/session/route';
 
 const OFFER = 'v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\n';
 
@@ -41,6 +41,14 @@ afterEach(() => {
   resetDesignerLimitsForTests();
   resetDailyBudgetsForTests();
   vi.useRealTimers();
+});
+
+describe('GET /api/voice/session', () => {
+  it('reports whether voice is on without revealing anything else', async () => {
+    expect(await GET().json()).toEqual({ enabled: true });
+    vi.stubEnv('VOICE_ENABLED', '0');
+    expect(await GET().json()).toEqual({ enabled: false });
+  });
 });
 
 describe('POST /api/voice/session', () => {

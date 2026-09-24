@@ -94,9 +94,23 @@ function SunSession() {
   const beginRef = useRef(begin);
   const stopRef = useRef(rt.stop);
   useEffect(() => {
-    void beginRef.current(true);
+    let cancelled = false;
+    void fetch('/api/voice/session', { cache: 'no-store' })
+      .then((response) => (response.ok ? (response.json() as Promise<{ enabled?: boolean }>) : { enabled: false }))
+      .catch(() => ({ enabled: false }))
+      .then(({ enabled }) => {
+        if (cancelled) return;
+        if (enabled) void beginRef.current(true);
+        else {
+          setVoiceOff(true);
+          setTyping(true);
+        }
+      });
     const stop = stopRef.current;
-    return () => stop('idle');
+    return () => {
+      cancelled = true;
+      stop('idle');
+    };
   }, []);
 
   useEffect(() => {
@@ -135,7 +149,7 @@ function SunSession() {
   };
 
   const orbTap = () => {
-    if (rt.live || rt.phase === 'connecting') return;
+    if (voiceOff || rt.live || rt.phase === 'connecting') return;
     setTyping(false);
     void begin(true);
   };
@@ -205,7 +219,9 @@ function SunSession() {
           </button>
         )}
         <p className="text-center text-[11px] leading-snug text-ink-subtle">
-          Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.
+          {voiceOff
+            ? 'What you type stays on this device.'
+            : 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'}
         </p>
       </div>
     </div>

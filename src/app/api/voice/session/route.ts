@@ -21,6 +21,11 @@ const CALLS_URL = 'https://api.openai.com/v1/realtime/calls';
  * instructions or tools mid-call; that only affects its own call, and the
  * cost is bounded by the time cap, the per-client limiter and the daily cap.
  */
+/** Whether voice is on, so the modal can skip the mic prompt when it isn't. */
+export function GET() {
+  return jsonOk({ enabled: process.env.VOICE_ENABLED === '1' && Boolean(process.env.OPENAI_API_KEY) });
+}
+
 export async function POST(request: Request) {
   const boundary = checkBoundary(request);
   if (boundary) return boundary;

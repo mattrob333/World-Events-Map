@@ -12,6 +12,7 @@ import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
+import { HeroPool } from './HeroPool';
 
 type RadarPick = { event: WorldEvent; slug: string };
 
@@ -322,6 +323,7 @@ export function WorldIntro({
     <section className={styles.intro} aria-label="Discover your next journey">
       <div className={styles.hero}>
         <div className={styles.heroPhoto} role="img" aria-label="Illustrative collage of a rooftop gathering, ski terrace, yacht trip, and beach escape" />
+        <HeroPool />
         <div className={styles.heroShade} aria-hidden="true" />
         <div className={styles.heroCopy}>
           <span className={styles.kicker}><span aria-hidden="true">✦</span> THE WORLD IS AN INVITATION</span>
@@ -363,7 +365,6 @@ export function WorldIntro({
           <small className={styles.passFoot}>{estimate ? 'Indicative straight-line distance and airtime; no live flight schedule.' : 'Flight animation begins from your current globe view.'}</small>
           {displayedFeaturedPhoto && <a className={styles.passCredit} href={displayedFeaturedPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {displayedFeaturedPhoto.credit} · {displayedFeaturedPhoto.license} ↗</a>}
         </div>}
-        <span className={styles.imageDisclosure}>Illustrative travel imagery · editorial concept</span>
       </div>
 
       <section className={styles.tripFinder} aria-labelledby="trip-finder-title">
