@@ -320,7 +320,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
     >
       {!providerConfigured && (
         <p className={`${styles.connectionNote} ${styles.connectionNoteTop}`} role="note">
-          <strong>Not connected yet:</strong> venue-by-venue picks (distance, how busy) need a provider this preview doesn&apos;t have. The ideas below are Maps searches, and your location is not requested.
+          <strong>Not connected yet:</strong> venue-by-venue picks (distance, how busy) aren&apos;t in this preview, so the ideas below are Maps searches. Your location isn&apos;t requested.
         </p>
       )}
       <NowForYou initialCity={initialCity} onCity={setCity} />

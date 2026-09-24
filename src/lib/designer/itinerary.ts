@@ -87,9 +87,19 @@ export function resolveDestination(trip: Pick<Itinerary, 'destination' | 'place'
   return DESTINATION_INDEX.get(trip.destination);
 }
 
+/**
+ * Trips saved before the live-music card was renamed still carry its old
+ * title, which promised tonight's shows that a Maps search can't know.
+ */
+function retitle(card: DesignerCard): DesignerCard {
+  const old = /^Live music tonight in (.+)$/.exec(card.title);
+  if (!old || card.destination !== 'custom') return card;
+  return { ...card, title: `Find a live-music bar in ${old[1]}`, blurb: 'A Maps search for bars that usually have a band. Check their page for tonight.' };
+}
+
 /** Looks up a card by id, including a typed-in place's generated cards. */
 export function cardLookup(trip: Pick<Itinerary, 'cards'> | null | undefined): (id: string) => DesignerCard | undefined {
-  const extra = new Map((trip?.cards ?? []).map((card) => [card.id, card]));
+  const extra = new Map((trip?.cards ?? []).map((card) => [card.id, retitle(card)]));
   return (id) => extra.get(id) ?? CARD_INDEX.get(id);
 }
 

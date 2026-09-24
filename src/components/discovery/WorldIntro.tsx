@@ -7,6 +7,7 @@ import { addDays, daysBetween, useTimelineStore } from '@/lib/stores/useTimeline
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { approvedWikimediaUrl, type PlacePhoto } from '@/lib/place-media/media';
 import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curated';
+import { photoImageProps } from '@/lib/place-media/sources';
 import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
@@ -114,7 +115,7 @@ function RadarCard({ pick, index, onTravel }: { pick: RadarPick; index: number; 
         {photo && !imageFailed ? (
           // Commons URLs are validated by the server and again above before display.
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={photo.imageUrl} alt="" loading={index < 2 ? 'eager' : 'lazy'} onError={() => setImageFailed(true)} />
+          <img {...photoImageProps(photo, 'card')} alt="" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" referrerPolicy="no-referrer" onError={() => setImageFailed(true)} />
         ) : null}
       </div>
       <button type="button" className={styles.cardFlight} onClick={() => onTravel(event, imageFailed ? null : photo)} aria-label={`Fly across the globe to ${event.city} for ${event.name}`}>
@@ -346,7 +347,7 @@ export function WorldIntro({
             {displayedFeaturedPhoto ? (
               // Curated images are local; Commons search results were checked before storage.
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={displayedFeaturedPhoto.imageUrl} alt="" onError={() => setFailedFeaturedImage(displayedFeaturedPhoto.imageUrl)} />
+              <img {...photoImageProps(displayedFeaturedPhoto, 'pass')} alt="" decoding="async" referrerPolicy="no-referrer" onError={() => setFailedFeaturedImage(displayedFeaturedPhoto.imageUrl)} />
             ) : null}
             <span>{displayedFeaturedPhoto ? photoArchiveLabel(displayedFeaturedPhoto) : 'Photo being sourced'}</span>
           </div>

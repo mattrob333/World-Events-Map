@@ -204,7 +204,7 @@ export function ScenePlaybook({
           </div>
           {feedsOff ? (
             <p className="mt-2 text-[13px] leading-5 text-ink-muted">
-              Gig listings aren’t connected, so we can’t see who’s playing {tonight ? 'tonight' : 'on your dates'}; these open Maps searches for bars that usually have a band.
+              Gig listings aren’t connected, so we can’t see who’s playing {tonight ? 'tonight' : startDate ? 'on your dates' : 'there'}; these open Maps searches for bars that usually have a band.
             </p>
           ) : null}
           {current.events.length ? (

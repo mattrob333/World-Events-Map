@@ -2,24 +2,33 @@
 
 import { useState } from 'react';
 import { listeningInsights, parsePlaylistRef, type ListeningProfile } from '@/lib/designer/listening';
-import { spotifyClientId, startSpotifyConnect } from '@/lib/designer/spotify';
+import { startSpotifyConnect } from '@/lib/designer/spotify';
 import styles from './designer.module.css';
 
 type ReadResult = { listening?: ListeningProfile; error?: string; code?: string };
+
+/** What the server can do with Spotify, from serverCapabilities(); never guessed on the client. */
+export type SpotifyCapabilities = { spotifyPlaylist: boolean; spotifySignIn: boolean };
+
+const NAME_ARTISTS = 'Name the artists you love in your ramble above (for example “Foo Fighters, Pearl Jam, Tom Petty”) and we’ll pick them up.';
 
 export function SpotifyPanel({
   listening,
   onDisconnect,
   onImported,
+  capabilities,
 }: {
   listening: ListeningProfile | null;
   onDisconnect: () => void;
   onImported: (listening: ListeningProfile) => void;
+  capabilities: SpotifyCapabilities;
 }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [playlist, setPlaylist] = useState('');
-  const configured = Boolean(spotifyClientId());
+  const configured = capabilities.spotifySignIn;
+  const canRead = capabilities.spotifyPlaylist;
+  const available = configured || canRead;
   const playlistOk = !playlist.trim() || parsePlaylistRef(playlist) !== null;
 
   /** Public playlists are read by the app without a sign-in; anything else goes through Spotify sign-in. */
@@ -27,7 +36,12 @@ export function SpotifyPanel({
     const ref = parsePlaylistRef(playlist);
     if (!ref) return;
     setError('');
-    if (ref.kind === 'liked') return connect();
+    // Liked Songs, or a server that can't read public links: the playlist is read through the traveler's own sign-in.
+    if ((ref.kind === 'liked' || !canRead) && !configured) {
+      setError('Liked Songs needs Spotify sign-in, which isn’t set up on this site. Paste a public playlist link instead.');
+      return;
+    }
+    if (ref.kind === 'liked' || !canRead) return connect();
     setBusy(true);
     try {
       const response = await fetch('/api/designer/playlist', {
@@ -44,7 +58,7 @@ export function SpotifyPanel({
       }
       if (body.code === 'NOT_CONFIGURED') {
         if (configured) return connect();
-        throw new Error('Spotify isn’t hooked up on this app yet. For now, name your favorite artists and genres in your ramble above.');
+        throw new Error(`Spotify isn’t connected on this site yet. ${NAME_ARTISTS}`);
       }
       throw new Error(body.error ?? 'Spotify didn’t respond. Try again in a minute.');
     } catch (cause) {
@@ -100,6 +114,7 @@ export function SpotifyPanel({
             ))}
           </ul>
         ) : null}
+        {available ? (
         <details className="mt-3">
           <summary className="cursor-pointer text-[12.5px] text-ink-muted">Re-read from a specific playlist</summary>
           <label className={`${styles.label} mt-3`}>
@@ -109,16 +124,17 @@ export function SpotifyPanel({
               value={playlist}
               inputMode="url"
               autoComplete="off"
-              placeholder="https://open.spotify.com/playlist/… or “liked”"
+              placeholder={configured ? 'https://open.spotify.com/playlist/… or “liked”' : 'https://open.spotify.com/playlist/…'}
               onChange={(e) => setPlaylist(e.target.value)}
               aria-invalid={!playlistOk}
             />
           </label>
-          {!playlistOk ? <p className={styles.hint}>Paste a link from Share → Copy link to playlist, or type “liked” for your Liked Songs.</p> : null}
+          {!playlistOk ? <p className={styles.hint}>Paste a link from Share → Copy link to playlist{configured ? ', or type “liked” for your Liked Songs' : ''}.</p> : null}
           <button type="button" className={`${styles.miniBtn} mt-2`} onClick={readLink} disabled={busy || !playlistOk || !playlist.trim()}>
             {busy ? 'Opening Spotify…' : 'Read this playlist'}
           </button>
         </details>
+        ) : null}
         {error ? (
           <p className={styles.error} role="alert">
             {error}
@@ -126,6 +142,25 @@ export function SpotifyPanel({
         ) : null}
         <p className={styles.hint}>
           Read once, with read-only access, and summarized on this device. dope.travel never stores your Spotify login, and only this summary is saved, on this device only.
+        </p>
+      </section>
+    );
+  }
+
+  if (!available) {
+    return (
+      <section className={styles.spotify} aria-labelledby="spotify-title">
+        <div className={styles.row}>
+          <span className={styles.spotifyMark} aria-hidden>
+            ●
+          </span>
+          <h2 id="spotify-title" className="text-[15px] font-semibold text-ink">
+            Your music
+          </h2>
+        </div>
+        <p className="mt-2 text-[13px] leading-5 text-ink-muted">
+          Spotify isn’t connected on this site yet, so there’s nothing to sign in to or paste. {NAME_ARTISTS} Your artists and genres
+          pace late nights, find shows, and spot tribute and cover bands.
         </p>
       </section>
     );
@@ -146,29 +181,29 @@ export function SpotifyPanel({
         nights, find shows by your artists, and spot tribute and cover bands.
       </p>
       <label className={`${styles.label} mt-3`}>
-        Got a favorites playlist? Paste it (optional)
+        {canRead ? 'Got a favorites playlist? Paste it (optional)' : 'Got a favorites playlist? Paste it and sign in to read it (optional)'}
         <input
           className={styles.input}
           value={playlist}
           inputMode="url"
           autoComplete="off"
-          placeholder="https://open.spotify.com/playlist/… or “liked”"
+          placeholder={configured ? 'https://open.spotify.com/playlist/… or “liked”' : 'https://open.spotify.com/playlist/…'}
           onChange={(e) => setPlaylist(e.target.value)}
           aria-invalid={!playlistOk}
         />
       </label>
-      {!playlistOk ? <p className={styles.hint}>Paste a link from Share → Copy link to playlist, or type “liked” for your Liked Songs.</p> : null}
+      {!playlistOk ? <p className={styles.hint}>Paste a link from Share → Copy link to playlist{configured ? ', or type “liked” for your Liked Songs' : ''}.</p> : null}
       <div className={`${styles.row} mt-3`}>
         {playlist.trim() ? (
           <button type="button" className={styles.spotifyBtn} onClick={readLink} disabled={busy || !playlistOk}>
-            {busy ? 'Reading the playlist…' : 'Read this playlist'}
+            {busy ? (canRead ? 'Reading the playlist…' : 'Opening Spotify…') : canRead ? 'Read this playlist' : 'Sign in and read it'}
           </button>
-        ) : (
-          <button type="button" className={styles.spotifyBtn} onClick={connect} disabled={!configured || busy}>
+        ) : configured ? (
+          <button type="button" className={styles.spotifyBtn} onClick={connect} disabled={busy}>
             {busy ? 'Opening Spotify…' : 'Connect Spotify'}
           </button>
-        )}
-        {!configured && !playlist.trim() ? <span className={styles.hint}>Sign-in isn’t set up yet; paste a public playlist link instead.</span> : null}
+        ) : null}
+        {!configured && !playlist.trim() ? <span className={styles.hint}>Spotify sign-in isn’t set up on this site; a public playlist link works without it.</span> : null}
       </div>
       {error ? (
         <p className={styles.error} role="alert">
@@ -176,10 +211,12 @@ export function SpotifyPanel({
         </p>
       ) : null}
       <p className={styles.hint}>
-        A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary
-        on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix
-        playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the
-        owner has added can connect.
+        {canRead
+          ? 'A public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. '
+          : 'We read the playlist after you sign in, summarize it, and keep only the summary on this device. '}
+        {configured ? 'Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. ' : ''}
+        Spotify’s own editorial and mix playlists can’t be read by apps.
+        {configured ? ' While the app is in Spotify’s development mode, only accounts the owner has added can connect.' : ''}
       </p>
     </section>
   );

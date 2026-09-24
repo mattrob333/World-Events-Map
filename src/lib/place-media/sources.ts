@@ -58,17 +58,18 @@ function commonsSrcSet(imageUrl: string, originalWidth?: number): { src: string;
   const [, a, ab, name] = (thumb ?? original)!;
   const suffix = thumb ? thumb[5] : name;
   if (!thumb && byteLength(name) > MAX_THUMB_NAME_BYTES) return null;
-  // A thumbnail URL caps the useful widths at its own; an original at its known
-  // width. Wikimedia cannot upscale, so an original of unknown width gets none.
-  const cap = thumb ? Number(thumb[4]) : originalWidth;
-  const widths = cap ? COMMONS_STANDARD_WIDTHS.filter((w) => w <= cap) : [];
+  // A thumbnail URL caps the useful widths at its own. For an original (Commons
+  // returns one when it is smaller than the 1280 we ask for) the cap is the first
+  // standard width that covers it: Wikimedia serves that thumbnail, while the
+  // original itself on upload.wikimedia.org is rate-limited for hotlinking.
+  const cap = thumb
+    ? Number(thumb[4])
+    : COMMONS_STANDARD_WIDTHS.find((w) => w >= (originalWidth ?? 960)) ?? COMMONS_STANDARD_WIDTHS.at(-1)!;
+  const widths = COMMONS_STANDARD_WIDTHS.filter((w) => w <= cap);
   if (!widths.length) return null;
   const url = (w: number) => `${COMMONS_THUMB_HOST}/wikipedia/commons/thumb/${a}/${ab}/${name}/${w}px-${suffix}`;
   const entries = widths.map((w) => `${url(w)} ${w}w`);
   const largest = widths.at(-1)!;
-  // A small original is its own best rendition beyond the last standard thumbnail.
-  const plainOriginal = original ? `https://upload.wikimedia.org${pathname}` : null;
-  if (plainOriginal && originalWidth && originalWidth > largest) entries.push(`${plainOriginal} ${originalWidth}w`);
   return { src: url(largest), srcSet: entries.join(', ') };
 }
 

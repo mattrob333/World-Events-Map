@@ -6,9 +6,13 @@ import { EXAMPLE_RAMBLE, bentoCards, hasBoardContent } from '@/lib/designer/mood
 import {
   MAX_RAMBLE_CHARS,
   emptyProfile,
+  normalizeProfile,
   parseProfileLocally,
+  profileArtists,
   summarize,
+  type FamilyMember,
   type ParseEngine,
+  type Relation,
   type TravelerProfile,
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
@@ -17,7 +21,7 @@ import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
 import { LiveShows } from './LiveShows';
 import { ScenePlaybook, usePersona } from './ScenePlaybook';
-import { SpotifyPanel } from './SpotifyPanel';
+import { SpotifyPanel, type SpotifyCapabilities } from './SpotifyPanel';
 import { TripIdeas } from './TripIdeas';
 import { useHydrated } from './useHydrated';
 import { useDictation } from './useDictation';
@@ -26,6 +30,7 @@ type Result = { profile: TravelerProfile; engine: ParseEngine; notice?: string }
 
 const FACT_GROUPS: { key: keyof TravelerProfile; title: string }[] = [
   { key: 'teams', title: 'Teams' },
+  { key: 'artists', title: 'Artists' },
   { key: 'music', title: 'Music' },
   { key: 'events', title: 'Concerts & festivals' },
   { key: 'favoriteTrips', title: 'Favorite trips' },
@@ -34,6 +39,178 @@ const FACT_GROUPS: { key: keyof TravelerProfile; title: string }[] = [
   { key: 'heritage', title: 'Roots' },
 ];
 
+/**
+ * The built board, kept for this tab until it's saved, so a reload doesn't
+ * lose it (UFR2-F16). Session storage: it clears when the tab closes, and
+ * saved boards live in the device store.
+ */
+const DRAFT_BOARD_KEY = 'meridian.designer.draftBoard.v1';
+
+type DraftBoard = { result: Result; boardId: string | null; saved: boolean };
+
+function readDraftBoard(): DraftBoard | null {
+  try {
+    const raw = JSON.parse(window.sessionStorage.getItem(DRAFT_BOARD_KEY) ?? 'null') as Partial<DraftBoard> & { result?: Partial<Result> } | null;
+    if (!raw?.result?.profile) return null;
+    return {
+      result: {
+        profile: normalizeProfile(raw.result.profile),
+        engine: raw.result.engine === 'claude' ? 'claude' : 'on-device',
+        notice: typeof raw.result.notice === 'string' ? raw.result.notice.slice(0, 300) : undefined,
+      },
+      boardId: typeof raw.boardId === 'string' && /^mb-[a-z0-9]{1,20}$/.test(raw.boardId) ? raw.boardId : null,
+      saved: raw.saved === true,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function writeDraftBoard(draft: DraftBoard | null) {
+  try {
+    if (draft) window.sessionStorage.setItem(DRAFT_BOARD_KEY, JSON.stringify(draft));
+    else window.sessionStorage.removeItem(DRAFT_BOARD_KEY);
+  } catch {
+    // Blocked or full storage: the board still works for this visit.
+  }
+}
+
+const CREW_OPTIONS: { label: string; relation: Relation }[] = [
+  { label: 'Wife', relation: 'partner' }, { label: 'Husband', relation: 'partner' }, { label: 'Partner', relation: 'partner' },
+  { label: 'Son', relation: 'child' }, { label: 'Daughter', relation: 'child' }, { label: 'Kid', relation: 'child' },
+  { label: 'Friend', relation: 'friend' }, { label: 'Mom', relation: 'parent' }, { label: 'Dad', relation: 'parent' },
+  { label: 'Brother', relation: 'sibling' }, { label: 'Sister', relation: 'sibling' },
+];
+
+function memberText(member: FamilyMember): string {
+  return [member.name, member.label, member.age !== undefined ? String(member.age) : '', member.note].filter(Boolean).join(' · ');
+}
+
+/** "Did we get you right?": name, age, home city and crew, all editable (UFR2-F01, F02, F16). */
+function IdentityStrip({ profile, onChange }: { profile: TravelerProfile; onChange: (patch: Partial<TravelerProfile>) => void }) {
+  // What's typed while an age is half-entered ("4" on the way to "44"); otherwise the profile's age shows.
+  const [ageText, setAgeText] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
+  const [crewName, setCrewName] = useState('');
+  const [crewLabel, setCrewLabel] = useState('Kid');
+  const [crewAge, setCrewAge] = useState('');
+
+  function addMember() {
+    const option = CREW_OPTIONS.find((o) => o.label === crewLabel) ?? CREW_OPTIONS[5];
+    const parsed = crewAge.trim() ? Number(crewAge) : undefined;
+    const member: FamilyMember = {
+      relation: option.relation,
+      label: option.label,
+      name: crewName.trim().slice(0, 40) || undefined,
+      age: parsed !== undefined && Number.isInteger(parsed) && parsed >= 0 && parsed <= 110 ? parsed : undefined,
+    };
+    onChange({ family: [...profile.family, member].slice(0, 12) });
+    setCrewName('');
+    setCrewAge('');
+    setAdding(false);
+  }
+
+  const guessed = profile.family.some((member) => member.guessed);
+  return (
+    <section className={`${styles.factGroup} mt-6`} aria-labelledby="identity-title">
+      <p id="identity-title" className={styles.factTitle}>
+        Did we get you right?
+      </p>
+      <p className={`${styles.hint} mt-1`}>Fix anything we misheard. Trips use your home city for fares and your crew for rooms and picks.</p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_96px_1.4fr]">
+        <label className={styles.label}>
+          Name
+          <input
+            className={styles.input}
+            value={profile.name ?? ''}
+            maxLength={40}
+            autoComplete="given-name"
+            placeholder="First name"
+            onChange={(e) => onChange({ name: e.target.value.slice(0, 40) || undefined })}
+          />
+        </label>
+        <label className={styles.label}>
+          Age
+          <input
+            className={styles.input}
+            value={ageText ?? (profile.age !== undefined ? String(profile.age) : '')}
+            inputMode="numeric"
+            maxLength={3}
+            placeholder="—"
+            onBlur={() => setAgeText(null)}
+            onChange={(e) => {
+              const next = e.target.value.replace(/\D/g, '').slice(0, 3);
+              setAgeText(next);
+              const n = Number(next);
+              onChange({ age: next && n >= 13 && n <= 110 ? n : undefined });
+            }}
+          />
+        </label>
+        <label className={styles.label}>
+          Home city
+          <input
+            className={styles.input}
+            value={profile.hometown ?? ''}
+            maxLength={80}
+            autoComplete="address-level2"
+            placeholder="Your home city (for fares)"
+            onChange={(e) => onChange({ hometown: e.target.value.slice(0, 80) || undefined })}
+          />
+        </label>
+      </div>
+      <p className={`${styles.factTitle} mt-4`}>Travels with</p>
+      <div className={styles.chips}>
+        {profile.family.map((member, i) => (
+          <span key={`${member.label}-${member.name ?? ''}-${i}`} className={styles.chip} style={member.guessed ? { borderStyle: 'dashed', opacity: 0.8 } : undefined}>
+            {memberText(member)}
+            {member.guessed ? <span className="text-ink-subtle"> · guessed</span> : null}
+            <button
+              type="button"
+              className={styles.chipX}
+              onClick={() => onChange({ family: profile.family.filter((_, j) => j !== i) })}
+              aria-label={`Remove ${memberText(member)}`}
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        {!adding ? (
+          <button type="button" className={styles.miniBtn} style={{ minHeight: 44 }} onClick={() => setAdding(true)}>
+            + add
+          </button>
+        ) : null}
+      </div>
+      {guessed ? <p className={`${styles.hint} mt-2`}>Dashed chips are a guess from “the kids”; remove any that aren’t real, or add them with ages.</p> : null}
+      {adding ? (
+        <div className="mt-3 flex flex-wrap items-end gap-2">
+          <label className={styles.label}>
+            Who
+            <select className={styles.input} value={crewLabel} onChange={(e) => setCrewLabel(e.target.value)} style={{ minHeight: 44 }}>
+              {CREW_OPTIONS.map((o) => (
+                <option key={o.label}>{o.label}</option>
+              ))}
+            </select>
+          </label>
+          <label className={styles.label}>
+            Name
+            <input className={styles.input} value={crewName} maxLength={40} placeholder="Optional" onChange={(e) => setCrewName(e.target.value)} />
+          </label>
+          <label className={styles.label} style={{ width: 80 }}>
+            Age
+            <input className={styles.input} value={crewAge} inputMode="numeric" maxLength={3} placeholder="—" onChange={(e) => setCrewAge(e.target.value.replace(/\D/g, ''))} />
+          </label>
+          <button type="button" className={styles.miniBtn} style={{ minHeight: 44 }} onClick={addMember}>
+            Add
+          </button>
+          <button type="button" className={styles.miniBtn} style={{ minHeight: 44 }} onClick={() => setAdding(false)}>
+            Cancel
+          </button>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 function removeFact(profile: TravelerProfile, key: keyof TravelerProfile, value: string): TravelerProfile {
   const list = profile[key];
   if (!Array.isArray(list)) return profile;
@@ -41,7 +218,15 @@ function removeFact(profile: TravelerProfile, key: keyof TravelerProfile, value:
   return { ...next, summary: profile.summary };
 }
 
-export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustConnected?: boolean }) {
+const NO_SPOTIFY: SpotifyCapabilities = { spotifyPlaylist: false, spotifySignIn: false };
+
+export function MoodboardStudio({
+  spotifyJustConnected = false,
+  capabilities = NO_SPOTIFY,
+}: {
+  spotifyJustConnected?: boolean;
+  capabilities?: SpotifyCapabilities;
+}) {
   const [result, setResult] = useState<Result | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -61,6 +246,25 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
 
   const router = useRouter();
 
+  // Bring back a board built in this tab but not saved yet; then keep it in step as it changes.
+  const restored = useRef(false);
+  useEffect(() => {
+    if (!mounted || restored.current) return;
+    restored.current = true;
+    if (result || spotifyJustConnected) return;
+    const draft = readDraftBoard();
+    if (!draft) return;
+    // One-time restore from session storage after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setResult(draft.result);
+    setBoardId(draft.boardId);
+    setSaved(draft.saved);
+  }, [mounted, result, spotifyJustConnected]);
+  useEffect(() => {
+    if (!restored.current) return;
+    writeDraftBoard(result ? { result, boardId, saved } : null);
+  }, [result, boardId, saved]);
+
   const append = useCallback((chunk: string) => {
     if (!chunk) return;
     const current = useDesignerStore.getState().draftRamble;
@@ -73,6 +277,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
   const cards = useMemo(() => (result ? bentoCards(result.profile) : []), [result]);
   const taste = useMemo(() => (result ? tasteFrom(result.profile) : null), [result]);
   const hasTaste = Boolean(taste && (taste.genres.length || taste.topArtists?.length));
+  const artists = useMemo(() => (result ? profileArtists(result.profile) : []), [result]);
   const board = result?.profile.listening;
   const persona = usePersona(hasTaste ? taste : null, {
     listeningHours: board?.nightOwl !== undefined ? `${Math.round(board.nightOwl * 100)}% of plays after 10 pm` : undefined,
@@ -161,6 +366,21 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
     setSaved(false);
   }
 
+  /** Identity and crew edits. A board that's already saved is updated in place, so the designer sees the fix. */
+  function correct(patch: Partial<TravelerProfile>) {
+    if (!result) return;
+    const next = { ...result.profile, ...patch };
+    if (patch.family) next.family = patch.family.map((member) => ({ ...member }));
+    const profile = { ...next, summary: summarize(next) || next.summary };
+    setResult({ ...result, profile });
+    if (boardId) {
+      saveProfile({ id: boardId, profile, engine: result.engine, updatedAt: new Date().toISOString() });
+      setSaved(true);
+    } else {
+      setSaved(false);
+    }
+  }
+
   const micLabel =
     dictation.status === 'unsupported'
       ? 'Voice input is not available in this browser. Type instead, or use your keyboard’s dictation.'
@@ -245,6 +465,7 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
 
         {mounted ? (
           <SpotifyPanel
+            capabilities={capabilities}
             listening={spotify}
             onImported={(imported) => {
               buildOnImport.current = true;
@@ -273,6 +494,8 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
             {result.profile.summary ? <p className={styles.lede}>{result.profile.summary}</p> : null}
             {result.notice ? <p className={styles.notice}>{result.notice}</p> : null}
 
+            <IdentityStrip profile={result.profile} onChange={correct} />
+
             {hasBoardContent(result.profile) ? (
               <BentoBoard cards={cards} />
             ) : (
@@ -282,23 +505,8 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
             )}
 
             <div className={styles.facts}>
-              {result.profile.family.length ? (
-                <div className={styles.factGroup}>
-                  <p className={styles.factTitle}>Travels with</p>
-                  <div className={styles.chips}>
-                    {result.profile.family.map((member, i) => (
-                      <span key={i} className={styles.chip}>
-                        {member.name ? `${member.name} · ` : ''}
-                        {member.label}
-                        {member.age !== undefined ? ` · ${member.age}` : ''}
-                        {member.note ? ` · ${member.note}` : ''}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
               {FACT_GROUPS.map(({ key, title }) => {
-                const values = result.profile[key] as string[];
+                const values = (result.profile[key] as string[] | undefined) ?? [];
                 if (!values.length) return null;
                 return (
                   <div key={key} className={styles.factGroup}>
@@ -320,16 +528,16 @@ export function MoodboardStudio({ spotifyJustConnected = false }: { spotifyJustC
 
             {hasTaste && taste ? <ScenePlaybook taste={taste} persona={persona} /> : null}
 
-            {result.profile.listening?.topArtists.length || result.profile.teams.length ? (
+            {artists.length || result.profile.teams.length ? (
               <TripIdeas
-                artists={result.profile.listening?.topArtists.slice(0, 5) ?? []}
+                artists={artists.slice(0, 5)}
                 teams={result.profile.teams.slice(0, 4)}
                 homeCity={result.profile.hometown}
               />
             ) : null}
 
-            {result.profile.listening?.topArtists.length ? (
-              <LiveShows artists={result.profile.listening.topArtists.slice(0, 5)} hometown={result.profile.hometown} taste={taste ?? undefined} />
+            {artists.length ? (
+              <LiveShows artists={artists.slice(0, 5)} hometown={result.profile.hometown} taste={taste ?? undefined} />
             ) : null}
 
             <div className={`${styles.row} mt-6`}>

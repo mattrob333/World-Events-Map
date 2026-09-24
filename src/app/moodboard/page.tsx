@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { MoodboardStudio } from '@/components/designer/MoodboardStudio';
+import { serverCapabilities } from '@/lib/designer/capabilities';
 
 export const metadata: Metadata = {
   title: 'Mood board · dope.travel',
@@ -8,5 +9,7 @@ export const metadata: Metadata = {
 
 export default async function MoodboardPage({ searchParams }: { searchParams: Promise<{ spotify?: string }> }) {
   const { spotify } = await searchParams;
-  return <MoodboardStudio spotifyJustConnected={spotify === 'connected'} />;
+  // Only the two Spotify booleans reach the client; no keys.
+  const { spotifyPlaylist, spotifySignIn } = serverCapabilities();
+  return <MoodboardStudio spotifyJustConnected={spotify === 'connected'} capabilities={{ spotifyPlaylist, spotifySignIn }} />;
 }

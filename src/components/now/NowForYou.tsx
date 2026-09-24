@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FormEvent } from 'react';
-import { SLOT_META } from '@/lib/designer/catalog';
+import { SLOT_META, type SlotKind } from '@/lib/designer/catalog';
 import { cardLookup, groupTags, resolveDestination } from '@/lib/designer/itinerary';
 import { placeCards } from '@/lib/designer/place';
 import { profileTags } from '@/lib/designer/profile';
@@ -21,6 +21,8 @@ import styles from './now.module.css';
  * city and music taste for the live-music search. No location is requested:
  * the traveler types the city, and it is kept in the URL (?city=).
  */
+const DAY_ORDER: SlotKind[] = ['morning', 'lunch', 'afternoon', 'apres', 'dinner', 'late'];
+
 export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCity?: (city: string) => void }) {
   const hydrated = useHydrated();
   const router = useRouter();
@@ -61,9 +63,12 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
     }
   }
   if (showPlaybook && taste) for (const scene of scenePlaybook(taste)) for (const link of sceneSearchLinks(scene, city)) seenLinks.add(link.href);
+  // This hour first, then what comes next, so skipping today's plan still leaves something new.
+  const upcoming = DAY_ORDER[DAY_ORDER.indexOf(slot) + 1];
   const ideas = city
     ? placeCards({ name: city, kind: 'city' }, { tags, foods: profile?.food.slice(0, 3), taste })
-        .filter((card) => card.slots.includes(slot))
+        .filter((card) => card.slots.includes(slot) || (upcoming !== undefined && card.slots.includes(upcoming)))
+        .sort((a, b) => Number(b.slots.includes(slot)) - Number(a.slots.includes(slot)))
         .filter((card) => {
           const href = card.link?.href ?? '';
           if (seenTitles.has(card.title.toLowerCase()) || (href && seenLinks.has(href))) return false;
@@ -118,7 +123,8 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
             </div>
           </>
         ) : null}
-        {city ? (
+        {city && !ideas.length ? <p className={styles.forYouFoot}>Nothing new for this hour beyond today’s plan above.</p> : null}
+        {city && ideas.length ? (
           <p className={styles.forYouFoot}>
             Each idea opens a Maps search for {city}
             {source === 'board' ? ', shaped by your board' : source === 'trip' ? ', shaped by your trip' : ''}. Maps shows what’s there, not what’s open or busy: check before you go.

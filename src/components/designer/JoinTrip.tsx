@@ -359,7 +359,8 @@ function MergeReply({ reply }: { reply: TripReply }) {
   const header = (
     <>
       <h1 className={styles.headline}>
-        {shownName} sent their picks. <span className={styles.accentText}>{plural(count, 'vote')}.</span>
+        {check && (check.organizer || check.nameMismatch) ? `Picks signed “${reply.participant.name}”.` : `${shownName} sent their picks.`}{' '}
+        <span className={styles.accentText}>{plural(count, 'vote')}.</span>
       </h1>
       {where || reply.at ? (
         <p className="mt-2 text-[13px] text-ink-muted">

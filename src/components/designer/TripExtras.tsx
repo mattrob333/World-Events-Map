@@ -190,11 +190,9 @@ export function GuestBar({ picks }: { picks: PicksSender }) {
           {me.emoji}
         </span>
         <p className="min-w-0 flex-1 text-[13px] leading-5 text-ink">
-          <span className="block truncate">
-            You’re {me.name} on {to === 'the organizer' ? 'this' : `${to}’s`} trip · {count} pick{count === 1 ? '' : 's'}
-          </span>
+          <span className="block truncate">You’re {me.name} on {to === 'the organizer' ? 'this' : `${to}’s`} trip</span>
           <span className={`block truncate text-[12px] ${error ? 'text-flamingo' : 'text-ink-muted'}`} role="status">
-            {error || status || (count ? 'Your picks stay on this phone until you send them.' : 'Tap 👍 on what you’re into.')}
+            {count} pick{count === 1 ? '' : 's'} · {error || status || (count ? 'not sent yet' : 'tap 👍 on what you’re into')}
           </span>
         </p>
         <button type="button" className={`${styles.cta} shrink-0`} onClick={() => void picks.send()}>

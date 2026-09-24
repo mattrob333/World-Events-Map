@@ -1,33 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useReducedMotion } from 'motion/react';
 import type { WorldEvent } from '@/lib/types';
 import type { PlacePhoto } from '@/lib/place-media/media';
-
-type GalleryResponse = { photos?: PlacePhoto[] };
+import { photoImageProps } from '@/lib/place-media/sources';
+import { usePlacePhotos } from '@/lib/place-media/usePlacePhotos';
 
 export function PlaceGallery({ event, compact = false }: { event: WorldEvent; compact?: boolean }) {
-  const [result, setResult] = useState<{ eventId: string; photos: PlacePhoto[] } | null>(null);
+  // Cached by the browser and CDN (see the route's Cache-Control); no-store here
+  // used to force a fresh Commons round trip on every dossier open.
+  const { ready, photos } = usePlacePhotos(event.id);
   const [active, setActive] = useState<{ eventId: string; index: number } | null>(null);
   const track = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(`/api/place-media?eventId=${encodeURIComponent(event.id)}`, { signal: controller.signal, cache: 'no-store' })
-      .then((response) => response.ok ? response.json() as Promise<GalleryResponse> : { photos: [] })
-      .then((data) => {
-        if (!controller.signal.aborted) setResult({ eventId: event.id, photos: Array.isArray(data.photos) ? data.photos : [] });
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) setResult({ eventId: event.id, photos: [] });
-      });
-    return () => controller.abort();
-  }, [event.id]);
-
-  const ready = result?.eventId === event.id;
-  const photos = ready ? result.photos : [];
   const visibleIndex = Math.min(active?.eventId === event.id ? active.index : 0, Math.max(0, photos.length - 1));
 
   function move(direction: number) {
@@ -58,7 +44,7 @@ export function PlaceGallery({ event, compact = false }: { event: WorldEvent; co
           onScroll={(e) => setActive({ eventId: event.id, index: Math.round(e.currentTarget.scrollLeft / Math.max(1, e.currentTarget.clientWidth)) })}
           className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth motion-reduce:scroll-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {photos.map((photo) => <PhotoSlide key={photo.sourceUrl} photo={photo} city={event.city} compact={compact} />)}
+          {photos.map((photo, index) => <PhotoSlide key={photo.sourceUrl} photo={photo} city={event.city} compact={compact} first={index === 0} />)}
         </div>
         {photos.length > 1 && (
           <div className="absolute right-2 top-2 z-10 flex gap-1">
@@ -67,24 +53,26 @@ export function PlaceGallery({ event, compact = false }: { event: WorldEvent; co
           </div>
         )}
       </div>
-      <p className="mt-1.5 text-[10px] text-ink-faint">Wikimedia Commons archive · {visibleIndex + 1} / {photos.length} · Images may be from earlier years</p>
+      <p className="mt-1.5 text-[11px] text-ink-subtle">Wikimedia Commons archive · {visibleIndex + 1} / {photos.length} · Images may be from earlier years</p>
     </section>
   );
 }
 
-function PhotoSlide({ photo, city, compact }: { photo: PlacePhoto; city: string; compact: boolean }) {
+function PhotoSlide({ photo, city, compact, first }: { photo: PlacePhoto; city: string; compact: boolean; first: boolean }) {
   const [failed, setFailed] = useState(false);
   return (
     <figure className="relative min-w-full snap-start">
       {failed ? (
-        <div className={`flex items-center justify-center bg-slate-deep px-4 text-center text-[11px] text-ink-muted ${compact ? 'h-44' : 'h-56'}`}>This public image could not be loaded.</div>
+        // A quiet placeholder of the same size; the credit below still names the file.
+        <div aria-hidden="true" className={`flex items-start bg-gradient-to-br from-slate-deep via-obsidian to-void px-3 pt-3 font-display text-2xl text-ink-muted ${compact ? 'h-44' : 'h-56'}`}>{city}</div>
       ) : (
-        // Wikimedia URLs are checked by the server and vary per file; Next image optimization is intentionally bypassed.
+        // Commons thumbnails at Wikimedia's standard widths (src/lib/place-media/sources.ts);
+        // the Next.js optimizer is bypassed on purpose (quota, and Wikimedia rate limits).
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={photo.imageUrl} alt={photo.subject === 'event' ? photo.title : `${city} place photograph: ${photo.title}`} onError={() => setFailed(true)} loading="lazy" referrerPolicy="no-referrer" className={`w-full object-cover ${compact ? 'h-44' : 'h-56'}`} />
+        <img {...photoImageProps(photo, 'gallery')} alt={photo.subject === 'event' ? photo.title : `${city} place photograph: ${photo.title}`} onError={() => setFailed(true)} loading={first ? 'eager' : 'lazy'} decoding="async" referrerPolicy="no-referrer" className={`w-full bg-gradient-to-br from-slate-deep via-obsidian to-void object-cover ${compact ? 'h-44' : 'h-56'}`} />
       )}
-      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-void via-void/85 to-transparent px-3 pb-2 pt-8 text-[10px] leading-4 text-ink">
-        <span className={`mb-1 inline-block rounded border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.12em] ${photo.subject === 'event' ? 'border-signal/40 bg-signal/15 text-signal' : 'border-brass/40 bg-brass/15 text-brass'}`}>{photo.subject === 'event' ? 'Event archive' : 'Place imagery'}</span>
+      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-void via-void/85 to-transparent px-3 pb-2 pt-8 text-[11px] leading-4 text-ink">
+        <span className={`mb-1 inline-block rounded border px-1.5 py-0.5 text-[11px] uppercase tracking-[0.1em] ${photo.subject === 'event' ? 'border-signal/40 bg-signal/15 text-signal' : 'border-brass/40 bg-brass/15 text-brass'}`}>{photo.subject === 'event' ? 'Event archive' : 'Place imagery'}</span>
         <span className="block truncate">{photo.title}</span>
         <span className="block truncate text-ink-muted">{photo.photographed ? `Photographed ${photo.photographed}` : 'Photo date not supplied'} · {photo.credit} · {photo.license}</span>
         <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-brass underline-offset-2 hover:underline">Photo and license ↗</a>

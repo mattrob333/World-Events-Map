@@ -167,7 +167,7 @@ type EditorialCard = { id: string; eyebrow: string; title: string; copy: string;
  */
 export function calendarTheme(reason: string): string {
   if (/\b(airports?|altiports?|landings?|transfers?|flights?|customs)\b/i.test(reason)) return 'Getting there';
-  if (/\b(bars?|pubs?|beer|biergartens?|beer halls?|tents?|cocktails?|taverns?|nightlife|clubs?)\b/i.test(reason)) return 'Drinks and late nights';
+  if (/\b(bars?|pubs?|beer|biergartens?|beer halls?|breweries|brewery|steins?|tents?|cocktails?|taverns?|nightlife|clubs?)\b/i.test(reason)) return 'Drinks and late nights';
   if (/\b(restaurants?|dining|tables?|lunch|dinner|chefs?|michelin|wine|brasseries?|bistros?)\b/i.test(reason)) return 'At the table';
   if (/\b(hotels?|chalets?|suites?|lodges?|lodging|stay|places to stay)\b/i.test(reason)) return 'Where to stay';
   if (/\b(ski|skiing|pistes?|lifts?|mountains?|terrain|slopes?|gondolas?|powder)\b/i.test(reason)) return 'On the mountain';

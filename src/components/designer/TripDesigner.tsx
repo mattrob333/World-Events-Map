@@ -244,7 +244,18 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
           </label>
           <label className={styles.label}>
             Traveling from
-            <input className={styles.input} value={hometown} maxLength={60} placeholder="Atlanta, Georgia" onChange={(e) => setHometown(e.target.value)} />
+            <input
+              className={styles.input}
+              value={hometown}
+              maxLength={60}
+              placeholder="Your home city (for fares)"
+              autoComplete="address-level2"
+              aria-describedby="traveling-from-hint"
+              onChange={(e) => setHometown(e.target.value)}
+            />
+            <span id="traveling-from-hint" className={styles.hint}>
+              {hometown.trim() ? 'We look up flights and fares from here.' : 'Add it to see flights and fares; without it we skip them.'}
+            </span>
           </label>
         </div>
       </div>
