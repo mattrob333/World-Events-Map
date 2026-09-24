@@ -50,7 +50,7 @@ describe('POST /api/mcp', () => {
   it('saves a profile into a private import link without storing it', async () => {
     const body = await (await POST(rpc('tools/call', { name: 'dope_save_profile', arguments: { profile: { hometown: 'Atlanta, Georgia', style: { social: 'small-crew' } } } }))).json();
     const out = body.result.structuredContent;
-    expect(out.importUrl).toMatch(/^http:\/\/localhost\/moodboard\/import#p=/);
+    expect(out.importUrl).toMatch(/^http:\/\/localhost(?::\d+)?\/moodboard\/import#p=/);
     expect(out.missing).toContain('who they travel with');
   });
 

@@ -1,6 +1,7 @@
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { RequestTooLargeError, consumeProviderCall, readJson } from '@/lib/designer/server/guard';
 import { createDopeMcpServer } from '@/lib/mcp/server';
+import { siteOrigin } from '@/lib/designer/capabilities';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -40,7 +41,8 @@ export async function POST(request: Request): Promise<Response> {
     return rpcError(429, -32000, 'Too many requests from this client. Try again in a few minutes.', { 'Retry-After': '120' });
   }
 
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;
+  // From configuration only, never the request's Host (review nit).
+  const origin = siteOrigin();
   const server = createDopeMcpServer({ origin, request });
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,

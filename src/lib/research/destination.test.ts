@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
@@ -277,4 +277,15 @@ it('gives flights their own share of the day', async () => {
   expect(third.flights.status).toBe('unavailable');
   expect(third.flights.note).toMatch(/budget/);
   expect(third.topSpots.status).toBe('ok');
+});
+
+describe('research cache keys (review S2)', () => {
+  it('keeps non-Latin places apart', async () => {
+    const { cacheKeys } = await import('./destination');
+    const tokyo = cacheKeys({ name: '東京' } as never).core;
+    const moscow = cacheKeys({ name: 'Москва' } as never).core;
+    expect(tokyo).not.toBe(moscow);
+    expect(tokyo).not.toBe('|');
+    expect(cacheKeys({ name: 'São Paulo', region: 'Brazil' } as never).core).toBe('saopaulo|brazil');
+  });
 });

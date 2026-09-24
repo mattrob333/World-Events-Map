@@ -4,7 +4,8 @@
  * - `meridian.designer.v1`: mood boards, the trip draft (names, kids' ages,
  *   home city), votes, the previous trip an invite replaced, and the raw
  *   spoken ramble. Owned by the designer store (`clearAll`).
- * - `dope.research.v1:<key>`: cached destination research, ~55 KB each.
+ * - `dope.research.v2:place:<key>` / `dope.research.v2:fares:<key>`: cached destination research
+ *   (v1 keys are still read as legacy and cleared with the rest).
  *   Pruned to the newest {@link RESEARCH_KEEP} entries on every write.
  *
  * Everything here tolerates blocked or full storage: the app still works for

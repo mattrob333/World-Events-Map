@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DESTINATIONS, type DestinationKind } from '@/lib/designer/catalog';
 import { MAX_NIGHTS, MAX_PARTICIPANTS, composeLocally, participantStyle, type Itinerary, type Participant, type TripDestination } from '@/lib/designer/itinerary';
 import type { PlaceSpec } from '@/lib/designer/place';
 import { EXAMPLE_RAMBLE } from '@/lib/designer/moodboard';
 import { parseProfileLocally, profileTags, type TravelerProfile } from '@/lib/designer/profile';
 import { mergeTastes, tasteFrom } from '@/lib/designer/scene';
-import { useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { pickActiveProfile, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
 import { planPlaceFromParams, type PlanPlace } from '@/lib/search/planPlace';
+import { useVoicePage } from '@/lib/voice/registry';
 import styles from './designer.module.css';
 import { useHydrated } from './useHydrated';
 import { TripCanvas } from './TripCanvas';
@@ -64,7 +65,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   const [placeKind, setPlaceKind] = useState<DestinationKind>('city');
   const [startDate, setStartDate] = useState(() => localIso(60));
   const [nights, setNights] = useState(7);
-  const initialBoard = boards.find((board) => board.id === initialWith) ?? boards[0];
+  const initialBoard = boards.find((board) => board.id === initialWith) ?? pickActiveProfile(boards, useDesignerStore.getState().activeProfileId);
   const [hometown, setHometown] = useState(initialBoard?.profile.hometown ?? '');
   const [travelers, setTravelers] = useState<Draft[]>(() => (initialBoard ? travelersFromBoard(initialBoard) : []));
   const [name, setName] = useState('');
@@ -74,6 +75,19 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   const [error, setError] = useState('');
 
   const selectedBoards = new Set(travelers.map((t) => t.board).filter(Boolean));
+
+  // Switching "Traveling as" (header or voice) swaps the crew to that profile's people.
+  useEffect(
+    () =>
+      useDesignerStore.subscribe((state, prev) => {
+        if (state.activeProfileId === prev.activeProfileId) return;
+        const next = pickActiveProfile(state.profiles, state.activeProfileId);
+        if (!next) return;
+        setTravelers(travelersFromBoard(next));
+        if (next.profile.hometown) setHometown(next.profile.hometown);
+      }),
+    [],
+  );
 
   function toggleBoard(board: SavedProfile) {
     if (selectedBoards.has(board.id)) {
@@ -101,21 +115,17 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
     setAge('');
   }
 
-  async function create() {
+  /** Builds the trip; returns an error sentence, or '' when it was created. */
+  async function create(): Promise<string> {
     setError('');
-    if (!travelers.length) {
-      setError('Add at least one traveler, or pick a mood board.');
-      return;
-    }
-    if (startDate < localIso(0)) {
-      setError('Pick a start date from today onward.');
-      return;
-    }
+    const fail = (message: string) => {
+      setError(message);
+      return message;
+    };
+    if (!travelers.length) return fail('Add at least one traveler, or pick a mood board.');
+    if (startDate < localIso(0)) return fail('Pick a start date from today onward.');
     const place = destination === 'custom' ? placeFromInput(placeText, placeKind) : undefined;
-    if (destination === 'custom' && !place) {
-      setError('Type where you’re going, like “Lisbon, Portugal”.');
-      return;
-    }
+    if (destination === 'custom' && !place) return fail('Type where you’re going, like “Lisbon, Portugal”.');
     const participants: Participant[] = travelers.map((t, i) => ({ id: `p${i}`, name: t.name, kind: t.kind, age: t.age, tags: t.tags, ...participantStyle(i) }));
     const boardIds = new Set(travelers.map((t) => t.board));
     const chosenBoards = boards.filter((b) => boardIds.has(b.id));
@@ -129,7 +139,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
         { ...composeLocally({ ...input, place, foods, taste }), taste },
         `Every card for ${place.name} opens a live search: Maps, YouTube, or Instagram. Check hours and bookings before you go.`,
       );
-      return;
+      return '';
     }
     setBusy(true);
     try {
@@ -141,16 +151,91 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
       const body = (await response.json()) as { itinerary?: Itinerary; notice?: string; error?: string };
       if (!response.ok || !body.itinerary) throw new Error(body.error ?? 'The designer could not build that trip.');
       onCreate({ ...body.itinerary, taste }, body.notice);
+      return '';
     } catch (cause) {
       if (cause instanceof Error && cause.message !== 'Failed to fetch' && !(cause instanceof SyntaxError)) {
-        setError(cause.message);
-      } else {
-        onCreate({ ...composeLocally(input), taste }, 'Offline, so this draft was built on the device.');
+        return fail(cause.message);
       }
+      onCreate({ ...composeLocally(input), taste }, 'Offline, so this draft was built on the device.');
+      return '';
     } finally {
       setBusy(false);
     }
   }
+
+  // Voice: the Sun fills this same form. Handlers run after React commits,
+  // so create_trip sees the place and crew set earlier in the same turn.
+  const createRef = useRef(create);
+  useEffect(() => {
+    createRef.current = create;
+  });
+  const settle = () => new Promise((resolve) => window.setTimeout(resolve, 60));
+  useVoicePage(
+    'trip',
+    {
+      set_trip_basics: (args) => {
+        const changed: string[] = [];
+        if (typeof args.place === 'string' && args.place.trim()) {
+          const text = [args.place, typeof args.region === 'string' ? args.region : ''].map((part) => part.trim()).filter(Boolean).join(', ');
+          setDestination('custom');
+          setPlaceText(text.slice(0, 80));
+          changed.push(text);
+        }
+        if (args.kind === 'city' || args.kind === 'beach' || args.kind === 'ski') {
+          setPlaceKind(args.kind);
+          changed.push(`a ${args.kind} trip`);
+        }
+        if (typeof args.start_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(args.start_date)) {
+          if (args.start_date < localIso(0)) return 'Error: that date has passed. Ask for a date from today on.';
+          setStartDate(args.start_date);
+          changed.push(`starting ${args.start_date}`);
+        }
+        if (typeof args.nights === 'number' && Number.isFinite(args.nights)) {
+          const n = Math.max(1, Math.min(MAX_NIGHTS, Math.round(args.nights)));
+          setNights(n);
+          changed.push(`${n} nights`);
+        }
+        if (typeof args.hometown === 'string' && args.hometown.trim()) {
+          setHometown(args.hometown.trim().slice(0, 60));
+          changed.push(`from ${args.hometown.trim()}`);
+        }
+        return changed.length ? `Set: ${changed.join(', ')}.` : 'Nothing changed.';
+      },
+      add_traveler: (args) => {
+        const who = typeof args.name === 'string' ? args.name.trim().slice(0, 30) : '';
+        if (!who) return 'Error: I need a name.';
+        const kidOrAdult: Draft['kind'] = args.kind === 'kid' ? 'kid' : 'adult';
+        const years = typeof args.age === 'number' && Number.isFinite(args.age) ? Math.round(args.age) : undefined;
+        if (travelers.length >= MAX_PARTICIPANTS) return `Error: the crew is full at ${MAX_PARTICIPANTS}.`;
+        setTravelers((list) => [...list, { key: `v-${Date.now()}-${list.length}`, name: who, kind: kidOrAdult, age: years, tags: [] }].slice(0, MAX_PARTICIPANTS));
+        return `Added ${who}${years !== undefined ? ` (${years})` : ''}.`;
+      },
+      remove_traveler: (args) => {
+        const who = typeof args.name === 'string' ? args.name.trim().toLowerCase() : '';
+        const match = travelers.find((t) => t.name.toLowerCase() === who) ?? travelers.find((t) => who && t.name.toLowerCase().includes(who));
+        if (!match) return `Error: nobody called ${String(args.name)} is on the crew.`;
+        setTravelers((list) => list.filter((t) => t.key !== match.key));
+        return `Took ${match.name} off.`;
+      },
+      create_trip: async () => {
+        await settle();
+        const problem = await createRef.current();
+        return problem ? `Error: ${problem}` : 'Built the trip; it is on screen now.';
+      },
+    },
+    () => {
+      const where = destination === 'custom' ? placeText || 'not set' : DESTINATIONS.find((d) => d.id === destination)?.name ?? destination;
+      const crew = travelers.map((t) => (t.kind === 'kid' && t.age !== undefined ? `${t.name} (${t.age})` : t.name)).join(', ') || 'nobody yet';
+      return `Trip setup form. Where: ${where}. Starts ${startDate}, ${nights} nights. From: ${hometown || 'not set'}. Crew: ${crew}.`;
+    },
+    (text) => {
+      const place = placeFromInput(text.split(/\b(?:in|on|for|with|from)\b/i)[0] ?? text, placeKind);
+      if (!place) return 'Type a place, like “Lisbon, Portugal”.';
+      setDestination('custom');
+      setPlaceText([place.name, place.region].filter(Boolean).join(', '));
+      return `Put ${place.name} in “Where to?”. Set dates and crew on the page, then tap Design the itinerary.`;
+    },
+  );
 
   return (
     <div>
@@ -340,7 +425,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
       </div>
 
       <div className={`${styles.row} mt-6`}>
-        <button type="button" className={styles.cta} onClick={create} disabled={busy}>
+        <button type="button" className={styles.cta} onClick={() => void create()} disabled={busy}>
           {busy ? 'Designing your week…' : 'Design the itinerary'}
         </button>
         {error ? (

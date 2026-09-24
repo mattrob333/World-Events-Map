@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { MAX_PARTICIPANTS, nextParticipantStyle, resolveDestination, type Itinerary, type Participant } from '@/lib/designer/itinerary';
-import { useDesignerStore } from '@/lib/designer/store';
+import { localCopyOf, useDesignerStore } from '@/lib/designer/store';
 import {
   LinkError,
   checkReply,
@@ -151,12 +151,15 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
   const destination = resolveDestination(trip);
   const endDate = trip.days.at(-1)?.date ?? trip.startDate;
   const sameTrip = current?.id === trip.id;
-  const ownTrip = sameTrip && current?.joinedFrom === undefined;
-  const localGuest = sameTrip && current?.joinedFrom !== undefined;
+  const restoreTrip = useDesignerStore((state) => state.restorePreviousTrip);
+  // This device's copy of the linked trip, open or set aside (review S1).
+  const local = localCopyOf(trip.id, { trip: current, votes: currentVotes, activeParticipant, joinedAs, previousTrip });
+  const ownTrip = Boolean(local && local.trip.joinedFrom === undefined);
+  const localGuest = Boolean(local && local.trip.joinedFrom !== undefined);
   // A friend who added themselves on this phone isn't in the organizer's link yet: keep them on the list.
-  const localOnly = localGuest && current ? current.participants.filter((p) => !trip.participants.some((q) => q.id === p.id)) : [];
+  const localOnly = localGuest && local ? local.trip.participants.filter((p) => !trip.participants.some((q) => q.id === p.id)) : [];
   const people = [...trip.participants, ...localOnly];
-  const before = localGuest ? [joinedAs, activeParticipant].find((pid) => pid && pid !== organizerId && people.some((p) => p.id === pid)) ?? null : null;
+  const before = localGuest && local ? [local.joinedAs, local.activeParticipant].find((pid) => pid && pid !== organizerId && people.some((p) => p.id === pid)) ?? null : null;
   const [me, setMe] = useState<string | null>(before);
   const [newName, setNewName] = useState('');
   const [error, setError] = useState('');
@@ -166,6 +169,8 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
   const beforeName = before ? people.find((p) => p.id === before)?.name : undefined;
 
   function openOwn() {
+    // A set-aside own trip comes back; the open one takes its slot, so nothing is lost.
+    if (local?.setAside) restoreTrip();
     window.history.replaceState(null, '', '/trips/join');
     router.push('/trips/designer');
   }
@@ -203,9 +208,9 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
       : { ...trip, participants, joinedFrom: from ?? '' };
     // Reopening a newer copy of a trip you already joined keeps the votes you made on this phone, under whoever made them.
     let merged = { trip: next, votes };
-    if (localGuest && current) {
+    if (localGuest && local) {
       for (const pid of new Set([before, who])) {
-        if (pid && current.participants.some((p) => p.id === pid)) merged = mergeReply(merged.trip, merged.votes, replyFor(current, currentVotes, pid));
+        if (pid && local.trip.participants.some((p) => p.id === pid)) merged = mergeReply(merged.trip, merged.votes, replyFor(local.trip, local.votes, pid));
       }
     }
     importTrip(merged.trip, merged.votes, who);
@@ -220,11 +225,14 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
           This is your trip. <span className={styles.accentText}>{destination?.name ?? 'Somewhere good'}.</span>
         </h1>
         <p className={styles.lede}>
-          {formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights. It’s already on this device with your latest changes. This is the link you sent the crew.
+          {formatDay(trip.startDate)} → {formatDay(endDate)} · {trip.nights} nights.{' '}
+          {local?.setAside
+            ? 'It’s set aside on this device with your latest changes and everyone’s picks. This is the link you sent the crew.'
+            : 'It’s already on this device with your latest changes. This is the link you sent the crew.'}
         </p>
         <div className={`${styles.row} mt-6`}>
           <button type="button" className={styles.cta} onClick={openOwn}>
-            Open my trip →
+            {local?.setAside ? `Restore my ${destination?.name ?? ''} trip →`.replace('  ', ' ') : 'Open my trip →'}
           </button>
         </div>
       </>

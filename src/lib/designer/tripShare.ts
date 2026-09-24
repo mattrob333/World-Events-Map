@@ -190,7 +190,7 @@ const hex = (value: unknown, fallback: string): string => (typeof value === 'str
  */
 const LINK_HOSTS: Record<string, { paths: string[]; label: string; keepLabel?: RegExp }> = {
   'www.google.com': { paths: ['/maps/', '/maps?'], label: 'Search Maps' },
-  'maps.google.com': { paths: ['/'], label: 'Search Maps' },
+  'maps.google.com': { paths: ['/maps/', '/maps?', '/?q='], label: 'Search Maps' },
   'www.youtube.com': { paths: ['/results', '/watch', '/@', '/shorts/'], label: 'Watch on YouTube' },
   'www.instagram.com': { paths: ['/explore/', '/reel/', '/p/'], label: 'Instagram', keepLabel: /^#[\p{L}\p{N}_]{1,30} on Instagram$/u },
   'www.tiktok.com': { paths: ['/@', '/tag/', '/search'], label: 'TikTok' },

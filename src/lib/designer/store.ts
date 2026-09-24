@@ -13,6 +13,8 @@ export type SavedProfile = {
   profile: TravelerProfile;
   engine: ParseEngine;
   updatedAt: string;
+  /** What the traveler calls this profile ("Family", "Solo"); derived when unset. */
+  label?: string;
 };
 
 /** The trip a shared invite replaced on this device, kept so it can be restored. */
@@ -20,6 +22,10 @@ export type SavedTrip = { trip: Itinerary; votes: TripVotes; activeParticipant: 
 
 interface DesignerState {
   profiles: SavedProfile[];
+  /** The travel profile in use ("Traveling as"); null means the newest one. */
+  activeProfileId: string | null;
+  setActiveProfile: (id: string) => void;
+  renameProfile: (id: string, label: string) => void;
   trip: Itinerary | null;
   votes: TripVotes;
   activeParticipant: string | null;
@@ -84,6 +90,7 @@ export const useDesignerStore = create<DesignerState>()(
   persist(
     (set, get) => ({
       profiles: [],
+      activeProfileId: null,
       trip: null,
       votes: {},
       activeParticipant: null,
@@ -96,8 +103,21 @@ export const useDesignerStore = create<DesignerState>()(
       setDraftRamble: (draftRamble) => set({ draftRamble }),
       setDraftListening: (draftListening) => set({ draftListening }),
       saveProfile: (profile) =>
-        set((state) => ({ profiles: [profile, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12) })),
-      removeProfile: (id) => set((state) => ({ profiles: state.profiles.filter((entry) => entry.id !== id) })),
+        set((state) => {
+          const previous = state.profiles.find((entry) => entry.id === profile.id);
+          const saved = previous?.label && !profile.label ? { ...profile, label: previous.label } : profile;
+          return { profiles: [saved, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12), activeProfileId: profile.id };
+        }),
+      removeProfile: (id) =>
+        set((state) => ({
+          profiles: state.profiles.filter((entry) => entry.id !== id),
+          activeProfileId: state.activeProfileId === id ? null : state.activeProfileId,
+        })),
+      setActiveProfile: (id) => set((state) => (state.profiles.some((entry) => entry.id === id) ? { activeProfileId: id } : {})),
+      renameProfile: (id, label) =>
+        set((state) => ({
+          profiles: state.profiles.map((entry) => (entry.id === id ? { ...entry, label: label.replace(/\s+/g, ' ').trim().slice(0, 24) || undefined } : entry)),
+        })),
       setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null, joinedAs: null, lastMergedAt: {}, mergeUndo: null }),
       importTrip: (trip, votes, me) =>
         set((state) => {
@@ -139,6 +159,12 @@ export const useDesignerStore = create<DesignerState>()(
         const known = Object.hasOwn(lastMergedAt, who) ? lastMergedAt[who] : undefined;
         const nextMerged = { ...lastMergedAt };
         if (isSafeId(who) && (!known || Date.parse(at) > Date.parse(known))) nextMerged[who] = at;
+        // After "Same person: combine", the sender's next link still carries their own id (review S6).
+        const sender = reply.participant.id;
+        if (sender !== who && isSafeId(sender)) {
+          const knownSender = Object.hasOwn(lastMergedAt, sender) ? lastMergedAt[sender] : undefined;
+          if (!knownSender || Date.parse(at) > Date.parse(knownSender)) nextMerged[sender] = at;
+        }
         set({ trip: merged.trip, votes: merged.votes, lastMergedAt: nextMerged, mergeUndo: { tripId: trip.id, trip, votes, lastMergedAt } });
         return merged.summary;
       },
@@ -185,6 +211,7 @@ export const useDesignerStore = create<DesignerState>()(
       clearAll: () =>
         set({
           profiles: [],
+          activeProfileId: null,
           trip: null,
           votes: {},
           activeParticipant: null,
@@ -201,6 +228,7 @@ export const useDesignerStore = create<DesignerState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         profiles: state.profiles,
+        activeProfileId: state.activeProfileId,
         trip: state.trip,
         votes: state.votes,
         activeParticipant: state.activeParticipant,
@@ -213,3 +241,36 @@ export const useDesignerStore = create<DesignerState>()(
     },
   ),
 );
+
+/** The profile in use: the chosen one, else the newest. */
+export function pickActiveProfile(profiles: SavedProfile[], activeId: string | null): SavedProfile | undefined {
+  return profiles.find((entry) => entry.id === activeId) ?? profiles[0];
+}
+
+export function useActiveProfile(): SavedProfile | undefined {
+  const profiles = useDesignerStore((state) => state.profiles);
+  const activeId = useDesignerStore((state) => state.activeProfileId);
+  return pickActiveProfile(profiles, activeId);
+}
+
+/** "Family" when kids come along, "Crew" with other adults, else "Solo"; a chosen label wins. */
+export function profileLabel(saved: SavedProfile): string {
+  if (saved.label) return saved.label;
+  const family = saved.profile.family ?? [];
+  if (family.some((member) => member.relation === 'child' || (member.age !== undefined && member.age < 18))) return 'Family';
+  if (family.length) return family.some((member) => member.relation === 'partner') && family.length === 1 ? 'Couple' : 'Crew';
+  return 'Solo';
+}
+
+export type LocalCopy = SavedTrip & { setAside: boolean };
+
+/**
+ * This device's copy of a linked trip: the open one, or the one set aside
+ * when another invite was opened. Without the second case, reopening your
+ * own set-aside trip's link would overwrite it (review S1).
+ */
+export function localCopyOf(tripId: string, state: Pick<DesignerState, 'trip' | 'votes' | 'activeParticipant' | 'joinedAs' | 'previousTrip'>): LocalCopy | null {
+  if (state.trip?.id === tripId) return { trip: state.trip, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs, setAside: false };
+  if (state.previousTrip?.trip.id === tripId) return { ...state.previousTrip, setAside: true };
+  return null;
+}

@@ -335,7 +335,7 @@ function parseArtists(text: string, profile: TravelerProfile): string[] {
     let before = '';
     const flush = () => {
       // A list that follows "in", "at" or "to" is places, not artists.
-      if (run.length >= 2 && !/\b(in|at|to|around|near|from|like)\s+(?:[A-Z][\w'’-]*\s*)*$|\b(in|at|to|around|near|from|like)\s*$/.test(before)) found.push(...run);
+      if (run.length >= 2 && !/\b(in|at|to|around|near|from|like)\s+(?:[A-Z][\w'’-]*(?:\s+|$))*$|\b(in|at|to|around|near|from|like)\s*$/.test(before)) found.push(...run);
       run = [];
     };
     for (const raw of segments) {
@@ -368,7 +368,7 @@ function parseFamily(text: string, profile: TravelerProfile) {
 
   // "two young sons, 8 and 12" / "a daughter who's 5" / "my son Leo, 10" / "Two boys, Jack is 12 and Sam is 8"
   const groupPattern =
-    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our)?\s*(?:young|little|teenage|grown|adult|older|younger|\s)*\s*(sons|daughters|kids|boys|girls|children|son|daughter|kid|child)\b(?=([^.;!?]{0,60}))/gi;
+    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our)?\s*(?:(?:young|little|teenage|grown|adult|older|younger)\s+)*(sons|daughters|kids|boys|girls|children|son|daughter|kid|child)\b(?=([^.;!?]{0,60}))/gi;
   for (const match of text.matchAll(groupPattern)) {
     const countWord = (match[1] ?? '').toLowerCase();
     const word = match[2].toLowerCase();
@@ -469,7 +469,8 @@ function parseTrips(text: string): string[] {
  * dictionary matches, so the board never shows invented facts.
  */
 export function parseProfileLocally(raw: string): TravelerProfile {
-  const text = raw.slice(0, MAX_RAMBLE_CHARS);
+  // Runs of spaces collapse first: long whitespace runs are what make regexes backtrack.
+  const text = raw.slice(0, MAX_RAMBLE_CHARS).replace(/[ \t\u00a0]+/g, ' ');
   const lower = text.toLowerCase();
   const profile = emptyProfile();
 

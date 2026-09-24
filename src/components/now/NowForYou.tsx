@@ -8,7 +8,8 @@ import { cardLookup, groupTags, resolveDestination } from '@/lib/designer/itiner
 import { placeCards } from '@/lib/designer/place';
 import { profileTags } from '@/lib/designer/profile';
 import { mergeTastes, scenePlaybook, sceneSearchLinks, tasteFrom } from '@/lib/designer/scene';
-import { useDesignerStore } from '@/lib/designer/store';
+import { useActiveProfile, useDesignerStore } from '@/lib/designer/store';
+import { useVoicePage } from '@/lib/voice/registry';
 import { isLive, slotKindNow, tripMoment } from '@/lib/designer/tripNow';
 import { ScenePlaybook } from '@/components/designer/ScenePlaybook';
 import { RightNow, useNow } from '@/components/designer/TripExtras';
@@ -26,7 +27,7 @@ const DAY_ORDER: SlotKind[] = ['morning', 'lunch', 'afternoon', 'apres', 'dinner
 export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCity?: (city: string) => void }) {
   const hydrated = useHydrated();
   const router = useRouter();
-  const profiles = useDesignerStore((state) => state.profiles);
+  const active = useActiveProfile();
   const trip = useDesignerStore((state) => state.trip);
   const now = useNow();
   const destination = trip ? resolveDestination(trip) : undefined;
@@ -42,7 +43,7 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
     if (hydrated) onCity?.(city);
   }, [city, hydrated, onCity]);
 
-  const profile = profiles[0]?.profile;
+  const profile = active?.profile;
   // The board's taste first; with no board, the live trip's own taste (the same one the trip page uses).
   const taste = profile ? mergeTastes([tasteFrom(profile)]) : liveTrip?.trip.taste;
   const source: 'board' | 'trip' | undefined = profile ? 'board' : liveTrip ? 'trip' : undefined;
@@ -79,12 +80,33 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
         .slice(0, 4)
     : [];
 
-  function submit(event: FormEvent) {
-    event.preventDefault();
-    const next = cityInput.trim().slice(0, 60);
+  function choose(value: string) {
+    const next = value.trim().slice(0, 60);
+    setCityInput(next);
     setChosenCity(next);
     router.replace(next ? `/now?city=${encodeURIComponent(next)}` : '/now', { scroll: false });
   }
+
+  function submit(event: FormEvent) {
+    event.preventDefault();
+    choose(cityInput);
+  }
+
+  useVoicePage(
+    'now',
+    {
+      set_now_city: (args) => {
+        if (typeof args.city !== 'string' || !args.city.trim()) return 'Error: which city?';
+        choose(args.city);
+        return `Showing ideas for right now in ${args.city.trim()}.`;
+      },
+    },
+    () => (city ? `Ideas for right now in ${city}.` : 'No city chosen yet.'),
+    (typed) => {
+      choose(typed);
+      return `Showing ideas for right now in ${typed.trim().slice(0, 60)}.`;
+    },
+  );
 
   if (!hydrated) return null;
 

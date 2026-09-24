@@ -57,6 +57,11 @@ export const VOICE_TOOLS = {
     description: 'Show ideas for right now in a city.',
     parameters: obj({ city: { type: 'string' } }, ['city']),
   },
+  switch_profile: {
+    name: 'switch_profile',
+    description: 'Switch which travel profile is in use ("I\'m going solo", "the family trip"). Pass the profile label or a person\'s name from the list in context.',
+    parameters: obj({ name: { type: 'string' } }, ['name']),
+  },
   navigate: {
     name: 'navigate',
     description: 'Open another part of dope.travel.',
@@ -67,10 +72,10 @@ export const VOICE_TOOLS = {
 export type VoiceToolName = keyof typeof VOICE_TOOLS;
 
 export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
-  trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'navigate'],
+  trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
-  now: ['set_now_city', 'navigate'],
-  general: ['navigate'],
+  now: ['set_now_city', 'switch_profile', 'navigate'],
+  general: ['switch_profile', 'navigate'],
 };
 
 export const INTENT_OPENERS: Record<VoiceIntent, string> = {
@@ -89,7 +94,7 @@ const ROUTES: Record<string, string> = {
 };
 
 export function routeFor(to: unknown): string | null {
-  return typeof to === 'string' && to in ROUTES ? ROUTES[to] : null;
+  return typeof to === 'string' && Object.hasOwn(ROUTES, to) ? ROUTES[to] : null;
 }
 
 /** Brand voice and ground rules shared by every intent. */

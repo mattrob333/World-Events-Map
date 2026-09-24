@@ -17,6 +17,7 @@ import {
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore } from '@/lib/designer/store';
+import { useVoicePage } from '@/lib/voice/registry';
 import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
 import { LiveShows } from './LiveShows';
@@ -329,6 +330,30 @@ export function MoodboardStudio({
       setBusy(false);
     }
   }
+
+  // Voice: the Sun listens, writes a first-person summary into the ramble, and builds the board.
+  const buildRef = useRef(build);
+  useEffect(() => {
+    buildRef.current = build;
+  });
+  useVoicePage(
+    'board',
+    {
+      describe_me: async (args) => {
+        const summary = typeof args.summary === 'string' ? args.summary.trim().slice(0, 4000) : '';
+        if (summary.length < 10) return 'Error: I need a few sentences first.';
+        setText(summary);
+        await new Promise((resolve) => window.setTimeout(resolve, 60));
+        await buildRef.current();
+        return 'Built their board; it is on screen now. Ask if anything looks wrong.';
+      },
+    },
+    () => (result ? 'Their mood board is on screen.' : text.trim() ? `They have started typing about themselves: "${text.trim().slice(0, 200)}"` : 'An empty mood board, waiting for them to describe themselves.'),
+    (typed) => {
+      setText([text.trim(), typed].filter(Boolean).join(' '));
+      return 'Added that to your description. Keep going, then tap Build my mood board.';
+    },
+  );
 
   // A playlist link read without sign-in lands here; build the board once it is in the store.
   const buildOnImport = useRef(false);

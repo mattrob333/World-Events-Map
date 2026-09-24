@@ -38,6 +38,8 @@ export function allowedOrigins(): Set<string> {
   const origins = new Set<string>();
   const add = (origin: string | null) => origin && origins.add(origin);
   add(originOf(process.env.NEXT_PUBLIC_SITE_URL));
+  // Other hosts that serve this app, e.g. "https://www.example.com,https://example.vercel.app" (review S4).
+  for (const extra of (process.env.EXTRA_ALLOWED_ORIGINS ?? '').split(',')) add(originOf(extra.trim()));
   if (process.env.VERCEL) {
     add(originOf(process.env.VERCEL_URL, true));
     add(originOf(process.env.VERCEL_BRANCH_URL, true));

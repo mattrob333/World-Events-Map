@@ -146,8 +146,13 @@ function remember<T>(cache: Map<string, Entry<T>>, key: string, now: number, mak
 
 type Keys = { core: string; food: string; night: string; flight?: string };
 
-function cacheKeys(req: ResearchRequest): Keys {
-  const place = `${fold(req.name)}|${fold(req.region ?? '')}`;
+/** fold() drops non-Latin scripts entirely, so 東京 and Москва would share a key (review S2). */
+function keyPart(value: string): string {
+  return fold(value) || value.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim().slice(0, 80);
+}
+
+export function cacheKeys(req: ResearchRequest): Keys {
+  const place = `${keyPart(req.name)}|${keyPart(req.region ?? '')}`;
   return {
     core: place,
     food: `food|${place}|${foodTerm(req.food) ?? ''}`,

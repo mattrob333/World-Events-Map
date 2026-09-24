@@ -332,8 +332,11 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
       }
       setPlace(rest);
       setFares(request.from ? flights : null);
-      if (body.configured) {
+      // Only real listings are kept on the device; a cap or outage must not stick for 6 hours (review S3).
+      if (body.configured && rest.topSpots.status === 'ok') {
         write(placeKey, { savedAt: new Date().toISOString(), value: rest } satisfies Stored<PlaceResearch>);
+      }
+      if (body.configured) {
         if (faresKey && (flights.status === 'ok' || flights.status === 'empty')) write(faresKey, { savedAt: new Date().toISOString(), value: flights } satisfies Stored<FlightSection>);
       }
     } catch (cause) {

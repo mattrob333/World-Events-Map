@@ -12,6 +12,9 @@ import dynamic from 'next/dynamic';
 const CurrentMemberChip = dynamic(() => import('@/components/social/CurrentMemberChip').then((m) => m.CurrentMemberChip), { ssr: false });
 const SocialRoot = dynamic(() => import('@/components/social/MemberProfileSheet').then((m) => m.SocialRoot), { ssr: false });
 import { CommandPalette, SearchTrigger } from './CommandPalette';
+import { SunButton, SunModal } from '@/components/voice/SunModal';
+import { ProfileSwitcher } from './ProfileSwitcher';
+import { ResumeTrip } from './ResumeTrip';
 
 const PRIMARY = [
   { href: '/', label: 'World' },
@@ -148,6 +151,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
+            <SunButton />
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
             {isDemoMode() && <CurrentMemberChip className="hidden sm:flex" mountRoot={false} />}
@@ -162,6 +166,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               Now
             </Link>
+            <ProfileSwitcher className="hidden sm:block" />
             <Link
               href={PROFILE_HREF}
               aria-current={profileCurrent ? 'page' : undefined}
@@ -175,6 +180,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
+      <ResumeTrip />
       {/* Outside the glass header: its backdrop-filter would trap the fixed sheet and invitation strip. */}
       {isDemoMode() && <SocialRoot />}
 
@@ -277,6 +283,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </>
       )}
       <CommandPalette />
+      <SunModal />
     </div>
   );
 }

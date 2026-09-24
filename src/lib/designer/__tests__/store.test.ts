@@ -68,6 +68,21 @@ describe('designer store: joining and restoring (G07)', () => {
     expect(state.previousTrip?.trip.id).toBe('trip-lisbon');
   });
 
+  it('finds a set-aside copy of a linked trip, so reopening its link restores instead of overwriting (S1)', async () => {
+    const { localCopyOf } = await import('../store');
+    const paris = trip('Paris');
+    useDesignerStore.getState().setTrip(paris);
+    const slot = paris.days[1].slots[0];
+    useDesignerStore.getState().vote(slot.id, slot.cardIds[0], 'p0', 1);
+    useDesignerStore.getState().importTrip({ ...trip('Lisbon'), id: 'trip-lisbon', joinedFrom: 'Ana' }, {}, 'g-sam');
+    const copy = localCopyOf(paris.id, useDesignerStore.getState());
+    expect(copy?.setAside).toBe(true);
+    expect(copy?.trip.joinedFrom).toBeUndefined();
+    expect(copy?.votes[slot.id][slot.cardIds[0]]).toEqual({ p0: 1 });
+    expect(localCopyOf('trip-lisbon', useDesignerStore.getState())?.setAside).toBe(false);
+    expect(localCopyOf('nope', useDesignerStore.getState())).toBeNull();
+  });
+
   it('re-importing the same trip does not touch the saved slot', () => {
     const lisbon = { ...trip('Lisbon'), id: 'trip-lisbon', joinedFrom: 'Matt' };
     useDesignerStore.getState().importTrip(lisbon, {}, 'g-sam');
@@ -104,6 +119,16 @@ describe('designer store: merging picks (G01, G06, G09)', () => {
     useDesignerStore.getState().undoMerge();
     expect(useDesignerStore.getState().votes).toEqual(before);
     expect(useDesignerStore.getState().lastMergedAt).toEqual({});
+  });
+
+  it('remembers the sender id after "combine", so their older link is still spotted (S6)', () => {
+    const lisbon = trip('Lisbon', [matt]);
+    useDesignerStore.getState().setTrip(lisbon);
+    const slot = lisbon.days[1].slots[0];
+    const guest = { ...lisbon, participants: [matt, { ...sam, id: 'g-ana', name: 'Ana' }] };
+    const reply = replyFor(guest, { [slot.id]: { [slot.cardIds[0]]: { 'g-ana': 1 } } }, 'g-ana', new Date('2026-09-24T10:05:00Z'));
+    useDesignerStore.getState().mergeReply(reply, { as: 'p0' });
+    expect(useDesignerStore.getState().lastMergedAt['g-ana']).toBe('2026-09-24T10:05:00.000Z');
   });
 
   it('renames the organizer placeholder', () => {
