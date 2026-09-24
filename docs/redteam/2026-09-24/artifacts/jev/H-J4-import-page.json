@@ -1,0 +1,77 @@
+{
+  "label": "H-J4-import-page",
+  "at": "2026-09-24T05:57:55.844Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Tech-savvy traveler (Maya, 34, Brooklyn) who uses Claude or ChatGPT daily and wants their own AI assistant to set up their dope.travel profile over MCP and then plan a Lisbon trip with husband and 6-year-old daughter.",
+      "flow": "Traveler opened the private import link their AI gave them. Page before saving: eyebrow \"FROM YOUR AI AGENT\", headline \"Here’s you, as your agent sees you.\", lede \"Check it over. Saving keeps it on this device only; dope.travel never received this profile, because it traveled in the link itself.\" Bento board of their profile. Buttons: \"Save my profile\", \"Plan a trip with it →\", \"Edit by talking\". FACT: the AI agent actually sent the full profile (and the full ramble text) to dope.travel's /api/mcp server to build this link; the server did not store it.",
+      "after_clicking_save": "Entire page content becomes only: \"FROM YOUR AI AGENT\" and headline \"Saved. Your profile is on this device.\" No buttons, no links, no next step (only the global nav: World, Circles, People, Trips, Access, Search, Now, Profile; the \"Profile\" nav item opens /account which says \"Membership is not connected yet.\"). The saved board is actually listed at /moodboard under \"Boards on this device\"."
+    },
+    "questions": {
+      "never_received_accurate": {
+        "type": "score",
+        "instructions": "How accurate is \"dope.travel never received this profile\" given the FACT?",
+        "criteria": [
+          "false",
+          "misleading",
+          "technically defensible",
+          "accurate"
+        ]
+      },
+      "after_save_next_step": {
+        "type": "noul",
+        "instructions": "Probability the traveler, after pressing Save, finds their saved profile again or proceeds to plan a trip within one minute."
+      },
+      "after_save_dead_end": {
+        "type": "choice",
+        "instructions": "Classify the after-save state.",
+        "criteria": {
+          "dead_end": "user is stranded without a next action",
+          "weak": "next step exists but is hidden",
+          "ok": "clear next step"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "never_received_accurate": {
+        "type": "score",
+        "score": 0.43,
+        "confidence": 0.57,
+        "legend": {
+          "0": "false",
+          "1": "misleading",
+          "2": "technically defensible",
+          "3": "accurate"
+        },
+        "probabilities": {
+          "0": 0.68,
+          "1": 0.22,
+          "2": 0.08,
+          "3": 0.02
+        }
+      },
+      "after_save_next_step": {
+        "type": "noul",
+        "noul": 0.31
+      },
+      "after_save_dead_end": {
+        "type": "choice",
+        "choice": "dead_end",
+        "confidence": 0.48,
+        "probabilities": {
+          "weak": 0.34,
+          "ok": 0,
+          "dead_end": 0.66
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 733,
+      "output_tokens": 79
+    }
+  }
+}

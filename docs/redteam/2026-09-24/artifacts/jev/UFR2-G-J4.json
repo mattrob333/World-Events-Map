@@ -1,0 +1,57 @@
+{
+  "label": "UFR2-G-J4",
+  "at": "2026-09-24T05:58:12.498Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, organizer, on his laptop where he planned the Lisbon trip. He had loved 'Walk Lisbon's best neighborhoods' and 'Cocktails in Lisbon'.",
+      "job": "Collect friends' picks into the plan.",
+      "workflow_state": "Opens a picks link a friend sent in the group chat. In reality the friend, when joining, tapped the 'Matt' chip instead of their own name and voted pass on both of Matt's loves.",
+      "visible_text": "Eyebrow 'SHARED TRIP'. Headline 'Matt sent their picks. 2 votes.' Lede 'Add them to your trip. If they voted before, their new picks replace the old ones.' Single button [Add their picks]. After tapping: 'Matt's 2 picks are in.' and [See the group's faves →]. No preview of which picks, no sender device info, no warning that the name matches the organizer, no undo.",
+      "result": "Matt's own two loves are replaced by two passes on his device."
+    },
+    "questions": {
+      "notices_problem": {
+        "type": "noul",
+        "instructions": "Probability Matt notices before tapping 'Add their picks' that something is wrong (a picks link claiming to be from himself)."
+      },
+      "would_tap_add": {
+        "type": "noul",
+        "instructions": "Probability Matt taps 'Add their picks' anyway."
+      },
+      "can_recover": {
+        "type": "noul",
+        "instructions": "Probability Matt later realizes his own loves were overwritten and restores them correctly."
+      },
+      "stale_order": {
+        "type": "noul",
+        "instructions": "Separate scenario: Priya sent two picks links (first loved the Rooftop, later changed her mind and passed). Matt opens the newer one, then later taps the older one in the chat; the page says 'Priya sent their picks. 1 votes. Add them to your trip. If they voted before, their new picks replace the old ones.' Probability Matt realizes the older link will overwrite Priya's newer choice."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "notices_problem": {
+        "type": "noul",
+        "noul": 0.2
+      },
+      "would_tap_add": {
+        "type": "noul",
+        "noul": 0.62
+      },
+      "can_recover": {
+        "type": "noul",
+        "noul": 0.34
+      },
+      "stale_order": {
+        "type": "noul",
+        "noul": 0.36
+      }
+    },
+    "usage": {
+      "input_tokens": 652,
+      "output_tokens": 78
+    }
+  }
+}

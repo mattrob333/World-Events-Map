@@ -1,0 +1,37 @@
+### M1 initialize, anonymous, no auth
+HTTP 200
+{"result":{"protocolVersion":"2025-06-18","capabilities":{"prompts":{"listChanged":true},"tools":{"listChanged":true}},"serverInfo":{"name":"dope-travel","version":"1.1.0"},"instructions":"You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk:\n\nWelcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\n\n1. An experience you loved: where, who you were with, and what made 
+### M2 tools/list
+HTTP 200
+{"result":{"tools":[{"name":"dope_profile_guide","title":"How to build a dope.travel profile","description":"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.","inputSchema":{"type":"object","properties":{}},"annotations":{"readOnlyHint":true,"openWorldHint":false},"execution":{"taskSupport":"forbidden"}},{"name":"dope_save_profile","title":"Save a traveler profile","description":"Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler to open and save on their device. Also reports what is still missing so you can ask follow-ups.","inputSchema":{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"spotifyPlaylist":{"description":"A public Spotify playlist link the traveler shared. Its songs and artists are read into their music profile.","type":"string","maxLength":300},"about":{"description":"The traveler’s full ramble, in their own words. Used to fill any gaps in the structured fields.","type":"string","maxLength":12000},"profile":{"type":"object","properties":{"name":{"type":"string","maxLength":40},"age":{"type":"integer","minimum":13,"maximum":110},"hometown":{"type":"string","maxLength":80},"heritage":{"maxItems":6,"type":"array","items":{"type":"string","minLength":1,"maxLength":80},"description":"Countries or cultures"},"teams":{"maxItems":8,"type":"array","items":{"type":"string","minLength":1,"maxLength":80},"description":"Full team names"},"music":{"maxItems":10,"type":"array","items":{"type":"string","minLength":1,"maxLength":80},"description":"Genres"},"events":{"maxItems":10,"type":"array","items":{"type":"string","minLength":1,"maxLength":80},"description":"Concerts, festivals, live events"},"family":{"maxItems":12,"type":"array","items":{"type":"object","properties":{"relation":{"type":"string","enum":["partner","child","parent","sibling","friend","other"]},"lab
+tool names:
+"name":"dope_curated_occasions"
+"name":"dope_find_events"
+"name":"dope_find_stays"
+"name":"dope_live_music_scene"
+"name":"dope_plan_trip"
+"name":"dope_profile_guide"
+"name":"dope_read_playlist"
+"name":"dope_save_profile"
+"name":"dope_trip_ideas"
+### M3 dope_plan_trip with Host: evil.example (host-header -> link origin?)
+HTTP 200
+{"result":{"content":[{"type":"text","text":"Trip to Lisbon ready. Give the traveler this private link; it opens as their trip, and they can invite the crew from there:\nhttp://localhost:3127/trips/join#t=zrZlPj-O2FcC_CsHF5CTPSPJ_AUGwyDZpgA0QJAss0mJQUOKTxZgmVZKyoywGyKm9ZBNgiwU26KGXFm2BAj30EuSab7JfoP0ILSnJkmV77HR8GIxESeR7v_eHj88v8BpHgYeNYjmOXmBGceRuBqsiHbEhmWIPU9CGCWKYFDjCSaGNXGEP55wkYD8SZAU4wk-Zjq
+http://localhost:3127/trips/join
+### M4 dope_plan_trip with X-Forwarded-Host: evil.example
+HTTP 200
+{"result":{"content":[{"type":"text","text":"Trip to Lisbon ready. Give the traveler this private link; it opens as their trip, and they can invite the crew from there:\nhttp://localhost:3127/trips/jo
+http://localhost:3127/trips/join
+### M5 declared content-length 70000 -> 413
+HTTP 413
+{"jsonrpc":"2.0","error":{"code":-32600,"message":"Request too large"},"id":null}
+### M6 300 KB chunked body, no Content-Length
+HTTP 200
+{"result":{"tools":[{"name":"dope_profile_guide","title":"How to build a dope.travel profile","description":"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.","inputSchema":{"type":"object","properties":{}},"annotations":{"readOnlyHint":true,"openWorldHint":false},"execution":{"taskSupport":"forbidden"}},{"name":"dope_save_profile","title":"Save a traveler profile","description":"Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler 
+### M7 GET /api/mcp
+HTTP 200
+
+### M8 cross-origin browser-style POST (Origin evil) initialize
+HTTP 200
+{"result":{"protocolVersion":"2025-06-18","capabilities":{"prompts":{"listChanged":true},"tools":{"listChanged":true}},"serverInfo":{"name":"dope-travel","version":"1.1.0"},"instructions":"You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk:\n\nWelcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\n\n1. An experience you loved: where, who you were with, and what made 
+HTTP/1.1 204 No Content

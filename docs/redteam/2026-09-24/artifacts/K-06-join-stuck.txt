@@ -1,0 +1,4 @@
+pollute=null: after Join url=http://localhost:3127/trips/designer
+pollute=rtkHarmless: after Join url=http://localhost:3127/trips/join
+  after clicking header "World" link: url=http://localhost:3127/trips/join
+research POSTs observed: 0

@@ -1,0 +1,79 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Profile ready. Give the traveler this private link to open and save it on their device:\nhttp://localhost:3127/moodboard/import#p=eyJ2IjoxLCJwcm9maWxlIjp7Im5hbWUiOiJNYXlhIiwiYWdlIjozNCwiaG9tZXRvd24iOiJCcm9va2x5biwgTmV3IFlvcmsiLCJoZXJpdGFnZSI6W10sInRlYW1zIjpbIkF0bGFudGEgSGF3a3MiXSwibXVzaWMiOlsiZnVuayIsInNvdWwiLCJpbmRpZSIsImRpc2NvIl0sImV2ZW50cyI6WyJQcmltYXZlcmEgU291bmQiLCJLaHJ1YW5nYmluIGF0IFJlZCBSb2NrcyJdLCJmYW1pbHkiOlt7InJlbGF0aW9uIjoicGFydG5lciIsImxhYmVsIjoiaHVzYmFuZCIsIm5hbWUiOiJEZXYiLCJhZ2UiOjM2fSx7InJlbGF0aW9uIjoiY2hpbGQiLCJsYWJlbCI6ImRhdWdodGVyIiwibmFtZSI6IkFuaWthIiwiYWdlIjo2LCJub3RlIjoidmVnZXRhcmlhbiJ9XSwiZmF2b3JpdGVUcmlwcyI6WyJMaXNib24iLCJNZXhpY28gQ2l0eSJdLCJpbnRlcmVzdHMiOlsiZGFuY2luZyIsIm5hdHVyYWwgd2luZSJdLCJmb29kIjpbInJhbWVuIiwidGFjb3MiLCJwYXN0ZWwgZGUgbmF0YSJdLCJzdW1tYXJ5IjoiMzQsIGZyb20gQnJvb2tseW4sIE5ldyBZb3JrIMK3IHRyYXZlbHMgd2l0aCBodXNiYW5kIGFuZCAxIGtpZCDCtyBpbnRvIEF0bGFudGEgSGF3a3MsIGZ1bmssIHNvdWwsIGRhbmNpbmcsIG5hdHVyYWwgd2luZS4iLCJzdHlsZSI6eyJidWRnZXQiOiJjb21mb3J0YWJsZSIsInBhY2UiOiJzbG93Iiwic29jaWFsIjoibWVldC1ldmVyeW9uZSIsImxvZGdpbmciOlsiYm91dGlxdWUgaG90ZWwiXSwiaG9tZUFpcnBvcnQiOiJKRksiLCJkaWV0YXJ5IjpbInZlZ2V0YXJpYW4iXSwiYXZvaWQiOltdLCJidWNrZXRMaXN0IjpbXSwibGFuZ3VhZ2VzIjpbXX0sImJlc3RNb21lbnRzIjpbIkRhbmNpbmcgdW50aWwgNGFtIG9uIGEgcm9vZnRvcCBpbiBNZXhpY28gQ2l0eSB3aXRoIHN0cmFuZ2VycyB3aG8gYmVjYW1lIGZyaWVuZHMuIl19fQ\n\nPlaylist reading isn’t set up on this server, so the music came from what they said. They can connect Spotify in the app.\n\nNothing important is missing."
+    }
+  ],
+  "structuredContent": {
+    "importUrl": "http://localhost:3127/moodboard/import#p=eyJ2IjoxLCJwcm9maWxlIjp7Im5hbWUiOiJNYXlhIiwiYWdlIjozNCwiaG9tZXRvd24iOiJCcm9va2x5biwgTmV3IFlvcmsiLCJoZXJpdGFnZSI6W10sInRlYW1zIjpbIkF0bGFudGEgSGF3a3MiXSwibXVzaWMiOlsiZnVuayIsInNvdWwiLCJpbmRpZSIsImRpc2NvIl0sImV2ZW50cyI6WyJQcmltYXZlcmEgU291bmQiLCJLaHJ1YW5nYmluIGF0IFJlZCBSb2NrcyJdLCJmYW1pbHkiOlt7InJlbGF0aW9uIjoicGFydG5lciIsImxhYmVsIjoiaHVzYmFuZCIsIm5hbWUiOiJEZXYiLCJhZ2UiOjM2fSx7InJlbGF0aW9uIjoiY2hpbGQiLCJsYWJlbCI6ImRhdWdodGVyIiwibmFtZSI6IkFuaWthIiwiYWdlIjo2LCJub3RlIjoidmVnZXRhcmlhbiJ9XSwiZmF2b3JpdGVUcmlwcyI6WyJMaXNib24iLCJNZXhpY28gQ2l0eSJdLCJpbnRlcmVzdHMiOlsiZGFuY2luZyIsIm5hdHVyYWwgd2luZSJdLCJmb29kIjpbInJhbWVuIiwidGFjb3MiLCJwYXN0ZWwgZGUgbmF0YSJdLCJzdW1tYXJ5IjoiMzQsIGZyb20gQnJvb2tseW4sIE5ldyBZb3JrIMK3IHRyYXZlbHMgd2l0aCBodXNiYW5kIGFuZCAxIGtpZCDCtyBpbnRvIEF0bGFudGEgSGF3a3MsIGZ1bmssIHNvdWwsIGRhbmNpbmcsIG5hdHVyYWwgd2luZS4iLCJzdHlsZSI6eyJidWRnZXQiOiJjb21mb3J0YWJsZSIsInBhY2UiOiJzbG93Iiwic29jaWFsIjoibWVldC1ldmVyeW9uZSIsImxvZGdpbmciOlsiYm91dGlxdWUgaG90ZWwiXSwiaG9tZUFpcnBvcnQiOiJKRksiLCJkaWV0YXJ5IjpbInZlZ2V0YXJpYW4iXSwiYXZvaWQiOltdLCJidWNrZXRMaXN0IjpbXSwibGFuZ3VhZ2VzIjpbXX0sImJlc3RNb21lbnRzIjpbIkRhbmNpbmcgdW50aWwgNGFtIG9uIGEgcm9vZnRvcCBpbiBNZXhpY28gQ2l0eSB3aXRoIHN0cmFuZ2VycyB3aG8gYmVjYW1lIGZyaWVuZHMuIl19fQ",
+    "profile": {
+      "name": "Maya",
+      "age": 34,
+      "hometown": "Brooklyn, New York",
+      "heritage": [],
+      "teams": [
+        "Atlanta Hawks"
+      ],
+      "music": [
+        "funk",
+        "soul",
+        "indie",
+        "disco"
+      ],
+      "events": [
+        "Primavera Sound",
+        "Khruangbin at Red Rocks"
+      ],
+      "family": [
+        {
+          "relation": "partner",
+          "label": "husband",
+          "name": "Dev",
+          "age": 36
+        },
+        {
+          "relation": "child",
+          "label": "daughter",
+          "name": "Anika",
+          "age": 6,
+          "note": "vegetarian"
+        }
+      ],
+      "favoriteTrips": [
+        "Lisbon",
+        "Mexico City"
+      ],
+      "interests": [
+        "dancing",
+        "natural wine"
+      ],
+      "food": [
+        "ramen",
+        "tacos",
+        "pastel de nata"
+      ],
+      "summary": "34, from Brooklyn, New York · travels with husband and 1 kid · into Atlanta Hawks, funk, soul, dancing, natural wine.",
+      "style": {
+        "budget": "comfortable",
+        "pace": "slow",
+        "social": "meet-everyone",
+        "lodging": [
+          "boutique hotel"
+        ],
+        "homeAirport": "JFK",
+        "dietary": [
+          "vegetarian"
+        ],
+        "avoid": [],
+        "bucketList": [],
+        "languages": []
+      },
+      "bestMoments": [
+        "Dancing until 4am on a rooftop in Mexico City with strangers who became friends."
+      ]
+    },
+    "missing": [],
+    "playlistNote": "Playlist reading isn’t set up on this server, so the music came from what they said. They can connect Spotify in the app."
+  }
+}

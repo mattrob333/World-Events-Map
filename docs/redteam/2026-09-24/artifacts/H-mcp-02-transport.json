@@ -1,0 +1,114 @@
+[
+  {
+    "note": "POST no Accept header",
+    "status": 406,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"Not Acceptable: Client must accept both application/json and text/event-stream\"},\"id\":null}"
+  },
+  {
+    "note": "POST Accept: application/json only",
+    "status": 406,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"Not Acceptable: Client must accept both application/json and text/event-stream\"},\"id\":null}"
+  },
+  {
+    "note": "POST text/plain",
+    "status": 415,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"Unsupported Media Type: Content-Type must be application/json\"},\"id\":null}"
+  },
+  {
+    "note": "GET (SSE stream)",
+    "status": 200,
+    "ct": "text/event-stream",
+    "allow": null,
+    "acao": null,
+    "body": ""
+  },
+  {
+    "note": "GET plain browser",
+    "status": 406,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"Not Acceptable: Client must accept text/event-stream\"},\"id\":null}"
+  },
+  {
+    "note": "DELETE",
+    "status": 200,
+    "ct": null,
+    "allow": null,
+    "acao": null,
+    "body": ""
+  },
+  {
+    "note": "OPTIONS preflight",
+    "status": 204,
+    "ct": null,
+    "allow": "DELETE, GET, HEAD, OPTIONS, POST",
+    "acao": null,
+    "body": ""
+  },
+  {
+    "note": "POST cross-origin browser Origin",
+    "status": 200,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"result\":{\"tools\":[{\"name\":\"dope_profile_guide\",\"title\":\"How to build a dope.travel profile\",\"description\":\"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{}},\"annotations\":{\"readOnlyHint\":true,\"openWorldHint\":false},\"execution\":{\"taskSupport\":\"forbidden\"}},{\"name\":\"dope_s"
+  },
+  {
+    "note": "POST malformed JSON",
+    "status": 400,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32700,\"message\":\"Parse error: Invalid JSON\"},\"id\":null}"
+  },
+  {
+    "note": "POST batch of 2",
+    "status": 200,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "[{\"result\":{\"tools\":[{\"name\":\"dope_profile_guide\",\"title\":\"How to build a dope.travel profile\",\"description\":\"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{}},\"annotations\":{\"readOnlyHint\":true,\"openWorldHint\":false},\"execution\":{\"taskSupport\":\"forbidden\"}},{\"name\":\"dope_"
+  },
+  {
+    "note": "POST old protocol header 2024-11-05",
+    "status": 200,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"result\":{\"tools\":[{\"name\":\"dope_profile_guide\",\"title\":\"How to build a dope.travel profile\",\"description\":\"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{}},\"annotations\":{\"readOnlyHint\":true,\"openWorldHint\":false},\"execution\":{\"taskSupport\":\"forbidden\"}},{\"name\":\"dope_s"
+  },
+  {
+    "note": "POST bogus protocol header",
+    "status": 400,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"Bad Request: Unsupported protocol version: 1999-01-01 (supported versions: 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05, 2024-10-07)\"},\"id\":null}"
+  },
+  {
+    "note": "POST tools/list without initialize (stateless)",
+    "status": 200,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"result\":{\"tools\":[{\"name\":\"dope_profile_guide\",\"title\":\"How to build a dope.travel profile\",\"description\":\"Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{}},\"annotations\":{\"readOnlyHint\":true,\"openWorldHint\":false},\"execution\":{\"taskSupport\":\"forbidden\"}},{\"name\":\"dope_s"
+  },
+  {
+    "note": "unknown tool",
+    "status": 200,
+    "ct": "application/json",
+    "allow": null,
+    "acao": null,
+    "body": "{\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"MCP error -32602: Tool nope not found\"}],\"isError\":true},\"jsonrpc\":\"2.0\",\"id\":9}"
+  }
+]

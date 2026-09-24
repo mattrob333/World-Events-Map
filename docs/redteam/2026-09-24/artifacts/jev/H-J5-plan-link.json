@@ -1,0 +1,60 @@
+{
+  "label": "H-J5-plan-link",
+  "at": "2026-09-24T05:57:56.323Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Tech-savvy traveler (Maya, 34, Brooklyn) who uses Claude or ChatGPT daily and wants their own AI assistant to set up their dope.travel profile over MCP and then plan a Lisbon trip with husband and 6-year-old daughter.",
+      "flow": "The AI called dope_plan_trip and replied: \"Trip to Lisbon ready. Give the traveler this private link; it opens as their trip, and they can invite the crew from there: <link>\" followed by a day-by-day outline and stay search links. Traveler opens link in a fresh browser (phone).",
+      "visible_join_page": "SHARED TRIP. Headline: \"Your agent planned this. Lisbon.\" \"Thu, Oct 15 → Tue, Oct 20 · 5 nights. Say which one is you and it opens as your trip on this device. Then invite the crew.\" WHO ARE YOU? chips: Maya, Dev, Anika. \"Not on the list? Add yourself\" input. Button \"Open my trip →\". Pressing without choosing shows \"Tap your name, or add yourself.\"",
+      "after_open": "Designer canvas for Lisbon, \"Drafted on this device\", \"Voting as Maya/Dev/Anika\", \"Invite people\" button, research panel. The music taste the agent passed (funk, soul, Khruangbin) is stripped from the link, so the canvas has no music taste.",
+      "hidden_fact": "Opening the link auto-fires paid destination research (~$0.055) for any place not already cached; a nonsense place like \"asdfghjkl qwerty\" also yields \"Trip to asdfghjkl qwerty ready.\""
+    },
+    "questions": {
+      "becomes_mine": {
+        "type": "noul",
+        "instructions": "Probability the traveler understands the trip is now theirs (organizer) on this device and how to invite the crew."
+      },
+      "who_are_you_friction": {
+        "type": "score",
+        "instructions": "Friction of the \"Who are you?\" step for the person the agent planned it for.",
+        "criteria": [
+          "blocking",
+          "confusing",
+          "minor",
+          "none"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "becomes_mine": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "who_are_you_friction": {
+        "type": "score",
+        "score": 1.92,
+        "confidence": 0.73,
+        "legend": {
+          "0": "blocking",
+          "1": "confusing",
+          "2": "minor",
+          "3": "none"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.13,
+          "2": 0.75,
+          "3": 0.1
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 719,
+      "output_tokens": 41
+    }
+  }
+}

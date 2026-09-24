@@ -1,0 +1,88 @@
+{
+  "label": "UFR2-G-J2",
+  "at": "2026-09-24T05:58:11.387Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Sam, invited friend on an iPhone, first time using dope.travel. Joined Matt's Lisbon trip as 'Sam'.",
+      "job": "Vote on the ideas I care about and send my votes back to Matt.",
+      "workflow_state": "After tapping 'Join and vote', the page is /trips/designer. The page is about 21,200 px tall on a 844 px screen (about 25 screens). The panel with 'Send my picks back' starts at about 20,840 px, i.e. at the very bottom, after 6 days of idea-card rows, a live research panel with 10 tabs and a 'Where you'll stay' panel.",
+      "visible_text_top": "Hero card: 'PORTUGAL · THU, OCT 15 → TUE, OCT 20 · 5 NIGHTS', 'Lisbon', 'Streets to wander, tables to find, nights to remember.', '21 days UNTIL WHEELS UP', badges 'Drafted on this device', '2 loves so far'. Toolbar: 'Voting as' chips '😎 Matt' and '🌺 Sam' (Sam highlighted), [Curated] [Group faves] [All] [Loved] [Sam: to vote] [New trip]. Help text: 'Drag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas: check hours, prices, and bookings with each venue.' Then 'LISBON, RIGHT NOW' research panel with a [Refresh] button. Each idea card has 👍 and 👎 buttons.",
+      "visible_text_bottom_panel": "'YOU'RE ON MATT'S TRIP' / 'Vote as Sam, then send your picks back. They merge into the organizer's plan.' [Send my picks back] [Share the trip]. After tapping: 'Link copied. Send it to Matt.' plus a textarea with a long http://.../trips/join#r=... link. Footnote: 'Anyone with the link can see the plan and who's going (names, kids' ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.'",
+      "note": "There is no 'Invite people' button on the friend's copy (it says 'Share the trip'); nothing at the top tells the friend where the send-back step is; votes are not sent anywhere automatically."
+    },
+    "questions": {
+      "finds_send_back": {
+        "type": "noul",
+        "instructions": "Probability Sam, after voting on a few cards on the phone, finds the 'Send my picks back' button without help within 2 minutes."
+      },
+      "thinks_votes_already_sent": {
+        "type": "noul",
+        "instructions": "Probability Sam believes Matt can already see their votes after tapping thumbs up/down (without sending a link), and stops there."
+      },
+      "understands_send_back": {
+        "type": "noul",
+        "instructions": "Probability that after tapping 'Send my picks back' and seeing 'Link copied. Send it to Matt.', Sam understands they must paste this new link into a message to Matt, and Matt must open it on the device where he planned the trip."
+      },
+      "toolbar_matt_chip": {
+        "type": "noul",
+        "instructions": "Probability Sam taps the 'Matt' chip in 'Voting as' at some point (curiosity or thinking it filters Matt's picks) and then votes as Matt by mistake."
+      },
+      "completion": {
+        "type": "score",
+        "instructions": "Overall, how likely is this flow to end with Sam's votes correctly reaching Matt?",
+        "criteria": [
+          "almost certainly fails",
+          "likely fails",
+          "coin flip",
+          "likely succeeds",
+          "almost certainly succeeds"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "finds_send_back": {
+        "type": "noul",
+        "noul": 0.21
+      },
+      "thinks_votes_already_sent": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "understands_send_back": {
+        "type": "noul",
+        "noul": 0.47
+      },
+      "toolbar_matt_chip": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "completion": {
+        "type": "score",
+        "score": 1.17,
+        "confidence": 0.58,
+        "legend": {
+          "0": "almost certainly fails",
+          "1": "likely fails",
+          "2": "coin flip",
+          "3": "likely succeeds",
+          "4": "almost certainly succeeds"
+        },
+        "probabilities": {
+          "0": 0.17,
+          "1": 0.64,
+          "2": 0.05,
+          "3": 0.13,
+          "4": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1071,
+      "output_tokens": 96
+    }
+  }
+}

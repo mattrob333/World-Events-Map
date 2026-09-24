@@ -1,0 +1,68 @@
+{
+  "label": "UFR2-G-J3",
+  "at": "2026-09-24T05:58:11.925Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, trip organizer, privacy-aware parent. Planning Lisbon for himself, partner Sam, daughter Lily (7). Built his profile from his Spotify listening.",
+      "job": "Invite friends to vote on the trip without oversharing personal details.",
+      "workflow_state": "Pressed 'Invite people' on /trips/designer. Link copied.",
+      "visible_text": "Panel 'BRING THE CREW': 'The whole trip travels inside the link, so there's no sign-up. Friends vote on their own phone and send their picks back with one tap.' [Invite people] 'Link copied. Paste it in the group chat.' Footnote: 'Anyone with the link can see the plan and who's going (names, kids' ages, home city). Music taste stays on your device. Picks sync when a link is opened, not live.'",
+      "what_the_link_actually_contains": "Every traveler's name, adult/kid, the kid's exact age (7), each traveler's interest tags (e.g. Matt: food, music, nightlife), hometown 'New York', dates, every idea card including cards generated from Matt's music taste with blurbs 'Because you listen to hip hop, trap.' and '40% of your top songs are from before 2000, and rock is in your mix.', everyone's existing votes (who loved/passed what), and the organizer's name. The raw Spotify taste object itself is removed. The link is a URL fragment, not sent to the server, but anyone it is forwarded to can decode it."
+    },
+    "questions": {
+      "disclosure_adequate": {
+        "type": "score",
+        "instructions": "How adequate is the footnote as a disclosure of what the link actually reveals?",
+        "criteria": [
+          "misleading",
+          "materially incomplete",
+          "mostly adequate",
+          "fully adequate"
+        ]
+      },
+      "expects_taste_hidden": {
+        "type": "noul",
+        "instructions": "Probability Matt, after reading 'Music taste stays on your device', believes friends who open the link will NOT see anything about what music he listens to."
+      },
+      "surprised_by_blurb": {
+        "type": "noul",
+        "instructions": "Probability Matt would be unhappy or surprised to learn a friend's phone shows 'Because you listen to hip hop, trap.' and '40% of your top songs are from before 2000' from his link."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "disclosure_adequate": {
+        "type": "score",
+        "score": 1.07,
+        "confidence": 0.73,
+        "legend": {
+          "0": "misleading",
+          "1": "materially incomplete",
+          "2": "mostly adequate",
+          "3": "fully adequate"
+        },
+        "probabilities": {
+          "0": 0.1,
+          "1": 0.75,
+          "2": 0.13,
+          "3": 0.02
+        }
+      },
+      "expects_taste_hidden": {
+        "type": "noul",
+        "noul": 0.41
+      },
+      "surprised_by_blurb": {
+        "type": "noul",
+        "noul": 0.78
+      }
+    },
+    "usage": {
+      "input_tokens": 747,
+      "output_tokens": 63
+    }
+  }
+}

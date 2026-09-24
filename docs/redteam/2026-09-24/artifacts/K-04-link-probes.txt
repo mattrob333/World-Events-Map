@@ -1,0 +1,34 @@
+
+## A #t votes {"__proto__":{"rtkPolluted":{"p0":1}}}  (hash 12699 chars, 2693 ms)
+h1: Maya wants you on this trip. Lisbon.
+({}).rtkPolluted = {"p0":1} | Object.prototype own keys: ["rtkPolluted"]
+
+## B #t votes {"__proto__":{"disabled":{"p0":1}}}  (hash 12695 chars, 2543 ms)
+h1: Maya wants you on this trip. Lisbon.
+({}).disabled = {"p0":1}
+buttons total / disabled: [6,0]
+after click buttons total / disabled: [6,0]
+screenshot: K-02-proto-disabled.png
+
+## C #r reply votes {"__proto__":{"rtkReply":1}}  (hash 141 chars, 2493 ms)
+h1: Eve sent their picks. 0 votes.
+({}).rtkReply = 1
+
+## D hostile names / links, then join as p0  (hash 1617 chars, 2836 ms)
+h1: <svg onload=alert(1)> wants you on this trip. Lisbon.
+radio names: ["😎\n<img src=x onerror=alert(1)>","😎\n‮yaM","😎\nMaya​"]
+suspicious hrefs rendered on designer: ["https://dope.travel.evil.example/login"]
+localStorage keys (lengths): {"meridian.designer.v1":1640}
+stored trip hometown: Brooklyn, 12 Elm St | stored participant names: ["<img src=x onerror=alert(1)>","‮yaM","Maya​"] | ages: [null,7,null] | joinedFrom: <svg onload=alert(1)>
+alert dialogs fired: 0
+screenshot: K-03-hostile-trip-designer.png
+
+## E deflate bomb (51855 chars -> 40 MB)  (hash 51857 chars, 2920 ms)
+h1: That link didn’t open.
+lede: That trip is too large to open. It may have been cut off when it was copied. Ask for the link again, or plan your own trip.
+
+## F oversize 60,001 chars  (hash 60003 chars, 2914 ms)
+h1: That link didn’t open.
+
+## G deep nesting 200k levels  (hash 546 chars, 2997 ms)
+h1: That link didn’t open.

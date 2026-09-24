@@ -1,0 +1,70 @@
+{
+  "label": "UFR2-G-J1",
+  "at": "2026-09-24T05:58:01.940Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Sam, 34, invited friend. Got a link in a group chat from their friend Matt. Has never used dope.travel. On an iPhone, no account, no prior data on this device.",
+      "job": "Understand what this is and who invited me, say who I am, vote on trip ideas, and get my votes back to Matt.",
+      "workflow_state": "Just tapped the invite link. Page /trips/join on a 390x844 phone.",
+      "visible_text": "Header: 'dope.travel' logo, search icon, 'Profile'. Banner: 'Set your traveler lens. It takes under a minute.' [Begin] [Skip]. Eyebrow: 'SHARED TRIP'. Headline: 'Matt wants you on this trip. Lisbon.' Lede: 'Thu, Oct 15 → Tue, Oct 20 · 5 nights. Say who you are, tap ♥ on what you're into, and send your picks back. No sign-up: the trip came inside the link.' Panel 'WHO ARE YOU?' with two chips: '😎 Matt' and '🌺 Sam'. 'Not on the list? Add yourself' text input placeholder 'Your name'. Primary button 'Join and vote →'. Bottom tab bar: World, Circles, People, Access, More.",
+      "not_visible": "No explanation of what dope.travel is, no preview of the plan or ideas, no note that picking a name lets you vote as that person, no note about what is stored on the device."
+    },
+    "questions": {
+      "knows_inviter": {
+        "type": "noul",
+        "instructions": "Probability Sam correctly understands that Matt invited them to help plan a Lisbon trip for Oct 15-20."
+      },
+      "knows_next_step": {
+        "type": "noul",
+        "instructions": "Probability Sam knows the next steps are: tap their own name (Sam), press Join and vote, then vote on ideas and send picks back."
+      },
+      "might_pick_wrong": {
+        "type": "noul",
+        "instructions": "Probability a typical invited friend taps a name other than their own (e.g. the organizer Matt, because it is listed first or they think it means 'join Matt') at least once in this screen."
+      },
+      "lens_banner": {
+        "type": "choice",
+        "instructions": "What will Sam most likely do with the 'Set your traveler lens' banner on this screen?",
+        "criteria": {
+          "ignore": "Ignore it and continue with the invite",
+          "tap_begin": "Tap Begin thinking it is part of joining the trip",
+          "tap_skip": "Tap Skip",
+          "confused_stop": "Get confused about which is the real next step and hesitate"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_inviter": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "knows_next_step": {
+        "type": "noul",
+        "noul": 0.55
+      },
+      "might_pick_wrong": {
+        "type": "noul",
+        "noul": 0.23
+      },
+      "lens_banner": {
+        "type": "choice",
+        "choice": "tap_begin",
+        "confidence": 0.12,
+        "probabilities": {
+          "tap_skip": 0.26,
+          "confused_stop": 0.1,
+          "tap_begin": 0.34,
+          "ignore": 0.3
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 832,
+      "output_tokens": 107
+    }
+  }
+}

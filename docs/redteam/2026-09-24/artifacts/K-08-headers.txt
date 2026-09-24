@@ -1,0 +1,42 @@
+### headers /
+HTTP/1.1 200 OK
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+x-nextjs-cache: HIT
+x-nextjs-prerender: 1
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+X-Powered-By: Next.js
+Cache-Control: s-maxage=31536000
+ETag: "ak5bled657dxc"
+Content-Type: text/html; charset=utf-8
+Content-Length: 18058
+Date: Thu, 24 Sep 2026 06:00:44 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+### headers /trips/join
+HTTP/1.1 200 OK
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+x-nextjs-cache: HIT
+x-nextjs-prerender: 1
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+X-Powered-By: Next.js
+Cache-Control: s-maxage=31536000
+ETag: "nrepat7xqiczf"
+Content-Type: text/html; charset=utf-8
+Content-Length: 16833
+Date: Thu, 24 Sep 2026 06:00:44 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+### headers /api/designer/research (POST 400)
+HTTP/1.1 400 Bad Request
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: no-store
+content-type: application/json
+Date: Thu, 24 Sep 2026 06:00:44 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+

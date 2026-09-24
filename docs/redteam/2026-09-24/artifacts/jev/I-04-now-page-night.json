@@ -1,0 +1,92 @@
+{
+  "label": "I-04-now-page-night",
+  "at": "2026-09-24T05:59:03.870Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 30s, New Yorker, on day 2 of a 6-day Lisbon trip with his partner Sam. Standing on a Lisbon street on his phone (390x844), battery at 12%, wants to decide what to do in the next few minutes without reading much. Loves classic rock and rock bars. Knows nothing about the app internals.",
+      "job_to_be_done": "Find something good to do nearby right now (21:45), because the trip plan's pick doesn't appeal.",
+      "workflow_state": "Tapped 'Something else nearby, right now →' on the trip. Landed on the NOW page (/now?city=Lisbon). Scrolling down on the phone, top to bottom, he sees:",
+      "visible_text": "1) NOW · LOCAL DECISION ENGINE / Where should we go right now? / Give dope.travel the moment you are actually in. It filters what is viable, reads the local energy, and gives you three decisions instead of another directory. 2) DAY 2 OF 6 · YOU'RE HERE / Right now in Lisbon / NOW · LATE NIGHT — Live music tonight in Lisbon — Search Maps ↗ 3) LATE NIGHT · FOR MATT / More ideas in Lisbon / City [Lisbon] [Show me] / Cocktails in Lisbon ↗ The bar with a story. / Rock cover bands in Lisbon ↗ Because you listen to classic rock, rock. / Each idea opens a live Maps search near Lisbon, shaped by your board. Check it's open before you go. 4) Live music tonight in Lisbon / Rock cover bands … / Event feeds not connected / Rock cover band bar in Lisbon ↗ 5) NOW · NOT CONNECTED YET / NOW can't pick venues tonight. / Live nearby venue search is awaiting its provider, so there are no recommendations to show. Your location is not requested. Here is what the curated calendar can still offer. / ON TODAY: Mara River Crossings · Masai Mara ↗ / Vava'u Humpback Season · Neiafu ↗ / Hanifaru Bay Manta Aggregation · Baa Atoll ↗ / ALREADY SOMEWHERE? OPEN ITS GUIDE [dropdown, no Lisbon in it] / Browse ACCESS samples ↗ · Explore the world calendar ↗ 6) A photo card 'Make tonight worth the story.' then a form (intent, vibe, radius...) whose 'Find my next move' button is disabled, about 4000px down the page.",
+      "not_shown": "No specific venue anywhere; all ideas are Maps searches."
+    },
+    "questions": {
+      "contradiction": {
+        "type": "noul",
+        "instructions": "Probability that Matt is confused by the page saying 'there are no recommendations to show' right after showing him ideas."
+      },
+      "on_today_relevant": {
+        "type": "noul",
+        "instructions": "Probability Matt finds the 'On today' list useful for tonight in Lisbon."
+      },
+      "useful": {
+        "type": "score",
+        "instructions": "Overall, how well does this page help Matt pick something to do right now?",
+        "criteria": [
+          "Not at all",
+          "Marginally: a couple of generic searches",
+          "Somewhat: decent searches he can act on",
+          "Well: a short list of real options",
+          "Very well: a confident single recommendation"
+        ]
+      },
+      "next": {
+        "type": "choice",
+        "instructions": "What does Matt most likely do?",
+        "criteria": {
+          "tap_idea": "Tap one of the 'More ideas' Maps searches",
+          "scroll_form": "Scroll down and try the NOW form",
+          "leave": "Leave the app for Google Maps or ask a local",
+          "back_to_trip": "Go back to the trip"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "contradiction": {
+        "type": "noul",
+        "noul": 0.84
+      },
+      "on_today_relevant": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "useful": {
+        "type": "score",
+        "score": 0.93,
+        "confidence": 0.81,
+        "legend": {
+          "0": "Not at all",
+          "1": "Marginally: a couple of generic searches",
+          "2": "Somewhat: decent searches he can act on",
+          "3": "Well: a short list of real options",
+          "4": "Very well: a confident single recommendation"
+        },
+        "probabilities": {
+          "0": 0.15,
+          "1": 0.77,
+          "2": 0.08,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "next": {
+        "type": "choice",
+        "choice": "tap_idea",
+        "confidence": 0.48,
+        "probabilities": {
+          "leave": 0.37,
+          "back_to_trip": 0.02,
+          "scroll_form": 0,
+          "tap_idea": 0.61
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1080,
+      "output_tokens": 104
+    }
+  }
+}

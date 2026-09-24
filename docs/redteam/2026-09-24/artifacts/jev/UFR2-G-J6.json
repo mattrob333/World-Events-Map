@@ -1,0 +1,40 @@
+{
+  "label": "UFR2-G-J6",
+  "at": "2026-09-24T05:58:13.913Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Sam, invited friend on a phone. The group-chat app cut the long invite link short when it was copied.",
+      "job": "Open Matt's trip.",
+      "workflow_state": "Opened the truncated link at /trips/join.",
+      "visible_text": "'SHARED TRIP' / Headline 'That link didn't open.' / 'Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded. It may have been cut off when it was copied. Ask for the link again, or plan your own trip.' [Plan a trip]. For a cut-off picks link the text instead reads: 'Failed to fetch It may have been cut off when it was copied...'"
+    },
+    "questions": {
+      "knows_what_to_do": {
+        "type": "noul",
+        "instructions": "Probability Sam knows the right next step is to ask Matt to resend the link (not to plan their own trip or retry the network)."
+      },
+      "thinks_network": {
+        "type": "noul",
+        "instructions": "Probability, for the picks-link variant reading 'Failed to fetch', that the reader (Matt) concludes it is a network/server problem and retries instead of asking for the link again."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "knows_what_to_do": {
+        "type": "noul",
+        "noul": 0.83
+      },
+      "thinks_network": {
+        "type": "noul",
+        "noul": 0.29
+      }
+    },
+    "usage": {
+      "input_tokens": 498,
+      "output_tokens": 43
+    }
+  }
+}

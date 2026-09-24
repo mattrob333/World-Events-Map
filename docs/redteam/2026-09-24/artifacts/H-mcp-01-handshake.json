@@ -1,0 +1,873 @@
+[
+  {
+    "note": "initialize",
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2025-06-18",
+      "capabilities": {},
+      "clientInfo": {
+        "name": "rt-H",
+        "version": "1"
+      }
+    },
+    "status": 200,
+    "ms": 238,
+    "contentType": "application/json",
+    "response": {
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "prompts": {
+            "listChanged": true
+          },
+          "tools": {
+            "listChanged": true
+          }
+        },
+        "serverInfo": {
+          "name": "dope-travel",
+          "version": "1.1.0"
+        },
+        "instructions": "You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk:\n\nWelcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\n\n1. An experience you loved: where, who you were with, and what made it great.\n2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.\n3. Food: what you crave, what you go out of your way for, what you avoid.\n4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any). Got a Spotify playlist of favorites? Paste the link.\n5. Your best moment ever on a trip: the night or day you still tell people about.\n\nNo right answers. When you’re done, I’ll build your dope.travel profile.\n\nWhile they talk, extract what you can for their profile (call dope_profile_guide for the full checklist). Ask at most two short follow-ups, then call dope_save_profile and give them the private link it returns. Other tools find events, trip ideas, and live music for their taste."
+      },
+      "jsonrpc": "2.0",
+      "id": 1
+    }
+  },
+  {
+    "note": "initialized notification",
+    "method": "notifications/initialized",
+    "status": 202,
+    "ms": 12,
+    "contentType": null,
+    "response": ""
+  },
+  {
+    "note": "tools/list",
+    "method": "tools/list",
+    "params": {},
+    "status": 200,
+    "ms": 18,
+    "contentType": "application/json",
+    "response": {
+      "result": {
+        "tools": [
+          {
+            "name": "dope_profile_guide",
+            "title": "How to build a dope.travel profile",
+            "description": "Returns the opening message to show the traveler, how to run the ramble, and the checklist of what to extract. Call this first.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {}
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": false
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_save_profile",
+            "title": "Save a traveler profile",
+            "description": "Builds a dope.travel profile from structured fields and/or the traveler’s own words, and returns a private import link for the traveler to open and save on their device. Also reports what is still missing so you can ask follow-ups.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "spotifyPlaylist": {
+                  "description": "A public Spotify playlist link the traveler shared. Its songs and artists are read into their music profile.",
+                  "type": "string",
+                  "maxLength": 300
+                },
+                "about": {
+                  "description": "The traveler’s full ramble, in their own words. Used to fill any gaps in the structured fields.",
+                  "type": "string",
+                  "maxLength": 12000
+                },
+                "profile": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 40
+                    },
+                    "age": {
+                      "type": "integer",
+                      "minimum": 13,
+                      "maximum": 110
+                    },
+                    "hometown": {
+                      "type": "string",
+                      "maxLength": 80
+                    },
+                    "heritage": {
+                      "maxItems": 6,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Countries or cultures"
+                    },
+                    "teams": {
+                      "maxItems": 8,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Full team names"
+                    },
+                    "music": {
+                      "maxItems": 10,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Genres"
+                    },
+                    "events": {
+                      "maxItems": 10,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Concerts, festivals, live events"
+                    },
+                    "family": {
+                      "maxItems": 12,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "relation": {
+                            "type": "string",
+                            "enum": [
+                              "partner",
+                              "child",
+                              "parent",
+                              "sibling",
+                              "friend",
+                              "other"
+                            ]
+                          },
+                          "label": {
+                            "type": "string",
+                            "maxLength": 30,
+                            "description": "The word they used: wife, son, best friend…"
+                          },
+                          "name": {
+                            "type": "string",
+                            "maxLength": 40
+                          },
+                          "age": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 110
+                          },
+                          "note": {
+                            "description": "e.g. \"Brazilian\", \"vegetarian\", \"hates flying\"",
+                            "type": "string",
+                            "maxLength": 60
+                          }
+                        },
+                        "required": [
+                          "relation",
+                          "label"
+                        ]
+                      }
+                    },
+                    "favoriteTrips": {
+                      "maxItems": 8,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Places they loved"
+                    },
+                    "interests": {
+                      "maxItems": 14,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Activities"
+                    },
+                    "food": {
+                      "maxItems": 8,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "description": "Cuisines and dishes"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "maxLength": 240
+                    },
+                    "bestMoments": {
+                      "description": "Their best moments on trips, 1–3 short stories in their own words",
+                      "maxItems": 5,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 400
+                      }
+                    },
+                    "style": {
+                      "type": "object",
+                      "properties": {
+                        "budget": {
+                          "type": "string",
+                          "enum": [
+                            "shoestring",
+                            "comfortable",
+                            "premium",
+                            "no-limit"
+                          ]
+                        },
+                        "pace": {
+                          "type": "string",
+                          "enum": [
+                            "slow",
+                            "balanced",
+                            "packed"
+                          ]
+                        },
+                        "social": {
+                          "type": "string",
+                          "enum": [
+                            "recharge-solo",
+                            "small-crew",
+                            "meet-everyone"
+                          ]
+                        },
+                        "lodging": {
+                          "maxItems": 6,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80
+                          },
+                          "description": "e.g. \"social hostel with a bar\", \"boutique hotel\""
+                        },
+                        "homeAirport": {
+                          "description": "IATA code, e.g. ATL",
+                          "type": "string",
+                          "pattern": "^[A-Za-z]{3}$"
+                        },
+                        "dietary": {
+                          "maxItems": 8,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80
+                          },
+                          "description": "Dietary needs"
+                        },
+                        "avoid": {
+                          "maxItems": 10,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80
+                          },
+                          "description": "Hard no’s"
+                        },
+                        "bucketList": {
+                          "maxItems": 12,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80
+                          },
+                          "description": "Dream trips and experiences"
+                        },
+                        "languages": {
+                          "maxItems": 8,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80
+                          },
+                          "description": "Languages spoken"
+                        },
+                        "notes": {
+                          "type": "string",
+                          "maxLength": 600
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false,
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": false
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_find_events",
+            "title": "Find events for artists and teams",
+            "description": "Upcoming shows by the traveler’s artists, festivals with them on the lineup, tribute and cover acts, and games for their teams (away games flagged). Real Ticketmaster/SeatGeek listings; returns search links when feeds are not connected.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "artists": {
+                  "maxItems": 5,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Artist names"
+                },
+                "teams": {
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Full team names"
+                },
+                "city": {
+                  "description": "Limit to one city",
+                  "type": "string",
+                  "maxLength": 60
+                },
+                "startDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "endDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": true
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_trip_ideas",
+            "title": "Rank trip ideas around what they love",
+            "description": "Finds the cities and short windows where the traveler’s artists, festivals, and teams line up, favoring places that also overlap a curated dope.travel occasion. Best first.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "artists": {
+                  "maxItems": 5,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Artist names"
+                },
+                "teams": {
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Full team names"
+                },
+                "startDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "endDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "homeCity": {
+                  "description": "Excluded from results",
+                  "type": "string",
+                  "maxLength": 80
+                },
+                "maxNights": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": true
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_live_music_scene",
+            "title": "Live music for their taste in a city",
+            "description": "The kinds of nights this traveler would love (e.g. rock cover bands, jazz rooms) and matching listed events in a city and date window, plus map searches for bars with house bands that never list on ticket sites.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 60
+                },
+                "genres": {
+                  "maxItems": 16,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Genres they listen to"
+                },
+                "topArtists": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Favorite artists"
+                },
+                "eras": {
+                  "maxItems": 5,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "decade": {
+                        "type": "string",
+                        "pattern": "^\\d{4}s$"
+                      },
+                      "share": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    },
+                    "required": [
+                      "decade",
+                      "share"
+                    ]
+                  }
+                },
+                "startDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "endDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                }
+              },
+              "required": [
+                "city",
+                "genres"
+              ]
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": true
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_curated_occasions",
+            "title": "Curated occasions worth traveling for",
+            "description": "dope.travel’s editorial calendar of occasions (festivals, races, seasons, openings) in a date window.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "endDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 50
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": false
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_read_playlist",
+            "title": "Read a Spotify playlist",
+            "description": "Reads a public Spotify playlist link: its top artists, genres, eras, and energy, the same summary the app builds. Use it to learn the traveler’s taste, then pass the link to dope_save_profile.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "link": {
+                  "type": "string",
+                  "minLength": 10,
+                  "maxLength": 300,
+                  "description": "https://open.spotify.com/playlist/…"
+                }
+              },
+              "required": [
+                "link"
+              ]
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": true
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_plan_trip",
+            "title": "Plan a trip",
+            "description": "Lays out a day-by-day trip (morning to late night) for any city, beach, or ski town, shaped by the crew’s food and music, and returns a private link that opens it in dope.travel. Every idea is a live Maps/YouTube/Instagram search, not an invented venue. Also returns stay searches sized to the party.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "place": {
+                  "description": "Anywhere, e.g. \"Lisbon, Portugal\". Omit if using a curated destination.",
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 80
+                },
+                "kind": {
+                  "description": "What kind of trip, for a typed place. Default city.",
+                  "type": "string",
+                  "enum": [
+                    "city",
+                    "beach",
+                    "ski"
+                  ]
+                },
+                "destination": {
+                  "description": "A curated destination id instead of `place`",
+                  "type": "string",
+                  "enum": [
+                    "st-moritz",
+                    "aspen",
+                    "courchevel",
+                    "maldives"
+                  ]
+                },
+                "startDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "nights": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 14
+                },
+                "travelers": {
+                  "minItems": 1,
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 30
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "adult",
+                          "kid"
+                        ]
+                      },
+                      "age": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 110
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ]
+                  },
+                  "description": "The traveler first, then their crew"
+                },
+                "hometown": {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                "foods": {
+                  "maxItems": 3,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Favorite foods to look for"
+                },
+                "music": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Genres they love"
+                },
+                "artists": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Artists they love"
+                }
+              },
+              "required": [
+                "startDate",
+                "nights",
+                "travelers"
+              ]
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": false
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          },
+          {
+            "name": "dope_find_stays",
+            "title": "Find places to stay",
+            "description": "Airbnb, Vrbo, and Booking.com searches with the dates, adults, kids’ ages, and a bedroom estimate filled in. These are search links, not listings or prices.",
+            "inputSchema": {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "place": {
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 80
+                },
+                "checkIn": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "nights": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 30
+                },
+                "adults": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "kidAges": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 17
+                  }
+                },
+                "lodging": {
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "description": "Preferences like \"social hostel\""
+                }
+              },
+              "required": [
+                "place",
+                "checkIn",
+                "nights",
+                "adults"
+              ]
+            },
+            "annotations": {
+              "readOnlyHint": true,
+              "openWorldHint": false
+            },
+            "execution": {
+              "taskSupport": "forbidden"
+            }
+          }
+        ]
+      },
+      "jsonrpc": "2.0",
+      "id": 2
+    }
+  },
+  {
+    "note": "prompts/list",
+    "method": "prompts/list",
+    "params": {},
+    "status": 200,
+    "ms": 9,
+    "contentType": "application/json",
+    "response": {
+      "result": {
+        "prompts": [
+          {
+            "name": "dope_start",
+            "title": "Start my dope.travel profile",
+            "description": "Opens the five-part ramble that builds a traveler profile."
+          }
+        ]
+      },
+      "jsonrpc": "2.0",
+      "id": 3
+    }
+  },
+  {
+    "note": "prompts/get dope_start",
+    "method": "prompts/get",
+    "params": {
+      "name": "dope_start"
+    },
+    "status": 200,
+    "ms": 10,
+    "contentType": "application/json",
+    "response": {
+      "result": {
+        "messages": [
+          {
+            "role": "user",
+            "content": {
+              "type": "text",
+              "text": "Set up my dope.travel profile. Start by showing me this, exactly, then let me ramble:\n\nWelcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\n\n1. An experience you loved: where, who you were with, and what made it great.\n2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.\n3. Food: what you crave, what you go out of your way for, what you avoid.\n4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any). Got a Spotify playlist of favorites? Paste the link.\n5. Your best moment ever on a trip: the night or day you still tell people about.\n\nNo right answers. When you’re done, I’ll build your dope.travel profile."
+            }
+          }
+        ]
+      },
+      "jsonrpc": "2.0",
+      "id": 4
+    }
+  },
+  {
+    "note": "resources/list",
+    "method": "resources/list",
+    "params": {},
+    "status": 200,
+    "ms": 9,
+    "contentType": "application/json",
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "error": {
+        "code": -32601,
+        "message": "Method not found"
+      }
+    }
+  },
+  {
+    "note": "profile guide",
+    "method": "tools/call",
+    "params": {
+      "name": "dope_profile_guide",
+      "arguments": {}
+    },
+    "status": 200,
+    "ms": 9,
+    "contentType": "application/json",
+    "response": {
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"purpose\": \"dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with.\",\n  \"openingMessage\": \"Welcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\\n\\n1. An experience you loved: where, who you were with, and what made it great.\\n2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.\\n3. Food: what you crave, what you go out of your way for, what you avoid.\\n4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any). Got a Spotify playlist of favorites? Paste the link.\\n5. Your best moment ever on a trip: the night or day you still tell people about.\\n\\nNo right answers. When you’re done, I’ll build your dope.travel profile.\",\n  \"howToRun\": [\n    \"Show the opening message as written, then let the traveler talk. Do not turn it into a questionnaire.\",\n    \"While they ramble, silently fill the checklist below. Record only what they say; never guess ages, names, or nationalities.\",\n    \"Afterwards, ask at most two short follow-ups, only for the highest-value gaps (usually: who they travel with, and where they fly from). Skip follow-ups if they seem done.\",\n    \"Call dope_save_profile with the structured fields, their best moments in their own words, their full ramble as `about`, and `spotifyPlaylist` if they pasted a public playlist link.\",\n    \"Give them the returned link and say it keeps their profile private: it saves on their own device.\"\n  ],\n  \"checklist\": {\n    \"identity\": \"name (first or nickname), age only if stated, hometown, heritage\",\n    \"crew\": \"family and friends they travel with: relation, label, name, age, notes (e.g. \\\"Brazilian\\\", \\\"vegetarian\\\")\",\n    \"experiences\": \"favoriteTrips (places) and bestMoments (1–3 short stories in their words, the heart of the profile)\",\n    \"style\": \"budget (shoestring, comfortable, premium, no-limit), pace (slow, balanced, packed), social (recharge-solo, small-crew, meet-everyone), lodging (include social hostels if they like meeting people), homeAirport (IATA), avoid, bucketList, languages, notes\",\n    \"food\": \"food (cuisines, dishes, favorite kinds of places) and style.dietary\",\n    \"music\": \"music (genres), events (concerts, festivals), teams (full names)\",\n    \"interests\": \"activities they mention (skiing, diving, golf, art…)\"\n  },\n  \"privacy\": \"dope.travel does not store the profile from this tool. It returns a link whose data lives in the URL fragment (never sent to the server); the traveler opens it and saves the profile on their own device. Treat the link as private.\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "purpose": "dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and people to share it with.",
+          "openingMessage": "Welcome to dope.travel. Tell me about yourself as a traveler. Ramble, go on tangents, and give every bit of context you can: the more you share, the better your trips get. Type it or talk it, in any order:\n\n1. An experience you loved: where, who you were with, and what made it great.\n2. How you like to travel: budget, pace, where you like to stay, and how social you want to be.\n3. Food: what you crave, what you go out of your way for, what you avoid.\n4. Music: artists, genres, the concerts or festivals you’d travel for (and your teams, if you follow any). Got a Spotify playlist of favorites? Paste the link.\n5. Your best moment ever on a trip: the night or day you still tell people about.\n\nNo right answers. When you’re done, I’ll build your dope.travel profile.",
+          "howToRun": [
+            "Show the opening message as written, then let the traveler talk. Do not turn it into a questionnaire.",
+            "While they ramble, silently fill the checklist below. Record only what they say; never guess ages, names, or nationalities.",
+            "Afterwards, ask at most two short follow-ups, only for the highest-value gaps (usually: who they travel with, and where they fly from). Skip follow-ups if they seem done.",
+            "Call dope_save_profile with the structured fields, their best moments in their own words, their full ramble as `about`, and `spotifyPlaylist` if they pasted a public playlist link.",
+            "Give them the returned link and say it keeps their profile private: it saves on their own device."
+          ],
+          "checklist": {
+            "identity": "name (first or nickname), age only if stated, hometown, heritage",
+            "crew": "family and friends they travel with: relation, label, name, age, notes (e.g. \"Brazilian\", \"vegetarian\")",
+            "experiences": "favoriteTrips (places) and bestMoments (1–3 short stories in their words, the heart of the profile)",
+            "style": "budget (shoestring, comfortable, premium, no-limit), pace (slow, balanced, packed), social (recharge-solo, small-crew, meet-everyone), lodging (include social hostels if they like meeting people), homeAirport (IATA), avoid, bucketList, languages, notes",
+            "food": "food (cuisines, dishes, favorite kinds of places) and style.dietary",
+            "music": "music (genres), events (concerts, festivals), teams (full names)",
+            "interests": "activities they mention (skiing, diving, golf, art…)"
+          },
+          "privacy": "dope.travel does not store the profile from this tool. It returns a link whose data lives in the URL fragment (never sent to the server); the traveler opens it and saves the profile on their own device. Treat the link as private."
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 6
+    }
+  }
+]

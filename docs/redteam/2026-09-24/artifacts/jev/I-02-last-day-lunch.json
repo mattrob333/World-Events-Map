@@ -1,0 +1,71 @@
+{
+  "label": "I-02-last-day-lunch",
+  "at": "2026-09-24T05:59:02.744Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 30s, New Yorker, on the LAST day (day 6) of a 6-day Lisbon trip with Sam. On his phone at 21:00 local time. His itinerary for today is: Morning (walk neighborhoods), Lunch, then 'Head to the airport' (Transfer back to the airport) and 'The flight' home (JFK). Knows nothing about the app internals.",
+      "job_to_be_done": "Know what he should be doing right now on the last evening (airport? flight? one last dinner?).",
+      "workflow_state": "Opened the saved trip page at 21:00 on the last day. The first card below the header says:",
+      "visible_text": "Header: Lisbon · SAT, SEP 19 → THU, SEP 24 · 5 NIGHTS / Underway / ENJOY EVERY MINUTE. Card: DAY 6 OF 6 · YOU'RE HERE / Right now in Lisbon / [card] NOW · LUNCH — Lunch where locals go — Search Maps ↗ / [button] Something else nearby, right now →",
+      "not_shown": "Nothing about heading to the airport or the flight, though both are in today's plan further down the page. The same 'NOW · LUNCH' card has been shown since noon and is still shown at 21:00."
+    },
+    "questions": {
+      "correct": {
+        "type": "noul",
+        "instructions": "Probability that the card correctly reflects what Matt should be doing at 21:00 on his last day."
+      },
+      "harm": {
+        "type": "score",
+        "instructions": "How much could this card mislead Matt on his departure day?",
+        "criteria": [
+          "Not at all",
+          "Slightly odd but harmless",
+          "Confusing, he ignores it",
+          "Could make him miss something in the plan (like the airport transfer)",
+          "Likely to make him miss the flight"
+        ]
+      },
+      "trust": {
+        "type": "noul",
+        "instructions": "Probability that after seeing this, Matt still trusts the 'Right now' card on future trips."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "correct": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harm": {
+        "type": "score",
+        "score": 3.06,
+        "confidence": 0.81,
+        "legend": {
+          "0": "Not at all",
+          "1": "Slightly odd but harmless",
+          "2": "Confusing, he ignores it",
+          "3": "Could make him miss something in the plan (like the airport transfer)",
+          "4": "Likely to make him miss the flight"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.02,
+          "2": 0.04,
+          "3": 0.8,
+          "4": 0.14
+        }
+      },
+      "trust": {
+        "type": "noul",
+        "noul": 0.25
+      }
+    },
+    "usage": {
+      "input_tokens": 709,
+      "output_tokens": 49
+    }
+  }
+}

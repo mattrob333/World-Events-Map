@@ -1,0 +1,70 @@
+{
+  "label": "H-J3-tool-honesty",
+  "at": "2026-09-24T05:57:55.355Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Tech-savvy traveler (Maya, 34, Brooklyn) who uses Claude or ChatGPT daily and wants their own AI assistant to set up their dope.travel profile over MCP and then plan a Lisbon trip with husband and 6-year-old daughter.",
+      "context": "The agent relays tool results verbatim-ish to the traveler. Server state: Ticketmaster/SeatGeek NOT configured (permanent until the owner adds keys); Spotify app NOT configured; in the dope.travel app itself, \"Connect Spotify\" says \"Sign-in isn’t set up yet; paste a public playlist link instead\" and pasting a playlist fails with \"Reading playlist links isn’t set up for this app yet. Use Connect Spotify instead.\"",
+      "results": {
+        "dope_find_events": "Event feeds are not connected right now. Search links:\n- Khruangbin on Ticketmaster: https://www.ticketmaster.com/search?q=Khruangbin\n- Khruangbin tour dates on Bandsintown: ...\n- Khruangbin tribute acts: ... (Called with artists [Khruangbin] AND teams [Atlanta Hawks]; no line at all about the Hawks.)",
+        "dope_save_profile_with_playlist": "Profile ready... [link] ... Playlist reading isn’t set up on this server, so the music came from what they said. They can connect Spotify in the app.",
+        "dope_live_music_scene": "🕺 R&B and soul rooms: Because you listen to funk, soul. Look for Supper club, Soul night, Live band lounge. [maps link]\n🎧 Indie & alt gigs: ... \n🪩 DJ sets & dance floors: ... Look for Club, Rooftop DJ set, Après or beach party. (No mention that event listings are unavailable; tool description promises \"matching listed events in a city and date window\".)"
+      }
+    },
+    "questions": {
+      "spotify_note_true": {
+        "type": "score",
+        "instructions": "How truthful/useful is \"They can connect Spotify in the app\" given the app state described?",
+        "criteria": [
+          "false and sends user in a loop",
+          "misleading",
+          "mostly fine",
+          "accurate"
+        ]
+      },
+      "scene_implies_no_events": {
+        "type": "noul",
+        "instructions": "Probability that a traveler reading the live_music_scene result concludes there are simply no listed events on their dates (rather than that the listings feed is not connected)."
+      },
+      "teams_dropped_noticed": {
+        "type": "noul",
+        "instructions": "Probability the traveler notices that their team (Atlanta Hawks) was silently dropped from the find_events result."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "spotify_note_true": {
+        "type": "score",
+        "score": 0.94,
+        "confidence": 0.06,
+        "legend": {
+          "0": "false and sends user in a loop",
+          "1": "misleading",
+          "2": "mostly fine",
+          "3": "accurate"
+        },
+        "probabilities": {
+          "0": 0.48,
+          "1": 0.26,
+          "2": 0.09,
+          "3": 0.17
+        }
+      },
+      "scene_implies_no_events": {
+        "type": "noul",
+        "noul": 0.37
+      },
+      "teams_dropped_noticed": {
+        "type": "noul",
+        "noul": 0.42
+      }
+    },
+    "usage": {
+      "input_tokens": 802,
+      "output_tokens": 60
+    }
+  }
+}

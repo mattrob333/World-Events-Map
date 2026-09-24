@@ -1,0 +1,84 @@
+### R1 no content-type
+HTTP 415
+{"error":"Send application/json from the dope.travel app.","code":"JSON_REQUIRED"}
+### R2 json, no Origin
+HTTP 403
+{"error":"Designer requests must come from the dope.travel app.","code":"SAME_ORIGIN_REQUIRED"}
+### R3 json, Origin evil, real Host
+HTTP 403
+{"error":"Designer requests must come from the dope.travel app.","code":"SAME_ORIGIN_REQUIRED"}
+### R4 json, Origin=http://localhost:3127 (curl spoof), empty body -> validation
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R5 Origin https://evil.example + Host evil.example
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R6 Origin https://evil.example + X-Forwarded-Host evil.example
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R7 Sec-Fetch-Site cross-site with matching Origin
+HTTP 403
+{"error":"Designer requests must come from the dope.travel app.","code":"SAME_ORIGIN_REQUIRED"}
+### R8 Origin null
+HTTP 403
+{"error":"Designer requests must come from the dope.travel app.","code":"SAME_ORIGIN_REQUIRED"}
+### R9 name with <script>
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R10 name 61 chars
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R11 name 1 char
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R12 declared oversize
+HTTP 413
+{"error":"That request is too large.","code":"TOO_LARGE"}
+### R13 invalid JSON
+HTTP 400
+{"error":"Request body must be valid JSON.","code":"INVALID_JSON"}
+### R14 name number
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R15 name with backslash
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R16 GET research
+HTTP 405
+
+### R17 JSON array body
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R18 JSON null body
+HTTP 400
+{"error":"Choose a place to research.","code":"PLACE_REQUIRED"}
+### R19 content-type application/json;charset=utf-8 + chunked 3MB (stream cap)
+HTTP 413
+{"error":"That request is too large.","code":"TOO_LARGE"}
+### P1 persona cross-origin spoof, empty taste -> validation
+HTTP 400
+{"error":"Add some music you love first.","code":"TASTE_REQUIRED"}
+### D-concerts spoofed-origin empty body
+HTTP 400
+{"error":"Connect Spotify or add some music first.","code":"ARTISTS_REQUIRED"}
+### D-itinerary spoofed-origin empty body
+HTTP 400
+{"error":"Choose a destination from the list.","code":"INVALID_TRIP"}
+### D-profile spoofed-origin empty body
+HTTP 400
+{"error":"Say or type a few sentences about yourself first.","code":"TRANSCRIPT_REQUIRED"}
+### D-playlist spoofed-origin empty body
+HTTP 503
+{"error":"Reading playlist links isn’t set up for this app yet. Use Connect Spotify instead.","code":"NOT_CONFIGURED"}
+### D-scene spoofed-origin empty body
+HTTP 400
+{"error":"Choose a city.","code":"CITY_REQUIRED"}
+### D-trip-ideas spoofed-origin empty body
+HTTP 400
+{"error":"Add artists or teams first.","code":"TASTE_REQUIRED"}
+### D-playlist link (spotify not configured)
+HTTP 503
+{"error":"Reading playlist links isn’t set up for this app yet. Use Connect Spotify instead.","code":"NOT_CONFIGURED"}
+### D-profile transcript (AI not configured -> on-device, free)
+HTTP 200
+{"profile":{"heritage":[],"teams":[],"music":["Jazz"],"events":[],"family":[{"relation":"child","label":"Son","age":7,"name":"Leo"}],"favoriteTrips":[],"interests":[],"food":[],"summary":"from Porto, I · travels with 1 kid · into Jazz.","hometown":"Porto, I"},"engine":"on-device"}

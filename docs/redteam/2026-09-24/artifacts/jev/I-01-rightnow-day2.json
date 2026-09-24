@@ -1,0 +1,85 @@
+{
+  "label": "I-01-rightnow-day2",
+  "at": "2026-09-24T05:59:02.266Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 30s, New Yorker, on day 2 of a 6-day Lisbon trip with his partner Sam. Standing on a Lisbon street on his phone (390x844), battery at 12%, wants to decide what to do in the next few minutes without reading much. Loves classic rock and rock bars. Knows nothing about the app internals.",
+      "job_to_be_done": "Decide what to do right now, then act on it with one tap.",
+      "workflow_state": "Opened his saved trip in dope.travel (trip page). Local time 10:00 on day 2. This card is the first thing below the trip header, fully visible in the first screen.",
+      "visible_text": "DAY 2 OF 6 · YOU'RE HERE / Right now in Lisbon / [card, tappable] NOW · MORNING — Walk Lisbon's best neighborhoods — Search Maps ↗ / [card, tappable] UP NEXT · LUNCH — Lunch where locals go — Search Maps ↗ / [button] Something else nearby, right now →",
+      "what_taps_do": "The NOW card opens a Google Maps search for 'best neighborhoods to walk Lisbon Portugal' in a new tab (a city-wide search, not near his position; no specific place). The UP NEXT card opens a Maps search for 'best local lunch Lisbon Portugal'. The button goes to the app's NOW page.",
+      "not_shown": "No specific place, address, opening hours, distance from him, or time the slot ends. The trip page shows slot times Morning 9:00, Lunch 12:30."
+    },
+    "questions": {
+      "answers_now": {
+        "type": "noul",
+        "instructions": "Probability that this card, by itself, lets Matt decide what to do in the next few minutes and act on it without further research."
+      },
+      "clarity": {
+        "type": "score",
+        "instructions": "How clearly does the card tell Matt what to do right now?",
+        "criteria": [
+          "No idea what to do",
+          "A vague category only",
+          "A clear activity but he must research where",
+          "A clear activity with a concrete place to go",
+          "A concrete place, why, and how to get there"
+        ]
+      },
+      "next_step": {
+        "type": "choice",
+        "instructions": "What is Matt most likely to do next?",
+        "criteria": {
+          "tap_now_card": "Tap the NOW card and pick something from the Maps results",
+          "tap_nearby": "Tap 'Something else nearby, right now'",
+          "leave_app": "Leave the app and just open Google Maps or ask someone",
+          "scroll_trip": "Scroll the trip page for more detail"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "answers_now": {
+        "type": "noul",
+        "noul": 0.11
+      },
+      "clarity": {
+        "type": "score",
+        "score": 1.97,
+        "confidence": 0.97,
+        "legend": {
+          "0": "No idea what to do",
+          "1": "A vague category only",
+          "2": "A clear activity but he must research where",
+          "3": "A clear activity with a concrete place to go",
+          "4": "A concrete place, why, and how to get there"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.03,
+          "2": 0.97,
+          "3": 0,
+          "4": 0
+        }
+      },
+      "next_step": {
+        "type": "choice",
+        "choice": "tap_nearby",
+        "confidence": 0.67,
+        "probabilities": {
+          "leave_app": 0.06,
+          "tap_nearby": 0.75,
+          "tap_now_card": 0.19,
+          "scroll_trip": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 861,
+      "output_tokens": 87
+    }
+  }
+}

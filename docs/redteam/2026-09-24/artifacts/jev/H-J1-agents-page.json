@@ -1,0 +1,70 @@
+{
+  "label": "H-J1-agents-page",
+  "at": "2026-09-24T05:57:54.256Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Tech-savvy traveler (Maya, 34, Brooklyn) who uses Claude or ChatGPT daily and wants their own AI assistant to set up their dope.travel profile over MCP and then plan a Lisbon trip with husband and 6-year-old daughter.",
+      "job": "Read the /agents page and successfully connect my AI app to dope.travel, then know what to say.",
+      "workflow_state": "Human is on dope.travel/agents (phone and desktop). Page has no buttons (no copy button for the URL, no per-app steps). Server environment: Ticketmaster and SeatGeek are NOT configured; Spotify app credentials NOT configured; event tools currently return search links only.",
+      "visible_page_text": "FOR AI AGENTS\n\nLet your AI introduce you.\n\nIf you already have an AI assistant that knows you, it can connect to dope.travel, interview you in detail, and set up your profile. Then it can find the trips built around your music, your teams, and the kind of people you want to meet.\n\nCONNECT\n\nIn your AI app, add a custom MCP connector (remote server, Streamable HTTP) with this address:\n\nhttp://localhost:3127/api/mcp\n\nThen say something like:\n\n“Set up my dope.travel profile.”\n\nYour AI opens with five prompts: an experience you loved, how you like to travel, food, music, and your best moment ever on a trip. Then you just ramble, typed or spoken, as long as you like. It picks out what matters, asks a follow-up or two at most, and hands you a private link to your profile.\n\nWHAT YOUR AGENT CAN DO\ndope_profile_guide\nThe five-prompt opener and everything your AI listens for while you ramble.\ndope_save_profile\nTurns the interview into your profile and hands you a private link to save it on your device.\ndope_read_playlist\nPaste a public Spotify playlist and it reads the artists, genres, and eras into your music profile.\ndope_plan_trip\nA day-by-day trip anywhere, shaped by your crew’s food and music, with a private link that opens it as your trip.\ndope_find_stays\nAirbnb, Vrbo, and Booking.com searches with your dates, party size, and kids’ ages filled in.\ndope_find_events\nYour artists on tour, festivals with them on the bill, tribute bands, and your team’s games (away games flagged).\ndope_trip_ideas\nCities and dates where the things you love line up, favoring ones during something special.\ndope_live_music_scene\nYour kind of night in any city: the rooms to look for and what’s listed on your dates.\ndope_curated_occasions\nThe dope.travel calendar of occasions worth traveling for.\nPRIVACY\n\ndope.travel doesn’t store the profile your agent builds. Your agent gets a private link with the profile inside it (in the part of a link browsers never send to a server); you open it and save the profile on your own device. Events come from Ticketmaster and SeatGeek listings; nothing is invented, and nothing books or charges you."
+    },
+    "questions": {
+      "can_connect": {
+        "type": "score",
+        "instructions": "How well does this page equip the persona to actually get their AI app connected (which app, where the setting is, what plan/feature is needed, what URL, what to say next)?",
+        "criteria": [
+          "cannot act",
+          "vague; would need to search elsewhere",
+          "can probably figure it out with trial and error",
+          "clear enough to connect in one try",
+          "fully step-by-step for the common apps"
+        ]
+      },
+      "events_claim_misleading": {
+        "type": "noul",
+        "instructions": "Given that on this server neither Ticketmaster nor SeatGeek is connected (the event tools return only search links), what is the probability that the Privacy paragraph (\"Events come from Ticketmaster and SeatGeek listings; nothing is invented\") and the tool list (\"Your artists on tour...\", \"what’s listed on your dates\", \"Paste a public Spotify playlist and it reads...\") leads the persona to believe live event listings and playlist reading work today?"
+      },
+      "expects_ai_opens": {
+        "type": "noul",
+        "instructions": "Probability the persona expects that, after saying \"Set up my dope.travel profile\", their AI will reliably show the five prompts automatically (the page says \"Your AI opens with five prompts\")."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "can_connect": {
+        "type": "score",
+        "score": 1.98,
+        "confidence": 0.5,
+        "legend": {
+          "0": "cannot act",
+          "1": "vague; would need to search elsewhere",
+          "2": "can probably figure it out with trial and error",
+          "3": "clear enough to connect in one try",
+          "4": "fully step-by-step for the common apps"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.3,
+          "2": 0.41000000000000003,
+          "3": 0.29,
+          "4": 0
+        }
+      },
+      "events_claim_misleading": {
+        "type": "noul",
+        "noul": 0.69
+      },
+      "expects_ai_opens": {
+        "type": "noul",
+        "noul": 0.81
+      }
+    },
+    "usage": {
+      "input_tokens": 1194,
+      "output_tokens": 58
+    }
+  }
+}

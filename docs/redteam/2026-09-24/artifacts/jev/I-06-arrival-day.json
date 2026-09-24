@@ -1,0 +1,59 @@
+{
+  "label": "I-06-arrival-day",
+  "at": "2026-09-24T05:59:05.013Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, New Yorker. Today is day 1 of his Lisbon trip: the plan says 'Leave home — Early — Leave New York (JFK) for the airport', 'The flight — JFK → Lisbon', 'Arrive — Land and settle into Lisbon', then 'Dinner 19:30'. It is 10:00 and he is at JFK / on the plane.",
+      "job_to_be_done": "Check the trip on his phone before boarding.",
+      "workflow_state": "Opens the trip page at 10:00 on day 1.",
+      "visible_text": "Header: Lisbon · THU, SEP 24 → TUE, SEP 29 · 5 NIGHTS / Today / GO GO GO. Card: DAY 1 OF 6 · YOU'RE HERE / Right now in Lisbon / UP NEXT · DINNER — The dinner in Lisbon — Search Maps ↗ / [button] Something else nearby, right now →"
+    },
+    "questions": {
+      "accurate": {
+        "type": "noul",
+        "instructions": "Probability that Matt finds the card accurate for where he is right now."
+      },
+      "confusing": {
+        "type": "score",
+        "instructions": "How confusing is 'YOU'RE HERE / Right now in Lisbon / Something else nearby, right now' while he is at JFK?",
+        "criteria": [
+          "Not confusing",
+          "Slightly odd",
+          "Clearly wrong but harmless",
+          "Wrong and sends him to the wrong place/action"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "accurate": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "confusing": {
+        "type": "score",
+        "score": 2.55,
+        "confidence": 0.55,
+        "legend": {
+          "0": "Not confusing",
+          "1": "Slightly odd",
+          "2": "Clearly wrong but harmless",
+          "3": "Wrong and sends him to the wrong place/action"
+        },
+        "probabilities": {
+          "0": 0,
+          "1": 0.01,
+          "2": 0.41,
+          "3": 0.58
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 576,
+      "output_tokens": 36
+    }
+  }
+}

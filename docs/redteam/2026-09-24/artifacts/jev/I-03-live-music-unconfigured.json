@@ -1,0 +1,72 @@
+{
+  "label": "I-03-live-music-unconfigured",
+  "at": "2026-09-24T05:59:03.317Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, 30s, New Yorker, on day 2 of a 6-day Lisbon trip with his partner Sam. Standing on a Lisbon street on his phone (390x844), battery at 12%, wants to decide what to do in the next few minutes without reading much. Loves classic rock and rock bars. Knows nothing about the app internals.",
+      "job_to_be_done": "Find live rock music to go to TONIGHT in Lisbon.",
+      "workflow_state": "On his trip page, day 2, 20:15. He scrolls to a panel titled for tonight. Ticket feeds (Ticketmaster/SeatGeek) are not connected in this deployment.",
+      "visible_text": "Live music tonight in Lisbon / [row] 🎸 Rock cover bands — Because you listen to rock, classic rock. — Look for: Live-music bar · Pub with a stage · Roadhouse / IN LISBON ON YOUR DATES / [small grey badge] Event feeds not connected / [button] 🎸 Rock cover band bar in Lisbon ↗",
+      "what_taps_do": "The only button opens a Google Maps search for 'rock cover band bar Lisbon'. It does not list tonight's gigs.",
+      "not_shown": "No events, no venues, no times, no 'no listings tonight' sentence. Elsewhere on the same page an idea card titled 'Live music tonight in Lisbon' also opens a generic Maps search for 'live music bar Lisbon Portugal'."
+    },
+    "questions": {
+      "honest": {
+        "type": "noul",
+        "instructions": "Probability that Matt correctly understands that the app has NO information about which bands are playing tonight."
+      },
+      "believes_tonight": {
+        "type": "noul",
+        "instructions": "Probability that Matt believes the Maps button leads to places with live rock music tonight."
+      },
+      "useful": {
+        "type": "score",
+        "instructions": "How useful is this panel for getting Matt to a live rock gig tonight?",
+        "criteria": [
+          "Useless",
+          "A hint of where to look",
+          "A reasonable starting search",
+          "A shortlist of likely venues",
+          "A specific gig tonight he can go to"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "honest": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "believes_tonight": {
+        "type": "noul",
+        "noul": 0.53
+      },
+      "useful": {
+        "type": "score",
+        "score": 1.27,
+        "confidence": 0.65,
+        "legend": {
+          "0": "Useless",
+          "1": "A hint of where to look",
+          "2": "A reasonable starting search",
+          "3": "A shortlist of likely venues",
+          "4": "A specific gig tonight he can go to"
+        },
+        "probabilities": {
+          "0": 0.07,
+          "1": 0.59,
+          "2": 0.34,
+          "3": 0,
+          "4": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 728,
+      "output_tokens": 55
+    }
+  }
+}

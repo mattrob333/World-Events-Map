@@ -1,0 +1,59 @@
+{
+  "label": "I-05-after-trip",
+  "at": "2026-09-24T05:59:04.472Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Matt, back home in New York the day after his 6-day Lisbon trip ended (trip dates Fri Sep 18 → Wed Sep 23; today Thu Sep 24). Opens dope.travel to look at photos/plan his next trip.",
+      "job_to_be_done": "Understand the state of his trip and what to do next (next trip, memories).",
+      "workflow_state": "Opens the trip page the day after the trip ended.",
+      "visible_text": "Header: PORTUGAL · FRI, SEP 18 → WED, SEP 23 · 5 NIGHTS / Lisbon / Underway / ENJOY EVERY MINUTE / Drafted on this device · 0 loves so far. Then: Voting as Matt / Sam, Curated / Group faves, All / Loved / Matt: to vote, New trip. Then a panel 'LISBON, RIGHT NOW — Real places and recent posts, pulled live…'. Then 'Live music for your crew in Lisbon … IN LISBON ON YOUR DATES'. The 'Right now' card that showed during the trip is gone, with no message."
+    },
+    "questions": {
+      "thinks_ongoing": {
+        "type": "noul",
+        "instructions": "Probability the header makes Matt think the app believes his trip is still in progress."
+      },
+      "clear_next": {
+        "type": "score",
+        "instructions": "How clear is what Matt should do next with this app?",
+        "criteria": [
+          "Not clear",
+          "Only by guessing 'New trip'",
+          "Somewhat clear",
+          "Clear: a wrap-up and a next step"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "thinks_ongoing": {
+        "type": "noul",
+        "noul": 0.77
+      },
+      "clear_next": {
+        "type": "score",
+        "score": 1.68,
+        "confidence": 0.45,
+        "legend": {
+          "0": "Not clear",
+          "1": "Only by guessing 'New trip'",
+          "2": "Somewhat clear",
+          "3": "Clear: a wrap-up and a next step"
+        },
+        "probabilities": {
+          "0": 0.1,
+          "1": 0.24,
+          "2": 0.54,
+          "3": 0.12
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 602,
+      "output_tokens": 38
+    }
+  }
+}

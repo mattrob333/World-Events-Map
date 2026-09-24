@@ -1,0 +1,23 @@
+{
+  "chunked2MB": {
+    "status": 200,
+    "ms": 144,
+    "body": "{\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"purpose\\\": \\\"dope.travel plans trips that feel made for the traveler: places worth being, the music and teams they love when they get there, and peo"
+  },
+  "declared70KB": {
+    "status": 413,
+    "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32600,\"message\":\"Request too large\"},\"id\":null}"
+  },
+  "batch200": {
+    "requestBytes": 61091,
+    "status": 400,
+    "ms": 8,
+    "responseBytes": 115
+  },
+  "burst150": {
+    "statuses": {
+      "200": 150
+    },
+    "ms": 984
+  }
+}

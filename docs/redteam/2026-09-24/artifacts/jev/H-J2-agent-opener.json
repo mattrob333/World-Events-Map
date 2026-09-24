@@ -1,0 +1,87 @@
+{
+  "label": "H-J2-agent-opener",
+  "at": "2026-09-24T05:57:54.849Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "role": "You are evaluating as an MCP-capable AI assistant (the agent) that just connected to the dope.travel MCP server on behalf of a user.",
+      "server_instructions": "You are connected to dope.travel. As soon as the traveler starts, greet them with this message, word for word, then let them talk: [five-prompt Welcome message: 1. An experience you loved... 2. How you like to travel: budget, pace, where you like to stay, how social... 3. Food... 4. Music: artists, genres, concerts/festivals (and your teams). Got a Spotify playlist of favorites? Paste the link. 5. Your best moment ever on a trip.] While they talk, extract what you can for their profile (call dope_profile_guide for the full checklist). Ask at most two short follow-ups, then call dope_save_profile and give them the private link it returns. Other tools find events, trip ideas, and live music for their taste.",
+      "profile_guide_checklist": "identity (name, age only if stated, hometown, heritage); crew (relation,label,name,age,notes); experiences (favoriteTrips, bestMoments); style (budget: shoestring|comfortable|premium|no-limit, pace, social: recharge-solo|small-crew|meet-everyone, lodging, homeAirport IATA, avoid, bucketList, languages, notes); food; music (genres), events (concerts, festivals), teams",
+      "save_profile_schema_note": "dope_save_profile has fields for music GENRES, events and teams but NO field for favorite ARTISTS. Artist names only enter a profile via Spotify listening data, and Spotify reading is not configured on this server.",
+      "user_first_message": "Hey, can you use dope.travel to plan a long weekend in Lisbon for me, my husband and our 6 year old in mid-October?"
+    },
+    "questions": {
+      "opener_fits": {
+        "type": "score",
+        "instructions": "For this user's first message, how appropriate is it to follow the server instruction and paste the full five-prompt welcome word for word before doing anything else?",
+        "criteria": [
+          "clearly wrong, ignores the user's request",
+          "awkward, delays the request",
+          "acceptable",
+          "good fit"
+        ]
+      },
+      "artist_loss": {
+        "type": "noul",
+        "instructions": "If the user rambles \"I am obsessed with Khruangbin and LCD Soundsystem\", what is the probability that the artists end up preserved in the saved dope.travel profile, given the tool schema above and Spotify not configured?"
+      },
+      "instructions_clear": {
+        "type": "score",
+        "instructions": "As an agent, how clear is it which tool to call when, and in what order, for \"set up my profile then plan a trip\"?",
+        "criteria": [
+          "unclear",
+          "partly clear",
+          "clear",
+          "very clear"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "opener_fits": {
+        "type": "score",
+        "score": 1.65,
+        "confidence": 0.05,
+        "legend": {
+          "0": "clearly wrong, ignores the user's request",
+          "1": "awkward, delays the request",
+          "2": "acceptable",
+          "3": "good fit"
+        },
+        "probabilities": {
+          "0": 0.15,
+          "1": 0.38,
+          "2": 0.14,
+          "3": 0.33
+        }
+      },
+      "artist_loss": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "instructions_clear": {
+        "type": "score",
+        "score": 2.61,
+        "confidence": 0.61,
+        "legend": {
+          "0": "unclear",
+          "1": "partly clear",
+          "2": "clear",
+          "3": "very clear"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.09,
+          "2": 0.15,
+          "3": 0.74
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 897,
+      "output_tokens": 51
+    }
+  }
+}

@@ -1,0 +1,237 @@
+[
+  {
+    "label": "agents desktop",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/circles?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "overflow": 0,
+    "text": "FOR AI AGENTS\n\nLet your AI introduce you.\n\nIf you already have an AI assistant that knows you, it can connect to dope.travel, interview you in detail, and set up your profile. Then it can find the trips built around your music, your teams, and the kind of people you want to meet.\n\nCONNECT\n\nIn your AI app, add a custom MCP connector (remote server, Streamable HTTP) with this address:\n\nhttp://localhost:3127/api/mcp\n\nThen say something like:\n\n“Set up my dope.travel profile.”\n\nYour AI opens with five prompts: an experience you loved, how you like to travel, food, music, and your best moment ever on a trip. Then you just ramble, typed or spoken, as long as you like. It picks out what matters, asks a follow-up or two at most, and hands you a private link to your profile.\n\nWHAT YOUR AGENT CAN DO\ndope_profile_guide\nThe five-prompt opener and everything your AI listens for while you ramble.\ndope_save_profile\nTurns the interview into your profile and hands you a private link to save it on your device.\ndope_read_playlist\nPaste a public Spotify playlist and it reads the artists, genres, and eras into your music profile.\ndope_plan_trip\nA day-by-day trip anywhere, shaped by your crew’s food and music, with a private link that opens it as your trip.\ndope_find_stays\nAirbnb, Vrbo, and Booking.com searches with your dates, party size, and kids’ ages filled in.\ndope_find_events\nYour artists on tour, festivals with them on the bill, tribute bands, and your team’s games (away games flagged).\ndope_trip_ideas\nCities and dates where the things you love line up, favoring ones during something special.\ndope_live_music_scene\nYour kind of night in any city: the rooms to look for and what’s listed on your dates.\ndope_curated_occasions\nThe dope.travel calendar of occasions worth traveling for.\nPRIVACY\n\ndope.travel doesn’t store the profile your agent builds. Your agent gets a private link with the profile inside it (in the part of a link browsers never send to a server); you open it and save the profile on your own device. Events come from Ticketmaster and SeatGeek listings; nothing is invented, and nothing books or charges you.",
+    "links": [],
+    "copyControls": 0
+  },
+  {
+    "label": "agents phone",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/account?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=ssKmz9Zx-cICyWzj net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=aMKC5PK0VrFeE3VG net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "overflow": 0,
+    "text": "FOR AI AGENTS\n\nLet your AI introduce you.\n\nIf you already have an AI assistant that knows you, it can connect to dope.travel, interview you in detail, and set up your profile. Then it can find the trips built around your music, your teams, and the kind of people you want to meet.\n\nCONNECT\n\nIn your AI app, add a custom MCP connector (remote server, Streamable HTTP) with this address:\n\nhttp://localhost:3127/api/mcp\n\nThen say something like:\n\n“Set up my dope.travel profile.”\n\nYour AI opens with five prompts: an experience you loved, how you like to travel, food, music, and your best moment ever on a trip. Then you just ramble, typed or spoken, as long as you like. It picks out what matters, asks a follow-up or two at most, and hands you a private link to your profile.\n\nWHAT YOUR AGENT CAN DO\ndope_profile_guide\nThe five-prompt opener and everything your AI listens for while you ramble.\ndope_save_profile\nTurns the interview into your profile and hands you a private link to save it on your device.\ndope_read_playlist\nPaste a public Spotify playlist and it reads the artists, genres, and eras into your music profile.\ndope_plan_trip\nA day-by-day trip anywhere, shaped by your crew’s food and music, with a private link that opens it as your trip.\ndope_find_stays\nAirbnb, Vrbo, and Booking.com searches with your dates, party size, and kids’ ages filled in.\ndope_find_events\nYour artists on tour, festivals with them on the bill, tribute bands, and your team’s games (away games flagged).\ndope_trip_ideas\nCities and dates where the things you love line up, favoring ones during something special.\ndope_live_music_scene\nYour kind of night in any city: the rooms to look for and what’s listed on your dates.\ndope_curated_occasions\nThe dope.travel calendar of occasions worth traveling for.\nPRIVACY\n\ndope.travel doesn’t store the profile your agent builds. Your agent gets a private link with the profile inside it (in the part of a link browsers never send to a server); you open it and save the profile on your own device. Events come from Ticketmaster and SeatGeek listings; nothing is invented, and nothing books or charges you.",
+    "links": [],
+    "copyControls": 0
+  },
+  {
+    "label": "import desktop",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/now?_rsc=n_BPM7H7LuoosYk9 net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/trips/designer?with=mb-muf4bu4f&_rsc=b958G1dgVem9A_IP net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=zin9NOJSxwqiUSvR net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=_WNanW1HV-0VBTHd net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "text": "FROM YOUR AI AGENT\n\nHere’s you, as your agent sees you.\n\nCheck it over. Saving keeps it on this device only; dope.travel never received this profile, because it traveled in the link itself.\n\nHOME BASE\n🗽\nBrooklyn, New York\n\n34, from Brooklyn, New York · travels with husband and 1 kid · into Atlanta Hawks, funk, soul, dancing, natural wine.\n\n👋\nMaya\n✦\n34\nyears young\nTHE CREW\n🫶\nTravels with 2\n💞\nDev\nhusband · 36\n👧\nAnika\ndaughter · 6 · vegetarian\nRIDE OR DIE\n🏀\nAtlanta Hawks\nON REPEAT\n🎧\nfunk\nfunk\nsoul\nindie\ndisco\nLIVE\n🎟️\nPrimavera Sound\n🎟️\nKhruangbin at Red Rocks\nFAVORITE TRIPS\n✈️\nLisbon\n✈️\nMexico City\nINTO\n🍷\ndancing\n🍷\nnatural wine\nBEST MOMENT ON THE ROAD\n🌅\n“Dancing until 4am on a rooftop in Mexico City with strangers who became friends.”\nHOW YOU TRAVEL\n🍻\nMeet everyone\n💳\nComfortable\n⏱️\nSlow days\n🛏️\nboutique hotel\n🛫\nJFK\nALWAYS ORDERING\n🍣\nramen\ntacos\npastel de nata\nSave my profile\nPlan a trip with it →\nEdit by talking",
+    "overflow": 0,
+    "afterSaveUrl": "http://localhost:3127/moodboard/import",
+    "afterSaveButton": 0,
+    "afterSaveText": "FROM YOUR AI AGENT\n\nSaved. Your profile is on this device.",
+    "afterSaveLinks": [],
+    "store": "{\"state\":{\"profiles\":[{\"id\":\"mb-muf4bu4f\",\"profile\":{\"name\":\"Maya\",\"age\":34,\"hometown\":\"Brooklyn, New York\",\"heritage\":[],\"teams\":[\"Atlanta Hawks\"],\"music\":[\"funk\",\"soul\",\"indie\",\"disco\"],\"events\":[\"Primavera Sound\",\"Khruangbin at Red Rocks\"],\"family\":[{\"relation\":\"partner\",\"label\":\"husband\",\"name\":\"Dev\",\"age\":36},{\"relation\":\"child\",\"label\":\"daughter\",\"name\":\"Anika\",\"age\":6,\"note\":\"vegetarian\"}],",
+    "planUrl": "http://localhost:3127/trips/designer?with=mb-muf4bu4f",
+    "planText": "TRIP DESIGNER · STEP 2 OF 2\n\nWhere are we going? Let’s build the hype.\n\nPick a place and dates, add the crew, and we’ll lay out the whole trip as a timeline of ideas: every slot a row of options everyone can drag, swipe, and vote on.\n\n✦ ANYWHERE\nSomewhere else\nType any city, beach, or mountain town.\n⛷️ SKI · ENGADIN, SWITZERLAND\nSt. Moritz\nChampagne air, frozen lakes, and the original winter resort.\n⛷️ SKI · COLORADO, USA\nAspen\nFour mountains, one legendary town, and après that turns into a party.\n⛷️ SKI · LES 3 VALLÉES, FRANCE\nCourchevel\nThe biggest linked ski area on earth, with a very French idea of lunch.\n🏝️ BEACH · BAA ATOLL\nMaldives\nHouse reefs off the deck, mantas in season, sandbanks at sunset.\nWhere to?\n🏙️ City\n🏝️ Beach\n⛷️ Ski\n\nWe lay out the days from your crew’s food and music. Every idea opens a live search, so nothing is made up.\n\nFirst day\nNights\nTraveling from\n\nWHO’S GOING\n\n✨\nMaya + party\n😎\nMaya\n×\n🌺\nDev\n×\n🏂\nAnika · kid\n×\nAdd someone\nAge\nAdult\nKid\n+ Add\nDesign the itinerary",
+    "moodboardText": "MOOD BOARD · STEP 1 OF 2\n\nTell us about you. We’ll make the board.\n\nRamble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss, who you travel with, and the trips you still talk about. We sort it into a board that plans trips with you.\n\nTap the mic and just talk.\n\nYour ramble\nBuild my mood board\nTry an example\n\nYour browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to sort it, is not stored on our servers, and the board is saved on this device only.\n\n●\nAdd your Spotify\n\nYour top artists, genres, the decades you love, and when you listen say a lot about your trip vibe. We use them to pace late nights, find shows by your artists, and spot tribute and cover bands.\n\nGot a favorites playlist? Paste it (optional)\nConnect Spotify\nSign-in isn’t set up yet; paste a public playlist link instead.\n\nA public playlist link is read without signing in: we look at its songs and artists, summarize them, and keep only the summary on this device. Connect Spotify (read-only) for your top artists, recent plays, and Liked Songs. Spotify’s own editorial and mix playlists can’t be read by apps. While the app is in Spotify’s development mode, only accounts the owner has added can connect.\n\nBOARDS ON THIS DEVICE\n🗽\n\nMaya\n\n34, from Brooklyn, New York · travels with husband and 1 kid · into Atlanta Hawks, funk, soul, dancing, natural wine.\n\nOpen\n✕"
+  },
+  {
+    "label": "import phone",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/circles?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "text": "FROM YOUR AI AGENT\n\nHere’s you, as your agent sees you.\n\nCheck it over. Saving keeps it on this device only; dope.travel never received this profile, because it traveled in the link itself.\n\nHOME BASE\n🗽\nBrooklyn, New York\n\n34, from Brooklyn, New York · travels with husband and 1 kid · into Atlanta Hawks, funk, soul, dancing, natural wine.\n\n👋\nMaya\n✦\n34\nyears young\nTHE CREW\n🫶\nTravels with 2\n💞\nDev\nhusband · 36\n👧\nAnika\ndaughter · 6 · vegetarian\nRIDE OR DIE\n🏀\nAtlanta Hawks\nON REPEAT\n🎧\nfunk\nfunk\nsoul\nindie\ndisco\nLIVE\n🎟️\nPrimavera Sound\n🎟️\nKhruangbin at Red Rocks\nFAVORITE TRIPS\n✈️\nLisbon\n✈️\nMexico City\nINTO\n🍷\ndancing\n🍷\nnatural wine\nBEST MOMENT ON THE ROAD\n🌅\n“Dancing until 4am on a rooftop in Mexico City with strangers who became friends.”\nHOW YOU TRAVEL\n🍻\nMeet everyone\n💳\nComfortable\n⏱️\nSlow days\n🛏️\nboutique hotel\n🛫\nJFK\nALWAYS ORDERING\n🍣\nramen\ntacos\npastel de nata\nSave my profile\nPlan a trip with it →\nEdit by talking",
+    "overflow": 0
+  },
+  {
+    "label": "import oversized",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/circles?_rsc=n_BPM7H7LuoosYk9 net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=n_BPM7H7LuoosYk9 net::ERR_ABORTED",
+      "http://localhost:3127/moodboard?_rsc=n_BPM7H7LuoosYk9 net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=n_BPM7H7LuoosYk9 net::ERR_ABORTED",
+      "http://localhost:3127/moodboard?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "fragmentLength": 19278,
+    "toolText": "mJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiIl19fQ\n\nStill worth asking about: budget comfort, how social they want to be.",
+    "text": "FROM YOUR AI AGENT\n\nThis link has no profile in it.\n\nIt may have been cut off when it was copied. Ask your agent for the link again, or build your board by talking.\n\nBuild it by talking"
+  },
+  {
+    "label": "import xss",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/account?_rsc=tPidNjNUQZDcIa_V net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "text": "FROM YOUR AI AGENT\n\nHere’s you, as your agent sees you.\n\nCheck it over. Saving keeps it on this device only; dope.travel never received this profile, because it traveled in the link itself.\n\nHOME BASE\n✦\n\"><script>alert(2)</script>\n\nfrom \"><script>alert(2)</script>.\n\n👋\n<img src=x onerror=alert(1)>\nBEST MOMENT ON THE ROAD\n🌅\n“<svg onload=alert(3)>”\nALWAYS ORDERING\n🍽️\n<b>bold</b>\nSave my profile\nPlan a trip with it →\nEdit by talking",
+    "injectedImg": 0
+  },
+  {
+    "label": "plan_trip link desktop",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/now?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/trips/designer?_rsc=zhHF9EnB-jf2DkAA net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=b7o94_uxEcop-NjT net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/trips?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/now?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "joinText": "SHARED TRIP\n\nYour agent planned this. Lisbon.\n\nThu, Oct 15 → Tue, Oct 20 · 5 nights. Say which one is you and it opens as your trip on this device. Then invite the crew.\n\nWHO ARE YOU?\n\n😎\nMaya\n🌺\nDev\n🏂\nAnika\nNot on the list? Add yourself\nOpen my trip →",
+    "overflow": 0,
+    "noPickError": [
+      "Tap your name, or add yourself.",
+      ""
+    ],
+    "designerUrl": "http://localhost:3127/trips/designer",
+    "designerText": "PORTUGAL · THU, OCT 15 → TUE, OCT 20 · 5 NIGHTS\n\nLisbon\n\nStreets to wander, tables to find, nights to remember.\n\n21 days\n\nUNTIL WHEELS UP\n\nDrafted on this device\n0 loves so far\nVoting as\n😎\nMaya\n🌺\nDev\n🏂\nAnika\nCurated\nGroup faves\nAll\nLoved\nMaya: to vote\nNew trip\n\nDrag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas: check hours, prices, and bookings with each venue.\n\nLISBON, RIGHT NOW\n\nRefresh\n\nReal places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.\n\nTop spots\n10\nHidden gems\n8\nInstagram\n10\nTikTok\n8\nEat\n10\nNights out\n10\nTripadvisor\n10\nYelp\n10\nEvents\nFlights\n4\nCastelo de São Jorge\n★ 4.5 (103.3K) · Tourist attraction\nCastelo de São Jorge, R. de Santa Cruz do Castelo, 1100-129 Lisboa, Portugal\nGOOGLE MAPS ↗\nBelém Tower\n★ 4.5 (117.1K) · Tourist attraction\nBelém Tower, Av. Brasília, 1400-038 Lisboa, Portugal\nGOOGLE MAPS ↗\nLisbon Cathedral\n★ 4.4 (36K) · Tourist attraction\nLisbon Cathedral, Largo da Sé 1, 1100-585 Lisboa, Portugal\nGOOGLE MAPS ↗\nPraça do Comércio\n★ 4.7 (134.4K) · Plaza\nPraça do Comércio, 1100-148 Lisboa, Portugal\nGOOGLE MAPS ↗\nMiradouro de Santa Luzia\n★ 4.6 (43.7K) · Tourist attraction\nMiradouro de Santa Luzia, Largo de Santa Luzia, 1100-487 Lisboa, Portugal\nGOOGLE MAPS ↗\nJerónimos Monastery\n★ 4.4 (63K) · Tourist attraction\nJerónimos Monastery, Praça do Império 1400-206 Lisboa, Portugal\nGOOGLE MAPS ↗\nCarmo Archaeological Museum\n★ 4.5 (21.6K) · Tourist attraction\nCarmo Archaeological Museum, Largo do Carmo, 1200-092 Lisboa, Portugal\nGOOGLE MAPS ↗\nMiradouro das Portas do Sol\n★ 4.7 (5.7K) · Tourist attraction\nMiradouro das Portas do Sol, Largo Portas do Sol, 1100-411 Lisboa, Portugal\nGOOGLE MAPS ↗\nOur Lady of the Mount Viewpoint\n★ 4.8 (29.4K) · Tourist attraction\nOur Lady of the Mount Viewpoint, LG do Monte, 1170-253 Lisboa, Portugal\nGOOGLE MAPS ↗\nHistoric Giant Plant of Lisbon\n★ 4.6 (391) · Tourist attraction\nHistoric Giant Plant of Lisbon, R. de S. Cristóvão 24, 1100-177 Lisboa, Portugal\nGOOGLE MAPS ↗\n\nFrom Google Maps, fetched 1 h ago. Listings and ratings are theirs; check hours and bookings with each place.\n\nDAY 1 · THU, OCT 15\n🧳 🍕 Land and settle into Lisbon\n\nLand and settle into Lisbon → Family dinner, zero stress\n\n🚗\nLeave home\nEarly\nSwipe ♥\n\nLeave New York (JFK) f",
+    "overflowDesigner": 0,
+    "storeTrip": {
+      "me": null,
+      "participants": [
+        "Maya",
+        "Dev",
+        "Anika"
+      ],
+      "hasTaste": false,
+      "keys": [
+        "profiles",
+        "trip",
+        "votes",
+        "activeParticipant",
+        "draftRamble",
+        "draftListening"
+      ]
+    },
+    "inviteControls": [
+      "Invite people"
+    ],
+    "reopenButton": [
+      "😎\nMaya",
+      "🌺\nDev",
+      "🏂\nAnika",
+      "This is your trip. Open it"
+    ]
+  },
+  {
+    "label": "plan_trip link phone",
+    "console": [],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/circles?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/trips/designer?_rsc=zhHF9EnB-jf2DkAA net::ERR_ABORTED"
+    ],
+    "api": [],
+    "dialogs": [],
+    "joinText": "SHARED TRIP\n\nYour agent planned this. Lisbon.\n\nThu, Oct 15 → Tue, Oct 20 · 5 nights. Say which one is you and it opens as your trip on this device. Then invite the crew.\n\nWHO ARE YOU?\n\n😎\nMaya\n🌺\nDev\n🏂\nAnika\nNot on the list? Add yourself\nOpen my trip →",
+    "overflow": 0,
+    "noPickError": [
+      "Tap your name, or add yourself.",
+      ""
+    ],
+    "designerUrl": "http://localhost:3127/trips/designer",
+    "designerText": "PORTUGAL · THU, OCT 15 → TUE, OCT 20 · 5 NIGHTS\n\nLisbon\n\nStreets to wander, tables to find, nights to remember.\n\n21 days\n\nUNTIL WHEELS UP\n\nDrafted on this device\n0 loves so far\nVoting as\n😎\nMaya\n🌺\nDev\n🏂\nAnika\nCurated\nGroup faves\nAll\nLoved\nMaya: to vote\nNew trip\n\nDrag cards between time slots (or use “Move to…”), tap ★ to make one the pick, and pass the phone around to vote. Votes save on this device; tap “Invite people” below to let friends vote on their own phones and send their picks back. Cards are ideas: check hours, prices, and bookings with each venue.\n\nLISBON, RIGHT NOW\n\nRefresh\n\nReal places and recent posts, pulled live from Google Maps, Tripadvisor, Yelp, Instagram and TikTok. Tap any card to open it at the source.\n\nTop spots\n10\nHidden gems\n8\nInstagram\n10\nTikTok\n8\nEat\n10\nNights out\n10\nTripadvisor\n10\nYelp\n10\nEvents\nFlights\n4\nCastelo de São Jorge\n★ 4.5 (103.3K) · Tourist attraction\nCastelo de São Jorge, R. de Santa Cruz do Castelo, 1100-129 Lisboa, Portugal\nGOOGLE MAPS ↗\nBelém Tower\n★ 4.5 (117.1K) · Tourist attraction\nBelém Tower, Av. Brasília, 1400-038 Lisboa, Portugal\nGOOGLE MAPS ↗\nLisbon Cathedral\n★ 4.4 (36K) · Tourist attraction\nLisbon Cathedral, Largo da Sé 1, 1100-585 Lisboa, Portugal\nGOOGLE MAPS ↗\nPraça do Comércio\n★ 4.7 (134.4K) · Plaza\nPraça do Comércio, 1100-148 Lisboa, Portugal\nGOOGLE MAPS ↗\nMiradouro de Santa Luzia\n★ 4.6 (43.7K) · Tourist attraction\nMiradouro de Santa Luzia, Largo de Santa Luzia, 1100-487 Lisboa, Portugal\nGOOGLE MAPS ↗\nJerónimos Monastery\n★ 4.4 (63K) · Tourist attraction\nJerónimos Monastery, Praça do Império 1400-206 Lisboa, Portugal\nGOOGLE MAPS ↗\nCarmo Archaeological Museum\n★ 4.5 (21.6K) · Tourist attraction\nCarmo Archaeological Museum, Largo do Carmo, 1200-092 Lisboa, Portugal\nGOOGLE MAPS ↗\nMiradouro das Portas do Sol\n★ 4.7 (5.7K) · Tourist attraction\nMiradouro das Portas do Sol, Largo Portas do Sol, 1100-411 Lisboa, Portugal\nGOOGLE MAPS ↗\nOur Lady of the Mount Viewpoint\n★ 4.8 (29.4K) · Tourist attraction\nOur Lady of the Mount Viewpoint, LG do Monte, 1170-253 Lisboa, Portugal\nGOOGLE MAPS ↗\nHistoric Giant Plant of Lisbon\n★ 4.6 (391) · Tourist attraction\nHistoric Giant Plant of Lisbon, R. de S. Cristóvão 24, 1100-177 Lisboa, Portugal\nGOOGLE MAPS ↗\n\nFrom Google Maps, fetched 1 h ago. Listings and ratings are theirs; check hours and bookings with each place.\n\nDAY 1 · THU, OCT 15\n🧳 🍕 Land and settle into Lisbon\n\nLand and settle into Lisbon → Family dinner, zero stress\n\n🚗\nLeave home\nEarly\nSwipe ♥\n\nLeave New York (JFK) f",
+    "overflowDesigner": 0,
+    "storeTrip": {
+      "me": null,
+      "participants": [
+        "Maya",
+        "Dev",
+        "Anika"
+      ],
+      "hasTaste": false,
+      "keys": [
+        "profiles",
+        "trip",
+        "votes",
+        "activeParticipant",
+        "draftRamble",
+        "draftListening"
+      ]
+    },
+    "inviteControls": [
+      "Invite people"
+    ]
+  },
+  {
+    "label": "plan_trip new place (research aborted)",
+    "console": [
+      "Failed to load resource: net::ERR_FAILED"
+    ],
+    "pageErrors": [],
+    "failed": [
+      "http://localhost:3127/account?_rsc=GGNJE7wEcevztXLz net::ERR_ABORTED",
+      "http://localhost:3127/trips/designer?_rsc=zhHF9EnB-jf2DkAA net::ERR_ABORTED"
+    ],
+    "api": [
+      {
+        "url": "http://localhost:3127/api/designer/research",
+        "method": "POST",
+        "body": "{\"name\":\"Asheville\",\"region\":\"North Carolina\"}",
+        "action": "ABORTED by tester (no paid Treg call)"
+      }
+    ],
+    "dialogs": [],
+    "researchText": null
+  }
+]

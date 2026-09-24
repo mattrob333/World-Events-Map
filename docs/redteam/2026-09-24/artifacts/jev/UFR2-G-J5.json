@@ -1,0 +1,48 @@
+{
+  "label": "UFR2-G-J5",
+  "at": "2026-09-24T05:58:13.421Z",
+  "status": 200,
+  "request": {
+    "state": {
+      "persona": "Sam, invited friend, who already planned their own Tokyo trip on this phone in dope.travel last week (with votes from their partner Jo).",
+      "job": "Vote on Matt's Lisbon trip.",
+      "workflow_state": "Opened Matt's invite, tapped 'Sam', tapped 'Join and vote →'. A native browser confirm dialog appears.",
+      "visible_text": "Dialog: 'Open this trip? It replaces the trip draft on this device.' [Cancel] [OK]. If Cancel: nothing happens, stays on the invite page with no other option (no 'open without replacing', no 'save my trip first'). If OK: the Tokyo trip and Jo's votes are deleted from the device permanently; there is no account, backup, export or undo, and the app only holds one trip at a time."
+    },
+    "questions": {
+      "understands_loss": {
+        "type": "noul",
+        "instructions": "Probability Sam understands that pressing OK permanently deletes their own Tokyo trip and its votes, with no way to get it back."
+      },
+      "presses_ok": {
+        "type": "noul",
+        "instructions": "Probability Sam presses OK."
+      },
+      "regret": {
+        "type": "noul",
+        "instructions": "Probability that Sam, having pressed OK, later regrets it upon discovering the Tokyo trip is gone."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "understands_loss": {
+        "type": "noul",
+        "noul": 0.37
+      },
+      "presses_ok": {
+        "type": "noul",
+        "noul": 0.24
+      },
+      "regret": {
+        "type": "noul",
+        "noul": 0.78
+      }
+    },
+    "usage": {
+      "input_tokens": 506,
+      "output_tokens": 58
+    }
+  }
+}
