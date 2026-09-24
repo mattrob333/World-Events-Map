@@ -16,3 +16,6 @@ supabase/.temp/
 .claude/settings.local.json
 .vscode/
 .idea/
+
+# Retest screenshots (39 MB), kept local
+docs/redteam/2026-09-24/retest/
