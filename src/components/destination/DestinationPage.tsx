@@ -133,7 +133,7 @@ function PhotoCredit({ photo, className = '', archive = false }: { photo: PlaceP
     rel="noopener noreferrer"
     title={`${photo.title} · ${photo.credit} · ${photo.license}`}
   >
-    {photoArchiveLabel(photo)}{archive && ' · Wikimedia Commons archive, may be from an earlier year'} · {photo.credit} · {photo.license} ↗
+    {photoArchiveLabel(photo)}{archive && ' · Wikimedia Commons archive'} · {photo.credit} · {photo.license} ↗
   </a>;
 }
 

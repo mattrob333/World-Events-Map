@@ -13,6 +13,7 @@ import type {
   ResearchSection,
   ResearchSpot,
 } from '@/lib/research/destinationSources';
+import { writeResearchCache } from '@/lib/designer/deviceData';
 import styles from './designer.module.css';
 
 /*
@@ -58,12 +59,10 @@ function readJson(key: string): unknown {
   }
 }
 
+/** Writes through the shared helper, which keeps only the newest entries so a phone's storage can't fill up. */
 function write(key: string, value: unknown) {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    // Storage full or blocked: the panel still works for this visit.
-  }
+  // Storage full or blocked: the panel still works for this visit.
+  writeResearchCache(key, value);
 }
 
 /** What this device already has: listings for the place, fares for the route and dates. */

@@ -37,6 +37,21 @@ describe('/api/place-media', () => {
     }
   });
 
+  it('lets the browser and CDN cache found photos, and asks Commons for a standard width', async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ query: { pages: [] } }), { status: 200 }));
+    vi.stubGlobal('fetch', fetcher);
+    try {
+      const response = await GET(new Request('https://example.test/api/place-media?eventId=white-turf-st-moritz'));
+      expect(response.headers.get('Cache-Control')).toMatch(/s-maxage=\d+/);
+      expect(response.headers.get('Cache-Control')).toMatch(/stale-while-revalidate=\d+/);
+      const url = new URL(String(fetcher.mock.calls[0][0]));
+      expect(url.searchParams.get('iiurlwidth')).toBe('1280');
+      expect(url.searchParams.get('iiprop')).toContain('size');
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('coalesces simultaneous searches for an event without a reviewed photo', async () => {
     const page = (n: number) => ({
       title: `File:Newport Jazz Festival 2026 ${n}.jpg`,

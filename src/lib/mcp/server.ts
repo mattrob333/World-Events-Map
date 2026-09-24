@@ -1,7 +1,7 @@
 import 'server-only';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { concertLinks, searchArtistEvents, searchCityScene, searchTeamGames, type LiveEvent } from '@/lib/designer/concerts';
+import { EventFeedBudgetError, concertLinks, searchArtistEvents, searchCityScene, searchTeamGames, type LiveEvent } from '@/lib/designer/concerts';
 import { curatedOccasions } from '@/lib/designer/occasions';
 import { BUDGETS, PACES, SOCIAL_LEVELS, normalizeProfile, parseProfileLocally, summarize, type TravelerProfile } from '@/lib/designer/profile';
 import { publicScene, scenePlaybook, sceneSearchLinks } from '@/lib/designer/scene';
@@ -336,18 +336,25 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
       const past = pastDate(endDate, 'endDate');
       if (past) return failure(past);
       const { keys, sources } = eventKeys();
-      const busy = sources.length > 0 && !consumeProviderCall(context.request, 'concerts');
-      if (!sources.length || busy) {
+      const linksOnly = (why: string, listings: string) => {
         const links = [...concertLinks(artists, city), ...teamLinks(teams, city)];
-        const why = busy
-          ? 'Event listings are busy right now (too many searches in a few minutes), so here are search links instead:'
-          : 'Event listings aren’t set up on this server, so these are search links, not listings:';
-        return result({ sources: [], events: [], links, listings: busy ? 'busy' : 'not-configured' }, `${why}\n${links.map((l) => `- ${l.label}: ${l.href}`).join('\n')}`);
+        return result({ sources: [], events: [], links, listings }, `${why}\n${links.map((l) => `- ${l.label}: ${l.href}`).join('\n')}`);
+      };
+      if (!sources.length) return linksOnly('Event listings aren’t set up on this server, so these are search links, not listings:', 'not-configured');
+      if (!consumeProviderCall(context.request, 'concerts')) {
+        return linksOnly('Event listings are busy right now (too many searches in a few minutes), so here are search links instead:', 'busy');
       }
-      const [music, games] = await Promise.all([
-        artists.length ? searchArtistEvents({ artists, city, startDate, endDate }, keys) : Promise.resolve([]),
-        teams.length ? searchTeamGames({ teams, city, startDate, endDate }, keys) : Promise.resolve([]),
-      ]);
+      let music: LiveEvent[];
+      let games: LiveEvent[];
+      try {
+        [music, games] = await Promise.all([
+          artists.length ? searchArtistEvents({ artists, city, startDate, endDate }, keys) : Promise.resolve([]),
+          teams.length ? searchTeamGames({ teams, city, startDate, endDate }, keys) : Promise.resolve([]),
+        ]);
+      } catch (cause) {
+        if (cause instanceof EventFeedBudgetError) return linksOnly(`${cause.message} Search links:`, 'daily-limit');
+        throw cause;
+      }
       const events = [...music, ...games].sort((a, b) => a.date.localeCompare(b.date));
       return result(
         { sources, fetchedAt: new Date().toISOString(), events },
@@ -382,10 +389,17 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
       const { keys, sources } = eventKeys();
       if (!sources.length) return failure('Event listings aren’t set up on this server, so trip ideas can’t be ranked. Try dope_curated_occasions instead.');
       if (!consumeProviderCall(context.request, 'concerts')) return failure('Event listings are busy right now; try again in a few minutes, or use dope_curated_occasions.');
-      const [music, games] = await Promise.all([
-        artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
-        teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
-      ]);
+      let music: LiveEvent[];
+      let games: LiveEvent[];
+      try {
+        [music, games] = await Promise.all([
+          artists.length ? searchArtistEvents({ artists, startDate, endDate }, keys) : Promise.resolve([]),
+          teams.length ? searchTeamGames({ teams, startDate, endDate }, keys) : Promise.resolve([]),
+        ]);
+      } catch (cause) {
+        if (cause instanceof EventFeedBudgetError) return failure(`${cause.message} Try dope_curated_occasions meanwhile.`);
+        throw cause;
+      }
       const ideas = rankTripIdeas([...music, ...games], { occasions: curatedOccasions({ startDate, endDate }), excludeCity: homeCity, maxNights });
       return result(
         { sources, ideas },
@@ -422,14 +436,22 @@ export function createDopeMcpServer(context: { origin: string; request: Request 
       if (!playbook.length) return failure('Those genres did not map to any live-music scene. Try broader genres like rock, jazz, hip hop, house.');
       const scenes = playbook.map((scene) => ({ ...publicScene(scene), links: sceneSearchLinks(scene, cityName) }));
       const { keys, sources } = eventKeys();
-      const busy = sources.length > 0 && !consumeProviderCall(context.request, 'concerts');
-      const events = sources.length && !busy
-        ? await searchCityScene({ city: cityName, startDate, endDate, scenes: playbook.map((s) => s.key) }, keys)
-        : [];
+      let busy = sources.length > 0 && !consumeProviderCall(context.request, 'concerts');
+      let limitNote = '';
+      let events: LiveEvent[] = [];
+      if (sources.length && !busy) {
+        try {
+          events = await searchCityScene({ city: cityName, startDate, endDate, scenes: playbook.map((s) => s.key) }, keys);
+        } catch (cause) {
+          if (!(cause instanceof EventFeedBudgetError)) throw cause;
+          busy = true;
+          limitNote = `\n\n${cause.message}`;
+        }
+      }
       const listingNote = !sources.length
         ? '\n\nEvent listings aren’t set up on this server, so there are no dated events here. The map searches above are the way in.'
         : busy
-          ? '\n\nEvent listings are busy right now, so dated events were skipped; try again in a few minutes.'
+          ? limitNote || '\n\nEvent listings are busy right now, so dated events were skipped; try again in a few minutes.'
           : events.length
             ? `\n\nListed in ${cityName} (${eventSourceLabel(sources)}):\n${events.slice(0, 20).map(eventLine).join('\n')}`
             : `\n\nNothing matching is listed on ${eventSourceLabel(sources)} in ${cityName} for those dates.`;

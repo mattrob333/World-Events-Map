@@ -88,7 +88,7 @@
 .factLabel { color: var(--color-brass); }
 .factBar strong { overflow: hidden; color: var(--color-bone); font-size: 0.875rem; font-weight: 500; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
 .factBar > a { margin: 0 0.35rem 0 0.5rem; }
-.factBar a.distanceLink { color: var(--color-brass-bright); text-decoration: underline; text-decoration-color: rgb(200 168 102 / 0.5); text-underline-offset: 3px; }
+.factBar a.distanceLink { display: inline-flex; min-height: 2.75rem; align-items: center; color: var(--color-brass-bright); text-decoration: underline; text-decoration-color: rgb(200 168 102 / 0.5); text-underline-offset: 3px; }
 
 .belowHero { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(17rem, 0.8fr); gap: clamp(1.5rem, 3vw, 3rem); margin-top: clamp(3.2rem, 5vw, 5rem); }
 .editHeader { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 1.6rem; }

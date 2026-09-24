@@ -119,7 +119,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Opaque: at 90% the page text showed through while scrolling (UFR2-J11). */}
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-surface-0">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-4 px-4 sm:px-5">
-          <Link href="/" className="flex shrink-0 items-center" aria-label="dope.travel home">
+          <Link href="/" className="flex min-h-11 shrink-0 items-center" aria-label="dope.travel home">
             {/* One drawn lockup, so ".travel" always shares the wordmark's baseline. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
             <img src="/brand/dope-travel-lockup.svg" alt="" width={95} height={32} className="h-8 w-auto" />

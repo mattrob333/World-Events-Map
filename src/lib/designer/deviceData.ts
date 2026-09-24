@@ -12,7 +12,8 @@
  */
 
 export const DESIGNER_STORAGE_KEY = 'meridian.designer.v1';
-export const RESEARCH_PREFIX = 'dope.research.v1:';
+/** Covers every research cache generation (v1 whole-trip, v2 place and fares). */
+export const RESEARCH_PREFIX = 'dope.research.';
 export const RESEARCH_KEEP = 10;
 
 type KeyStore = Pick<Storage, 'getItem' | 'setItem' | 'removeItem' | 'key' | 'length'>;

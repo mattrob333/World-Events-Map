@@ -111,3 +111,19 @@ describe('Wikimedia photo selection', () => {
     expect(photos[0]).toMatchObject({ subject: 'event', credit: 'Jane & Sam', license: 'CC BY-SA 4.0', photographed: '2026-05-01' });
   });
 });
+
+describe('Commons pixel size', () => {
+  it('keeps the original width and height so the client can pick standard thumbnails', async () => {
+    const { selectCommonsPhotos } = await import('./media');
+    const { EVENT_INDEX } = await import('@/lib/data/events');
+    const event = EVENT_INDEX.get('monaco-yacht-show')!;
+    const [photo] = selectCommonsPhotos({ 1: {
+      title: 'File:Monaco Yacht Show 2024.jpg',
+      imageinfo: [{ mime: 'image/jpeg', width: 4000, height: 3000,
+        thumburl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/M.jpg/1280px-M.jpg',
+        descriptionurl: 'https://commons.wikimedia.org/wiki/File:Monaco_Yacht_Show_2024.jpg',
+        extmetadata: { LicenseShortName: { value: 'CC BY 4.0' } } }],
+    } }, event, 'event');
+    expect(photo).toMatchObject({ width: 4000, height: 3000 });
+  });
+});
