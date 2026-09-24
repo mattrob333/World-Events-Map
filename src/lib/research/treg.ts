@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { createHash } from 'node:crypto';
+import { tregCall, type TregCallReceipt } from './tregClient';
 
 export type TregSearchTask =
   | { kind: 'instagram_hashtag'; term: string; destinationSlug?: string }
@@ -21,11 +22,7 @@ export interface TregResearchCandidate {
   destinationSlug?: string;
 }
 
-export interface TregCallReceipt {
-  endpoint: string;
-  callId: string | null;
-  costMicro: number | null;
-}
+export type { TregCallReceipt };
 
 type Obj = Record<string, unknown>;
 const object = (value: unknown): Obj | null =>
@@ -116,45 +113,17 @@ export async function collectTregResearch(
   for (const task of tasks) {
     const { endpoint, body, listKey } = taskDetails(task);
     const key = createHash('sha256').update(`${options.runId}|${endpoint}|${JSON.stringify(body)}`).digest('hex');
-    const response = await fetchImpl(`https://treg.to/call/${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'X-Treg-Token': token,
-        'Idempotency-Key': key,
-        'X-Treg-Route-Max-Cost': '0.01',
-        'X-Treg-Max-Age': '3600',
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(body),
-      cache: 'no-store',
-      signal: AbortSignal.timeout(12_000),
+    const call = await tregCall({
+      endpoint, method: 'POST', body, maxCostUsd: 0.01, maxAgeSeconds: 3600, idempotencyKey: key,
+      token, fetchImpl, now: options.now, onReceipt: (receipt) => { receipts.push(receipt); options.onReceipt?.(receipt); },
     });
-    // Record the charge before any parsing, so a billed call with a malformed
-    // body still leaves a trace for billing reconciliation.
-    const costRaw = response.headers.get('x-treg-cost-micro');
-    const receipt = {
-      endpoint,
-      callId: response.headers.get('x-treg-call-id'),
-      costMicro: costRaw && /^\d+$/.test(costRaw) ? Number(costRaw) : null,
-    };
-    receipts.push(receipt);
-    options.onReceipt?.(receipt);
-    if (!response.ok) throw new Error(`Treg request failed with status ${response.status}`);
-    const rawText = await response.text();
-    if (rawText.length > 1_000_000) throw new Error('Treg response exceeded size limit');
-    let raw: unknown;
-    try { raw = JSON.parse(rawText); } catch { throw new Error('Treg returned invalid JSON'); }
-    const root = object(raw);
+    if (!call.ok) throw new Error(`Treg request failed with status ${call.status}`);
+    const root = object(call.json);
     const output = object(root?.output);
     const data = object(output?.data);
     const rows = data?.[listKey];
     if (!Array.isArray(rows)) throw new Error('Treg response is missing the expected social list');
-    const fetchedHeader = response.headers.get('x-treg-fetched-at');
-    const fetchedMillis = fetchedHeader ? Date.parse(fetchedHeader) : NaN;
-    const fetchedAt = Number.isFinite(fetchedMillis) && fetchedMillis <= Date.now() + 60_000
-      ? new Date(fetchedMillis).toISOString()
-      : (options.now ?? new Date()).toISOString();
+    const { fetchedAt } = call;
     for (const row of rows.slice(0, 10)) {
       const normalized = task.kind === 'instagram_hashtag'
         ? normalizeInstagram(row, task, fetchedAt)
