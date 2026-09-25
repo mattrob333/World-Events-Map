@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { pinPicks, takeVibePicks } from '@/lib/designer/vibePicks';
+import { samePlace } from '@/lib/voice/canvas';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { DESTINATIONS, type DestinationKind } from '@/lib/designer/catalog';
@@ -506,7 +508,12 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
             initialWith={withId}
             initialPlace={placeParam}
             onCreate={(created, message) => {
-              setTrip(created);
+              // Picks tapped on the Vibe canvas lead their time blocks, when they're for this place.
+              const picks = takeVibePicks();
+              const name = created.place?.name ?? created.destination;
+              const mine = picks && picks.spots.length && samePlace(picks.place, String(name)) ? picks.spots : [];
+              setTrip(mine.length ? pinPicks(created, mine) : created);
+              if (mine.length) message = `${mine.length} of your picks lead their time blocks. ${message ?? ''}`.trim();
               setNotice(message);
               if (withId || placeParam) {
                 window.history.replaceState(null, '', '/trips/designer');

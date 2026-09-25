@@ -6,9 +6,9 @@ vi.mock('next/server', async (importOriginal) => ({ ...(await importOriginal<typ
 
 import { resetDailyBudgetsForTests } from '@/lib/designer/server/dailyBudget';
 import { resetDesignerLimitsForTests } from '@/lib/designer/server/guard';
-import { callIdFrom, voiceSessionConfig } from '@/lib/voice/session';
+import { liveSessionConfig } from '@/lib/voice/session';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
-import { GET, POST } from '../voice/session/route';
+import { GET, POST, sessionIdFrom } from '../voice/session/route';
 
 const OFFER = 'v=0\r\no=- 1 2 IN IP4 127.0.0.1\r\n';
 
@@ -29,7 +29,7 @@ beforeEach(() => {
   fetchMock.mockImplementation(async (url: string) =>
     String(url).endsWith('/hangup')
       ? new Response(null, { status: 200 })
-      : new Response('v=0\r\nanswer\r\n', { status: 201, headers: { Location: '/v1/realtime/calls/rtc_test123' } }),
+      : new Response(JSON.stringify({ session: { id: 'live_test123' }, transport: { type: 'webrtc', sdp: 'v=0\r\nanswer\r\n' } }), { status: 201, headers: { 'Content-Type': 'application/json' } }),
   );
 });
 
@@ -79,19 +79,22 @@ describe('POST /api/voice/session', () => {
     expect(body.sdp).toContain('answer');
     expect(JSON.stringify(body)).not.toContain('sk-test');
     const [url, init] = fetchMock.mock.calls[0];
-    expect(url).toBe('https://api.openai.com/v1/realtime/calls');
-    const session = JSON.parse((init.body as FormData).get('session') as string);
-    expect(session.tools.map((tool: { name: string }) => tool.name)).toEqual(INTENT_TOOLS.trip);
+    expect(url).toBe('https://api.openai.com/v1/live/sessions');
+    const sent = JSON.parse(init.body as string);
+    expect(sent.transport).toEqual({ type: 'webrtc', sdp: OFFER });
+    expect(sent.session.model).toBe('gpt-live-1');
+    expect(sent.session.delegation.type).toBe('responses');
+    expect(sent.session.delegation.responses.tools.map((tool: { name?: string; type: string }) => tool.name ?? tool.type)).toEqual(INTENT_TOOLS.trip);
 
     expect(pending).toHaveLength(1);
     const done = pending[0]();
     await vi.advanceTimersByTimeAsync(240_000);
     await done;
-    expect(fetchMock.mock.calls[1][0]).toBe('https://api.openai.com/v1/realtime/calls/rtc_test123/hangup');
+    expect(fetchMock.mock.calls[1][0]).toBe('https://api.openai.com/v1/live/sessions/live_test123/hangup');
   });
 
   it('withholds the answer when no call id comes back, so the cap is always enforceable', async () => {
-    fetchMock.mockResolvedValueOnce(new Response('v=0\r\nanswer\r\n', { status: 201 }));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ transport: { sdp: 'v=0\r\nanswer\r\n' } }), { status: 201 }));
     const response = await POST(request({ intent: 'trip', sdp: OFFER }));
     expect(response.status).toBe(502);
     expect(pending).toHaveLength(0);
@@ -105,10 +108,10 @@ describe('POST /api/voice/session', () => {
 });
 
 describe('voice helpers', () => {
-  it('reads the call id from the Location header', () => {
-    expect(callIdFrom('/v1/realtime/calls/rtc_abc123')).toBe('rtc_abc123');
-    expect(callIdFrom(null)).toBeNull();
-    expect(callIdFrom('/v1/realtime/calls/../../x y')).toBeNull();
+  it('accepts only safe session ids', () => {
+    expect(sessionIdFrom('live_abc123')).toBe('live_abc123');
+    expect(sessionIdFrom(null)).toBeNull();
+    expect(sessionIdFrom('../../x y')).toBeNull();
   });
 
   it('only routes to known pages', () => {
@@ -118,7 +121,7 @@ describe('voice helpers', () => {
   });
 
   it('scrubs the page context', () => {
-    const config = voiceSessionConfig('general', '<script>x</script>\u0000', 'nope');
+    const config = liveSessionConfig('general', '<script>x</script>\u0000', '', 'nope');
     expect(config.instructions).not.toContain('<script>');
     expect(config.instructions).toMatch(/Today is \d{4}-\d{2}-\d{2}/);
   });

@@ -1,0 +1,105 @@
+.canvas { display: flex; flex-direction: column; gap: 18px; padding-bottom: 12px; }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-chip);
+  background: rgb(247 197 72 / 0.1);
+  color: var(--color-saffron);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-saffron);
+  box-shadow: 0 0 10px rgb(247 197 72 / 0.8);
+  animation: beat 1.6s ease-in-out infinite;
+}
+@keyframes beat { 50% { opacity: 0.3; } }
+
+.heading { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--color-bone); margin-bottom: 8px; }
+.kindHeading { margin: 10px 0 6px; color: var(--color-ink-muted); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: none; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Every card is its place: the photo is the background, a scrim keeps the words readable. */
+.placeCard, .spotCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 18px;
+  background: radial-gradient(ellipse at 70% 0%, rgb(135 104 63 / 0.5), transparent 70%), var(--color-surface-2);
+  color: var(--color-bone);
+  box-shadow: var(--shadow-soft-2);
+  animation: pop 420ms var(--ease-glide) both;
+}
+.placeCard::after, .spotCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgb(5 5 5 / 0.35) 0%, rgb(5 5 5 / 0.1) 35%, rgb(5 5 5 / 0.88) 75%);
+}
+@keyframes pop { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .placeCard, .spotCard, .status i { animation: none; } }
+.photo { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+
+.placeCard {
+  flex: 0 0 min(72%, 260px);
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px 14px 14px;
+  text-align: left;
+  scroll-snap-align: start;
+}
+.placeCard[aria-pressed='true'] { box-shadow: var(--shadow-soft-2), inset 0 0 0 2px var(--color-saffron); }
+.placeCard:focus-visible, .spotPick:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.quiet { flex-basis: min(46%, 170px); min-height: 150px; }
+.placeTop { display: flex; width: 100%; justify-content: space-between; align-items: center; margin-bottom: auto; }
+.best { padding: 4px 10px; border-radius: var(--radius-chip); background: rgb(5 5 5 / 0.65); color: var(--color-saffron); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+.check {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(5 5 5 / 0.6);
+  font-size: 15px;
+}
+[aria-pressed='true'] > .check, [aria-pressed='true'] .check { background: var(--color-saffron); color: #1a0b06; }
+.placeName { margin-top: 36px; font-family: var(--font-display); font-size: 26px; line-height: 1.05; }
+.quiet .placeName { font-size: 20px; }
+.placeMeta { color: rgb(244 241 234 / 0.75); font-size: 12px; }
+.placeWhy { margin-top: 4px; color: var(--color-bone); font-size: 12.5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.spotCard { min-height: 168px; display: flex; flex-direction: column; }
+.spotPicked { box-shadow: var(--shadow-soft-2), inset 0 0 0 2px var(--color-saffron); }
+.spotPick {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 4px;
+  flex: 1;
+  padding: 10px 10px 4px 12px;
+  cursor: pointer;
+}
+.kind { grid-column: 1; align-self: start; justify-self: start; padding: 3px 9px; border-radius: var(--radius-chip); background: rgb(5 5 5 / 0.62); font-size: 11px; font-weight: 600; }
+.spotPick .check { grid-column: 2; grid-row: 1; }
+.spotName { grid-column: 1 / -1; grid-row: 3; font-weight: 700; font-size: 15px; line-height: 1.2; }
+.spotWhy { grid-column: 1 / -1; grid-row: 4; color: rgb(244 241 234 / 0.85); font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.source { padding: 2px 12px 10px; color: var(--color-saffron); font-size: 11.5px; font-weight: 600; min-height: 28px; display: flex; align-items: center; }
+
+.note { color: var(--color-ink-subtle); font-size: 11.5px; line-height: 1.4; }

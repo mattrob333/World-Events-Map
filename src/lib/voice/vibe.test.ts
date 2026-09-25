@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { emptyProfile, withVoiceStyle } from '@/lib/designer/profile';
-import { voiceName } from './session';
-import { INTENT_TOOLS, voiceInstructions } from './tools';
+import { backendInstructions, liveInstructions, liveSessionConfig, voiceName } from './session';
+import { INTENT_TOOLS } from './tools';
 import { placeFromTypedTrip, readTypedVibe, vibeTarget } from './vibe';
+import { readTrip } from './tripBrief';
+
+const TODAY = '2026-09-25';
 
 describe('header Vibe routing', () => {
   it('opens the page that owns each tool', () => {
@@ -43,23 +46,39 @@ describe('header Vibe routing', () => {
 
 describe('Vibe stage voice sessions', () => {
   it('gives the profile and trip conversations only their own tools', () => {
-    expect(INTENT_TOOLS.vibe_profile).toEqual(['lock_fact', 'describe_me', 'switch_profile']);
-    expect(INTENT_TOOLS.vibe_trip).toEqual(['lock_fact', 'finish_trip', 'switch_profile']);
+    expect(INTENT_TOOLS.vibe_profile).toEqual(['lock_fact', 'describe_me']);
+    expect(INTENT_TOOLS.vibe_trip).toEqual(['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip']);
+    // Only the trip canvas searches the web.
+    const trip = liveSessionConfig('vibe_trip', '', '', '2026-09-25').delegation.responses.tools as { type: string }[];
+    const profile = liveSessionConfig('vibe_profile', '', '', '2026-09-25').delegation.responses.tools as { type: string }[];
+    expect(trip.some((tool) => tool.type === 'web_search')).toBe(true);
+    expect(profile.some((tool) => tool.type === 'web_search')).toBe(false);
   });
 
-  it('tells the trip concierge to be brief and to leave ranking to the app', () => {
-    const text = voiceInstructions('vibe_trip', '', '2026-09-25');
+  it('keeps the voice brief and delegates research to the backend', () => {
+    const text = liveInstructions('vibe_trip', '', '2026-09-25');
     expect(text).toMatch(/under 12 words/);
     expect(text).toMatch(/never praise/i);
     expect(text).toMatch(/Late-night bars or live-music bars/);
-    expect(text).toMatch(/finish_trip/);
+    expect(text).toMatch(/Delegate to the backend/);
     expect(text).toContain('where (Where:');
+  });
+
+  it('has the backend rank profile first, then the place’s signature moments, then what’s trending, never invented', () => {
+    const text = backendInstructions('vibe_trip', 'Profile "Solo". Teams: Atlanta Braves.', '2026-09-25');
+    expect(text).toMatch(/signature moments/);
+    expect(text).toMatch(/FC Barcelona/);
+    expect(text).toMatch(/nothing invented/);
+    expect(text).toMatch(/hard no/);
+    expect(text).toContain('Teams: Atlanta Braves');
   });
 
   it('picks the voice from VOICE_NAME, falling back to marin', () => {
     const before = process.env.VOICE_NAME;
     process.env.VOICE_NAME = 'Cedar';
     expect(voiceName()).toBe('cedar');
+    process.env.VOICE_NAME = 'Quartz';
+    expect(voiceName()).toBe('quartz');
     process.env.VOICE_NAME = 'nova';
     expect(voiceName()).toBe('marin');
     process.env.VOICE_NAME = before;
@@ -73,4 +92,10 @@ describe('profile style from the concierge', () => {
     expect(profile.style?.budget).toBeUndefined();
     expect(withVoiceStyle(emptyProfile(), null).style).toBeUndefined();
   });
+});
+
+it('never reads a kind of trip as a town', () => {
+  expect(readTrip('ski trip to the Alps, first week of February', TODAY).place).toBeNull();
+  expect(readTrip('A ski trip in the Alps first week of February', TODAY).place).toBeNull();
+  expect(readTrip('I want a trip in Zermatt', TODAY).place?.place).toBe('Zermatt');
 });

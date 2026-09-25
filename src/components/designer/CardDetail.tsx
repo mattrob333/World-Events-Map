@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { handoffNote, openTableSearch, takesTableSearch } from '@/lib/booking/partners';
 import { SLOT_META, type DesignerCard, type SlotKind } from '@/lib/designer/catalog';
 import { useModalFocus } from '@/components/shell/useModalFocus';
-import { CardArt } from './IdeaCard';
+import { CardArt, type RideOffer } from './IdeaCard';
 import styles from './designer.module.css';
 
 const TRAVEL = new Set<SlotKind>(['depart', 'flight', 'arrive']);
@@ -23,8 +23,9 @@ function linkHost(href: string): string {
  * hand-offs we can honestly offer. Phone numbers, hours and bookings live on
  * the place's own listing; we link there rather than print numbers we haven't checked.
  */
-export function CardDetail({ card, slotKind, where, date, covers, onClose }: {
+export function CardDetail({ card, ride, slotKind, where, date, covers, onClose }: {
   card: DesignerCard;
+  ride?: RideOffer;
   slotKind: SlotKind;
   where: string;
   date: string;
@@ -67,10 +68,16 @@ export function CardDetail({ card, slotKind, where, date, covers, onClose }: {
             {SLOT_META[slotKind].label} · {where}
           </p>
           <h2 id={`detail-${card.id}`} className={styles.detailTitle}>
-            {card.title}
+            {ride ? `Ride to ${ride.iata}` : card.title}
           </h2>
-          <p className={styles.detailBlurb}>{card.blurb}</p>
+          <p className={styles.detailBlurb}>{ride ? `From where you are to ${ride.name}. The ride app fills in your pickup.` : card.blurb}</p>
           <div className={styles.detailActions}>
+            {ride ? (
+              <>
+                <a className="btn btn-primary btn-sm" href={ride.uber} target="_blank" rel="noopener noreferrer">Open Uber ↗</a>
+                <a className="btn btn-ghost btn-sm" href={ride.lyft} target="_blank" rel="noopener noreferrer">Open Lyft ↗</a>
+              </>
+            ) : null}
             {onMap ? (
               <a className="btn btn-primary btn-sm" href={mapsHref} target="_blank" rel="noopener noreferrer">
                 See it on the map ↗
@@ -88,6 +95,7 @@ export function CardDetail({ card, slotKind, where, date, covers, onClose }: {
             ) : null}
           </div>
           <p className={styles.detailNote}>
+            {ride ? 'Opens the ride app with the airport set as your drop-off; prices and times are in the app. ' : ''}
             {onMap ? 'Hours, phone number and photos are on its map listing.' : ''}
             {table ? ` ${handoffNote('opentable')}` : ''}
             {own ? ` The ${own.label.toLowerCase()} link opens ${linkHost(own.href)}.` : ''} This is an idea, not a booking: check with the place before you go.

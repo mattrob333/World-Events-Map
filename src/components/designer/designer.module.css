@@ -1715,3 +1715,19 @@
 .detailBlurb { font-size: 15px; line-height: 1.5; color: var(--color-ink-soft); }
 .detailActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .detailNote { font-size: 12px; line-height: 1.45; color: var(--color-ink-subtle); }
+
+/* Ride to the airport: two hand-offs, above the card's stretched open button. */
+.rideLinks { position: relative; z-index: 1; display: flex; gap: 8px; }
+.rideLinks a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--radius-chip);
+  background: var(--color-surface-3);
+  color: var(--color-bone);
+  font-size: 13px;
+  font-weight: 600;
+}
+.rideLinks a:hover { background: var(--color-surface-4); }
+.rideLinks a:focus-visible { outline: none; box-shadow: var(--focus-ring); }

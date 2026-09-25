@@ -26,6 +26,8 @@ export function readTrip(text: string, today: string): TripBrief {
   let place = placeFromTripRequest(text) ?? placeAfterPreposition(text);
   // "Switzerland" or "the Alps" is somewhere to choose within, not one destination.
   if (place && wheres.some((where) => fold(where.label) === fold(place!.place) || where.countries.some((country) => fold(country) === fold(place!.place)))) place = null;
+  // "Ski trip to the Alps" or "a ski trip": a kind of trip, not a town.
+  if (place && /\btrip\b/i.test(place.place)) place = null;
   const hinted = wheres.find((where) => where.hint)?.hint ?? null;
   return { place, wheres, when: tripWhen(text, today), crew: tripCrew(text), tripType: tripTypeFromText(text) ?? hinted };
 }

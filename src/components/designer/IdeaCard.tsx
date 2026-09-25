@@ -40,8 +40,12 @@ export function CardArt({ card, lead }: { card: DesignerCard; lead?: boolean }) 
   );
 }
 
+/** An Uber/Lyft hand-off for a ride-to-the-airport card. */
+export type RideOffer = { iata: string; name: string; uber: string; lyft: string };
+
 type Props = {
   card: DesignerCard;
+  ride?: RideOffer;
   slotId: string;
   index: number;
   lead: boolean;
@@ -60,6 +64,7 @@ type Props = {
 
 export function IdeaCard({
   card,
+  ride,
   slotId,
   index,
   lead,
@@ -100,10 +105,17 @@ export function IdeaCard({
         <h4 className={styles.cardTitle}>
           {/* Stretched over the art and text: the whole card opens its details. */}
           <button type="button" className={styles.cardOpen} onClick={onOpen} aria-haspopup="dialog">
-            {card.title}
+            {ride ? `Ride to ${ride.iata}` : card.title}
           </button>
         </h4>
-        <p className={styles.cardBlurb}>{card.blurb}</p>
+        {ride ? (
+          <p className={styles.rideLinks}>
+            <a href={ride.uber} target="_blank" rel="noopener noreferrer">Uber ↗</a>
+            <a href={ride.lyft} target="_blank" rel="noopener noreferrer">Lyft ↗</a>
+          </p>
+        ) : (
+          <p className={styles.cardBlurb}>{card.blurb}</p>
+        )}
       </div>
       <div className={styles.cardFoot}>
         <button

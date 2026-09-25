@@ -12,9 +12,13 @@ import { readTrip, whenLabel } from '@/lib/voice/tripBrief';
 import { vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
 import { checklistFor, type ChecklistItem, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { topicsFor } from '@/lib/voice/topics';
-import { useRealtime } from '@/lib/voice/useRealtime';
+import { useRealtime, type VoiceActivity } from '@/lib/voice/useRealtime';
+import { EMPTY_CANVAS, canvasSummary, pickedSpotsIn, togglePick, tripPlace, withFocus, withNamedPlace, withPlaces, withSpots, type Canvas } from '@/lib/voice/canvas';
+import { withTaste } from '@/lib/vibe/affinity';
+import { saveVibePicks } from '@/lib/designer/vibePicks';
 import { useModalFocus } from '@/components/shell/useModalFocus';
 import { SunOrb } from './SunOrb';
+import { VibeCanvas } from './VibeCanvas';
 import { VibePlaces, type VibePayload } from './VibePlaces';
 import { useLiveTranscript } from './useLiveTranscript';
 
@@ -45,7 +49,7 @@ export function SunModal() {
   return open ? <VibeStage /> : null;
 }
 
-type Phase = 'intro' | 'talking' | 'recap' | 'typing' | 'building';
+type Phase = 'intro' | 'talking' | 'picking' | 'recap' | 'typing' | 'building';
 
 type Recommendation = { id: string; name: string; city: string; country: string; start?: string; end?: string; when: string; planBy: string | null; reason: string | null; slug: string | null };
 
@@ -91,6 +95,36 @@ function profileTextFrom(facts: Record<string, string>, said: string): string {
   return [said, locked].filter(Boolean).join(' ').slice(0, MAX_RAMBLE_CHARS);
 }
 
+/** Who a profile is for: it names the saved board and steers the questions. */
+const FOR_WHOM = [
+  { value: 'me', label: 'Just me', board: 'Solo', steer: 'This profile is just for them.' },
+  { value: 'family', label: 'Family', board: 'Family', steer: 'This profile is for their family: ask who comes (partner, kids and their ages) and what works for the kids.' },
+  { value: 'work', label: 'Solo for work', board: 'Work trips', steer: 'This profile is for solo work trips: ask what they want around meetings (a great solo dinner, a gym, a late bar), and how much free time they get.' },
+  { value: 'crew', label: 'The crew', board: 'The crew', steer: 'This profile is for trips with friends: ask who the crew is and what the group always ends up doing.' },
+] as const;
+type ForWhom = (typeof FOR_WHOM)[number]['value'];
+
+/** The saved profile, in a few hundred characters, for the backend's ranking. Sent only when voice starts. */
+function profileSummary(saved: ReturnType<typeof pickActiveProfile>): string {
+  if (!saved) return '';
+  const p = saved.profile;
+  const crew = p.family.map((member) => `${member.name ?? member.label}${member.age !== undefined ? ` (${member.age})` : ''}`).join(', ');
+  const style = p.style;
+  return [
+    `Profile "${profileLabel(saved)}".`,
+    p.hometown ? `Home: ${p.hometown}.` : '',
+    crew ? `Travels with: ${crew}.` : '',
+    [...(p.artists ?? []), ...p.music].length ? `Music: ${[...(p.artists ?? []), ...p.music].slice(0, 6).join(', ')}.` : '',
+    p.teams.length ? `Teams: ${p.teams.slice(0, 4).join(', ')}.` : '',
+    p.food.length ? `Food and drink: ${p.food.slice(0, 5).join(', ')}.` : '',
+    p.interests.length ? `Into: ${p.interests.slice(0, 5).join(', ')}.` : '',
+    style?.pace ? `Pace: ${style.pace}.` : '',
+    style?.budget ? `Budget: ${style.budget}.` : '',
+    style?.avoid.length ? `Hard no's: ${style.avoid.slice(0, 5).join(', ')}.` : '',
+    style?.notes ? style.notes.slice(0, 160) : '',
+  ].filter(Boolean).join(' ').slice(0, 900);
+}
+
 const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
   profile: {
     kicker: 'My profile',
@@ -127,6 +161,18 @@ function VibeStage() {
   const [usedSpeech, setUsedSpeech] = useState(false);
   const [facts, setFacts] = useState<Record<string, string>>({});
   const [muted, setMuted] = useState(false);
+  const [micOff, setMicOff] = useState(false);
+  const [canvas, setCanvas] = useState<Canvas>(EMPTY_CANVAS);
+  const canvasRef = useRef<Canvas>(EMPTY_CANVAS);
+  const [activity, setActivity] = useState<VoiceActivity>({ kind: 'idle' });
+  const [forWhom, setForWhom] = useState<ForWhom>('me');
+  const profiles = useDesignerStore((s) => s.profiles);
+  const activeProfileId = useDesignerStore((s) => s.activeProfileId);
+  const setActiveProfile = useDesignerStore((s) => s.setActiveProfile);
+  const updateCanvas = useCallback((next: Canvas) => {
+    canvasRef.current = next;
+    setCanvas(next);
+  }, []);
   // Something to do once the concierge stops talking (build the trip, close on the board).
   const afterSpeech = useRef<(() => void) | null>(null);
   const phaseRef = useRef(rt.phase);
@@ -134,6 +180,8 @@ function VibeStage() {
   const factsRef = useRef<Record<string, string>>({});
   const aiSaidRef = useRef('');
   const buildRef = useRef<(text?: string) => Promise<void>>(async () => undefined);
+  const showPlacesRef = useRef<(text: string) => Promise<string>>(async () => '');
+  const nameNewBoardRef = useRef<() => void>(() => undefined);
   // Run what's waiting once the concierge's last sentence has played (or after 8 seconds regardless).
   const lastSpoke = useRef(0);
   const pendingSince = useRef(0);
@@ -217,11 +265,30 @@ function VibeStage() {
     };
     const finishTrip: VoiceHandlers['finish_trip'] = () => {
       finishRef.current();
-      return 'END: Building it now.';
+      return 'END: Their canvas is ready for picking.';
+    };
+    const showPlaces: VoiceHandlers['show_places'] = async (args) => {
+      const where = typeof args.where === 'string' ? args.where.slice(0, 80) : '';
+      const when = typeof args.when === 'string' ? args.when.slice(0, 60) : '';
+      const kind = typeof args.trip_type === 'string' && args.trip_type !== 'any' ? `${args.trip_type} ` : '';
+      if (!where) return 'Error: say where first.';
+      return showPlacesRef.current(`I want a ${kind}trip in ${where}${when ? `, ${when}` : ''}`);
+    };
+    const addSpots: VoiceHandlers['add_spots'] = (args) => {
+      const result = withSpots(canvasRef.current, args.place, args.spots);
+      updateCanvas(result.canvas);
+      if (!result.added) return result.rejected ? 'Error: none had a usable https source link; only add venues from the search results, with the page URL.' : 'Those are already on the canvas.';
+      return `Added ${result.added} to the canvas${result.rejected ? `; skipped ${result.rejected} without a usable source link` : ''}.`;
+    };
+    const focusPlaces: VoiceHandlers['focus_places'] = (args) => {
+      const result = withFocus(canvasRef.current, Array.isArray(args.names) ? args.names : [], args.why);
+      updateCanvas(result.canvas);
+      return result.marked.length ? `Marked ${result.marked.join(', ')} as best fits.` : 'Error: none of those are on the canvas; call show_places first.';
     };
     const describeMe: VoiceHandlers['describe_me'] = async (args) => {
       const reply = await forwarded.describe_me!(args);
       if (reply.startsWith('Error')) return reply;
+      nameNewBoardRef.current();
       // The board is on screen behind the stage; close once the concierge finishes its sentence.
       whenQuiet(() => { rt.stop('ended'); setOpen(false); });
       return `END: ${reply}`;
@@ -229,9 +296,9 @@ function VibeStage() {
     return mode === 'profile'
       ? { lock_fact: lockFact, describe_me: describeMe, switch_profile: switchProfile }
       : mode === 'trip'
-        ? { lock_fact: lockFact, finish_trip: finishTrip, switch_profile: switchProfile }
+        ? { lock_fact: lockFact, show_places: showPlaces, add_spots: addSpots, focus_places: focusPlaces, finish_trip: finishTrip }
         : { ...forwarded, navigate, switch_profile: switchProfile };
-  }, [reach, router, mode, rt, setOpen, whenQuiet]);
+  }, [reach, router, mode, rt, setOpen, whenQuiet, updateCanvas]);
 
   const context = useCallback(() => {
     const { profiles, activeProfileId } = useDesignerStore.getState();
@@ -239,8 +306,9 @@ function VibeStage() {
     const who = active
       ? `Traveling as ${profileLabel(active)}${active.profile.name ? ` (${active.profile.name})` : ''}. Profiles on this device: ${profiles.map(profileLabel).join(', ')}.`
       : 'No travel profile yet.';
-    return [who, page?.context() ?? ''].filter(Boolean).join(' ');
-  }, [page]);
+    const steer = mode === 'profile' ? FOR_WHOM.find((option) => option.value === forWhom)?.steer ?? '' : '';
+    return [who, steer, mode === 'trip' ? canvasSummary(canvasRef.current) : '', page?.context() ?? ''].filter(Boolean).join(' ');
+  }, [page, mode, forWhom]);
 
   // ── Setup: is the live AI voice on for this site? ──────────────────────────
   const stopRealtime = useRef(rt.stop);
@@ -294,10 +362,84 @@ function VibeStage() {
   const finishTrip = () => {
     whenQuiet(() => {
       rt.stop('ended');
+      if (canvasRef.current.places.length || canvasRef.current.spots.length) {
+        setPhase('picking');
+        return;
+      }
       const text = tripTextFrom(factsRef.current, aiSaidRef.current);
       dictation.setText(text);
       void buildRef.current(text);
     });
+  };
+
+  /** Ranked places for what was said: our calendar, the news and their taste (added on this device). */
+  const showPlaces = async (text: string): Promise<string> => {
+    type Routed = { route?: string; question?: string; place?: PlanPlace | null; vibe?: VibePayload };
+    let routed: Routed | null = null;
+    try {
+      const response = await fetch('/api/designer/route-trip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, hasProfile, today: localToday() }),
+      });
+      routed = response.ok ? ((await response.json()) as Routed) : null;
+    } catch {
+      routed = null;
+    }
+    if (!routed) return 'Error: the places lookup is unavailable right now.';
+    if (routed.route === 'follow_up') return routed.question ?? 'Ask where they mean.';
+    if (routed.vibe) {
+      const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
+      const ranked = withTaste(routed.vibe.places, pickActiveProfile(all, activeId)?.profile);
+      const next = withPlaces(canvasRef.current, ranked, routed.vibe.alsoInRange, routed.vibe.window);
+      updateCanvas(next);
+      const top = next.places.filter((place) => !place.quiet).slice(0, 3).map((place) => place.name);
+      return next.places.length ? `On their canvas: ${next.places.length} places${top.length ? `, led by ${top.join(', ')}` : ''}.` : 'Nothing on our calendar there yet; search the web for the town.';
+    }
+    if (routed.place) {
+      updateCanvas(withNamedPlace(canvasRef.current, routed.place.place, routed.place.region ?? ''));
+      return `${routed.place.place} is on their canvas. Search it for spots.`;
+    }
+    return 'Nothing to show yet.';
+  };
+  useEffect(() => {
+    showPlacesRef.current = showPlaces;
+    // The board just saved becomes the active one; name it for who it's for.
+    nameNewBoardRef.current = () => {
+      const { activeProfileId: id, renameProfile } = useDesignerStore.getState();
+      const label = FOR_WHOM.find((option) => option.value === forWhom)?.board;
+      if (id && label) renameProfile(id, label);
+    };
+  });
+
+  // As they talk (before the concierge even delegates), a named place or region fills the canvas.
+  const heardKey = useRef('');
+  useEffect(() => {
+    if (!voiceEnabled || mode !== 'trip' || phase !== 'talking' || !aiSaid) return;
+    const brief = readTrip(aiSaid, localToday());
+    const key = [brief.place?.place ?? '', ...brief.wheres.map((where) => where.label), brief.tripType ?? '', whenLabel(brief.when) ?? ''].join('|');
+    if (!brief.place && !brief.wheres.length) return;
+    if (key === heardKey.current) return;
+    const timer = window.setTimeout(() => {
+      heardKey.current = key;
+      void showPlacesRef.current(aiSaid);
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [aiSaid, voiceEnabled, mode, phase]);
+
+  /** Picks go to the designer, which lays them into time blocks for the place with the most picks. */
+  const buildFromPicks = () => {
+    const place = tripPlace(canvasRef.current);
+    if (!place) {
+      setNote('Tap a place or a few spots first.');
+      return;
+    }
+    saveVibePicks({ place: place.name, spots: pickedSpotsIn(canvasRef.current, place.name) });
+    const window = canvasRef.current.window;
+    const nights = window ? Math.max(1, Math.min(14, window.days - 1)) : undefined;
+    const brief = readTrip(aiSaidRef.current, localToday());
+    router.push(planTripHref({ place: place.name, ...(place.country ? { region: place.country } : {}), ...(window ? { start: window.from, nights } : {}), ...(brief.crew ? { who: brief.crew.label } : {}) }));
+    setOpen(false);
   };
   useEffect(() => {
     finishRef.current = finishTrip;
@@ -318,8 +460,20 @@ function VibeStage() {
     }
     setFacts({});
     setMuted(false);
+    setMicOff(false);
+    heardKey.current = '';
+    if (phase !== 'picking') updateCanvas(EMPTY_CANVAS);
     afterSpeech.current = null;
-    const result = await rt.start({ intent: mode === 'profile' ? 'vibe_profile' : 'vibe_trip', context: context(), handlers: handlers(), withMic: true, textOnly: false, opener: OPENER });
+    const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
+    const result = await rt.start({
+      intent: mode === 'profile' ? 'vibe_profile' : 'vibe_trip',
+      context: context(),
+      profile: mode === 'trip' ? profileSummary(pickActiveProfile(all, activeId)) : '',
+      handlers: handlers(),
+      withMic: true,
+      opener: OPENER,
+      onActivity: setActivity,
+    });
     if (result === 'mic-denied') {
       setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it in the box.');
       setPhase('typing');
@@ -334,6 +488,10 @@ function VibeStage() {
       const said = aiSaid;
       rt.stop('ended');
       afterSpeech.current = null;
+      if (mode === 'trip' && (canvasRef.current.places.length || canvasRef.current.spots.length)) {
+        setPhase('picking');
+        return;
+      }
       if (mode === 'trip') {
         const text = tripTextFrom(facts, said);
         dictation.setText(text);
@@ -426,6 +584,7 @@ function VibeStage() {
       setNote(reply.replace(/^Error:\s*/, ''));
       setPhase('recap');
     } else {
+      nameNewBoardRef.current();
       setOpen(false);
     }
   };
@@ -456,6 +615,16 @@ function VibeStage() {
   const whereLabel = recWhere.length ? recWhere.join(' or ') : null;
   const planWith = (plan: PlanPlace): PlanPlace => ({ ...plan, ...(brief?.crew ? { who: brief.crew.label } : {}) });
   const monthLabel = recMonth ? MONTH_NAMES[Number(recMonth.slice(5, 7)) - 1] : null;
+
+  const canvasMode = voiceEnabled && mode === 'trip' && (view === 'talking' || view === 'picking');
+  const lastLine = [...rt.lines].reverse().find((line) => line.who !== 'done');
+  const canvasStatus = view === 'picking'
+    ? (canvas.picked.length ? `${canvas.picked.length} picked. Tap more, or build the itinerary.` : 'Tap what you love, then build the itinerary.')
+    : activity.kind === 'searching' ? 'Searching the web…'
+    : activity.kind === 'tool' && activity.label === 'add_spots' ? 'Adding spots…'
+    : activity.kind === 'tool' && activity.label === 'show_places' ? 'Ranking places for you…'
+    : activity.kind === 'delegated' ? 'On it…'
+    : canvasSummary(canvas) || 'Listening';
 
   const orbLevels = useCallback(() => (voiceEnabled ? rt.levels() : { mic: dictation.activity(), sun: 0 }), [voiceEnabled, rt, dictation]);
   const canTalk = voiceEnabled || dictation.supported;
@@ -511,13 +680,37 @@ function VibeStage() {
             <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{copy.kicker}</p>
             <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[60px]">{copy.title}</h2>
             <p className="mt-2 max-w-[34ch] text-[15px] leading-snug text-ink-soft sm:mt-3 sm:text-[18px]">{copy.lede}</p>
+            {mode === 'profile' ? (
+              <div className="mt-4" role="group" aria-label="Who’s this vibe for?">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Who’s this vibe for?</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {FOR_WHOM.map((option) => (
+                    <button key={option.value} type="button" className="chip" aria-pressed={forWhom === option.value} onClick={() => setForWhom(option.value)}>{option.label}</button>
+                  ))}
+                </div>
+              </div>
+            ) : profiles.length ? (
+              <div className="mt-4" role="group" aria-label="Plan with which vibe?">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Planning as</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {profiles.map((entry) => (
+                    <button key={entry.id} type="button" className="chip" aria-pressed={(activeProfileId ?? profiles[0]?.id) === entry.id} onClick={() => setActiveProfile(entry.id)}>{profileLabel(entry)}{entry.profile.name ? ` · ${entry.profile.name}` : ''}</button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="notice mt-4 text-[13px]">
+                No vibe profile yet, so picks won’t be tuned to you.{' '}
+                <button type="button" className="font-semibold text-saffron underline underline-offset-2" onClick={() => setMode('profile')}>Set yours up first</button> (two minutes).
+              </p>
+            )}
             <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Start with</p>
             <TopicList items={checklist} />
           </div>
         ) : (
           <div className="flex flex-1 flex-col overflow-hidden pt-2">
             <p className="sr-only" role="status">{covered} of {checklist.length} covered</p>
-            {view === 'talking' ? (
+            {view === 'talking' && !canvasMode ? (
               // While talking, the bullets are the agenda: each lights up with what was locked for it.
               <div className="overflow-y-auto">
                 <TopicList items={checklist} live />
@@ -536,7 +729,22 @@ function VibeStage() {
             </ul>
             )}
 
-            {view === 'recap' || view === 'typing' || view === 'building' ? (
+            {canvasMode ? (
+              // The trip canvas: fills while they talk, then they tap what they love.
+              <div className="mt-3 flex flex-1 flex-col overflow-hidden">
+                <div className="flex-1 overflow-y-auto">
+                  <VibeCanvas canvas={canvas} status={canvasStatus} onPick={(id) => updateCanvas(togglePick(canvasRef.current, id))} />
+                  {!canvas.places.length && !canvas.spots.length && (
+                    <p className="mt-6 font-display text-[24px] leading-snug text-ink-soft">Say where you’re thinking. Places and spots will land here while we talk.</p>
+                  )}
+                </div>
+                {view === 'talking' && (
+                  <p className="mt-2 line-clamp-2 min-h-[2.6em] border-t border-white/5 pt-2 text-[15px] leading-snug" aria-live="polite">
+                    {lastLine ? <span className={lastLine.who === 'you' ? 'text-bone' : 'font-display text-saffron'}>{lastLine.text}</span> : <span className="text-ink-subtle">{rt.phase === 'connecting' ? 'Connecting…' : 'Listening…'}</span>}
+                  </p>
+                )}
+              </div>
+            ) : view === 'recap' || view === 'typing' || view === 'building' ? (
               <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
                 {view !== 'typing' && (
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
@@ -672,19 +880,36 @@ function VibeStage() {
           </>
         )}
 
+        {view === 'picking' && (
+          <div className="flex w-full items-center justify-between gap-3">
+            <button type="button" onClick={() => void startTalking()} className="flex min-h-12 items-center rounded-full bg-surface-1/80 px-4 text-[14px] text-ink-soft hover:text-bone">
+              Keep talking
+            </button>
+            <button type="button" onClick={buildFromPicks} className="btn btn-primary min-h-12 px-6" disabled={!canvas.picked.length}>
+              {canvas.picked.length ? `Build my itinerary (${canvas.picked.length})` : 'Tap what you love'} <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        )}
+
         {view === 'talking' && (
           <div className="flex w-full items-center justify-between gap-4">
             <button
               type="button"
-              onClick={() => (live ? (voiceEnabled ? rt.stop('ended') : dictation.stop()) : void startTalking())}
+              onClick={() => {
+                if (voiceEnabled && rt.live) {
+                  rt.setMicMuted(!micOff);
+                  setMicOff(!micOff);
+                } else if (live) dictation.stop();
+                else void startTalking();
+              }}
               className="flex min-h-12 min-w-24 items-center justify-center rounded-full bg-surface-1/80 px-4 text-[14px] text-ink-soft hover:text-bone"
             >
-              {live ? 'Pause' : 'Resume'}
+              {(voiceEnabled ? micOff : !live) ? 'Resume' : 'Pause'}
             </button>
             <div className="flex flex-col items-center">
-              <SunOrb size={96} active={live} levels={orbLevels} />
+              <SunOrb size={canvasMode ? 64 : 96} active={live && !micOff} levels={orbLevels} />
               <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">
-                {voiceEnabled && rt.phase === 'connecting' ? 'Connecting' : !live && !(voiceEnabled && rt.phase === 'connecting') ? 'Paused' : voiceEnabled && rt.phase === 'speaking' ? (muted ? 'Replying' : 'Speaking') : 'Listening'}
+                {voiceEnabled && rt.phase === 'connecting' ? 'Connecting' : micOff || (!live && !(voiceEnabled && rt.phase === 'connecting')) ? 'Paused' : voiceEnabled && rt.phase === 'speaking' ? (muted ? 'Replying' : 'Speaking') : 'Listening'}
               </span>
             </div>
             <button type="button" onClick={done} className="btn btn-primary min-h-12 min-w-24">

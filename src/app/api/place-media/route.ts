@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { EVENT_INDEX } from '@/lib/data/events';
+import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
+import { placeIndex, type Place } from '@/lib/vibe/places';
 import { isRecentEventArchive, selectCommonsPhotos, type PlacePhoto } from '@/lib/place-media/media';
 import { curatedPhotoForEvent } from '@/lib/place-media/curated';
 import type { EventCategory, WorldEvent } from '@/lib/types';
@@ -58,8 +59,50 @@ async function searchCommons(query: string, event: WorldEvent, subject: 'event' 
   return selectCommonsPhotos(payload.query?.pages, event, subject);
 }
 
+let placesByKey: Map<string, Place> | null = null;
+
+/**
+ * A place from our own index (resorts and calendar towns), dressed as a
+ * seasonal event so the same Commons filters apply: the title must name the
+ * town and look like the scene (ski for resorts). Keys come from our index,
+ * never from free text.
+ */
+function eventForPlace(key: string): WorldEvent | null {
+  placesByKey ??= new Map(placeIndex(EVENTS).map((place) => [place.key, place]));
+  const place = placesByKey.get(key);
+  if (!place) return null;
+  return {
+    id: key.replace(/[^a-z0-9-]+/g, '-'),
+    name: place.name,
+    city: place.name,
+    country: place.country,
+    category: place.kind === 'resort' ? 'ski' : 'cultural',
+    recurrence: 'seasonal',
+  } as unknown as WorldEvent;
+}
+
 export async function GET(request: Request) {
-  const eventId = new URL(request.url).searchParams.get('eventId');
+  const params = new URL(request.url).searchParams;
+  const placeKey = params.get('place');
+  if (placeKey) {
+    if (placeKey.length > 80 || !/^(?:resort|city):[a-z0-9:-]+$/.test(placeKey)) return NextResponse.json({ error: 'Invalid place' }, { status: 400 });
+    const event = eventForPlace(placeKey);
+    if (!event) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
+    const cacheKey = `place:${placeKey}`;
+    const hit = cache.get(cacheKey);
+    if (hit && hit.expires > Date.now()) return NextResponse.json({ photos: hit.photos, source: 'Wikimedia Commons' }, { headers: cacheHeaders(hit.photos) });
+    let pending = inflight.get(cacheKey);
+    if (!pending) {
+      pending = searchCommons(`${event.city} ${event.category === 'ski' ? 'ski resort' : 'city'}`, event, 'place').catch(() => []);
+      inflight.set(cacheKey, pending);
+    }
+    const photos = (await pending).slice(0, 3);
+    inflight.delete(cacheKey);
+    if (!cache.has(cacheKey) && cache.size >= Math.max(EVENT_INDEX.size, 1) + 400) cache.delete(cache.keys().next().value!);
+    cache.set(cacheKey, { photos, expires: Date.now() + (photos.length ? CACHE_MS : 5 * 60 * 1000) });
+    return NextResponse.json({ photos, source: 'Wikimedia Commons' }, { headers: cacheHeaders(photos) });
+  }
+  const eventId = params.get('eventId');
   if (!eventId || eventId.length > 100 || !/^[a-z0-9-]+$/.test(eventId)) {
     return NextResponse.json({ error: 'Invalid event ID' }, { status: 400 });
   }

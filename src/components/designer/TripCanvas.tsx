@@ -1,6 +1,8 @@
 'use client';
 
-import { useCallback, useMemo, useState, type DragEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState, type DragEvent } from 'react';
+import { cityAirport } from '@/lib/designer/airports';
+import { homeIata, loadAirports, rideLinks, type Airport } from '@/lib/travel/rides';
 import { SLOT_META, searchLinks, type DesignerCard } from '@/lib/designer/catalog';
 import { cardLookup, daysUntil, resolveDestination, type Itinerary, type Slot } from '@/lib/designer/itinerary';
 import { isLive, tripMoment, type TripMoment } from '@/lib/designer/tripNow';
@@ -9,7 +11,7 @@ import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes }
 import styles from './designer.module.css';
 import { CardDetail } from './CardDetail';
 import { DestinationResearch } from './DestinationResearch';
-import { DRAG_MIME, IdeaCard } from './IdeaCard';
+import { DRAG_MIME, IdeaCard, type RideOffer } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
 import { GuestBar, InvitePanel, RightNow, StaysPanel, useNow, usePicksSender } from './TripExtras';
@@ -48,11 +50,25 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const [drag, setDrag] = useState<Drag>(null);
   const [dropSlot, setDropSlot] = useState<string | null>(null);
   const [swipe, setSwipe] = useState<Slot | null>(null);
-  const [detail, setDetail] = useState<{ card: DesignerCard; kind: Slot['kind']; date: string } | null>(null);
+  const [detail, setDetail] = useState<{ card: DesignerCard; kind: Slot['kind']; date: string; ride?: RideOffer } | null>(null);
   const closeDetail = useCallback(() => setDetail(null), []);
 
   const destination = resolveDestination(trip)!;
   const lookup = useMemo(() => cardLookup(trip), [trip]);
+  // Ride to the airport: home airport on the first day, the destination's on the last.
+  const [airports, setAirports] = useState<Map<string, Airport> | null>(null);
+  useEffect(() => {
+    let live = true;
+    void loadAirports().then((map) => { if (live) setAirports(map); });
+    return () => { live = false; };
+  }, []);
+  const rideFor = (dayIndex: number, cardId: string): RideOffer | undefined => {
+    if (cardId !== 'any:car-to-airport' || !airports) return undefined;
+    const last = trip.days.length - 1;
+    const iata = dayIndex === 0 ? homeIata(trip.hometown) : dayIndex === last ? destination.gateway.iata || cityAirport(destination.name) : undefined;
+    const airport = iata ? airports.get(iata) : undefined;
+    return airport ? { iata: airport.iata, name: airport.name, ...rideLinks(airport) } : undefined;
+  };
   const now = useNow();
   const moment = tripMoment(trip, now);
   const live = isLive(moment);
@@ -294,6 +310,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
                       cards.map((card) => (
                         <IdeaCard
                           key={card.id}
+                          ride={slot.kind === 'depart' ? rideFor(day.index, card.id) : undefined}
                           card={card}
                           slotId={slot.id}
                           index={slot.cardIds.indexOf(card.id)}
@@ -304,7 +321,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
                           dragging={drag?.cardId === card.id}
                           moveTargets={moveTargets.filter((target) => target.id !== slot.id)}
                           onVote={(value) => voter && vote(slot.id, card.id, voter.id, value)}
-                          onOpen={() => setDetail({ card, kind: slot.kind, date: day.date })}
+                          onOpen={() => setDetail({ card, kind: slot.kind, date: day.date, ride: slot.kind === 'depart' ? rideFor(day.index, card.id) : undefined })}
                           onPick={() => pickCard(slot.id, card.id)}
                           onMove={(to) => moveCard(card.id, slot.id, to, 0)}
                           onDragStart={() => setDrag({ cardId: card.id, from: slot.id })}
@@ -354,6 +371,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
       {detail ? (
         <CardDetail
           card={detail.card}
+          ride={detail.ride}
           slotKind={detail.kind}
           where={destination.name}
           date={detail.date}

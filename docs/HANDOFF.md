@@ -152,6 +152,26 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
 - Phase 2, the live voice concierge (needs `VOICE_ENABLED=1` on Preview and a voice budget decision).
 - Phase 3, trip build.
 
+## GPT-Live and the live trip canvas (2026-09-25, night)
+
+- **Voice is GPT-Live-1** (`src/lib/voice/session.ts`, `src/app/api/voice/session/route.ts`, `src/lib/voice/useRealtime.ts`).
+  - The server posts `{ session, transport: { type: 'webrtc', sdp } }` to `/v1/live/sessions`, returns the SDP answer, and hangs up at the cap via `/v1/live/sessions/{id}/hangup`.
+  - Responses delegation runs the backend: `VOICE_BACKEND_MODEL`, default `gpt-5.6-terra`, with low reasoning effort.
+  - Backend function calls arrive as `response.event` → `response.output_item.done`. They run in order as they arrive, and their results go back as `response.item.create` plus `response.create` once the response completes. An `END:` result sends no `response.create`.
+  - Transcripts come from `session.input_transcript.delta` and `session.output_transcript.delta`.
+  - "Speaking" is read from the output audio level.
+  - Pause is `session.input_audio.mute`. Mute voice silences playback only.
+  - The opener is a `session.instructions.append`.
+  - Voices are `LIVE_VOICES`, set with `VOICE_NAME`.
+- **Trip canvas** (`src/lib/voice/canvas.ts`, `src/components/voice/VibeCanvas.tsx`): places come from our ranking, through route-trip → Vibe Match plus on-device taste. They land as soon as a region or place is heard in the transcript (`readTrip`), and again when the backend calls `show_places`.
+  - The backend web-searches and calls `add_spots` with only https-sourced venues and events (validated by `withSpots`), and `focus_places` for best fits (pulled from `inRange` when not shown).
+  - Its prompt ranks the profile first, then the place's signature moments (a big match, a festival, comedy, a concert), then what's trending, never onto hard no's.
+  - Only the trip session has `web_search`.
+- **Picks → itinerary**: "Build my itinerary" saves the picks (`src/lib/designer/vibePicks.ts`, sessionStorage), opens the designer for the place with the most picks, and `pinPicks` makes each pick lead a matching time block. An event lands on its date.
+- **Profiles:** in the Vibe stage the trip tab has a "Planning as" profile picker, and the profile tab has "Who's this vibe for?" (Just me / Family / Solo for work / The crew), which names the saved board and steers the questions. The trip session sends a short profile summary (`profileSummary`, at most 900 characters) to OpenAI; the footer says voice goes to OpenAI.
+- **Ride to the airport:** the `any:car-to-airport` card becomes "Ride to ATL" with Uber and Lyft links. The drop-off is set to the airport's coordinates from OurAirports (`public/geo/airports.txt`, public domain; `src/lib/travel/rides.ts`) and pickup is "my location". The home airport comes from "(ATL)" in the hometown, then the city tables.
+- **Testing:** `scratchpad/live.mjs`-style Playwright runs fake the RTCPeerConnection and emit GPT-Live events, so no paid calls. The real GPT-Live session has **not** been exercised yet.
+
 ## Vibe stage, home declutter, live stories (2026-09-25, evening)
 
 - **Vibe stage** (`src/components/voice/SunModal.tsx`): two tabs, *My profile* and *A trip*. The topics in `src/lib/voice/topics.ts` are the agenda on screen: essentials as bullets, extras as chips. With live voice on, the stage opens `vibe_profile` or `vibe_trip` sessions, whose only tools are `lock_fact` (lights a topic with a few words), then `describe_me` (profile) or `finish_trip` (trip), plus `switch_profile`. The concierge's first line is fixed: "Vibe with me for a second about the topics above." The instructions in `tools.ts` are brief by design: questions under 12 words, no praise, either-or clarifiers.

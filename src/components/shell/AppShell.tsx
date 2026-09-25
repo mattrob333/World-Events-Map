@@ -213,8 +213,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span className="sm:hidden"><SunGlyph size={30} glow /></span>
             <span className="hidden sm:inline-flex"><SunGlyph size={40} glow /></span>
             <span className="min-w-0 flex-1">
-              <strong className="block truncate text-[15px] font-semibold leading-tight text-bone">Set your vibe</strong>
-              <span className="hidden text-[12.5px] leading-snug text-ink-soft sm:block">Tell us how you get down. Two minutes, talk or type.</span>
+              <strong className="block truncate text-[15px] font-semibold leading-tight text-bone">Start here: set your vibe</strong>
+              <span className="hidden text-[12.5px] leading-snug text-ink-soft sm:block">Two minutes of talking tunes every trip to you. Make one for you, the family, or work trips.</span>
             </span>
             <span className="flex shrink-0 items-center gap-1">
               <button type="button" onClick={() => setVibeOpen(true)} className="btn btn-primary btn-sm">

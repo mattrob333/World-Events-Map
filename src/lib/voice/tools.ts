@@ -72,8 +72,43 @@ export const VOICE_TOOLS = {
   },
   finish_trip: {
     name: 'finish_trip',
-    description: 'They are done: build the trip from what they said. Call once where and when are known and they have finished talking.',
+    description: 'They are done talking: the canvas stops listening and shows their picks. Call when they say they are done or ask to build it.',
     parameters: obj({}),
+  },
+  show_places: {
+    name: 'show_places',
+    description: 'Put the places that fit on their canvas, ranked from the dope.travel calendar, the news and their profile. Call as soon as you know where (a town, resort, region or country) or the kind of trip, and again when it changes.',
+    parameters: obj({
+      where: { type: 'string', description: 'What they said: "the Alps", "Zermatt", "Japan".' },
+      when: { type: 'string', description: 'What they said: "first week of February", "mid November". Empty if unknown.' },
+      trip_type: { type: 'string', enum: ['ski', 'beach', 'city', 'food', 'nightlife', 'culture', 'nature', 'any'] },
+    }, ['where']),
+  },
+  add_spots: {
+    name: 'add_spots',
+    description: 'Put real venues you just found with web search on their canvas: restaurants, bars, clubs, après, things to do. Only venues named in this turn\'s search results, each with the https URL of the page where you found it (the venue\'s own site when possible). Never invent a venue.',
+    parameters: obj({
+      place: { type: 'string', description: 'The town or resort they are in, e.g. "Zermatt".' },
+      spots: {
+        type: 'array',
+        maxItems: 6,
+        items: obj({
+          name: { type: 'string' },
+          kind: { type: 'string', enum: ['eat', 'drink', 'dance', 'apres', 'do', 'event', 'stay'] },
+          date: { type: 'string', description: 'For an event: its date, YYYY-MM-DD, when the source gives one.' },
+          why: { type: 'string', description: 'Up to 15 words, from the source: "Opened 2025; alpine tasting menu from ex-Noma chef".' },
+          url: { type: 'string', description: 'https URL of the page where you found it.' },
+        }, ['name', 'kind', 'why', 'url']),
+      },
+    }, ['place', 'spots']),
+  },
+  focus_places: {
+    name: 'focus_places',
+    description: 'Mark the places that fit them best on the canvas, with a short reason from their profile or what they said.',
+    parameters: obj({
+      names: { type: 'array', items: { type: 'string' }, maxItems: 4 },
+      why: { type: 'string', description: 'Up to 12 words: "Your après crowd and the best late bars".' },
+    }, ['names', 'why']),
   },
   set_now_city: {
     name: 'set_now_city',
@@ -98,8 +133,8 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
   // The header's "Vibe": profile and trip start from anywhere. Tools that live
   // on another page open that page first (see lib/voice/vibe.ts).
   vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
-  vibe_profile: ['lock_fact', 'describe_me', 'switch_profile'],
-  vibe_trip: ['lock_fact', 'finish_trip', 'switch_profile'],
+  vibe_profile: ['lock_fact', 'describe_me'],
+  vibe_trip: ['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
   now: ['set_now_city', 'switch_profile', 'navigate'],
