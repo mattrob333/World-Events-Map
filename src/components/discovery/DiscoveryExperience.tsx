@@ -38,6 +38,7 @@ import { formatDateRange } from '@/components/ui/tokens';
 import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search';
 import { planTripOffer } from '@/lib/search/planPlace';
+import { formatMiles } from '@/lib/units';
 
 // Built on the first search, not on page load.
 let searchIndex: SearchHit[] | null = null;
@@ -487,7 +488,7 @@ export function DiscoveryExperience() {
                     : planMode
                     ? 'In season'
                     : spotlightDistance != null
-                      ? `≈${Math.round(spotlightDistance).toLocaleString()} km away · on the calendar today`
+                      ? `≈${formatMiles(spotlightDistance)} away · on the calendar today`
                       : 'On the calendar today'}
                 </span>
               </div>
@@ -504,7 +505,7 @@ export function DiscoveryExperience() {
                   </div>
                   <p className={styles.storyDistance}>
                     {selectedRoute
-                      ? `${selectedRoute.distanceKm.toLocaleString()} km · ${selectedRoute.label}`
+                      ? `${formatMiles(selectedRoute.distanceKm)} · ${selectedRoute.label}`
                       : 'Set your location above to estimate the journey'}
                   </p>
                 </>

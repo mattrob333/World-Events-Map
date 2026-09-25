@@ -7,6 +7,7 @@ import type {
   RankNowInput,
   ScoredVenue,
 } from './types';
+import { formatNearby } from '@/lib/units';
 
 const INTENT_KEYWORDS: Record<NowRequest['intent'], string[]> = {
   food: ['restaurant', 'food', 'dining', 'cafe', 'bakery', 'bistro'],
@@ -130,8 +131,7 @@ function buildReasons(
     reasons.push(`${candidate.rating.toFixed(1)} rating`);
   }
   if (typeof candidate.distanceMeters === 'number') {
-    const km = candidate.distanceMeters / 1000;
-    reasons.push(km < 1 ? `${Math.max(1, Math.round(candidate.distanceMeters))} m away` : `${km.toFixed(1)} km away`);
+    reasons.push(formatNearby(candidate.distanceMeters));
   }
   return [...new Set(reasons)].slice(0, 4);
 }

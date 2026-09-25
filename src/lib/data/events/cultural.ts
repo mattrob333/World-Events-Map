@@ -847,7 +847,7 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
   {
     id: 'naadam-ulaanbaatar',
     name: 'Naadam',
-    tagline: 'Mongolia’s three manly games — wrestling, archery, and a 25km cross-country horse race',
+    tagline: 'Mongolia’s three manly games — wrestling, archery, and a 16-mile cross-country horse race',
     category: 'cultural',
     secondaryCategories: ['equestrian'],
     city: 'Ulaanbaatar',
@@ -862,7 +862,7 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
     priceIndex: 3,
     estimatedSpend: { min: 5000, max: 16000, currency: 'USD' },
     accessNote:
-      'National Stadium opening-ceremony seats are allocated through licensed operators and effectively sold out by March; the horse races run 30–40km outside the city on open steppe and need a 4x4 and a driver who knows the finish line',
+      'National Stadium opening-ceremony seats are allocated through licensed operators and effectively sold out by March; the horse races run 20–25 miles outside the city on open steppe and need a 4x4 and a driver who knows the finish line',
     venues: [
       'National Sports Stadium',
       'Khui Doloon Khudag racing steppe',
@@ -871,10 +871,10 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: ZMCK,
     description:
-      'Naadam opens on 11 July with a stadium ceremony and runs three days of bökh wrestling, archery and horse racing, the last of these held out on the steppe with children as jockeys over distances up to 25km. The wrestling is the national obsession — no weight classes, single elimination, and the eagle dance between bouts. Provincial naadams in Övörkhangai or Arkhangai the following week are smaller, unstaged and better if you want the version without grandstands. Ulaanbaatar has limited jet handling, so the practical routing is a positioning stop; Seoul is the nearest listed gateway.',
+      'Naadam opens on 11 July with a stadium ceremony and runs three days of bökh wrestling, archery and horse racing, the last of these held out on the steppe with children as jockeys over distances up to 16 miles. The wrestling is the national obsession — no weight classes, single elimination, and the eagle dance between bouts. Provincial naadams in Övörkhangai or Arkhangai the following week are smaller, unstaged and better if you want the version without grandstands. Ulaanbaatar has limited jet handling, so the practical routing is a positioning stop; Seoul is the nearest listed gateway.',
     whyGo: [
       'Bökh wrestling with no weight classes and 500-plus entrants',
-      'Horse races of up to 25km across open steppe with child jockeys',
+      'Horse races of up to 16 miles across open steppe with child jockeys',
       'Provincial naadams the following week are the unstaged version',
       'Ger camps in the Orkhon valley are two hours from the finish line',
     ],

@@ -14,6 +14,7 @@ import { whyNow } from '@/lib/discovery/whyNow';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
 import { HeroPool } from './HeroPool';
+import { formatMiles } from '@/lib/units';
 
 type RadarPick = { event: WorldEvent; slug: string };
 
@@ -384,7 +385,7 @@ export function WorldIntro({
           </div>
           <div className={styles.passMeta}>
             <span>{featured.name} · {featuredWhy?.when ?? dateLabel(featured.start)}</span>
-            <strong>{estimate ? `${estimate.distanceKm.toLocaleString()} km · ${estimate.label}` : 'Choose your city for a route estimate'}</strong>
+            <strong>{estimate ? `${formatMiles(estimate.distanceKm)} · ${estimate.label}` : 'Choose your city for a route estimate'}</strong>
           </div>
           {featuredWhy?.reason && <p className={styles.passWhy}>{featuredWhy.reason}{featuredWhy.planBy ? <span data-urgency={featuredWhy.planBy.urgency}> · {featuredWhy.planBy.label}</span> : null}</p>}
           <small className={styles.passFoot}>{estimate ? 'Indicative straight-line distance and airtime; no live flight schedule.' : 'Flight animation begins from your current globe view.'}</small>

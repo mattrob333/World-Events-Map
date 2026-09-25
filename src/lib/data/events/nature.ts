@@ -164,7 +164,7 @@ export const NATURE_EVENTS: WorldEvent[] = [
     venues: ['Abisko National Park', 'Aurora Sky Station', 'Lake Torneträsk', 'Mount Njullá'],
     nearestJetPort: ESNK,
     description:
-      'Abisko sits in the rain shadow of the Scandinavian mountains beside Lake Torneträsk, and the resulting gap in the cloud — the blue hole — gives it measurably more clear nights than the Norwegian coast eighty kilometres west. That statistical edge is the entire reason to come here rather than Tromsø: you are buying clear sky, not stronger aurora. The trade is that Abisko is a research station and a few small lodges, not a city, and the chairlift to the Sky Station closes in high wind.',
+      'Abisko sits in the rain shadow of the Scandinavian mountains beside Lake Torneträsk, and the resulting gap in the cloud — the blue hole — gives it measurably more clear nights than the Norwegian coast fifty miles west. That statistical edge is the entire reason to come here rather than Tromsø: you are buying clear sky, not stronger aurora. The trade is that Abisko is a research station and a few small lodges, not a city, and the chairlift to the Sky Station closes in high wind.',
     whyGo: [
       'Rain-shadow microclimate delivers more clear nights than the coast',
       'Aurora Sky Station on Njullá, reached only by winter chairlift',
@@ -396,7 +396,7 @@ export const NATURE_EVENTS: WorldEvent[] = [
     venues: ['Sossusvlei', 'NamibRand Nature Reserve', 'Deadvlei', 'Sesriem'],
     nearestJetPort: FYWE,
     description:
-      'The Namib runs at Bortle Class 1 — the darkest measurable sky on the planet — because there is no settlement, no humidity and no cloud for hundreds of kilometres in any direction. At 25 degrees south in the southern winter the galactic centre passes near the zenith, so the Milky Way, Magellanic Clouds and Omega Centauri sit high rather than on the horizon. Time it to a new moon or the whole point is lost, and note that winter nights on the dunes drop close to freezing.',
+      'The Namib runs at Bortle Class 1 — the darkest measurable sky on the planet — because there is no settlement, no humidity and no cloud for hundreds of miles in any direction. At 25 degrees south in the southern winter the galactic centre passes near the zenith, so the Milky Way, Magellanic Clouds and Omega Centauri sit high rather than on the horizon. Time it to a new moon or the whole point is lost, and note that winter nights on the dunes drop close to freezing.',
     whyGo: [
       'Bortle Class 1 sky, the darkest measured anywhere on earth',
       'Galactic centre near the zenith through the southern winter',
@@ -625,7 +625,7 @@ export const NATURE_EVENTS: WorldEvent[] = [
     venues: ['Laguna San Ignacio', 'Bahía Ballenas', 'El Vizcaíno Biosphere Reserve'],
     nearestJetPort: MMSD,
     description:
-      'Eastern Pacific grey whales complete a 10,000-kilometre migration from the Bering Sea to calve in three shallow Baja lagoons, and San Ignacio is the one where the animals initiate contact — mothers bring calves alongside the pangas and hold them there. February into mid-March is when calves are large enough to be curious and the lagoon holds the most animals. There is nothing luxurious about it: the camps are tents on sand with a generator, and by late March the whales have started north.',
+      'Eastern Pacific grey whales complete a 6,000-mile migration from the Bering Sea to calve in three shallow Baja lagoons, and San Ignacio is the one where the animals initiate contact — mothers bring calves alongside the pangas and hold them there. February into mid-March is when calves are large enough to be curious and the lagoon holds the most animals. There is nothing luxurious about it: the camps are tents on sand with a generator, and by late March the whales have started north.',
     whyGo: [
       'Whale-initiated contact — mothers present calves to the skiffs',
       'UNESCO sanctuary with a hard cap on boats on the water',
@@ -665,9 +665,9 @@ export const NATURE_EVENTS: WorldEvent[] = [
     venues: ['Nxai Pan National Park', 'Makgadikgadi Pans', 'Baines’ Baobabs', 'Boteti River'],
     nearestJetPort: FBMN,
     description:
-      'Collared animals showed that Botswana’s zebra travel roughly 580 kilometres round trip between the Okavango floodplain and the Makgadikgadi grasslands — the longest terrestrial migration in Africa. The rains start in December and by January most of the herds have reached Nxai Pan, where the mineral-rich grass draws them and their foals onto open white pan with nothing to obstruct the view. It is entirely rain-dependent: a late or failed start leaves the pans dry and the zebra strung out somewhere in between.',
+      'Collared animals showed that Botswana’s zebra travel roughly 360 miles round trip between the Okavango floodplain and the Makgadikgadi grasslands — the longest terrestrial migration in Africa. The rains start in December and by January most of the herds have reached Nxai Pan, where the mineral-rich grass draws them and their foals onto open white pan with nothing to obstruct the view. It is entirely rain-dependent: a late or failed start leaves the pans dry and the zebra strung out somewhere in between.',
     whyGo: [
-      'The longest terrestrial migration in Africa, 580 km round trip',
+      'The longest terrestrial migration in Africa, 360 miles round trip',
       'Zebra and foals on open white pan with no vegetation cover',
       'Green-season rates roughly half the Okavango dry-season equivalent',
       'Baines’ Baobabs and the salt pans under summer storm light',

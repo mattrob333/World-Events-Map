@@ -934,7 +934,7 @@ export const KHOU: Airport = {
   fboQuality: 'excellent',
 };
 
-/** The north-Dallas business-aviation field — 30km from PGA Frisco. */
+/** The north-Dallas business-aviation field — 20 miles from PGA Frisco. */
 export const KADS: Airport = {
   code: 'KADS',
   name: 'Dallas Addison',

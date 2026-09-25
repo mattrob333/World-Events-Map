@@ -486,7 +486,7 @@ export const CULINARY_EVENTS: WorldEvent[] = [
       'Hand-picking only — machine harvesting is banned by appellation',
       'Press houses run continuously for roughly three weeks',
       'The grandes maisons close to the public, so access means access',
-      'Le Bourget is 130km, under 90 minutes to Épernay',
+      'Le Bourget is 80 miles, under 90 minutes to Épernay',
     ],
     tags: ['champagne', 'harvest', 'wine', 'marne', 'september'],
     signals: {

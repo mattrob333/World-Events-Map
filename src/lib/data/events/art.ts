@@ -629,7 +629,7 @@ export const ART_EVENTS: WorldEvent[] = [
       'First Choice Tuesday is when the eight-figure works actually move',
       'Unlimited stages works no booth could hold, in a 16,000 sqm hall',
       'Fondation Beyeler and Kunstmuseum Basel programme against the fair',
-      'Every serious collector, curator and adviser inside one square kilometre',
+      'Every serious collector, curator and adviser inside a third of a square mile',
     ],
     tags: ['art fair', 'blue chip', 'Unlimited', 'Switzerland'],
     nearestJetPort: LFSB,

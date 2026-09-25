@@ -535,9 +535,9 @@ export const MUSIC_EVENTS: WorldEvent[] = [
     venues: ['Naeba Ski Resort', 'Green Stage', 'White Stage', 'Field of Heaven'],
     nearestJetPort: RJTT,
     description:
-      'Fuji Rock takes place at the Naeba ski resort in Niigata, not near Mount Fuji, and the site is a forested mountain valley with stages strung along a two-kilometre boardwalk. It is famously well-run and almost aggressively clean — the crowd carries out its own rubbish. Rain is close to guaranteed in late July, and the walk between the far stages takes 30 minutes uphill.',
+      'Fuji Rock takes place at the Naeba ski resort in Niigata, not near Mount Fuji, and the site is a forested mountain valley with stages strung along a mile-and-a-quarter boardwalk. It is famously well-run and almost aggressively clean — the crowd carries out its own rubbish. Rain is close to guaranteed in late July, and the walk between the far stages takes 30 minutes uphill.',
     whyGo: [
-      'Stages spread along two kilometres of forest boardwalk and river',
+      'Stages spread along a mile and a quarter of forest boardwalk and river',
       'International bookings that skip the rest of Asia entirely',
       'Echigo-Yuzawa onsen ryokan are 20 minutes from the gate',
       'Tokyo is 75 minutes away by Joetsu Shinkansen',
@@ -575,10 +575,10 @@ export const MUSIC_EVENTS: WorldEvent[] = [
     venues: ['Quaggafontein Private Nature Reserve', 'The Binnekring', 'Tankwa Town'],
     nearestJetPort: FACT,
     description:
-      'AfrikaBurn is the Karoo counterpart to Burning Man and runs on the same decommodified principles: no vendors, no signage, no phone signal, everything carried in and out. The setting is a semi-desert reserve roughly 300km from Cape Town, with 35°C days and near-freezing nights in the same 24 hours. Scale is a fraction of Black Rock City, which is precisely the appeal.',
+      'AfrikaBurn is the Karoo counterpart to Burning Man and runs on the same decommodified principles: no vendors, no signage, no phone signal, everything carried in and out. The setting is a semi-desert reserve roughly 185 miles from Cape Town, with 35°C days and near-freezing nights in the same 24 hours. Scale is a fraction of Black Rock City, which is precisely the appeal.',
     whyGo: [
       'Same principles as Black Rock City at a tenth of the population',
-      'Karoo night sky with zero light pollution for 200km in any direction',
+      'Karoo night sky with zero light pollution for 125 miles in any direction',
       'Large burn sculptures built by South African artists over months',
       'Pairs naturally with a Cape winelands week either side',
     ],

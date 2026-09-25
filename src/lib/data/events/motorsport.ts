@@ -232,7 +232,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
   {
     id: 'las-vegas-grand-prix',
     name: 'Las Vegas Grand Prix',
-    tagline: 'Six kilometres of the Strip closed at midnight for a Formula 1 race',
+    tagline: 'Nearly four miles of the Strip closed at midnight for a Formula 1 race',
     category: 'motorsport',
     secondaryCategories: ['gala'],
     city: 'Las Vegas',
@@ -251,9 +251,9 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     venues: ['Las Vegas Strip Circuit', 'Grand Prix Plaza'],
     nearestJetPort: KHND,
     description:
-      'The only Formula 1 race that starts at night on a Saturday and runs the length of the Las Vegas Strip at over 340 km/h. The promoter is F1 itself, which is why the surrounding programme — concerts, casino takeovers, private paddock buildings — is on a scale nothing else on the calendar attempts. Track temperatures near freezing make tyre warm-up the defining variable, and the November race weekend is now the highest-revenue weekend of the year for the city.',
+      'The only Formula 1 race that starts at night on a Saturday and runs the length of the Las Vegas Strip at over 210 mph. The promoter is F1 itself, which is why the surrounding programme — concerts, casino takeovers, private paddock buildings — is on a scale nothing else on the calendar attempts. Track temperatures near freezing make tyre warm-up the defining variable, and the November race weekend is now the highest-revenue weekend of the year for the city.',
     whyGo: [
-      'Cars at 340 km/h past the Bellagio fountains after dark',
+      'Cars at 210 mph past the Bellagio fountains after dark',
       'Suites on the Strip look directly down onto the circuit',
       'Freezing track temperatures scramble tyre strategy',
       'F1 promotes it directly, so the off-track programme is unmatched',
@@ -374,7 +374,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     venues: ['Albert Park Circuit'],
     nearestJetPort: YMEN,
     description:
-      'A temporary circuit laid around a public park two kilometres from the centre of Melbourne, resurfaced and re-profiled in 2022 into one of the faster street-adjacent tracks on the calendar. The crowd is the largest of any Grand Prix — well over 400,000 across four days — and the city treats it as a festival week. Essendon Fields sits fifteen minutes from the CBD and handles the private traffic that Tullamarine will not.',
+      'A temporary circuit laid around a public park just over a mile from the centre of Melbourne, resurfaced and re-profiled in 2022 into one of the faster street-adjacent tracks on the calendar. The crowd is the largest of any Grand Prix — well over 400,000 across four days — and the city treats it as a festival week. Essendon Fields sits fifteen minutes from the CBD and handles the private traffic that Tullamarine will not.',
     whyGo: [
       'Turn 9–10 taken flat since the 2022 re-profiling',
       'Circuit is a short walk or tram ride from the CBD',
@@ -412,7 +412,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     venues: ['Suzuka International Racing Course'],
     nearestJetPort: RJOO,
     description:
-      'Suzuka is the only figure-of-eight circuit in Formula 1 and the one drivers name first when asked what they actually want to drive. The Esses in the first sector are taken in a single committed sequence at over 250 km/h, and 130R is still genuinely quick. Cherry blossom is usually just past peak in the second week of April, and the Japanese crowd is famously well-informed and undemonstrative.',
+      'Suzuka is the only figure-of-eight circuit in Formula 1 and the one drivers name first when asked what they actually want to drive. The Esses in the first sector are taken in a single committed sequence at over 155 mph, and 130R is still genuinely quick. Cherry blossom is usually just past peak in the second week of April, and the Japanese crowd is famously well-informed and undemonstrative.',
     whyGo: [
       'Sector one — the Esses and Degner — is unmatched anywhere',
       'A ballot-driven crowd of engineers, not corporate hospitality',
@@ -451,7 +451,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     venues: ['Miami International Autodrome', 'Hard Rock Stadium'],
     nearestJetPort: KOPF,
     description:
-      'A 5.4km temporary circuit built around Hard Rock Stadium, using the stadium bowl itself for hospitality. Sporting merit is not the reason people come — the racing is decent but the paddock is the most heavily populated of the season, and the surrounding week has become the busiest thing on Miami’s social calendar. Opa Locka handles the heavy private traffic that overwhelms every other South Florida field that weekend.',
+      'A 3.4-mile temporary circuit built around Hard Rock Stadium, using the stadium bowl itself for hospitality. Sporting merit is not the reason people come — the racing is decent but the paddock is the most heavily populated of the season, and the surrounding week has become the busiest thing on Miami’s social calendar. Opa Locka handles the heavy private traffic that overwhelms every other South Florida field that weekend.',
     whyGo: [
       'Hard Rock Stadium club level converts into trackside hospitality',
       'The densest celebrity and sponsor paddock of the season',
@@ -536,7 +536,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: LFMD,
     description:
-      'A 3.3km circuit through public streets that a modern Formula 1 car barely fits inside, run since 1929 and impossible to overtake on — which is why qualifying on Saturday matters more than the race. What you are actually buying is position: a terrace above Ste-Dévote, a berth in Port Hercule, or a balcony on the Rascasse. Cannes-Mandelieu is the field to file to; Nice fills with commercial traffic and slot restrictions from the Thursday.',
+      'A 2.1-mile circuit through public streets that a modern Formula 1 car barely fits inside, run since 1929 and impossible to overtake on — which is why qualifying on Saturday matters more than the race. What you are actually buying is position: a terrace above Ste-Dévote, a berth in Port Hercule, or a balcony on the Rascasse. Cannes-Mandelieu is the field to file to; Nice fills with commercial traffic and slot restrictions from the Thursday.',
     whyGo: [
       'Saturday qualifying is the real event — pole usually wins',
       'Terraces and harbour berths put you metres from the barrier',
@@ -620,7 +620,7 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     venues: ['Circuit de la Sarthe', 'Mulsanne Straight', 'Arnage'],
     nearestJetPort: LFRM,
     description:
-      'The 95th running, over a 13.6km circuit of which two thirds is public road closed for the week. Hypercar has brought Ferrari, Porsche, Toyota, Cadillac, BMW and Peugeot back to the same class, so the overall win is genuinely contested rather than a single-manufacturer procession. Scrutineering in Le Mans town centre and the Thursday night qualifying sessions are the parts regulars build the trip around.',
+      'The 95th running, over an 8.5-mile circuit of which two thirds is public road closed for the week. Hypercar has brought Ferrari, Porsche, Toyota, Cadillac, BMW and Peugeot back to the same class, so the overall win is genuinely contested rather than a single-manufacturer procession. Scrutineering in Le Mans town centre and the Thursday night qualifying sessions are the parts regulars build the trip around.',
     whyGo: [
       'Nine manufacturers contesting outright victory in Hypercar',
       'Two-thirds of the lap is public road, closed for the week',

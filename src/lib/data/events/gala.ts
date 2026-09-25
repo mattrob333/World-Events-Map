@@ -351,12 +351,12 @@ export const GALA_EVENTS: WorldEvent[] = [
     venues: ['Belmond Copacabana Palace', 'Golden Room'],
     nearestJetPort: SBJR,
     description:
-      'The Baile de Gala at the Copacabana Palace runs on Carnival Saturday — 6 February 2027 — from 10pm to 5am in the hotel\'s Golden Room and around the pool. Dress is black tie or full Carnival costume, with a gourmet buffet and premium open bar included in every ticket. It is the formal counterpoint to the Sambadrome parades, which run on the same nights a few kilometres away.',
+      'The Baile de Gala at the Copacabana Palace runs on Carnival Saturday — 6 February 2027 — from 10pm to 5am in the hotel\'s Golden Room and around the pool. Dress is black tie or full Carnival costume, with a gourmet buffet and premium open bar included in every ticket. It is the formal counterpoint to the Sambadrome parades, which run on the same nights a couple of miles away.',
     whyGo: [
       'Carnival Saturday in the Golden Room, 10pm to 5am',
       'Black tie or full costume, with the costume half taken seriously',
       'Open bar and a buffet by the hotel\'s executive chef included',
-      'Sambadrome parades run the same nights a few kilometres inland',
+      'Sambadrome parades run the same nights a couple of miles inland',
     ],
     tags: ['carnival', 'rio', 'copacabana', 'costume', 'brazil'],
     signals: {

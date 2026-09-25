@@ -47,7 +47,7 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['Lanserhof Tegernsee', 'Gut Steinberg', 'Energy Cuisine restaurant'],
     nearestJetPort: EDMO,
     description:
-      'Lanserhof runs a modernised Mayr cure: a graded reduction in food volume, manual abdominal treatment, and a diagnostic workup that includes bloods, cardiology and gut analysis. The January intake is the hardest to get into because it is the one everyone books after Christmas, and a genuine programme is fourteen to twenty-one nights — a week produces very little. The building sits at 900 metres above the Tegernsee, roughly 50km south of Munich.',
+      'Lanserhof runs a modernised Mayr cure: a graded reduction in food volume, manual abdominal treatment, and a diagnostic workup that includes bloods, cardiology and gut analysis. The January intake is the hardest to get into because it is the one everyone books after Christmas, and a genuine programme is fourteen to twenty-one nights — a week produces very little. The building sits at 900 metres above the Tegernsee, roughly 30 miles south of Munich.',
     whyGo: [
       'Medical Mayr cure with a full diagnostic workup, not a spa week',
       'Fourteen to twenty-one nights is the minimum that does anything',
@@ -278,10 +278,10 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['Playa Guiones', 'The Harmony Hotel', 'Bodhi Tree Yoga Resort'],
     nearestJetPort: MRLB,
     description:
-      'The Nicoya Peninsula is one of the five demographically verified Blue Zones, where men reach ninety at roughly four times the North American rate — the working explanations are the calcium-heavy well water, a bean-and-maize diet and sustained low-grade physical work. Nosara is the practical base: Playa Guiones runs seven kilometres, the surf is consistent, and the town has been a yoga centre since the 1990s. January to March is the dry season, when the roads are passable and the humidity drops.',
+      'The Nicoya Peninsula is one of the five demographically verified Blue Zones, where men reach ninety at roughly four times the North American rate — the working explanations are the calcium-heavy well water, a bean-and-maize diet and sustained low-grade physical work. Nosara is the practical base: Playa Guiones runs four and a half miles, the surf is consistent, and the town has been a yoga centre since the 1990s. January to March is the dry season, when the roads are passable and the humidity drops.',
     whyGo: [
       'One of five demographically verified Blue Zones worldwide',
-      'Seven kilometres of surf beach at Playa Guiones',
+      'Four and a half miles of surf beach at Playa Guiones',
       'Dry season means passable roads and low humidity',
       'A yoga community established here since the 1990s',
     ],
@@ -316,12 +316,12 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['VIVAMAYR Altaussee', 'Lake Altaussee', 'Fischerndorf'],
     nearestJetPort: LOWS,
     description:
-      'VIVAMAYR Altaussee sits on the western shore of Lake Altaussee at 712 metres, in the Salzkammergut. The protocol is Modern Mayr Medicine — food intolerance testing, alkaline diet, daily manual abdominal treatment and a strict chewing discipline that guests find harder than the fasting. Seven nights is the minimum and most doctors here will tell you fourteen is the real number. Salzburg is about 80km by road.',
+      'VIVAMAYR Altaussee sits on the western shore of Lake Altaussee at 712 metres, in the Salzkammergut. The protocol is Modern Mayr Medicine — food intolerance testing, alkaline diet, daily manual abdominal treatment and a strict chewing discipline that guests find harder than the fasting. Seven nights is the minimum and most doctors here will tell you fourteen is the real number. Salzburg is about 50 miles by road.',
     whyGo: [
       'Modern Mayr Medicine with a physician assigned from day one',
       'Around 100 beds, so the clinic never feels like a hotel',
       'Lake Altaussee and the Loser massif for the walking protocol',
-      'Salzburg is 80km, which keeps the transfer under 90 minutes',
+      'Salzburg is 50 miles, which keeps the transfer under 90 minutes',
     ],
     tags: ['mayr-cure', 'salzkammergut', 'detox', 'gut-health', 'austria'],
     signals: {

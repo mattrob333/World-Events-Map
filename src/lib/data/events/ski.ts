@@ -61,7 +61,7 @@ export const SKI_EVENTS: WorldEvent[] = [
       'Courchevel 1850 is the only Alpine resort with its own altiport, and the fortnight either side of New Year is when it runs closest to capacity. Ski-in chalets on the Bellecôte and Cospillot pistes are held on rolling multi-year options, so the visible inventory is cancellations and a handful of newer builds at Le Praz. The lunch table at Le Chalet de Pierres and the après at La Cave des Creux are the two fixed points of the week.',
     whyGo: [
       'Altiport landing puts you 400 metres from the piste',
-      'Three Vallées lift network from the door, 600km of linked terrain',
+      'Three Vallées lift network from the door, 370 miles of linked terrain',
       'The densest concentration of Michelin stars of any ski resort',
       'Chalet staffing runs at roughly one to one over the holiday',
     ],
@@ -147,7 +147,7 @@ export const SKI_EVENTS: WorldEvent[] = [
       'St. Moritz sits at 1,822 metres in a dry, high valley that gets roughly 320 days of sun a year, which is why the winter season was invented here in 1864. The New Year week is when the hotel guest lists, the Corviglia Club terrace and the frozen lake all fill at once. Samedan, ten minutes down the valley, is the highest airport in Europe and takes heavy jets, though the approach is daylight and weather dependent.',
     whyGo: [
       'Samedan is a ten-minute transfer, not a two-hour Alpine drive',
-      'Corviglia and Corvatsch give 155km of high, reliably sunny piste',
+      'Corviglia and Corvatsch give 95 miles of high, reliably sunny piste',
       'Badrutt\'s reopens its winter service the week before Christmas',
       'The frozen lake hosts polo, racing and cricket from January',
     ],
@@ -230,7 +230,7 @@ export const SKI_EVENTS: WorldEvent[] = [
       'Mont-Fort at 3,330m holds the best late-February snow in the 4 Vallées',
       'Guides here work genuine off-piste, not marked itineraries',
       'Sion is a 35-minute valley transfer with no mountain pass',
-      '412km of linked piste on a single 4 Vallées pass',
+      '256 miles of linked piste on a single 4 Vallées pass',
     ],
     tags: ['4-vallees', 'freeride', 'half-term', 'valais', 'off-piste'],
     signals: {
@@ -375,7 +375,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'hahnenkamm-kitzbuhel',
     name: 'Hahnenkamm Races, Kitzbühel',
-    tagline: 'The Streif downhill — 3.3km, 85% gradient at the Mausefalle, 100,000 spectators',
+    tagline: 'The Streif downhill — 2.1 miles, 85% gradient at the Mausefalle, 100,000 spectators',
     category: 'ski',
     secondaryCategories: ['cultural'],
     city: 'Kitzbühel',
@@ -435,7 +435,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Lake St. Moritz', 'White Turf Grandstand', 'Kulm Hotel'],
     nearestJetPort: LSZS,
     description:
-      'White Turf runs on 7, 14 and 21 February 2027, on a track laid directly onto the frozen surface of Lake St. Moritz. Skijöring is unique to this meeting: riderless thoroughbreds tow skiers over a 2,700-metre course at up to 50km/h, and the winner takes the title of King of the Engadine. It has run since 1907, and the racing is genuinely competitive — international jockeys and Group-standard horses, not an exhibition.',
+      'White Turf runs on 7, 14 and 21 February 2027, on a track laid directly onto the frozen surface of Lake St. Moritz. Skijöring is unique to this meeting: riderless thoroughbreds tow skiers over a 2,700-metre course at up to 30 mph, and the winner takes the title of King of the Engadine. It has run since 1907, and the racing is genuinely competitive — international jockeys and Group-standard horses, not an exhibition.',
     whyGo: [
       'Skijöring exists nowhere else in world racing',
       'Racing laid directly on the frozen lake since 1907',
@@ -534,7 +534,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'cresta-run-season-st-moritz',
     name: 'The Cresta Run Season',
-    tagline: 'Head-first at 130km/h down a hand-built ice channel, rebuilt from scratch each winter',
+    tagline: 'Head-first at 80 mph down a hand-built ice channel, rebuilt from scratch each winter',
     category: 'ski',
     city: 'St. Moritz',
     country: 'Switzerland',
@@ -553,9 +553,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Cresta Run', 'St. Moritz Tobogganing Club', 'Kulm Country Club'],
     nearestJetPort: LSZS,
     description:
-      'The Cresta is a 1,212-metre natural ice channel between St. Moritz and Celerina, rebuilt by hand every December and melted away by March. Riders go head-first on a skeleton toboggan and reach roughly 130km/h at Shuttlecock, the corner that throws most beginners out. The club has run it since 1885 and controls access entirely; the season opens just before Christmas and ends the first weekend of March.',
+      'The Cresta is a 1,212-metre natural ice channel between St. Moritz and Celerina, rebuilt by hand every December and melted away by March. Riders go head-first on a skeleton toboggan and reach roughly 80 mph at Shuttlecock, the corner that throws most beginners out. The club has run it since 1885 and controls access entirely; the season opens just before Christmas and ends the first weekend of March.',
     whyGo: [
-      'Ridden head-first at 130km/h on a hand-built ice channel',
+      'Ridden head-first at 80 mph on a hand-built ice channel',
       'Run by the same club continuously since 1885',
       'Beginners can ride from Junction after morning instruction',
       'Ten weeks a year only — the track is melted by mid-March',
@@ -577,7 +577,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'portillo-august-weeks',
     name: 'Ski Portillo August Weeks',
-    tagline: 'One yellow hotel, 450 guests, Saturday to Saturday, and nothing else for 60km',
+    tagline: 'One yellow hotel, 450 guests, Saturday to Saturday, and nothing else for 37 miles',
     category: 'ski',
     city: 'Portillo',
     country: 'Chile',
@@ -677,9 +677,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Thredbo Alpine Resort', 'Perisher', 'Lake Crackenback Resort'],
     nearestJetPort: YSSY,
     description:
-      'Thredbo has Australia\'s longest run at 5.9km and its largest vertical at 672 metres; Perisher, twenty minutes away, is the largest resort in the southern hemisphere by lift count. The snowpack is thinner and warmer than New Zealand\'s, so the reliable window is narrow — the NSW school holidays through the first week of August. Neither resort has a jet field of its own; Sydney or Canberra plus a road transfer is the realistic routing.',
+      'Thredbo has Australia\'s longest run at 3.7 miles and its largest vertical at 672 metres; Perisher, twenty minutes away, is the largest resort in the southern hemisphere by lift count. The snowpack is thinner and warmer than New Zealand\'s, so the reliable window is narrow — the NSW school holidays through the first week of August. Neither resort has a jet field of its own; Sydney or Canberra plus a road transfer is the realistic routing.',
     whyGo: [
-      'Australia\'s longest run at 5.9km and 672m of vertical',
+      'Australia\'s longest run at 3.7 miles and 672m of vertical',
       'Perisher is the southern hemisphere\'s largest resort by lifts',
       'Kosciuszko backcountry touring straight off the top station',
       'Reachable from Sydney inside half a day',
@@ -711,7 +711,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     priceIndex: 3,
     estimatedSpend: { min: 4000, max: 16000, currency: 'USD' },
     accessNote:
-      'There is no jet field at the resort — aircraft clear at Buenos Aires or Mendoza and continue by turboprop to Malargüe, then 70km by road; the four base hotels are the only accommodation',
+      'There is no jet field at the resort — aircraft clear at Buenos Aires or Mendoza and continue by turboprop to Malargüe, then 43 miles by road; the four base hotels are the only accommodation',
     bookingLeadDays: 90,
     venues: ['Marte chairlift', 'Hotel Piscis', 'Valle de Las Leñas'],
     nearestJetPort: SAME,
@@ -721,7 +721,7 @@ export const SKI_EVENTS: WorldEvent[] = [
       'The Marte chair serves 4,000 hectares of unpatrolled steeps',
       'Terrain that has no equivalent in lift-served European skiing',
       'Almost no lift queues even in the August peak',
-      'Malargüe turboprop leg cuts the Buenos Aires drive to 70km',
+      'Malargüe turboprop leg cuts the Buenos Aires drive to 43 miles',
     ],
     tags: ['andes', 'argentina', 'marte', 'off-piste', 'southern-winter'],
     signals: {

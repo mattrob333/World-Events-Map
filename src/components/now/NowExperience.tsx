@@ -8,6 +8,7 @@ import type { NowIntent, NowResult, NowVibe } from '@/lib/now/types';
 import styles from './now.module.css';
 import { NowForYou } from './NowForYou';
 import { NowUnavailable } from './NowUnavailable';
+import { formatNearby } from '@/lib/units';
 
 const INTENTS: { value: NowIntent; label: string; note: string }[] = [
   { value: 'food', label: 'Eat', note: 'restaurant or food' },
@@ -39,7 +40,7 @@ type TravelModeOption = {
 
 function formatDistance(meters?: number) {
   if (meters === undefined) return 'distance unknown';
-  return meters < 1000 ? `${Math.round(meters)} m away` : `${(meters / 1000).toFixed(1)} km away`;
+  return formatNearby(meters);
 }
 
 function formatBusyness(live?: number, expected?: number) {
@@ -58,7 +59,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
   const [lng, setLng] = useState('');
   const [intent, setIntent] = useState<NowIntent>('drinks');
   const [vibe, setVibe] = useState<NowVibe>('social');
-  const [radiusMeters, setRadiusMeters] = useState(3000);
+  const [radiusMeters, setRadiusMeters] = useState(3219);
   const [availableMinutes, setAvailableMinutes] = useState(180);
   const [partySize, setPartySize] = useState(1);
   const [maxPriceLevel, setMaxPriceLevel] = useState(4);
@@ -230,7 +231,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
           <section className={styles.block}>
             <span className={styles.kicker}>{hasModes ? '05' : '04'} · Constraints</span>
             <div className={styles.twoCol}>
-              <label>Search radius<select value={radiusMeters} onChange={(e) => setRadiusMeters(Number(e.target.value))}><option value={1000}>1 km</option><option value={3000}>3 km</option><option value={5000}>5 km</option><option value={10000}>10 km</option></select></label>
+              <label>Search radius<select value={radiusMeters} onChange={(e) => setRadiusMeters(Number(e.target.value))}><option value={805}>½ mile</option><option value={3219}>2 miles</option><option value={4828}>3 miles</option><option value={9656}>6 miles</option></select></label>
               <label>Time available<select value={availableMinutes} onChange={(e) => setAvailableMinutes(Number(e.target.value))}><option value={90}>90 min</option><option value={180}>3 hours</option><option value={360}>6 hours</option><option value={720}>All day / night</option></select></label>
               <label>Party size<input type="number" min={1} max={20} value={partySize} onChange={(e) => setPartySize(Number(e.target.value))} /></label>
               <label>Max price<select value={maxPriceLevel} onChange={(e) => setMaxPriceLevel(Number(e.target.value))}><option value={2}>$$</option><option value={3}>$$$</option><option value={4}>$$$$</option><option value={5}>No limit</option></select></label>

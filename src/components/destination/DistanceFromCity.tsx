@@ -6,6 +6,7 @@ import { VIEWER_CITIES } from '@/lib/location/browser-position';
 import { CITY_CHOICE_KEY } from '@/lib/location/useViewerLocation';
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import type { GeoPoint } from '@/lib/types';
+import { formatMiles } from '@/lib/units';
 
 function readChosenCity(): string | null {
   try {
@@ -37,7 +38,7 @@ export function DistanceFromCity({ target, labelClassName, linkClassName }: { ta
   return (
     <div>
       <span className={labelClassName}>From {city.name.split(',')[0]} · indicative</span>
-      <strong>{route.airHours === 0 ? route.label : `≈${route.distanceKm.toLocaleString('en-US')} km · ${route.label}`}</strong>
+      <strong>{route.airHours === 0 ? route.label : `≈${formatMiles(route.distanceKm)} · ${route.label}`}</strong>
     </div>
   );
 }
