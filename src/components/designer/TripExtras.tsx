@@ -314,7 +314,7 @@ export function InvitePanel({ trip, votes, voter, destination, picks }: { trip: 
         {clearing ? (
           <div role="alertdialog" aria-labelledby="clear-device-title">
             <p id="clear-device-title" className="text-[13px] leading-5 text-ink-muted">
-              Delete the trip, votes, saved mood boards, any trip set aside, and cached research from this browser? Links you already sent keep working for whoever has them.
+              Delete the trip, votes, saved Vibe profiles, any trip set aside, and cached research from this browser? Links you already sent keep working for whoever has them.
             </p>
             <div className={`${styles.row} mt-2`}>
               <button type="button" className={styles.ghost} onClick={clearDevice}>

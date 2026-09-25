@@ -247,7 +247,7 @@ function VibeStage() {
         profiles.find((entry) => profileLabel(entry).toLowerCase() === wanted) ??
         profiles.find((entry) => wanted && (entry.profile.name ?? '').toLowerCase().includes(wanted)) ??
         profiles.find((entry) => wanted && profileLabel(entry).toLowerCase().includes(wanted));
-      if (!match) return profiles.length ? `Error: no profile called ${String(args.name)}. They have: ${profiles.map(profileLabel).join(', ')}.` : 'Error: no profiles yet. Offer to make one on the mood board.';
+      if (!match) return profiles.length ? `Error: no profile called ${String(args.name)}. They have: ${profiles.map(profileLabel).join(', ')}.` : 'Error: no profiles yet. Offer to set up their Vibe profile.';
       setActiveProfile(match.id);
       return `Now traveling as ${profileLabel(match)}.`;
     };
@@ -623,7 +623,7 @@ function VibeStage() {
       setOpen(false);
       return;
     }
-    const board = await reach({ intent: 'board', href: '/moodboard' });
+    const board = await reach({ intent: 'board', href: '/vibe' });
     const reply = board?.handlers.describe_me ? await board.handlers.describe_me({ summary: text }) : 'Error: the profile page did not open. Try again.';
     if (reply.startsWith('Error')) {
       setNote(reply.replace(/^Error:\s*/, ''));
@@ -982,7 +982,7 @@ function VibeStage() {
           {voiceEnabled
             ? 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'
             : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
-              ? 'dope.travel gets the text only to sort it into your board and keeps none of it. The board, and what you said, are saved on this device.'
+              ? 'dope.travel gets the text only to sort it into your Vibe profile and keeps none of it. The profile, and what you said, are saved on this device.'
               : 'dope.travel reads the text to work out where you mean (and may ask a decision model), keeps none of it, and saves the trip on this device.'}`}
         </p>
       </div>

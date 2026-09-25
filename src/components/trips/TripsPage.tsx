@@ -21,6 +21,7 @@ import {
   type SkiStay,
 } from './familySki';
 import styles from './trips.module.css';
+import { TripFinder } from './TripFinder';
 
 type CreatedCircle = { href: string; briefSaved: boolean; brief: string | null };
 
@@ -256,6 +257,8 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           <p className={styles.heroNote}>Aspen ski archive, 2007. Shared trips require membership; saved places stay on this device.</p>
         </div>
       </section>
+
+      <TripFinder onFamilySki={revealSkiPlanner} />
 
       <div className={styles.content}>
         {showSkiPlanner && !authChanged && <section id="family-ski" className={styles.planner} aria-labelledby="family-ski-title">

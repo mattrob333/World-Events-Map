@@ -13,26 +13,11 @@ import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type Tri
 import { whyNow } from '@/lib/discovery/whyNow';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
+import { INTERESTS, SEASONS } from '@/components/trips/TripFinder';
 import { HeroPool } from './HeroPool';
 import { formatMiles } from '@/lib/units';
 
 type RadarPick = { event: WorldEvent; slug: string };
-
-const SEASONS: { value: TripSeason; label: string; defaultInterest: TripInterest }[] = [
-  { value: 'all', label: 'Every season', defaultInterest: 'all' },
-  { value: 'winter', label: 'Winter', defaultInterest: 'ski' },
-  { value: 'spring', label: 'Spring', defaultInterest: 'adventure' },
-  { value: 'summer', label: 'Summer', defaultInterest: 'coast' },
-  { value: 'fall', label: 'Fall', defaultInterest: 'culture' },
-];
-
-const INTERESTS: { value: TripInterest; label: string }[] = [
-  { value: 'all', label: 'Anything', },
-  { value: 'ski', label: 'Ski & snow' },
-  { value: 'coast', label: 'Coast & water' },
-  { value: 'adventure', label: 'Nature & adventure' },
-  { value: 'culture', label: 'Culture & food' },
-];
 
 const HERO_STORIES: Record<TripInterest, { first: string; emphasis: string; description: string; heading: string }> = {
   all: {
@@ -137,7 +122,6 @@ export function WorldIntro({
   onTravel,
   season,
   interest,
-  onModeChange,
   journeyId = null,
 }: {
   /** The journey chosen elsewhere on the page (calendar, globe, a shared ?journey= link). */
@@ -147,7 +131,6 @@ export function WorldIntro({
   onTravel: (event: WorldEvent) => void;
   season: TripSeason;
   interest: TripInterest;
-  onModeChange: (season: TripSeason, interest: TripInterest) => void;
 }) {
   const focus = useTimelineStore((state) => state.focus);
   const [activeJourney, setActiveJourney] = useState<{ event: WorldEvent; photo: PlacePhoto | null } | null>(null);
@@ -205,17 +188,6 @@ export function WorldIntro({
   const story = HERO_STORIES[interest];
   const selectedSeasonLabel = SEASONS.find((option) => option.value === season)?.label ?? 'Every season';
   const selectedInterestLabel = INTERESTS.find((option) => option.value === interest)?.label ?? 'Anything';
-  const familySki = season === 'winter' && interest === 'ski';
-
-  const chooseSeason = (next: TripSeason) => {
-    onModeChange(next, SEASONS.find((option) => option.value === next)?.defaultInterest ?? 'all');
-    setActiveJourney(null);
-  };
-
-  const chooseInterest = (next: TripInterest) => {
-    onModeChange(season, next);
-    setActiveJourney(null);
-  };
 
   useEffect(() => {
     if (!featured) return;
@@ -294,43 +266,6 @@ export function WorldIntro({
           {displayedFeaturedPhoto && <a className={styles.passCredit} href={displayedFeaturedPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {displayedFeaturedPhoto.credit} · {displayedFeaturedPhoto.license} ↗</a>}
         </div>}
       </div>
-
-      <section className={styles.tripFinder} aria-labelledby="trip-finder-title">
-        <div className={styles.finderIntro}>
-          <div>
-            <span className={styles.kicker}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />START WITH A FEELING / 001</span>
-            <h2 id="trip-finder-title">What kind of trip calls to you?</h2>
-            <p>Choose when and what you love. The shortlist follows.</p>
-          </div>
-        </div>
-        <div className={styles.finderControls}>
-          <fieldset className={styles.finderGroup}>
-            <legend>When</legend>
-            <div>{SEASONS.map((option) => <button key={option.value} type="button" className="chip" aria-pressed={season === option.value} onClick={() => chooseSeason(option.value)}>{option.label}</button>)}</div>
-          </fieldset>
-          <fieldset className={styles.finderGroup}>
-            <legend>What</legend>
-            <div>{INTERESTS.map((option) => <button key={option.value} type="button" className="chip" aria-pressed={interest === option.value} onClick={() => chooseInterest(option.value)}>{option.label}</button>)}</div>
-          </fieldset>
-        </div>
-        {filtering && (
-          <Link className={styles.finderLink} href={`/trips?season=${season}&interest=${interest}${familySki ? '#family-ski' : ''}`}>
-            {familySki ? 'Start a family ski trip' : 'Explore trip planning'} <span aria-hidden="true">↗</span>
-          </Link>
-        )}
-        {interest === 'ski' && <div className={styles.snowOutlook} role="note">
-          <div><span>SNOW OUTLOOK</span><strong>Plan the week. Check the mountain.</strong></div>
-          <p>These are curated ski dates, not a snow report. Snow depth, recent snowfall, forecast, open lifts, and family terrain still need a verified resort or weather source before you decide where conditions are best.</p>
-          <span className={`tag ${styles.snowStatus}`}>LIVE CONDITIONS · SOURCE NEEDED</span>
-          <div className={styles.snowLinks} aria-label="Official mountain condition reports">
-            <span>CHECK OFFICIAL REPORTS ↗</span>
-            <a href="https://www.aspensnowmass.com/four-mountains/aspen-mountain/snow-and-grooming-report" target="_blank" rel="noopener noreferrer">Aspen Snowmass</a>
-            <a href="https://www.engadin.ch/en/reports/snowsports-report" target="_blank" rel="noopener noreferrer">St. Moritz / Engadin</a>
-            <a href="https://verbier4vallees.ch/en/useful-information/live-information-winter" target="_blank" rel="noopener noreferrer">Verbier</a>
-            <a href="https://zermatt.swiss/en/info/weather/snow-report" target="_blank" rel="noopener noreferrer">Zermatt</a>
-          </div>
-        </div>}
-      </section>
 
       <div className={styles.radar} id="shortlist">
         <div className={styles.radarHeading}>

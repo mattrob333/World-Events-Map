@@ -90,7 +90,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
       <div className={styles.grid}>
         <div className={styles.stack}>
           <SignInCard />
-          <p className={styles.muted}>Your mood boards and AI-built profile live on this device, not in an account: <a href="/moodboard#saved-title" style={{ display: 'inline-block', minHeight: 44, lineHeight: '44px', textDecoration: 'underline' }}>Open Mood board →</a></p>
+          <p className={styles.muted}>Your Vibe profiles live on this device, not in an account: <a href="/vibe#saved-title" style={{ display: 'inline-block', minHeight: 44, lineHeight: '44px', textDecoration: 'underline' }}>Open my Vibe profile →</a></p>
           {user && (
             <section className={styles.card}>
               <h2>Your introduction</h2>

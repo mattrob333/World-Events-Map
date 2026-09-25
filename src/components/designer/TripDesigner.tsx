@@ -27,7 +27,7 @@ function localIso(offsetDays: number): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
-/** One mood board becomes the whole traveling party it describes. */
+/** One Vibe profile becomes the whole traveling party it describes. */
 export function travelersFromBoard(board: { id: string; profile: TravelerProfile }): Draft[] {
   const { profile } = board;
   const adultTags = profileTags(profile).filter((tag) => !tag.endsWith('kids'));
@@ -126,7 +126,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
       setError(message);
       return message;
     };
-    if (!travelers.length) return fail('Add at least one traveler, or pick a mood board.');
+    if (!travelers.length) return fail('Add at least one traveler, or pick a Vibe profile.');
     if (startDate < localIso(0)) return fail('Pick a start date from today onward.');
     const place = destination === 'custom' ? placeFromInput(placeText, placeKind) : undefined;
     if (destination === 'custom' && !place) return fail('Type where you’re going, like “Lisbon, Portugal”.');
@@ -365,14 +365,14 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
                 <span className={styles.avatar} style={{ background: 'var(--color-brass)' }}>
                   ✨
                 </span>
-                {board.profile.name ?? board.profile.hometown ?? 'Mood board'} + party
+                {board.profile.name ?? board.profile.hometown ?? 'Vibe profile'} + party
               </button>
             ))}
           </div>
         ) : (
           <p className="mt-2 text-[13px] text-ink-muted">
-            No mood boards on this device yet.{' '}
-            <Link href="/moodboard" className="text-brass-bright underline underline-offset-4">
+            No Vibe profiles on this device yet.{' '}
+            <Link href="/vibe" className="text-brass-bright underline underline-offset-4">
               Make one by talking
             </Link>{' '}
             or{' '}
@@ -533,7 +533,7 @@ function ReplacePrompt({ place, onKeep, onReplace }: { place?: string; onKeep: (
   return (
     <div className={styles.panel}>
       <p className="font-display text-[26px] text-ink">You already have a trip in the works.</p>
-      <p className="mt-2 text-[14px] text-ink-muted">Keep designing it, or start a new trip {place ? `to ${place}` : 'with this mood board'}? Starting over clears the draft and its votes on this device.</p>
+      <p className="mt-2 text-[14px] text-ink-muted">Keep designing it, or start a new trip {place ? `to ${place}` : 'with this profile'}? Starting over clears the draft and its votes on this device.</p>
       <div className={`${styles.row} mt-4`}>
         <button
           type="button"

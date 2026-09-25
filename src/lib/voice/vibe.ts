@@ -7,7 +7,7 @@ export type VibeTarget = { intent: Exclude<VoiceIntent, 'vibe' | 'general'>; hre
 const TRIP_TOOLS = new Set<VoiceToolName>(['add_traveler', 'remove_traveler', 'create_trip']);
 
 export function vibeTarget(tool: VoiceToolName, args: Record<string, unknown>): VibeTarget | null {
-  if (tool === 'describe_me') return { intent: 'board', href: '/moodboard' };
+  if (tool === 'describe_me') return { intent: 'board', href: '/vibe' };
   if (tool === 'set_now_city') return { intent: 'now', href: '/now' };
   if (tool === 'set_trip_basics') {
     const place = typeof args.place === 'string' ? planPlaceFromQuery(args.place) : null;

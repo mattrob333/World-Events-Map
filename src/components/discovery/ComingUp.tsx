@@ -7,6 +7,7 @@ import { shortDate } from '@/lib/discovery/whyNow';
 import type { WorldEvent } from '@/lib/types';
 import styles from './coming-up.module.css';
 
+/** The open/closed choice lasts for this visit only: coming back, phones start with it closed again. */
 const OPEN_KEY = 'dope.comingup.open.v1';
 
 const weekday = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
@@ -25,7 +26,7 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
   const [choice, setChoice] = useState<boolean | null>(null);
   useEffect(() => {
     let stored: string | null = null;
-    try { stored = window.localStorage.getItem(OPEN_KEY); } catch { /* storage can be off */ }
+    try { stored = window.sessionStorage.getItem(OPEN_KEY); } catch { /* storage can be off */ }
     const phone = window.matchMedia('(max-width: 640px)').matches;
     const timer = window.setTimeout(() => setChoice(stored === '1' ? true : stored === '0' ? false : !phone), 0);
     return () => window.clearTimeout(timer);
@@ -33,7 +34,7 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
   const open = choice ?? true;
   const toggle = () => {
     const visible = choice ?? !window.matchMedia('(max-width: 640px)').matches;
-    try { window.localStorage.setItem(OPEN_KEY, visible ? '0' : '1'); } catch { /* in-memory still works */ }
+    try { window.sessionStorage.setItem(OPEN_KEY, visible ? '0' : '1'); } catch { /* in-memory still works */ }
     setChoice(!visible);
   };
 
@@ -56,7 +57,7 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
     <section className={styles.shell} aria-label="Coming up" suppressHydrationWarning>
       <script
         dangerouslySetInnerHTML={{
-          __html: `try{var v=localStorage.getItem(${JSON.stringify(OPEN_KEY)});if(v==='0'||v==='1')document.currentScript.parentElement.setAttribute('data-comingup',v)}catch(e){}`,
+          __html: `try{var v=sessionStorage.getItem(${JSON.stringify(OPEN_KEY)});if(v==='0'||v==='1')document.currentScript.parentElement.setAttribute('data-comingup',v)}catch(e){}`,
         }}
       />
       <div className={styles.head}>

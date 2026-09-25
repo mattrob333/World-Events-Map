@@ -65,6 +65,17 @@ export function LiveShows({ artists, hometown, taste }: { artists: string[]; hom
 
   useEffect(() => {
     let cancelled = false;
+    // Tour dates don't move by the minute: reuse this visit's answer for an hour, so the feeds' daily quota lasts.
+    const cacheKey = `dope.concerts.v1:${key}:${taste ? 1 : 0}`;
+    try {
+      const cached = JSON.parse(window.sessionStorage.getItem(cacheKey) ?? 'null') as ConcertResult | null;
+      if (cached && Date.now() - Date.parse(cached.fetchedAt) < 3_600_000) {
+        const timer = window.setTimeout(() => { if (!cancelled) { setResult(cached); setSelected(null); setFailed(false); } }, 0);
+        return () => { cancelled = true; window.clearTimeout(timer); };
+      }
+    } catch {
+      // Storage off: fetch as usual.
+    }
     fetch('/api/designer/concerts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -73,6 +84,7 @@ export function LiveShows({ artists, hometown, taste }: { artists: string[]; hom
       .then((response) => (response.ok ? (response.json() as Promise<ConcertResult>) : Promise.reject(new Error('failed'))))
       .then((body) => {
         if (cancelled) return;
+        try { if (body.source !== 'links') window.sessionStorage.setItem(cacheKey, JSON.stringify(body)); } catch { /* storage full or off */ }
         setResult(body);
         setSelected(null);
         setFailed(false);

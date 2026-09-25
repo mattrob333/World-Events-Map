@@ -75,7 +75,7 @@ export function ProfileSwitcher({ className = '' }: { className?: string }) {
               );
             })}
           </ul>
-          <Link href="/moodboard" onClick={() => setOpen(false)} className="mt-1 flex min-h-11 items-center rounded-[var(--radius-control)] px-2.5 text-[13px] text-ink-soft hover:bg-surface-3">
+          <Link href="/vibe" onClick={() => setOpen(false)} className="mt-1 flex min-h-11 items-center rounded-[var(--radius-control)] px-2.5 text-[13px] text-ink-soft hover:bg-surface-3">
             + New profile
           </Link>
         </div>

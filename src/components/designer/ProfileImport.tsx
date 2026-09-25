@@ -47,16 +47,16 @@ export function ProfileImport() {
         ) : !profile && hash === '#saved' ? (
           <>
             <h1 className={styles.headline}>Saved on this device.</h1>
-            <p className={styles.lede}>Your profile is in your mood board now. The link was cleared so it doesn’t sit in your history.</p>
-            <Link href="/moodboard" className={`${styles.cta} mt-6`}>
-              Open my mood board →
+            <p className={styles.lede}>Your profile is in your Vibe profiles now. The link was cleared so it doesn’t sit in your history.</p>
+            <Link href="/vibe" className={`${styles.cta} mt-6`}>
+              Open my Vibe profile →
             </Link>
           </>
         ) : !profile ? (
           <>
             <h1 className={styles.headline}>This link has no profile in it.</h1>
-            <p className={styles.lede}>It may have been cut off when it was copied. Ask your agent for the link again, or build your board by talking.</p>
-            <Link href="/moodboard" className={`${styles.ghost} mt-6`}>
+            <p className={styles.lede}>It may have been cut off when it was copied. Ask your agent for the link again, or build your Vibe profile by talking.</p>
+            <Link href="/vibe" className={`${styles.ghost} mt-6`}>
               Build it by talking
             </Link>
           </>
@@ -75,7 +75,7 @@ export function ProfileImport() {
             </h1>
             <p className={styles.lede}>
               {savedId
-                ? 'Your profile is saved on this device only. Plan a trip with it, or find it any time under Boards on this device in Mood board.'
+                ? 'Your profile is saved on this device only. Plan a trip with it, or find it any time under Profiles on this device in Vibe profile.'
                 : 'Check it over. Your AI built this link through dope.travel, which didn’t keep a copy; the profile rides in the link itself. Saving keeps it on this device only.'}
             </p>
             <div className={`${styles.row} mt-6`} aria-live="polite">
@@ -85,8 +85,8 @@ export function ProfileImport() {
                   <button type="button" className={styles.cta} onClick={() => router.push(`/trips/designer?with=${savedId}`)}>
                     Plan a trip with it →
                   </button>
-                  <Link href="/moodboard#saved-title" className={styles.ghost}>
-                    Find it in Mood board
+                  <Link href="/vibe#saved-title" className={styles.ghost}>
+                    Find it in Vibe profile
                   </Link>
                 </>
               ) : (
@@ -105,7 +105,7 @@ export function ProfileImport() {
             </div>
             {!savedId ? (
               <p className={`${styles.hint} mt-4`}>
-                Something off? Save it, then open it in <Link href="/moodboard" className="underline">Mood board</Link> to fix names, ages and your crew.
+                Something off? Save it, then open it in <Link href="/vibe" className="underline">Vibe profile</Link> to fix names, ages and your crew.
               </p>
             ) : null}
           </>

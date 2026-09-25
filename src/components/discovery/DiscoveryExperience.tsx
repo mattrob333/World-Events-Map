@@ -212,19 +212,6 @@ export function DiscoveryExperience() {
     : null;
   const visibleBeacons = beacons.filter((beacon) => visibleIds.has(beacon.eventId));
 
-  const changeTripMode = (season: TripSeason, interest: TripInterest) => {
-    navigateDiscovery({ season, interest, journey: null });
-    select(null);
-    if (routeTimer.current !== null) {
-      window.clearTimeout(routeTimer.current);
-      routeTimer.current = null;
-    }
-    const next = season === 'all' && interest === 'all'
-      ? undefined
-      : editorialEventForMode(EVENTS, focus, season, interest);
-    flyTo(next?.coords ?? viewer.coords ?? { lat: 18, lon: 0 }, next ? 2.45 : OPENING_GLOBE_DISTANCE);
-  };
-
   const travelFromCard = (event: WorldEvent) => {
     select(null);
     navigateDiscovery({ journey: event.id }, 'push');
@@ -393,7 +380,6 @@ export function DiscoveryExperience() {
         onTravel={travelFromCard}
         season={tripMode.season}
         interest={tripMode.interest}
-        onModeChange={changeTripMode}
       />}
       <nav className={styles.regions} aria-label="Explore map regions">
         <span>YOUR WORLD</span>

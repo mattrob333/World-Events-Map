@@ -141,7 +141,7 @@ export const VOICE_TOOLS = {
   navigate: {
     name: 'navigate',
     description: 'Open another part of dope.travel.',
-    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'mood board', 'now', 'trips', 'access', 'circles'] } }, ['to']),
+    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'vibe profile', 'now', 'trips', 'access', 'circles'] } }, ['to']),
   },
 } satisfies Record<string, VoiceToolSpec>;
 
@@ -186,7 +186,7 @@ export function isVoiceIntent(value: unknown): value is VoiceIntent {
 }
 
 const ROUTES: Record<string, string> = {
-  home: '/', 'trip designer': '/trips/designer', 'mood board': '/moodboard', now: '/now', trips: '/trips', access: '/access', circles: '/circles',
+  home: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', now: '/now', trips: '/trips', access: '/access', circles: '/circles',
 };
 
 export function routeFor(to: unknown): string | null {

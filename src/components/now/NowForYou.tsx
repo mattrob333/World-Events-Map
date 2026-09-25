@@ -149,12 +149,12 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
         {city && ideas.length ? (
           <p className={styles.forYouFoot}>
             Each idea opens a Maps search for {city}
-            {source === 'board' ? ', shaped by your board' : source === 'trip' ? ', shaped by your trip' : ''}. Maps shows what’s there, not what’s open or busy: check before you go.
+            {source === 'board' ? ', shaped by your Vibe profile' : source === 'trip' ? ', shaped by your trip' : ''}. Maps shows what’s there, not what’s open or busy: check before you go.
           </p>
         ) : null}
         {!profile ? (
           <p className={styles.forYouHint}>
-            <Link href="/moodboard">Make your board</Link> and these ideas follow your food, music, and crew.
+            <Link href="/vibe">Set your Vibe profile</Link> and these ideas follow your food, music, and crew.
           </p>
         ) : null}
       </div>

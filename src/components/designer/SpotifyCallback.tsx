@@ -22,7 +22,7 @@ export function SpotifyCallback({ code, state, error }: { code?: string; state?:
     completeSpotifyConnect(code, state)
       .then((listening) => {
         setDraftListening(listening);
-        router.replace('/moodboard?spotify=connected');
+        router.replace('/vibe?spotify=connected');
       })
       .catch((cause: unknown) => setFailure(cause instanceof Error ? cause.message : 'Spotify import failed.'));
   }, [code, state, error, router, setDraftListening]);
@@ -35,8 +35,8 @@ export function SpotifyCallback({ code, state, error }: { code?: string; state?:
           <>
             <h1 className={styles.headline}>Spotify didn’t connect.</h1>
             <p className={styles.lede}>{failure}</p>
-            <Link href="/moodboard" className={`${styles.ghost} mt-6`}>
-              Back to your mood board
+            <Link href="/vibe" className={`${styles.ghost} mt-6`}>
+              Back to your Vibe profile
             </Link>
           </>
         ) : (

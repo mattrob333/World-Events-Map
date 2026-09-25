@@ -8,23 +8,19 @@ const renderMode = (season: 'winter' | 'summer', interest: 'ski' | 'coast') =>
     origin: null,
     originName: null,
     onTravel: () => {},
-    onModeChange: () => {},
     season,
     interest,
   }));
 
-describe('trip mode handoff from the world intro', () => {
-  it('takes a winter ski trip to the visible family ski planner', () => {
+describe('trip mode on the world intro', () => {
+  it('keeps a winter ski link’s shortlist, without the trip finder (it lives in trip planning)', () => {
     const html = renderMode('winter', 'ski');
-    expect(html).toContain('/trips?season=winter&amp;interest=ski#family-ski');
-    expect(html).toContain('Start a family ski trip');
     expect(html).toContain('Ski weeks worth planning.');
+    expect(html).not.toContain('What kind of trip calls to you?');
   });
 
-  it('keeps summer coast context without opening the winter planner', () => {
+  it('keeps summer coast context', () => {
     const html = renderMode('summer', 'coast');
-    expect(html).toContain('/trips?season=summer&amp;interest=coast');
-    expect(html).not.toContain('#family-ski');
     expect(html).toContain('Days by the water.');
     expect(html).not.toContain('Ski weeks worth planning.');
   });

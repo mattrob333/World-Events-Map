@@ -358,13 +358,13 @@ export function MoodboardStudio({
         const saved = saveRef.current();
         document.getElementById('board-title')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
         document.getElementById('board-title')?.focus({ preventScroll: true });
-        return saved ? 'Built and saved their board on this device; it is on screen now. Ask if anything looks wrong.' : 'Built their board; it is on screen now. Ask if anything looks wrong.';
+        return saved ? 'Built and saved their Vibe profile on this device; it is on screen now. Ask if anything looks wrong.' : 'Built their Vibe profile; it is on screen now. Ask if anything looks wrong.';
       },
     },
-    () => (result ? 'Their mood board is on screen.' : text.trim() ? `They have started typing about themselves: "${text.trim().slice(0, 200)}"` : 'An empty mood board, waiting for them to describe themselves.'),
+    () => (result ? 'Their Vibe profile is on screen.' : text.trim() ? `They have started typing about themselves: "${text.trim().slice(0, 200)}"` : 'An empty Vibe profile, waiting for them to describe themselves.'),
     (typed) => {
       setText([text.trim(), typed].filter(Boolean).join(' '));
-      return 'Added that to your description. Keep going, then tap Build my mood board.';
+      return 'Added that to your description. Keep going, then tap Build my Vibe profile.';
     },
   );
 
@@ -382,7 +382,7 @@ export function MoodboardStudio({
   useEffect(() => {
     if (!spotifyJustConnected || !mounted || !spotify || autoBuilt.current) return;
     autoBuilt.current = true;
-    window.history.replaceState(null, '', '/moodboard');
+    window.history.replaceState(null, '', '/vibe');
     void build();
     // Runs once when Spotify hands control back; build reads the latest draft.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -433,13 +433,13 @@ export function MoodboardStudio({
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        <p className={styles.eyebrow}>Mood board · step 1 of 2</p>
+        <p className={styles.eyebrow}>Vibe profile · step 1 of 2</p>
         <h1 className={styles.headline}>
-          Tell us about you. <span className={styles.accentText}>We’ll make the board.</span>
+          Tell us about you. <span className={styles.accentText}>We’ll learn your vibe.</span>
         </h1>
         <p className={styles.lede}>
           Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
-          who you travel with, and the trips you still talk about. We sort it into a board that plans trips with you.
+          who you travel with, and the trips you still talk about. We sort it into a Vibe profile that plans trips with you.
         </p>
 
         <section className={styles.recorder} aria-label="Your ramble">
@@ -482,7 +482,7 @@ export function MoodboardStudio({
             {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
             <div className={styles.row}>
               <button type="button" className={styles.cta} onClick={build} disabled={busy}>
-                {busy ? 'Sorting…' : 'Build my mood board'}
+                {busy ? 'Sorting…' : 'Build my Vibe profile'}
               </button>
               <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
                 Try an example
@@ -496,7 +496,7 @@ export function MoodboardStudio({
             {error ? <p className={styles.error} role="alert">{error}</p> : null}
             <p className={styles.hint}>
               Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to
-              sort it, is not stored on our servers, and the board is saved on this device only.
+              sort it, is not stored on our servers, and your profile is saved on this device only.
             </p>
           </div>
         </section>
@@ -521,12 +521,12 @@ export function MoodboardStudio({
           <section className="mt-10" aria-labelledby="board-title">
             <div className={styles.row}>
               <h2 id="board-title" tabIndex={-1} className="font-display text-[28px] text-ink">
-                Your board
+                Your Vibe profile
               </h2>
               <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
                 {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted by simple rules'}
               </span>
-              <span className={styles.badge}>Mood imagery · not your photos</span>
+              <span className={styles.badge}>Editorial imagery · not your photos</span>
               {result.profile.listening ? <span className={styles.badge}>+ Spotify</span> : null}
             </div>
             {result.profile.summary ? <p className={styles.lede}>{result.profile.summary}</p> : null}
@@ -580,10 +580,10 @@ export function MoodboardStudio({
 
             <div className={`${styles.row} mt-6`}>
               <button type="button" className={styles.cta} onClick={save}>
-                {saved ? '✓ Saved on this device' : 'Save my board'}
+                {saved ? '✓ Saved on this device' : 'Save my profile'}
               </button>
               <button type="button" className={styles.ghost} onClick={() => router.push(`/trips/designer?with=${save()}`)}>
-                Plan a trip with this board →
+                Plan a trip with this profile →
               </button>
             </div>
           </section>
@@ -592,7 +592,7 @@ export function MoodboardStudio({
         {mounted && profiles.length ? (
           <section className="mt-12" aria-labelledby="saved-title">
             <h2 id="saved-title" className={styles.eyebrow}>
-              Boards on this device
+              Profiles on this device
             </h2>
             <div className={styles.savedList}>
               {profiles.map((entry) => {
@@ -607,8 +607,8 @@ export function MoodboardStudio({
                       {tile?.emoji ?? '✨'}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[14px] text-ink">{entry.profile.name ?? entry.profile.hometown ?? 'My board'}</p>
-                      <p className="truncate text-[12px] text-ink-subtle">{entry.profile.summary || 'Saved board'}</p>
+                      <p className="truncate text-[14px] text-ink">{entry.profile.name ?? entry.profile.hometown ?? 'My profile'}</p>
+                      <p className="truncate text-[12px] text-ink-subtle">{entry.profile.summary || 'Saved profile'}</p>
                     </div>
                     <button
                       type="button"
@@ -625,7 +625,7 @@ export function MoodboardStudio({
                       type="button"
                       className={styles.miniBtn}
                       onClick={() => removeProfile(entry.id)}
-                      aria-label="Delete this board from the device"
+                      aria-label="Delete this profile from the device"
                     >
                       ✕
                     </button>

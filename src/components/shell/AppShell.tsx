@@ -59,7 +59,7 @@ const MORE_LINKS = [
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
   { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
-  { href: '/moodboard', label: 'Mood board', hint: 'Talk about you; get your board' },
+  { href: '/vibe', label: 'Vibe profile', hint: 'Talk about you; the trips follow' },
   { href: '/agents', label: 'Bring your AI', hint: 'Let your agent set you up' },
   { href: '/account', label: 'Profile', hint: 'Your traveler lens' },
 ] as const;
@@ -68,7 +68,7 @@ const MORE_LINKS = [
 const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 // Until membership exists, "Profile" is the traveler's on-device mood board,
 // not an account page that says "not connected" (UFR2-H16).
-const PROFILE_HREF = MEMBERSHIP_CONFIGURED ? '/account' : '/moodboard';
+const PROFILE_HREF = MEMBERSHIP_CONFIGURED ? '/account' : '/vibe';
 const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/account');
 
 function activePath(pathname: string, href: string): boolean {
@@ -108,7 +108,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const world = pathname === '/';
   // The lens invitation belongs to the front door only: on every page it pushed
-  // content down, and on /moodboard it competed with the board's own flow (UFR2-J13).
+  // content down, and on /vibe it competed with the board's own flow (UFR2-J13).
   const skipped = useOnboardingStore((s) => s.skipped);
   const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
   const setVibeOpen = useVoiceStore((s) => s.setOpen);

@@ -105,7 +105,7 @@ export function bentoCards(profile: TravelerProfile): BentoCard[] {
   const home = city ? CITY_PALETTE[city] : { emoji: '✦', palette: ['#334155', '#0F172A'] as [string, string] };
   cards.push({
     id: 'home', kind: 'home', size: 'xl', eyebrow: profile.hometown ? 'Home base' : 'You',
-    title: profile.hometown ?? profile.name ?? 'Your board',
+    title: profile.hometown ?? profile.name ?? 'Your Vibe profile',
     body: profile.summary || undefined,
     items: [
       ...(profile.name && profile.hometown ? [{ label: profile.name, emoji: '👋' }] : []),

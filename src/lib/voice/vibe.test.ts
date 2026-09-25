@@ -9,7 +9,7 @@ const TODAY = '2026-09-25';
 
 describe('header Vibe routing', () => {
   it('opens the page that owns each tool', () => {
-    expect(vibeTarget('describe_me', {})).toEqual({ intent: 'board', href: '/moodboard' });
+    expect(vibeTarget('describe_me', {})).toEqual({ intent: 'board', href: '/vibe' });
     expect(vibeTarget('set_now_city', { city: 'Tokyo' })).toEqual({ intent: 'now', href: '/now' });
     expect(vibeTarget('set_trip_basics', { place: 'Lisbon, Portugal' })).toEqual({
       intent: 'trip',

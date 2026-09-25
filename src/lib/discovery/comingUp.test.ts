@@ -14,7 +14,7 @@ describe('coming-up calendar lanes', () => {
     const ids = lanes.map((lane) => lane.event.id);
     expect(ids).toContain('fest');
     expect(ids).toContain('cup');
-    expect(lanes.length).toBeLessThanOrEqual(8);
+    expect(lanes.length).toBeLessThanOrEqual(14);
   });
 
   it('clips bars to the window and skips what is over', () => {
@@ -38,11 +38,22 @@ describe('coming-up heads-ups', () => {
     const later = ev('later', '2026-12-10', '2026-12-12', { bookingLeadDays: 60 });
     const ids = buildLanes([...busy, later], today).map((lane) => lane.event.id);
     expect(ids).toContain('later');
-    expect(ids.length).toBeLessThanOrEqual(8);
+    expect(ids.length).toBeLessThanOrEqual(14);
   });
 });
 
 describe('coming-up mix', () => {
+  it('gives every week of the window a row, so scrolling right is never empty', () => {
+    const busy = Array.from({ length: 12 }, (_, i) => ev(`on-${i}`, '2026-09-23', '2026-09-26'));
+    const later = Array.from({ length: 7 }, (_, i) => {
+      const start = new Date(Date.UTC(2026, 8, 24 + (i + 1) * 7 + 1)).toISOString().slice(0, 10);
+      return ev(`week-${i + 1}`, start, start);
+    });
+    const lanes = buildLanes([...busy, ...later], today);
+    const ids = lanes.map((lane) => lane.event.id);
+    for (const lane of later) expect(ids).toContain(lane.id);
+  });
+
   it('leaves room for what starts soon on a busy day', () => {
     const busy = Array.from({ length: 10 }, (_, i) => ev(`on-${i}`, '2026-09-23', '2026-09-26'));
     const ids = buildLanes([...busy, ev('tomorrow', '2026-09-25', '2026-09-27')], today).map((lane) => lane.event.id);

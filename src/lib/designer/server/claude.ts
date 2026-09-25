@@ -49,7 +49,7 @@ const ProfileSchema = z.object({
   summary: z.string(),
 });
 
-const PROFILE_SYSTEM = `You sort a traveler's spoken ramble into a travel profile for a trip-planning mood board.
+const PROFILE_SYSTEM = `You sort a traveler's spoken ramble into a travel profile for a trip-planning Vibe profile.
 Record only what the speaker actually said. Never guess ages, names, teams, or nationalities that were not stated; use null or an empty list instead.
 Normalize names (for example "the Braves" becomes "Atlanta Braves" only when the speaker's context makes the team unambiguous).
 "family" covers the people they travel with; put a partner's stated nationality in that member's "note" and in "heritage".
@@ -124,7 +124,7 @@ Dates: ${base.startDate}, ${base.nights} nights${base.hometown ? `\nTraveling fr
 
 Group:
 ${describeGroup(base)}
-${profileNotes.length ? `\nFrom their mood boards:\n${profileNotes.map((note) => `- ${note}`).join('\n')}` : ''}
+${profileNotes.length ? `\nFrom their Vibe profiles:\n${profileNotes.map((note) => `- ${note}`).join('\n')}` : ''}
 
 Timeline with allowed cards (id | title | tags):
 ${timeline}`;

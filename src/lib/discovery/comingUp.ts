@@ -4,7 +4,7 @@ import type { WorldEvent } from '@/lib/types';
 import { whyNow, type WhyNow } from './whyNow';
 
 export const COMING_UP_DAYS = 56;
-const MAX_LANES = 8;
+const MAX_LANES = 14;
 const PLAN_LANES = 3;
 const NOW_LANES = 3;
 /** Runs longer than this are seasons (a dry season, a migration), not moments; they rank last. */
@@ -55,7 +55,13 @@ export function buildLanes(events: readonly WorldEvent[], today: string): Lane[]
   const onNow = rest.filter((lane) => lane.why.tone === 'now').slice(0, NOW_LANES);
   const soonFirst = rest.filter((lane) => lane.why.tone !== 'now');
   const moreNow = rest.filter((lane) => lane.why.tone === 'now' && !onNow.includes(lane));
-  const moments = [...onNow, ...soonFirst, ...moreNow].slice(0, room);
+  // Every week of the window gets its best moment, so scrolling right never runs into empty weeks.
+  const weekly: Lane[] = [];
+  for (let week = 1; week * 7 < COMING_UP_DAYS; week += 1) {
+    const best = soonFirst.filter((lane) => lane.bar && lane.sortKey < 3000 && Math.floor(lane.bar.from / 7) === week).sort((a, b) => b.buzz - a.buzz)[0];
+    if (best) weekly.push(best);
+  }
+  const moments = [...new Set([...onNow, ...weekly, ...soonFirst, ...moreNow])].slice(0, room);
   const picked = [...moments, ...heads];
   // Draw in date order so the calendar reads left to right, top to bottom.
   return picked.sort((a, b) => (a.bar?.from ?? a.planCol ?? COMING_UP_DAYS) - (b.bar?.from ?? b.planCol ?? COMING_UP_DAYS) || a.sortKey - b.sortKey);
