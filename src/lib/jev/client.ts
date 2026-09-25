@@ -15,6 +15,11 @@ import { createHash } from 'node:crypto';
  * chose and whether an action was taken. Jev recommends; code authorizes.
  */
 
+/** Whether this deployment can ask Jev at all. Without a key, routes skip Jev, its limiter and its receipts. */
+export function jevConfigured(): boolean {
+  return Boolean(process.env.TYPESAFE_API_KEY);
+}
+
 export const JEV_ENDPOINT = 'https://api.typesafe.ai/v1/systemone';
 
 export type ChoiceQuestion = { type: 'choice'; instructions: string; criteria: Record<string, string> };

@@ -75,6 +75,8 @@ export type ScheduledBlock = {
   start: string;
   end: string;
   travelMinBefore: number;
+  /** False when either end of the leg has no coordinates, so `travelMinBefore` is a flat guess. */
+  travelKnown: boolean;
   /** Short plain-English explanation of why this slot. */
   reason: string;
 };
@@ -689,6 +691,7 @@ export function buildSchedule(input: ScheduleInput): ScheduleResult {
     day.blocks.forEach((b, i) => {
       const prev = day.blocks[i - 1];
       const travel = prev ? travelMinutes(prev.pick.loc, b.pick.loc, kmh) : legFromLodging(ctx, b.pick);
+      const travelKnown = prev ? Boolean(prev.pick.loc && b.pick.loc) : !ctx.lodging || Boolean(b.pick.loc);
       travelTotal += travel;
       placedCount++;
       busyIntervals.push([b.start - travel, b.end]);
@@ -699,6 +702,7 @@ export function buildSchedule(input: ScheduleInput): ScheduleResult {
         start: fmtClock(b.start),
         end: fmtClock(b.end),
         travelMinBefore: travel,
+        travelKnown,
         reason: explain(b, prev, travel),
       });
     });

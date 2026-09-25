@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { SLOT_META, type DesignerCard, type DesignerDestination } from '@/lib/designer/catalog';
 import type { Itinerary, Participant, Slot } from '@/lib/designer/itinerary';
+import { affiliateDisclosure } from '@/lib/booking/partners';
 import { partyFrom, staySearches } from '@/lib/designer/stays';
 import { originAirport } from '@/lib/designer/airports';
 import { isLive, mapsNearYou, tripMoment } from '@/lib/designer/tripNow';
@@ -118,7 +119,7 @@ export function StaysPanel({ trip, destination }: { trip: Itinerary; destination
           </a>
         ))}
       </div>
-      <p className="mt-2 text-[11px] leading-4 text-ink-subtle">Search links, not listings: prices and availability are on each site. Check guest counts and kids’ ages there before you book.</p>
+      <p className="mt-2 text-[11px] leading-4 text-ink-subtle">Search links, not listings: prices and availability are on each site. Check guest counts and kids’ ages there before you book.{affiliateDisclosure() ? ` ${affiliateDisclosure()}` : ''}</p>
     </section>
   );
 }

@@ -333,19 +333,26 @@ export function MoodboardStudio({
 
   // Voice: the Sun listens, writes a first-person summary into the ramble, and builds the board.
   const buildRef = useRef(build);
+  const saveRef = useRef(save);
   useEffect(() => {
     buildRef.current = build;
+    saveRef.current = save;
   });
   useVoicePage(
     'board',
     {
       describe_me: async (args) => {
-        const summary = typeof args.summary === 'string' ? args.summary.trim().slice(0, 4000) : '';
+        const summary = typeof args.summary === 'string' ? args.summary.trim().slice(0, MAX_RAMBLE_CHARS) : '';
         if (summary.length < 10) return 'Error: I need a few sentences first.';
         setText(summary);
         await new Promise((resolve) => window.setTimeout(resolve, 60));
         await buildRef.current();
-        return 'Built their board; it is on screen now. Ask if anything looks wrong.';
+        // They asked for their vibe, so it's saved on this device and shown, not left below the form.
+        await new Promise((resolve) => window.setTimeout(resolve, 60));
+        const saved = saveRef.current();
+        document.getElementById('board-title')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        document.getElementById('board-title')?.focus({ preventScroll: true });
+        return saved ? 'Built and saved their board on this device; it is on screen now. Ask if anything looks wrong.' : 'Built their board; it is on screen now. Ask if anything looks wrong.';
       },
     },
     () => (result ? 'Their mood board is on screen.' : text.trim() ? `They have started typing about themselves: "${text.trim().slice(0, 200)}"` : 'An empty mood board, waiting for them to describe themselves.'),
@@ -507,11 +514,11 @@ export function MoodboardStudio({
         {result ? (
           <section className="mt-10" aria-labelledby="board-title">
             <div className={styles.row}>
-              <h2 id="board-title" className="font-display text-[28px] text-ink">
+              <h2 id="board-title" tabIndex={-1} className="font-display text-[28px] text-ink">
                 Your board
               </h2>
               <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
-                {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted on this device'}
+                {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted by simple rules'}
               </span>
               <span className={styles.badge}>Mood imagery · not your photos</span>
               {result.profile.listening ? <span className={styles.badge}>+ Spotify</span> : null}

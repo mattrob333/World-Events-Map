@@ -40,7 +40,11 @@ async function fetchText(url: string): Promise<string | null> {
  */
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
-  if (!secret) return NextResponse.json({ error: 'Scheduler is not configured' }, { status: 503, headers });
+  // Unconfigured looks the same as a wrong secret from outside; the reason is logged here.
+  if (!secret) {
+    console.warn('cron: CRON_SECRET is not set');
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers });
+  }
   if (!authorized(request.headers.get('authorization'), secret)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers });
   const db = signalDatabase();
   if (!db) return NextResponse.json({ error: 'Durable storage is required' }, { status: 503, headers });

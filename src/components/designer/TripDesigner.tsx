@@ -64,8 +64,9 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   // it never creates the trip or runs research on its own.
   const [placeText, setPlaceText] = useState(() => (initialPlace ? [initialPlace.place, initialPlace.region].filter(Boolean).join(', ') : ''));
   const [placeKind, setPlaceKind] = useState<DestinationKind>('city');
-  const [startDate, setStartDate] = useState(() => localIso(60));
-  const [nights, setNights] = useState(7);
+  // Dates the traveler said ("second week of October") or an event's first day; otherwise two months out.
+  const [startDate, setStartDate] = useState(() => (initialPlace?.start && initialPlace.start >= localIso(0) ? initialPlace.start : localIso(60)));
+  const [nights, setNights] = useState(() => (initialPlace?.nights ? Math.min(MAX_NIGHTS, initialPlace.nights) : 7));
   const initialBoard = boards.find((board) => board.id === initialWith) ?? pickActiveProfile(boards, useDesignerStore.getState().activeProfileId);
   const [hometown, setHometown] = useState(initialBoard?.profile.hometown ?? '');
   const [travelers, setTravelers] = useState<Draft[]>(() => (initialBoard ? travelersFromBoard(initialBoard) : []));
@@ -446,9 +447,18 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
   // Read once on first load (also on a client-side navigation, where
   // window.location is not updated yet). It only prefills "Where to?".
   const searchParams = useSearchParams();
+  const paramsKey = searchParams?.toString() ?? '';
   const [placeParam, setPlaceParam] = useState<PlanPlace | undefined>(() =>
-    planPlaceFromParams(new URLSearchParams(searchParams?.toString() ?? '')) ?? undefined,
+    planPlaceFromParams(new URLSearchParams(paramsKey)) ?? undefined,
   );
+  // A new ?place= arriving while the designer is already open (the Vibe stage,
+  // search) takes effect: with a trip in progress it shows the Keep/Replace choice.
+  const [seenParams, setSeenParams] = useState(paramsKey);
+  if (paramsKey !== seenParams) {
+    setSeenParams(paramsKey);
+    const next = planPlaceFromParams(new URLSearchParams(paramsKey));
+    if (next) setPlaceParam(next);
+  }
   const trip = useDesignerStore((state) => state.trip);
   const setTrip = useDesignerStore((state) => state.setTrip);
   const clearTrip = useDesignerStore((state) => state.clearTrip);
@@ -485,7 +495,7 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
           />
         ) : (
           <Setup
-            key={withId ?? 'new'}
+            key={`${withId ?? 'new'}|${placeParam ? `${placeParam.place}|${placeParam.start ?? ''}|${placeParam.nights ?? ''}` : ''}`}
             boards={boards}
             initialWith={withId}
             initialPlace={placeParam}

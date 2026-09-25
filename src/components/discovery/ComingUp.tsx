@@ -39,32 +39,41 @@ export function ComingUp({ today, events, onOpen }: { today: string; events: rea
 
   const lanes = useMemo(() => buildLanes(events, today), [events, today]);
   const days = useMemo(() => Array.from({ length: DAYS }, (_, i) => addDays(today, i)), [today]);
-  const onNow = lanes.filter((lane) => lane.why.tone === 'now').length;
-  const thisWeek = lanes.filter((lane) => lane.why.tone === 'soon' && daysBetween(today, lane.event.start) <= 7).length;
+  // Counted from every event in view, not just the rows drawn (the calendar shows at most a few per band).
+  const onNow = events.filter((event) => event.start <= today && event.end >= today).length;
+  const thisWeek = events.filter((event) => event.start > today && daysBetween(today, event.start) <= 7).length;
   const planSoon = lanes.filter((lane) => lane.planCol !== undefined && lane.planCol <= 14).length;
+  const planLater = lanes.filter((lane) => lane.planCol !== undefined && lane.planCol > 14).length;
   const summary = [
     onNow ? `${onNow} on now` : '',
     thisWeek ? `${thisWeek} starting this week` : '',
     planSoon ? `${planSoon} to plan in the next two weeks` : '',
-  ].filter(Boolean).join(' · ') || 'Nothing on the calendar for the next eight weeks';
+    !planSoon && planLater ? `${planLater} plan-by ${planLater === 1 ? 'date' : 'dates'} in the next eight weeks` : '',
+  ].filter(Boolean).join(' · ') || (lanes.length ? 'Coming up in the next eight weeks' : 'Nothing on the calendar for the next eight weeks');
 
   return (
-    <section className={styles.shell} aria-label="Coming up">
+    // The inline script applies a stored open/closed choice before first paint, so a reload never shifts the page.
+    <section className={styles.shell} aria-label="Coming up" suppressHydrationWarning>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `try{var v=localStorage.getItem(${JSON.stringify(OPEN_KEY)});if(v==='0'||v==='1')document.currentScript.parentElement.setAttribute('data-comingup',v)}catch(e){}`,
+        }}
+      />
       <div className={styles.head}>
         <p className={styles.today}>
           <span className={styles.kicker}>Today</span>
           <strong>{weekday(today)}, {shortDate(today)}</strong>
           <span className={styles.summary}>{summary}</span>
         </p>
-        <button type="button" className={styles.toggle} onClick={toggle} aria-expanded={open} data-undecided={choice === null || undefined}>
+        <button type="button" className={styles.toggle} onClick={toggle} aria-expanded={open} aria-controls="coming-up-body" data-undecided={choice === null || undefined}>
           <span className={styles.whenOpen}>Hide calendar <span aria-hidden="true">▴</span></span>
           <span className={styles.whenClosed}>Show calendar <span aria-hidden="true">▾</span></span>
         </button>
       </div>
 
       {open && (
-        <div className={choice === null ? styles.bodyUndecided : undefined}>
-          <div className={styles.scroller} tabIndex={0} aria-label="Next eight weeks, scroll sideways">
+        <div id="coming-up-body" className={choice === null ? styles.bodyUndecided : undefined}>
+          <div className={styles.scroller} tabIndex={0} role="region" aria-label="Next eight weeks, scroll sideways">
             <div className={styles.grid} style={{ ['--days' as string]: DAYS }}>
               <div className={styles.dayRow} aria-hidden="true">
                 {days.map((iso, i) => {

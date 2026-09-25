@@ -191,7 +191,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {showVibePrompt && (
         // A floating card, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
-        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:left-6 lg:w-[26rem]">
+        // Bottom-right on desktop: bottom-left is where the hero's own call to action sits.
+        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]">
           <div className="vibe-prompt mx-auto flex max-w-[1600px] items-center gap-3 rounded-[20px] py-3 pl-3 pr-2">
             <SunGlyph size={40} glow />
             <span className="min-w-0 flex-1">
@@ -213,7 +214,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div
         id="main"
         className={cn(
-          'pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0',
+          // Room for the tab bar, and for the floating prompt while it shows, so a page's last lines aren't stuck under them.
+          showVibePrompt ? 'pb-[calc(11rem+env(safe-area-inset-bottom))] lg:pb-28' : 'pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0',
           !world && 'mx-auto max-w-[1600px]',
         )}
       >

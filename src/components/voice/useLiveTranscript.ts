@@ -35,27 +35,37 @@ export type TranscriptStatus = 'idle' | 'listening' | 'denied' | 'error';
  * every event, so repeated or cumulative results can't double words. Android
  * Chrome runs short sessions (continuous mode repeats phrases there) that
  * restart until the traveler stops.
+ *
+ * Stopping shows the session's words (interim included) as final right away,
+ * then lets the browser's last result replace them rather than append: Chrome
+ * sends one more full result after stop(), other browsers don't.
  */
 export function useLiveTranscript() {
   const supported = useSyncExternalStore(noopSubscribe, () => recognitionCtor() !== null, () => true);
   const [status, setStatus] = useState<TranscriptStatus>('idle');
-  const [committed, setCommitted] = useState('');
-  const [session, setSession] = useState('');
-  const [interim, setInterim] = useState('');
-  const committedRef = useRef('');
-  const sessionRef = useRef('');
+  const [base, setBase] = useState('');
+  const [finals, setFinals] = useState('');
+  const [pending, setPending] = useState('');
+  const [closing, setClosing] = useState(false);
+  const baseRef = useRef('');
+  const finalsRef = useRef('');
+  const pendingRef = useRef('');
   const recognition = useRef<Recognition | null>(null);
+  const generation = useRef(0);
   const wanted = useRef(false);
   const lastWordAt = useRef(0);
 
-  const commitSession = useCallback(() => {
-    const chunk = sessionRef.current.trim();
-    sessionRef.current = '';
-    setSession('');
-    setInterim('');
-    if (!chunk || committedRef.current.endsWith(chunk)) return;
-    committedRef.current = [committedRef.current, chunk].filter(Boolean).join(' ');
-    setCommitted(committedRef.current);
+  /** Fold the current session (finals, then any unfinished words) into the text. */
+  const finalize = useCallback(() => {
+    const chunk = [finalsRef.current, pendingRef.current].filter(Boolean).join(' ').trim();
+    finalsRef.current = '';
+    pendingRef.current = '';
+    setFinals('');
+    setPending('');
+    setClosing(false);
+    if (!chunk || baseRef.current.endsWith(chunk)) return;
+    baseRef.current = [baseRef.current, chunk].filter(Boolean).join(' ');
+    setBase(baseRef.current);
   }, []);
 
   useEffect(() => () => {
@@ -66,31 +76,39 @@ export function useLiveTranscript() {
   const start = useCallback(() => {
     const Ctor = recognitionCtor();
     if (!Ctor) return;
+    // Words from a stopped session that never reported its end are kept first.
+    finalize();
     const android = /Android/i.test(navigator.userAgent);
     const rec = new Ctor();
+    const gen = ++generation.current;
+    // Events from an aborted or replaced recognizer, or from before the text was edited, are ignored.
+    const current = () => recognition.current === rec && generation.current === gen;
     rec.continuous = !android;
     rec.interimResults = true;
     rec.lang = navigator.language || 'en-US';
     rec.onresult = (event) => {
-      let finals = '';
-      let pending = '';
+      if (!current()) return;
+      let heard = '';
+      let unfinished = '';
       for (let i = 0; i < event.results.length; i += 1) {
         const result = event.results[i];
-        if (result.isFinal) finals += `${result[0].transcript} `;
-        else pending += result[0].transcript;
+        if (result.isFinal) heard += `${result[0].transcript} `;
+        else unfinished += result[0].transcript;
       }
-      sessionRef.current = finals.trim();
-      setSession(sessionRef.current);
-      setInterim(pending.trim());
+      finalsRef.current = heard.trim();
+      pendingRef.current = unfinished.trim();
+      setFinals(finalsRef.current);
+      setPending(pendingRef.current);
       lastWordAt.current = performance.now();
     };
     rec.onerror = (event) => {
-      if (event.error === 'no-speech' || event.error === 'aborted') return;
+      if (!current() || event.error === 'no-speech' || event.error === 'aborted') return;
       wanted.current = false;
       setStatus(event.error === 'not-allowed' || event.error === 'service-not-allowed' ? 'denied' : 'error');
     };
     rec.onend = () => {
-      commitSession();
+      if (!current()) return;
+      finalize();
       if (wanted.current) {
         try {
           rec.start();
@@ -99,7 +117,7 @@ export function useLiveTranscript() {
           wanted.current = false;
         }
       }
-      setStatus((current) => (current === 'listening' ? 'idle' : current));
+      setStatus((value) => (value === 'listening' ? 'idle' : value));
     };
     recognition.current?.abort();
     recognition.current = rec;
@@ -110,22 +128,25 @@ export function useLiveTranscript() {
     } catch {
       setStatus('error');
     }
-  }, [commitSession]);
+  }, [finalize]);
 
   const stop = useCallback(() => {
     wanted.current = false;
+    setClosing(true);
     recognition.current?.stop();
-    commitSession();
-    setStatus((current) => (current === 'listening' ? 'idle' : current));
-  }, [commitSession]);
+    setStatus((value) => (value === 'listening' ? 'idle' : value));
+  }, []);
 
   /** Replace the transcript (the traveler fixed a word, or typed instead). */
   const setText = useCallback((text: string) => {
-    committedRef.current = text;
-    sessionRef.current = '';
-    setCommitted(text);
-    setSession('');
-    setInterim('');
+    generation.current += 1;
+    baseRef.current = text;
+    finalsRef.current = '';
+    pendingRef.current = '';
+    setBase(text);
+    setFinals('');
+    setPending('');
+    setClosing(false);
   }, []);
 
   /** 0..1, high right after words arrive, for the sun to swell with. */
@@ -134,6 +155,7 @@ export function useLiveTranscript() {
     return Math.max(0, 1 - since / 700);
   }, []);
 
-  const text = [committed, session].filter(Boolean).join(' ');
+  const text = [base, finals, closing ? pending : ''].filter(Boolean).join(' ');
+  const interim = closing ? '' : pending;
   return { supported, status, text, interim, start, stop, setText, activity };
 }

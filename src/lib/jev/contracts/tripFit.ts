@@ -65,11 +65,20 @@ export function tripFitQuestions(candidates: FitCandidate[]): Record<string, Sco
 export type FitBand = 'standout' | 'good' | 'fine' | 'skip';
 export type RankedCandidate = FitCandidate & { fit: number | null; band: FitBand | null; confidence: number | null; because: string | null };
 
-/** The traveler's own words that a listing matches, quoted rather than invented. */
+const escapeRe = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * Which of the traveler's likes a listing matches, as whole words in its name
+ * or category ("Art" never matches "Martinho da Arcada"). It says "matches your
+ * likes", since likes can come from the parser or an import, not only their words.
+ */
 export function becauseLine(candidate: FitCandidate, likes: string[]): string | null {
-  const text = `${candidate.name} ${candidate.category ?? ''} ${candidate.snippet ?? ''}`.toLowerCase();
-  const hit = likes.find((like) => like.length >= 3 && text.includes(like.toLowerCase()));
-  return hit ? `You said ${hit}` : null;
+  const text = `${candidate.name} ${candidate.category ?? ''}`.normalize('NFD').replace(/\p{M}/gu, '');
+  const hit = likes.find((like) => {
+    const word = like.trim().normalize('NFD').replace(/\p{M}/gu, '');
+    return word.length >= 3 && new RegExp(`(^|[^\\p{L}])${escapeRe(word)}s?($|[^\\p{L}])`, 'iu').test(text);
+  });
+  return hit ? `Matches your likes: ${hit.toLowerCase()}` : null;
 }
 
 /**

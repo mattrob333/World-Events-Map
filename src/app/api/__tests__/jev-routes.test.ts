@@ -35,6 +35,29 @@ describe('route-trip', () => {
     expect(await (await postRoute(request('/api/designer/route-trip', { text: 'hmm hello' }))).json()).toMatchObject({ route: 'follow_up' });
   });
 
+  it('never treats a spoken question as a place (red team 09-25)', async () => {
+    const route = async (text: string) => (await (await postRoute(request('/api/designer/route-trip', { text, today: '2026-09-25' }))).json()) as { route: string; place?: unknown };
+    for (const text of ["where's the best surf town", 'best ski spot right now', 'recommend a beach', 'best food city', 'Surprise me', 'I don\'t know yet somewhere fun with the kids in December', 'Take me skiing in January', 'We need a break next month', 'Plan my honeymoon', 'where should I go for my honeymoon in December']) {
+      const body = await route(text);
+      expect(body.route, text).not.toBe('plan');
+    }
+    expect((await route('somewhere warm')).route).toBe('recommend');
+  });
+
+  it('plans from speech with no commas and carries the dates said', async () => {
+    const body = await (await postRoute(request('/api/designer/route-trip', { text: 'Lisbon second week of October me and Sam no touristy fado', today: '2026-09-25' }))).json();
+    expect(body).toMatchObject({ route: 'plan', place: { place: 'Lisbon', start: '2026-10-08' } });
+    const japan = await (await postRoute(request('/api/designer/route-trip', { text: 'I want to go to Japan for a week in February', today: '2026-09-25' }))).json();
+    expect(japan).toMatchObject({ route: 'plan', place: { place: 'Japan', start: '2027-02-01', nights: 7 } });
+  });
+
+  it('keeps recommendations inside a month that was named', async () => {
+    const body = await (await postRoute(request('/api/designer/route-trip', { text: 'somewhere to ski in January', today: '2026-09-25' }))).json() as { route: string; month: string; recommendations: { start: string; end: string }[] };
+    expect(body.route).toBe('recommend');
+    expect(body.month).toBe('2027-01');
+    for (const rec of body.recommendations) expect(rec.start <= '2027-01-31' && (rec.start >= '2027-01-01' || rec.end >= '2027-01-07')).toBe(true);
+  });
+
   it('uses Jev when configured and keeps code in charge of the route', async () => {
     process.env.TYPESAFE_API_KEY = 'test';
     vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({
@@ -62,7 +85,7 @@ describe('basket', () => {
     expect(body.note).toMatch(/ranked by rating/);
     expect(body.ranked.map((c: { id: string }) => c.id)).toEqual(['a', 'b', 'bad']);
     expect(body.ranked[2].name).toBe('script');
-    expect(body.ranked[0].because).toBe('You said omakase');
+    expect(body.ranked[0].because).toBe('Matches your likes: omakase');
   });
   it('refuses to rank with nothing fetched or no place', async () => {
     expect((await postBasket(request('/api/designer/basket', { trip: { place: 'Tokyo' }, candidates: [] }))).status).toBe(400);

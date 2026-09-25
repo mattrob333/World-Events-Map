@@ -54,7 +54,7 @@ export type TripRoute =
   | { route: 'follow_up'; question: string; confidence: number };
 
 function followUp(facts: TripRequestFacts): string {
-  if (!facts.placeFound) return 'Where are you thinking? A place, or just the feeling: "somewhere warm with good bars".';
+  if (!facts.placeFound) return 'Where are you thinking? Name a place, or a kind of trip: beach, snow, food, surf, nights out, culture.';
   if (!facts.whenFound) return `When are you thinking of ${facts.placeFound}, and for how long?`;
   return 'Tell me a little more: who’s coming, and one thing you have to do there?';
 }
@@ -74,7 +74,7 @@ export function routeTripRequest(facts: TripRequestFacts, answers: TripRouterAns
 
 const RECOMMEND = /\b(best|most popular|hottest|where should|which (?:place|city|town|resort|beach)|recommend|suggest|top (?:spot|place)s?|right now)\b/i;
 const TYPE_WORDS: [TripType, RegExp][] = [
-  ['ski', /\b(ski|skiing|snowboard|powder|slopes?)\b/i], ['surf', /\b(surf|surfing|waves?)\b/i], ['beach', /\b(beach|island|sun)\b/i],
+  ['ski', /\b(ski|skiing|snowboard|powder|slopes?)\b/i], ['surf', /\b(surf|surfing|waves?)\b/i], ['beach', /\b(beach(?:es)?|island|sun|sunny|warm|hot|tropical|heat)\b/i],
   ['food', /\b(food|eat|restaurants?|foodie)\b/i], ['nightlife', /\b(nightlife|clubs?|bars?|party)\b/i], ['festivals', /\bfestivals?\b/i],
   ['music', /\b(concerts?|gigs?|live music)\b/i], ['sports', /\b(race|match|game|golf|tennis|f1|formula)\b/i], ['culture', /\b(museums?|art|history|culture)\b/i],
   ['adventure', /\b(safari|adventure|hike|trek)\b/i], ['wellness', /\b(spa|retreat|wellness)\b/i], ['family', /\b(kids|family)\b/i],

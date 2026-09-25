@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { VIEWER_CITIES } from '@/lib/location/browser-position';
 import type { useViewerLocation } from '@/lib/location/useViewerLocation';
 import styles from './discovery.module.css';
@@ -25,6 +25,8 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
   const [query, setQuery] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const panelId = useId();
   const blocked = viewer.status === 'denied' || viewer.deviceFailure === 'denied';
 
@@ -35,7 +37,13 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key !== 'Escape') return;
+      // Escape backs out of the picker only; the page's own Escape (clearing a journey) doesn't also fire.
+      event.preventDefault();
+      event.stopPropagation();
+      setQuery('');
+      setOpen(false);
+      buttonRef.current?.focus();
     };
     document.addEventListener('pointerdown', onPointer);
     document.addEventListener('keydown', onKey);
@@ -52,24 +60,41 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
     viewer.chooseCity(name);
     setQuery('');
     setOpen(false);
+    buttonRef.current?.focus();
+  };
+
+  /** ↑ ↓ move through the city list from the input and between cities. */
+  const onListKey = (event: ReactKeyboardEvent) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    const buttons = Array.from(listRef.current?.querySelectorAll<HTMLButtonElement>('button') ?? []);
+    if (!buttons.length) return;
+    event.preventDefault();
+    const at = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    if (at === -1) (event.key === 'ArrowDown' ? buttons[0] : buttons[buttons.length - 1])!.focus();
+    else if (event.key === 'ArrowUp' && at === 0) inputRef.current?.focus();
+    else buttons[Math.max(0, Math.min(buttons.length - 1, at + (event.key === 'ArrowDown' ? 1 : -1)))]!.focus();
   };
 
   return (
     <div className={styles.locationPicker} ref={rootRef}>
       <button
+        ref={buttonRef}
         type="button"
         className={`btn btn-ghost ${styles.locationButton}`}
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={`Location: ${buttonLabel(viewer)}. Change location`}
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          setQuery('');
+          setOpen((value) => !value);
+        }}
       >
         <span aria-hidden="true" className={styles.locationPin}>◉</span>
         {buttonLabel(viewer)}
         <span aria-hidden="true" className={styles.locationChevron}>▾</span>
       </button>
       {open && (
-        <div id={panelId} className={styles.locationPanel} role="dialog" aria-label="Choose your location">
+        <div id={panelId} className={styles.locationPanel} role="dialog" aria-label="Choose your location" onKeyDown={onListKey}>
           <button
             type="button"
             className={styles.locationDevice}
@@ -100,7 +125,7 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
             />
           </form>
           {matches.length ? (
-            <ul className={styles.locationList}>
+            <ul className={styles.locationList} ref={listRef}>
               {matches.map((city) => (
                 <li key={city.name}>
                   <button type="button" aria-current={viewer.cityLabel === city.name || undefined} onClick={() => pick(city.name)}>

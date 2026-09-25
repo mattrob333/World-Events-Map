@@ -130,6 +130,7 @@
   color: var(--color-ink-soft);
   text-shadow: 0 2px 15px rgb(9 9 9 / 0.9);
 }
+.heroWhen { display: none; }
 .heroActions {
   display: flex;
   flex-wrap: wrap;
@@ -705,6 +706,7 @@
   .heroPlace { left: 5%; right: 5%; justify-content: flex-start; text-align: left; max-width: none; }
 }
 @media (max-width: 650px) {
+  .heroWhen { display: block; margin-top: 10px; font-size: 0.8125rem; font-weight: 600; color: var(--color-saffron, #f7c548); }
   .hero { display: block; min-height: 0; padding: 32px 16px 20px; }
   .heroPhoto { background-position: 46% center; }
   .heroShade {

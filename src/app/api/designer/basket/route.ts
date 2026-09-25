@@ -1,5 +1,6 @@
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { askJev, stateHash, type ScoreAnswer } from '@/lib/jev/client';
+import { take } from '@/lib/designer/server/dailyBudget';
+import { askJev, jevConfigured, stateHash, type ScoreAnswer } from '@/lib/jev/client';
 import { FIT_BATCH, TRIP_FIT_CONTRACT, rankCandidates, tripFitQuestions, tripFitState, type FitCandidate, type FitContext } from '@/lib/jev/contracts/tripFit';
 import { storeReceipts } from '@/lib/jev/receipts';
 
@@ -9,7 +10,7 @@ export const maxDuration = 30;
 
 const MAX_CANDIDATES = FIT_BATCH * 2;
 const clean = (value: unknown, max: number): string | undefined =>
-  typeof value === 'string' && value.trim() ? value.replace(/\s+/g, ' ').replace(/[<>{}\\\u0000-\u001f]/g, '').trim().slice(0, max) : undefined;
+  typeof value === 'string' && value.trim() ? value.replace(/[\p{Cc}\p{Cf}]/gu, ' ').replace(/\s+/g, ' ').replace(/[<>{}\\]/g, '').trim().slice(0, max) || undefined : undefined;
 const num = (value: unknown, lo: number, hi: number): number | undefined =>
   typeof value === 'number' && Number.isFinite(value) && value >= lo && value <= hi ? value : undefined;
 
@@ -59,7 +60,10 @@ export async function POST(request: Request) {
 
   const batches: FitCandidate[][] = [];
   for (let i = 0; i < candidates.length; i += FIT_BATCH) batches.push(candidates.slice(i, i + FIT_BATCH));
-  if (!consumeProviderCall(request, 'jev', Date.now(), batches.length)) {
+  if (!jevConfigured()) {
+    return jsonOk({ ...rankCandidates(candidates, null, context.likes), note: 'The fit check isn’t connected, so these are ranked by rating.' });
+  }
+  if (!consumeProviderCall(request, 'jev', Date.now(), batches.length) || !take('jev', batches.length)) {
     return jsonOk({ ...rankCandidates(candidates, null, context.likes), note: 'Fit check is busy right now, so these are ranked by rating.' });
   }
 

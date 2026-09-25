@@ -107,7 +107,15 @@ export function useViewerLocation() {
         }));
       },
       (reason) => {
-        setState((current) => applyDeviceFailure(current, reason));
+        if (reason !== 'denied' || !navigator.permissions?.query) {
+          setState((current) => applyDeviceFailure(current, reason));
+          return;
+        }
+        // A dismissed prompt also reports "denied", but the browser will ask again:
+        // only a real block (permission state "denied") disables the button.
+        void navigator.permissions.query({ name: 'geolocation' as PermissionName })
+          .then((permission) => permission.state === 'denied' ? 'denied' : 'unavailable', () => 'denied' as const)
+          .then((settled) => setState((current) => applyDeviceFailure(current, settled)));
       },
     );
   }, []);

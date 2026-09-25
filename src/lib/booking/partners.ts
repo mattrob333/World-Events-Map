@@ -46,6 +46,11 @@ export function affiliateConfig(env: Record<string, string | undefined> = {
   };
 }
 
+/** The disclosure shown next to partner links once any affiliate ID is live; null while none is. */
+export function affiliateDisclosure(config: AffiliateConfig = affiliateConfig()): string | null {
+  return config.bookingAid || config.openTableRef || config.vrboQuery ? 'dope.travel may earn a commission if you book through these links. It doesn’t change the price.' : null;
+}
+
 /** Adds the partner's tracking to a URL on that partner's own site. Other URLs pass through untouched. */
 export function withAffiliate(partner: PartnerId, href: string, config: AffiliateConfig = affiliateConfig()): string {
   let url: URL;
@@ -76,6 +81,28 @@ export type TableRequest = {
   covers: number;
 };
 
+const TERM_MAX = 120;
+
+/** Name plus city, the name trimmed at a word boundary so the city always survives. */
+function searchTerm(name: string, where?: string): string {
+  const city = (where ?? '').trim().slice(0, 60);
+  const room = TERM_MAX - (city ? city.length + 1 : 0);
+  let trimmed = name.trim();
+  if (trimmed.length > room) {
+    const cut = trimmed.slice(0, room);
+    const space = cut.lastIndexOf(' ');
+    trimmed = (space > room / 2 ? cut.slice(0, space) : cut).trim();
+  }
+  return [trimmed, city].filter(Boolean).join(' ');
+}
+
+const NO_TABLES = /\b(bakery|bakeries|pastel|pastelaria|patisserie|food hall|market|mercado|caf[eé]|coffee|ice cream|gelato|takeaway|take-away|food truck)\b/i;
+
+/** Places that don't take table bookings (bakeries, food halls, cafés) get no OpenTable hand-off. */
+export function takesTableSearch(place: { name: string; category?: string }): boolean {
+  return !NO_TABLES.test(`${place.name} ${place.category ?? ''}`);
+}
+
 /**
  * An OpenTable search for one restaurant with the date, time and party filled
  * in. It's a search, not a reservation: the restaurant may not be on
@@ -83,7 +110,7 @@ export type TableRequest = {
  */
 export function openTableSearch(request: TableRequest, config: AffiliateConfig = affiliateConfig()): string {
   const params = new URLSearchParams();
-  params.set('term', [request.name, request.where].filter(Boolean).join(' ').slice(0, 120));
+  params.set('term', searchTerm(request.name, request.where));
   params.set('covers', String(Math.min(20, Math.max(1, Math.round(request.covers)))));
   if (request.date && /^\d{4}-\d{2}-\d{2}$/.test(request.date)) {
     const time = request.time && /^\d{2}:\d{2}$/.test(request.time) ? request.time : '19:30';

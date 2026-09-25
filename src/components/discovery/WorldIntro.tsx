@@ -148,7 +148,10 @@ export function WorldIntro({
   season,
   interest,
   onModeChange,
+  journeyId = null,
 }: {
+  /** The journey chosen elsewhere on the page (calendar, globe, a shared ?journey= link). */
+  journeyId?: string | null;
   origin: GeoPoint | null;
   originName: string | null;
   onTravel: (event: WorldEvent) => void;
@@ -198,7 +201,19 @@ export function WorldIntro({
       return event ? [{ event, slug: place.slug }] : [];
     });
   }, [destinations, focus, filtering, interest, seasonalEvents]);
-  const featured = activeJourney?.event ?? picks[0]?.event;
+  const urlJourney = useMemo(() => (journeyId ? EVENTS.find((event) => event.id === journeyId) ?? null : null), [journeyId]);
+  // With a location, something on now or starting within two weeks nearby beats a far-away editorial pick.
+  const nearby = useMemo(() => {
+    if (!origin || filtering) return null;
+    const soonEnd = addDays(focus, 14);
+    return EVENTS
+      .filter((event) => event.end >= focus && event.start <= soonEnd)
+      .map((event) => ({ event, km: estimateRoute(origin, event.coords).distanceKm }))
+      .filter(({ km }) => km <= 150)
+      .sort((a, b) => a.km - b.km || a.event.start.localeCompare(b.event.start))[0]?.event ?? null;
+  }, [origin, filtering, focus]);
+  const chosen = urlJourney ?? activeJourney?.event ?? null;
+  const featured = chosen ?? nearby ?? picks[0]?.event;
   const featuredWhy = featured ? whyNow(featured, focus) : null;
   const estimate = origin && featured ? estimateRoute(origin, featured.coords) : null;
   const departures = useMemo(() => {
@@ -347,9 +362,13 @@ export function WorldIntro({
           ))}
           <a className={styles.secondaryCta} href="#departure-board">See what is calling <span aria-hidden="true">↓</span></a>
           </div>
+          {featured && featuredWhy && (
+            // Phones show the pass card below the fold, so the what and when ride under the button too.
+            <p className={styles.heroWhen}>{featured.name} · {featuredWhy.when}</p>
+          )}
         </div>
         {featured && <div className={styles.routePass} aria-label={`Featured journey to ${featured.city}`}>
-          <div className={styles.passTop}><span>{activeJourney ? 'YOUR SELECTED JOURNEY' : featuredWhy?.tone === 'now' ? 'HAPPENING NOW' : featuredWhy?.tone === 'soon' ? 'STARTING SOON' : 'WORTH PLANNING NOW'}</span><span aria-hidden="true">✦ dope.travel</span></div>
+          <div className={styles.passTop}><span>{chosen ? 'YOUR SELECTED JOURNEY' : featured === nearby ? 'NEAR YOU' : featuredWhy?.tone === 'now' ? 'HAPPENING NOW' : featuredWhy?.tone === 'soon' ? 'STARTING SOON' : 'WORTH PLANNING NOW'}</span><span aria-hidden="true">✦ dope.travel</span></div>
           <div className={styles.passPicture}>
             {displayedFeaturedPhoto ? (
               // Curated images are local; Commons search results were checked before storage.

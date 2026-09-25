@@ -132,6 +132,30 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
 - **Truth rules:** only rows linking to the provider's own domain are kept; images come only from that provider's CDN, so each photo is the listing's or post's own. Instagram and TikTok posts must name the place in their words or tagged location (hashtags alone don't count on Instagram), no ads or paid partnerships, and nothing older than 60 days. "Hidden gems" is a stated rule (4.6+ with 30–1,500 Google reviews), not an editorial call. Every tab shows source and fetch time.
 - **Instagram/TikTok terms:** the panel hot-links post images from the platform CDNs and links out to each post; nothing is re-hosted. Fine for the owner's personal use. Before opening to others, switch to official embeds or revisit terms (see `docs/RESEARCH-PIPELINE.md`).
 
+## Red team 2026-09-25 (third pass)
+
+Report: `docs/redteam/2026-09-25/REPORT.md` (six personas, about 80 findings, most fixed in the same change). The blocker was the basket deck covering its own Keep, Pass and Done buttons (a CSS module class collision); it's fixed and verified in a browser.
+
+- **Also fixed:**
+  - the rules router: spoken questions are no longer read as places, speech without commas works, dates and months carry through, and the stage says when word rules decided;
+  - the scheduler uses the real trip days, counts travel from a stand-in lodging point, and holds clubs out of the plan when kids come;
+  - Build my vibe saves and shows the board; pausing no longer duplicates words;
+  - focus traps for the stage and the search palette;
+  - privacy and honesty copy, and the basket payload (no names, no music);
+  - "Find a table on OpenTable", plus the affiliate disclosure once IDs are set;
+  - client re-checks of research links;
+  - the pre-paint calendar choice (CLS 0);
+  - the hero follows the journey or a nearby event;
+  - cron answers 401 when unconfigured.
+- **Still open:**
+  - the durable research budget (09-24 cluster A remainder; needs a migration);
+  - companions said aloud aren't carried to the designer;
+  - repeated itinerary cards;
+  - a country is planned as a city;
+  - the globe isn't centred on a deep-linked event;
+  - some touch targets are under 44px.
+- **Test environment:** this container's environment has `TYPESAFE_API_KEY`, `TREG_TOKEN` and `OPENAI_API_KEY`. Start local test servers with `env -u TYPESAFE_API_KEY -u TREG_TOKEN -u OPENAI_API_KEY` so red-team runs don't spend money.
+
 ## Red team 2026-09-24 (second pass)
 
 Report: `docs/redteam/2026-09-24/REPORT.md`. Retest of the 09-23 fixes: 28/31 pass, 1 regression (NOW notice under the phone tab bar). 84 new findings in ten clusters. **Before `TREG_TOKEN` goes on any public URL, fix cluster A** (research runs on page load, and its budget is per-instance, in-memory and fails open; the limiter and origin checks trust request headers). Until then, keep the key in the Vercel Preview environment only, which sits behind Vercel sign-in. Cluster B (forged or impersonated picks links, prototype pollution from link ids, any-https card links) is the other P0. Both are HIGH_CAPABILITY_ONLY under AGENTS.md.

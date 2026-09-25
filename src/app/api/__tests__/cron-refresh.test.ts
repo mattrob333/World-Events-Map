@@ -5,7 +5,8 @@ import { GET } from '../cron/refresh/route';
 afterEach(() => vi.unstubAllEnvs());
 it('requires configured scheduler authorization even when no vendors are active', async () => {
   vi.stubEnv('CRON_SECRET', '');
-  expect((await GET(new Request('http://localhost/api/cron/refresh'))).status).toBe(503);
+  // Unconfigured answers like a wrong secret, so scanners can't tell which deployments run the scheduler.
+  expect((await GET(new Request('http://localhost/api/cron/refresh'))).status).toBe(401);
   vi.stubEnv('CRON_SECRET', 'test-secret');
   expect((await GET(new Request('http://localhost/api/cron/refresh'))).status).toBe(401);
   const response = await GET(new Request('http://localhost/api/cron/refresh', { headers: { Authorization: 'Bearer test-secret' } }));

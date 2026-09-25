@@ -133,7 +133,10 @@ const FOOD: Record<string, string> = {
   tacos: 'Tacos', seafood: 'Seafood', churrasco: 'Churrasco', churrascaria: 'Churrasco', 'fine dining': 'Fine dining',
   'southern food': 'Southern food', ramen: 'Ramen', italian: 'Italian', french: 'French', mexican: 'Mexican',
   'brazilian food': 'Brazilian food', fondue: 'Fondue', raclette: 'Raclette', coffee: 'Coffee', brunch: 'Brunch',
-  oysters: 'Oysters', 'street food': 'Street food',
+  oysters: 'Oysters', 'street food': 'Street food', omakase: 'Omakase', 'tasting menu': 'Tasting menus',
+  'tasting menus': 'Tasting menus', taco: 'Tacos', 'taco trucks': 'Taco trucks', 'taco truck': 'Taco trucks',
+  'food trucks': 'Food trucks', 'dive bars': 'Dive bars', 'dive bar': 'Dive bars', michelin: 'Fine dining',
+  vegan: 'Vegan', vegetarian: 'Vegetarian', 'natural wine': 'Natural wine', wine: 'Wine', cocktails: 'Cocktails',
 };
 
 const NATIONALITIES: Record<string, string> = {

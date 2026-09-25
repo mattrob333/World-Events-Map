@@ -10,7 +10,7 @@ const MATCH: Partial<Record<TripType, (event: WorldEvent) => boolean>> = {
   surf: (e) => /\b(surf\w*|waves?|pipeline)\b/i.test(`${e.name} ${e.tags.join(' ')}`),
   beach: (e) => e.category === 'sailing' || /\b(beach\w*|coast\w*|island\w*|reef|caribbean|maldives)\b/i.test(e.tags.join(' ')),
   food: (e) => e.category === 'culinary',
-  nightlife: (e) => e.category === 'music' || /\b(club\w*|nightlife|party|carnival)\b/i.test(e.tags.join(' ')),
+  nightlife: (e) => e.category !== 'ski' && (e.category === 'music' || /\b(nightclubs?|clubbing|nightlife|party|parties|carnival)\b/i.test(e.tags.join(' '))),
   music: (e) => e.category === 'music',
   festivals: (e) => /\b(festival|carnival|fiesta)\b/i.test(`${e.name} ${e.tags.join(' ')}`),
   sports: (e) => ['motorsport', 'golf', 'tennis', 'equestrian', 'sailing'].includes(e.category),
@@ -34,13 +34,15 @@ export type Recommendation = {
  * ranked by buzz and then by how soon. Nothing is invented; an empty answer
  * is returned as empty.
  */
-export function recommendDestinations(events: readonly WorldEvent[], today: string, tripType: TripType | null, options: { horizonDays?: number; limit?: number } = {}): Recommendation[] {
+export function recommendDestinations(events: readonly WorldEvent[], today: string, tripType: TripType | null, options: { horizonDays?: number; limit?: number; within?: { from: string; to: string } } = {}): Recommendation[] {
   const horizon = addDays(today, options.horizonDays ?? 150);
+  const within = options.within;
   const match = tripType ? MATCH[tripType] : undefined;
   if (tripType && !match) return [];
   const seen = new Set<string>();
   return events
-    .filter((event) => event.end >= today && event.start <= horizon && (!match || match(event)))
+    // A named month means the trip is in that month: starting in it, or running at least a week into it.
+    .filter((event) => event.end >= today && (within ? event.start <= within.to && (event.start >= within.from || event.end >= addDays(within.from, 6)) : event.start <= horizon) && (!match || match(event)))
     .map((event) => ({ event, why: whyNow(event, today), buzz: scoreEvent(event, { now: today }).score }))
     .sort((a, b) => b.buzz - a.buzz || a.event.start.localeCompare(b.event.start) || a.event.id.localeCompare(b.event.id))
     .filter(({ event }) => {

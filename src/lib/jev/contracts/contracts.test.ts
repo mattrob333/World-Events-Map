@@ -48,11 +48,17 @@ describe('trip-fit@1 ranking', () => {
     expect(rankedBy).toBe('fit');
     expect(ranked.map((c) => c.id)).toEqual(['a', 'c', 'b']);
     expect(ranked[0]!.band).toBe('standout');
-    expect(ranked[0]!.because).toBe('You said omakase');
+    expect(ranked[0]!.because).toBe('Matches your likes: omakase');
     const fallback = rankCandidates(candidates, null, []);
     expect(fallback.rankedBy).toBe('rating');
     expect(fallback.ranked.map((c) => c.id)).toEqual(['a', 'b', 'c']);
     expect(becauseLine(candidates[1]!, ['omakase'])).toBeNull();
+  });
+  it('matches likes as whole words only', () => {
+    const base = { id: 'x', kind: 'sight', source: 'Google Maps' };
+    expect(becauseLine({ ...base, name: 'Martinho da Arcada', category: 'Barbershop' }, ['Art'])).toBeNull();
+    expect(becauseLine({ ...base, name: 'Galeria Zé dos Bois', category: 'Art gallery' }, ['Art'])).toBe('Matches your likes: art');
+    expect(becauseLine({ ...base, name: 'Taqueria', category: 'Tacos' }, ['Taco'])).toBe('Matches your likes: taco');
   });
 });
 

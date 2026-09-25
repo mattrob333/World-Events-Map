@@ -9,7 +9,14 @@ import type { SearchHit } from './catalog';
 export interface PlanPlace {
   place: string;
   region?: string;
+  /** "YYYY-MM-DD" the traveler said, or an event's first day. Prefills the start date. */
+  start?: string;
+  /** Nights the traveler said. Prefills the length. */
+  nights?: number;
 }
+
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+const MAX_PLAN_NIGHTS = 30;
 
 // Letters (any script), spaces and the punctuation place names use. No digits,
 // no markup, no URLs.
@@ -29,9 +36,11 @@ export function planPlaceFromQuery(raw: string): PlanPlace | null {
 }
 
 /** The designer link for a place, e.g. /trips/designer?place=Munich&region=Germany. */
-export function planTripHref({ place, region }: PlanPlace): string {
+export function planTripHref({ place, region, start, nights }: PlanPlace): string {
   const params = new URLSearchParams({ place });
   if (region) params.set('region', region);
+  if (start && ISO_DAY.test(start)) params.set('start', start);
+  if (nights && Number.isInteger(nights) && nights >= 1 && nights <= MAX_PLAN_NIGHTS) params.set('nights', String(nights));
   return `/trips/designer?${params.toString()}`;
 }
 
@@ -58,7 +67,14 @@ export function planPlaceFromParams(params: URLSearchParams): PlanPlace | null {
   if (!parsed) return null;
   const regionParsed = region ? planPlaceFromQuery(region) : null;
   const regionText = regionParsed ? [regionParsed.place, regionParsed.region].filter(Boolean).join(', ') : parsed.region;
-  return { place: parsed.place, ...(regionText ? { region: regionText.slice(0, 60) } : {}) };
+  const start = params.get('start') ?? '';
+  const nights = Number(params.get('nights') ?? '');
+  return {
+    place: parsed.place,
+    ...(regionText ? { region: regionText.slice(0, 60) } : {}),
+    ...(ISO_DAY.test(start) && !Number.isNaN(Date.parse(`${start}T00:00:00Z`)) ? { start } : {}),
+    ...(Number.isInteger(nights) && nights >= 1 && nights <= MAX_PLAN_NIGHTS ? { nights } : {}),
+  };
 }
 
 /**

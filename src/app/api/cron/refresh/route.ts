@@ -14,11 +14,11 @@ const headers = { 'Cache-Control': 'no-store' };
 /** Authorized scheduler only: one globally leased, capped batch; no public vendor proxy. */
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
-  if (!secret)
-    return NextResponse.json(
-      { error: 'Scheduler is not configured' },
-      { status: 503, headers },
-    );
+  // Unconfigured looks the same as a wrong secret from outside; the reason is logged here.
+  if (!secret) {
+    console.warn('cron: CRON_SECRET is not set');
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers });
+  }
   const hash = (s: string) => createHash('sha256').update(s).digest();
   if (
     !timingSafeEqual(

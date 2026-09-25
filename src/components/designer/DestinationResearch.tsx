@@ -14,7 +14,8 @@ import type {
   ResearchSpot,
 } from '@/lib/research/destinationSources';
 import { writeResearchCache } from '@/lib/designer/deviceData';
-import { handoffNote, openTableSearch } from '@/lib/booking/partners';
+import { affiliateDisclosure, handoffNote, openTableSearch, takesTableSearch } from '@/lib/booking/partners';
+import { safeResearch } from '@/lib/research/clientSafety';
 import { PicksBasket } from './PicksBasket';
 import styles from './designer.module.css';
 
@@ -112,7 +113,7 @@ function Photo({ src, alt, tall }: { src?: string; alt?: string; tall?: boolean 
 type Reserve = { where: string; date: string; covers: number };
 
 function SpotCard({ spot, reserve }: { spot: ResearchSpot; reserve?: Reserve }) {
-  if (reserve) {
+  if (reserve && takesTableSearch(spot)) {
     return (
       <div className={styles.researchCard}>
         <a className={styles.researchMain} href={spot.url} target="_blank" rel="noopener noreferrer">
@@ -125,7 +126,7 @@ function SpotCard({ spot, reserve }: { spot: ResearchSpot; reserve?: Reserve }) 
           rel="noopener noreferrer"
           title={handoffNote('opentable')}
         >
-          Reserve on OpenTable ↗
+          Find a table on OpenTable ↗
         </a>
       </div>
     );
@@ -246,6 +247,7 @@ function SectionBody({ id, section, party, reserve }: { id: TabId; section: Rese
             ? (section.items as ResearchEvent[]).map((event) => <EventCard key={event.id} event={event} />)
             : (section.items as ResearchSpot[]).map((spot) => <SpotCard key={spot.id} spot={spot} reserve={id === 'food' || id === 'yelp' ? reserve : undefined} />)}
       </div>
+      {reserve && (id === 'food' || id === 'yelp') ? <p className="mt-2 text-[11px] leading-4 text-ink-subtle">{handoffNote('opentable')} Not every place is on OpenTable.{affiliateDisclosure() ? ` ${affiliateDisclosure()}` : ''}</p> : null}
     </>
   );
 }
@@ -323,7 +325,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
   if (readFor !== cacheId) {
     const cached = readCache(placeKey, faresKey, legacyKey);
     setReadFor(cacheId);
-    setPlace(cached.place);
+    setPlace(cached.place ? safeResearch(cached.place) : null);
     setFares(cached.fares);
     setError('');
     setStatus('');
@@ -361,7 +363,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
           ? flights.status === 'ok' ? 'Fares loaded.' : ''
           : unchanged ? `Already up to date (fetched ${ago(fetchedAt)}).` : 'Updated just now.');
       }
-      setPlace(rest);
+      setPlace(safeResearch(rest));
       setFares(request.from ? flights : null);
       // Only real listings are kept on the device; a cap or outage must not stick for 6 hours (review S3).
       if (body.configured && rest.topSpots.status === 'ok') {

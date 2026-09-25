@@ -1613,8 +1613,8 @@
 /* ── The basket: rank, swipe, fit into days ─────────────────────────── */
 .basket { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgb(244 241 234 / 0.08); }
 .basketTitle { font-family: var(--font-display, serif); font-size: 1.25rem; color: var(--color-bone); }
-.deck { margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.deckCard {
+.pickDeck { margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.pickCard {
   composes: surface from global;
   width: min(360px, 100%);
   overflow: hidden;
@@ -1623,20 +1623,20 @@
   cursor: grab;
   transition: transform 180ms var(--ease-glide, ease);
 }
-.deckCard:active { cursor: grabbing; transition: none; }
-.deckPhoto { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--color-surface-3); font-size: 48px; pointer-events: none; }
-.deckBody { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; }
-.deckName { font-family: var(--font-display, serif); font-size: 1.375rem; line-height: 1.15; color: var(--color-bone); }
-.deckBecause { font-size: 0.8125rem; font-weight: 600; color: var(--color-saffron); }
+.pickCard:active { cursor: grabbing; transition: none; }
+.pickPhoto { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--color-surface-3); font-size: 48px; pointer-events: none; }
+.pickBody { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; }
+.pickName { font-family: var(--font-display, serif); font-size: 1.375rem; line-height: 1.15; color: var(--color-bone); overflow-wrap: anywhere; }
+.pickBecause { font-size: 0.8125rem; font-weight: 600; color: var(--color-saffron); }
 .bandChip { align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; background: var(--color-surface-3); color: var(--color-ink-soft); }
 .bandChip[data-band='standout'] { background: rgb(247 197 72 / 0.18); color: var(--color-saffron); }
 .bandChip[data-band='good'] { background: rgb(94 224 200 / 0.14); color: var(--color-signal); }
-.deckActions { display: flex; width: min(360px, 100%); justify-content: space-between; gap: 8px; }
-.deckPass, .deckKeep, .deckDone { min-height: 48px; padding: 0 18px; border-radius: 999px; font-size: 0.875rem; font-weight: 600; }
-.deckPass { background: var(--color-surface-2); color: var(--color-ink-soft); }
-.deckDone { background: transparent; color: var(--color-ink-muted); font-weight: 500; }
-.deckKeep { background: linear-gradient(90deg, #f7c548, #f26b2a 60%, #e4577e); color: #1a0b06; }
-.deckPass:focus-visible, .deckKeep:focus-visible, .deckDone:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.pickActions { display: flex; width: min(360px, 100%); justify-content: space-between; gap: 8px; }
+.pickPass, .pickKeep, .pickDone { min-height: 48px; padding: 0 18px; border-radius: 999px; font-size: 0.875rem; font-weight: 600; }
+.pickPass { background: var(--color-surface-2); color: var(--color-ink-soft); }
+.pickDone { background: transparent; color: var(--color-ink-muted); font-weight: 500; }
+.pickKeep { background: linear-gradient(90deg, #f7c548, #f26b2a 60%, #e4577e); color: #1a0b06; }
+.pickPass:focus-visible, .pickKeep:focus-visible, .pickDone:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .schedDay { display: flex; flex-direction: column; gap: 8px; }
 .schedDate { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-saffron); }
 .schedBlock { display: flex; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--color-surface-1); }

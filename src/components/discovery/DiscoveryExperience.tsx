@@ -250,7 +250,8 @@ export function DiscoveryExperience() {
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      // Overlays (the location picker, the Vibe stage) handle their own Escape first.
+      if (event.key === 'Escape' && !event.defaultPrevented && !document.querySelector('[aria-modal="true"]')) {
         select(null);
         const params = new URLSearchParams(window.location.search);
         if (params.has('journey')) router.replace(discoveryQuery(params, { journey: null }), { scroll: false });
@@ -384,6 +385,7 @@ export function DiscoveryExperience() {
       )}
 
       {!planMode && !query && <WorldIntro
+        journeyId={journeyEventId ?? linkedEventId ?? null}
         origin={hasViewerOrigin ? viewer.coords : null}
         originName={originName}
         onTravel={travelFromCard}

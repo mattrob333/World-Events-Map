@@ -286,8 +286,9 @@ describe('buildSchedule', () => {
       { id: 'b', name: 'Unknown', kind: 'sight' },
     ]));
     const [first, second] = result.days[0].blocks;
-    expect(first).toMatchObject({ pickId: 'a', travelMinBefore: 0, start: '09:00' });
-    expect(second).toMatchObject({ pickId: 'b', travelMinBefore: 20, start: '10:50' });
+    expect(first).toMatchObject({ pickId: 'a', travelMinBefore: 0, travelKnown: true, start: '09:00' });
+    // A leg to a place with no coordinates is a flat guess, and says so.
+    expect(second).toMatchObject({ pickId: 'b', travelMinBefore: 20, travelKnown: false, start: '10:50' });
   });
 
   it('ignores duplicate ids and keeps the first', () => {

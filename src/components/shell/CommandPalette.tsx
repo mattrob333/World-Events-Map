@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { Button, cn, withAppKeyGuard } from '@/components/ui';
 import { SEARCH_GROUP_LABEL, SEARCH_GROUPS, buildSearchCatalog, searchCatalog, type SearchGroup, type SearchHit } from '@/lib/search';
 import { useIntentStore } from '@/lib/intent';
@@ -9,6 +9,7 @@ import { track } from '@/lib/analytics';
 import { planTripOffer } from '@/lib/search/planPlace';
 import { useCommandStore } from './commandStore';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
+import { useModalFocus } from './useModalFocus';
 
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -26,7 +27,9 @@ export function CommandPalette() {
   const setOpen = useCommandStore((s) => s.setOpen);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const saved = useIntentStore((s) => s.items);
+  useModalFocus(dialogRef, open);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -81,6 +84,19 @@ export function CommandPalette() {
   })).filter((entry) => entry.hits.length > 0);
   // A place the calendar doesn't cover can still become a trip (owner: "make it searchable").
   const planOffer = planTripOffer(query, hits);
+  const shown = grouped.reduce((sum, entry) => sum + Math.min(6, entry.hits.length), 0) + (planOffer ? 1 : 0);
+
+  /** ↑ ↓ move between the input and the results. */
+  const onResultsKey = (event: ReactKeyboardEvent) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    const links = Array.from(dialogRef.current?.querySelectorAll<HTMLAnchorElement>('[data-result]') ?? []);
+    if (!links.length) return;
+    event.preventDefault();
+    const at = links.indexOf(document.activeElement as HTMLAnchorElement);
+    if (at === -1) (event.key === 'ArrowDown' ? links[0] : links[links.length - 1])!.focus();
+    else if (event.key === 'ArrowUp' && at === 0) inputRef.current?.focus();
+    else links[Math.max(0, Math.min(links.length - 1, at + (event.key === 'ArrowDown' ? 1 : -1)))]!.focus();
+  };
 
   if (!open) return null;
 
@@ -95,11 +111,14 @@ export function CommandPalette() {
       }}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="Search dope.travel"
-        className="surface-raised w-full max-w-xl overflow-hidden"
+        tabIndex={-1}
+        className="surface-raised w-full max-w-xl overflow-hidden outline-none"
         onMouseDown={(event) => event.stopPropagation()}
+        onKeyDown={onResultsKey}
       >
         <label className="flex items-center gap-3 border-b border-ink/10 px-4 py-3">
           <span className="label-sm text-ink-muted">Search</span>
@@ -114,11 +133,13 @@ export function CommandPalette() {
           />
           <kbd className="label-sm hidden text-ink-faint sm:inline">ESC</kbd>
         </label>
+        <p className="sr-only" role="status">{query.trim() ? `${shown} ${shown === 1 ? 'result' : 'results'}` : ''}</p>
         <div className="max-h-[min(28rem,60vh)] overflow-y-auto p-2">
           {planOffer && (
             <section className="mb-2">
               <h2 className="label-sm px-3 py-2 text-ink-muted">Not on the calendar yet</h2>
               <Link
+                data-result
                 href={planOffer.href}
                 onClick={() => setOpen(false)}
                 className="flex min-h-11 flex-col justify-center rounded-[var(--radius-control)] px-3 py-2 hover:bg-surface-4"
@@ -142,6 +163,7 @@ export function CommandPalette() {
                   {entry.hits.slice(0, 6).map((hit) => (
                     <li key={hit.id}>
                       <Link
+                        data-result
                         href={hit.href}
                         onClick={() => setOpen(false)}
                         className="block rounded-[var(--radius-control)] px-3 py-2 hover:bg-surface-4"
@@ -160,7 +182,7 @@ export function CommandPalette() {
           <p className="text-[11px] text-ink-subtle">
             Local catalog plus editorial fixtures. Not a live member index.
           </p>
-          <Button size="sm" variant="quiet" onClick={() => setOpen(false)}>
+          <Button size="sm" variant="quiet" className="min-h-11" onClick={() => setOpen(false)}>
             Close
           </Button>
         </div>

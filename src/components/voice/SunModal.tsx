@@ -1,16 +1,17 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
-import { parseProfileLocally } from '@/lib/designer/profile';
+import { MAX_RAMBLE_CHARS, parseProfileLocally } from '@/lib/designer/profile';
 import { pickActiveProfile, profileLabel, useDesignerStore } from '@/lib/designer/store';
-import { planTripHref } from '@/lib/search/planPlace';
+import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
-import { placeFromTypedTrip, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { placeFromTripRequest, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
 import { checklistFor, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { useRealtime } from '@/lib/voice/useRealtime';
+import { useModalFocus } from '@/components/shell/useModalFocus';
 import { SunOrb } from './SunOrb';
 import { useLiveTranscript } from './useLiveTranscript';
 
@@ -43,7 +44,29 @@ export function SunModal() {
 
 type Phase = 'intro' | 'talking' | 'recap' | 'typing' | 'building';
 
-type Recommendation = { id: string; name: string; city: string; country: string; when: string; planBy: string | null; reason: string | null; slug: string | null };
+type Recommendation = { id: string; name: string; city: string; country: string; start?: string; end?: string; when: string; planBy: string | null; reason: string | null; slug: string | null };
+
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** An event's dates as a plan link: its first day (or today, if it's already on) and how many nights it runs, 2 to 7. */
+function eventPlan(rec: Recommendation, today: string): PlanPlace {
+  const plan: PlanPlace = { place: rec.city, region: rec.country };
+  if (!rec.start || !rec.end) return plan;
+  const start = rec.start > today ? rec.start : today;
+  const nights = Math.round((Date.parse(`${rec.end}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86_400_000);
+  return { ...plan, start, nights: Math.max(2, Math.min(7, nights || 2)) };
+}
+
+/** "Dec 19" becomes "Dec 19, 2026" when it isn't this year. */
+function withYear(when: string, start: string | undefined, today: string) {
+  if (!start || start.slice(0, 4) === today.slice(0, 4) || /\b\d{4}\b/.test(when)) return when;
+  return `${when}, ${start.slice(0, 4)}`;
+}
+
+function localToday() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
 
 const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
   profile: {
@@ -74,7 +97,13 @@ function VibeStage() {
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
+  const [recMonth, setRecMonth] = useState<string | null>(null);
+  const [rulesDecided, setRulesDecided] = useState(false);
+  const [usedSpeech, setUsedSpeech] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const openedOn = useRef(pathname);
+  useModalFocus(dialogRef);
   const transcriptEnd = useRef<HTMLSpanElement>(null);
   const copy = COPY[mode];
 
@@ -142,17 +171,19 @@ function VibeStage() {
     };
   }, []);
 
+  // Leaving the page (Back, a link) closes the stage and stops listening.
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
-    window.addEventListener('keydown', onKey);
+    if (pathname !== openedOn.current) setOpen(false);
+  }, [pathname, setOpen]);
+
+  useEffect(() => {
     dialogRef.current?.focus();
     const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('keydown', onKey);
       document.body.style.overflow = overflow;
     };
-  }, [setOpen]);
+  }, []);
 
   // ── What was said so far ────────────────────────────────────────────────────
   const aiSaid = rt.lines.filter((line) => line.who === 'you').map((line) => line.text).join(' ');
@@ -167,8 +198,8 @@ function VibeStage() {
 
   // A blocked mic or a dead speech service drops straight to typing, said plainly.
   const micProblem = voiceEnabled ? null
-    : dictation.status === 'denied' ? 'The microphone is blocked for this site. Allow it in your browser settings, or type it below.'
-    : dictation.status === 'error' ? 'Speech-to-text stopped working. Type the rest below.'
+    : dictation.status === 'denied' ? 'The microphone is blocked for this site. Allow it in your browser settings, or type it in the box.'
+    : dictation.status === 'error' ? 'Speech-to-text stopped working. Type the rest in the box.'
     : null;
   const view: Phase = micProblem && phase === 'talking' ? 'typing' : phase;
   const shownNote = note ?? (view === 'typing' ? micProblem : null);
@@ -176,6 +207,8 @@ function VibeStage() {
   const startTalking = async () => {
     setNote(null);
     setRecs(null);
+    setRulesDecided(false);
+    setUsedSpeech(true);
     setPhase('talking');
     if (!voiceEnabled) {
       dictation.start();
@@ -183,7 +216,7 @@ function VibeStage() {
     }
     const result = await rt.start({ intent: 'vibe', context: context(), handlers: handlers(), withMic: true, textOnly: false });
     if (result === 'mic-denied') {
-      setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it below.');
+      setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it in the box.');
       setPhase('typing');
     } else if (result === 'not-configured') {
       setVoiceEnabled(false);
@@ -202,8 +235,33 @@ function VibeStage() {
     setPhase('recap');
   };
 
+  // Escape or ✕: while talking, stop and show what was heard; with words on
+  // the page, ask before throwing them away.
+  const close = () => {
+    if (phase === 'talking' && !voiceEnabled && (dictation.text || dictation.interim)) {
+      done();
+      return;
+    }
+    if (phase !== 'building' && !voiceEnabled && dictation.text.trim().length >= 10 && !window.confirm('Close and lose what you said?')) return;
+    setOpen(false);
+  };
+  const closeRef = useRef(close);
+  useEffect(() => { closeRef.current = close; });
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      event.preventDefault();
+      closeRef.current();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   const build = async () => {
     const text = dictation.text.trim();
+    setRecs(null);
+    setNote(null);
+    setRulesDecided(false);
     if (text.length < 10) {
       setNote(mode === 'profile' ? 'Say a bit more first: where home is, what you love, who you travel with.' : 'Say where you’re thinking of going first.');
       return;
@@ -211,18 +269,19 @@ function VibeStage() {
     setPhase('building');
     if (mode === 'trip') {
       // trip-router@1 decides what they asked for before anything else runs.
-      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[] };
+      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; decidedBy?: 'jev' | 'rules' };
       let routed: Routed | null = null;
       try {
         const response = await fetch('/api/designer/route-trip', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, hasProfile, today: new Date().toISOString().slice(0, 10) }),
+          body: JSON.stringify({ text, hasProfile, today: localToday() }),
         });
         routed = response.ok ? ((await response.json()) as Routed) : null;
       } catch {
         routed = null;
       }
+      setRulesDecided(routed?.decidedBy === 'rules');
       if (routed?.route === 'follow_up' && routed.question) {
         setNote(routed.question);
         setPhase('recap');
@@ -230,12 +289,13 @@ function VibeStage() {
       }
       if (routed?.route === 'recommend') {
         setRecs(routed.recommendations ?? []);
+        setRecMonth(routed.month ?? null);
         setPhase('recap');
         return;
       }
-      const place = placeFromTypedTrip(text);
+      const place = routed?.place ?? placeFromTripRequest(text);
       const here = useVoiceStore.getState().page;
-      if (here?.intent === 'trip' && here.fallback) await here.fallback(text);
+      if (!place && here?.intent === 'trip' && here.fallback) await here.fallback(text);
       else router.push(place ? planTripHref(place) : '/trips/designer');
       setOpen(false);
       return;
@@ -262,7 +322,9 @@ function VibeStage() {
       ['Crew', crew],
     ].filter((entry): entry is [string, string] => Boolean(entry[1]));
   }, [view, mode, dictation.text]);
-  const recapPlace = view === 'recap' && mode === 'trip' ? placeFromTypedTrip(dictation.text) : null;
+  const recapPlace = view === 'recap' && mode === 'trip' && !recs ? placeFromTripRequest(dictation.text) : null;
+  const today = localToday();
+  const monthLabel = recMonth ? MONTH_NAMES[Number(recMonth.slice(5, 7)) - 1] : null;
 
   const orbLevels = useCallback(() => (voiceEnabled ? rt.levels() : { mic: dictation.activity(), sun: 0 }), [voiceEnabled, rt, dictation]);
   const canTalk = voiceEnabled || dictation.supported;
@@ -282,9 +344,11 @@ function VibeStage() {
           {(['profile', 'trip'] as const).map((value) => (
             <button
               key={value}
+              id={`vibe-tab-${value}`}
               type="button"
               role="tab"
               aria-selected={mode === value}
+              aria-controls="vibe-panel"
               disabled={view === 'talking' || view === 'building'}
               onClick={() => setMode(value)}
               className={`min-h-10 rounded-full px-4 text-[13px] font-medium transition-colors ${mode === value ? 'bg-surface-3 text-bone' : 'text-ink-muted hover:text-bone'}`}
@@ -293,12 +357,12 @@ function VibeStage() {
             </button>
           ))}
         </div>
-        <button type="button" onClick={() => setOpen(false)} className="flex size-11 items-center justify-center rounded-full bg-surface-1/80 text-[15px] text-ink-soft hover:text-bone" aria-label="Close">
+        <button type="button" onClick={close} className="flex size-11 items-center justify-center rounded-full bg-surface-1/80 text-[15px] text-ink-soft hover:text-bone" aria-label="Close">
           ✕
         </button>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[760px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
+      <div id="vibe-panel" role="tabpanel" aria-labelledby={`vibe-tab-${mode}`} className="mx-auto flex w-full max-w-[760px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
         {view === 'intro' ? (
           <div className="flex flex-1 flex-col overflow-y-auto pb-2 pt-2 sm:pt-10">
             <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{copy.kicker}</p>
@@ -320,7 +384,8 @@ function VibeStage() {
         ) : (
           <div className="flex flex-1 flex-col overflow-hidden pt-2">
             {/* The checklist rides along as chips that tick as each part gets covered. */}
-            <ul className="flex flex-wrap gap-1.5" aria-label={`${covered} of ${checklist.length} covered`}>
+            <p className="sr-only" role="status">{covered} of {checklist.length} covered</p>
+            <ul className="flex flex-wrap gap-1.5" aria-label="What’s covered">
               {checklist.map((item) => (
                 <li
                   key={item.key}
@@ -336,28 +401,30 @@ function VibeStage() {
               <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
                 {view !== 'typing' && (
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
-                    {view === 'building' ? 'On it' : 'Here’s what I heard'}
+                    {view === 'building' ? 'On it' : recs ? 'Ideas from our calendar' : 'Here’s what I heard'}
                   </p>
                 )}
                 {recs && (
                   <div className="mt-3 flex flex-col gap-2" aria-live="polite">
                     {recs.length ? (
                       <>
-                        <p className="text-[15px] text-ink-soft">Here’s where I’d go right now, from our calendar:</p>
+                        <p className="text-[15px] text-ink-soft">
+                          {monthLabel ? `On our calendar in ${monthLabel}:` : 'On our calendar now and coming up:'}
+                        </p>
                         {recs.map((rec) => (
                           <div key={rec.id} className="rounded-[18px] bg-surface-1/80 p-4">
                             <p className="font-display text-[22px] leading-tight text-bone">{rec.city}<span className="text-ink-soft">, {rec.country}</span></p>
-                            <p className="mt-0.5 text-[13px] text-ink-soft">{rec.name} · <span className="text-saffron">{rec.when}</span>{rec.planBy ? ` · ${rec.planBy}` : ''}</p>
+                            <p className="mt-0.5 text-[13px] text-ink-soft">{rec.name} · <span className="text-saffron">{withYear(rec.when, rec.start, today)}</span>{rec.planBy ? ` · ${rec.planBy}` : ''}</p>
                             {rec.reason && <p className="mt-1 text-[13px] text-ink-muted">{rec.reason}</p>}
                             <div className="mt-3 flex flex-wrap gap-2">
-                              <button type="button" className="btn btn-primary btn-sm" onClick={() => { router.push(planTripHref({ place: rec.city, region: rec.country })); setOpen(false); }}>Plan this</button>
+                              <button type="button" className="btn btn-primary btn-sm" onClick={() => { router.push(planTripHref(eventPlan(rec, today))); setOpen(false); }}>Plan this</button>
                               {rec.slug && <button type="button" className="btn btn-ghost btn-sm" onClick={() => { router.push(`/destinations/${rec.slug}?event=${encodeURIComponent(rec.id)}`); setOpen(false); }}>See the place</button>}
                             </div>
                           </div>
                         ))}
                       </>
                     ) : (
-                      <p className="text-[15px] text-ink-soft">Nothing on our calendar fits that right now. Name a place, or try a different kind of trip.</p>
+                      <p className="text-[15px] text-ink-soft">Nothing on our calendar fits that{monthLabel ? ` in ${monthLabel}` : ' right now'}. Name a place, or try a different kind of trip.</p>
                     )}
                   </div>
                 )}
@@ -380,16 +447,17 @@ function VibeStage() {
                   <span className="text-[12px] text-ink-muted">{view === 'typing' ? 'Type it like you’d say it' : 'Tap to fix anything I got wrong'}</span>
                   <textarea
                     value={dictation.text}
-                    onChange={(event) => dictation.setText(event.target.value.slice(0, 4000))}
+                    onChange={(event) => { dictation.setText(event.target.value.slice(0, MAX_RAMBLE_CHARS)); if (note) setNote(null); }}
+                    maxLength={MAX_RAMBLE_CHARS}
                     placeholder={copy.placeholder}
                     autoFocus={view === 'typing'}
                     disabled={view === 'building'}
-                    className="mt-2 min-h-[9rem] flex-1 resize-none rounded-[20px] bg-surface-1/80 p-4 font-display text-[20px] leading-snug text-bone outline-none placeholder:text-ink-subtle focus-visible:shadow-[var(--focus-ring)] sm:text-[22px]"
+                    className="mx-1 mt-2 min-h-[9rem] flex-1 resize-none rounded-[20px] bg-surface-1/80 p-4 font-display text-[20px] leading-snug text-bone outline-none placeholder:text-ink-subtle focus-visible:shadow-[var(--focus-ring)] sm:text-[22px]"
                   />
                 </label>
               </div>
             ) : (
-              <div className="mt-5 flex-1 overflow-y-auto pb-3" aria-live="polite">
+              <div className="mt-5 flex-1 overflow-y-auto pb-3">
                 {voiceEnabled ? (
                   <ol className="flex flex-col gap-3 font-display text-[24px] leading-snug sm:text-[30px]">
                     {rt.lines.map((line, i) => (
@@ -412,6 +480,9 @@ function VibeStage() {
         )}
 
         {shownNote && <p className="notice mb-3 text-[13px]" role="status">{shownNote}</p>}
+        {rulesDecided && (view === 'recap' || view === 'typing') && (
+          <p className="mb-3 text-[12px] leading-4 text-ink-muted">Matched with simple word rules for now. Name a place, or a kind of trip (beach, snow, food, surf, nights out).</p>
+        )}
       </div>
 
       {/* The dock: the sun is the button. */}
@@ -427,7 +498,7 @@ function VibeStage() {
               <p className="text-center text-[13px] text-ink-soft">This browser can’t turn speech into text. Chrome, Edge and Safari can.</p>
             )}
             <button type="button" onClick={() => { setNote(null); setPhase('typing'); }} className={canTalk ? 'min-h-11 text-[13px] text-ink-muted underline-offset-4 hover:text-ink-soft hover:underline' : 'btn btn-primary'}>
-              {canTalk ? 'Type instead like a caveman' : 'Type it'}
+              {canTalk ? 'Type instead' : 'Type it'}
             </button>
           </>
         )}
@@ -469,9 +540,9 @@ function VibeStage() {
         <p className="max-w-[60ch] text-center text-[11px] leading-snug text-ink-subtle">
           {voiceEnabled
             ? 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'
-            : mode === 'profile'
-              ? 'Your browser turns speech into text (Chrome uses Google’s speech service). dope.travel gets the text only to sort it into your board, keeps none of it, and saves the board on this device.'
-              : 'Your browser turns speech into text (Chrome uses Google’s speech service). The trip is planned on this device.'}
+            : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
+              ? 'dope.travel gets the text only to sort it into your board and keeps none of it. The board, and what you said, are saved on this device.'
+              : 'dope.travel reads the text to work out where you mean (and may ask a decision model), keeps none of it, and saves the trip on this device.'}`}
         </p>
       </div>
     </div>

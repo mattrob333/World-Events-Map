@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { affiliateConfig, handoffNote, openTableSearch, withAffiliate } from './partners';
+import { affiliateConfig, affiliateDisclosure, handoffNote, openTableSearch, takesTableSearch, withAffiliate } from './partners';
 
 const none = affiliateConfig({});
 const ids = affiliateConfig({
@@ -16,6 +16,25 @@ describe('booking partners', () => {
     expect(url.searchParams.get('covers')).toBe('2');
     expect(url.searchParams.get('dateTime')).toBe('2026-10-10T20:00');
     expect(url.searchParams.has('ref')).toBe(false);
+  });
+
+  it('keeps the city when a long name has to be trimmed', () => {
+    const name = `${'Taberna do Chiado Petiscos e Vinho da Casa e Muito Amor '.repeat(4)}`.trim();
+    const term = new URL(openTableSearch({ name, where: 'Lisbon', covers: 2 }, none)).searchParams.get('term')!;
+    expect(term.length).toBeLessThanOrEqual(120);
+    expect(term.endsWith(' Lisbon')).toBe(true);
+    expect(term).not.toMatch(/ Amo Lisbon$/);
+  });
+
+  it('discloses commissions only when an affiliate ID is live', () => {
+    expect(affiliateDisclosure(none)).toBeNull();
+    expect(affiliateDisclosure(ids)).toMatch(/commission/);
+  });
+
+  it('skips bakeries, cafés and food halls', () => {
+    expect(takesTableSearch({ name: 'Pastéis de Belém', category: 'Bakery' })).toBe(false);
+    expect(takesTableSearch({ name: 'Time Out Market', category: 'Food hall' })).toBe(false);
+    expect(takesTableSearch({ name: 'Cervejaria Ramiro', category: 'Seafood restaurant' })).toBe(true);
   });
 
   it('defaults dinner to 19:30 and clamps the party', () => {

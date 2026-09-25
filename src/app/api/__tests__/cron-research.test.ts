@@ -24,7 +24,7 @@ function request(secret?: string) {
 
 it('requires scheduler auth and every provider before claiming paid work', async () => {
   vi.stubEnv('CRON_SECRET', '');
-  expect((await GET(request())).status).toBe(503);
+  expect((await GET(request())).status).toBe(401);
   vi.stubEnv('CRON_SECRET', 'test-secret');
   expect((await GET(request())).status).toBe(401);
   vi.stubEnv('EXA_API_KEY', '');

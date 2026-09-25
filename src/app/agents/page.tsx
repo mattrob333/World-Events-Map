@@ -42,9 +42,9 @@ export default function AgentsPage() {
     <main className={styles.page}>
       <section className={styles.hero}>
         <p className={styles.h2}>For AI agents</p>
-        <p className={styles.tagline}>
+        <h1 className={styles.tagline}>
           Let your AI <span className="italic text-brass-bright">introduce you.</span>
-        </p>
+        </h1>
         <p className={styles.lede}>
           If you already have an AI assistant that knows you, it can connect to dope.travel, interview you in detail, and set up your profile. Then it can plan
           trips around your music, your teams, your food and your crew.
