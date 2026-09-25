@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo, useState, type DragEvent } from 'react';
+import { useCallback, useMemo, useState, type DragEvent } from 'react';
 import { SLOT_META, searchLinks, type DesignerCard } from '@/lib/designer/catalog';
 import { cardLookup, daysUntil, resolveDestination, type Itinerary, type Slot } from '@/lib/designer/itinerary';
 import { isLive, tripMoment, type TripMoment } from '@/lib/designer/tripNow';
 import { useDesignerStore } from '@/lib/designer/store';
 import { filterSlot, orderSlot, type SlotFilter, type SortMode, type TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
+import { CardDetail } from './CardDetail';
 import { DestinationResearch } from './DestinationResearch';
 import { DRAG_MIME, IdeaCard } from './IdeaCard';
 import { ScenePlaybook } from './ScenePlaybook';
@@ -47,6 +48,8 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const [drag, setDrag] = useState<Drag>(null);
   const [dropSlot, setDropSlot] = useState<string | null>(null);
   const [swipe, setSwipe] = useState<Slot | null>(null);
+  const [detail, setDetail] = useState<{ card: DesignerCard; kind: Slot['kind']; date: string } | null>(null);
+  const closeDetail = useCallback(() => setDetail(null), []);
 
   const destination = resolveDestination(trip)!;
   const lookup = useMemo(() => cardLookup(trip), [trip]);
@@ -301,6 +304,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
                           dragging={drag?.cardId === card.id}
                           moveTargets={moveTargets.filter((target) => target.id !== slot.id)}
                           onVote={(value) => voter && vote(slot.id, card.id, voter.id, value)}
+                          onOpen={() => setDetail({ card, kind: slot.kind, date: day.date })}
                           onPick={() => pickCard(slot.id, card.id)}
                           onMove={(to) => moveCard(card.id, slot.id, to, 0)}
                           onDragStart={() => setDrag({ cardId: card.id, from: slot.id })}
@@ -344,6 +348,17 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           onVote={(cardId, value) => vote(swipe.id, cardId, voter.id, value, false)}
           onPick={(cardId) => pickCard(swipe.id, cardId)}
           onClose={() => setSwipe(null)}
+        />
+      ) : null}
+
+      {detail ? (
+        <CardDetail
+          card={detail.card}
+          slotKind={detail.kind}
+          where={destination.name}
+          date={detail.date}
+          covers={Math.max(1, trip.participants.length)}
+          onClose={closeDetail}
         />
       ) : null}
     </div>

@@ -872,7 +872,8 @@
   composes: surface from global;
   position: relative;
   flex: none;
-  width: 172px;
+  /* One size for every card, landscape art: a row of them reads like a shelf, not a wall of posters. */
+  width: 264px;
   scroll-snap-align: start;
   overflow: hidden;
   display: flex;
@@ -885,20 +886,21 @@
 
 /* The pick: lifted a little higher, with a saffron rim. Not a gradient. */
 .cardLead {
-  width: 200px;
   box-shadow: var(--shadow-soft-2), inset 0 0 0 1.5px var(--color-saffron);
 }
 
 .cardMedia {
   position: relative;
-  aspect-ratio: 9 / 13;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   display: grid;
   place-items: center;
   isolation: isolate;
 }
 
-.cardMediaPhoto { aspect-ratio: 4 / 5; }
+@media (max-width: 640px) {
+  .card { width: 232px; }
+}
 
 .cardImg {
   position: absolute;
@@ -910,7 +912,7 @@
 }
 
 .cardEmoji {
-  font-size: 54px;
+  font-size: 44px;
   filter: drop-shadow(0 6px 14px rgb(0 0 0 / 0.45));
 }
 
@@ -972,9 +974,32 @@
 
 .cardBody {
   display: grid;
+  grid-template-rows: auto auto;
+  align-content: start;
   gap: 4px;
+  /* Same height on every card: two lines of title, two of description. */
+  height: 94px;
   padding: 10px 12px 8px;
+  overflow: hidden;
 }
+
+.cardOpen {
+  all: unset;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cardOpen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.cardOpen:focus-visible { outline: none; }
+.card:has(.cardOpen:focus-visible) { box-shadow: var(--focus-ring); }
+.card:hover .cardOpen { text-decoration: underline; text-underline-offset: 3px; }
 
 .cardTitle {
   font-size: 14px;
@@ -988,7 +1013,7 @@
   line-height: 1.4;
   color: var(--color-ink-muted);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1010,6 +1035,8 @@
 }
 
 .cardFoot {
+  position: relative;
+  z-index: 1;
   margin-top: auto;
   display: flex;
   align-items: center;
@@ -1072,6 +1099,8 @@
 }
 
 .moveSelect {
+  position: relative;
+  z-index: 1;
   max-width: 100%;
   min-height: 44px;
   margin: 0 8px 8px;
@@ -1641,3 +1670,48 @@
 .schedDate { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-saffron); }
 .schedBlock { display: flex; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--color-surface-1); }
 .schedTime { flex: none; width: 96px; font-size: 0.8125rem; font-variant-numeric: tabular-nums; color: var(--color-ink-soft); }
+
+/* An idea, opened up (CardDetail). */
+.detailBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(0 0 0 / 0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.detail {
+  composes: surface from global;
+  width: min(640px, 100%);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  border-radius: var(--radius-control);
+}
+
+.detailArt { position: relative; }
+.detailArt .cardEmoji { font-size: 72px; }
+
+.detailClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-chip);
+  display: grid;
+  place-items: center;
+  color: var(--color-bone);
+  background: rgb(5 5 5 / 0.68);
+}
+.detailClose:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.detailBody { display: grid; gap: 10px; padding: 18px 20px 20px; }
+.detailKicker { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-brass-bright); }
+.detailTitle { font-family: var(--font-display); font-size: 30px; line-height: 1.1; color: var(--color-bone); }
+.detailBlurb { font-size: 15px; line-height: 1.5; color: var(--color-ink-soft); }
+.detailActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.detailNote { font-size: 12px; line-height: 1.45; color: var(--color-ink-subtle); }

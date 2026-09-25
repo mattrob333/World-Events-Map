@@ -19,7 +19,7 @@ export function CardArt({ card, lead }: { card: DesignerCard; lead?: boolean }) 
   const [a, b] = card.palette;
   return (
     <div
-      className={`${styles.cardMedia} ${card.media === 'photo' ? styles.cardMediaPhoto : ''}`}
+      className={styles.cardMedia}
       style={{ background: `linear-gradient(160deg, ${a}, ${b})` }}
     >
       {card.image ? (
@@ -51,20 +51,12 @@ type Props = {
   dragging: boolean;
   moveTargets: { id: string; label: string }[];
   onVote: (value: 1 | -1) => void;
+  onOpen: () => void;
   onPick: () => void;
   onMove: (toSlot: string) => void;
   onDragStart: () => void;
   onDragEnd: () => void;
 };
-
-/** "google.com", "youtube.com": so a card never hides where its link goes. */
-function linkHost(href: string): string {
-  try {
-    return new URL(href).hostname.replace(/^www\./, '');
-  } catch {
-    return '';
-  }
-}
 
 export function IdeaCard({
   card,
@@ -77,6 +69,7 @@ export function IdeaCard({
   dragging,
   moveTargets,
   onVote,
+  onOpen,
   onPick,
   onMove,
   onDragStart,
@@ -104,13 +97,13 @@ export function IdeaCard({
     >
       <CardArt card={card} lead={lead} />
       <div className={styles.cardBody}>
-        <h4 className={styles.cardTitle}>{card.title}</h4>
+        <h4 className={styles.cardTitle}>
+          {/* Stretched over the art and text: the whole card opens its details. */}
+          <button type="button" className={styles.cardOpen} onClick={onOpen} aria-haspopup="dialog">
+            {card.title}
+          </button>
+        </h4>
         <p className={styles.cardBlurb}>{card.blurb}</p>
-        {card.link ? (
-          <a className={styles.cardLink} href={card.link.href} target="_blank" rel="noopener noreferrer">
-            {card.link.label} ↗<span className="ml-1 opacity-70">· {linkHost(card.link.href)}</span>
-          </a>
-        ) : null}
       </div>
       <div className={styles.cardFoot}>
         <button
