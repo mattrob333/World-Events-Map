@@ -270,7 +270,8 @@ function JoinForm({ shared }: { shared: SharedTrip }) {
             </span>
           ) : null}
           {people
-            .filter((person) => person.id !== organizerId)
+            // Kids travel but don't vote, so a friend never picks one of them.
+            .filter((person) => person.id !== organizerId && person.kind !== 'kid')
             .map((person) => (
               <button
                 key={person.id}

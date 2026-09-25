@@ -16,6 +16,7 @@ import { ScenePlaybook } from './ScenePlaybook';
 import { SwipeDeck } from './SwipeDeck';
 import { GuestBar, InvitePanel, RightNow, StaysPanel, useNow, usePicksSender } from './TripExtras';
 import { photoImageProps } from '@/lib/place-media/sources';
+import { votersOf } from '@/lib/designer/voters';
 
 function formatDay(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
@@ -78,10 +79,9 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
   const guest = trip.joinedFrom !== undefined;
   const organizerName = trip.joinedFrom || 'the organizer';
   const me = guest ? trip.participants.find((person) => person.id === (joinedAs ?? activeId)) : undefined;
-  const active = trip.participants.find((person) => person.id === activeId) ?? trip.participants[0];
+  const voters = votersOf(trip.participants, guest, me?.id);
+  const active = voters.find((person) => person.id === activeId) ?? voters[0] ?? trip.participants[0];
   const voter = me && !passPhone ? me : active;
-  // On a guest copy the organizer is never a voting choice: their votes live on their own device.
-  const voters = guest ? trip.participants.filter((person, index) => index > 0 || person.id === me?.id) : trip.participants;
   const picks = usePicksSender(trip, votes, me, destination);
   const setAside = previousTrip && previousTrip.trip.id !== trip.id ? resolveDestination(previousTrip.trip)?.name ?? 'other' : null;
   const countdown = countdownLabel(daysUntil(trip.startDate), moment, destination.name, trip.days.length);
