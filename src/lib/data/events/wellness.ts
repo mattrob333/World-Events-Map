@@ -47,7 +47,7 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['Lanserhof Tegernsee', 'Gut Steinberg', 'Energy Cuisine restaurant'],
     nearestJetPort: EDMO,
     description:
-      'Lanserhof runs a modernised Mayr cure: a graded reduction in food volume, manual abdominal treatment, and a diagnostic workup that includes bloods, cardiology and gut analysis. The January intake is the hardest to get into because it is the one everyone books after Christmas, and a genuine programme is fourteen to twenty-one nights — a week produces very little. The building sits at 900 metres above the Tegernsee, roughly 30 miles south of Munich.',
+      'Lanserhof runs a modernised Mayr cure: a graded reduction in food volume, manual abdominal treatment, and a diagnostic workup that includes bloods, cardiology and gut analysis. The January intake is the hardest to get into because it is the one everyone books after Christmas, and a genuine programme is fourteen to twenty-one nights — a week produces very little. The building sits at 2,950 feet above the Tegernsee, roughly 30 miles south of Munich.',
     whyGo: [
       'Medical Mayr cure with a full diagnostic workup, not a spa week',
       'Fourteen to twenty-one nights is the minimum that does anything',
@@ -200,10 +200,10 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['Ananda in the Himalayas', 'Viceregal Palace', 'Narendra Nagar estate'],
     nearestJetPort: VIDP,
     description:
-      'Ananda occupies a hundred-acre estate on the Maharaja of Tehri Garhwal\'s palace grounds, above Rishikesh and the Ganges at around 1,000 metres. It was India\'s first destination spa and still runs full Panchakarma — the classical Ayurvedic purification sequence, which takes fourteen to twenty-one nights to do properly. March and early April give clear Himalayan views before the pre-monsoon haze sets in.',
+      'Ananda occupies a hundred-acre estate on the Maharaja of Tehri Garhwal\'s palace grounds, above Rishikesh and the Ganges at around 3,300 feet. It was India\'s first destination spa and still runs full Panchakarma — the classical Ayurvedic purification sequence, which takes fourteen to twenty-one nights to do properly. March and early April give clear Himalayan views before the pre-monsoon haze sets in.',
     whyGo: [
       'Full classical Panchakarma, minimum fourteen nights',
-      'Hundred-acre palace estate at 1,000m above the Ganges',
+      'Hundred-acre palace estate at 3,300 ft above the Ganges',
       'Daily yoga and Vedanta taught by resident teachers',
       'March air is clear before the pre-monsoon haze arrives',
     ],
@@ -316,7 +316,7 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['VIVAMAYR Altaussee', 'Lake Altaussee', 'Fischerndorf'],
     nearestJetPort: LOWS,
     description:
-      'VIVAMAYR Altaussee sits on the western shore of Lake Altaussee at 712 metres, in the Salzkammergut. The protocol is Modern Mayr Medicine — food intolerance testing, alkaline diet, daily manual abdominal treatment and a strict chewing discipline that guests find harder than the fasting. Seven nights is the minimum and most doctors here will tell you fourteen is the real number. Salzburg is about 50 miles by road.',
+      'VIVAMAYR Altaussee sits on the western shore of Lake Altaussee at 2,336 feet, in the Salzkammergut. The protocol is Modern Mayr Medicine — food intolerance testing, alkaline diet, daily manual abdominal treatment and a strict chewing discipline that guests find harder than the fasting. Seven nights is the minimum and most doctors here will tell you fourteen is the real number. Salzburg is about 50 miles by road.',
     whyGo: [
       'Modern Mayr Medicine with a physician assigned from day one',
       'Around 100 beds, so the clinic never feels like a hotel',
@@ -393,11 +393,11 @@ export const WELLNESS_EVENTS: WorldEvent[] = [
     venues: ['Six Senses Zighy Bay', 'Musandam Peninsula', 'Sense on the Edge'],
     nearestJetPort: OMDW,
     description:
-      'Zighy Bay is a former fishing village on Oman\'s Musandam peninsula, closed off by 500-metre cliffs on three sides — the road in crosses the mountain on a steep gravel descent, the alternatives are a boat from Dibba or a tandem paraglide from the ridge. Six Senses runs its wellness screening, sleep and Yogic Sleep programmes here, and the villas each have their own pool. November to mid-March is the only sane window; summer temperatures make the place unusable.',
+      'Zighy Bay is a former fishing village on Oman\'s Musandam peninsula, closed off by 1,640-foot cliffs on three sides — the road in crosses the mountain on a steep gravel descent, the alternatives are a boat from Dibba or a tandem paraglide from the ridge. Six Senses runs its wellness screening, sleep and Yogic Sleep programmes here, and the villas each have their own pool. November to mid-March is the only sane window; summer temperatures make the place unusable.',
     whyGo: [
       'Arrive by mountain road, boat from Dibba, or tandem paraglide',
       'Six Senses wellness screening and sleep programmes on site',
-      'Two hours by road from Dubai, but sealed off by 500m cliffs',
+      'Two hours by road from Dubai, but sealed off by 1,640-foot cliffs',
       'November to March is the only comfortable season on the peninsula',
     ],
     tags: ['musandam', 'oman', 'sleep-programme', 'six-senses', 'winter-season'],

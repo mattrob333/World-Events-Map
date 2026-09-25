@@ -130,7 +130,7 @@ export const SAILING_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: LIEO,
     description:
-      'The 36th edition of the only regatta in the world restricted to yachts over sixty feet, run by the Yacht Club Costa Smeralda in partnership with the International Maxi Association. Courses thread the channels of the La Maddalena archipelago, which puts 100ft-plus boats within a few hundred metres of granite at full speed. Attendance is functionally limited to owners, their crews and club members — this is not a spectator event.',
+      'The 36th edition of the only regatta in the world restricted to yachts over sixty feet, run by the Yacht Club Costa Smeralda in partnership with the International Maxi Association. Courses thread the channels of the La Maddalena archipelago, which puts 100ft-plus boats within a few hundred yards of granite at full speed. Attendance is functionally limited to owners, their crews and club members — this is not a spectator event.',
     whyGo: [
       'Only regatta on earth restricted to yachts over sixty feet',
       'Courses run inside the La Maddalena channels, not offshore',
@@ -172,7 +172,7 @@ export const SAILING_EVENTS: WorldEvent[] = [
       'Around a hundred superyachts, most of them genuinely for sale, moored end to end in Port Hercule with the shipyards, designers and brokers alongside them. Roughly forty yachts make their world debut here each year. Walking the quays is easy enough; getting aboard anything requires a broker appointment arranged in advance, and the yards vet who they let up the passerelle.',
     whyGo: [
       'Around forty superyachts make their world debut each September',
-      'Every major yard and broker present in four hundred metres of quay',
+      'Every major yard and broker present in a quarter mile of quay',
       'Tenders, submersibles and toys shown alongside the mother ships',
       'Monaco is walkable, so the whole show is one afternoon on foot',
     ],
@@ -295,11 +295,11 @@ export const SAILING_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: KFXE,
     description:
-      'The 67th edition, across seven sites and roughly ninety acres of Fort Lauderdale waterfront — more boats in the water at once than anywhere else in the world. Where Monaco is a brokerage event, this is a buying floor: tenders, sportfishers, production yachts and 100m superyachts on the same ticket, with the yards and dealers there to close. Water taxis are the only sensible way to move between the sites.',
+      'The 67th edition, across seven sites and roughly ninety acres of Fort Lauderdale waterfront — more boats in the water at once than anywhere else in the world. Where Monaco is a brokerage event, this is a buying floor: tenders, sportfishers, production yachts and 330-foot superyachts on the same ticket, with the yards and dealers there to close. Water taxis are the only sensible way to move between the sites.',
     whyGo: [
       'Roughly ninety acres of in-water displays across seven marinas',
       'Superyacht Village at Pier 66 South holds the largest listings',
-      'Everything from centre consoles to 100m yachts on one ticket',
+      'Everything from centre consoles to 330-foot yachts on one ticket',
       'Brokers, yards and finance all present and closing deals',
     ],
     tags: ['boat-show', 'superyachts', 'florida', 'brokerage'],
@@ -569,7 +569,7 @@ export const SAILING_EVENTS: WorldEvent[] = [
   {
     id: 'st-barths-bucket-regatta',
     name: 'St Barths Bucket Regatta',
-    tagline: 'Thirty superyachts over 30m racing hard around a very small island',
+    tagline: 'Thirty superyachts over 100 feet racing hard around a very small island',
     category: 'sailing',
     secondaryCategories: ['gala'],
     city: 'Gustavia',
@@ -584,14 +584,14 @@ export const SAILING_EVENTS: WorldEvent[] = [
     priceIndex: 5,
     estimatedSpend: { min: 18000, max: 90000, currency: 'USD' },
     accessNote:
-      'Entry is for owners of yachts over roughly 30m and is capped near 30 boats; the fleet is invited and the list barely changes year to year. Everyone else watches from a chartered boat or from Shell Beach, and the island’s villas are committed by the previous summer.',
+      'Entry is for owners of yachts over roughly 100 feet and is capped near 30 boats; the fleet is invited and the list barely changes year to year. Everyone else watches from a chartered boat or from Shell Beach, and the island’s villas are committed by the previous summer.',
     bookingLeadDays: 300,
     venues: ['Gustavia Harbour', 'Port de Gustavia', 'Nikki Beach'],
     nearestJetPort: TFFJ,
     description:
       'Three days of pursuit racing for very large sailing yachts around St Barths, run under a gentlemen’s code rather than a rulebook — owners must steer, and protests are settled over rum. The racing is genuinely competitive despite the boats costing more than most regatta fleets combined. Gustavia harbour becomes unusable for anything else, which is the point.',
     whyGo: [
-      'Thirty of the largest sailing yachts afloat racing within metres of each other',
+      'Thirty of the largest sailing yachts afloat racing within feet of each other',
       'Owner-drivers only, so the helm of every boat is the person who paid for it',
       'The harbour turns into the densest concentration of rigs in the Caribbean',
       'Gustavia in March before the season closes',

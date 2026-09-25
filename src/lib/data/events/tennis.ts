@@ -124,10 +124,10 @@ export const TENNIS_EVENTS: WorldEvent[] = [
     venues: ['Rod Laver Arena', 'Margaret Court Arena', 'John Cain Arena', 'Melbourne Park'],
     nearestJetPort: YMEN,
     description:
-      'The most physically open of the four Slams — three retractable roofs mean play never stops, and a ground pass gets you within a few metres of top-fifty players on the outside courts for a fraction of what the equivalent costs in Paris or London. Extreme heat policy suspends play above certain thresholds, so the schedule regularly runs past midnight. Melbourne treats the fortnight as a civic event and the precinct stays open late throughout.',
+      'The most physically open of the four Slams — three retractable roofs mean play never stops, and a ground pass gets you within a few feet of top-fifty players on the outside courts for a fraction of what the equivalent costs in Paris or London. Extreme heat policy suspends play above certain thresholds, so the schedule regularly runs past midnight. Melbourne treats the fortnight as a civic event and the precinct stays open late throughout.',
     whyGo: [
       'Three retractable roofs mean the schedule never collapses to rain',
-      'Ground passes put you metres from top-fifty players on outside courts',
+      'Ground passes put you feet from top-fifty players on outside courts',
       'Night sessions on Rod Laver Arena run past midnight in the heat',
       'The city keeps the whole precinct open for a full fortnight',
     ],
@@ -163,9 +163,9 @@ export const TENNIS_EVENTS: WorldEvent[] = [
     venues: ['Indian Wells Tennis Garden', 'Stadium 1', 'Stadium 2'],
     nearestJetPort: KTRM,
     description:
-      'The largest combined ATP and WTA event outside the Slams, and the one players consistently rate as the best-run tournament of the year. Twenty-nine courts on one site with unrestricted practice-court access means you can stand five metres from the world number one hitting for an hour, which is possible nowhere else. Desert conditions make the ball fly in the afternoon and drop dead at night, so results swing by session.',
+      'The largest combined ATP and WTA event outside the Slams, and the one players consistently rate as the best-run tournament of the year. Twenty-nine courts on one site with unrestricted practice-court access means you can stand fifteen feet from the world number one hitting for an hour, which is possible nowhere else. Desert conditions make the ball fly in the afternoon and drop dead at night, so results swing by session.',
     whyGo: [
-      'Unrestricted practice-court access — five metres from the top ten',
+      'Unrestricted practice-court access — fifteen feet from the top ten',
       'Twenty-nine courts on one walkable site in the desert',
       'Combined men’s and women’s draws across the full fortnight',
       'Coachella Valley in early March, before the summer heat',
@@ -239,7 +239,7 @@ export const TENNIS_EVENTS: WorldEvent[] = [
     venues: ['Monte-Carlo Country Club', 'Court Rainier III'],
     nearestJetPort: LFMN,
     description:
-      'The first big clay event of the European season, played on terraces cut into the hillside at Roquebrune-Cap-Martin with the sea directly below the show court. It is the only Masters 1000 with no mandatory attendance, so the field is slightly thinner and the atmosphere is correspondingly relaxed. Ground access lets you walk between outside courts with the Mediterranean fifty metres below the fence line.',
+      'The first big clay event of the European season, played on terraces cut into the hillside at Roquebrune-Cap-Martin with the sea directly below the show court. It is the only Masters 1000 with no mandatory attendance, so the field is slightly thinner and the atmosphere is correspondingly relaxed. Ground access lets you walk between outside courts with the Mediterranean 150 feet below the fence line.',
     whyGo: [
       'Court Rainier III sits on a terrace directly above the sea',
       'First serious clay event of the European season',

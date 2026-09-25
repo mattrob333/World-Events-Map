@@ -60,7 +60,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     description:
       'Courchevel 1850 is the only Alpine resort with its own altiport, and the fortnight either side of New Year is when it runs closest to capacity. Ski-in chalets on the Bellecôte and Cospillot pistes are held on rolling multi-year options, so the visible inventory is cancellations and a handful of newer builds at Le Praz. The lunch table at Le Chalet de Pierres and the après at La Cave des Creux are the two fixed points of the week.',
     whyGo: [
-      'Altiport landing puts you 400 metres from the piste',
+      'Altiport landing puts you a quarter mile from the piste',
       'Three Vallées lift network from the door, 370 miles of linked terrain',
       'The densest concentration of Michelin stars of any ski resort',
       'Chalet staffing runs at roughly one to one over the holiday',
@@ -144,7 +144,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: LSZS,
     description:
-      'St. Moritz sits at 1,822 metres in a dry, high valley that gets roughly 320 days of sun a year, which is why the winter season was invented here in 1864. The New Year week is when the hotel guest lists, the Corviglia Club terrace and the frozen lake all fill at once. Samedan, ten minutes down the valley, is the highest airport in Europe and takes heavy jets, though the approach is daylight and weather dependent.',
+      'St. Moritz sits at 5,978 feet in a dry, high valley that gets roughly 320 days of sun a year, which is why the winter season was invented here in 1864. The New Year week is when the hotel guest lists, the Corviglia Club terrace and the frozen lake all fill at once. Samedan, ten minutes down the valley, is the highest airport in Europe and takes heavy jets, though the approach is daylight and weather dependent.',
     whyGo: [
       'Samedan is a ten-minute transfer, not a two-hour Alpine drive',
       'Corviglia and Corvatsch give 95 miles of high, reliably sunny piste',
@@ -227,7 +227,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     description:
       'Verbier is the serious-terrain option among the big-name Alpine resorts: the off-piste off Mont-Fort and the Vallon d\'Arby is what the guides are actually here for, and February is when the snowpack is usually deepest. The fortnight overlaps British half-term, so the resort runs hot and the mountain guides book out first. Sion is 35 minutes down in the Rhône valley and takes heavy jets year-round.',
     whyGo: [
-      'Mont-Fort at 3,330m holds the best late-February snow in the 4 Vallées',
+      'Mont-Fort at 10,925 ft holds the best late-February snow in the 4 Vallées',
       'Guides here work genuine off-piste, not marked itineraries',
       'Sion is a 35-minute valley transfer with no mountain pass',
       '256 miles of linked piste on a single 4 Vallées pass',
@@ -245,7 +245,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'zermatt-march-high-season',
     name: 'Zermatt March High Season',
-    tagline: 'Long March days, glacier snow to 3,880m, and no cars in the village',
+    tagline: 'Long March days, glacier snow to 12,730 ft, and no cars in the village',
     category: 'ski',
     city: 'Zermatt',
     country: 'Switzerland',
@@ -268,9 +268,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: LSGS,
     description:
-      'March is Zermatt\'s strongest month: the glacier terrain up to 3,883 metres holds cold snow while the day length has stretched to nine usable hours, and the Cervinia link lets you ski into Italy for lunch. The village bans combustion cars, so arrivals come by rail from Täsch or by helicopter onto the village heliport. Chez Vrony above Findeln is the one lunch reservation worth making before you arrive.',
+      'March is Zermatt\'s strongest month: the glacier terrain up to 12,740 feet holds cold snow while the day length has stretched to nine usable hours, and the Cervinia link lets you ski into Italy for lunch. The village bans combustion cars, so arrivals come by rail from Täsch or by helicopter onto the village heliport. Chez Vrony above Findeln is the one lunch reservation worth making before you arrive.',
     whyGo: [
-      'Highest lift-served skiing in Europe at 3,883 metres',
+      'Highest lift-served skiing in Europe at 12,740 feet',
       'Ski across to Cervinia in Italy for lunch and back the same day',
       'Car-free village, so transfers are rail, sleigh or helicopter',
       'March gives cold snow and nine hours of usable light',
@@ -288,7 +288,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'niseko-january-powder',
     name: 'Niseko January Powder Season',
-    tagline: 'Siberian storm cycles dumping fifteen metres a winter onto Mount Annupuri',
+    tagline: 'Siberian storm cycles dumping fifty feet a winter onto Mount Annupuri',
     category: 'ski',
     city: 'Niseko',
     country: 'Japan',
@@ -307,9 +307,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Grand Hirafu', 'Niseko Annupuri', 'Zaborin', 'Kasara Niseko Village'],
     nearestJetPort: RJCC,
     description:
-      'Niseko sits directly downwind of the Sea of Japan, and January is when the Siberian airflow delivers most of the season\'s fifteen-odd metres. The trade-off is visibility: it snows on roughly two days in three, so the terrain is treed rather than alpine and night skiing is a genuine part of the routine. New Chitose is two hours by road and handles heavy jets with customs on request.',
+      'Niseko sits directly downwind of the Sea of Japan, and January is when the Siberian airflow delivers most of the season\'s fifty-odd feet. The trade-off is visibility: it snows on roughly two days in three, so the terrain is treed rather than alpine and night skiing is a genuine part of the routine. New Chitose is two hours by road and handles heavy jets with customs on request.',
     whyGo: [
-      'Fifteen metres of snowfall a season, most of it in January',
+      'Fifty feet of snowfall a season, most of it in January',
       'Night skiing on floodlit Hirafu until 20:30',
       'Onsen bathing at Zaborin between storm days',
       'New Chitose takes heavy jets with customs on arrival',
@@ -327,7 +327,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'jackson-hole-presidents-week',
     name: 'Jackson Hole Presidents\' Week',
-    tagline: 'Corbet\'s Couloir, 1,262 metres of vertical, and a valley that stays a ranch town',
+    tagline: 'Corbet\'s Couloir, 4,139 feet of vertical, and a valley that stays a ranch town',
     category: 'ski',
     city: 'Teton Village',
     country: 'United States',
@@ -351,9 +351,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: KJAC,
     description:
-      'Jackson Hole has the largest continuous vertical drop in the United States at 1,262 metres, and the terrain is genuinely steep rather than groomed-steep — roughly half the mountain is expert-rated. February holds the coldest, driest snow of the Teton season. The airport is the only one inside a US national park, which caps movements and means slots for the holiday week go early.',
+      'Jackson Hole has the largest continuous vertical drop in the United States at 4,139 feet, and the terrain is genuinely steep rather than groomed-steep — roughly half the mountain is expert-rated. February holds the coldest, driest snow of the Teton season. The airport is the only one inside a US national park, which caps movements and means slots for the holiday week go early.',
     whyGo: [
-      'Largest continuous vertical in the United States at 1,262m',
+      'Largest continuous vertical in the United States at 4,139 ft',
       'Aerial Tram to Rendezvous Bowl in nine minutes',
       'Backcountry gates open straight into Teton Pass terrain',
       'The only airport inside a US national park, ten miles out',
@@ -395,7 +395,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Streif', 'Hahnenkamm', 'Stanglwirt', 'Rosi\'s Sonnbergstuben'],
     nearestJetPort: LOWI,
     description:
-      'The 87th Hahnenkamm runs 18–24 January 2027, with the Super-G on Friday, the downhill Saturday and the slalom Sunday. The Streif is the hardest course on the World Cup calendar — the Mausefalle jump throws racers 80 metres at an 85% gradient — and around 100,000 people come to watch it over three days. The parallel event is social: the Kitzbühel weekend is one of the few fixtures where the Austrian, German and Italian circuits all show up at once.',
+      'The 87th Hahnenkamm runs 18–24 January 2027, with the Super-G on Friday, the downhill Saturday and the slalom Sunday. The Streif is the hardest course on the World Cup calendar — the Mausefalle jump throws racers 260 feet at an 85% gradient — and around 100,000 people come to watch it over three days. The parallel event is social: the Kitzbühel weekend is one of the few fixtures where the Austrian, German and Italian circuits all show up at once.',
     whyGo: [
       'The Streif is the hardest downhill on the World Cup calendar',
       '87th edition, run continuously in some form since 1931',
@@ -435,7 +435,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Lake St. Moritz', 'White Turf Grandstand', 'Kulm Hotel'],
     nearestJetPort: LSZS,
     description:
-      'White Turf runs on 7, 14 and 21 February 2027, on a track laid directly onto the frozen surface of Lake St. Moritz. Skijöring is unique to this meeting: riderless thoroughbreds tow skiers over a 2,700-metre course at up to 30 mph, and the winner takes the title of King of the Engadine. It has run since 1907, and the racing is genuinely competitive — international jockeys and Group-standard horses, not an exhibition.',
+      'White Turf runs on 7, 14 and 21 February 2027, on a track laid directly onto the frozen surface of Lake St. Moritz. Skijöring is unique to this meeting: riderless thoroughbreds tow skiers over a 1.7-mile course at up to 30 mph, and the winner takes the title of King of the Engadine. It has run since 1907, and the racing is genuinely competitive — international jockeys and Group-standard horses, not an exhibition.',
     whyGo: [
       'Skijöring exists nowhere else in world racing',
       'Racing laid directly on the frozen lake since 1907',
@@ -495,7 +495,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'verbier-xtreme-fwt-final',
     name: 'Xtreme Verbier — Freeride World Tour Final',
-    tagline: 'The Bec des Rosses north face, 500 metres at 55 degrees, one run each',
+    tagline: 'The Bec des Rosses north face, 1,640 feet at 55 degrees, one run each',
     category: 'ski',
     city: 'Verbier',
     country: 'Switzerland',
@@ -514,7 +514,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Bec des Rosses', 'Col des Gentianes', 'Verbier Village'],
     nearestJetPort: LSGS,
     description:
-      'The Freeride World Tour season closes on the north face of the Bec des Rosses, a 500-metre wall averaging around 45 degrees with sections past 55. Riders inspect from the opposite side with binoculars, then take a single run — no practice, no second attempt. The event sits inside a nine-day weather window in late March, and the final day is called two or three days out, so the trip has to be held loosely.',
+      'The Freeride World Tour season closes on the north face of the Bec des Rosses, a 1,640-foot wall averaging around 45 degrees with sections past 55. Riders inspect from the opposite side with binoculars, then take a single run — no practice, no second attempt. The event sits inside a nine-day weather window in late March, and the final day is called two or three days out, so the trip has to be held loosely.',
     whyGo: [
       'One run each, no practice, on a 55-degree face',
       'Watched live from Col des Gentianes on a standard lift pass',
@@ -553,7 +553,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Cresta Run', 'St. Moritz Tobogganing Club', 'Kulm Country Club'],
     nearestJetPort: LSZS,
     description:
-      'The Cresta is a 1,212-metre natural ice channel between St. Moritz and Celerina, rebuilt by hand every December and melted away by March. Riders go head-first on a skeleton toboggan and reach roughly 80 mph at Shuttlecock, the corner that throws most beginners out. The club has run it since 1885 and controls access entirely; the season opens just before Christmas and ends the first weekend of March.',
+      'The Cresta is a three-quarter-mile natural ice channel between St. Moritz and Celerina, rebuilt by hand every December and melted away by March. Riders go head-first on a skeleton toboggan and reach roughly 80 mph at Shuttlecock, the corner that throws most beginners out. The club has run it since 1885 and controls access entirely; the season opens just before Christmas and ends the first weekend of March.',
     whyGo: [
       'Ridden head-first at 80 mph on a hand-built ice channel',
       'Run by the same club continuously since 1885',
@@ -595,7 +595,7 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Hotel Portillo', 'Laguna del Inca', 'Roca Jack'],
     nearestJetPort: SCEL,
     description:
-      'Portillo is a single hotel at 2,880 metres on the Chilean side of the Uspallata pass, with 450 beds and no village at all — the nearest settlement is an hour away. The 2026 season runs 20 June to 26 September, and the mid-July to end-August weeks are the reliable ones for snow. The Roca Jack slingshot lifts serve terrain no other resort has, and several northern-hemisphere national teams train here in August.',
+      'Portillo is a single hotel at 9,450 feet on the Chilean side of the Uspallata pass, with 450 beds and no village at all — the nearest settlement is an hour away. The 2026 season runs 20 June to 26 September, and the mid-July to end-August weeks are the reliable ones for snow. The Roca Jack slingshot lifts serve terrain no other resort has, and several northern-hemisphere national teams train here in August.',
     whyGo: [
       'One hotel, 450 guests, fixed Saturday-to-Saturday weeks',
       'Roca Jack slingshot lifts exist nowhere else in skiing',
@@ -658,7 +658,7 @@ export const SKI_EVENTS: WorldEvent[] = [
   {
     id: 'thredbo-perisher-peak',
     name: 'Thredbo & Perisher Peak Winter',
-    tagline: 'Australia\'s longest run, 672 metres of vertical, and a short school-holiday window',
+    tagline: 'Australia\'s longest run, 2,205 feet of vertical, and a short school-holiday window',
     category: 'ski',
     city: 'Thredbo',
     country: 'Australia',
@@ -677,9 +677,9 @@ export const SKI_EVENTS: WorldEvent[] = [
     venues: ['Thredbo Alpine Resort', 'Perisher', 'Lake Crackenback Resort'],
     nearestJetPort: YSSY,
     description:
-      'Thredbo has Australia\'s longest run at 3.7 miles and its largest vertical at 672 metres; Perisher, twenty minutes away, is the largest resort in the southern hemisphere by lift count. The snowpack is thinner and warmer than New Zealand\'s, so the reliable window is narrow — the NSW school holidays through the first week of August. Neither resort has a jet field of its own; Sydney or Canberra plus a road transfer is the realistic routing.',
+      'Thredbo has Australia\'s longest run at 3.7 miles and its largest vertical at 2,205 feet; Perisher, twenty minutes away, is the largest resort in the southern hemisphere by lift count. The snowpack is thinner and warmer than New Zealand\'s, so the reliable window is narrow — the NSW school holidays through the first week of August. Neither resort has a jet field of its own; Sydney or Canberra plus a road transfer is the realistic routing.',
     whyGo: [
-      'Australia\'s longest run at 3.7 miles and 672m of vertical',
+      'Australia\'s longest run at 3.7 miles and 2,205 ft of vertical',
       'Perisher is the southern hemisphere\'s largest resort by lifts',
       'Kosciuszko backcountry touring straight off the top station',
       'Reachable from Sydney inside half a day',

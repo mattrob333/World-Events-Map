@@ -319,7 +319,7 @@ export const MUSIC_EVENTS: WorldEvent[] = [
   {
     id: 'verbier-festival',
     name: 'Verbier Festival',
-    tagline: 'Chamber music at 1,500 metres, where the soloists also play in each other\'s sets',
+    tagline: 'Chamber music at 4,900 feet, where the soloists also play in each other\'s sets',
     category: 'music',
     secondaryCategories: ['cultural'],
     city: 'Verbier',

@@ -335,7 +335,7 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: SBJR,
     description:
-      'The Special Group parades run over the Sunday and Monday nights of Carnival, each of the twelve schools given eighty minutes to move 3,000 people and half a dozen floats down 700 metres of concrete while judges score nine categories. The champions parade the following Saturday, 13 February. Away from the Sambadrome, several hundred street blocos take over the city from dawn, and the Copacabana Palace ball is the formal counterweight. It is hot, it is enormous, and nothing in the city works normally for a week.',
+      'The Special Group parades run over the Sunday and Monday nights of Carnival, each of the twelve schools given eighty minutes to move 3,000 people and half a dozen floats down half a mile of concrete while judges score nine categories. The champions parade the following Saturday, 13 February. Away from the Sambadrome, several hundred street blocos take over the city from dawn, and the Copacabana Palace ball is the formal counterweight. It is hot, it is enormous, and nothing in the city works normally for a week.',
     whyGo: [
       'Twelve schools, 3,000 performers each, scored live across nine categories',
       'You can buy a costume and parade inside a school’s wing yourself',
@@ -423,9 +423,9 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: SPZO,
     description:
-      'Inti Raymi was revived in 1944 from Garcilaso de la Vega’s account of the Inca sun ceremony and now runs as a full-day staged rite on 24 June. It begins at the Qorikancha, moves to the Plaza de Armas, and finishes on the esplanade below Sacsayhuamán with several hundred costumed performers and Quechua narration. Cusco sits at 3,400m and the ceremony runs from dawn to mid-afternoon in bright winter sun, so acclimatise for two days first. The whole of June is festival season in the city, with parades most days in the run-up.',
+      'Inti Raymi was revived in 1944 from Garcilaso de la Vega’s account of the Inca sun ceremony and now runs as a full-day staged rite on 24 June. It begins at the Qorikancha, moves to the Plaza de Armas, and finishes on the esplanade below Sacsayhuamán with several hundred costumed performers and Quechua narration. Cusco sits at 11,150 ft and the ceremony runs from dawn to mid-afternoon in bright winter sun, so acclimatise for two days first. The whole of June is festival season in the city, with parades most days in the run-up.',
     whyGo: [
-      'A staged Inca rite performed in Quechua at 3,700m above the city',
+      'A staged Inca rite performed in Quechua at 12,140 ft above the city',
       'June is Cusco’s dry season — cold nights, hard blue skies',
       'The Sacred Valley lodges are at their best and empty of rain',
       'Weeks of neighbourhood parades build up to the 24th',
@@ -739,7 +739,7 @@ export const CULTURAL_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: RJOO,
     description:
-      'Gion Matsuri fills the whole of July but concentrates into two peaks: the Saki Matsuri, with three yoiyama evenings from 14 July and the twenty-three-float Yamahoko Junko on the 17th, and the smaller Ato Matsuri procession on the 24th. The floats are up to 25 metres and 12 tonnes, hauled by rope and pivoted at corners on wet bamboo — the turn at Shijo-Kawaramachi is the thing to watch. During Yoiyama the merchant houses of Shinmachi open their fronts to show heirloom folding screens. Kyoto in July is 34°C and humid; the evenings are the point.',
+      'Gion Matsuri fills the whole of July but concentrates into two peaks: the Saki Matsuri, with three yoiyama evenings from 14 July and the twenty-three-float Yamahoko Junko on the 17th, and the smaller Ato Matsuri procession on the 24th. The floats are up to 80 feet and 12 tonnes, hauled by rope and pivoted at corners on wet bamboo — the turn at Shijo-Kawaramachi is the thing to watch. During Yoiyama the merchant houses of Shinmachi open their fronts to show heirloom folding screens. Kyoto in July is 34°C and humid; the evenings are the point.',
     whyGo: [
       'Twelve-tonne floats pivoted around corners on wet bamboo by rope teams',
       'Yoiyama evenings close the streets and open the old merchant houses',

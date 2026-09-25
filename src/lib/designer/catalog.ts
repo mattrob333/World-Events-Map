@@ -146,7 +146,7 @@ const ASPEN = place('aspen', [
 ]);
 
 const COURCHEVEL = place('courchevel', [
-  { id: 'altiport', slots: ['arrive'], title: 'Fly into the Altiport', blurb: 'A 537 m uphill runway. Or a gentler transfer from Geneva.', media: 'video', palette: ['#9f1239', '#ffe4e6'], emoji: '🛩️', tags: ['views'], link: yt('Courchevel altiport landing') },
+  { id: 'altiport', slots: ['arrive'], title: 'Fly into the Altiport', blurb: 'A 1,760-ft uphill runway. Or a gentler transfer from Geneva.', media: 'video', palette: ['#9f1239', '#ffe4e6'], emoji: '🛩️', tags: ['views'], link: yt('Courchevel altiport landing') },
   { id: 'saulire', slots: ['morning'], title: 'Saulire to the 3 Vallées', blurb: 'Ski over to Méribel and back before lunch.', media: 'video', image: '/editorial/courchevel-peak-week.jpg', palette: ['#1d4ed8', '#dbeafe'], emoji: '⛷️', tags: ['ski', 'big-kids', 'active'], link: yt('Saulire Courchevel skiing') },
   { id: 'esf', slots: ['morning'], title: 'ESF lessons for the kids', blurb: 'The famous red-jacket ski school. Médaille ceremony on Friday.', media: 'poster', palette: ['#dc2626', '#fee2e2'], emoji: '🏅', tags: ['kids', 'little-kids', 'ski'], link: maps('ESF Courchevel 1850') },
   { id: 'chalet-pierres', slots: ['lunch'], title: 'Le Chalet de Pierres', blurb: 'The terrace, the cheese trolley, the long lunch.', media: 'reel', palette: ['#b45309', '#fef3c7'], emoji: '🧀', tags: ['food', 'views'], link: ig('chaletdepierres') },

@@ -539,8 +539,8 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
       'A 2.1-mile circuit through public streets that a modern Formula 1 car barely fits inside, run since 1929 and impossible to overtake on — which is why qualifying on Saturday matters more than the race. What you are actually buying is position: a terrace above Ste-Dévote, a berth in Port Hercule, or a balcony on the Rascasse. Cannes-Mandelieu is the field to file to; Nice fills with commercial traffic and slot restrictions from the Thursday.',
     whyGo: [
       'Saturday qualifying is the real event — pole usually wins',
-      'Terraces and harbour berths put you metres from the barrier',
-      'Cars run within centimetres of Armco through the tunnel',
+      'Terraces and harbour berths put you feet from the barrier',
+      'Cars run within inches of Armco through the tunnel',
       'The Principality is walkable end to end across the whole weekend',
     ],
     tags: ['formula-1', 'street-circuit', 'monaco', 'harbour'],

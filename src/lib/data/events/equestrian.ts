@@ -117,7 +117,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
   {
     id: 'prix-arc-de-triomphe',
     name: 'Qatar Prix de l’Arc de Triomphe',
-    tagline: 'Europe’s championship middle-distance race, over 2,400 metres at ParisLongchamp',
+    tagline: 'Europe’s championship middle-distance race, over a mile and a half at ParisLongchamp',
     category: 'equestrian',
     city: 'Paris',
     country: 'France',
@@ -141,7 +141,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: LFPB,
     description:
-      'The Arc is run on the first Sunday of October over 2,400 metres and settles the European middle-distance season, with a supporting card of four Group Ones on the Saturday. ParisLongchamp reopened in 2018 with a rebuilt grandstand and the paddock now sits inside the building, which changed the whole rhythm of the day. It is a French crowd first — the enclosures fill with owners and breeders rather than a fashion audience — and the racing is watched, not background. Le Bourget is twenty-five minutes away and Paris is at its best in the first week of October.',
+      'The Arc is run on the first Sunday of October over a mile and a half and settles the European middle-distance season, with a supporting card of four Group Ones on the Saturday. ParisLongchamp reopened in 2018 with a rebuilt grandstand and the paddock now sits inside the building, which changed the whole rhythm of the day. It is a French crowd first — the enclosures fill with owners and breeders rather than a fashion audience — and the racing is watched, not background. Le Bourget is twenty-five minutes away and Paris is at its best in the first week of October.',
     whyGo: [
       'The race that settles the European middle-distance championship',
       'Four supporting Group Ones on the Saturday card',
@@ -185,7 +185,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: OMDW,
     description:
-      'The Dubai World Cup closes the Dubai World Cup Carnival on the last Saturday of March with nine races and one of the largest single-night purses in the sport. The main event is 2,000 metres on dirt; the Sheema Classic and the Dubai Turf on the same card are often the better races. Everything happens under floodlights from late afternoon to nearly midnight, which suits the climate and the clothes. Al Maktoum is fifteen minutes from the track and the whole city is set up for exactly this kind of weekend.',
+      'The Dubai World Cup closes the Dubai World Cup Carnival on the last Saturday of March with nine races and one of the largest single-night purses in the sport. The main event is a mile and a quarter on dirt; the Sheema Classic and the Dubai Turf on the same card are often the better races. Everything happens under floodlights from late afternoon to nearly midnight, which suits the climate and the clothes. Al Maktoum is fifteen minutes from the track and the whole city is set up for exactly this kind of weekend.',
     whyGo: [
       'Over $30m in purses across nine races on a single floodlit card',
       'The Sheema Classic and Dubai Turf routinely outrun the main event',
@@ -205,7 +205,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
   {
     id: 'melbourne-cup-carnival',
     name: 'Melbourne Cup Carnival',
-    tagline: 'The 166th Cup — 3,200 metres, twenty-four runners, and a public holiday for one race',
+    tagline: 'The 166th Cup — two miles, twenty-four runners, and a public holiday for one race',
     category: 'equestrian',
     secondaryCategories: ['fashion'],
     city: 'Melbourne',
@@ -229,7 +229,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: YMEN,
     description:
-      'Carnival week runs Derby Day on the Saturday, the Cup on the first Tuesday of November, Oaks Day on the Thursday and Stakes Day on the closing Saturday. The Cup itself is a 3,200-metre handicap that Victoria takes as a public holiday and the rest of the country stops for. Derby Day is strictly black and white and is where the racing people go; the Cup is the crowd. The Birdcage is a temporary village of two-storey brand marquees behind the grandstand, and admission to it has nothing to do with money.',
+      'Carnival week runs Derby Day on the Saturday, the Cup on the first Tuesday of November, Oaks Day on the Thursday and Stakes Day on the closing Saturday. The Cup itself is a two-mile handicap that Victoria takes as a public holiday and the rest of the country stops for. Derby Day is strictly black and white and is where the racing people go; the Cup is the crowd. The Birdcage is a temporary village of two-storey brand marquees behind the grandstand, and admission to it has nothing to do with money.',
     whyGo: [
       'Four race days across eight days, each with a different dress code',
       'Derby Day is black-and-white only and the connoisseur’s card',
@@ -292,7 +292,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
   {
     id: 'saudi-cup',
     name: 'The Saudi Cup',
-    tagline: 'The richest race in the world, run over 1,800 metres of dirt outside Riyadh',
+    tagline: 'The richest race in the world, run over a mile and an eighth of dirt outside Riyadh',
     category: 'equestrian',
     city: 'Riyadh',
     country: 'Saudi Arabia',
@@ -336,7 +336,7 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
   {
     id: 'japan-cup-tokyo',
     name: 'Japan Cup',
-    tagline: 'Japan’s international invitational over 2,400 metres, in front of 70,000 at Fuchu',
+    tagline: 'Japan’s international invitational over a mile and a half, in front of 70,000 at Fuchu',
     category: 'equestrian',
     city: 'Tokyo',
     country: 'Japan',
@@ -360,9 +360,9 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
     ],
     nearestJetPort: RJTT,
     description:
-      'The Japan Cup is run on the last Sunday in November over 2,400 metres of turf at Tokyo Racecourse in Fuchu, with a purse among the largest in the world and a crowd that can pass 70,000. Japanese racing culture is unlike anywhere else — the grandstand is enormous, spotless and packed, and the betting turnover on the day is measured in hundreds of millions. Domestic runners have dominated for two decades, which makes any foreign challenger a real story. Late November in Tokyo is cold, dry and the ginkgo avenues are at their peak.',
+      'The Japan Cup is run on the last Sunday in November over a mile and a half of turf at Tokyo Racecourse in Fuchu, with a purse among the largest in the world and a crowd that can pass 70,000. Japanese racing culture is unlike anywhere else — the grandstand is enormous, spotless and packed, and the betting turnover on the day is measured in hundreds of millions. Domestic runners have dominated for two decades, which makes any foreign challenger a real story. Late November in Tokyo is cold, dry and the ginkgo avenues are at their peak.',
     whyGo: [
-      'Seventy thousand people watching one 2,400-metre turf race in silence',
+      'Seventy thousand people watching one mile-and-a-half turf race in silence',
       'Betting turnover on the day runs into the hundreds of millions',
       'A racing culture with no European or American equivalent',
       'Late-November Tokyo — ginkgo season, and the dining year at its best',

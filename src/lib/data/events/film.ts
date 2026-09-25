@@ -130,7 +130,7 @@ export const FILM_EVENTS: WorldEvent[] = [
     venues: ['Boulder Theater', 'Macky Auditorium', 'Chautauqua Auditorium', 'Pearl Street'],
     nearestJetPort: KBJC,
     description:
-      'Sundance has left Park City after more than forty years and the 2027 edition, 21–31 January, is its first in Boulder, Colorado. The festival remains the primary US market for independent acquisitions, with the significant deals typically closing in the opening 72 hours. Boulder is at 1,650m, sits against the Flatirons, and the venues are walkable in a way Park City never was.',
+      'Sundance has left Park City after more than forty years and the 2027 edition, 21–31 January, is its first in Boulder, Colorado. The festival remains the primary US market for independent acquisitions, with the significant deals typically closing in the opening 72 hours. Boulder is at 5,410 ft, sits against the Flatirons, and the venues are walkable in a way Park City never was.',
     whyGo: [
       'First Boulder edition after forty-plus years in Park City',
       'US independent acquisition deals close in the opening 72 hours',
@@ -213,12 +213,12 @@ export const FILM_EVENTS: WorldEvent[] = [
     venues: ['Werner Herzog Theatre', 'Chuck Jones Cinema', 'Palm Theatre', 'Galaxy'],
     nearestJetPort: KASE,
     description:
-      'The 53rd Telluride runs Labor Day weekend, 4–7 September 2026, in a Colorado box canyon at 2,700m, and the programme is deliberately withheld until the festival opens. Rebecca Hall is the 2026 guest director. There are no red carpets and no market — directors queue for coffee alongside pass-holders, which is the entire reason people pay for the top tier.',
+      'The 53rd Telluride runs Labor Day weekend, 4–7 September 2026, in a Colorado box canyon at 8,860 ft, and the programme is deliberately withheld until the festival opens. Rebecca Hall is the 2026 guest director. There are no red carpets and no market — directors queue for coffee alongside pass-holders, which is the entire reason people pay for the top tier.',
     whyGo: [
       'Programme withheld until you arrive — you book on trust alone',
       'No red carpets, no market, no publicists working the room',
       'Awards-season titles play here days before Toronto sees them',
-      'A 2,700m box canyon with the aspens turning over the weekend',
+      'An 8,860 ft box canyon with the aspens turning over the weekend',
     ],
     tags: ['colorado', 'secret-programme', 'awards-season', 'intimate', 'labor-day'],
     signals: {

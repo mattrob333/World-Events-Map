@@ -399,7 +399,7 @@ export const SAFARI_EVENTS: WorldEvent[] = [
   {
     id: 'sabi-sand-leopards',
     name: 'Sabi Sand Leopard Season',
-    tagline: 'Habituated leopards at fifteen metres on unfenced Kruger frontage',
+    tagline: 'Habituated leopards at fifty feet on unfenced Kruger frontage',
     category: 'safari',
     secondaryCategories: ['nature'],
     city: 'Sabi Sand',
@@ -420,9 +420,9 @@ export const SAFARI_EVENTS: WorldEvent[] = [
     description:
       'Four generations of leopards on the Sand River have been followed by the same trackers since the 1970s, and the animals ignore vehicles entirely — this is where the close-range leopard photography you have seen was made. The dry winter strips the bush, drops the grass, and pushes game to the river, so sightings that are guesswork in February are routine in August. Nights fall below freezing on the open vehicles and the landscape is grey and leafless, which is the trade for the visibility.',
     whyGo: [
-      'Leopards habituated across four generations, at fifteen metres',
+      'Leopards habituated across four generations, at fifty feet',
       'No fence between the reserve and Kruger — full predator movement',
-      'Winter bush is bare, so sightlines run a hundred metres',
+      'Winter bush is bare, so sightlines run a hundred yards',
       'Two-hour road transfer or a twenty-minute hop from Lanseria',
     ],
     tags: ['leopard', 'big-five', 'private-reserve', 'kruger', 'south-africa'],
@@ -616,7 +616,7 @@ export const SAFARI_EVENTS: WorldEvent[] = [
     venues: ['Phobjikha Valley', 'Gangtey Monastery', 'Black-Necked Crane Centre', 'Gangtey Nature Trail'],
     nearestJetPort: VQPR,
     description:
-      'Around three hundred black-necked cranes cross the Himalaya from the Tibetan plateau in the last week of October and winter in this glacial valley at 3,000 metres until mid-February. Bhutanese tradition holds that the birds circle Gangtey Monastery three times on arrival and again on departure, and the villagers still farm the wetland by hand because power lines were routed underground for the birds. Numbers build through November — arrive in the first week and you may find fifty, not three hundred.',
+      'Around three hundred black-necked cranes cross the Himalaya from the Tibetan plateau in the last week of October and winter in this glacial valley at 9,840 feet until mid-February. Bhutanese tradition holds that the birds circle Gangtey Monastery three times on arrival and again on departure, and the villagers still farm the wetland by hand because power lines were routed underground for the birds. Numbers build through November — arrive in the first week and you may find fifty, not three hundred.',
     whyGo: [
       'Three hundred wintering cranes in one high glacial valley',
       'Crane Festival at Gangtey Monastery in the second week of November',

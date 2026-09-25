@@ -624,7 +624,7 @@ export const ART_EVENTS: WorldEvent[] = [
     bookingLeadDays: 300,
     venues: ['Messe Basel', 'Unlimited hall', 'Parcours (Basel old town)'],
     description:
-      'Messe Basel holds roughly 285 galleries and the deepest concentration of blue-chip material sold anywhere in a single week. Unlimited fills a separate 16,000-square-metre hall with works too large for any booth, and Parcours puts commissioned pieces through the old town. By Thursday morning much of the significant material has already changed hands on First Choice Tuesday — if you are coming to buy rather than to look, that is the day you need.',
+      'Messe Basel holds roughly 285 galleries and the deepest concentration of blue-chip material sold anywhere in a single week. Unlimited fills a separate 172,000-square-foot hall with works too large for any booth, and Parcours puts commissioned pieces through the old town. By Thursday morning much of the significant material has already changed hands on First Choice Tuesday — if you are coming to buy rather than to look, that is the day you need.',
     whyGo: [
       'First Choice Tuesday is when the eight-figure works actually move',
       'Unlimited stages works no booth could hold, in a 16,000 sqm hall',
