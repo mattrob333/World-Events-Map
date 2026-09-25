@@ -7,6 +7,12 @@ import { TRIP_ROUTER_CONTRACT, routeTripRequest, tripRouterQuestions, tripRouter
 import { storeReceipts } from '@/lib/jev/receipts';
 import { indexDestinations } from '@/lib/pulse';
 import { readTrip } from '@/lib/voice/tripBrief';
+import { vibeMatch } from '@/lib/vibe/match';
+import { placeIndex, type Place } from '@/lib/vibe/places';
+import { feedIndex } from '@/lib/vibe/server/feedIndex';
+import { tripWindow } from '@/lib/vibe/window';
+
+let places: Place[] | null = null;
 import { tripChecklist } from '@/lib/voice/vibeChecklist';
 
 export const dynamic = 'force-dynamic';
@@ -80,5 +86,12 @@ export async function POST(request: Request) {
     reason: why.reason ?? null,
     slug: index.byEventId.get(event.id)?.slug ?? null,
   }));
-  return jsonOk({ route: 'recommend', tripType, recommendations, where: brief.wheres.map((where) => where.label), crew: brief.crew?.label ?? null, nights: when.nights ?? null, month: when.month?.from.slice(0, 7) ?? null, decidedBy, source: 'dope.travel curated calendar' });
+  // Vibe Match: every place in scope for the exact window, scored from the calendar and
+  // counted news; the device adds the traveler's taste (the profile never comes here).
+  places ??= placeIndex(EVENTS);
+  const window = tripWindow(when, today);
+  const news = await feedIndex(places);
+  const vibe = vibeMatch({ wheres: brief.wheres, tripType, window, today, events: EVENTS, places, mentions: news.status.state === 'unavailable' ? null : news.byPlace, news: news.status });
+  const vibePlaces = vibe.places.map((place) => ({ ...place, slug: place.events.map((event) => index.byEventId.get(event.id)?.slug).find(Boolean) ?? null }));
+  return jsonOk({ route: 'recommend', tripType, recommendations, vibe: { window, ...vibe, places: vibePlaces }, where: brief.wheres.map((where) => where.label), crew: brief.crew?.label ?? null, nights: when.nights ?? null, month: when.month?.from.slice(0, 7) ?? null, decidedBy, source: 'dope.travel curated calendar' });
 }

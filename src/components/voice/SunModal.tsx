@@ -14,6 +14,7 @@ import { checklistFor, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { useRealtime } from '@/lib/voice/useRealtime';
 import { useModalFocus } from '@/components/shell/useModalFocus';
 import { SunOrb } from './SunOrb';
+import { VibePlaces, type VibePayload } from './VibePlaces';
 import { useLiveTranscript } from './useLiveTranscript';
 
 type PageVoice = NonNullable<ReturnType<typeof useVoiceStore.getState>['page']>;
@@ -103,6 +104,7 @@ function VibeStage() {
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
+  const [vibe, setVibe] = useState<VibePayload | null>(null);
   const [recMonth, setRecMonth] = useState<string | null>(null);
   const [recWhere, setRecWhere] = useState<string[]>([]);
   const [rulesDecided, setRulesDecided] = useState(false);
@@ -214,6 +216,7 @@ function VibeStage() {
   const startTalking = async () => {
     setNote(null);
     setRecs(null);
+    setVibe(null);
     setRulesDecided(false);
     setUsedSpeech(true);
     setPhase('talking');
@@ -267,6 +270,7 @@ function VibeStage() {
   const build = async () => {
     const text = dictation.text.trim();
     setRecs(null);
+    setVibe(null);
     setNote(null);
     setRulesDecided(false);
     if (text.length < 10) {
@@ -276,7 +280,7 @@ function VibeStage() {
     setPhase('building');
     if (mode === 'trip') {
       // trip-router@1 decides what they asked for before anything else runs.
-      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; where?: string[]; decidedBy?: 'jev' | 'rules' };
+      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; where?: string[]; vibe?: VibePayload; decidedBy?: 'jev' | 'rules' };
       let routed: Routed | null = null;
       try {
         const response = await fetch('/api/designer/route-trip', {
@@ -296,6 +300,7 @@ function VibeStage() {
       }
       if (routed?.route === 'recommend') {
         setRecs(routed.recommendations ?? []);
+        setVibe(routed.vibe ?? null);
         setRecMonth(routed.month ?? null);
         setRecWhere(routed.where ?? []);
         setPhase('recap');
@@ -418,10 +423,19 @@ function VibeStage() {
               <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
                 {view !== 'typing' && (
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
-                    {view === 'building' ? 'On it' : recs ? 'Ideas from our calendar' : 'Here’s what I heard'}
+                    {view === 'building' ? 'On it' : recs ? (vibe ? 'Where your week is' : 'Ideas from our calendar') : 'Here’s what I heard'}
                   </p>
                 )}
-                {recs && (
+                {recs && vibe && (vibe.places.length > 0 || vibe.alsoInRange.length > 0) && (
+                  <div aria-live="polite">
+                    <VibePlaces
+                      vibe={vibe}
+                      onPlan={(plan) => { router.push(planTripHref(planWith(plan))); setOpen(false); }}
+                      onSee={(href) => { router.push(href); setOpen(false); }}
+                    />
+                  </div>
+                )}
+                {recs && !(vibe && (vibe.places.length > 0 || vibe.alsoInRange.length > 0)) && (
                   <div className="mt-3 flex flex-col gap-2" aria-live="polite">
                     {recs.length ? (
                       <>

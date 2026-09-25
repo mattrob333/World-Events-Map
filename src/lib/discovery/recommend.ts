@@ -23,6 +23,13 @@ const MATCH: Partial<Record<TripType, (event: WorldEvent) => boolean>> = {
   family: (e) => /\b(family|kids)\b/i.test(`${e.tags.join(' ')} ${e.accessNote}`),
 };
 
+/** Whether an event is the kind of trip asked for (any event when no kind was said). */
+export function matchesTripType(event: WorldEvent, tripType: TripType | null): boolean {
+  if (!tripType) return true;
+  const match = MATCH[tripType];
+  return match ? match(event) : false;
+}
+
 export type Recommendation = {
   event: WorldEvent;
   why: WhyNow;

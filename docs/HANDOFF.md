@@ -132,6 +132,26 @@ See `docs/AGENTIC-PLAN.md` for the plan and its status.
 - **Truth rules:** only rows linking to the provider's own domain are kept; images come only from that provider's CDN, so each photo is the listing's or post's own. Instagram and TikTok posts must name the place in their words or tagged location (hashtags alone don't count on Instagram), no ads or paid partnerships, and nothing older than 60 days. "Hidden gems" is a stated rule (4.6+ with 30–1,500 Google reviews), not an editorial call. Every tab shows source and fetch time.
 - **Instagram/TikTok terms:** the panel hot-links post images from the platform CDNs and links out to each post; nothing is re-hosted. Fine for the owner's personal use. Before opening to others, switch to official embeds or revisit terms (see `docs/RESEARCH-PIPELINE.md`).
 
+## Vibe Match and the Concierge (2026-09-25)
+
+The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the product (`PRD.md`), UX (`UX.md`) and architecture (`ARCH.md`) tracks.
+
+**Phase 1 (Vibe Match) is live.**
+- **Where it runs:** route-trip's recommend branch returns `vibe: {window, places, alsoInRange, news}`.
+- **How it scores** (`src/lib/vibe/`):
+  - calendar events overlapping the exact trip window (other kinds of event at the same place count half);
+  - counted news mentions from `meridian_feed_items` (30-day index, cached 20 min, calendar-only fallback);
+  - the calendar's editorial buzz, as a small labeled prior;
+  - taste from the traveler's profile, added on the device (`affinity.ts`), so the profile never leaves it.
+- **Places:** 57 resorts (`src/lib/geo/resorts.ts`) plus calendar cities. "The Alps" means resorts and places within 40 km of one.
+- **Honesty rules:** no reason without a source, no "trending" until 30 days of news history exist, and curated buzz is never printed.
+
+**Next:**
+- Migration 008 (place keys on feed items, needed within about 2 weeks as rows grow).
+- Ticketmaster artist shows.
+- Phase 2, the live voice concierge (needs `VOICE_ENABLED=1` on Preview and a voice budget decision).
+- Phase 3, trip build.
+
 ## Red team 2026-09-25 (third pass)
 
 Report: `docs/redteam/2026-09-25/REPORT.md` (six personas, about 80 findings, most fixed in the same change). The blocker was the basket deck covering its own Keep, Pass and Done buttons (a CSS module class collision); it's fixed and verified in a browser.
