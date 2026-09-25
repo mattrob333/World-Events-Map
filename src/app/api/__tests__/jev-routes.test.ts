@@ -48,7 +48,8 @@ describe('route-trip', () => {
     const body = await (await postRoute(request('/api/designer/route-trip', { text: 'Lisbon second week of October me and Sam no touristy fado', today: '2026-09-25' }))).json();
     expect(body).toMatchObject({ route: 'plan', place: { place: 'Lisbon', start: '2026-10-08' } });
     const japan = await (await postRoute(request('/api/designer/route-trip', { text: 'I want to go to Japan for a week in February', today: '2026-09-25' }))).json();
-    expect(japan).toMatchObject({ route: 'plan', place: { place: 'Japan', start: '2027-02-01', nights: 7 } });
+    // A country is somewhere to choose within, not one destination (red team N10).
+    expect(japan).toMatchObject({ route: 'recommend', where: ['Japan'], nights: 7 });
   });
 
   it('keeps recommendations inside a month that was named', async () => {
@@ -56,6 +57,25 @@ describe('route-trip', () => {
     expect(body.route).toBe('recommend');
     expect(body.month).toBe('2027-01');
     for (const rec of body.recommendations) expect(rec.start <= '2027-01-31' && (rec.start >= '2027-01-01' || rec.end >= '2027-01-07')).toBe(true);
+  });
+
+  it('knows the Alps span countries, and reads the week and the crew (owner test 09-25)', async () => {
+    const text = "I want to go on a ski trip. I want it to be in the Alps. I want the coolest place in the Alps, the hottest new trendy ski resort in the Alps. I'm taking my family of four and another family of four. I want it to be for the first week in February.";
+    const body = await (await postRoute(request('/api/designer/route-trip', { text, today: '2026-09-25' }))).json() as { route: string; tripType: string; where: string[]; crew: string; recommendations: { country: string; start: string; end: string; city: string }[] };
+    expect(body.route).toBe('recommend');
+    expect(body.tripType).toBe('ski');
+    expect(body.where).toEqual(['the Alps']);
+    expect(body.crew).toBe('2 families of 4 (8 people)');
+    expect(body.recommendations.length).toBeGreaterThan(0);
+    for (const rec of body.recommendations) {
+      expect(['Switzerland', 'France', 'Austria', 'Italy', 'Germany', 'Slovenia', 'Liechtenstein']).toContain(rec.country);
+      expect(rec.start <= '2027-02-28' && rec.end >= '2027-02-01').toBe(true);
+    }
+  });
+
+  it('plans a named resort inside a long sentence and carries the crew', async () => {
+    const body = await (await postRoute(request('/api/designer/route-trip', { text: 'We want to go skiing in Verbier the first week of February, me and my wife', today: '2026-09-25' }))).json();
+    expect(body).toMatchObject({ route: 'plan', place: { place: 'Verbier', start: '2027-02-01', who: '2 people' } });
   });
 
   it('uses Jev when configured and keeps code in charge of the route', async () => {

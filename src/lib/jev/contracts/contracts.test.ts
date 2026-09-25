@@ -5,7 +5,7 @@ import { fallbackRoute, routeTripRequest, tripTypeFromText, type TripRouterAnswe
 import { becauseLine, fitKey, rankCandidates, tripFitQuestions, type FitCandidate } from './tripFit';
 import { routeFeedItem, type FeedItemAnswers } from './feedItem';
 
-const facts = (text: string, placeFound: string | null = null) => ({ text, placeFound, whenFound: /october|february|week/i.test(text), whoFound: false, hasProfile: true });
+const facts = (text: string, placeFound: string | null = null) => ({ text, placeFound, regionFound: null, whenFound: /october|february|week/i.test(text), whoFound: false, hasProfile: true });
 const router = (intent: string, p: number, tripType = 'ski'): TripRouterAnswers => ({
   intent: { type: 'choice', selected: intent, probabilities: { recommend_destination: 0, plan_trip: 0, find_specific: 0, question: 0, unclear: 0, [intent]: p }, confidence: p },
   trip_type: { type: 'choice', selected: tripType, probabilities: { [tripType]: 0.8, none: 0.2 }, confidence: 0.8 },

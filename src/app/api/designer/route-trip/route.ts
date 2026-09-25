@@ -6,7 +6,7 @@ import { askJev, jevConfigured, stateHash } from '@/lib/jev/client';
 import { TRIP_ROUTER_CONTRACT, routeTripRequest, tripRouterQuestions, tripRouterState, type TripRequestFacts } from '@/lib/jev/contracts/tripRouter';
 import { storeReceipts } from '@/lib/jev/receipts';
 import { indexDestinations } from '@/lib/pulse';
-import { placeFromTripRequest, tripWhen } from '@/lib/voice/vibe';
+import { readTrip } from '@/lib/voice/tripBrief';
 import { tripChecklist } from '@/lib/voice/vibeChecklist';
 
 export const dynamic = 'force-dynamic';
@@ -32,12 +32,14 @@ export async function POST(request: Request) {
   if (text.length < 3) return jsonError(400, 'EMPTY', 'Say what you’re after first.');
   const today = typeof body.today === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.today) ? body.today : new Date().toISOString().slice(0, 10);
 
-  const found = placeFromTripRequest(text);
-  const when = tripWhen(text, today);
+  const brief = readTrip(text, today);
+  const found = brief.place;
+  const when = brief.when;
   const checks = Object.fromEntries(tripChecklist(text).map((item) => [item.key, item.done]));
   const facts: TripRequestFacts = {
     text,
     placeFound: found ? [found.place, found.region].filter(Boolean).join(', ') : null,
+    regionFound: brief.wheres.length ? brief.wheres.map((where) => where.label).join(', ') : null,
     whenFound: Boolean(checks.when),
     whoFound: Boolean(checks.who),
     hasProfile: body.hasProfile === true,
@@ -60,12 +62,13 @@ export async function POST(request: Request) {
   const decidedBy = result?.ok ? 'jev' : 'rules';
   if (decided.route === 'follow_up') return jsonOk({ route: 'follow_up', question: decided.question, decidedBy });
   if (decided.route === 'plan') {
-    const place = found ? { ...found, ...(when.start ? { start: when.start } : {}), ...(when.nights ? { nights: when.nights } : {}) } : null;
+    const place = found ? { ...found, ...(when.start ? { start: when.start } : {}), ...(when.nights ? { nights: when.nights } : {}), ...(brief.crew ? { who: brief.crew.label } : {}) } : null;
     return jsonOk({ route: 'plan', place, tripType: decided.tripType, decidedBy });
   }
 
   const index = indexDestinations(EVENTS, today);
-  const recommendations = recommendDestinations(EVENTS, today, decided.tripType, when.month ? { within: when.month } : {}).map(({ event, why }) => ({
+  const tripType = decided.tripType ?? brief.tripType;
+  const recommendations = recommendDestinations(EVENTS, today, tripType, { ...(when.month ? { within: when.month } : {}), where: brief.wheres }).map(({ event, why }) => ({
     id: event.id,
     name: event.name,
     city: event.city,
@@ -77,5 +80,5 @@ export async function POST(request: Request) {
     reason: why.reason ?? null,
     slug: index.byEventId.get(event.id)?.slug ?? null,
   }));
-  return jsonOk({ route: 'recommend', tripType: decided.tripType, recommendations, month: when.month?.from.slice(0, 7) ?? null, decidedBy, source: 'dope.travel curated calendar' });
+  return jsonOk({ route: 'recommend', tripType, recommendations, where: brief.wheres.map((where) => where.label), crew: brief.crew?.label ?? null, nights: when.nights ?? null, month: when.month?.from.slice(0, 7) ?? null, decidedBy, source: 'dope.travel curated calendar' });
 }

@@ -1,5 +1,8 @@
 import { choice, noul, type AnswersFor } from '../client';
 import { TRIP_TYPES, type TripType } from './feedItem';
+import { tripTypeFromText } from '@/lib/voice/tripType';
+
+export { tripTypeFromText };
 
 /**
  * trip-router@1: what is the traveler asking for, before anything expensive
@@ -8,11 +11,13 @@ import { TRIP_TYPES, type TripType } from './feedItem';
  * Jev cannot extract the place: code finds it in the text first and passes
  * only whether it was found.
  */
-export const TRIP_ROUTER_CONTRACT = 'trip-router@1';
+export const TRIP_ROUTER_CONTRACT = 'trip-router@2';
 
 export type TripRequestFacts = {
   text: string;
   placeFound: string | null;
+  /** A region, country or state they named ("the Alps"), found by code. */
+  regionFound: string | null;
   whenFound: boolean;
   whoFound: boolean;
   hasProfile: boolean;
@@ -22,6 +27,7 @@ export function tripRouterState(facts: TripRequestFacts) {
   return {
     request: facts.text.slice(0, 800),
     place_named_in_request: facts.placeFound,
+    region_named_in_request: facts.regionFound,
     dates_mentioned: facts.whenFound,
     companions_mentioned: facts.whoFound,
     traveler_has_saved_profile: facts.hasProfile,
@@ -54,7 +60,7 @@ export type TripRoute =
   | { route: 'follow_up'; question: string; confidence: number };
 
 function followUp(facts: TripRequestFacts): string {
-  if (!facts.placeFound) return 'Where are you thinking? Name a place, or a kind of trip: beach, snow, food, surf, nights out, culture.';
+  if (!facts.placeFound && !facts.regionFound) return 'Where are you thinking? Name a place, or a kind of trip: beach, snow, food, surf, nights out, culture.';
   if (!facts.whenFound) return `When are you thinking of ${facts.placeFound}, and for how long?`;
   return 'Tell me a little more: who’s coming, and one thing you have to do there?';
 }
@@ -68,25 +74,15 @@ export function routeTripRequest(facts: TripRequestFacts, answers: TripRouterAns
   const tripType = answers.trip_type.selected !== 'none' && typeP >= 0.4 ? (answers.trip_type.selected as TripType) : null;
   if (intent === 'unclear' || confidence < 0.5) return { route: 'follow_up', question: followUp(facts), confidence };
   if (intent === 'recommend_destination') return { route: 'recommend', tripType, confidence };
-  if (!facts.placeFound) return intent === 'plan_trip' && tripType ? { route: 'recommend', tripType, confidence } : { route: 'follow_up', question: followUp(facts), confidence };
+  if (!facts.placeFound) return intent === 'plan_trip' && (tripType || facts.regionFound) ? { route: 'recommend', tripType, confidence } : { route: 'follow_up', question: followUp(facts), confidence };
   return { route: 'plan', tripType, confidence };
 }
 
-const RECOMMEND = /\b(best|most popular|hottest|where should|which (?:place|city|town|resort|beach)|recommend|suggest|top (?:spot|place)s?|right now)\b/i;
-const TYPE_WORDS: [TripType, RegExp][] = [
-  ['ski', /\b(ski|skiing|snowboard|powder|slopes?)\b/i], ['surf', /\b(surf|surfing|waves?)\b/i], ['beach', /\b(beach(?:es)?|island|sun|sunny|warm|hot|tropical|heat)\b/i],
-  ['food', /\b(food|eat|restaurants?|foodie)\b/i], ['nightlife', /\b(nightlife|clubs?|bars?|party)\b/i], ['festivals', /\bfestivals?\b/i],
-  ['music', /\b(concerts?|gigs?|live music)\b/i], ['sports', /\b(race|match|game|golf|tennis|f1|formula)\b/i], ['culture', /\b(museums?|art|history|culture)\b/i],
-  ['adventure', /\b(safari|adventure|hike|trek)\b/i], ['wellness', /\b(spa|retreat|wellness)\b/i], ['family', /\b(kids|family)\b/i],
-];
-
-export function tripTypeFromText(text: string): TripType | null {
-  return TYPE_WORDS.find(([, pattern]) => pattern.test(text))?.[0] ?? null;
-}
-
+const RECOMMEND = /\b(best|most popular|hottest|coolest|trendiest|trendy|buzziest|where should|which (?:place|city|town|resort|beach)|recommend|suggest|top (?:spot|place)s?|right now)\b/i;
 /** Without Jev: plain word rules, clearly less capable, never guessing a place. */
 export function fallbackRoute(facts: TripRequestFacts): TripRoute {
   const tripType = tripTypeFromText(facts.text);
+  if (facts.regionFound && !facts.placeFound) return { route: 'recommend', tripType, confidence: 0 };
   if (RECOMMEND.test(facts.text) && !facts.placeFound) return { route: 'recommend', tripType, confidence: 0 };
   if (facts.placeFound) return { route: 'plan', tripType, confidence: 0 };
   if (tripType) return { route: 'recommend', tripType, confidence: 0 };

@@ -11,7 +11,7 @@ function buttonLabel(viewer: Viewer): string {
   // Locating wins over a chosen city: a pending prompt must show progress (UFR2-J09).
   if (viewer.status === 'locating') return 'Finding you…';
   if (viewer.source === 'chosen' && viewer.cityLabel) return viewer.cityLabel.split(',')[0];
-  if (viewer.status === 'granted' && viewer.source === 'browser') return 'Near you';
+  if (viewer.status === 'granted' && viewer.source === 'browser') return viewer.placeShort ?? 'Near you';
   return 'Location';
 }
 
@@ -108,6 +108,9 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
             {viewer.status === 'locating' ? 'Finding you…' : 'Use my current location'}
           </button>
           {blocked && <p className={styles.locationNote}>Location is blocked in your browser. Pick a city instead.</p>}
+          <p className={styles.locationNote}>
+            Your city is worked out on this device and never sent anywhere. City names: <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer" className="underline">GeoNames</a> (CC BY 4.0).
+          </p>
           <form
             onSubmit={(event) => {
               event.preventDefault();

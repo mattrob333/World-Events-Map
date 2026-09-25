@@ -8,7 +8,8 @@ import { pickActiveProfile, profileLabel, useDesignerStore } from '@/lib/designe
 import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
-import { placeFromTripRequest, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { readTrip, whenLabel } from '@/lib/voice/tripBrief';
+import { vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
 import { checklistFor, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { useRealtime } from '@/lib/voice/useRealtime';
 import { useModalFocus } from '@/components/shell/useModalFocus';
@@ -63,6 +64,11 @@ function withYear(when: string, start: string | undefined, today: string) {
   return `${when}, ${start.slice(0, 4)}`;
 }
 
+/** "Dec 19" from "2026-12-19". */
+function shortDay(iso: string) {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+}
+
 function localToday() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
@@ -98,6 +104,7 @@ function VibeStage() {
   const [note, setNote] = useState<string | null>(null);
   const [recs, setRecs] = useState<Recommendation[] | null>(null);
   const [recMonth, setRecMonth] = useState<string | null>(null);
+  const [recWhere, setRecWhere] = useState<string[]>([]);
   const [rulesDecided, setRulesDecided] = useState(false);
   const [usedSpeech, setUsedSpeech] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -269,7 +276,7 @@ function VibeStage() {
     setPhase('building');
     if (mode === 'trip') {
       // trip-router@1 decides what they asked for before anything else runs.
-      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; decidedBy?: 'jev' | 'rules' };
+      type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; where?: string[]; decidedBy?: 'jev' | 'rules' };
       let routed: Routed | null = null;
       try {
         const response = await fetch('/api/designer/route-trip', {
@@ -290,10 +297,11 @@ function VibeStage() {
       if (routed?.route === 'recommend') {
         setRecs(routed.recommendations ?? []);
         setRecMonth(routed.month ?? null);
+        setRecWhere(routed.where ?? []);
         setPhase('recap');
         return;
       }
-      const place = routed?.place ?? placeFromTripRequest(text);
+      const place = routed?.place ?? readTrip(text, localToday()).place;
       const here = useVoiceStore.getState().page;
       if (!place && here?.intent === 'trip' && here.fallback) await here.fallback(text);
       else router.push(place ? planTripHref(place) : '/trips/designer');
@@ -322,8 +330,17 @@ function VibeStage() {
       ['Crew', crew],
     ].filter((entry): entry is [string, string] => Boolean(entry[1]));
   }, [view, mode, dictation.text]);
-  const recapPlace = view === 'recap' && mode === 'trip' && !recs ? placeFromTripRequest(dictation.text) : null;
   const today = localToday();
+  const brief = useMemo(() => (mode === 'trip' && (view === 'recap' || view === 'building') ? readTrip(dictation.text, today) : null), [mode, view, dictation.text, today]);
+  const recapPlace = brief && !recs ? brief.place : null;
+  const tripFacts: [string, string][] = brief ? ([
+    ['Where', brief.place ? [brief.place.place, brief.place.region].filter(Boolean).join(', ') : brief.wheres.map((where) => where.label).join(', ')],
+    ['When', whenLabel(brief.when) ?? ''],
+    ['Who', brief.crew?.label ?? ''],
+    ['Trip', brief.tripType ? brief.tripType.replace('-', ' ') : ''],
+  ] as [string, string][]).filter(([, value]) => Boolean(value)) : [];
+  const whereLabel = recWhere.length ? recWhere.join(' or ') : null;
+  const planWith = (plan: PlanPlace): PlanPlace => ({ ...plan, ...(brief?.crew ? { who: brief.crew.label } : {}) });
   const monthLabel = recMonth ? MONTH_NAMES[Number(recMonth.slice(5, 7)) - 1] : null;
 
   const orbLevels = useCallback(() => (voiceEnabled ? rt.levels() : { mic: dictation.activity(), sun: 0 }), [voiceEnabled, rt, dictation]);
@@ -409,24 +426,44 @@ function VibeStage() {
                     {recs.length ? (
                       <>
                         <p className="text-[15px] text-ink-soft">
-                          {monthLabel ? `On our calendar in ${monthLabel}:` : 'On our calendar now and coming up:'}
+                          {`On our calendar${whereLabel ? ` in ${whereLabel}` : ''}${monthLabel ? ` in ${monthLabel}` : whereLabel ? '' : ' now and coming up'}:`}
                         </p>
                         {recs.map((rec) => (
                           <div key={rec.id} className="rounded-[18px] bg-surface-1/80 p-4">
                             <p className="font-display text-[22px] leading-tight text-bone">{rec.city}<span className="text-ink-soft">, {rec.country}</span></p>
-                            <p className="mt-0.5 text-[13px] text-ink-soft">{rec.name} · <span className="text-saffron">{withYear(rec.when, rec.start, today)}</span>{rec.planBy ? ` · ${rec.planBy}` : ''}</p>
+                            <p className="mt-0.5 text-[13px] text-ink-soft">{rec.name} · <span className="text-saffron">{recMonth && rec.start && rec.end && rec.start < `${recMonth}-01` ? `runs ${shortDay(rec.start)} – ${shortDay(rec.end)}` : withYear(rec.when, rec.start, today)}</span>{rec.planBy ? ` · ${rec.planBy}` : ''}</p>
                             {rec.reason && <p className="mt-1 text-[13px] text-ink-muted">{rec.reason}</p>}
                             <div className="mt-3 flex flex-wrap gap-2">
-                              <button type="button" className="btn btn-primary btn-sm" onClick={() => { router.push(planTripHref(eventPlan(rec, today))); setOpen(false); }}>Plan this</button>
+                              <button type="button" className="btn btn-primary btn-sm" onClick={() => { router.push(planTripHref(planWith(eventPlan(rec, today)))); setOpen(false); }}>Plan this</button>
                               {rec.slug && <button type="button" className="btn btn-ghost btn-sm" onClick={() => { router.push(`/destinations/${rec.slug}?event=${encodeURIComponent(rec.id)}`); setOpen(false); }}>See the place</button>}
                             </div>
                           </div>
                         ))}
                       </>
                     ) : (
-                      <p className="text-[15px] text-ink-soft">Nothing on our calendar fits that{monthLabel ? ` in ${monthLabel}` : ' right now'}. Name a place, or try a different kind of trip.</p>
+                      <div className="flex flex-col gap-3">
+                        <p className="text-[15px] text-ink-soft">
+                          Nothing on our calendar fits that{whereLabel ? ` in ${whereLabel}` : ''}{monthLabel ? ` in ${monthLabel}` : whereLabel ? '' : ' right now'}. Name a town or resort and I’ll plan it directly.
+                        </p>
+                        {recWhere.length === 1 && brief?.wheres[0] && brief.wheres[0].kind !== 'region' && (
+                          <button type="button" className="btn btn-primary btn-sm self-start" onClick={() => { router.push(planTripHref(planWith({ place: brief.wheres[0]!.label, start: brief.when.start, nights: brief.when.nights }))); setOpen(false); }}>
+                            Plan {brief.wheres[0].label} anyway
+                          </button>
+                        )}
+                      </div>
                     )}
+                    <p className="text-[12px] leading-4 text-ink-subtle">From our events calendar, which doesn’t list every resort or town yet.</p>
                   </div>
+                )}
+                {tripFacts.length > 0 && (
+                  <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[15px]">
+                    {tripFacts.map(([label, value]) => (
+                      <div key={label} className="contents">
+                        <dt className="text-ink-muted">{label}</dt>
+                        <dd className="text-bone">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 )}
                 {recapFacts.length > 0 && (
                   <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[15px]">

@@ -381,6 +381,12 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
           </p>
         )}
 
+        {initialPlace?.who && (
+          <p className="mt-3 text-[13px] text-ink-soft">
+            You said: <strong className="text-bone">{initialPlace.who}</strong>. Add everyone below so the plan fits the whole crew.
+          </p>
+        )}
+
         <div className="mt-4 flex flex-wrap gap-2">
           {travelers.map((t, i) => {
             const style = participantStyle(i);

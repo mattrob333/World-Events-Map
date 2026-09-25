@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { GeoPoint } from '@/lib/types';
 import { requestBrowserPosition, VIEWER_CITIES } from './browser-position';
+import { loadCities, nearestCity } from './nearestCity';
 
 export type ViewerLocationStatus =
   | 'booting'
@@ -23,6 +24,10 @@ export interface ViewerLocationState {
   status: ViewerLocationStatus;
   source: ViewerLocationSource;
   cityLabel?: string;
+  /** The city a device fix is in ("Atlanta, Georgia"), worked out on the device. */
+  placeLabel?: string;
+  /** "Atlanta", or "Near Atlanta" when the fix is out of town. */
+  placeShort?: string;
   /** Why the last device request failed while a chosen city stayed in use. */
   deviceFailure?: 'denied' | 'unavailable';
 }
@@ -103,8 +108,18 @@ export function useViewerLocation() {
           status: 'granted',
           source: 'browser',
           cityLabel: undefined,
+          placeLabel: undefined,
+          placeShort: undefined,
           deviceFailure: undefined,
         }));
+        // Name the city from a list that ships with the site; the fix never leaves the device.
+        void loadCities().then((cities) => {
+          const place = nearestCity(coords, cities);
+          if (!place) return;
+          setState((current) => current.source === 'browser' && current.coords === coords
+            ? { ...current, placeLabel: place.region ? `${place.name}, ${place.region}` : place.name, placeShort: place.label }
+            : current);
+        });
       },
       (reason) => {
         if (reason !== 'denied' || !navigator.permissions?.query) {
@@ -127,7 +142,7 @@ export function useViewerLocation() {
     cityChosen.current = true;
     // Remember only an explicitly chosen public city, never device coordinates.
     try { sessionStorage.setItem(CITY_CHOICE_KEY, city.name); } catch { /* In-memory choice still works. */ }
-    setState((current) => ({ ...current, coords: { lat: city.lat, lon: city.lon }, status: 'granted', source: 'chosen', cityLabel: city.name, deviceFailure: undefined }));
+    setState((current) => ({ ...current, coords: { lat: city.lat, lon: city.lon }, status: 'granted', source: 'chosen', cityLabel: city.name, placeLabel: undefined, placeShort: undefined, deviceFailure: undefined }));
   }, []);
 
   useEffect(() => {

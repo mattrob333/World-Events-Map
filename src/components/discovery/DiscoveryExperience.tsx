@@ -200,7 +200,7 @@ export function DiscoveryExperience() {
     ? estimateRoute(viewer.coords, spotlight.coords)
     : null;
   const originName = hasViewerOrigin
-    ? viewer.source === 'chosen' ? viewer.cityLabel?.split(',')[0] ?? 'Chosen city' : 'Your area'
+    ? viewer.source === 'chosen' ? viewer.cityLabel?.split(',')[0] ?? 'Chosen city' : viewer.placeShort ?? 'Your area'
     : null;
   const mountainView = spotlight && (spotlight.category === 'ski' || spotlight.secondaryCategories?.includes('ski'))
     ? {
@@ -306,7 +306,7 @@ export function DiscoveryExperience() {
                   ? ' · device location is blocked, still using this city'
                   : viewer.deviceFailure === 'unavailable' ? ' · device location unavailable, still using this city' : ''}`
                 : viewer.status === 'granted'
-                ? 'Using device location'
+                ? viewer.placeLabel ? `Near ${viewer.placeLabel}` : 'Using device location'
                 : viewer.status === 'locating'
                   ? 'Locating you'
                   : viewer.status === 'denied'

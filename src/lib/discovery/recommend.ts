@@ -1,6 +1,7 @@
 import { scoreEvent } from '@/lib/buzz/scoring';
 import { addDays } from '@/lib/buzz/dates';
 import type { TripType } from '@/lib/jev/contracts/feedItem';
+import { inWheres, type Where } from '@/lib/geo/regions';
 import type { WorldEvent } from '@/lib/types';
 import { whyNow, type WhyNow } from './whyNow';
 
@@ -34,15 +35,16 @@ export type Recommendation = {
  * ranked by buzz and then by how soon. Nothing is invented; an empty answer
  * is returned as empty.
  */
-export function recommendDestinations(events: readonly WorldEvent[], today: string, tripType: TripType | null, options: { horizonDays?: number; limit?: number; within?: { from: string; to: string } } = {}): Recommendation[] {
+export function recommendDestinations(events: readonly WorldEvent[], today: string, tripType: TripType | null, options: { horizonDays?: number; limit?: number; within?: { from: string; to: string }; where?: readonly Where[] } = {}): Recommendation[] {
   const horizon = addDays(today, options.horizonDays ?? 150);
   const within = options.within;
+  const where = options.where?.length ? options.where : null;
   const match = tripType ? MATCH[tripType] : undefined;
   if (tripType && !match) return [];
   const seen = new Set<string>();
   return events
     // A named month means the trip is in that month: starting in it, or running at least a week into it.
-    .filter((event) => event.end >= today && (within ? event.start <= within.to && (event.start >= within.from || event.end >= addDays(within.from, 6)) : event.start <= horizon) && (!match || match(event)))
+    .filter((event) => event.end >= today && (within ? event.start <= within.to && (event.start >= within.from || event.end >= addDays(within.from, 6)) : event.start <= horizon) && (!match || match(event)) && (!where || inWheres(event.country, where)))
     .map((event) => ({ event, why: whyNow(event, today), buzz: scoreEvent(event, { now: today }).score }))
     .sort((a, b) => b.buzz - a.buzz || a.event.start.localeCompare(b.event.start) || a.event.id.localeCompare(b.event.id))
     .filter(({ event }) => {

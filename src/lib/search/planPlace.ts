@@ -13,6 +13,8 @@ export interface PlanPlace {
   start?: string;
   /** Nights the traveler said. Prefills the length. */
   nights?: number;
+  /** Who they said is coming ("2 families of 4 (8 people)"), shown as a reminder while adding the crew. */
+  who?: string;
 }
 
 const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
@@ -36,11 +38,14 @@ export function planPlaceFromQuery(raw: string): PlanPlace | null {
 }
 
 /** The designer link for a place, e.g. /trips/designer?place=Munich&region=Germany. */
-export function planTripHref({ place, region, start, nights }: PlanPlace): string {
+const WHO_SHAPE = /^[\p{L}\p{N} ,()'’-]{2,60}$/u;
+
+export function planTripHref({ place, region, start, nights, who }: PlanPlace): string {
   const params = new URLSearchParams({ place });
   if (region) params.set('region', region);
   if (start && ISO_DAY.test(start)) params.set('start', start);
   if (nights && Number.isInteger(nights) && nights >= 1 && nights <= MAX_PLAN_NIGHTS) params.set('nights', String(nights));
+  if (who && WHO_SHAPE.test(who)) params.set('who', who);
   return `/trips/designer?${params.toString()}`;
 }
 
@@ -74,6 +79,7 @@ export function planPlaceFromParams(params: URLSearchParams): PlanPlace | null {
     ...(regionText ? { region: regionText.slice(0, 60) } : {}),
     ...(ISO_DAY.test(start) && !Number.isNaN(Date.parse(`${start}T00:00:00Z`)) ? { start } : {}),
     ...(Number.isInteger(nights) && nights >= 1 && nights <= MAX_PLAN_NIGHTS ? { nights } : {}),
+    ...(WHO_SHAPE.test(params.get('who') ?? '') ? { who: params.get('who')! } : {}),
   };
 }
 

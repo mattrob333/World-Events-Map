@@ -1,5 +1,6 @@
 import { parseProfileLocally } from '@/lib/designer/profile';
-import { placeFromTripRequest } from './vibe';
+import { wheresIn } from '@/lib/geo/regions';
+import { placeAfterPreposition, placeFromTripRequest, tripCrew } from './vibe';
 
 export type VibeMode = 'profile' | 'trip';
 
@@ -34,9 +35,9 @@ export function profileChecklist(text: string): ChecklistItem[] {
 /** What to talk about for a trip. Heuristic ticks only; the recap is what's built from. */
 export function tripChecklist(text: string): ChecklistItem[] {
   return [
-    { key: 'where', label: 'Where', hint: 'A place, or just the feeling', done: Boolean(placeFromTripRequest(text)) },
+    { key: 'where', label: 'Where', hint: 'A place, or just the feeling', done: Boolean(placeFromTripRequest(text) || placeAfterPreposition(text) || wheresIn(text).length) },
     { key: 'when', label: 'When', hint: 'Dates, a month, how long', done: WHEN.test(text) },
-    { key: 'who', label: 'Who’s coming', hint: 'You, the crew, the kids', done: WHO.test(text) },
+    { key: 'who', label: 'Who’s coming', hint: 'You, the crew, the kids', done: WHO.test(text) || Boolean(tripCrew(text)) },
     { key: 'must', label: 'Must-do', hint: 'A show, a match, a table', done: MUST.test(text) },
     { key: 'not', label: 'Not doing', hint: 'What to skip', done: NOT.test(text) },
   ];

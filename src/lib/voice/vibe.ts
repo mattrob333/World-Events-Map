@@ -57,6 +57,19 @@ export function placeFromTypedTrip(text: string): PlanPlace | null {
   return capitalizedRun(stripped.split(/[\s,]+/).filter(Boolean));
 }
 
+/** "…skiing in Verbier in February" → Verbier: a Capitalized place after in/to/at, anywhere in the text. */
+export function placeAfterPreposition(text: string): PlanPlace | null {
+  const re = /\b(?:in|to|at|visit|visiting|around)\s+((?:\p{Lu}[\p{L}’'.-]+)(?:\s+\p{Lu}[\p{L}’'.-]+){0,2})/gu;
+  for (const match of text.matchAll(re)) {
+    const words = match[1]!.split(/\s+/);
+    for (let size = words.length; size >= 1; size--) {
+      const place = leadPlace(words.slice(0, size).join(' '));
+      if (place) return place;
+    }
+  }
+  return null;
+}
+
 /**
  * The place in a request that may have grown by answering a follow-up:
  * "…no touristy fado. Lisbon" still finds Lisbon at the end.
@@ -89,6 +102,8 @@ export type TripWhen = { start?: string; nights?: number; month?: { from: string
  * February", "10 days", "the weekend of March 14". Only what was said; nothing
  * is guessed when no month or length is named.
  */
+const monthWeek = new RegExp(`\\b(?:first|1st|second|2nd|third|3rd|fourth|4th|last)\\s+week\\b`);
+
 export function tripWhen(text: string, today: string): TripWhen {
   const lower = text.toLowerCase();
   const out: TripWhen = {};
@@ -113,6 +128,9 @@ export function tripWhen(text: string, today: string): TripWhen {
     const unit = length[2]!;
     const nights = unit.startsWith('week') ? n * 7 : unit.startsWith('day') ? Math.max(1, n - 1) : n;
     out.nights = Math.max(1, Math.min(30, nights));
+  } else if (monthWeek.test(lower)) {
+    // "the first week of February" is a week away.
+    out.nights = 7;
   } else if (/\b(?:long\s+)?weekend\b/.test(lower)) {
     out.nights = /\blong\s+weekend\b/.test(lower) ? 3 : 2;
   }
@@ -131,4 +149,40 @@ export function readTypedVibe(text: string, hasProfile: boolean): TypedVibe {
   const place = placeFromTypedTrip(text);
   if (place) return { kind: 'trip', place };
   return hasProfile ? { kind: 'trip', place: null } : { kind: 'profile' };
+}
+
+const NUMBER_WORD: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, a: 1, an: 1, couple: 2 };
+const toNumber = (word: string) => (/^\d+$/.test(word) ? Number(word) : NUMBER_WORD[word.toLowerCase()] ?? 0);
+const CREW_COUNT = '(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)';
+
+export type TripCrew = { people: number; label: string };
+
+/**
+ * How many are going, from plain words: "my family of four and another family
+ * of four" is 8, "me and my wife" is 2, "two couples" is 4, "solo" is 1.
+ * Null when they didn't say.
+ */
+export function tripCrew(text: string): TripCrew | null {
+  const lower = text.toLowerCase();
+  const families = [...lower.matchAll(new RegExp(`famil(?:y|ies) of ${CREW_COUNT}`, 'g'))].map((match) => toNumber(match[1]!));
+  if (families.length) {
+    const people = families.reduce((sum, n) => sum + n, 0);
+    const same = families.every((n) => n === families[0]);
+    const label = families.length === 1 ? `a family of ${families[0]}` : same ? `${families.length} families of ${families[0]}` : `${families.length} families`;
+    return { people, label: `${label} (${people} people)` };
+  }
+  const couples = new RegExp(`${CREW_COUNT} couples`).exec(lower);
+  if (couples) {
+    const people = toNumber(couples[1]!) * 2;
+    return { people, label: `${couples[1]} couples (${people} people)` };
+  }
+  const group = new RegExp(`\\b${CREW_COUNT} (?:of us|people|adults|friends|guys|girls|travell?ers)\\b`).exec(lower);
+  if (group) {
+    const n = toNumber(group[1]!);
+    const people = /friends/.test(group[0]) && !/of us/.test(group[0]) ? n + 1 : n;
+    return { people, label: `${people} people` };
+  }
+  if (/\b(solo|by myself|just me|alone)\b/.test(lower)) return { people: 1, label: 'just you' };
+  if (/\b(me and (?:my )?\w+|my (?:wife|husband|partner|girlfriend|boyfriend)|the two of us|a couple)\b/.test(lower)) return { people: 2, label: '2 people' };
+  return null;
 }
