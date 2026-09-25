@@ -1,0 +1,43 @@
+<!-- Supabase → Authentication → Email Templates → Magic Link. Subject: Your dope.travel sign-in link -->
+<!DOCTYPE html>
+<html lang="en">
+  <body style="margin:0;padding:0;background:#070608;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070608;">
+      <tr>
+        <td align="center" style="padding:48px 20px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#141116;border-radius:24px;">
+            <tr>
+              <td align="center" style="padding:44px 32px 8px;">
+                <img src="https://dope.travel/brand/dope-travel-lockup.png" width="240" alt="dope.travel" style="display:block;width:240px;max-width:80%;height:auto;border:0;">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:8px 32px 0;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:17px;color:#c9c2b6;">
+                Find the moment. Follow the feeling.
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:36px 32px 8px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:24px;color:#f4f1ea;">
+                Tap below to sign in to dope.travel.
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:20px 32px 12px;">
+                <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:16px 40px;border-radius:999px;background:#f26b2a;background-image:linear-gradient(90deg,#f7c548,#f26b2a 55%,#e4577e);color:#1a0b06;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:17px;font-weight:700;text-decoration:none;">
+                  Log in to dope.travel
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:16px 32px 40px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#8f887d;">
+                Open it on the device where you asked for it. The link works once and expires in an hour.<br>
+                Didn’t ask for this? Ignore it and nothing happens.
+              </td>
+            </tr>
+          </table>
+          <p style="margin:20px 0 0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:12px;color:#5d574f;">dope.travel · No password needed.</p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
