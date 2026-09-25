@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { ActivityStream } from '@/components/activity/ActivityStream';
+import { HotRightNow } from '@/components/heat/HotRightNow';
 import { LiveStories } from './LiveStories';
 import { EVENTS } from '@/lib/data/events';
 import { indexDestinations } from '@/lib/pulse';
@@ -42,7 +43,7 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
 
       {/* Home keeps what earns its place: live stories when there are some, then the scenes.
           The research lanes, the wire tab, the ideas ranking and the saved trail live on their own pages. */}
-      {mode === 'feed' && <><LiveStories /><ActivityStream /></>}
+      {mode === 'feed' && <><HotRightNow /><LiveStories /><ActivityStream /></>}
     </section>
   );
 }

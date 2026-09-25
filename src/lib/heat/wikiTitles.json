@@ -1,0 +1,410 @@
+{
+ "abu-dhabi-grand-prix": {
+  "lang": "en",
+  "title": "Abu Dhabi Grand Prix"
+ },
+ "academy-awards-99th": {
+  "lang": "en",
+  "title": "99th Academy Awards"
+ },
+ "afrikaburn": {
+  "lang": "en",
+  "title": "AfrikaBurn"
+ },
+ "alfred-dunhill-links-championship": {
+  "lang": "en",
+  "title": "Alfred Dunhill Links Championship"
+ },
+ "americas-cup-naples": {
+  "lang": "en",
+  "title": "2027 America's Cup"
+ },
+ "antigua-sailing-week": {
+  "lang": "en",
+  "title": "Antigua Sailing Week"
+ },
+ "argentine-open-polo": {
+  "lang": "en",
+  "title": "Campeonato Argentino Abierto de Polo"
+ },
+ "armory-show-new-york": {
+  "lang": "en",
+  "title": "Armory Show"
+ },
+ "art-basel-basel": {
+  "lang": "en",
+  "title": "Art Basel"
+ },
+ "art-basel-miami-beach": {
+  "lang": "en",
+  "title": "Art Basel Miami Beach"
+ },
+ "art-dubai": {
+  "lang": "en",
+  "title": "Art Dubai"
+ },
+ "atp-finals": {
+  "lang": "en",
+  "title": "ATP Finals"
+ },
+ "australian-grand-prix": {
+  "lang": "en",
+  "title": "Australian Grand Prix"
+ },
+ "australian-open": {
+  "lang": "en",
+  "title": "Australian Open"
+ },
+ "bayreuth-festival": {
+  "lang": "en",
+  "title": "Bayreuth Festival"
+ },
+ "berlinale": {
+  "lang": "en",
+  "title": "Berlin International Film Festival"
+ },
+ "bocuse-dor-lyon-2027": {
+  "lang": "en",
+  "title": "Bocuse d'Or"
+ },
+ "breeders-cup-keeneland": {
+  "lang": "en",
+  "title": "Breeders' Cup"
+ },
+ "burning-man": {
+  "lang": "en",
+  "title": "Burning Man"
+ },
+ "busan-international-film-festival": {
+  "lang": "en",
+  "title": "Busan International Film Festival"
+ },
+ "chio-aachen": {
+  "lang": "en",
+  "title": "CHIO Aachen"
+ },
+ "clockenflap-hong-kong": {
+  "lang": "en",
+  "title": "Clockenflap"
+ },
+ "cowes-week": {
+  "lang": "en",
+  "title": "Cowes Week"
+ },
+ "cresta-run-season-st-moritz": {
+  "lang": "en",
+  "title": "Cresta Run"
+ },
+ "crop-over-barbados": {
+  "lang": "en",
+  "title": "Crop Over"
+ },
+ "dark-mofo-hobart": {
+  "lang": "en",
+  "title": "Dark Mofo"
+ },
+ "design-miami-beach": {
+  "lang": "en",
+  "title": "Design Miami"
+ },
+ "dubai-design-week": {
+  "lang": "en",
+  "title": "Dubai Design Week"
+ },
+ "dubai-world-cup": {
+  "lang": "en",
+  "title": "Dubai World Cup"
+ },
+ "dunlop-phoenix-tournament": {
+  "lang": "en",
+  "title": "Dunlop Phoenix Tournament"
+ },
+ "dutch-design-week-eindhoven": {
+  "lang": "en",
+  "title": "Dutch Design Week"
+ },
+ "festival-aix-en-provence": {
+  "lang": "en",
+  "title": "Aix-en-Provence Festival"
+ },
+ "fiesta-vendimia-mendoza": {
+  "lang": "en",
+  "title": "Fiesta Nacional de la Vendimia"
+ },
+ "fuji-rock-festival": {
+  "lang": "en",
+  "title": "Fuji Rock Festival"
+ },
+ "galway-races-summer-festival": {
+  "lang": "en",
+  "title": "Galway Races"
+ },
+ "gion-matsuri-kyoto": {
+  "lang": "en",
+  "title": "Gion Matsuri"
+ },
+ "glastonbury-festival": {
+  "lang": "en",
+  "title": "Glastonbury Festival"
+ },
+ "glyndebourne-festival-opera": {
+  "lang": "en",
+  "title": "Glyndebourne"
+ },
+ "goodwood-festival-of-speed": {
+  "lang": "en",
+  "title": "Goodwood Festival of Speed"
+ },
+ "goodwood-revival": {
+  "lang": "en",
+  "title": "Goodwood Revival"
+ },
+ "hahnenkamm-kitzbuhel": {
+  "lang": "en",
+  "title": "Hahnenkamm, Kitzbühel"
+ },
+ "hero-dubai-desert-classic": {
+  "lang": "en",
+  "title": "Dubai Desert Classic"
+ },
+ "il-ballo-del-doge-venice": {
+  "lang": "en",
+  "title": "Il Ballo del Doge"
+ },
+ "inti-raymi-cusco": {
+  "lang": "en",
+  "title": "Inti Raymi"
+ },
+ "japan-cup-tokyo": {
+  "lang": "en",
+  "title": "Japan Cup"
+ },
+ "japanese-grand-prix": {
+  "lang": "en",
+  "title": "Japanese Grand Prix"
+ },
+ "junkanoo-nassau": {
+  "lang": "en",
+  "title": "Junkanoo"
+ },
+ "karlovy-vary-film-festival": {
+  "lang": "en",
+  "title": "Karlovy Vary International Film Festival"
+ },
+ "kentucky-derby": {
+  "lang": "en",
+  "title": "Kentucky Derby"
+ },
+ "la-tomatina-bunol": {
+  "lang": "en",
+  "title": "La Tomatina"
+ },
+ "las-vegas-grand-prix": {
+  "lang": "en",
+  "title": "Las Vegas Grand Prix"
+ },
+ "laver-cup": {
+  "lang": "en",
+  "title": "Laver Cup"
+ },
+ "le-bal-des-debutantes-paris": {
+  "lang": "en",
+  "title": "Bal des débutantes"
+ },
+ "le-mans-24-hours": {
+  "lang": "en",
+  "title": "24 Hours of Le Mans"
+ },
+ "locarno-film-festival": {
+  "lang": "en",
+  "title": "Locarno Film Festival"
+ },
+ "london-design-festival": {
+  "lang": "en",
+  "title": "London Design Festival"
+ },
+ "marrakech-international-film-festival": {
+  "lang": "en",
+  "title": "Marrakech International Film Festival"
+ },
+ "melbourne-cup-carnival": {
+  "lang": "en",
+  "title": "Melbourne Cup"
+ },
+ "met-gala-costume-institute": {
+  "lang": "en",
+  "title": "Met Gala"
+ },
+ "miami-grand-prix": {
+  "lang": "en",
+  "title": "Miami Grand Prix"
+ },
+ "miami-open": {
+  "lang": "en",
+  "title": "Miami Open"
+ },
+ "monaco-grand-prix": {
+  "lang": "en",
+  "title": "Monaco Grand Prix"
+ },
+ "monaco-yacht-show": {
+  "lang": "en",
+  "title": "Monaco Yacht Show"
+ },
+ "monte-carlo-masters": {
+  "lang": "en",
+  "title": "Monte-Carlo Masters"
+ },
+ "monterey-car-week": {
+  "lang": "en",
+  "title": "Monterey Car Week"
+ },
+ "montreux-jazz-festival": {
+  "lang": "en",
+  "title": "Montreux Jazz Festival"
+ },
+ "naadam-ulaanbaatar": {
+  "lang": "en",
+  "title": "Naadam"
+ },
+ "newport-jazz-festival": {
+  "lang": "en",
+  "title": "Newport Jazz Festival"
+ },
+ "oktoberfest-munich": {
+  "lang": "en",
+  "title": "Oktoberfest"
+ },
+ "palio-di-siena-provenzano": {
+  "lang": "en",
+  "title": "Palio di Siena"
+ },
+ "pebble-beach-concours-delegance": {
+  "lang": "en",
+  "title": "Pebble Beach Concours d'Elegance"
+ },
+ "pga-championship": {
+  "lang": "en",
+  "title": "PGA Championship"
+ },
+ "phuket-kings-cup-regatta": {
+  "lang": "en",
+  "title": "Phuket King's Cup Regatta"
+ },
+ "presidents-cup": {
+  "lang": "en",
+  "title": "Presidents Cup"
+ },
+ "prix-arc-de-triomphe": {
+  "lang": "en",
+  "title": "Prix de l'Arc de Triomphe"
+ },
+ "pushkar-camel-fair": {
+  "lang": "en",
+  "title": "Pushkar Fair"
+ },
+ "rolex-middle-sea-race": {
+  "lang": "en",
+  "title": "Middle Sea Race"
+ },
+ "ryder-cup": {
+  "lang": "en",
+  "title": "Ryder Cup"
+ },
+ "salone-del-mobile-milano": {
+  "lang": "en",
+  "title": "Salone del Mobile"
+ },
+ "salzburg-festival": {
+  "lang": "en",
+  "title": "Salzburg Festival"
+ },
+ "sardine-run-wild-coast": {
+  "lang": "en",
+  "title": "Sardine run"
+ },
+ "saudi-cup": {
+  "lang": "en",
+  "title": "Saudi Cup"
+ },
+ "sharjah-biennial-17": {
+  "lang": "en",
+  "title": "Sharjah Biennial"
+ },
+ "singapore-grand-prix": {
+  "lang": "en",
+  "title": "Singapore Grand Prix"
+ },
+ "snow-polo-world-cup-st-moritz": {
+  "lang": "en",
+  "title": "Snow Polo World Cup St. Moritz"
+ },
+ "songkran-bangkok": {
+  "lang": "en",
+  "title": "Songkran (Thailand)"
+ },
+ "st-barths-bucket-regatta": {
+  "lang": "en",
+  "title": "St Barths Bucket Regatta"
+ },
+ "sundance-film-festival": {
+  "lang": "en",
+  "title": "Sundance Film Festival"
+ },
+ "telluride-film-festival": {
+  "lang": "en",
+  "title": "Telluride Film Festival"
+ },
+ "the-masters": {
+  "lang": "en",
+  "title": "Masters Tournament"
+ },
+ "the-open-championship": {
+  "lang": "en",
+  "title": "The Open Championship"
+ },
+ "timkat-gondar": {
+  "lang": "en",
+  "title": "Timkat"
+ },
+ "tokyo-international-film-festival": {
+  "lang": "en",
+  "title": "Tokyo International Film Festival"
+ },
+ "tomorrowland-boom": {
+  "lang": "en",
+  "title": "Tomorrowland (festival)"
+ },
+ "toronto-international-film-festival": {
+  "lang": "en",
+  "title": "Toronto International Film Festival"
+ },
+ "trinidad-carnival": {
+  "lang": "en",
+  "title": "Trinidad and Tobago Carnival"
+ },
+ "ultra-music-festival-miami": {
+  "lang": "en",
+  "title": "Ultra Music Festival"
+ },
+ "venice-film-festival": {
+  "lang": "en",
+  "title": "Venice Film Festival"
+ },
+ "verbier-festival": {
+  "lang": "en",
+  "title": "Verbier Festival"
+ },
+ "verbier-xtreme-fwt-final": {
+  "lang": "en",
+  "title": "Freeride World Tour"
+ },
+ "vienna-opera-ball": {
+  "lang": "en",
+  "title": "Vienna Opera Ball"
+ },
+ "wimbledon": {
+  "lang": "en",
+  "title": "Wimbledon Championships"
+ }
+}

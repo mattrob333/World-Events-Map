@@ -152,6 +152,20 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
 - Phase 2, the live voice concierge (needs `VOICE_ENABLED=1` on Preview and a voice budget decision).
 - Phase 3, trip build.
 
+## Vibe signals and Heat, phase 1 (2026-09-25, late)
+
+- **Vibe signals** live in `src/lib/vibe/signals.ts`: a vocabulary of about 70 matchable signals across nine groups, plus named artist, team, genre, cuisine and venue signals. Each carries love, like or avoid, a source and a context.
+  - `allSignals(profile)` merges the signals a profile's facts imply with the ones added directly.
+  - The voice researcher adds signals with `add_signals` during the profile interview.
+  - `updateSignals` saves them to the board, and `normalizeProfile` keeps them when a profile is loaded.
+- **Matcher** (`src/lib/vibe/concierge.ts`): rules-first scoring of a spot against someone's signals. It credits late closes for bar-closers and knocks down avoids, and a signature moment or real buzz gets a stretch-dial bonus. It writes a wink line from facts only. Canvas spots are scored on the device.
+- **Heat phase 1** (`docs/plans/heat/DESIGN.md`): `GET /api/heat?country=&limit=` scores calendar events on now or within 60 days.
+  - Sources: Wikipedia views of their article (102 reviewed mappings in `src/lib/heat/wikiTitles.json`, proposed by `scripts/heat-seed-wikipedia.mjs`) plus daily mentions from the news intake.
+  - Scoring: `src/lib/heat/score.ts` compares the last 7 days with the median of the 3 weeks before, with a prior, a volume floor, confidence and a cut.
+  - UI: `HotRightNow` on home shows `HeatTicker` (sparkline, arrow, delta, per-day number, source) with country chips.
+  - Nothing is stored yet (Wikipedia has its own history). Migration 008, crons, GDELT and the other sources are phases 2–4.
+  - From this workspace, Wikimedia's pageviews API returned 429 (a shared-IP rate limit), so live numbers have only been checked in tests. Verify on the deployed site.
+
 ## GPT-Live and the live trip canvas (2026-09-25, night)
 
 - **Voice is GPT-Live-1** (`src/lib/voice/session.ts`, `src/app/api/voice/session/route.ts`, `src/lib/voice/useRealtime.ts`).
