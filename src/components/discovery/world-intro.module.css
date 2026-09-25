@@ -707,13 +707,15 @@
 }
 @media (max-width: 650px) {
   .heroWhen { display: block; margin-top: 10px; font-size: 0.8125rem; font-weight: 600; color: var(--color-saffron, #f7c548); }
-  .hero { display: block; min-height: 0; padding: 32px 16px 20px; }
+  .hero { display: block; min-height: 0; padding: 24px 16px 20px; }
   .heroPhoto { background-position: 46% center; }
+  /* Light enough that the photo reads; the copy carries its own shadow. */
   .heroShade {
-    background: linear-gradient(180deg, rgb(5 5 5 / 0.92) 0, rgb(8 8 8 / 0.78) 40%, rgb(8 8 8 / 0.4) 62%, var(--color-surface-0) 100%);
+    background: linear-gradient(180deg, rgb(5 5 5 / 0.62) 0, rgb(8 8 8 / 0.45) 38%, rgb(8 8 8 / 0.3) 60%, var(--color-surface-0) 100%);
   }
+  .heroCopy p { text-shadow: 0 1px 12px rgb(7 7 7 / 0.7); }
   .heroCopy { width: 100%; }
-  .heroCopy h1 { max-width: 420px; font-size: clamp(44px, 12vw, 61px); margin: 16px 0 12px; }
+  .heroCopy h1 { max-width: 420px; font-size: clamp(42px, 11.5vw, 58px); margin: 12px 0 10px; }
   .heroCopy p { max-width: 360px; font-size: 0.9375rem; }
   .heroActions { gap: 8px 20px; margin-top: 22px; }
   /* On phones the pass joins the flow under the copy instead of floating. */

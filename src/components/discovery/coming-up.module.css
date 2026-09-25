@@ -193,3 +193,13 @@
 .shell[data-comingup='1'] .toggle[data-undecided] .whenClosed { display: none; }
 .shell[data-comingup='0'] .toggle[data-undecided] .whenClosed,
 .shell[data-comingup='1'] .toggle[data-undecided] .whenOpen { display: inline; }
+
+/* Phones: one line: the date, what's on, and the toggle. */
+@media (max-width: 600px) {
+  .shell { padding-top: 6px; padding-bottom: 8px; }
+  .head .kicker { display: none; }
+  .today { flex-wrap: nowrap; gap: 8px; }
+  .today strong { flex: none; font-size: 0.875rem; }
+  .summary { flex-basis: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8125rem; }
+  .toggle { padding: 0 12px; font-size: 0.75rem; }
+}

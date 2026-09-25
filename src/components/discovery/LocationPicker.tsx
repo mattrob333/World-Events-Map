@@ -12,7 +12,7 @@ function buttonLabel(viewer: Viewer): string {
   if (viewer.status === 'locating') return 'Finding you…';
   if (viewer.source === 'chosen' && viewer.cityLabel) return viewer.cityLabel.split(',')[0];
   if (viewer.status === 'granted' && viewer.source === 'browser') return 'Near you';
-  return 'Set your location';
+  return 'Location';
 }
 
 /**
@@ -90,7 +90,7 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
         }}
       >
         <span aria-hidden="true" className={styles.locationPin}>◉</span>
-        {buttonLabel(viewer)}
+        <span className={styles.locationLabel}>{buttonLabel(viewer)}</span>
         <span aria-hidden="true" className={styles.locationChevron}>▾</span>
       </button>
       {open && (

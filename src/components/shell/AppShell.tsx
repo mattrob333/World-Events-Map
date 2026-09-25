@@ -193,11 +193,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         // A floating card, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
         // Bottom-right on desktop: bottom-left is where the hero's own call to action sits.
         <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]">
-          <div className="vibe-prompt mx-auto flex max-w-[1600px] items-center gap-3 rounded-[20px] py-3 pl-3 pr-2">
-            <SunGlyph size={40} glow />
+          {/* Slim on phones (one line), the fuller card on larger screens. */}
+          <div className="vibe-prompt mx-auto flex max-w-[1600px] items-center gap-3 rounded-full py-1.5 pl-2 pr-1.5 sm:rounded-[20px] sm:py-3 sm:pl-3 sm:pr-2">
+            <span className="sm:hidden"><SunGlyph size={30} glow /></span>
+            <span className="hidden sm:inline-flex"><SunGlyph size={40} glow /></span>
             <span className="min-w-0 flex-1">
-              <strong className="block text-[15px] font-semibold leading-tight text-bone">Set your vibe</strong>
-              <span className="block text-[12.5px] leading-snug text-ink-soft">Tell us how you get down. Two minutes, talk or type.</span>
+              <strong className="block truncate text-[15px] font-semibold leading-tight text-bone">Set your vibe</strong>
+              <span className="hidden text-[12.5px] leading-snug text-ink-soft sm:block">Tell us how you get down. Two minutes, talk or type.</span>
             </span>
             <span className="flex shrink-0 items-center gap-1">
               <button type="button" onClick={() => setVibeOpen(true)} className="btn btn-primary btn-sm">
@@ -215,7 +217,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         id="main"
         className={cn(
           // Room for the tab bar, and for the floating prompt while it shows, so a page's last lines aren't stuck under them.
-          showVibePrompt ? 'pb-[calc(11rem+env(safe-area-inset-bottom))] lg:pb-28' : 'pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0',
+          showVibePrompt ? 'pb-[calc(9rem+env(safe-area-inset-bottom))] lg:pb-28' : 'pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0',
           !world && 'mx-auto max-w-[1600px]',
         )}
       >

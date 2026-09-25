@@ -1515,3 +1515,15 @@
     flex-basis: 100%;
   }
 }
+
+/* Phones: one quiet row under the header (search and location side by side), so the hero starts high.
+   The status line stays for screen readers; the pill and its panel say the same things visibly. */
+.locationLabel { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 600px) {
+  .toolbar { flex-wrap: nowrap; padding: 8px 16px 10px; gap: 8px; }
+  .status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .search { flex: 1 1 auto; min-width: 0; padding: 0 12px; gap: 8px; }
+  .search > span { font-size: 17px; }
+  .locationPicker { flex: 0 1 auto; max-width: 42%; }
+  .locationButton { max-width: 100%; min-height: 44px; padding-inline: 12px; }
+}

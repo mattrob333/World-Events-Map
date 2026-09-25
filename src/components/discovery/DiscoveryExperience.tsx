@@ -321,7 +321,7 @@ export function DiscoveryExperience() {
           <span aria-hidden="true">⌕</span>
           <input
             aria-label="Search events, cities or interests"
-            placeholder="A place, a passion, a possibility…"
+            placeholder="Search places and events"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
