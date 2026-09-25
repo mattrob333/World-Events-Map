@@ -55,6 +55,8 @@ interface DesignerState {
   importTrip: (trip: Itinerary, votes: TripVotes, me: string) => void;
   /** Swaps the previous trip back in (the current one takes its slot). */
   restorePreviousTrip: () => void;
+  /** Starts a trip built elsewhere (the Vibe canvas); a different trip in progress is set aside, not lost. */
+  startTrip: (trip: Itinerary) => void;
   /** Merges a friend's picks link; throws if it belongs to another trip. `as` merges into an existing traveler. */
   mergeReply: (reply: TripReply, options?: { as?: string }) => MergeSummary;
   /** Restores the trip and votes from before the last merge. */
@@ -145,6 +147,18 @@ export const useDesignerStore = create<DesignerState>()(
               : {}),
           };
         }),
+      startTrip: (trip) =>
+        set((state) => ({
+          ...(state.trip && state.trip.id !== trip.id
+            ? { previousTrip: { trip: state.trip, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs } }
+            : {}),
+          trip,
+          votes: {},
+          activeParticipant: trip.participants[0]?.id ?? null,
+          joinedAs: null,
+          lastMergedAt: {},
+          mergeUndo: null,
+        })),
       restorePreviousTrip: () =>
         set((state) => {
           if (!state.previousTrip) return {};

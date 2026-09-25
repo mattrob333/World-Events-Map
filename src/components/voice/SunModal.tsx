@@ -17,8 +17,8 @@ import { EMPTY_CANVAS, canvasSummary, scoreSpots, pickedSpotsIn, togglePick, tri
 import { withTaste } from '@/lib/vibe/affinity';
 import { matchCandidate } from '@/lib/vibe/concierge';
 import { allSignals, cleanSignal, mergeSignals, signalsFromText, vibeLine, type Signal, type VibeDials } from '@/lib/vibe/signals';
-import { saveVibePicks } from '@/lib/designer/vibePicks';
 import { useModalFocus } from '@/components/shell/useModalFocus';
+import { buildVibeTrip } from './buildVibeTrip';
 import { SunOrb } from './SunOrb';
 import { VibeCanvas } from './VibeCanvas';
 import { VibePlaces, type VibePayload } from './VibePlaces';
@@ -84,6 +84,7 @@ function localToday() {
 
 /** The concierge's first words, every time: the bullets on screen are the agenda. */
 const OPENER = 'Vibe with me for a second about the topics above.';
+const RESUME = 'Back on it. What else should I find?';
 
 /** Everything they said, for building when the concierge wasn't asked to (or they tapped I'm done first). */
 function tripTextFrom(facts: Record<string, string>, said: string): string {
@@ -277,6 +278,8 @@ function VibeStage() {
       const when = typeof args.when === 'string' ? args.when.slice(0, 60) : '';
       const kind = typeof args.trip_type === 'string' && args.trip_type !== 'any' ? `${args.trip_type} ` : '';
       if (!where) return 'Error: say where first.';
+      // The researcher heard it, so its topics light up even if lock_fact never came.
+      setFacts((prev) => ({ ...prev, where: prev.where ?? where, ...(when && !prev.when ? { when } : {}), ...(kind && !prev.vibe ? { vibe: kind.trim() } : {}) }));
       return showPlacesRef.current(`I want a ${kind}trip in ${where}${when ? `, ${when}` : ''}`);
     };
     const addSpots: VoiceHandlers['add_spots'] = (args) => {
@@ -463,11 +466,22 @@ function VibeStage() {
       setNote('Tap a place or a few spots first.');
       return;
     }
-    saveVibePicks({ place: place.name, spots: pickedSpotsIn(canvasRef.current, place.name) });
+    // Straight to the schedule: the voice session already settled where, when and who.
     const window = canvasRef.current.window;
-    const nights = window ? Math.max(1, Math.min(14, window.days - 1)) : undefined;
     const brief = readTrip(aiSaidRef.current, localToday());
-    router.push(planTripHref({ place: place.name, ...(place.country ? { region: place.country } : {}), ...(window ? { start: window.from, nights } : {}), ...(brief.crew ? { who: brief.crew.label } : {}) }));
+    const { profiles: all, activeProfileId: activeId, startTrip } = useDesignerStore.getState();
+    const kind = place.key?.startsWith('resort:') || brief.tripType === 'ski' ? 'ski' : brief.tripType === 'beach' ? 'beach' : 'city';
+    const trip = buildVibeTrip({
+      place: place.name,
+      region: place.country || undefined,
+      kind,
+      start: window?.from ?? brief.when.start,
+      nights: window ? window.days - 1 : brief.when.nights,
+      board: pickActiveProfile(all, activeId) ?? undefined,
+      spots: pickedSpotsIn(canvasRef.current, place.name),
+    });
+    startTrip(trip);
+    router.push('/trips/designer');
     setOpen(false);
   };
   useEffect(() => {
@@ -487,11 +501,12 @@ function VibeStage() {
       dictation.start();
       return;
     }
-    setFacts({});
+    const resuming = phase === 'picking';
+    if (!resuming) setFacts({});
     setMuted(false);
     setMicOff(false);
     heardKey.current = '';
-    if (phase !== 'picking') updateCanvas(EMPTY_CANVAS);
+    if (!resuming) updateCanvas(EMPTY_CANVAS);
     afterSpeech.current = null;
     const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
     const result = await rt.start({
@@ -500,7 +515,8 @@ function VibeStage() {
       profile: mode === 'trip' ? profileSummary(pickActiveProfile(all, activeId)) : '',
       handlers: handlers(),
       withMic: true,
-      opener: OPENER,
+      opener: resuming ? RESUME : OPENER,
+      keepLines: resuming,
       onActivity: setActivity,
     });
     if (result === 'mic-denied') {

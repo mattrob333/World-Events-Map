@@ -18,6 +18,8 @@ type StartOptions = {
   withMic: boolean;
   /** The exact first line the concierge says. */
   opener?: string;
+  /** Resuming the same conversation: keep what was already said on screen. */
+  keepLines?: boolean;
   onActivity?: (activity: VoiceActivity) => void;
 };
 
@@ -67,6 +69,7 @@ export function useRealtime() {
   const timerRef = useRef<number | null>(null);
   const speakPoll = useRef<number | null>(null);
   const openerRef = useRef<string | undefined>(undefined);
+  const closing = useRef<number | null>(null);
   const pending = useRef(new Map<string, Pending>());
   const eventSeq = useRef(0);
 
@@ -80,6 +83,9 @@ export function useRealtime() {
   }, []);
 
   const teardown = useCallback((final: VoicePhase) => {
+    // A graceful close still pending must never reach a conversation started after it.
+    if (closing.current) window.clearTimeout(closing.current);
+    closing.current = null;
     if (timerRef.current) window.clearTimeout(timerRef.current);
     if (speakPoll.current) window.clearInterval(speakPoll.current);
     dcRef.current?.close();
@@ -111,7 +117,7 @@ export function useRealtime() {
     if (dcRef.current?.readyState === 'open') {
       send({ type: 'session.close' });
       setPhase(final);
-      window.setTimeout(() => teardown(final), 1500);
+      closing.current = window.setTimeout(() => teardown(final), 1500);
       return;
     }
     teardown(final);
@@ -197,12 +203,6 @@ export function useRealtime() {
           send({ type: 'session.instructions.append', delegation_id: null, content: `Greet them now. Say exactly this, then stop and listen: "${openerRef.current.replace(/"/g, '')}"` });
         }
         break;
-      case 'session.input_transcript.delta':
-        if (typeof event.delta === 'string') grow('you', event.delta);
-        break;
-      case 'session.output_transcript.delta':
-        if (typeof event.delta === 'string') grow('sun', event.delta);
-        break;
       case 'session.delegation.created':
         activityRef.current?.({ kind: 'delegated' });
         break;
@@ -212,6 +212,14 @@ export function useRealtime() {
       case 'session.closed':
         teardown('ended');
         break;
+      default: {
+        // Transcript deltas, tolerant of the field name, so their words always reach the screen.
+        const type = event.type ?? '';
+        if (!/transcript/.test(type) || !/delta$/.test(type)) break;
+        const text = [event.delta, event.text, event.transcript].find((value): value is string => typeof value === 'string');
+        if (text) grow(/input/.test(type) ? 'you' : 'sun', text);
+        break;
+      }
       case 'error': {
         const message = (event.error as { message?: string } | undefined)?.message;
         if (message) setError(message);
@@ -220,12 +228,12 @@ export function useRealtime() {
     }
   }, [grow, onBackendEvent, send, teardown]);
 
-  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, onActivity }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
+  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, keepLines, onActivity }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
     teardown('idle');
     handlersRef.current = handlers;
     activityRef.current = onActivity;
     openerRef.current = opener;
-    setLines([]);
+    if (!keepLines) setLines([]);
     setError('');
     setPhase('connecting');
     let mic: MediaStream | null = null;
