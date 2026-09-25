@@ -57,7 +57,14 @@ export async function POST(request: Request) {
   // Only new paid work spends a limiter token: reopening a cached place (a
   // guest's copy, a refresh) never gets a 429. Total spend is bounded by the
   // daily budget in destination.ts, not by this per-client limiter.
-  if (process.env.TREG_TOKEN && researchCacheMisses(req) > 0 && !consumeProviderCall(request, 'research')) {
+  // On the live site, visitor-triggered paid research stays off until the daily
+  // budget is durable (it's per server instance today): RESEARCH_PUBLIC=on opens
+  // it. Places already cached still load; the scheduled sweep is unaffected.
+  const misses = process.env.TREG_TOKEN ? researchCacheMisses(req) : 0;
+  if (misses > 0 && process.env.VERCEL_ENV === 'production' && process.env.RESEARCH_PUBLIC !== 'on') {
+    return jsonError(503, 'RESEARCH_PAUSED', 'Live look-arounds are switched off on the public site for now. The ideas below still open real searches.');
+  }
+  if (misses > 0 && !consumeProviderCall(request, 'research')) {
     return jsonError(429, 'RESEARCH_COOLDOWN', 'New research ran a few times from your connection. Give it ten minutes; places already looked up still load.');
   }
   const research = await researchDestination(req, {
