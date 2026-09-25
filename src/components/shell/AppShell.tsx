@@ -16,6 +16,7 @@ import { SunButton, SunGlyph, SunModal } from '@/components/voice/SunModal';
 import { useDesignerStore } from '@/lib/designer/store';
 import { useVoiceStore } from '@/lib/voice/registry';
 import { ProfileSwitcher } from './ProfileSwitcher';
+import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { ResumeTrip } from './ResumeTrip';
 
 const PRIMARY = [
@@ -115,6 +116,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const showVibePrompt = mounted && world && !hasProfile && !skipped;
   const moreHref = currentMoreHref(pathname);
   const profileCurrent = activePath(pathname, PROFILE_HREF);
+  const auth = usePlatformAuth();
+  // "Log in" only where membership is connected and nobody is signed in yet.
+  const showLogin = mounted && Boolean(auth.client) && !auth.loading && !auth.user;
+
+  // The login screen is its own full-screen moment: no header, tab bar or prompts.
+  if (pathname === '/login') return <div className="min-h-dvh bg-void text-ink">{children}</div>;
 
   return (
     <div className={cn('min-h-dvh bg-void text-ink', world && 'bg-transparent')}>
@@ -182,6 +189,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               Profile
             </NavLink>
+            {showLogin && (
+              <NavLink
+                href={`/login?next=${encodeURIComponent(pathname)}`}
+                className="hidden min-h-11 items-center rounded-full bg-surface-2 px-3.5 text-[13px] font-semibold text-bone shadow-soft-1 hover:bg-surface-3 sm:inline-flex"
+              >
+                Log in
+              </NavLink>
+            )}
           </div>
         </div>
       </header>
@@ -279,6 +294,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             role="menu"
             className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 lg:hidden"
           >
+            {showLogin && (
+              <NavLink
+                href={`/login?next=${encodeURIComponent(pathname)}`}
+                role="menuitem"
+                className="flex min-h-12 items-center justify-between gap-3 rounded-[var(--radius-control)] px-3 text-bone hover:bg-surface-4"
+              >
+                <span className="text-[15px] font-semibold">Log in</span>
+                <span className="text-[12px] text-ink-subtle">Email link, no password</span>
+              </NavLink>
+            )}
             {MORE_ITEMS.map((item) => (
               <NavLink
                 key={item.href}
