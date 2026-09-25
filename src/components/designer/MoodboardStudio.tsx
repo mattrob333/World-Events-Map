@@ -28,6 +28,7 @@ import { SpotifyPanel, type SpotifyCapabilities } from './SpotifyPanel';
 import { TripIdeas } from './TripIdeas';
 import { useHydrated } from './useHydrated';
 import { useDictation } from './useDictation';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type Result = { profile: TravelerProfile; engine: ParseEngine; notice?: string };
 
@@ -527,7 +528,7 @@ export function MoodboardStudio({
                 {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted by simple rules'}
               </span>
               <span className={styles.badge}>Editorial imagery · not your photos</span>
-              {result.profile.listening ? <span className={styles.badge}>+ Spotify</span> : null}
+              {result.profile.listening ? <span className={styles.badge}><SourceLogo source="spotify" size={12} className="mr-1" />Spotify</span> : null}
             </div>
             {result.profile.summary ? <p className={styles.lede}>{result.profile.summary}</p> : null}
             {result.notice ? <p className={styles.notice}>{result.notice}</p> : null}

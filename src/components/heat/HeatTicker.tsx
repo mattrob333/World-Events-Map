@@ -1,6 +1,7 @@
 import { formatCount, formatDelta } from '@/lib/heat/score';
 import type { HeatTicker as Ticker } from '@/lib/heat/types';
 import styles from './heat.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 /** A tiny sparkline: gaps stay gaps (a missing day is not a zero). */
 function Spark({ points, direction }: { points: Ticker['spark']; direction: Ticker['direction'] }) {
@@ -49,7 +50,12 @@ export function HeatTicker({ ticker, compact = false }: { ticker: Ticker; compac
         <span aria-hidden="true">{arrow}</span> {delta ?? 'new'}
       </span>
       {!compact && <span className={styles.per}>{per}</span>}
-      <span className={styles.source}>{head.source === 'wikipedia' ? 'Wikipedia' : 'News'}</span>
+      {head.source === 'wikipedia' ? (
+        // The mark says it at a glance and fits the narrow ticker; screen readers get the name.
+        <span className={styles.source}><SourceLogo source="wikipedia" size={14} /><span className="sr-only">Wikipedia</span></span>
+      ) : (
+        <span className={styles.source}>News</span>
+      )}
     </span>
   );
 }

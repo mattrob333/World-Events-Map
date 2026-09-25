@@ -26,6 +26,7 @@ import { curatedPhotosForDestination, type DestinationPhoto } from '@/lib/place-
 import type { PlacePhoto } from '@/lib/place-media/media';
 import type { InspirationItem } from '@/lib/inspiration';
 import styles from './destination-page.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 const TABS = ['pulse', 'happening', 'people', 'inspiration', 'access'] as const;
 type Tab = (typeof TABS)[number];
@@ -133,7 +134,7 @@ function PhotoCredit({ photo, className = '', archive = false }: { photo: PlaceP
     rel="noopener noreferrer"
     title={`${photo.title} · ${photo.credit} · ${photo.license}`}
   >
-    {photoArchiveLabel(photo)}{archive && ' · Wikimedia Commons archive'} · {photo.credit} · {photo.license} ↗
+    <SourceLogo source={photo.sourceUrl} size={12} className="mr-1" />{photoArchiveLabel(photo)}{archive && ' · Wikimedia Commons archive'} · {photo.credit} · {photo.license} ↗
   </a>;
 }
 

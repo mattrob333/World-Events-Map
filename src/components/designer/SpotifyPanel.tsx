@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { listeningInsights, parsePlaylistRef, type ListeningProfile } from '@/lib/designer/listening';
 import { startSpotifyConnect } from '@/lib/designer/spotify';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type ReadResult = { listening?: ListeningProfile; error?: string; code?: string };
 
@@ -83,9 +84,7 @@ export function SpotifyPanel({
     return (
       <section className={styles.spotify} aria-labelledby="spotify-title">
         <div className={styles.row}>
-          <span className={styles.spotifyMark} aria-hidden>
-            ●
-          </span>
+          <SourceLogo source="spotify" size={18} />
           <h2 id="spotify-title" className="text-[15px] font-semibold text-ink">
             Your music, from Spotify
           </h2>
@@ -151,9 +150,7 @@ export function SpotifyPanel({
     return (
       <section className={styles.spotify} aria-labelledby="spotify-title">
         <div className={styles.row}>
-          <span className={styles.spotifyMark} aria-hidden>
-            ●
-          </span>
+          <SourceLogo source="spotify" size={18} />
           <h2 id="spotify-title" className="text-[15px] font-semibold text-ink">
             Your music
           </h2>
@@ -169,9 +166,7 @@ export function SpotifyPanel({
   return (
     <section className={styles.spotify} aria-labelledby="spotify-title">
       <div className={styles.row}>
-        <span className={styles.spotifyMark} aria-hidden>
-          ●
-        </span>
+        <SourceLogo source="spotify" size={18} />
         <h2 id="spotify-title" className="text-[15px] font-semibold text-ink">
           Add your Spotify
         </h2>
@@ -200,7 +195,7 @@ export function SpotifyPanel({
           </button>
         ) : configured ? (
           <button type="button" className={styles.spotifyBtn} onClick={connect} disabled={busy}>
-            {busy ? 'Opening Spotify…' : 'Connect Spotify'}
+            <SourceLogo source="spotify" size={16} className="mr-1.5" />{busy ? 'Opening Spotify…' : 'Connect Spotify'}
           </button>
         ) : null}
         {!configured && !playlist.trim() ? <span className={styles.hint}>Spotify sign-in isn’t set up on this site; a public playlist link works without it.</span> : null}

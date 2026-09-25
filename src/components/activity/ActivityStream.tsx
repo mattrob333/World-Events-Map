@@ -13,6 +13,7 @@ import {
   type ActivityScene,
 } from '@/lib/activity/stream';
 import styles from './activity.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type ScenePost = {
   id: string;
@@ -165,7 +166,7 @@ function SceneCard({ scene, featured, onFeature }: {
         <h3>{scene.line}</h3>
         <p>{scene.event.tagline}.</p>
         {photo && <a className={styles.photoCredit} href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={photo.title}>
-          {photo.subject === 'event' ? 'Event archive' : 'Place archive'}{photo.photographed ? ` · ${photo.photographed}` : ''} · {photo.credit} · {photo.license} · Wikimedia Commons ↗
+          {photo.subject === 'event' ? 'Event archive' : 'Place archive'}{photo.photographed ? ` · ${photo.photographed}` : ''} · {photo.credit} · {photo.license} · <SourceLogo source={'commons'} size={12} className="mr-1" />Wikimedia Commons ↗
         </a>}
         <div className={styles.tags}>{scene.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
         <div className={styles.cardActions}>
@@ -219,9 +220,9 @@ export function ActivityStream() {
 
         {/* Only when there's something in it: an empty "no posts yet" box doesn't earn home-page space. */}
         {((posts.status === 'ready' && posts.posts.length > 0) || savedItems.length > 0) && <aside className={styles.side} aria-label="Scene activity">
-          <div className={styles.sideIntro}><span className={styles.sideNumber}>↗</span><div><span className={styles.sideKicker}>SOURCE CHECK</span><h3>{featured?.event.city ?? 'The world'} <em>on X.</em></h3><p>Public posts appear only when the X connection has checked this event recently. Posts open at the source.</p></div></div>
+          <div className={styles.sideIntro}><span className={styles.sideNumber}>↗</span><div><span className={styles.sideKicker}>SOURCE CHECK</span><h3>{featured?.event.city ?? 'The world'} <em>on <SourceLogo source={'x'} size={18} className="mx-0.5" />X.</em></h3><p>Public posts appear only when the X connection has checked this event recently. Posts open at the source.</p></div></div>
           <div className={styles.postPanel} aria-live="polite">
-            <div className={styles.postHead}><span>PUBLIC POSTS · X</span><span className={posts.status === 'ready' && posts.fetchedAt ? styles.sourceDot : styles.sourceIdle} aria-hidden="true" /></div>
+            <div className={styles.postHead}><span><SourceLogo source={'x'} size={12} className="mr-1" />PUBLIC POSTS · X</span><span className={posts.status === 'ready' && posts.fetchedAt ? styles.sourceDot : styles.sourceIdle} aria-hidden="true" /></div>
             {posts.status === 'loading' && <p className={styles.postEmpty}>Looking for the latest stored source check…</p>}
             {posts.status === 'error' && <p className={styles.postEmpty}>Public posts are temporarily unavailable.</p>}
             {posts.status === 'ready' && !posts.fetchedAt && <p className={styles.postEmpty}>No recent X source check is available for this scene. Explore the editorial ideas alongside.</p>}
@@ -231,7 +232,7 @@ export function ActivityStream() {
               return <a className={styles.post} key={post.id} href={post.url} target="_blank" rel="noopener noreferrer">
                 <span className={styles.postAuthor}>{post.author} <span>@{post.handle}</span></span>
                 <span className={styles.postText}>{post.text}</span>
-                <span className={styles.postTime}>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · View on X ↗</span>
+                <span className={styles.postTime}>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · <SourceLogo source={post.url} size={12} className="mr-1" />View on X ↗</span>
               </a>;
             })}
             {posts.status === 'ready' && posts.fetchedAt && <p className={styles.fetched}>Source checked {new Date(posts.fetchedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} · Posts are public, not dope.travel endorsements.</p>}

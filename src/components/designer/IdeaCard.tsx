@@ -5,6 +5,7 @@ import type { DesignerCard } from '@/lib/designer/catalog';
 import type { Participant } from '@/lib/designer/itinerary';
 import { tally, type CardVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 export const DRAG_MIME = 'application/x-meridian-card';
 
@@ -110,8 +111,8 @@ export function IdeaCard({
         </h4>
         {ride ? (
           <p className={styles.rideLinks}>
-            <a href={ride.uber} target="_blank" rel="noopener noreferrer">Uber ↗</a>
-            <a href={ride.lyft} target="_blank" rel="noopener noreferrer">Lyft ↗</a>
+            <a href={ride.uber} target="_blank" rel="noopener noreferrer"><SourceLogo source={ride.uber} size={13} className="mr-1" />Uber ↗</a>
+            <a href={ride.lyft} target="_blank" rel="noopener noreferrer"><SourceLogo source={ride.lyft} size={13} className="mr-1" />Lyft ↗</a>
           </p>
         ) : (
           <p className={styles.cardBlurb}>{card.blurb}</p>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { googleMapsViewUrl } from '@/lib/geo/map-links';
 import type { WorldEvent } from '@/lib/types';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 /** City-level context until an organizer supplies verified venue coordinates. */
 export function VenueMap({ event, compact = false }: { event: WorldEvent; compact?: boolean }) {
@@ -38,7 +39,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View satellite imagery ↗
+                <SourceLogo source={'google maps'} size={14} className="mr-1.5" />View satellite imagery ↗
               </a>
               <a
                 className="btn btn-ghost h-auto min-h-11 justify-start whitespace-normal py-3 text-left"
@@ -46,7 +47,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Explore terrain &amp; contours ↗
+                <SourceLogo source={'google maps'} size={14} className="mr-1.5" />Explore terrain &amp; contours ↗
               </a>
             </div>
             <p className="text-[11px] leading-relaxed text-ink-muted">
@@ -62,7 +63,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
             target="_blank"
             rel="noopener noreferrer"
           >
-            Step into {event.city} · Street View ↗
+            <SourceLogo source={'google maps'} size={14} className="mr-1.5" />Step into {event.city} · Street View ↗
           </a>
           <p className="text-[11px] leading-relaxed text-ink-muted">Street View opens in Google Maps where coverage is available. Imagery may be historical.</p>
         </>
@@ -93,7 +94,7 @@ export function VenueMap({ event, compact = false }: { event: WorldEvent; compac
                   rel="noopener noreferrer"
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue}, ${event.city}, ${event.country}`)}`}
                 >
-                  {venue} ↗
+                  <SourceLogo source={'google maps'} size={13} className="mr-1" />{venue} ↗
                 </a>
               </li>
             ))}

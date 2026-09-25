@@ -9,6 +9,7 @@ import styles from './now.module.css';
 import { NowForYou } from './NowForYou';
 import { NowUnavailable } from './NowUnavailable';
 import { formatNearby } from '@/lib/units';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 const INTENTS: { value: NowIntent; label: string; note: string }[] = [
   { value: 'food', label: 'Eat', note: 'restaurant or food' },
@@ -297,7 +298,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
                       {pick.candidate.priceLevel !== undefined && <span>{'$'.repeat(Math.max(1, Math.round(pick.candidate.priceLevel)))}</span>}
                     </div>
                     {pick.reasons.length > 0 && <ul>{pick.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>}
-                    <a className={styles.mapLink} href={mapHref(pick.candidate.location.lat, pick.candidate.location.lng, pick.candidate.name)} target="_blank" rel="noreferrer">Open in maps ↗</a>
+                    <a className={styles.mapLink} href={mapHref(pick.candidate.location.lat, pick.candidate.location.lng, pick.candidate.name)} target="_blank" rel="noreferrer"><SourceLogo source={'google maps'} size={13} className="mr-1" />Open in maps ↗</a>
                   </article>
                 ))}
               </div>

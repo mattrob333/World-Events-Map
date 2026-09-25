@@ -5,6 +5,7 @@ import type { ConcertResult, EventKind, LiveEvent } from '@/lib/designer/concert
 import type { TasteInput } from '@/lib/designer/scene';
 import styles from './designer.module.css';
 import { KIND_STYLE, MusicWorldMap, pinKey } from './MusicWorldMap';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 function formatDate(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
@@ -41,6 +42,7 @@ export function EventCard({ event }: { event: LiveEvent }) {
         <span className="text-[12px] text-ink-muted">{[event.venue, event.city, event.country].filter(Boolean).join(' · ')}</span>
         {event.kind === 'festival' && event.artist ? <span className="text-[12px] text-brass-bright">{event.artist} is on the bill</span> : null}
         <span className="text-[11px] text-ink-subtle">
+          <SourceLogo source={event.source} size={12} className="mr-1" />
           {SOURCE_LABEL[event.source]}
           {event.price ? ` · listed ${event.price}, check current price` : ''}
         </span>
@@ -111,6 +113,7 @@ export function LiveShows({ artists, hometown, taste }: { artists: string[]; hom
         </h2>
         {result ? (
           <span className={styles.badge}>
+            {live ? result.sources.map((source) => <SourceLogo key={source} source={source} size={12} className="mr-1" />) : null}
             {live
               ? `${result.sources.map((source) => SOURCE_LABEL[source]).join(' + ')} · checked ${new Date(result.fetchedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
               : 'Event feeds not connected · search links'}
@@ -169,7 +172,7 @@ export function LiveShows({ artists, hometown, taste }: { artists: string[]; hom
             {result.links.map((link) => (
               <li key={link.href}>
                 <a className={styles.cardLink} href={link.href} target="_blank" rel="noopener noreferrer">
-                  {link.label} ↗
+                  <SourceLogo source={link.href} size={13} className="mr-1" />{link.label} ↗
                 </a>
               </li>
             ))}

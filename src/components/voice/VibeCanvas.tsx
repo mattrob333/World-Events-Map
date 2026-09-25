@@ -5,6 +5,7 @@ import { curatedPhotoForEvent } from '@/lib/place-media/curated';
 import type { PlacePhoto } from '@/lib/place-media/media';
 import { SPOT_EMOJI, SPOT_KINDS, SPOT_LABEL, samePlace, type Canvas, type CanvasPlace, type CanvasSpot } from '@/lib/voice/canvas';
 import styles from './vibe-canvas.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 const photoCache = new Map<string, string | null>();
 
@@ -62,7 +63,7 @@ function SpotCard({ spot, place, picked, onPick }: { spot: CanvasSpot; place: Ca
         {spot.wink ? <span className={styles.wink}>{spot.wink}</span> : spot.clash ? <span className={styles.clash}>Includes something you’d skip</span> : null}
         {spot.why && <span className={styles.spotWhy}>{spot.why}</span>}
       </button>
-      <a className={styles.source} href={spot.url} target="_blank" rel="noopener noreferrer">{spot.host} ↗</a>
+      <a className={styles.source} href={spot.url} target="_blank" rel="noopener noreferrer"><SourceLogo source={spot.url} size={13} className="mr-1.5" />{spot.host} ↗</a>
     </article>
   );
 }

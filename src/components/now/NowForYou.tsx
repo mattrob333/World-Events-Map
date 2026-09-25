@@ -15,6 +15,7 @@ import { ScenePlaybook } from '@/components/designer/ScenePlaybook';
 import { RightNow, useNow } from '@/components/designer/TripExtras';
 import { useHydrated } from '@/components/designer/useHydrated';
 import styles from './now.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 /**
  * "Go here now" ideas for wherever the traveler is. Uses the mood board and
@@ -138,7 +139,7 @@ export function NowForYou({ initialCity, onCity }: { initialCity?: string; onCit
                   <span className="text-[22px]" aria-hidden>
                     {card.emoji}
                   </span>
-                  <span className="text-[15px] font-semibold text-ink">{card.title} ↗</span>
+                  <span className="text-[15px] font-semibold text-ink"><SourceLogo source={card.link?.href} size={14} className="mr-1.5" />{card.title} ↗</span>
                   <span className="text-[13px] text-ink-muted">{card.blurb}</span>
                 </a>
               ))}

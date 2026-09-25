@@ -40,6 +40,7 @@ import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/
 import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search';
 import { planTripOffer } from '@/lib/search/planPlace';
 import { formatMiles } from '@/lib/units';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 // Built on the first search, not on page load.
 let searchIndex: SearchHit[] | null = null;
@@ -503,10 +504,10 @@ export function DiscoveryExperience() {
                   <span>THE MOUNTAIN LENS · APPROXIMATE AREA</span>
                   <div>
                     <a href={mountainView.satellite} target="_blank" rel="noopener noreferrer">
-                      Satellite view ↗
+                      <SourceLogo source={'google maps'} size={13} className="mr-1" />Satellite view ↗
                     </a>
                     <a href={mountainView.terrain} target="_blank" rel="noopener noreferrer">
-                      Terrain &amp; contours ↗
+                      <SourceLogo source={'google maps'} size={13} className="mr-1" />Terrain &amp; contours ↗
                     </a>
                   </div>
                   <small>Opens the range near {spotlight.city} in Google Maps, not a verified lift entrance.</small>

@@ -6,6 +6,7 @@ import type { WorldEvent } from '@/lib/types';
 import type { PlacePhoto } from '@/lib/place-media/media';
 import { photoImageProps } from '@/lib/place-media/sources';
 import { usePlacePhotos } from '@/lib/place-media/usePlacePhotos';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 export function PlaceGallery({ event, compact = false }: { event: WorldEvent; compact?: boolean }) {
   // Cached by the browser and CDN (see the route's Cache-Control); no-store here
@@ -53,7 +54,7 @@ export function PlaceGallery({ event, compact = false }: { event: WorldEvent; co
           </div>
         )}
       </div>
-      <p className="mt-1.5 text-[11px] text-ink-subtle">Wikimedia Commons archive · {visibleIndex + 1} / {photos.length} · Images may be from earlier years</p>
+      <p className="mt-1.5 text-[11px] text-ink-subtle"><SourceLogo source={'commons'} size={12} className="mr-1" />Wikimedia Commons archive · {visibleIndex + 1} / {photos.length} · Images may be from earlier years</p>
     </section>
   );
 }

@@ -5,6 +5,7 @@ import type { SceneResponse } from '@/lib/designer/concerts';
 import { scenePlaybook, type TasteInput } from '@/lib/designer/scene';
 import styles from './designer.module.css';
 import { EventCard } from './LiveShows';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type Persona = {
   venueStyle: string;
@@ -220,7 +221,7 @@ export function ScenePlaybook({
             {current.scenes.flatMap((scene) =>
               scene.links.slice(0, 1).map((link) => (
                 <a key={link.href} className={styles.ghost} href={link.href} target="_blank" rel="noopener noreferrer">
-                  {scene.emoji} {link.label} ↗
+                  {scene.emoji} <SourceLogo source={link.href} size={13} className="mr-1" />{link.label} ↗
                 </a>
               )),
             )}

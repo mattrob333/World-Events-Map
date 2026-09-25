@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import type { TripIdeasResponse } from '@/lib/designer/tripIdeas';
 import styles from './designer.module.css';
 import { KIND_STYLE } from './MusicWorldMap';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 function short(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' });
@@ -66,6 +67,7 @@ export function TripIdeas({ artists, teams, homeCity }: { artists: string[]; tea
                 {idea.events.map((event) => (
                   <li key={event.id} className="flex items-center gap-2 text-[12.5px]">
                     <i className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: KIND_STYLE[event.kind].color }} aria-hidden />
+                    <SourceLogo source={event.url} size={13} className="shrink-0" />
                     <a className="truncate text-ink hover:underline" href={event.url} target="_blank" rel="noopener noreferrer">
                       {short(event.date)} · {event.name}
                     </a>

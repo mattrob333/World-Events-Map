@@ -8,6 +8,7 @@ import { buildSchedule, type ScheduleInput, type ScheduleResult } from '@/lib/de
 import { pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
 import type { DestinationResearch } from '@/lib/research/destinationSources';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type Ranked = BasketItem & { band: 'standout' | 'good' | 'fine' | 'skip' | null; because: string | null };
 type Phase = 'idle' | 'ranking' | 'deck' | 'picked' | 'schedule';
@@ -325,7 +326,7 @@ export function PicksBasket({ trip, research, placeName }: { trip: Itinerary; re
               </p>
               {current.because && <p className={styles.pickBecause}>{current.because}</p>}
               {current.snippet && <p className={styles.researchSnippet}>“{current.snippet}”</p>}
-              <a className={styles.researchSource} href={current.url} target="_blank" rel="noopener noreferrer">{current.source} ↗</a>
+              <a className={styles.researchSource} href={current.url} target="_blank" rel="noopener noreferrer"><SourceLogo source={current.source} size={14} className="mr-1.5" />{current.source} ↗</a>
             </div>
           </article>
           <div className={styles.pickActions}>
@@ -383,10 +384,10 @@ export function PicksBasket({ trip, research, placeName }: { trip: Itinerary; re
                           <span className="block text-[14px] font-semibold text-bone [overflow-wrap:anywhere]">{KIND_EMOJI[block.kind]} {block.name}</span>
                           <span className="block text-[12px] text-ink-muted">{!block.travelKnown ? 'Travel time unknown · ' : block.travelMinBefore ? `${block.travelMinBefore} min to get here · ` : ''}{block.reason}</span>
                           <span className="mt-1 flex flex-wrap gap-3 text-[12px]">
-                            {item && <a className="underline underline-offset-2" href={item.url} target="_blank" rel="noopener noreferrer">{item.source} ↗</a>}
+                            {item && <a className="underline underline-offset-2" href={item.url} target="_blank" rel="noopener noreferrer"><SourceLogo source={item.source} size={13} className="mr-1" />{item.source} ↗</a>}
                             {MEALS.has(block.kind) && block.kind !== 'breakfast' && item && takesTableSearch(item) && (
                               <a className="underline underline-offset-2" href={openTableSearch({ name: block.name, where: placeName, date: day.date, time: block.start, covers })} target="_blank" rel="noopener noreferrer" title={handoffNote('opentable')}>
-                                Find a table on OpenTable ↗
+                                <SourceLogo source={'opentable'} size={13} className="mr-1" />Find a table on OpenTable ↗
                               </a>
                             )}
                           </span>

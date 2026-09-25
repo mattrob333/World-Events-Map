@@ -18,6 +18,7 @@ import { affiliateDisclosure, handoffNote, openTableSearch, takesTableSearch } f
 import { safeResearch } from '@/lib/research/clientSafety';
 import { PicksBasket } from './PicksBasket';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 /*
  * Research costs money (paid provider calls), so it never runs on a page
@@ -126,7 +127,7 @@ function SpotCard({ spot, reserve }: { spot: ResearchSpot; reserve?: Reserve }) 
           rel="noopener noreferrer"
           title={handoffNote('opentable')}
         >
-          Find a table on OpenTable ↗
+          <SourceLogo source={'opentable'} size={14} className="mr-1.5" />Find a table on OpenTable ↗
         </a>
       </div>
     );
@@ -151,7 +152,7 @@ function SpotBody({ spot }: { spot: ResearchSpot }) {
           {spot.category ? ` · ${spot.category}` : ''}
         </span>
         {spot.snippet ? <span className={styles.researchSnippet}>“{spot.snippet}”</span> : spot.address ? <span className={styles.researchSnippet}>{spot.address}</span> : null}
-        <span className={styles.researchSource}>{spot.source} ↗</span>
+        <span className={styles.researchSource}><SourceLogo source={spot.source} size={14} className="mr-1.5" />{spot.source} ↗</span>
       </span>
     </>
   );
@@ -168,6 +169,7 @@ function PostCard({ post }: { post: ResearchPost }) {
         </span>
         <span className={styles.researchSnippet}>{post.caption}</span>
         <span className={styles.researchSource}>
+          <SourceLogo source={post.platform} size={14} className="mr-1.5" />
           {post.platform}
           {post.location ? ` · ${post.location}` : ` · found for ${post.about}`} ↗
         </span>
@@ -183,7 +185,7 @@ function EventCard({ event }: { event: ResearchEvent }) {
       <span className={styles.researchBody}>
         <span className={styles.researchName}>{event.title}</span>
         <span className={styles.researchMeta}>{event.when}{event.venue ? ` · ${event.venue}` : ''}</span>
-        <span className={styles.researchSource}>Google Events ↗</span>
+        <span className={styles.researchSource}><SourceLogo source={'google'} size={14} className="mr-1.5" />Google Events ↗</span>
       </span>
     </a>
   );
@@ -259,7 +261,7 @@ function footnote(id: TabId, section: ResearchSection<unknown>, place: string): 
   const when = section.fetchedAt ? `, fetched ${ago(section.fetchedAt)}` : '';
   const eventsLink = (
     <a className="underline underline-offset-2" href={eventsSearch(place)} target="_blank" rel="noopener noreferrer">
-      Search Google for events in {place} ↗
+      <SourceLogo source={'google'} size={13} className="mr-1" />Search Google for events in {place} ↗
     </a>
   );
   if (section.status === 'unavailable' || section.status === 'skipped') return id === 'events' ? eventsLink : null;
@@ -451,6 +453,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
               const count = section?.status === 'ok' ? section.items.length : 0;
               return (
                 <button key={id} type="button" role="tab" aria-selected={active === id} className={`${styles.segBtn} ${active === id ? styles.segOn : ''}`} onClick={() => setTab(id)}>
+                  <SourceLogo source={label} size={13} className="mr-1" />
                   {label}
                   {count ? <span className={styles.researchCount}>{count}</span> : null}
                 </button>

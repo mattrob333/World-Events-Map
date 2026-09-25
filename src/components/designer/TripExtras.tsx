@@ -13,6 +13,7 @@ import { useDesignerStore } from '@/lib/designer/store';
 import { replyFor, replyLink, tripLink } from '@/lib/designer/tripShare';
 import type { TripVotes } from '@/lib/designer/votes';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 /** Ticks once a minute so "right now" stays right. */
 export function useNow(): Date {
@@ -43,7 +44,7 @@ function Pick({ slot, lookup, label, until, near }: { slot: Slot; lookup: (id: s
         </span>
         <span className="block text-[15px] font-semibold text-ink">{card?.title ?? (travel ? slot.label : 'Free time')}</span>
         {travel && slot.note ? <span className="block text-[12px] text-ink-muted">{slot.note}</span> : null}
-        {link ? <span className="block text-[12px] text-ink-muted">{link.label} ↗</span> : null}
+        {link ? <span className="block text-[12px] text-ink-muted"><SourceLogo source={link.href} size={12} className="mr-1" />{link.label} ↗</span> : null}
       </span>
     </>
   );
@@ -114,7 +115,7 @@ export function StaysPanel({ trip, destination }: { trip: Itinerary; destination
       <div className={styles.stayGrid}>
         {searches.map((search) => (
           <a key={search.id} className={styles.stayLink} href={search.href} target="_blank" rel="noopener noreferrer">
-            <span className={styles.stayName}>{search.label} ↗</span>
+            <span className={styles.stayName}><SourceLogo source={search.href} size={20} className="mr-2" />{search.label} ↗</span>
             <span className="text-[12px] text-ink-muted">{search.note}</span>
           </a>
         ))}

@@ -6,6 +6,7 @@ import { SLOT_META, type DesignerCard, type SlotKind } from '@/lib/designer/cata
 import { useModalFocus } from '@/components/shell/useModalFocus';
 import { CardArt, type RideOffer } from './IdeaCard';
 import styles from './designer.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 const TRAVEL = new Set<SlotKind>(['depart', 'flight', 'arrive']);
 const MEAL_TIME: Partial<Record<SlotKind, string>> = { lunch: '12:30', dinner: '19:30', apres: '16:30' };
@@ -74,23 +75,23 @@ export function CardDetail({ card, ride, slotKind, where, date, covers, onClose 
           <div className={styles.detailActions}>
             {ride ? (
               <>
-                <a className="btn btn-primary btn-sm" href={ride.uber} target="_blank" rel="noopener noreferrer">Open Uber ↗</a>
-                <a className="btn btn-ghost btn-sm" href={ride.lyft} target="_blank" rel="noopener noreferrer">Open Lyft ↗</a>
+                <a className="btn btn-primary btn-sm" href={ride.uber} target="_blank" rel="noopener noreferrer"><SourceLogo source={ride.uber} size={14} className="mr-1.5" />Open Uber ↗</a>
+                <a className="btn btn-ghost btn-sm" href={ride.lyft} target="_blank" rel="noopener noreferrer"><SourceLogo source={ride.lyft} size={14} className="mr-1.5" />Open Lyft ↗</a>
               </>
             ) : null}
             {onMap ? (
               <a className="btn btn-primary btn-sm" href={mapsHref} target="_blank" rel="noopener noreferrer">
-                See it on the map ↗
+                <SourceLogo source={mapsHref} size={14} className="mr-1.5" />See it on the map ↗
               </a>
             ) : null}
             {table ? (
               <a className="btn btn-ghost btn-sm" href={table} target="_blank" rel="noopener noreferrer">
-                Find a table on OpenTable ↗
+                <SourceLogo source={'opentable'} size={14} className="mr-1.5" />Find a table on OpenTable ↗
               </a>
             ) : null}
             {own ? (
               <a className={onMap ? 'btn btn-ghost btn-sm' : 'btn btn-primary btn-sm'} href={own.href} target="_blank" rel="noopener noreferrer">
-                {own.label} ↗
+                <SourceLogo source={own.href} size={14} className="mr-1.5" />{own.label} ↗
               </a>
             ) : null}
           </div>

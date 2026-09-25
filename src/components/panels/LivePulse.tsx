@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getPlatformClient } from '@/lib/platform/client';
 import type { PartnerOffer } from '@/lib/platform/types';
 import type { ScenePost } from '@/lib/data/social-feed';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 export function LivePulse({
   eventId,
@@ -117,7 +118,7 @@ export function LivePulse({
       {posts.length > 0 && (
         <div className="mt-5">
           <p className="eyebrow text-brass-bright">
-            FROM THE SCENE · X
+            <SourceLogo source={'x'} size={12} className="mr-1.5" />FROM THE SCENE · X
           </p>
           {posts.slice(0, 2).map((post) => (
             <a
@@ -134,7 +135,7 @@ export function LivePulse({
               <p className="text-sm leading-relaxed mt-2 whitespace-pre-wrap">
                 {post.text}
               </p>
-              <span className="text-xs text-brass-bright">View on X ↗</span>
+              <span className="text-xs text-brass-bright"><SourceLogo source={post.url} size={12} className="mr-1" />View on X ↗</span>
             </a>
           ))}
         </div>

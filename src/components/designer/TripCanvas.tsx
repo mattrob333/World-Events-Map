@@ -17,6 +17,7 @@ import { SwipeDeck } from './SwipeDeck';
 import { GuestBar, InvitePanel, RightNow, StaysPanel, useNow, usePicksSender } from './TripExtras';
 import { photoImageProps } from '@/lib/place-media/sources';
 import { votersOf } from '@/lib/designer/voters';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 function formatDay(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
@@ -299,7 +300,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
                       ) : null}
                       {links[0] ? (
                         <a className={styles.miniBtn} style={{ display: 'inline-flex', alignItems: 'center' }} href={links[0].href} target="_blank" rel="noopener noreferrer">
-                          More ▶
+                          <SourceLogo source={links[0].href} size={13} className="mr-1" />More ▶
                         </a>
                       ) : null}
                     </div>

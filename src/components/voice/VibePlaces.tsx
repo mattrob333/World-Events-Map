@@ -6,6 +6,7 @@ import type { PlanPlace } from '@/lib/search/planPlace';
 import { withTaste } from '@/lib/vibe/affinity';
 import type { NewsStatus, VibePlace } from '@/lib/vibe/match';
 import type { TripWindow } from '@/lib/vibe/window';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 export type VibePayload = {
   window: TripWindow;
@@ -60,7 +61,7 @@ export function VibePlaces({ vibe, onPlan, onSee }: { vibe: VibePayload; onPlan:
                   {reason.sources.slice(0, 3).map((source, i) => (
                     <span key={`${source.label}${i}`}>
                       {i ? ' · ' : ''}
-                      {source.url ? <a className="underline underline-offset-2" href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a> : source.label}
+                      <SourceLogo source={source.url} size={12} className="mr-1" />{source.url ? <a className="underline underline-offset-2" href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a> : source.label}
                       {source.date ? ` ${short(source.date)}` : ''}
                     </span>
                   ))}

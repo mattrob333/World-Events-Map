@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './research-pulse.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 type ResearchCategory = 'article' | 'social' | 'deal' | 'flight';
 
@@ -61,7 +62,7 @@ function SourceItem({ item, variant }: { item: ResearchItem; variant: 'article' 
       <h4><a href={href} target="_blank" rel="noopener noreferrer">{item.title}<span aria-hidden="true">↗</span><span className={styles.srOnly}> (opens source in a new tab)</span></a></h4>
       {item.excerpt && <p className={styles.excerpt}>{item.excerpt}</p>}
       <div className={styles.itemFoot}>
-        <span>{item.source}{item.platform && item.platform !== item.source ? ` · ${item.platform}` : ''}{item.author ? ` · ${item.author}` : ''}</span>
+        <span><SourceLogo source={item.platform || href} size={13} className="mr-1" />{item.source}{item.platform && item.platform !== item.source ? ` · ${item.platform}` : ''}{item.author ? ` · ${item.author}` : ''}</span>
         <span>{published ? `Published ${published}` : 'Publication date unavailable'}{checked ? ` · Checked ${checked}` : ''}</span>
       </div>
     </article>

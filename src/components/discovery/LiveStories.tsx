@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { LatestStory } from '@/lib/vibe/latestStories';
 import styles from './live-stories.module.css';
+import { SourceLogo } from '@/components/brand/SourceLogo';
 
 function ago(iso: string, now: number): string {
   const hours = Math.max(0, Math.round((now - Date.parse(iso)) / 3_600_000));
@@ -53,7 +54,7 @@ export function LiveStories() {
               <span>{now ? ago(story.publishedAt, now) : ''}</span>
             </span>
             <span className={styles.title}>{story.title}</span>
-            <span className={styles.source}>{story.source} <span aria-hidden="true">↗</span></span>
+            <span className={styles.source}><SourceLogo source={story.url} size={12} className="mr-1" />{story.source} <span aria-hidden="true">↗</span></span>
           </a>
         ))}
       </div>
