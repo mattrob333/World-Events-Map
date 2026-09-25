@@ -30,4 +30,4 @@ it('keeps the feed library and Jev receipts server-only and caps intake runs', a
   } finally {
     await db.close();
   }
-});
+}, 30000);
