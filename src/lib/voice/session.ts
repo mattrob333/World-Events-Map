@@ -3,6 +3,15 @@ import { INTENT_TOOLS, VOICE_TOOLS, voiceInstructions, type VoiceIntent } from '
 /** Verified 2026-09-24 on this account. */
 export const VOICE_MODEL = process.env.VOICE_REALTIME_MODEL || 'gpt-realtime-2.1';
 
+/** The Realtime API's built-in voices (fable, nova and onyx are text-to-speech only). */
+export const REALTIME_VOICES = ['marin', 'cedar', 'alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse'] as const;
+
+/** VOICE_NAME picks the voice without a code change; anything unknown falls back to marin. */
+export function voiceName(): string {
+  const wanted = process.env.VOICE_NAME?.trim().toLowerCase() ?? '';
+  return (REALTIME_VOICES as readonly string[]).includes(wanted) ? wanted : 'marin';
+}
+
 /** Hard cap on one call; the route hangs up server-side at this point. */
 export function voiceCallLimitSeconds(): number {
   const raw = Number(process.env.VOICE_MAX_SECONDS);
@@ -25,7 +34,7 @@ export function voiceSessionConfig(intent: VoiceIntent, context: string, today: 
     max_output_tokens: 1200,
     audio: {
       input: { transcription: { model: 'gpt-4o-mini-transcribe' }, turn_detection: { type: 'semantic_vad' } },
-      output: { voice: 'marin' },
+      output: { voice: voiceName() },
     },
   };
 }

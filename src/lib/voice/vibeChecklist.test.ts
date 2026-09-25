@@ -16,6 +16,12 @@ describe('vibe checklist', () => {
 
   it('ticks trip topics as they are said', () => {
     const text = 'Lisbon, second week of October, me and Sam. We have to get one great seafood lunch and no touristy fado.';
-    expect(done(tripChecklist(text))).toEqual(['where', 'when', 'who', 'must', 'not']);
+    expect(done(tripChecklist(text))).toEqual(['where', 'when', 'who', 'vibe', 'must']);
+  });
+
+  it('lights a topic from a fact the concierge locked, and shows it', () => {
+    const items = tripChecklist('', { where: 'the Alps', when: 'first week of February' });
+    expect(done(items)).toEqual(['where', 'when']);
+    expect(items[0]!.fact).toBe('the Alps');
   });
 });

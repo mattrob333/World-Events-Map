@@ -40,6 +40,22 @@ export const BUDGETS = ['shoestring', 'comfortable', 'premium', 'no-limit'] as c
 export const PACES = ['slow', 'balanced', 'packed'] as const;
 export const SOCIAL_LEVELS = ['recharge-solo', 'small-crew', 'meet-everyone'] as const;
 
+/** What the voice concierge heard about how they travel, merged into the profile's style. */
+export type VoiceStyle = { pace?: unknown; budget?: unknown; avoid?: unknown; splurge?: unknown };
+
+export function withVoiceStyle(profile: TravelerProfile, extra: VoiceStyle | null | undefined): TravelerProfile {
+  if (!extra) return profile;
+  const base: TravelStyle = profile.style ?? { lodging: [], dietary: [], avoid: [], bucketList: [], languages: [] };
+  const pace = (PACES as readonly string[]).includes(String(extra.pace)) ? (extra.pace as TravelStyle['pace']) : base.pace;
+  const budget = (BUDGETS as readonly string[]).includes(String(extra.budget)) ? (extra.budget as TravelStyle['budget']) : base.budget;
+  const avoid = Array.isArray(extra.avoid)
+    ? [...new Set([...base.avoid, ...extra.avoid.filter((item): item is string => typeof item === 'string').map((item) => item.trim().slice(0, 60)).filter(Boolean)])].slice(0, 12)
+    : base.avoid;
+  const splurge = typeof extra.splurge === 'string' ? extra.splurge.trim().slice(0, 200) : '';
+  const notes = splurge && !(base.notes ?? '').includes(splurge) ? [base.notes, `Splurge and save: ${splurge}`].filter(Boolean).join(' ') : base.notes;
+  return { ...profile, style: { ...base, pace, budget, avoid, notes } };
+}
+
 export type TravelerProfile = {
   name?: string;
   age?: number;

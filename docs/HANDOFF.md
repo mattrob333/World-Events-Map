@@ -152,6 +152,20 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
 - Phase 2, the live voice concierge (needs `VOICE_ENABLED=1` on Preview and a voice budget decision).
 - Phase 3, trip build.
 
+## Vibe stage, home declutter, live stories (2026-09-25, evening)
+
+- **Vibe stage** (`src/components/voice/SunModal.tsx`): two tabs, *My profile* and *A trip*. The topics in `src/lib/voice/topics.ts` are the agenda on screen: essentials as bullets, extras as chips. With live voice on, the stage opens `vibe_profile` or `vibe_trip` sessions, whose only tools are `lock_fact` (lights a topic with a few words), then `describe_me` (profile) or `finish_trip` (trip), plus `switch_profile`. The concierge's first line is fixed: "Vibe with me for a second about the topics above." The instructions in `tools.ts` are brief by design: questions under 12 words, no praise, either-or clarifiers.
+- **Voice cut-off fixed.** A tool that opened another page changed the route, which closed the stage and killed the call mid-sentence. Voice-driven navigation now keeps the stage open, and closing or building waits until the concierge stops speaking (`whenQuiet`, with an 8-second fallback). `END:` tool results ask for no further reply.
+- **Mute voice** switches the session to text replies. **I'm done** builds from what was said and locked, in both modes.
+- **Voice name:** set `VOICE_NAME` to one of `REALTIME_VOICES` in `src/lib/voice/session.ts`. The default is marin.
+- **Profile style from voice:** `describe_me` takes pace, budget, avoid and splurge, merged by `withVoiceStyle` in `profile.ts`.
+- **Home** (per the mobile audit):
+  - Cut: the departure board, the finder's summary card and disclaimer, the empty Research Pulse lanes, the scene/wire tabs, the ideas rail and trail, the replay button, and the empty X panel.
+  - Hidden on phones: the route pass, the World Heat ranking and the stats.
+  - Place photos (`EventPhoto`) on the spotlight and on the "next move" cards, which are a swipe rail on phones. Scene cards lead with the curated photo.
+  - Fixed: shortlist cards no longer clip their credit, and the "Start a Circle" link no longer sits on a black box.
+- **Live stories:** `GET /api/feed/latest` (public, no input, cached 10 minutes at the edge) serves headlines from `meridian_feed_items` that name a place we cover. Filtering is in `src/lib/vibe/latestStories.ts`: tier A/B only, no service-notice or gear noise, English only, one story per source and per place, at most 4 days old, pictured places first. `LiveStories` renders nothing until there are at least 2.
+
 ## Red team 2026-09-25 (third pass)
 
 Report: `docs/redteam/2026-09-25/REPORT.md` (six personas, about 80 findings, most fixed in the same change). The blocker was the basket deck covering its own Keep, Pass and Done buttons (a CSS module class collision); it's fixed and verified in a browser.

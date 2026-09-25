@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { EVENTS } from '@/lib/data/events';
-import { addDays, daysBetween, useTimelineStore } from '@/lib/stores/useTimelineStore';
+import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { estimateRoute } from '@/lib/travel/route-estimate';
 import { approvedWikimediaUrl, type PlacePhoto } from '@/lib/place-media/media';
 import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curated';
@@ -75,17 +75,6 @@ const dateLabel = (date: string) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
-
-function calendarTiming(event: WorldEvent, focus: string) {
-  if (event.start <= focus && event.end >= focus) {
-    return { phase: 'now' as const, label: 'NOW', detail: 'Calendar today' };
-  }
-  const leadDays = Math.max(0, daysBetween(focus, event.start));
-  if (leadDays <= 7) {
-    return { phase: 'soon' as const, label: 'SOON', detail: leadDays === 0 ? 'Starts today' : `In ${leadDays} day${leadDays === 1 ? '' : 's'}` };
-  }
-  return { phase: 'plan' as const, label: 'PLAN', detail: `${leadDays} days ahead` };
-}
 
 function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: number; today: string; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
   const { event, slug } = pick;
@@ -161,14 +150,6 @@ export function WorldIntro({
   onModeChange: (season: TripSeason, interest: TripInterest) => void;
 }) {
   const focus = useTimelineStore((state) => state.focus);
-  const board = useRef<HTMLDivElement>(null);
-  const boardGroup = useRef<HTMLDivElement>(null);
-  const touchPauseTimer = useRef<number | null>(null);
-  const [boardHovered, setBoardHovered] = useState(false);
-  const [boardFocused, setBoardFocused] = useState(false);
-  const [boardTouched, setBoardTouched] = useState(false);
-  const [boardPaused, setBoardPaused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [activeJourney, setActiveJourney] = useState<{ event: WorldEvent; photo: PlacePhoto | null } | null>(null);
   const [featuredMedia, setFeaturedMedia] = useState<{ eventId: string; photo: PlacePhoto | null } | null>(null);
   const [failedFeaturedImage, setFailedFeaturedImage] = useState<string | null>(null);
@@ -181,7 +162,7 @@ export function WorldIntro({
       const selected: RadarPick[] = [];
       const ranked = orderShortlistEvents(seasonalEvents, interest);
       // Lead with photographed scenes in curated visual shortlists. A missing
-      // rights-cleared image stays discoverable in the departure board.
+      // rights-cleared image is still on the full calendar.
       const photographed = ranked.filter((event) => curatedPhotoForEvent(event.id));
       const candidates = photographed.length >= 4 ? photographed : ranked;
       for (const event of candidates) {
@@ -217,15 +198,6 @@ export function WorldIntro({
   const featured = chosen ?? nearby ?? picks[0]?.event;
   const featuredWhy = featured ? whyNow(featured, focus) : null;
   const estimate = origin && featured ? estimateRoute(origin, featured.coords) : null;
-  const departures = useMemo(() => {
-    if (filtering) return seasonalEvents.slice(0, 12);
-    const current = EVENTS.filter((event) => event.start <= focus && event.end >= focus)
-      .sort((a, b) => a.end.localeCompare(b.end)).slice(0, 3);
-    const soonEnd = addDays(focus, 7);
-    const soon = EVENTS.filter((event) => event.start > focus && event.start <= soonEnd).slice(0, 4);
-    const planning = EVENTS.filter((event) => event.start > soonEnd).slice(0, 5);
-    return [...current, ...soon, ...planning];
-  }, [focus, filtering, seasonalEvents]);
   const featuredPhoto = (featured ? curatedPhotoForEvent(featured.id) : null)
     ?? activeJourney?.photo
     ?? (featuredMedia?.eventId === featured?.id ? featuredMedia.photo : null);
@@ -238,13 +210,11 @@ export function WorldIntro({
   const chooseSeason = (next: TripSeason) => {
     onModeChange(next, SEASONS.find((option) => option.value === next)?.defaultInterest ?? 'all');
     setActiveJourney(null);
-    if (board.current) board.current.scrollLeft = 0;
   };
 
   const chooseInterest = (next: TripInterest) => {
     onModeChange(season, next);
     setActiveJourney(null);
-    if (board.current) board.current.scrollLeft = 0;
   };
 
   useEffect(() => {
@@ -267,77 +237,9 @@ export function WorldIntro({
     return () => controller.abort();
   }, [featured]);
 
-  useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReducedMotion(preference.matches);
-    update();
-    preference.addEventListener('change', update);
-    return () => preference.removeEventListener('change', update);
-  }, []);
-
-  useEffect(() => {
-    const viewport = board.current;
-    const group = boardGroup.current;
-    if (!viewport || !group || !departures.length || boardHovered || boardFocused || boardTouched || boardPaused || reducedMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let frame = 0;
-    let visible = false;
-    let lastTime = 0;
-    const tick = (time: number) => {
-      if (!visible) return;
-      const elapsed = lastTime ? Math.min(time - lastTime, 40) : 0;
-      lastTime = time;
-      if (document.visibilityState === 'visible' && group.scrollWidth > viewport.clientWidth) {
-        viewport.scrollLeft += elapsed * 0.035;
-        if (viewport.scrollLeft >= group.scrollWidth) viewport.scrollLeft -= group.scrollWidth;
-      }
-      frame = window.requestAnimationFrame(tick);
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      window.cancelAnimationFrame(frame);
-      if (visible) {
-        lastTime = 0;
-        frame = window.requestAnimationFrame(tick);
-      }
-    }, { threshold: 0.1 });
-    observer.observe(viewport);
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(frame);
-    };
-  }, [departures, boardHovered, boardFocused, boardTouched, boardPaused, reducedMotion]);
-
-  useEffect(() => () => {
-    if (touchPauseTimer.current !== null) window.clearTimeout(touchPauseTimer.current);
-  }, []);
-
   const launchJourney = (event: WorldEvent, photo: PlacePhoto | null = null) => {
     setActiveJourney({ event, photo });
     onTravel(event);
-  };
-
-  const scrollBoard = (direction: number) => {
-    board.current?.scrollBy({
-      left: direction * Math.max(270, board.current.clientWidth * 0.65),
-      behavior: reducedMotion ? 'auto' : 'smooth',
-    });
-  };
-
-  const departureItem = (event: WorldEvent, duplicate: boolean) => {
-    const timing = calendarTiming(event, focus);
-    return <button
-      key={`${duplicate ? 'copy' : 'original'}-${event.id}`}
-      type="button"
-      tabIndex={duplicate ? -1 : undefined}
-      data-phase={timing.phase}
-      onClick={() => launchJourney(event)}
-      aria-label={duplicate ? undefined : `Fly to ${event.city} for ${event.name}. ${timing.label}: ${timing.detail}. Starts ${dateLabel(event.start)}.`}
-    >
-      <span className={styles.boardTiming}><b>{timing.label}</b><small>{timing.detail}</small></span>
-      <span className={styles.boardDestination}><strong>{event.city}</strong><em>{event.name}</em></span>
-      <span className={styles.boardDate}>{dateLabel(event.start)}</span>
-      <span className={styles.boardArrow} aria-hidden="true">↗</span>
-    </button>;
   };
 
   return (
@@ -361,7 +263,7 @@ export function WorldIntro({
               <span className={styles.jet} aria-hidden="true">✈</span> Fly to {featured.city} <span aria-hidden="true">↗</span>
             </button>
           ))}
-          <a className={styles.secondaryCta} href="#departure-board">See what is calling <span aria-hidden="true">↓</span></a>
+          <a className={styles.secondaryCta} href="#shortlist">See what is calling <span aria-hidden="true">↓</span></a>
           </div>
           {featured && featuredWhy && (
             // Phones show the pass card below the fold, so the what and when ride under the button too.
@@ -398,15 +300,7 @@ export function WorldIntro({
           <div>
             <span className={styles.kicker}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />START WITH A FEELING / 001</span>
             <h2 id="trip-finder-title">What kind of trip calls to you?</h2>
-            <p>Choose when and what you love. The places and departure board will follow.</p>
-          </div>
-          <div className={`surface ${styles.finderSelection}`} aria-live="polite">
-            <span className="eyebrow">YOUR EDITORIAL SHORTLIST</span>
-            <strong>{selectedSeasonLabel} · {selectedInterestLabel}</strong>
-            <small>{filtering ? `${picks.length} places to explore` : 'A little of everything'}</small>
-            <Link className="btn btn-ghost" href={`/trips?season=${season}&interest=${interest}${familySki ? '#family-ski' : ''}`}>
-              {familySki ? 'Start a family ski trip' : 'Explore trip planning'} <span aria-hidden="true">↗</span>
-            </Link>
+            <p>Choose when and what you love. The shortlist follows.</p>
           </div>
         </div>
         <div className={styles.finderControls}>
@@ -419,6 +313,11 @@ export function WorldIntro({
             <div>{INTERESTS.map((option) => <button key={option.value} type="button" className="chip" aria-pressed={interest === option.value} onClick={() => chooseInterest(option.value)}>{option.label}</button>)}</div>
           </fieldset>
         </div>
+        {filtering && (
+          <Link className={styles.finderLink} href={`/trips?season=${season}&interest=${interest}${familySki ? '#family-ski' : ''}`}>
+            {familySki ? 'Start a family ski trip' : 'Explore trip planning'} <span aria-hidden="true">↗</span>
+          </Link>
+        )}
         {interest === 'ski' && <div className={styles.snowOutlook} role="note">
           <div><span>SNOW OUTLOOK</span><strong>Plan the week. Check the mountain.</strong></div>
           <p>These are curated ski dates, not a snow report. Snow depth, recent snowfall, forecast, open lifts, and family terrain still need a verified resort or weather source before you decide where conditions are best.</p>
@@ -431,10 +330,9 @@ export function WorldIntro({
             <a href="https://zermatt.swiss/en/info/weather/snow-report" target="_blank" rel="noopener noreferrer">Zermatt</a>
           </div>
         </div>}
-        <p className={styles.finderDisclosure}>Season means the event&apos;s calendar month, in the Northern Hemisphere travel calendar. These are editorial ideas, not live snow, forecast, activity, lodging, or price results.</p>
       </section>
 
-      <div className={styles.radar} id="departure-board">
+      <div className={styles.radar} id="shortlist">
         <div className={styles.radarHeading}>
           <div><span className={styles.kicker}><span className={`horizon-band ${styles.band}`} aria-hidden="true" />{filtering ? `${selectedSeasonLabel.toUpperCase()} / ${selectedInterestLabel.toUpperCase()}` : 'THE SHORTLIST / 001'}</span><h2>{story.heading}</h2></div>
           <p>{filtering ? 'Current and future occasions on the curated calendar. Tap a place to explore.' : 'Tap a place to fly there. Then follow the story.'}</p>
@@ -445,35 +343,6 @@ export function WorldIntro({
         <div className={styles.radarDisclosure}>Destinations from the curated calendar. Photo labels link to licensed Wikimedia Commons archive imagery and may show earlier years. Demand is modeled.</div>
       </div>
 
-      <div
-        className={styles.departureBoard}
-        role="region"
-        aria-label="Departure board from the curated calendar"
-        onMouseEnter={() => setBoardHovered(true)}
-        onMouseLeave={() => setBoardHovered(false)}
-        onFocusCapture={() => setBoardFocused(true)}
-        onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setBoardFocused(false); }}
-        onTouchStart={() => {
-          if (touchPauseTimer.current !== null) window.clearTimeout(touchPauseTimer.current);
-          setBoardTouched(true);
-        }}
-        onTouchEnd={() => {
-          touchPauseTimer.current = window.setTimeout(() => setBoardTouched(false), 3500);
-        }}
-      >
-        <div className={styles.boardLabel}><span aria-hidden="true">✧</span><span><strong>THE DEPARTURE BOARD</strong><small>Editorial calendar · verify dates</small></span></div>
-        <div className={styles.boardTrack} ref={board}>
-          <div className={styles.boardMotion}>
-            <div className={styles.boardGroup} ref={boardGroup}>{departures.length ? departures.map((event) => departureItem(event, false)) : <p className={styles.boardEmpty}>No upcoming departures for this selection</p>}</div>
-            <div className={styles.boardGroup} aria-hidden="true">{departures.map((event) => departureItem(event, true))}</div>
-          </div>
-        </div>
-        <div className={styles.boardControls}>
-          <button type="button" className={`btn btn-ghost ${styles.boardPause}`} onClick={() => setBoardPaused((value) => !value)} disabled={reducedMotion} aria-label={reducedMotion ? 'Automatic movement is off for reduced motion' : boardPaused ? 'Resume departure ticker' : 'Pause departure ticker'} aria-pressed={boardPaused || reducedMotion}>{boardPaused || reducedMotion ? '▶' : 'Ⅱ'}</button>
-          <button type="button" className="btn btn-ghost" onClick={() => scrollBoard(-1)} aria-label="Scroll departures left">‹</button>
-          <button type="button" className="btn btn-ghost" onClick={() => scrollBoard(1)} aria-label="Scroll departures right">›</button>
-        </div>
-      </div>
     </section>
   );
 }

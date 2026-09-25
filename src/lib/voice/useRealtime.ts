@@ -7,7 +7,15 @@ import type { VoiceIntent } from './tools';
 export type VoicePhase = 'idle' | 'connecting' | 'listening' | 'thinking' | 'speaking' | 'error' | 'ended';
 export type VoiceLine = { who: 'you' | 'sun' | 'done'; text: string };
 
-type StartOptions = { intent: VoiceIntent; context: string; handlers: VoiceHandlers; withMic: boolean; textOnly?: boolean };
+type StartOptions = {
+  intent: VoiceIntent;
+  context: string;
+  handlers: VoiceHandlers;
+  withMic: boolean;
+  textOnly?: boolean;
+  /** The exact first line the concierge says, instead of an opener of its own. */
+  opener?: string;
+};
 
 function localToday(): string {
   const d = new Date();
@@ -75,6 +83,8 @@ export function useRealtime() {
   }, []);
 
   const runCalls = useCallback(async (calls: { name: string; call_id: string; arguments: string }[]) => {
+    // A handler that answers "END: …" finishes the conversation: no reply is asked for after it.
+    let ending = false;
     for (const call of calls) {
       let output: string;
       try {
@@ -84,10 +94,15 @@ export function useRealtime() {
       } catch (cause) {
         output = `Error: ${cause instanceof Error ? cause.message : 'that didn’t work'}`;
       }
-      push({ who: 'done', text: output });
+      if (output.startsWith('END:')) {
+        ending = true;
+        output = output.slice(4).trim();
+      }
+      // Locking a fact lights its bullet; it isn't worth a line in the transcript.
+      if (call.name !== 'lock_fact') push({ who: 'done', text: output });
       send({ type: 'conversation.item.create', item: { type: 'function_call_output', call_id: call.call_id, output } });
     }
-    send({ type: 'response.create' });
+    if (!ending) send({ type: 'response.create' });
   }, [push, send]);
 
   const onEvent = useCallback((raw: string) => {
@@ -143,7 +158,7 @@ export function useRealtime() {
     }
   }, [push, runCalls]);
 
-  const start = useCallback(async ({ intent, context, handlers, withMic, textOnly = false }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
+  const start = useCallback(async ({ intent, context, handlers, withMic, textOnly = false, opener }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
     stop('idle');
     handlersRef.current = handlers;
     setLines([]);
@@ -189,7 +204,9 @@ export function useRealtime() {
       dc.onopen = () => {
         setPhase(mic ? 'listening' : 'thinking');
         if (textOnly) send({ type: 'session.update', session: { type: 'realtime', output_modalities: ['text'] } });
-        send({ type: 'response.create' });
+        send(opener
+          ? { type: 'response.create', response: { instructions: `Say exactly this, then stop and listen: "${opener.replace(/"/g, '')}"` } }
+          : { type: 'response.create' });
       };
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);

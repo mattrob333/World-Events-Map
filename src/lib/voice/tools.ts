@@ -6,7 +6,11 @@
  * the traveler says is stored by dope.travel.
  */
 
-export type VoiceIntent = 'vibe' | 'trip' | 'board' | 'now' | 'general';
+import { BUDGETS, PACES } from '@/lib/designer/profile';
+import { TOPIC_KEYS, topicAgenda } from './topics';
+
+/** vibe_profile and vibe_trip are the header's Vibe stage; the others belong to a page. */
+export type VoiceIntent = 'vibe' | 'vibe_profile' | 'vibe_trip' | 'trip' | 'board' | 'now' | 'general';
 
 type JsonSchema = {
   type: 'object';
@@ -49,8 +53,27 @@ export const VOICE_TOOLS = {
   },
   describe_me: {
     name: 'describe_me',
-    description: 'Turn what the traveler told you about themselves into their board. Pass a first-person summary in their words: where they are from, age, teams, music and artists, food, who they travel with (names and kids\' ages), trips they loved.',
-    parameters: obj({ summary: { type: 'string', description: 'First person, plain sentences, only what they said.' } }, ['summary']),
+    description: 'Turn what the traveler told you about themselves into their board. Pass a first-person summary in their words: where they are from, age, teams, music and artists, food, who they travel with (names and kids\' ages), trips they loved. Add pace, budget, avoid and splurge only when they said them.',
+    parameters: obj({
+      summary: { type: 'string', description: 'First person, plain sentences, only what they said.' },
+      pace: { type: 'string', enum: [...PACES], description: 'slow, balanced or packed.' },
+      budget: { type: 'string', enum: [...BUDGETS] },
+      avoid: { type: 'array', items: { type: 'string' }, maxItems: 8, description: 'Hard no\'s, a few words each: "cruises", "tour buses".' },
+      splurge: { type: 'string', description: 'Where they spend and where they save, in a short sentence.' },
+    }, ['summary']),
+  },
+  lock_fact: {
+    name: 'lock_fact',
+    description: 'Lock one fact against a topic on their screen the moment you hear it; the topic lights up with it. A few words, their words. Call again to correct it. Say nothing about it.',
+    parameters: obj({
+      topic: { type: 'string', enum: TOPIC_KEYS },
+      fact: { type: 'string', description: 'A few words: "the Alps", "first week of February", "two families of four, kids 8 and 12".' },
+    }, ['topic', 'fact']),
+  },
+  finish_trip: {
+    name: 'finish_trip',
+    description: 'They are done: build the trip from what they said. Call once where and when are known and they have finished talking.',
+    parameters: obj({}),
   },
   set_now_city: {
     name: 'set_now_city',
@@ -75,6 +98,8 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
   // The header's "Vibe": profile and trip start from anywhere. Tools that live
   // on another page open that page first (see lib/voice/vibe.ts).
   vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
+  vibe_profile: ['lock_fact', 'describe_me', 'switch_profile'],
+  vibe_trip: ['lock_fact', 'finish_trip', 'switch_profile'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
   now: ['set_now_city', 'switch_profile', 'navigate'],
@@ -82,7 +107,21 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
 };
 
 export const INTENT_OPENERS: Record<VoiceIntent, string> = {
-  vibe: 'If the context says there is no travel profile yet, get to know them first, like a friend would: where home is, who they root for, what music is on repeat, how they eat, who they travel with and how those trips differ. One question at a time; when you have enough, call describe_me. If they already have a profile, ask where they want to go next, when, and who is coming; fill it in with set_trip_basics and add_traveler as they talk, then offer to build it with create_trip. If they jump straight to a trip, go with it. Some tools open another page; that is expected.',
+  vibe: 'If the context says there is no travel profile yet, learn where home is, who they root for, what music is on repeat, how they eat, and who they travel with; one short question at a time, then call describe_me. If they have a profile, get where, when and who for their next trip with set_trip_basics and add_traveler, then call create_trip. Some tools open another page; that is expected.',
+  vibe_profile: [
+    'They are setting up their travel profile: the long view of who they are as a traveler, not one trip.',
+    `Their screen lists these topics: ${topicAgenda('profile')}.`,
+    'Let them talk through the list. Lock each fact with lock_fact the moment you hear it, silently.',
+    'This one can be a little conversational. When they pause, ask about the next topic nobody has covered, or one sharp follow-up that adds nuance: "Rooftop cocktails or dive bars?", "Which trip, and what made it?". One question, then stop.',
+    'When home, crew, music and food plus at least two other topics are covered, or they say they are done, say "Got it, building your vibe." and call describe_me with a first-person summary of only what they said.',
+  ].join(' '),
+  vibe_trip: [
+    'They are planning one trip. Gather the facts fast; this is not a chat.',
+    `Their screen lists these topics: ${topicAgenda('trip')}.`,
+    'Lock each fact with lock_fact the moment you hear it, silently: where "the Alps", when "first week of February", who "two families of four, kids 8 and 12".',
+    'When they pause: if where, when or who is missing, ask for it in one short question. If something is ambiguous, ask one either-or question: "Late-night bars or live-music bars?". At most two follow-ups beyond those three.',
+    'Do not suggest or describe places yourself; the app ranks them. Once where and when are known and they have finished, say "Got it." and call finish_trip.',
+  ].join(' '),
   trip: 'Ask where they want to go, when, and who is coming. Fill things in as they talk, then offer to build it.',
   board: 'Ask them to tell you about themselves like they would a friend: where they are from, their teams, the music they love, food, who they travel with, and the trip they still talk about. Keep it light; one question at a time. When you have enough, call describe_me.',
   now: 'Ask where they are right now and what they feel like doing. Set the city as soon as they say it.',
@@ -90,7 +129,7 @@ export const INTENT_OPENERS: Record<VoiceIntent, string> = {
 };
 
 export function isVoiceIntent(value: unknown): value is VoiceIntent {
-  return value === 'vibe' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
+  return value === 'vibe' || value === 'vibe_profile' || value === 'vibe_trip' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
 }
 
 const ROUTES: Record<string, string> = {
@@ -104,12 +143,14 @@ export function routeFor(to: unknown): string | null {
 /** Brand voice and ground rules shared by every intent. */
 export function voiceInstructions(intent: VoiceIntent, context: string, today: string): string {
   return [
-    'You are the voice of dope.travel: a warm, quick, slightly cheeky travel friend with great taste. Premium, never salesy. Short sentences; this is a conversation, not a lecture.',
+    'You are the voice of dope.travel: a quick travel concierge with great taste. Your job is to get what is needed, fast, and get out of the way.',
+    'How you talk: one short question at a time, under 12 words, then stop and wait. Acknowledge with two or three words at most ("Got it.", "Nice.") or nothing. Never praise their choices, never say how fun or amazing it will be, never repeat back what they said, never list options unprompted. Warm, not chatty; never rude.',
+    'Let them finish. If they trail off mid-thought, wait rather than jump in.',
     'Never use the word "dope" in a sentence. Never invent venues, prices, availability or bookings; the app shows real links and says where things come from.',
     `Today is ${today}.`,
     INTENT_OPENERS[intent],
-    'Use your tools the moment you learn something; do not wait to collect everything. After a tool runs, say in a few words what changed. If a tool reports an error, say it plainly and ask how to fix it.',
-    'If the traveler would rather type, that is fine. Keep turns under about 15 seconds of speech.',
+    'Use your tools the moment you learn something; do not wait to collect everything. Do not narrate tools; lock_fact is always silent. If a tool reports an error, say it in one sentence and ask how to fix it.',
+    'Keep every turn under about 5 seconds of speech.',
     context ? `What is on their screen right now: ${context}` : '',
   ].filter(Boolean).join('\n');
 }

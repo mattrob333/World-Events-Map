@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { INTENT_TOOLS } from './tools';
+import { emptyProfile, withVoiceStyle } from '@/lib/designer/profile';
+import { voiceName } from './session';
+import { INTENT_TOOLS, voiceInstructions } from './tools';
 import { placeFromTypedTrip, readTypedVibe, vibeTarget } from './vibe';
 
 describe('header Vibe routing', () => {
@@ -36,5 +38,39 @@ describe('header Vibe routing', () => {
     expect(readTypedVibe('Lisbon, second week of October, me and Sam', false)).toEqual({ kind: 'trip', place: { place: 'Lisbon' } });
     expect(readTypedVibe('somewhere warm with good bars and no crowds at all please', true)).toEqual({ kind: 'trip', place: null });
     expect(readTypedVibe('somewhere warm with good bars and no crowds at all please', false)).toEqual({ kind: 'profile' });
+  });
+});
+
+describe('Vibe stage voice sessions', () => {
+  it('gives the profile and trip conversations only their own tools', () => {
+    expect(INTENT_TOOLS.vibe_profile).toEqual(['lock_fact', 'describe_me', 'switch_profile']);
+    expect(INTENT_TOOLS.vibe_trip).toEqual(['lock_fact', 'finish_trip', 'switch_profile']);
+  });
+
+  it('tells the trip concierge to be brief and to leave ranking to the app', () => {
+    const text = voiceInstructions('vibe_trip', '', '2026-09-25');
+    expect(text).toMatch(/under 12 words/);
+    expect(text).toMatch(/never praise/i);
+    expect(text).toMatch(/Late-night bars or live-music bars/);
+    expect(text).toMatch(/finish_trip/);
+    expect(text).toContain('where (Where:');
+  });
+
+  it('picks the voice from VOICE_NAME, falling back to marin', () => {
+    const before = process.env.VOICE_NAME;
+    process.env.VOICE_NAME = 'Cedar';
+    expect(voiceName()).toBe('cedar');
+    process.env.VOICE_NAME = 'nova';
+    expect(voiceName()).toBe('marin');
+    process.env.VOICE_NAME = before;
+  });
+});
+
+describe('profile style from the concierge', () => {
+  it('merges pace, budget, hard no’s and splurge, ignoring junk', () => {
+    const profile = withVoiceStyle(emptyProfile(), { pace: 'packed', budget: 'lavish', avoid: ['cruises', 7, ' tour buses '], splurge: 'Food and hotels; fly economy.' });
+    expect(profile.style).toMatchObject({ pace: 'packed', avoid: ['cruises', 'tour buses'], notes: 'Splurge and save: Food and hotels; fly economy.' });
+    expect(profile.style?.budget).toBeUndefined();
+    expect(withVoiceStyle(emptyProfile(), null).style).toBeUndefined();
   });
 });

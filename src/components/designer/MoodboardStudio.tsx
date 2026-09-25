@@ -14,6 +14,8 @@ import {
   type ParseEngine,
   type Relation,
   type TravelerProfile,
+  type VoiceStyle,
+  withVoiceStyle,
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore } from '@/lib/designer/store';
@@ -285,8 +287,11 @@ export function MoodboardStudio({
     playlistHabits: board?.playlistHints,
   });
 
+  // How they travel, as the voice concierge heard it (pace, budget, hard no's), applied to the next build.
+  const voiceStyle = useRef<VoiceStyle | null>(null);
   const withListening = useCallback(
-    (profile: TravelerProfile, engine: ParseEngine = 'on-device'): TravelerProfile => {
+    (parsed: TravelerProfile, engine: ParseEngine = 'on-device'): TravelerProfile => {
+      const profile = withVoiceStyle(parsed, voiceStyle.current);
       if (!spotify) return profile;
       const merged = { ...profile, listening: spotify };
       // Claude writes its own summary; the device summary is rebuilt to include the artists.
@@ -344,6 +349,7 @@ export function MoodboardStudio({
       describe_me: async (args) => {
         const summary = typeof args.summary === 'string' ? args.summary.trim().slice(0, MAX_RAMBLE_CHARS) : '';
         if (summary.length < 10) return 'Error: I need a few sentences first.';
+        voiceStyle.current = { pace: args.pace, budget: args.budget, avoid: args.avoid, splurge: args.splurge };
         setText(summary);
         await new Promise((resolve) => window.setTimeout(resolve, 60));
         await buildRef.current();

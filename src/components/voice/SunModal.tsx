@@ -10,7 +10,8 @@ import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
 import { readTrip, whenLabel } from '@/lib/voice/tripBrief';
 import { vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
-import { checklistFor, type VibeMode } from '@/lib/voice/vibeChecklist';
+import { checklistFor, type ChecklistItem, type VibeMode } from '@/lib/voice/vibeChecklist';
+import { topicsFor } from '@/lib/voice/topics';
 import { useRealtime } from '@/lib/voice/useRealtime';
 import { useModalFocus } from '@/components/shell/useModalFocus';
 import { SunOrb } from './SunOrb';
@@ -75,18 +76,33 @@ function localToday() {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 }
 
+/** The concierge's first words, every time: the bullets on screen are the agenda. */
+const OPENER = 'Vibe with me for a second about the topics above.';
+
+/** Everything they said, for building when the concierge wasn't asked to (or they tapped I'm done first). */
+function tripTextFrom(facts: Record<string, string>, said: string): string {
+  if (!facts.where) return said;
+  const parts = [`Trip to ${facts.where}`, facts.when, facts.who ? `with ${facts.who}` : '', facts.vibe, facts.must].filter(Boolean);
+  return `${parts.join(', ')}.`;
+}
+
+function profileTextFrom(facts: Record<string, string>, said: string): string {
+  const locked = topicsFor('profile').filter((topic) => facts[topic.key]).map((topic) => `${topic.label}: ${facts[topic.key]}.`).join(' ');
+  return [said, locked].filter(Boolean).join(' ').slice(0, MAX_RAMBLE_CHARS);
+}
+
 const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
   profile: {
-    kicker: 'Set your vibe',
+    kicker: 'My profile',
     title: 'Tell us how you get down.',
-    lede: 'Talk like you’d talk to a friend. Two minutes, tops.',
+    lede: 'Talk through these. A few quick follow-ups, then it’s built.',
     build: 'Build my vibe',
     placeholder: 'I’m from Atlanta, Braves fan, Fred again.. on repeat, omakase or taco trucks, and I travel with…',
   },
   trip: {
-    kicker: 'Plan a trip',
+    kicker: 'A trip',
     title: 'All right, let’s vibe.',
-    lede: 'Where you’re thinking, when, and who’s coming. Say it how you’d say it.',
+    lede: 'Where, when and who are enough to start.',
     build: 'Build the trip',
     placeholder: 'Lisbon, second week of October, me and Sam. One great seafood lunch, no touristy fado.',
   },
@@ -109,6 +125,41 @@ function VibeStage() {
   const [recWhere, setRecWhere] = useState<string[]>([]);
   const [rulesDecided, setRulesDecided] = useState(false);
   const [usedSpeech, setUsedSpeech] = useState(false);
+  const [facts, setFacts] = useState<Record<string, string>>({});
+  const [muted, setMuted] = useState(false);
+  // Something to do once the concierge stops talking (build the trip, close on the board).
+  const afterSpeech = useRef<(() => void) | null>(null);
+  const phaseRef = useRef(rt.phase);
+  const finishRef = useRef<() => void>(() => undefined);
+  const factsRef = useRef<Record<string, string>>({});
+  const aiSaidRef = useRef('');
+  const buildRef = useRef<(text?: string) => Promise<void>>(async () => undefined);
+  // Run what's waiting once the concierge's last sentence has played (or after 8 seconds regardless).
+  const lastSpoke = useRef(0);
+  const pendingSince = useRef(0);
+  useEffect(() => {
+    phaseRef.current = rt.phase;
+    if (rt.phase === 'speaking') lastSpoke.current = Date.now();
+  }, [rt.phase]);
+  const whenQuiet = useCallback((next: () => void) => {
+    pendingSince.current = Date.now();
+    lastSpoke.current = Date.now();
+    afterSpeech.current = next;
+  }, []);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const next = afterSpeech.current;
+      if (!next) return;
+      const now = Date.now();
+      const quiet = phaseRef.current !== 'speaking' && now - lastSpoke.current > 900;
+      if (quiet || now - pendingSince.current > 8000) {
+        afterSpeech.current = null;
+        next();
+      }
+    }, 250);
+    return () => window.clearInterval(timer);
+  }, []);
+
   const dialogRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const openedOn = useRef(pathname);
@@ -121,6 +172,8 @@ function VibeStage() {
     const here = useVoiceStore.getState().page;
     if (here?.intent === target.intent) return here;
     const ready = waitForPage(target.intent);
+    // The concierge opened this page mid-conversation; the stage stays up until it's done talking.
+    openedOn.current = target.href.split('?')[0]!;
     router.push(target.href);
     return ready;
   }, [router]);
@@ -129,6 +182,7 @@ function VibeStage() {
     const navigate: VoiceHandlers['navigate'] = (args) => {
       const href = routeFor(args.to);
       if (!href) return 'I can’t open that.';
+      openedOn.current = href.split('?')[0]!;
       router.push(href);
       return `Opened ${String(args.to)}.`;
     };
@@ -153,8 +207,31 @@ function VibeStage() {
         return run ? run(args) : 'Error: that page did not open in time. Ask them to try again.';
       };
     }
-    return { ...forwarded, navigate, switch_profile: switchProfile };
-  }, [reach, router]);
+    const topicKeys = new Set(topicsFor(mode).map((topic) => topic.key));
+    const lockFact: VoiceHandlers['lock_fact'] = (args) => {
+      const topic = typeof args.topic === 'string' ? args.topic : '';
+      const fact = typeof args.fact === 'string' ? args.fact.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+      if (!topicKeys.has(topic) || !fact) return 'Error: that topic is not on their screen.';
+      setFacts((prev) => ({ ...prev, [topic]: fact }));
+      return 'Locked.';
+    };
+    const finishTrip: VoiceHandlers['finish_trip'] = () => {
+      finishRef.current();
+      return 'END: Building it now.';
+    };
+    const describeMe: VoiceHandlers['describe_me'] = async (args) => {
+      const reply = await forwarded.describe_me!(args);
+      if (reply.startsWith('Error')) return reply;
+      // The board is on screen behind the stage; close once the concierge finishes its sentence.
+      whenQuiet(() => { rt.stop('ended'); setOpen(false); });
+      return `END: ${reply}`;
+    };
+    return mode === 'profile'
+      ? { lock_fact: lockFact, describe_me: describeMe, switch_profile: switchProfile }
+      : mode === 'trip'
+        ? { lock_fact: lockFact, finish_trip: finishTrip, switch_profile: switchProfile }
+        : { ...forwarded, navigate, switch_profile: switchProfile };
+  }, [reach, router, mode, rt, setOpen, whenQuiet]);
 
   const context = useCallback(() => {
     const { profiles, activeProfileId } = useDesignerStore.getState();
@@ -198,7 +275,7 @@ function VibeStage() {
   const aiSaid = rt.lines.filter((line) => line.who === 'you').map((line) => line.text).join(' ');
   const spoken = voiceEnabled ? aiSaid : dictation.text;
   const live = voiceEnabled ? rt.live : dictation.status === 'listening';
-  const checklist = useMemo(() => checklistFor(mode, `${spoken} ${dictation.interim}`), [mode, spoken, dictation.interim]);
+  const checklist = useMemo(() => checklistFor(mode, `${spoken} ${dictation.interim}`, voiceEnabled ? facts : {}), [mode, spoken, dictation.interim, facts, voiceEnabled]);
   const covered = checklist.filter((item) => item.done).length;
 
   useEffect(() => {
@@ -213,6 +290,21 @@ function VibeStage() {
   const view: Phase = micProblem && phase === 'talking' ? 'typing' : phase;
   const shownNote = note ?? (view === 'typing' ? micProblem : null);
 
+  /** Voice trip: stop listening once the concierge has said "Got it.", then build from the locked facts. */
+  const finishTrip = () => {
+    whenQuiet(() => {
+      rt.stop('ended');
+      const text = tripTextFrom(factsRef.current, aiSaidRef.current);
+      dictation.setText(text);
+      void buildRef.current(text);
+    });
+  };
+  useEffect(() => {
+    finishRef.current = finishTrip;
+    factsRef.current = facts;
+    aiSaidRef.current = aiSaid;
+  });
+
   const startTalking = async () => {
     setNote(null);
     setRecs(null);
@@ -224,7 +316,10 @@ function VibeStage() {
       dictation.start();
       return;
     }
-    const result = await rt.start({ intent: 'vibe', context: context(), handlers: handlers(), withMic: true, textOnly: false });
+    setFacts({});
+    setMuted(false);
+    afterSpeech.current = null;
+    const result = await rt.start({ intent: mode === 'profile' ? 'vibe_profile' : 'vibe_trip', context: context(), handlers: handlers(), withMic: true, textOnly: false, opener: OPENER });
     if (result === 'mic-denied') {
       setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it in the box.');
       setPhase('typing');
@@ -236,9 +331,21 @@ function VibeStage() {
 
   const done = () => {
     if (voiceEnabled) {
-      // The live concierge already acted as they talked; close on their word.
+      const said = aiSaid;
       rt.stop('ended');
-      setOpen(false);
+      afterSpeech.current = null;
+      if (mode === 'trip') {
+        const text = tripTextFrom(facts, said);
+        dictation.setText(text);
+        if (text.trim().length >= 10) void buildRef.current(text);
+        else setPhase('recap');
+        return;
+      }
+      // Profile: build from what was said and locked, even if the concierge hadn't got there yet.
+      const text = profileTextFrom(facts, said);
+      dictation.setText(text);
+      if (text.trim().length >= 10) void buildRef.current(text);
+      else setPhase('recap');
       return;
     }
     dictation.stop();
@@ -267,8 +374,8 @@ function VibeStage() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const build = async () => {
-    const text = dictation.text.trim();
+  const build = async (override?: string) => {
+    const text = (override ?? dictation.text).trim();
     setRecs(null);
     setVibe(null);
     setNote(null);
@@ -323,6 +430,8 @@ function VibeStage() {
     }
   };
 
+  useEffect(() => { buildRef.current = build; });
+
   const recapFacts = useMemo(() => {
     if (view !== 'recap' || mode !== 'profile') return [];
     const p = parseProfileLocally(dictation.text);
@@ -375,13 +484,25 @@ function VibeStage() {
               onClick={() => setMode(value)}
               className={`min-h-10 rounded-full px-4 text-[13px] font-medium transition-colors ${mode === value ? 'bg-surface-3 text-bone' : 'text-ink-muted hover:text-bone'}`}
             >
-              {value === 'profile' ? 'About me' : 'A trip'}
+              {value === 'profile' ? 'My profile' : 'A trip'}
             </button>
           ))}
         </div>
-        <button type="button" onClick={close} className="flex size-11 items-center justify-center rounded-full bg-surface-1/80 text-[15px] text-ink-soft hover:text-bone" aria-label="Close">
-          ✕
-        </button>
+        <div className="flex items-center gap-2">
+          {voiceEnabled && view === 'talking' && live && (
+            <button
+              type="button"
+              onClick={() => { rt.setTextOnly(!muted); setMuted(!muted); }}
+              aria-pressed={muted}
+              className="flex min-h-11 items-center rounded-full bg-surface-1/80 px-4 text-[13px] text-ink-soft hover:text-bone"
+            >
+              {muted ? 'Unmute' : 'Mute voice'}
+            </button>
+          )}
+          <button type="button" onClick={close} className="flex size-11 items-center justify-center rounded-full bg-surface-1/80 text-[15px] text-ink-soft hover:text-bone" aria-label="Close">
+            ✕
+          </button>
+        </div>
       </div>
 
       <div id="vibe-panel" role="tabpanel" aria-labelledby={`vibe-tab-${mode}`} className="mx-auto flex w-full max-w-[760px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
@@ -390,23 +511,18 @@ function VibeStage() {
             <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{copy.kicker}</p>
             <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[60px]">{copy.title}</h2>
             <p className="mt-2 max-w-[34ch] text-[15px] leading-snug text-ink-soft sm:mt-3 sm:text-[18px]">{copy.lede}</p>
-            <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Talk about</p>
-            <ul className="mt-2.5 flex flex-col gap-2 sm:mt-3 sm:gap-3">
-              {checklist.map((item) => (
-                <li key={item.key} className="flex items-start gap-3">
-                  <span aria-hidden="true" className="mt-[7px] size-2 shrink-0 rotate-45 rounded-[2px] bg-saffron" />
-                  <span className="text-[15.5px] leading-snug sm:text-[19px]">
-                    <strong className="font-semibold text-bone">{item.label}</strong>
-                    <span className="text-ink-soft"> · {item.hint}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Start with</p>
+            <TopicList items={checklist} />
           </div>
         ) : (
           <div className="flex flex-1 flex-col overflow-hidden pt-2">
-            {/* The checklist rides along as chips that tick as each part gets covered. */}
             <p className="sr-only" role="status">{covered} of {checklist.length} covered</p>
+            {view === 'talking' ? (
+              // While talking, the bullets are the agenda: each lights up with what was locked for it.
+              <div className="overflow-y-auto">
+                <TopicList items={checklist} live />
+              </div>
+            ) : (
             <ul className="flex flex-wrap gap-1.5" aria-label="What’s covered">
               {checklist.map((item) => (
                 <li
@@ -418,6 +534,7 @@ function VibeStage() {
                 </li>
               ))}
             </ul>
+            )}
 
             {view === 'recap' || view === 'typing' || view === 'building' ? (
               <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
@@ -508,14 +625,15 @@ function VibeStage() {
                 </label>
               </div>
             ) : (
-              <div className="mt-5 flex-1 overflow-y-auto pb-3">
+              <div className="mt-4 min-h-[5.5rem] flex-1 overflow-y-auto border-t border-white/5 pb-3 pt-3">
                 {voiceEnabled ? (
-                  <ol className="flex flex-col gap-3 font-display text-[24px] leading-snug sm:text-[30px]">
-                    {rt.lines.map((line, i) => (
-                      <li key={i} className={line.who === 'you' ? 'text-bone' : line.who === 'done' ? 'font-sans text-[13px] text-saffron' : 'text-ink-soft'}>
+                  <ol className="flex flex-col gap-2 text-[16px] leading-snug sm:text-[19px]" aria-live="polite">
+                    {rt.lines.filter((line) => line.who !== 'done').slice(-4).map((line, i) => (
+                      <li key={i} className={line.who === 'you' ? 'text-bone' : 'font-display text-[18px] text-saffron sm:text-[21px]'}>
                         {line.text}
                       </li>
                     ))}
+                    {!rt.lines.length && <li className="text-ink-subtle">{rt.phase === 'connecting' ? 'Connecting…' : 'Listening…'}</li>}
                   </ol>
                 ) : (
                   <p className="font-display text-[28px] leading-[1.18] sm:text-[36px]">
@@ -565,7 +683,9 @@ function VibeStage() {
             </button>
             <div className="flex flex-col items-center">
               <SunOrb size={96} active={live} levels={orbLevels} />
-              <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">{live ? 'Listening' : 'Paused'}</span>
+              <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">
+                {voiceEnabled && rt.phase === 'connecting' ? 'Connecting' : !live && !(voiceEnabled && rt.phase === 'connecting') ? 'Paused' : voiceEnabled && rt.phase === 'speaking' ? (muted ? 'Replying' : 'Speaking') : 'Listening'}
+              </span>
             </div>
             <button type="button" onClick={done} className="btn btn-primary min-h-12 min-w-24">
               I’m done
@@ -631,5 +751,53 @@ export function SunGlyph({ size = 20, glow = false }: { size?: number; glow?: bo
       <span className="absolute inset-x-0 top-[62%] bg-[#1a0b06]" style={{ height: Math.max(1.5, size * 0.075) }} />
       <span className="absolute inset-x-0 top-[78%] bg-[#1a0b06]" style={{ height: Math.max(2, size * 0.1) }} />
     </span>
+  );
+}
+
+/** The agenda: the essentials as bullets, the extras as chips; each lights up with what was locked for it. */
+function TopicList({ items, live = false }: { items: ChecklistItem[]; live?: boolean }) {
+  const core = items.filter((item) => item.core);
+  const extra = items.filter((item) => !item.core);
+  return (
+    <div className={live ? '' : 'mt-2.5 sm:mt-3'}>
+      <ul className={`flex flex-col ${live ? 'gap-1' : 'gap-2 sm:gap-3'}`} aria-label="Start with">
+        {core.map((item) => (
+          <li
+            key={item.key}
+            className={`flex items-start gap-3 rounded-[14px] transition-colors duration-300 ${live ? 'px-3 py-2' : ''} ${live && item.done ? 'bg-saffron/10' : ''}`}
+          >
+            <span
+              aria-hidden="true"
+              className={`mt-[7px] size-2 shrink-0 rotate-45 rounded-[2px] transition-colors duration-300 ${item.done ? 'bg-saffron shadow-[0_0_10px_rgba(247,197,72,0.8)]' : live ? 'bg-ink-faint' : 'bg-saffron'}`}
+            />
+            <span className={`min-w-0 leading-snug ${live ? 'text-[15px] sm:text-[17px]' : 'text-[15.5px] sm:text-[19px]'}`}>
+              <strong className={`font-semibold ${item.done ? 'text-saffron' : 'text-bone'}`}>{item.label}</strong>
+              {item.fact
+                ? <span className="text-bone"> · {item.fact}</span>
+                : <span className={live ? 'text-ink-muted' : 'text-ink-soft'}> · {item.hint}</span>}
+              <span className="sr-only">{item.done ? ' (covered)' : ''}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      {extra.length > 0 && (
+        <>
+          <p className={`${live ? 'mt-2 px-3' : 'mt-4'} text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted`}>If you’ve got a minute</p>
+          <ul className={`mt-1.5 flex flex-wrap gap-1.5 ${live ? 'px-3' : ''}`} aria-label="If you’ve got a minute">
+            {extra.map((item) => (
+              <li
+                key={item.key}
+                title={item.hint}
+                className={`flex min-h-8 max-w-full items-center gap-1.5 rounded-full px-3 text-[13px] transition-colors duration-300 ${item.done ? 'bg-saffron/15 text-saffron' : 'bg-surface-1/80 text-ink-soft'}`}
+              >
+                <span aria-hidden="true">{item.done ? '✓' : '+'}</span>
+                <span className="truncate">{item.fact ? `${item.label}: ${item.fact}` : item.label}</span>
+                <span className="sr-only">{item.done ? ' (covered)' : `, ${item.hint}`}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
   );
 }

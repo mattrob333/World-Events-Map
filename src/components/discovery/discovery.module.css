@@ -1502,7 +1502,16 @@
   gap: 8px 14px;
   margin-top: 10px;
   padding: 10px 0 2px;
-  background: linear-gradient(0deg, var(--color-surface-0) 72%, transparent);
+  /* Fades into the card's own surface, not page black (it read as a stray box). */
+  background: linear-gradient(0deg, var(--color-surface-2) 72%, transparent);
+}
+/* Up to 1100px the spotlight doesn't scroll, so the actions sit in place with no backdrop. */
+@media (max-width: 1100px) {
+  .spotlight[data-selected='true'] .spotlightActions { position: static; background: none; padding: 0; }
+}
+/* Phones: the ranking and the counts repeat the shortlist above; the globe and its spotlight stay. */
+@media (max-width: 760px) {
+  .pulse, .worldStats { display: none; }
 }
 
 /* Mid widths: the status line takes its own row so the search well keeps a
@@ -1526,4 +1535,46 @@
   .search > span { font-size: 17px; }
   .locationPicker { flex: 0 1 auto; max-width: 42%; }
   .locationButton { max-width: 100%; min-height: 44px; padding-inline: 12px; }
+}
+
+/* Place photos: every event card is its place. */
+.cardPhoto {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.eventCard:has(.cardPhoto)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgb(5 5 5 / 0.35) 0%, rgb(5 5 5 / 0.1) 35%, rgb(5 5 5 / 0.88) 72%);
+  pointer-events: none;
+}
+.eventCard .cardBottom { z-index: 1; }
+.eventCard:has(.cardPhoto) .cardTop span:first-child { background: rgb(5 5 5 / 0.6); color: var(--color-bone); }
+.eventCard:has(.cardPhoto) .cardTop span:last-child { color: var(--color-bone); }
+.spotlightPhoto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 12px;
+  border-radius: var(--radius-control);
+  object-fit: cover;
+}
+/* Phones: the four cards become one swipeable row instead of a 1,500px stack. */
+@media (max-width: 760px) {
+  .cards {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 -16px;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+  }
+  .cards > .eventCard { flex: 0 0 78%; min-height: 300px; scroll-snap-align: start; }
 }

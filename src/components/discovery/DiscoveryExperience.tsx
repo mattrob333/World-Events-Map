@@ -31,6 +31,7 @@ import { indexDestinations } from '@/lib/pulse';
 import { track } from '@/lib/analytics';
 import type { WorldEvent } from '@/lib/types';
 import { WorldIntro } from './WorldIntro';
+import { EventPhoto } from './EventPhoto';
 import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
 import { discoveryQuery, readDiscoveryState, type DiscoveryState } from './journey-url';
 import { estimateRoute } from '@/lib/travel/route-estimate';
@@ -470,6 +471,7 @@ export function DiscoveryExperience() {
           </div>
           {spotlight ? (
             <>
+              <EventPhoto key={spotlight.id} eventId={spotlight.id} className={styles.spotlightPhoto} />
               <div className={styles.place}>
                 {spotlight.city}
                 <span>
@@ -666,12 +668,10 @@ export function DiscoveryExperience() {
               key={event.id}
               href={destinationHref(event.id)}
             >
+              <EventPhoto eventId={event.id} className={styles.cardPhoto} />
               <div className={styles.cardTop}>
                 <span>{event.category}</span>
                 <span>{dateLabel(event.start)}</span>
-              </div>
-              <div className={styles.cardArt} aria-hidden="true">
-                {['◒', '✳', '◈', '◠'][index]}
               </div>
               <div className={styles.cardBottom}>
                 <span>

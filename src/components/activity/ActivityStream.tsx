@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntentStore } from '@/lib/intent/store';
+import { curatedPhotoForEvent } from '@/lib/place-media/curated';
 import type { PlacePhoto } from '@/lib/place-media/media';
 import {
   ACTIVITY_FILTERS,
   ACTIVITY_SCENES,
   filterScenes,
-  nextSceneIndex,
   type ActivityFilter,
   type ActivityScene,
 } from '@/lib/activity/stream';
@@ -79,7 +79,9 @@ function SceneCard({ scene, featured, onFeature }: {
   const items = useIntentStore((state) => state.items);
   const toggle = useIntentStore((state) => state.toggle);
   const artRef = useRef<HTMLButtonElement>(null);
-  const [photos, setPhotos] = useState<PlacePhoto[]>([]);
+  // Our reviewed editorial photo leads; Commons fills in when there isn't one.
+  const curated = curatedPhotoForEvent(scene.event.id);
+  const [photos, setPhotos] = useState<PlacePhoto[]>(() => (curated ? [curated] : []));
   const [photoIndex, setPhotoIndex] = useState(0);
   const photo = photos[photoIndex];
   const saved = items.some((item) => item.verb === 'save' && item.kind === 'event' && item.id === scene.event.id);
@@ -112,7 +114,9 @@ function SceneCard({ scene, featured, onFeature }: {
             if (scene.category === 'nature') return /aurora|northern lights/.test(title);
             return false;
           });
-          setPhotos(orderedEvents.length ? orderedEvents : contextualPlacePhotos);
+          const found = orderedEvents.length ? orderedEvents : contextualPlacePhotos;
+          const lead = curatedPhotoForEvent(scene.event.id);
+          setPhotos(lead ? [lead, ...found.filter((item) => item.imageUrl !== lead.imageUrl)] : found);
           setPhotoIndex(0);
         })
         .catch(() => {});
@@ -179,21 +183,12 @@ function SceneCard({ scene, featured, onFeature }: {
 export function ActivityStream() {
   const [filter, setFilter] = useState<ActivityFilter>('all');
   const [featuredIndex, setFeaturedIndex] = useState(0);
-  const [replaying, setReplaying] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const scenes = useMemo(() => filterScenes(ACTIVITY_SCENES, filter), [filter]);
   const featured = scenes[featuredIndex % Math.max(scenes.length, 1)];
   const posts = useScenePosts(featured?.event.id);
   const intentItems = useIntentStore((state) => state.items);
   const savedItems = intentItems.filter((item) => item.verb === 'save' && item.kind === 'event');
-
-  useEffect(() => {
-    if (!replaying || scenes.length < 2) return;
-    const timer = window.setInterval(() => {
-      if (!document.hidden) setFeaturedIndex((index) => nextSceneIndex(index, scenes.length));
-    }, 9_000);
-    return () => clearInterval(timer);
-  }, [replaying, scenes.length]);
 
   const selectFilter = (id: ActivityFilter) => { setFilter(id); setFeaturedIndex(0); };
   const sortedScenes = featured ? [featured, ...scenes.filter((scene) => scene.event.id !== featured.event.id)] : [];
@@ -203,13 +198,7 @@ export function ActivityStream() {
       <div className={styles.header}>
         <div className={styles.eyebrow}><span className={styles.eyebrowRule} /> PLACES THAT STAY WITH YOU <span className={styles.issue}>01 / DISCOVER</span></div>
         <div className={styles.titleRow}>
-          <div><h2>Out in the <em>world.</em></h2><p>Scenes from the curated calendar, brought to life by dope.travel editorial. Follow a feeling, find your next place.</p></div>
-          <div className={styles.replayControl}>
-            <span className={styles.replayLabel}>EDITORIAL SAMPLE REPLAY</span>
-            <button type="button" className="btn btn-ghost" aria-pressed={replaying} onClick={() => setReplaying((value) => !value)}>
-              <span aria-hidden="true">{replaying ? 'Ⅱ' : '▷'}</span> {replaying ? 'Pause replay' : 'Play replay'}
-            </button>
-          </div>
+          <div><h2>Out in the <em>world.</em></h2><p>Scenes from the calendar. Follow a feeling.</p></div>
         </div>
       </div>
       <div className={styles.filters} aria-label="Filter scenes">
@@ -223,12 +212,13 @@ export function ActivityStream() {
           <div className={styles.cards}>
             {(expanded ? sortedScenes : sortedScenes.slice(0, 2)).map((scene) => <SceneCard key={scene.event.id} scene={scene}
               featured={scene.event.id === featured?.event.id}
-              onFeature={() => { setFeaturedIndex(scenes.findIndex((item) => item.event.id === scene.event.id)); setReplaying(false); }} />)}
+              onFeature={() => setFeaturedIndex(scenes.findIndex((item) => item.event.id === scene.event.id))} />)}
           </div>
           {sortedScenes.length > 2 && <button className={`btn btn-ghost ${styles.more}`} type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? 'Show fewer scenes ↑' : `Explore ${sortedScenes.length - 2} more scenes ↓`}</button>}
         </div>
 
-        <aside className={styles.side} aria-label="Scene activity">
+        {/* Only when there's something in it: an empty "no posts yet" box doesn't earn home-page space. */}
+        {((posts.status === 'ready' && posts.posts.length > 0) || savedItems.length > 0) && <aside className={styles.side} aria-label="Scene activity">
           <div className={styles.sideIntro}><span className={styles.sideNumber}>↗</span><div><span className={styles.sideKicker}>SOURCE CHECK</span><h3>{featured?.event.city ?? 'The world'} <em>on X.</em></h3><p>Public posts appear only when the X connection has checked this event recently. Posts open at the source.</p></div></div>
           <div className={styles.postPanel} aria-live="polite">
             <div className={styles.postHead}><span>PUBLIC POSTS · X</span><span className={posts.status === 'ready' && posts.fetchedAt ? styles.sourceDot : styles.sourceIdle} aria-hidden="true" /></div>
@@ -250,7 +240,7 @@ export function ActivityStream() {
             {savedItems.length > 0 && <ul>{savedItems.slice(-4).reverse().map((item) => <li key={item.id}><Link href={item.href}>{item.label} <span aria-hidden="true">↗</span></Link></li>)}</ul>}
             {savedItems.length === 0 && <span className={styles.saveHint}>Tap “Save idea” on a scene to begin.</span>}
           </div>
-        </aside>
+        </aside>}
       </div>
     </section>
   );

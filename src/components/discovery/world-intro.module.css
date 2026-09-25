@@ -409,7 +409,10 @@
 .radarCard {
   --tone: #3d3226;
   position: relative;
-  height: 284px;
+  /* Grows to fit the photo credit instead of clipping it. */
+  display: flex;
+  flex-direction: column;
+  min-height: 316px;
   overflow: hidden;
   border-radius: var(--radius-card);
   background: var(--tone);
@@ -463,7 +466,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 222px;
+  flex: 1 1 auto;
+  min-height: 222px;
   padding: 12px 12px 10px 16px;
   border-radius: var(--radius-card) var(--radius-card) 0 0;
   text-align: left;
@@ -544,7 +548,8 @@
   gap: 8px;
   min-height: 50px;
   padding: 0 16px 12px;
-  background: rgb(5 5 5 / 0.96);
+  /* The photo runs the full card; the card's own scrim darkens the bottom for the links. */
+  background: linear-gradient(180deg, rgb(5 5 5 / 0.35), rgb(5 5 5 / 0.85));
 }
 .cardBottom a:first-child {
   display: inline-flex;
@@ -786,3 +791,24 @@
   .radarCard:hover,
   .radarCard:focus-within { transform: none; }
 }
+
+/* Phones: the hero's call to action already says where and when, so the route pass
+   (a second card over the hero photo) is left to wider screens. */
+@media (max-width: 760px) {
+  .routePass { display: none; }
+}
+
+.finderLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: 4px;
+  color: var(--color-bone);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgb(244 241 234 / 0.3);
+  text-underline-offset: 3px;
+}
+.finderLink:hover { text-decoration-color: var(--color-bone); }
