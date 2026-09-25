@@ -59,6 +59,7 @@ function SpotCard({ spot, place, picked, onPick }: { spot: CanvasSpot; place: Ca
         <span className={styles.kind}><span aria-hidden="true">{SPOT_EMOJI[spot.kind]}</span> {spot.date ? new Date(`${spot.date}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : SPOT_LABEL[spot.kind]}</span>
         <span className={styles.check} aria-hidden="true">{picked ? '✓' : '+'}</span>
         <span className={styles.spotName}>{spot.name}</span>
+        {spot.wink ? <span className={styles.wink}>{spot.wink}</span> : spot.clash ? <span className={styles.clash}>Includes something you’d skip</span> : null}
         {spot.why && <span className={styles.spotWhy}>{spot.why}</span>}
       </button>
       <a className={styles.source} href={spot.url} target="_blank" rel="noopener noreferrer">{spot.host} ↗</a>
@@ -93,7 +94,7 @@ export function VibeCanvas({ canvas, status, onPick }: { canvas: Canvas; status:
               <div key={kind}>
                 <p className={styles.kindHeading}>{SPOT_LABEL[kind]}</p>
                 <div className={styles.grid}>
-                  {spots.filter((spot) => spot.kind === kind).map((spot) => <SpotCard key={spot.id} spot={spot} place={placeFor(town)} picked={canvas.picked.includes(spot.id)} onPick={() => onPick(spot.id)} />)}
+                  {spots.filter((spot) => spot.kind === kind).sort((a, b) => (b.fit ?? 0) - (a.fit ?? 0)).map((spot) => <SpotCard key={spot.id} spot={spot} place={placeFor(town)} picked={canvas.picked.includes(spot.id)} onPick={() => onPick(spot.id)} />)}
                 </div>
               </div>
             ))}

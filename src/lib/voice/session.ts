@@ -1,5 +1,6 @@
 import { INTENT_TOOLS, VOICE_TOOLS, type VoiceIntent } from './tools';
 import { topicAgenda } from './topics';
+import { VOCAB } from '@/lib/vibe/signals';
 
 /** GPT-Live: full-duplex voice. It talks; a Responses backend reasons, searches and calls our tools. */
 export const VOICE_MODEL = 'gpt-live-1';
@@ -77,7 +78,8 @@ export function backendInstructions(intent: VoiceIntent, profile: string, today:
   }
   if (intent === 'vibe_profile') {
     return [...shared,
-      'Call lock_fact for each new fact about them, a few words each, on the matching topic.',
+      'Call lock_fact for each new fact about them, a few words each, on the matching topic, and add_signals for everything that says how they get down: the nuance a great concierge remembers (they shut the bar down; mezcal, never tequila; hate lines; always find the comedy club), not checkbox answers.',
+      `Vibe vocabulary keys: ${VOCAB.map((entry) => entry.key).join(', ')}. Named keys: music:artist:<name>, music:genre:<name>, sports:team:<name>, food:cuisine:<name>, culture:venue:<name>.`,
       'When the concierge says they are done, call describe_me with a first-person summary of only what they said, plus pace, budget, avoid and splurge when they said them.',
     ].join('\n');
   }

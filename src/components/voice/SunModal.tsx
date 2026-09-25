@@ -13,8 +13,10 @@ import { vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
 import { checklistFor, type ChecklistItem, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { topicsFor } from '@/lib/voice/topics';
 import { useRealtime, type VoiceActivity } from '@/lib/voice/useRealtime';
-import { EMPTY_CANVAS, canvasSummary, pickedSpotsIn, togglePick, tripPlace, withFocus, withNamedPlace, withPlaces, withSpots, type Canvas } from '@/lib/voice/canvas';
+import { EMPTY_CANVAS, canvasSummary, scoreSpots, pickedSpotsIn, togglePick, tripPlace, withFocus, withNamedPlace, withPlaces, withSpots, type Canvas } from '@/lib/voice/canvas';
 import { withTaste } from '@/lib/vibe/affinity';
+import { matchCandidate } from '@/lib/vibe/concierge';
+import { allSignals, cleanSignal, mergeSignals, signalsFromText, vibeLine, type Signal, type VibeDials } from '@/lib/vibe/signals';
 import { saveVibePicks } from '@/lib/designer/vibePicks';
 import { useModalFocus } from '@/components/shell/useModalFocus';
 import { SunOrb } from './SunOrb';
@@ -122,6 +124,7 @@ function profileSummary(saved: ReturnType<typeof pickActiveProfile>): string {
     style?.budget ? `Budget: ${style.budget}.` : '',
     style?.avoid.length ? `Hard no's: ${style.avoid.slice(0, 5).join(', ')}.` : '',
     style?.notes ? style.notes.slice(0, 160) : '',
+    vibeLine(allSignals(p), p.dials, 420),
   ].filter(Boolean).join(' ').slice(0, 900);
 }
 
@@ -182,6 +185,8 @@ function VibeStage() {
   const buildRef = useRef<(text?: string) => Promise<void>>(async () => undefined);
   const showPlacesRef = useRef<(text: string) => Promise<string>>(async () => '');
   const nameNewBoardRef = useRef<() => void>(() => undefined);
+  // Signals the concierge heard while building a profile, saved onto the board once it exists.
+  const heardSignals = useRef<{ signals: Signal[]; stretch?: VibeDials['stretch'] }>({ signals: [] });
   // Run what's waiting once the concierge's last sentence has played (or after 8 seconds regardless).
   const lastSpoke = useRef(0);
   const pendingSince = useRef(0);
@@ -276,7 +281,11 @@ function VibeStage() {
     };
     const addSpots: VoiceHandlers['add_spots'] = (args) => {
       const result = withSpots(canvasRef.current, args.place, args.spots);
-      updateCanvas(result.canvas);
+      // Matched against their Vibe profile right here on the device.
+      const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
+      const saved = pickActiveProfile(all, activeId)?.profile;
+      const signals = saved ? allSignals(saved) : [];
+      updateCanvas(signals.length ? scoreSpots(result.canvas, (spot) => matchCandidate(signals, saved?.dials, { id: spot.id, name: spot.name, kind: spot.kind, text: spot.why, date: spot.date, signature: spot.kind === 'event' })) : result.canvas);
       if (!result.added) return result.rejected ? 'Error: none had a usable https source link; only add venues from the search results, with the page URL.' : 'Those are already on the canvas.';
       return `Added ${result.added} to the canvas${result.rejected ? `; skipped ${result.rejected} without a usable source link` : ''}.`;
     };
@@ -284,6 +293,22 @@ function VibeStage() {
       const result = withFocus(canvasRef.current, Array.isArray(args.names) ? args.names : [], args.why);
       updateCanvas(result.canvas);
       return result.marked.length ? `Marked ${result.marked.join(', ')} as best fits.` : 'Error: none of those are on the canvas; call show_places first.';
+    };
+    const addSignals: VoiceHandlers['add_signals'] = (args) => {
+      const cleaned = (Array.isArray(args.signals) ? args.signals : []).slice(0, 10).map((raw) => cleanSignal(raw, 'said')).filter((signal): signal is Signal => Boolean(signal));
+      const stretch = typeof args.stretch === 'number' && [0, 1, 2, 3, 4].includes(args.stretch) ? (args.stretch as VibeDials['stretch']) : heardSignals.current.stretch;
+      heardSignals.current = { signals: mergeSignals(heardSignals.current.signals, cleaned), stretch };
+      // Light the matching topics too.
+      const topicFor: Partial<Record<string, string>> = { music: 'music', food: 'food', sports: 'teams', rhythm: 'pace', money: 'splurge', nights: 'pace' };
+      setFacts((prev) => {
+        const next = { ...prev };
+        for (const signal of cleaned) {
+          const topic = signal.strength === 'avoid' ? 'avoid' : topicFor[signal.key.split(':')[0]!];
+          if (topic && !next[topic]) next[topic] = signal.label;
+        }
+        return next;
+      });
+      return cleaned.length ? `Noted ${cleaned.length}.` : 'Error: use keys from the vocabulary in your instructions.';
     };
     const describeMe: VoiceHandlers['describe_me'] = async (args) => {
       const reply = await forwarded.describe_me!(args);
@@ -294,7 +319,7 @@ function VibeStage() {
       return `END: ${reply}`;
     };
     return mode === 'profile'
-      ? { lock_fact: lockFact, describe_me: describeMe, switch_profile: switchProfile }
+      ? { lock_fact: lockFact, add_signals: addSignals, describe_me: describeMe }
       : mode === 'trip'
         ? { lock_fact: lockFact, show_places: showPlaces, add_spots: addSpots, focus_places: focusPlaces, finish_trip: finishTrip }
         : { ...forwarded, navigate, switch_profile: switchProfile };
@@ -406,9 +431,13 @@ function VibeStage() {
     showPlacesRef.current = showPlaces;
     // The board just saved becomes the active one; name it for who it's for.
     nameNewBoardRef.current = () => {
-      const { activeProfileId: id, renameProfile } = useDesignerStore.getState();
+      const { activeProfileId: id, renameProfile, updateSignals } = useDesignerStore.getState();
       const label = FOR_WHOM.find((option) => option.value === forWhom)?.board;
       if (id && label) renameProfile(id, label);
+      // What the concierge heard, plus what the words themselves say (typed or dictated).
+      const heard = mergeSignals(signalsFromText(dictation.text || aiSaidRef.current), heardSignals.current.signals);
+      if (id && heard.length) updateSignals(id, heard, heardSignals.current.stretch !== undefined ? { stretch: heardSignals.current.stretch } : undefined);
+      heardSignals.current = { signals: [] };
     };
   });
 

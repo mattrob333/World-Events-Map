@@ -70,6 +70,24 @@ export const VOICE_TOOLS = {
       fact: { type: 'string', description: 'A few words: "the Alps", "first week of February", "two families of four, kids 8 and 12".' },
     }, ['topic', 'fact']),
   },
+  add_signals: {
+    name: 'add_signals',
+    description: 'Record what they just told you about how they get down, as Vibe signals from the vocabulary in your instructions: a vocabulary key, or a named one (music:artist:<name>, music:genre:<name>, sports:team:<name>, food:cuisine:<name>, culture:venue:<name>). love, like or avoid. A detail in their words goes in note.',
+    parameters: obj({
+      signals: {
+        type: 'array',
+        maxItems: 10,
+        items: obj({
+          key: { type: 'string' },
+          label: { type: 'string', description: 'Short, their way: "Shuts the bar down", "Bad Bunny".' },
+          strength: { type: 'string', enum: ['love', 'like', 'avoid'] },
+          note: { type: 'string', description: 'Optional detail in their words: "mezcal, never tequila".' },
+          context: { type: 'string', enum: ['any', 'solo', 'family', 'work', 'crew'] },
+        }, ['key', 'label', 'strength']),
+      },
+      stretch: { type: 'integer', minimum: 0, maximum: 4, description: 'Only if they said how adventurous they are: 0 never push me, 4 surprise me.' },
+    }, ['signals']),
+  },
   finish_trip: {
     name: 'finish_trip',
     description: 'They are done talking: the canvas stops listening and shows their picks. Call when they say they are done or ask to build it.',
@@ -133,7 +151,7 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
   // The header's "Vibe": profile and trip start from anywhere. Tools that live
   // on another page open that page first (see lib/voice/vibe.ts).
   vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
-  vibe_profile: ['lock_fact', 'describe_me'],
+  vibe_profile: ['lock_fact', 'add_signals', 'describe_me'],
   vibe_trip: ['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],

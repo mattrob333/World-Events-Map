@@ -35,6 +35,10 @@ export type CanvasSpot = {
   host: string;
   place: string;
   date?: string;
+  /** Set on this device from their Vibe profile: how well it fits, and the concierge's line. */
+  fit?: number;
+  wink?: string | null;
+  clash?: boolean;
 };
 
 export type Canvas = {
@@ -179,4 +183,13 @@ export function canvasSummary(canvas: Canvas): string {
   const ranked = canvas.places.filter((place) => !place.quiet).slice(0, 4).map((place) => place.name);
   const parts = [ranked.length ? `Places: ${ranked.join(', ')}` : '', best.length ? `best fits ${best.join(', ')}` : '', canvas.spots.length ? `${canvas.spots.length} spots` : '', canvas.picked.length ? `${canvas.picked.length} picked` : ''];
   return parts.filter(Boolean).join('; ');
+}
+
+/** Scores every spot against a traveler, on the device (their profile never leaves it here). Best fits first. */
+export function scoreSpots(canvas: Canvas, score: (spot: CanvasSpot) => { score: number; wink: string | null; conflicts: unknown[] }): Canvas {
+  const spots = canvas.spots.map((spot) => {
+    const match = score(spot);
+    return { ...spot, fit: match.score, wink: match.wink, clash: match.conflicts.length > 0 };
+  });
+  return { ...canvas, spots };
 }

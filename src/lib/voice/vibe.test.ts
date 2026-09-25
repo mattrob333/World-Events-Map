@@ -46,7 +46,7 @@ describe('header Vibe routing', () => {
 
 describe('Vibe stage voice sessions', () => {
   it('gives the profile and trip conversations only their own tools', () => {
-    expect(INTENT_TOOLS.vibe_profile).toEqual(['lock_fact', 'describe_me']);
+    expect(INTENT_TOOLS.vibe_profile).toEqual(['lock_fact', 'add_signals', 'describe_me']);
     expect(INTENT_TOOLS.vibe_trip).toEqual(['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip']);
     // Only the trip canvas searches the web.
     const trip = liveSessionConfig('vibe_trip', '', '', '2026-09-25').delegation.responses.tools as { type: string }[];

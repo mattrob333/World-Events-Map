@@ -1,5 +1,6 @@
 'use client';
 
+import { mergeSignals, type Signal, type VibeDials } from '@/lib/vibe/signals';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { Itinerary } from './itinerary';
@@ -26,6 +27,8 @@ interface DesignerState {
   activeProfileId: string | null;
   setActiveProfile: (id: string) => void;
   renameProfile: (id: string, label: string) => void;
+  /** Adds Vibe signals to a saved profile (newer word wins per signal), and sets its dials. */
+  updateSignals: (id: string, signals: Signal[], dials?: VibeDials) => void;
   trip: Itinerary | null;
   votes: TripVotes;
   activeParticipant: string | null;
@@ -117,6 +120,12 @@ export const useDesignerStore = create<DesignerState>()(
       renameProfile: (id, label) =>
         set((state) => ({
           profiles: state.profiles.map((entry) => (entry.id === id ? { ...entry, label: label.replace(/\s+/g, ' ').trim().slice(0, 24) || undefined } : entry)),
+        })),
+      updateSignals: (id, signals, dials) =>
+        set((state) => ({
+          profiles: state.profiles.map((entry) => (entry.id === id
+            ? { ...entry, profile: { ...entry.profile, signals: mergeSignals(entry.profile.signals ?? [], signals), ...(dials ? { dials } : {}) } }
+            : entry)),
         })),
       setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null, joinedAs: null, lastMergedAt: {}, mergeUndo: null }),
       importTrip: (trip, votes, me) =>

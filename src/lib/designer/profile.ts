@@ -1,3 +1,4 @@
+import { cleanSignal, type Signal, type VibeDials } from '@/lib/vibe/signals';
 import { listeningTags, normalizeListening, type ListeningProfile } from './listening';
 
 /**
@@ -79,6 +80,9 @@ export type TravelerProfile = {
   listening?: ListeningProfile;
   /** How they like to travel. Filled by the traveler or their own AI agent. */
   style?: TravelStyle;
+  /** The Vibe profile's signals added directly (by the concierge or by hand); facts above imply more. */
+  signals?: Signal[];
+  dials?: VibeDials;
 };
 
 export type ParseEngine = 'claude' | 'on-device';
@@ -591,6 +595,14 @@ export function normalizeProfile(input: unknown): TravelerProfile {
         .map((m) => m.trim().slice(0, 400))
         .slice(0, 5);
       return moments.length ? moments : undefined;
+    })(),
+    signals: (() => {
+      const kept = (Array.isArray(source.signals) ? source.signals : []).slice(0, 200).map((raw) => cleanSignal(raw, ['said', 'spotify', 'picked', 'inferred'].includes(String((raw as { source?: unknown })?.source)) ? ((raw as { source: Signal['source'] }).source) : 'said')).filter((signal): signal is Signal => Boolean(signal));
+      return kept.length ? kept : undefined;
+    })(),
+    dials: (() => {
+      const stretch = (source.dials as { stretch?: unknown } | undefined)?.stretch;
+      return typeof stretch === 'number' && [0, 1, 2, 3, 4].includes(stretch) ? { stretch: stretch as VibeDials['stretch'] } : undefined;
     })(),
   };
 }
