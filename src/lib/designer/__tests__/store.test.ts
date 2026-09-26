@@ -222,12 +222,12 @@ describe('travelers and groups', () => {
 
   it('never takes you out of Solo, Family or Friends, and Solo stays just you', () => {
     save('p-matt', 'Matt');
-    save('p-jen', 'Jen');
+    save('p-marina', 'Marina');
     const { groups, toggleGroupMember } = useDesignerStore.getState();
     const family = groups.find((group) => group.kind === 'family')!;
     const solo = groups.find((group) => group.kind === 'solo')!;
     toggleGroupMember(family.id, 'p-matt');
-    toggleGroupMember(solo.id, 'p-jen');
+    toggleGroupMember(solo.id, 'p-marina');
     const after = useDesignerStore.getState().groups;
     expect(after.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt']);
     expect(after.find((group) => group.kind === 'solo')!.memberIds).toEqual(['p-matt']);
@@ -235,21 +235,21 @@ describe('travelers and groups', () => {
 
   it('switching the group plans from its leader', () => {
     save('p-matt', 'Matt');
-    save('p-jen', 'Jen');
+    save('p-marina', 'Marina');
     const state = useDesignerStore.getState();
-    const id = state.addGroup('Jen and the girls', 'custom', ['p-jen']);
+    const id = state.addGroup('Marina and the girls', 'custom', ['p-marina']);
     useDesignerStore.getState().setActiveGroup(id);
     expect(useDesignerStore.getState().activeGroupId).toBe(id);
-    expect(useDesignerStore.getState().activeProfileId).toBe('p-jen');
+    expect(useDesignerStore.getState().activeProfileId).toBe('p-marina');
   });
 
   it('deleting a traveler takes them out of every group; deleting you hands the passport on', () => {
     save('p-matt', 'Matt');
-    save('p-jen', 'Jen');
+    save('p-marina', 'Marina');
     const family = useDesignerStore.getState().groups.find((group) => group.kind === 'family')!;
-    useDesignerStore.getState().toggleGroupMember(family.id, 'p-jen');
-    useDesignerStore.getState().removeProfile('p-jen');
-    expect(useDesignerStore.getState().groups.every((group) => !group.memberIds.includes('p-jen'))).toBe(true);
+    useDesignerStore.getState().toggleGroupMember(family.id, 'p-marina');
+    useDesignerStore.getState().removeProfile('p-marina');
+    expect(useDesignerStore.getState().groups.every((group) => !group.memberIds.includes('p-marina'))).toBe(true);
     useDesignerStore.getState().removeProfile('p-matt');
     expect(useDesignerStore.getState().meId).toBeNull();
   });
@@ -317,7 +317,7 @@ describe('a second device signing in (review blocker)', () => {
     const { localItems, mergeItems, stateFromItems, knownAfterApply, pendingItems, toRemoteState } = await import('@/lib/travelers/stateSync');
     const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
     const saved = [
-      { id: 'mb-2', profile: profile('Jen'), engine: 'on-device' as const, updatedAt: '2026-09-20T00:00:00.000Z' },
+      { id: 'mb-2', profile: profile('Marina'), engine: 'on-device' as const, updatedAt: '2026-09-20T00:00:00.000Z' },
       { id: 'mb-1', profile: profile('Matt'), engine: 'on-device' as const, updatedAt: '2026-09-19T00:00:00.000Z' },
     ];
     // Device A: two travelers, Family with both, a trip with a vote.

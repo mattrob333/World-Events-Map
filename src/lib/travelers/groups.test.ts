@@ -6,11 +6,11 @@ import { addGuests, createGroup, decodeInvite, encodeInvite, ensureDefaultGroups
 const person = (patch: Partial<TravelerProfile>): TravelerProfile => ({ ...emptyProfile(), ...patch });
 
 const matt = { id: 'p-matt', profile: person({ name: 'Matt', age: 44, hometown: 'Atlanta', teams: ['Atlanta Braves'], family: [
-  { relation: 'partner', label: 'wife', name: 'Jen' },
+  { relation: 'partner', label: 'wife', name: 'Marina' },
   { relation: 'child', label: 'son', name: 'Leo', age: 8 },
   { relation: 'child', label: 'son', age: 12 },
 ] }) };
-const jen = { id: 'p-jen', profile: person({ name: 'Jen', hometown: 'Atlanta', food: ['ramen'] }) };
+const marina = { id: 'p-marina', profile: person({ name: 'Marina', hometown: 'Atlanta', food: ['ramen'] }) };
 const leo = { id: 'p-leo', profile: person({ name: 'Leo', age: 8, interests: ['dinosaurs'] }) };
 
 describe('ensureDefaultGroups', () => {
@@ -21,10 +21,10 @@ describe('ensureDefaultGroups', () => {
   });
 
   it('drops members whose profile is gone and keeps Solo to you alone', () => {
-    const family = { ...createGroup('Family', 'family', ['p-matt', 'p-gone', 'p-jen']) };
-    const solo = { ...createGroup('Solo', 'solo', ['p-matt', 'p-jen']) };
-    const groups = ensureDefaultGroups([solo, family], 'p-matt', ['p-matt', 'p-jen']);
-    expect(groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt', 'p-jen']);
+    const family = { ...createGroup('Family', 'family', ['p-matt', 'p-gone', 'p-marina']) };
+    const solo = { ...createGroup('Solo', 'solo', ['p-matt', 'p-marina']) };
+    const groups = ensureDefaultGroups([solo, family], 'p-matt', ['p-matt', 'p-marina']);
+    expect(groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt', 'p-marina']);
     expect(groups.find((group) => group.kind === 'solo')!.memberIds).toEqual(['p-matt']);
   });
 
@@ -40,9 +40,9 @@ describe('groupTravelers', () => {
   });
 
   it('Family fills in people without their own profile, and never lists anyone twice', () => {
-    const family = createGroup('Family', 'family', ['p-matt', 'p-jen', 'p-leo']);
-    const travelers = groupTravelers(family, [matt, jen, leo]);
-    expect(travelers.map((t) => t.name)).toEqual(['Matt', 'Jen', 'Leo', 'son (12)']);
+    const family = createGroup('Family', 'family', ['p-matt', 'p-marina', 'p-leo']);
+    const travelers = groupTravelers(family, [matt, marina, leo]);
+    expect(travelers.map((t) => t.name)).toEqual(['Matt', 'Marina', 'Leo', 'son (12)']);
     expect(travelers.find((t) => t.name === 'Leo')!.kind).toBe('kid');
     expect(travelers.find((t) => t.name === 'son (12)')!.kind).toBe('kid');
   });
@@ -75,7 +75,7 @@ describe('group invites', () => {
     expect(back?.cards.map((card) => card.name)).toEqual(['Matt', 'Leo']);
     expect(back?.cards[1].kid).toBe(true);
     // Cards never carry ages or family names.
-    expect(JSON.stringify(back)).not.toMatch(/"age"|Jen/);
+    expect(JSON.stringify(back)).not.toMatch(/"age"|Marina/);
   });
 
   it('names a default group after its leader', () => {
