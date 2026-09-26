@@ -376,5 +376,14 @@
     "license": "CC BY-SA 4.0",
     "photographed": "2024",
     "subject": "event"
+  },
+  "presidents-cup": {
+    "title": "Medinah Country Club clubhouse and practice green",
+    "imageUrl": "/editorial/presidents-cup.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Medinah_Country_Club,_Medinah,_Illinois.jpg",
+    "credit": "Dan Perry",
+    "license": "CC BY 2.0",
+    "photographed": "2008",
+    "subject": "place"
   }
 }

@@ -58,3 +58,4 @@ Destination dossiers also use the following locally stored place scenes. Their c
 | `tonga-humpback-swim` | place · 2014 | Sylke Rohrlach | CC BY-SA 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Humpback_Whale-Megaptera_novaeangliae_(16632487030).jpg) |
 | `pantanal-jaguar-season` | place · 2015 | Wolves201 | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pantanal_jaguar_male_JF.jpg) |
 | `venice-biennale-arte` | event · 2024 | Jennifer 8. Lee | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2024_Venice_Biennale_Arsenale_Interior_1.jpg) |
+| `presidents-cup` | place · 2008 (Medinah Country Club clubhouse) | Dan Perry | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Medinah_Country_Club,_Medinah,_Illinois.jpg) |
