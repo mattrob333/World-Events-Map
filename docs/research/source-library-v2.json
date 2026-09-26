@@ -22,7 +22,8 @@
   "culture",
   "deals",
   "city",
-  "openings"
+  "openings",
+  "hostels"
  ],
  "trip_types": [
   "ski",
@@ -31683,6 +31684,358 @@
    "verified_at": "2026-09-24",
    "kind": "podcast",
    "trip_types": [
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "C"
+  },
+  {
+   "name": "Hostelgeeks",
+   "feed_url": "https://hostelgeeks.com/feed/",
+   "site_url": "https://hostelgeeks.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.5,
+   "cadence_note": "10 dated items in the last 28 days",
+   "latest_item": "2026-09-23T23:31:37Z",
+   "latest_age_days": 2.2,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Hostel reviews and best-hostels-by-city guides.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "B"
+  },
+  {
+   "name": "Hostelworld Blog",
+   "feed_url": "https://www.hostelworld.com/blog/feed/",
+   "site_url": "https://www.hostelworld.com/blog",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 0.5,
+   "cadence_note": "2 dated items in the last 28 days",
+   "latest_item": "2026-08-31T10:39:54Z",
+   "latest_age_days": 25.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 1
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Hostelworld’s editorial blog: hostel stories and backpacker guides.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "B"
+  },
+  {
+   "name": "Hostel Management",
+   "feed_url": "https://www.hostelmanagement.com/rss.xml",
+   "site_url": "https://www.hostelmanagement.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1.8,
+   "cadence_note": "7 dated items in the last 28 days",
+   "latest_item": "2026-09-23T04:51:12Z",
+   "latest_age_days": 3,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Hostel industry news, new hostel openings and backpacker hub guides.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "C"
+  },
+  {
+   "name": "Indie Traveller",
+   "feed_url": "https://indietraveller.co/feed/",
+   "site_url": "https://indietraveller.co",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 2.5,
+   "cadence_note": "10 dated items in the last 28 days",
+   "latest_item": "2026-09-25T10:26:53Z",
+   "latest_age_days": 0.8,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "B",
+   "notes": "Independent and budget travel guides.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "B"
+  },
+  {
+   "name": "Stoked to Travel",
+   "feed_url": "https://www.stokedtotravel.com/feed/",
+   "site_url": "https://www.stokedtotravel.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 1,
+   "cadence_note": "4 dated items in the last 28 days",
+   "latest_item": "2026-09-22T08:59:25Z",
+   "latest_age_days": 3.8,
+   "items_in_feed": 11,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 1
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Backpacker guides and hostel picks.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "C"
+  },
+  {
+   "name": "Goats On The Road",
+   "feed_url": "https://www.goatsontheroad.com/feed/",
+   "site_url": "https://www.goatsontheroad.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 0.3,
+   "cadence_note": "1 dated items in the last 28 days",
+   "latest_item": "2026-09-10T17:13:42Z",
+   "latest_age_days": 15.5,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 1
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Budget and long-term travel.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "C"
+  },
+  {
+   "name": "Solo Traveler",
+   "feed_url": "https://www.solotravelerworld.com/feed/",
+   "site_url": "https://www.solotravelerworld.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 0.3,
+   "cadence_note": "1 dated items in the last 28 days",
+   "latest_item": "2026-09-02T12:30:00Z",
+   "latest_age_days": 23.7,
+   "items_in_feed": 10,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": false,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 0
+   },
+   "full_text_in_feed": false,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Solo travel tips and destinations.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
+    "adventure"
+   ],
+   "regions": [
+    "global"
+   ],
+   "signal_only": false,
+   "trust": "C"
+  },
+  {
+   "name": "Never Ending Footsteps",
+   "feed_url": "https://www.neverendingfootsteps.com/feed/",
+   "site_url": "https://www.neverendingfootsteps.com",
+   "beats": [
+    "hostels",
+    "deals"
+   ],
+   "region": "global",
+   "language": "en",
+   "items_per_week": 0.3,
+   "cadence_note": "1 dated items in the last 28 days",
+   "latest_item": "2026-09-24T23:22:19Z",
+   "latest_age_days": 1.2,
+   "items_in_feed": 1,
+   "has_date": true,
+   "has_excerpt": true,
+   "has_image": true,
+   "field_coverage": {
+    "date": 1,
+    "excerpt": 1,
+    "image": 1
+   },
+   "full_text_in_feed": true,
+   "conditional_get": {
+    "etag": false,
+    "last_modified": false
+   },
+   "format": "rss20",
+   "content_terms": "link + short excerpt only",
+   "tier": "C",
+   "notes": "Long-term and budget travel.",
+   "verified_at": "2026-09-26",
+   "kind": "blog",
+   "trip_types": [
+    "deals",
     "adventure"
    ],
    "regions": [

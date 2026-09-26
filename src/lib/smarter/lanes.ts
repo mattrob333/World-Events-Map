@@ -8,8 +8,8 @@
 export type LaneKey = 'hostels' | 'gear' | 'lounges' | 'points' | 'deals' | 'stays' | 'tips';
 
 export const LANES: readonly { key: LaneKey; label: string; emoji: string; test: RegExp }[] = [
-  { key: 'hostels', label: 'Hostels', emoji: '🛏️', test: /\bhostels?\b/i },
-  { key: 'gear', label: 'Gear & gadgets', emoji: '🎒', test: /\b(luggage|carry-?ons?|suitcases?|backpacks?|packing|gadgets?|headphones|earbuds|chargers?|power ?banks?|airtags?|travel (?:bags?|gear|pillows?|adapters?)|duffels?|slings?|one-?bag|packing cubes?)\b/i },
+  { key: 'hostels', label: 'Hostels & backpacking', emoji: '🎒', test: /\b(hostels?|backpack(?:er|ers|ing)|budget travel|on a budget|shoestring|gap years?|dorm rooms?|solo travel(?:er|ers)?|digital nomads?)\b/i },
+  { key: 'gear', label: 'Gear & gadgets', emoji: '🧳', test: /\b(luggage|carry-?ons?|suitcases?|backpacks?|packing|gadgets?|headphones|earbuds|chargers?|power ?banks?|airtags?|travel (?:bags?|gear|pillows?|adapters?)|duffels?|slings?|one-?bag|packing cubes?)\b/i },
   { key: 'lounges', label: 'Lounges & upgrades', emoji: '🥂', test: /\b(lounges?|business class|first class|upgrades?d?|suites? (?:class|seat)|priority pass|centurion|polaris|admirals club|sky ?club|flagship|chelsea|spa treatments?)\b/i },
   { key: 'points', label: 'Points & perks', emoji: '💳', test: /\b(points?|miles|award (?:seats?|flights?|travel)|transfer bonus(?:es)?|elite status|bonvoy|hilton honors|world of hyatt|hyatt|amex|american express|chase|sapphire|aadvantage|skymiles|mileageplus|avios|velocity|credit cards?|welcome offers?|sign-?up bonus|redeem|redemptions?|statement credits?)\b/i },
   { key: 'deals', label: 'Deals', emoji: '🏷️', test: /(?:[£$€]\s?\d{2,}|\b(?:fare sale|error fares?|flash sale|deals?|cheap(?:est)?|bargains?|half[- ]price)\b)/i },
@@ -23,6 +23,9 @@ export const LANE_ORDER: readonly LaneKey[] = ['points', 'lounges', 'deals', 'st
 /** Incidents, crime and disasters are news, but not the craft of traveling well. */
 const NOISE = /\b(handcuff\w*|arrest\w*|police|courts?|lawsuits?|sued|immunity|mayday|crash\w*|dies|died|death|dead|killed|injur\w*|hurricanes?|shooting|stabb\w*|brawl|bodycam|naked|fined|scam\w*|duped|layoffs?|earnings|strikes?|collaps\w*|apy|brokerage|balance transfers?|hustled|fashion week|discount codes?)\b/i;
 const NOT_ENGLISH = /(?:^|\s)(?:le|la|les|des|du|une|et|pour|que|el|los|las|del|und|der|die|das|il|della|di)(?=\s)/gi;
+
+/** Hostel and backpacker publishers: anything they write that isn't clearly deals, gear or tips is backpacker reading. */
+const HOSTEL_HOUSES = new Set(['Hostelgeeks', 'Hostelworld Blog', 'Hostel Management', 'Indie Traveller', 'Stoked to Travel', 'Goats On The Road', 'Solo Traveler', 'Adventurous Kate', 'Never Ending Footsteps']);
 
 const EVERY: readonly LaneKey[] = LANES.map((lane) => lane.key);
 const STYLE: readonly LaneKey[] = ['stays', 'lounges', 'tips', 'hostels'];
@@ -45,6 +48,7 @@ export const SMARTER_SOURCES: Readonly<Record<string, readonly LaneKey[]>> = {
     'Sleeper Magazine', 'Hotel Designs', 'Fathom', 'AFAR', 'Telegraph Travel',
   ].map((name) => [name, STYLE])),
   ...Object.fromEntries(['Man of Many', 'Gear Patrol', 'Cool Material', 'Uncrate', 'InsideHook'].map((name) => [name, ['gear'] as const])),
+  ...Object.fromEntries([...HOSTEL_HOUSES].map((name) => [name, ['hostels', 'deals', 'gear', 'tips'] as const])),
   ...Object.fromEntries(['Carryology', 'Pack Hacker', 'Google News: carry-on luggage review OR travel gear when:14d'].map((name) => [name, ['gear'] as const])),
 };
 const GEAR_HOUSES = /^(carryology|pack hacker|google news: carry-on)/i;
@@ -56,7 +60,7 @@ export function laneFor(title: string, excerpt = '', source = ''): LaneKey | nul
   // Gear reviewers' stories are gear even when the headline doesn't say "luggage".
   if (GEAR_HOUSES.test(source)) return 'gear';
   const allowed = source ? SMARTER_SOURCES[source] ?? [] : EVERY;
-  return LANES.find((lane) => allowed.includes(lane.key) && lane.test.test(text))?.key ?? null;
+  return LANES.find((lane) => allowed.includes(lane.key) && lane.test.test(text))?.key ?? (HOSTEL_HOUSES.has(source) ? 'hostels' : null);
 }
 
 export type SmarterRow = { title: string; excerpt: string; url: string; source: string; tier: 'A' | 'B' | 'C'; publishedAt: string };

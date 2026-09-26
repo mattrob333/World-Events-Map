@@ -47,3 +47,14 @@ describe('who we read for what', () => {
     expect(laneFor('The best carry-on luggage for a week in Europe', '', 'Some Blog')).toBeNull();
   });
 });
+
+describe('hostels and backpacking', () => {
+  it('backpacker reading lands in its own lane', () => {
+    expect(laneFor('A Guide to the Best Backpacker Hubs in the Mediterranean')).toBe('hostels');
+    expect(laneFor('Solo travel in Vietnam on a budget: two weeks')).toBe('hostels');
+  });
+  it('hostel publishers default to it, but their deals are still deals', () => {
+    expect(laneFor('Seven Days in Lisbon: A Complete Itinerary', '', 'Indie Traveller')).toBe('hostels');
+    expect(laneFor('Cheapest flights to Bangkok this winter', '', 'Stoked to Travel')).toBe('deals');
+  });
+});
