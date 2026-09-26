@@ -9,6 +9,8 @@ export type ListeningProfile = {
   importedAt: string;
   topArtists: string[];
   genres: string[];
+  /** How much of their top listening each genre is (0–1, weighted by artist rank), biggest first. */
+  genreShares?: { genre: string; share: number }[];
   /** Share of top tracks by release decade, biggest first. */
   eras: { decade: string; share: number }[];
   /** Share of recent plays between 22:00 and 04:00 local time. */
@@ -129,6 +131,8 @@ export function analyzeSpotify(input: SpotifyImport, now = new Date(), hourOf: (
     for (const genre of artist.genres ?? []) genreCounts.set(genre.toLowerCase(), (genreCounts.get(genre.toLowerCase()) ?? 0) + weight);
   }
   const genres = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).map(([genre]) => genre).slice(0, 12);
+  const genreTotal = [...genreCounts.values()].reduce((sum, value) => sum + value, 0);
+  const genreShares = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 24).map(([genre, count]) => ({ genre, share: genreTotal ? Math.round((count / genreTotal) * 1000) / 1000 : 0 }));
 
   const decades = new Map<string, number>();
   let dated = 0;
@@ -165,6 +169,7 @@ export function analyzeSpotify(input: SpotifyImport, now = new Date(), hourOf: (
     importedAt: now.toISOString(),
     topArtists: [...new Set(data.artists.map((artist) => artist.name.trim()).filter(Boolean))].slice(0, 10),
     genres,
+    genreShares,
     eras,
     nightOwl,
     earlyBird,
@@ -237,6 +242,10 @@ export function normalizeListening(input: unknown): ListeningProfile | undefined
     importedAt: typeof s.importedAt === 'string' ? s.importedAt.slice(0, 40) : new Date(0).toISOString(),
     topArtists: strings(s.topArtists, 10),
     genres: strings(s.genres, 12),
+    genreShares: (Array.isArray(s.genreShares) ? s.genreShares : []).flatMap((g) => {
+      const row = g as Record<string, unknown>;
+      return typeof row?.genre === 'string' && row.genre.trim() && ratio(row.share) !== undefined ? [{ genre: row.genre.trim().toLowerCase().slice(0, 60), share: row.share as number }] : [];
+    }).slice(0, 24),
     eras,
     nightOwl: ratio(s.nightOwl),
     earlyBird: ratio(s.earlyBird),

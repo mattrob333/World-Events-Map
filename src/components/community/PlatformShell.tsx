@@ -94,7 +94,7 @@ export function SignInCard() {
     <section className={styles.card}>
       <h2>Your next good connection.</h2>
       <p className={styles.muted}>
-        Sign in to introduce yourself, use Constellation, request a place in a travel circle,
+        Sign in to introduce yourself, request a place in a travel circle,
         or ask a partner about an offer.
       </p>
       <form onSubmit={submit} className={styles.form}>

@@ -436,92 +436,92 @@ export function MoodboardStudio({
             ? 'Listening… ramble away. Tap again to stop.'
             : 'Tap the mic and just talk.';
 
+  const recorderSection = (
+          <section className={styles.recorder} aria-label="Your ramble">
+            <div className="grid justify-items-center gap-2">
+              <button
+                type="button"
+                className={`${styles.mic} ${listening ? styles.micLive : ''}`}
+                onClick={() => (listening ? dictation.stop() : dictation.start())}
+                disabled={dictation.status === 'unsupported'}
+                aria-pressed={listening}
+                aria-label={listening ? 'Stop listening' : 'Start talking'}
+              >
+                <svg className={styles.micIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  {listening ? (
+                    <rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" stroke="none" />
+                  ) : (
+                    <>
+                      <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" stroke="none" />
+                      <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
+            <div className="grid w-full gap-3">
+              <p className="text-[13px] text-ink-muted" aria-live="polite">
+                {micLabel}
+              </p>
+              <label className={styles.srOnly} htmlFor="ramble">
+                Your ramble
+              </label>
+              <textarea
+                id="ramble"
+                className={styles.transcript}
+                value={text}
+                maxLength={MAX_RAMBLE_CHARS}
+                onChange={(event) => setText(event.target.value)}
+                placeholder="I'm 44, from Atlanta. Braves fan. Two boys, 8 and 12…"
+              />
+              {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
+              <div className={styles.row}>
+                <button type="button" className={styles.cta} onClick={build} disabled={busy}>
+                  {busy ? 'Sorting…' : 'Build my Vibe profile'}
+                </button>
+                <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
+                  Try an example
+                </button>
+                {text ? (
+                  <button type="button" className={styles.ghost} onClick={() => setText('')}>
+                    Clear
+                  </button>
+                ) : null}
+              </div>
+              {error ? <p className={styles.error} role="alert">{error}</p> : null}
+              <p className={styles.hint}>
+                Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to
+                sort it, is not stored on our servers, and your profile is saved on this device only.
+              </p>
+            </div>
+          </section>
+  );
+
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        <p className={styles.eyebrow}>Vibe profile · step 1 of 2</p>
-        <h1 className={styles.headline}>
-          Tell us about you. <span className={styles.accentText}>We’ll learn your vibe.</span>
-        </h1>
-        <p className={styles.lede}>
-          Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
-          who you travel with, and the trips you still talk about. We sort it into a Vibe profile that plans trips with you.
-        </p>
+        {result ? (
+          <>
+            <p className={styles.eyebrow}>Vibe profile</p>
+            <h1 className={styles.headline}>
+              {result.profile.name ? `${result.profile.name}’s vibe.` : 'Your vibe.'} <span className={styles.accentText}>It plans with you.</span>
+            </h1>
+          </>
+        ) : (
+          <>
+          <p className={styles.eyebrow}>Vibe profile · step 1 of 2</p>
+          <h1 className={styles.headline}>
+            Tell us about you. <span className={styles.accentText}>We’ll learn your vibe.</span>
+          </h1>
+          <p className={styles.lede}>
+            Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
+            who you travel with, and the trips you still talk about. We sort it into a Vibe profile that plans trips with you.
+          </p>
 
-        <section className={styles.recorder} aria-label="Your ramble">
-          <div className="grid justify-items-center gap-2">
-            <button
-              type="button"
-              className={`${styles.mic} ${listening ? styles.micLive : ''}`}
-              onClick={() => (listening ? dictation.stop() : dictation.start())}
-              disabled={dictation.status === 'unsupported'}
-              aria-pressed={listening}
-              aria-label={listening ? 'Stop listening' : 'Start talking'}
-            >
-              <svg className={styles.micIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                {listening ? (
-                  <rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" stroke="none" />
-                ) : (
-                  <>
-                    <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" stroke="none" />
-                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" />
-                  </>
-                )}
-              </svg>
-            </button>
-          </div>
-          <div className="grid w-full gap-3">
-            <p className="text-[13px] text-ink-muted" aria-live="polite">
-              {micLabel}
-            </p>
-            <label className={styles.srOnly} htmlFor="ramble">
-              Your ramble
-            </label>
-            <textarea
-              id="ramble"
-              className={styles.transcript}
-              value={text}
-              maxLength={MAX_RAMBLE_CHARS}
-              onChange={(event) => setText(event.target.value)}
-              placeholder="I'm 44, from Atlanta. Braves fan. Two boys, 8 and 12…"
-            />
-            {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
-            <div className={styles.row}>
-              <button type="button" className={styles.cta} onClick={build} disabled={busy}>
-                {busy ? 'Sorting…' : 'Build my Vibe profile'}
-              </button>
-              <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
-                Try an example
-              </button>
-              {text ? (
-                <button type="button" className={styles.ghost} onClick={() => setText('')}>
-                  Clear
-                </button>
-              ) : null}
-            </div>
-            {error ? <p className={styles.error} role="alert">{error}</p> : null}
-            <p className={styles.hint}>
-              Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to
-              sort it, is not stored on our servers, and your profile is saved on this device only.
-            </p>
-          </div>
-        </section>
+          </>
+        )}
 
-        {mounted ? (
-          <SpotifyPanel
-            capabilities={capabilities}
-            listening={spotify}
-            onImported={(imported) => {
-              buildOnImport.current = true;
-              setDraftListening(imported);
-            }}
-            onDisconnect={() => {
-              setDraftListening(null);
-              if (result?.profile.listening) setResult({ ...result, profile: { ...result.profile, listening: undefined } });
-              setSaved(false);
-            }}
-          />
-        ) : null}
+        {!result ? recorderSection : null}
 
         {result ? (
           <section className="mt-10" aria-labelledby="board-title">
@@ -593,6 +593,29 @@ export function MoodboardStudio({
               </button>
             </div>
           </section>
+        ) : null}
+
+        {mounted ? (
+          <SpotifyPanel
+            capabilities={capabilities}
+            listening={spotify}
+            onImported={(imported) => {
+              buildOnImport.current = true;
+              setDraftListening(imported);
+            }}
+            onDisconnect={() => {
+              setDraftListening(null);
+              if (result?.profile.listening) setResult({ ...result, profile: { ...result.profile, listening: undefined } });
+              setSaved(false);
+            }}
+          />
+        ) : null}
+
+        {result ? (
+          <details className="mt-10 rounded-[24px] bg-surface-1/60 p-4 sm:p-5">
+            <summary className="cursor-pointer text-[15px] font-semibold text-bone">Add to it or fix something by talking</summary>
+            <div className="mt-4">{recorderSection}</div>
+          </details>
         ) : null}
 
         {mounted && profiles.length ? (

@@ -88,6 +88,7 @@ function localToday() {
 /** The concierge's first words, every time: the bullets on screen are the agenda. */
 const OPENER = 'Vibe with me for a second about the topics above.';
 const RESUME = 'Back on it. What else should I find?';
+const CARRY_ON = 'Still here. Keep going.';
 
 /** Everything they said, for building when the concierge wasn't asked to (or they tapped I'm done first). */
 function tripTextFrom(facts: Record<string, string>, said: string): string {
@@ -386,7 +387,9 @@ function VibeStage() {
         ? `They are updating their "${profileLabel(editing)}" profile. What it says now: ${profileSummary(editing)} Ask what has changed or what to add; everything already in it stays.`
         : FOR_WHOM.find((option) => option.value === forWhom)?.steer ?? ''
       : mode === 'now' ? 'Their phone knows where they are unless they name a place.' : '';
-    return [who, steer, mode === 'trip' ? canvasSummary(canvasRef.current) : '', page?.context() ?? ''].filter(Boolean).join(' ');
+    // Picking up after a session cap: what's already covered, so nothing is asked twice.
+    const covered = Object.entries(factsRef.current).filter(([, value]) => value).map(([key, value]) => `${key}: ${value}`).join('; ');
+    return [who, steer, covered ? `Already covered, don't ask again: ${covered}.` : '', mode === 'trip' ? canvasSummary(canvasRef.current) : '', page?.context() ?? ''].filter(Boolean).join(' ');
   }, [page, mode, forWhom]);
 
 
@@ -555,7 +558,11 @@ function VibeStage() {
     aiSaidRef.current = aiSaid;
   });
 
-  const startTalking = async () => {
+  // A long ramble outlasts one voice session (about 4½ minutes): pick up in a fresh one, up to three in all.
+  const continuations = useRef(0);
+  const startTalkingRef = useRef<(carryOn?: boolean) => Promise<void>>(async () => undefined);
+  const startTalking = async (carryOn = false) => {
+    if (!carryOn) continuations.current = 0;
     setNote(null);
     setRecs(null);
     setVibe(null);
@@ -566,7 +573,7 @@ function VibeStage() {
       dictation.start();
       return;
     }
-    const resuming = phase === 'picking';
+    const resuming = carryOn || phase === 'picking';
     if (!resuming) setFacts({});
     setMuted(false);
     setMicOff(false);
@@ -580,9 +587,17 @@ function VibeStage() {
       profile: mode === 'profile' ? '' : profileSummary(pickActiveProfile(all, activeId)),
       handlers: handlers(),
       withMic: true,
-      opener: resuming ? RESUME : OPENER,
+      opener: carryOn ? CARRY_ON : resuming ? RESUME : OPENER,
       keepLines: resuming,
       onActivity: setActivity,
+      onTimeUp: () => {
+        if (continuations.current >= 2) {
+          setNote('That’s a long one. I’ve got plenty; tap I’m done to build it.');
+          return;
+        }
+        continuations.current += 1;
+        void startTalkingRef.current(true);
+      },
     });
     if (result === 'mic-denied') {
       setNote('The microphone is blocked for this site. Allow it in your browser settings, or type it in the box.');
@@ -592,6 +607,8 @@ function VibeStage() {
       dictation.start();
     }
   };
+
+  useEffect(() => { startTalkingRef.current = startTalking; });
 
   const done = () => {
     if (voiceEnabled) {

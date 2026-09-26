@@ -106,7 +106,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
       </div>
       <button type="button" className={styles.cardFlight} onClick={() => onTravel(event, imageFailed ? null : photo)} aria-label={`Fly across the globe to ${event.city} for ${event.name}`}>
         {/* On now: a live chip up top, like a stream's LIVE badge, and the dates move down under the name. */}
-        <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip}><i aria-hidden="true" />Happening now</span> : <span>{dateLabel(event.start)}</span>}</span>
+        <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip} title="Happening now"><i aria-hidden="true" />Live<span className="sr-only">: happening now</span></span> : <span>{dateLabel(event.start)}</span>}</span>
         {/* The event leads; the place is where it happens. */}
         <span className={styles.cardCity} title={event.name}>{shortName(event.name)}</span>
         <span className={styles.cardEvent}>{event.city}</span>

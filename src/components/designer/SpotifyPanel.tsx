@@ -5,6 +5,7 @@ import { listeningInsights, parsePlaylistRef, type ListeningProfile } from '@/li
 import { startSpotifyConnect } from '@/lib/designer/spotify';
 import styles from './designer.module.css';
 import { SourceLogo } from '@/components/brand/SourceLogo';
+import { MusicDna } from './MusicDna';
 
 type ReadResult = { listening?: ListeningProfile; error?: string; code?: string };
 
@@ -98,6 +99,7 @@ export function SpotifyPanel({
           Top artists: {listening.topArtists.slice(0, 5).join(', ') || 'none returned'}
           {listening.genres.length ? ` · Genres: ${listening.genres.slice(0, 5).join(', ')}` : ''}
         </p>
+        <MusicDna listening={listening} />
         {insights.length ? (
           <ul className={styles.insights}>
             {insights.map((insight) => (

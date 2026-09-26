@@ -133,7 +133,7 @@ export function TravelModesEditor() {
       setEndDate('');
       setInterests('');
       setDiscoverable(false);
-      setNotice('Travel mode created. Switch to Constellation to use it as a matching lens.');
+      setNotice('Travel mode created.');
       await refresh();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Travel mode could not be created.');

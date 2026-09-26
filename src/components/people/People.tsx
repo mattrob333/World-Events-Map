@@ -50,11 +50,7 @@ export function PeopleDirectory() {
         <Link href="/account" className="text-brass-bright underline underline-offset-4">
           Profile
         </Link>
-        . Explore affinity in{' '}
-        <Link href="/constellation" className="text-brass-bright underline underline-offset-4">
-          Constellation
-        </Link>
-        .
+.
       </p>
     </main>
   );

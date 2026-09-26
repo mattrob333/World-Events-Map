@@ -21,6 +21,8 @@ type StartOptions = {
   /** Resuming the same conversation: keep what was already said on screen. */
   keepLines?: boolean;
   onActivity?: (activity: VoiceActivity) => void;
+  /** The session hit its time cap: carry on (a fresh session) instead of just stopping. */
+  onTimeUp?: () => void;
 };
 
 type FunctionCall = { name: string; call_id: string; arguments: string };
@@ -228,7 +230,7 @@ export function useRealtime() {
     }
   }, [grow, onBackendEvent, send, teardown]);
 
-  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, keepLines, onActivity }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
+  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, keepLines, onActivity, onTimeUp }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
     teardown('idle');
     handlersRef.current = handlers;
     activityRef.current = onActivity;
@@ -302,7 +304,10 @@ export function useRealtime() {
       }
       await pc.setRemoteDescription({ type: 'answer', sdp: body.sdp });
       const seconds = typeof body.seconds === 'number' ? body.seconds : 240;
-      timerRef.current = window.setTimeout(() => teardown('ended'), seconds * 1000);
+      timerRef.current = window.setTimeout(() => {
+        teardown('ended');
+        onTimeUp?.();
+      }, seconds * 1000);
       // GPT-Live has no "done speaking" event over WebRTC; the output level says when it talks.
       let quietSince = 0;
       speakPoll.current = window.setInterval(() => {

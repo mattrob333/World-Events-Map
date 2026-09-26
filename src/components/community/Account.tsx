@@ -186,10 +186,7 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
             Your home airport also becomes the source for future aviation matching. dope.travel will not show a personalized charter estimate until the actual origin is known.
           </p>
           <div className={styles.row}>
-            <a href="/constellation" className={styles.button}>
-              Open Constellation
-            </a>
-            <a href="/community" className={`${styles.button} ${styles.secondary}`}>
+            <a href="/community" className={styles.button}>
               Explore travel circles
             </a>
             <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>

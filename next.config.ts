@@ -11,7 +11,11 @@ const nextConfig: NextConfig = {
   // The Vibe profile used to be called the mood board; old links land on it. The Spotify
   // callback (/moodboard/spotify) and import links (/moodboard/import) keep their paths.
   async redirects() {
-    return [{ source: '/moodboard', destination: '/vibe', permanent: false }];
+    return [
+      { source: '/moodboard', destination: '/vibe', permanent: false },
+      // Constellation (the affinity star map) was retired; its matching data lives on for People.
+      { source: '/constellation', destination: '/people', permanent: false },
+    ];
   },
   // Baseline hardening only. A strict script/img CSP would break the remote
   // images (Wikimedia, Google, Instagram, TikTok, Yelp, Tripadvisor CDNs),

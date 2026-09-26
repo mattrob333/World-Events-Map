@@ -514,21 +514,21 @@
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   white-space: nowrap;
-  padding: 6px 12px 6px 10px;
+  padding: 5px 10px 5px 8px;
   border-radius: var(--radius-chip);
   background: rgb(5 5 5 / 0.6);
   backdrop-filter: blur(8px);
   box-shadow: inset 0 0 0 1px rgb(247 197 72 / 0.55), 0 0 18px rgb(247 197 72 / 0.35);
   color: var(--color-saffron);
-  font: 700 0.8125rem/1 var(--font-sans, inherit);
-  letter-spacing: 0.02em;
-  text-transform: none;
+  font: 800 0.6875rem/1 var(--font-sans, inherit);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-shadow: none;
   animation: liveGlow 1.8s ease-in-out infinite;
 }
-.liveChip i { width: 9px; height: 9px; border-radius: 50%; background: var(--color-saffron); animation: livePulse 1.8s ease-out infinite; }
+.liveChip i { width: 7px; height: 7px; border-radius: 50%; background: var(--color-saffron); animation: livePulse 1.8s ease-out infinite; }
 @keyframes livePulse { 0% { box-shadow: 0 0 0 0 rgb(247 197 72 / 0.75); } 70%, 100% { box-shadow: 0 0 0 9px rgb(247 197 72 / 0); } }
 @keyframes liveGlow { 50% { box-shadow: inset 0 0 0 1px rgb(247 197 72 / 0.9), 0 0 26px rgb(247 197 72 / 0.55); } }
 @media (prefers-reduced-motion: reduce) { .cardTop span.liveChip, .liveChip i { animation: none; } }
@@ -846,9 +846,3 @@
   text-underline-offset: 3px;
 }
 .finderLink:hover { text-decoration-color: var(--color-bone); }
-
-/* Narrow cards: when it's on now, the live chip owns the top row. */
-@container (max-width: 260px) {
-  .cardTop span:first-child:has(+ span.liveChip) { display: none; }
-  .cardTop:has(span.liveChip) { justify-content: flex-end; }
-}

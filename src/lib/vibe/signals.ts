@@ -1,3 +1,4 @@
+import { musicSignals } from './musicDna';
 import type { TravelerProfile } from '@/lib/designer/profile';
 
 const fold = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -60,6 +61,12 @@ export const VOCAB: readonly VocabEntry[] = [
   { key: 'nights:dive-bar', group: 'nights', label: 'Dive bars', words: /\b(dive bars?|dives?|hole[- ]in[- ]the[- ]wall)\b/i, venue: /\b(dive bar|dive|no[- ]frills|cheap beer)\b/i },
   { key: 'nights:rooftop', group: 'nights', label: 'Rooftops', words: /\b(rooftops?|roof ?top)\b/i, venue: /\b(rooftop|roof terrace|sky ?bar)\b/i },
   { key: 'nights:speakeasy', group: 'nights', label: 'Hidden bars', words: /\b(speakeasy|speakeasies|hidden bars?|secret bars?)\b/i, venue: /\b(speakeasy|hidden|secret|unmarked)\b/i },
+  { key: 'nights:honky-tonk', group: 'nights', label: 'Honky-tonks & country bars', words: /\b(honky.?tonks?|country bars?|line danc\w*|two.?step\w*|boot.?scoot\w*)\b/i, venue: /\b(honky.?tonk|country (?:bar|music|night)|saloon|dance hall|line danc|boot)\b/i },
+  { key: 'nights:hip-hop', group: 'nights', label: 'Hip-hop nights', words: /\b(hip.?hop (?:nights?|clubs?|parties)|rap shows?)\b/i, venue: /\b(hip.?hop|rap|trap|r&b night)\b/i },
+  { key: 'nights:latin', group: 'nights', label: 'Latin dance nights', words: /\b(salsa|bachata|reggaeton|latin (?:nights?|clubs?|dance))\b/i, venue: /\b(salsa|bachata|reggaeton|latin|merengue|cumbia)\b/i },
+  { key: 'nights:jazz', group: 'nights', label: 'Jazz & blues clubs', words: /\b(jazz|blues) (?:clubs?|bars?|nights?)\b/i, venue: /\b(jazz|blues|swing|supper club)\b/i },
+  { key: 'nights:rock', group: 'nights', label: 'Rock bars & heavy shows', words: /\b(rock (?:bars?|clubs?|shows?)|metal shows?|punk shows?|mosh)\b/i, venue: /\b(rock (?:bar|club)|live rock|metal|punk|hardcore|rock ?n ?roll)\b/i },
+  { key: 'culture:concert-hall', group: 'culture', label: 'Concert halls & opera', words: /\b(symphony|orchestra|opera|philharmonic|concert halls?)\b/i, venue: /\b(symphony|orchestra|opera|philharmonic|concert hall)\b/i },
   { key: 'nights:live-music', group: 'nights', label: 'Live music bars', words: /\b(live music|live bands?|live sets?|jazz clubs?|open mic)\b/i, venue: /\b(live music|live band|jazz club|stage|gig)\b/i },
   { key: 'nights:wine-bar', group: 'nights', label: 'Wine bars', words: /\b(wine bars?|natural wine|natty wine)\b/i, venue: /\b(wine bar|natural wine|enoteca|bodega)\b/i },
   { key: 'nights:lounge', group: 'nights', label: 'Lounges', words: /\b(lounges?|hotel bars?)\b/i, venue: /\b(lounge|hotel bar)\b/i },
@@ -206,6 +213,8 @@ export function signalsFromProfile(profile: TravelerProfile): Signal[] {
     const hit = VOCAB.find((entry) => entry.words.test(no));
     out.push(hit ? { key: hit.key, label: hit.label, strength: 'avoid', source: 'said' } : { key: `culture:venue:${slug(no)}`, label: no, strength: 'avoid', source: 'said' });
   }
+  // Spotify says what scenes fit: 38% country reads as honky-tonks and live country, weighted by share.
+  out.push(...musicSignals(profile.listening, (key) => VOCAB_BY_KEY.get(key)?.label));
   // Spotify says when they listen: lots of 10pm–4am plays reads as a late-night person (inferred, so they can correct it).
   if ((profile.listening?.nightOwl ?? 0) >= 0.35) out.push({ key: 'nights:last-call', label: 'Shuts the bar down', strength: 'like', source: 'inferred' });
   if (profile.style?.pace === 'packed') out.push({ key: 'rhythm:packed', label: 'Packs it in', strength: 'like', source: 'said' });
