@@ -65,10 +65,10 @@ export function TripIdeas({ artists, teams, homeCity }: { artists: string[]; tea
               <p className="mt-1 text-[13.5px] text-ink-muted">{idea.why}</p>
               <ul className="mt-3 grid gap-1.5">
                 {idea.events.map((event) => (
-                  <li key={event.id} className="flex items-center gap-2 text-[12.5px]">
+                  <li key={event.id} className="flex min-w-0 items-center gap-2 text-[12.5px]">
                     <i className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: KIND_STYLE[event.kind].color }} aria-hidden />
                     <SourceLogo source={event.url} size={13} className="shrink-0" />
-                    <a className="truncate text-ink hover:underline" href={event.url} target="_blank" rel="noopener noreferrer">
+                    <a className="min-w-0 truncate text-ink hover:underline" href={event.url} title={event.name} target="_blank" rel="noopener noreferrer">
                       {short(event.date)} · {event.name}
                     </a>
                   </li>

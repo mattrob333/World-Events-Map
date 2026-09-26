@@ -16,6 +16,7 @@ import {
   type TravelerProfile,
   type VoiceStyle,
   withVoiceStyle,
+  mergeProfileUpdate,
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
 import { useDesignerStore } from '@/lib/designer/store';
@@ -396,6 +397,17 @@ export function MoodboardStudio({
     if (!result) return undefined;
     const target = saveAs.current;
     saveAs.current = null;
+    // The same person built again (same name and home, no board open) updates their profile instead of making a twin.
+    const same = (a?: string, b?: string) => Boolean(a && b && a.trim().toLowerCase() === b.trim().toLowerCase());
+    const twin = !target && !boardId
+      ? profiles.find((entry) => same(entry.profile.name, result.profile.name) && same(entry.profile.hometown, result.profile.hometown))
+      : undefined;
+    if (twin) {
+      saveProfile({ id: twin.id, profile: mergeProfileUpdate(twin.profile, result.profile), engine: result.engine, updatedAt: new Date().toISOString(), label: twin.label });
+      setBoardId(twin.id);
+      setSaved(true);
+      return twin.id;
+    }
     const id = target === 'fresh' ? `mb-${Date.now().toString(36)}` : target ?? boardId ?? `mb-${Date.now().toString(36)}`;
     saveProfile({ id, profile: result.profile, engine: result.engine, updatedAt: new Date().toISOString() });
     setBoardId(id);

@@ -1305,6 +1305,8 @@
 
 .idea {
   composes: surface from global;
+  min-width: 0;
+  overflow: hidden;
   padding: 18px 20px;
 }
 

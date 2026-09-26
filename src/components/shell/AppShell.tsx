@@ -60,14 +60,13 @@ const MORE_LINKS = [
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
   { href: '/vibe', label: 'Vibe profile', hint: 'Talk about you; the trips follow' },
   { href: '/agents', label: 'Bring your AI', hint: 'Let your agent set you up' },
-  { href: '/account', label: 'Profile', hint: 'Your traveler lens' },
+  { href: '/account', label: 'Account', hint: 'Sign-in and member settings' },
 ] as const;
 
 // Mirrors getPlatformClient(): member services exist only with both public keys.
 const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-// Until membership exists, "Profile" is the traveler's on-device mood board,
-// not an account page that says "not connected" (UFR2-H16).
-const PROFILE_HREF = MEMBERSHIP_CONFIGURED ? '/account' : '/vibe';
+// One profile: the Vibe profile. The member account (sign-in, circles) is "Account" in More.
+const PROFILE_HREF = '/vibe';
 const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/account');
 
 function activePath(pathname: string, href: string): boolean {

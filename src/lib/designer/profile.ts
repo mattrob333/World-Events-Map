@@ -431,7 +431,22 @@ function parseFamily(text: string, profile: TravelerProfile) {
       continue;
     }
 
-    const count = explicit ?? (ages.length || (plural ? 2 : 1));
+    // "Two boys" after "two sons, 12 and 8" is the same kids said again, not two more.
+    if (explicit !== undefined && kids.length) {
+      const same = kids.filter((kid) => info.label === 'Kid' || kid.label === info.label || kid.label === 'Kid');
+      if (same.length >= explicit) {
+        const open = same.filter((kid) => kid.age === undefined);
+        ages.forEach((age, i) => {
+          if (open[i]) {
+            open[i]!.age = age;
+            open[i]!.name ??= names[i];
+          }
+        });
+        continue;
+      }
+    }
+    const already = explicit !== undefined ? kids.filter((kid) => info.label === 'Kid' || kid.label === info.label).length : 0;
+    const count = explicit !== undefined ? explicit - already : (ages.length || (plural ? 2 : 1));
     const guessed = explicit === undefined && !ages.length && plural;
     for (let i = 0; i < Math.min(count, 8); i += 1) {
       family.push({
@@ -452,7 +467,8 @@ function parseFamily(text: string, profile: TravelerProfile) {
     const candidate = nameMatch?.[1];
     // "my wife is Brazilian" names a nationality, not a person.
     const nationality = candidate && NATIONALITIES[candidate.toLowerCase()] ? candidate : undefined;
-    const name = candidate && !nationality && !/^(Is|And|She|He|Who|The|A|An|From|Loves|Likes)$/.test(candidate) ? candidate : undefined;
+    // A name is capitalized as said: "my wife and I" never names her "and".
+    const name = candidate && !nationality && /^[A-Z]/.test(candidate) && !/^(Is|And|She|He|Who|The|A|An|From|Loves|Likes|I)$/i.test(candidate) ? candidate : undefined;
     if (nationality) profile.heritage.push(NATIONALITIES[nationality.toLowerCase()]);
     family.push({ relation: info.relation, label: info.label, name, note: nationality });
   }
@@ -549,6 +565,29 @@ export function profileArtists(profile: Pick<TravelerProfile, 'artists' | 'liste
 }
 
 /** Coerces untrusted JSON (AI output, device storage) into a safe profile. */
+/**
+ * One person counted once. Drops exact repeats, a name that's really a word
+ * ("and"), and unnamed kids with no age when the same kids were already
+ * listed with ages ("two sons, 12 and 8" said twice).
+ */
+export function dedupeFamily(family: readonly FamilyMember[]): FamilyMember[] {
+  const seen = new Set<string>();
+  const out: FamilyMember[] = [];
+  for (const raw of family) {
+    const member = raw.name && /^(and|or|the|is|i)$/i.test(raw.name) ? { ...raw, name: undefined } : raw;
+    const key = `${member.relation}|${member.label}|${member.age ?? ''}|${(member.name ?? '').toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(member);
+  }
+  return out.filter((member, _i, all) => {
+    if (member.relation !== 'child' || member.age !== undefined || member.name) return true;
+    const aged = all.filter((other) => other.relation === 'child' && other.label === member.label && (other.age !== undefined || other.name)).length;
+    const bare = all.filter((other) => other.relation === 'child' && other.label === member.label && other.age === undefined && !other.name).length;
+    return aged === 0 || bare > aged;
+  });
+}
+
 export function normalizeProfile(input: unknown): TravelerProfile {
   const source = (input && typeof input === 'object' ? input : {}) as Record<string, unknown>;
   const str = (value: unknown, max = 80) => (typeof value === 'string' && value.trim() ? value.trim().slice(0, max) : undefined);
@@ -571,6 +610,7 @@ export function normalizeProfile(input: unknown): TravelerProfile {
     }];
   });
   return {
+    family: dedupeFamily(family),
     name: str(source.name, 40),
     age: num(source.age, 13, 110),
     hometown: str(source.hometown),
@@ -582,7 +622,6 @@ export function normalizeProfile(input: unknown): TravelerProfile {
       return artists.length ? { artists } : {};
     })(),
     events: list(source.events, 10),
-    family,
     favoriteTrips: list(source.favoriteTrips, 8),
     interests: list(source.interests, 14),
     food: list(source.food, 8),
@@ -665,7 +704,7 @@ export function profileTags(profile: TravelerProfile): string[] {
 export function mergeProfileUpdate(before: TravelerProfile, after: TravelerProfile): TravelerProfile {
   const both = (a: readonly string[] | undefined, b: readonly string[] | undefined, max = 12) => uniq([...(a ?? []), ...(b ?? [])]).slice(0, max);
   const who = (member: FamilyMember) => `${member.relation}:${(member.name ?? member.label).toLowerCase()}`;
-  const family = [...after.family, ...before.family.filter((member) => !after.family.some((next) => who(next) === who(member)))].slice(0, 12);
+  const family = dedupeFamily([...after.family, ...before.family.filter((member) => !after.family.some((next) => who(next) === who(member)))]).slice(0, 12);
   const style = after.style ?? before.style;
   return {
     ...before,

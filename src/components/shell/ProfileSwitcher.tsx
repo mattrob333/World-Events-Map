@@ -78,6 +78,11 @@ export function ProfileSwitcher({ className = '' }: { className?: string }) {
           <Link href="/vibe" onClick={() => setOpen(false)} className="mt-1 flex min-h-11 items-center rounded-[var(--radius-control)] px-2.5 text-[13px] text-ink-soft hover:bg-surface-3">
             + New profile
           </Link>
+          {process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? (
+            <Link href="/account" onClick={() => setOpen(false)} className="flex min-h-11 items-center rounded-[var(--radius-control)] px-2.5 text-[13px] text-ink-soft hover:bg-surface-3">
+              Account and sign-in
+            </Link>
+          ) : null}
         </div>
       )}
     </div>
