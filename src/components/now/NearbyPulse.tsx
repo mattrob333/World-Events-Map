@@ -85,7 +85,9 @@ export function NearbyPulse() {
   const youRef = useRef<Marker | null>(null);
   const [stage, setStage] = useState<Stage>('spinning');
   const [note, setNote] = useState<Note>(null);
+  // `here` is where the busy places were searched from; `position` is where the phone is now (it follows you as you walk).
   const [here, setHere] = useState<Here | null>(null);
+  const [position, setPosition] = useState<Here | null>(null);
   const [placeLabel, setPlaceLabel] = useState<string | null>(null);
   const [venues, setVenues] = useState<PulseVenue[] | null>(null);
   const [basis, setBasis] = useState<'live' | 'forecast' | 'mixed'>('forecast');
@@ -214,7 +216,11 @@ export function NearbyPulse() {
     }
     setStage('locating');
     navigator.geolocation.getCurrentPosition(
-      (position) => setHere({ lat: position.coords.latitude, lng: position.coords.longitude }),
+      (fix) => {
+        const point = { lat: fix.coords.latitude, lng: fix.coords.longitude };
+        setHere(point);
+        setPosition(point);
+      },
       () => {
         setStage('denied');
         setNote({ tone: 'warn', text: 'Location is off. Allow it for this site to see what’s busy around you.', retry: true });
@@ -228,26 +234,69 @@ export function NearbyPulse() {
     return () => window.clearTimeout(timer);
   }, [locate]);
 
-  // Found them: dive to street level and drop the "you" dot.
+  // Found them: dive to street level (or, already there, glide to the new search point).
   useEffect(() => {
     const map = mapRef.current;
     if (!here || !map || !mapReady) return;
     let live = true;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    void import('maplibre-gl').then(({ default: maplibregl }) => {
-      if (!live) return;
-      youRef.current?.remove();
-      const dot = document.createElement('span');
-      dot.className = styles.you;
-      dot.setAttribute('aria-label', 'You are here');
-      youRef.current = new maplibregl.Marker({ element: dot }).setLngLat([here.lng, here.lat]).addTo(map);
-    });
+    if (map.getZoom() > 9) {
+      map.easeTo({ center: [here.lng, here.lat], duration: reduced ? 0 : 900, essential: true });
+      return;
+    }
     setStage('flying');
     // Listen first: with reduced motion the move ends synchronously inside flyTo.
     map.once('moveend', () => { if (live) setStage('ready'); });
     map.flyTo({ center: [here.lng, here.lat], zoom: STREET_ZOOM, pitch: 55, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
     return () => { live = false; };
   }, [here, mapReady]);
+
+  // The blue dot is you, and it follows you as you walk. Only the phone knows this point; searches still use a rounded one.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!position || !map || !mapReady) return;
+    if (youRef.current) {
+      youRef.current.setLngLat([position.lng, position.lat]);
+      return;
+    }
+    let live = true;
+    void import('maplibre-gl').then(({ default: maplibregl }) => {
+      if (!live || youRef.current) return;
+      const dot = document.createElement('span');
+      dot.className = styles.you;
+      dot.setAttribute('aria-label', 'You are here');
+      youRef.current = new maplibregl.Marker({ element: dot }).setLngLat([position.lng, position.lat]).addTo(map);
+    });
+    return () => { live = false; };
+  }, [position, mapReady]);
+
+  // Once they've shared it, keep the dot live while the page is open (stops when they leave).
+  const located = here !== null;
+  useEffect(() => {
+    if (!located || !('geolocation' in navigator)) return;
+    const watch = navigator.geolocation.watchPosition(
+      (fix) => setPosition({ lat: fix.coords.latitude, lng: fix.coords.longitude }),
+      () => undefined,
+      { enableHighAccuracy: true, maximumAge: 5_000, timeout: 20_000 },
+    );
+    return () => navigator.geolocation.clearWatch(watch);
+  }, [located]);
+
+  // Moved well away from where we searched: the map's busy places are for back there.
+  const moved = here && position ? metersBetween(here, position) : 0;
+  const drifted = moved > 800;
+
+  /** Like the blue-dot button on Google Maps: back to you, and fresh busy places if you've walked on. */
+  const recenter = () => {
+    const map = mapRef.current;
+    const point = position ?? here;
+    if (!point) {
+      locate();
+      return;
+    }
+    map?.easeTo({ center: [point.lng, point.lat], zoom: Math.max(map.getZoom(), 14), duration: 800, essential: true });
+    if (drifted && position) setHere(position);
+  };
 
   // Where they are, in words ("Omaha, Nebraska"), from a point rounded to about a kilometer.
   useEffect(() => {
@@ -381,11 +430,23 @@ export function NearbyPulse() {
     <main className={styles.page}>
       <section className={styles.stage} aria-label="Vibe Now: what’s busy around you">
         <div ref={box} className={styles.map} />
+        {here ? (
+          <button type="button" className={`${styles.locate} ${selected ? styles.locateLifted : ''}`} onClick={recenter} aria-label={drifted ? 'Update the map for where you are now' : 'Center the map on you'}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="12" r="8" />
+              <path d="M12 1v3M12 20v3M1 12h3M20 12h3" />
+            </svg>
+          </button>
+        ) : null}
+        {drifted && !selected ? (
+          <button type="button" className={styles.update} onClick={recenter}>You’ve moved · Update the map</button>
+        ) : null}
         <div className={styles.top}>
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && <PlaceCard venue={picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {picked && <PlaceCard venue={position ? { ...picked, distanceMeters: Math.round(metersBetween(position, picked)) } : picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>

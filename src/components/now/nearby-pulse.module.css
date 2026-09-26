@@ -130,3 +130,19 @@
 .more { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; }
 .more a { color: var(--color-brass-bright, var(--color-saffron)); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
 .attribution { display: flex; align-items: center; margin-top: 6px; color: var(--color-ink-subtle); font-size: 11px; }
+
+/* Back to you, like the blue-dot button on Google Maps. Sits above the place card when one is open. */
+.locate {
+  position: absolute; right: 12px; bottom: 16px; z-index: 4;
+  display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+  background: rgb(18 18 18 / 0.92); color: #6aa8ff; box-shadow: var(--shadow-soft-2);
+  transition: bottom 200ms ease;
+}
+.locate:active { transform: scale(0.95); }
+.locateLifted { bottom: calc(58% + 22px); }
+.update {
+  position: absolute; left: 50%; bottom: 20px; z-index: 4; transform: translateX(-50%);
+  min-height: 44px; padding: 0 16px; border-radius: 999px; white-space: nowrap;
+  background: #f7c548; color: #111; font-size: 14px; font-weight: 700; box-shadow: var(--shadow-soft-2);
+}
+@media (prefers-reduced-motion: reduce) { .locate { transition: none; } }
