@@ -57,18 +57,18 @@ function TabGlyph({ name }: { name: TabIcon }) {
 const MORE_LINKS = [
   { href: '/people', label: 'People', hint: 'Example traveler portraits' },
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
-  { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
+  { href: '/trips', label: 'Trips', hint: 'The trips you started, and places you kept' },
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
-  { href: '/vibe', label: 'Vibe profile', hint: 'Talk about you; the trips follow' },
+  { href: '/vibe', label: 'Traveler profile', hint: 'Talk about you; the trips follow' },
   { href: '/agents', label: 'Bring your AI', hint: 'Let your agent set you up' },
-  { href: '/account', label: 'Account', hint: 'Sign-in and member settings' },
+  { href: '/settings', label: 'Settings', hint: 'Account, profile basics, privacy and data' },
 ] as const;
 
 // Mirrors getPlatformClient(): member services exist only with both public keys.
 const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-// One profile: the Vibe profile. The member account (sign-in, circles) is "Account" in More.
+// One profile: the traveler profile. The member account (sign-in, privacy, data) is "Settings" in More.
 const PROFILE_HREF = '/vibe';
-const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/account');
+const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/settings');
 
 function activePath(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';

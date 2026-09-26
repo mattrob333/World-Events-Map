@@ -7,7 +7,7 @@ import { useHydrated } from '@/components/designer/useHydrated';
 import { pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
-/** Two letters for the avatar: their name, else their Vibe profile's name, else the email. */
+/** Two letters for the avatar: their name, else their traveler profile's name, else the email. */
 export function initialsFor(name: string | undefined, email: string | undefined): string {
   const words = (name ?? '').trim().split(/\s+/).filter((word) => /^[\p{L}]/u.test(word));
   if (words.length >= 2) return `${words[0]![0]}${words[words.length - 1]![0]}`.toUpperCase();
@@ -19,7 +19,7 @@ export function initialsFor(name: string | undefined, email: string | undefined)
 /**
  * The header's right edge, the way every site does it: signed in, their
  * avatar (initials) with a small menu; signed out, "Log in". Without member
- * services, the avatar stands for the Vibe profile on this device.
+ * services, the avatar stands for the traveler profile on this device.
  */
 export function AccountMenu() {
   const hydrated = useHydrated();
@@ -83,9 +83,9 @@ export function AccountMenu() {
             <p className="truncate text-[14px] font-semibold text-bone">{name || 'Your account'}</p>
             {email ? <p className="truncate text-[12px] text-ink-subtle">{email}</p> : <p className="text-[12px] text-ink-subtle">On this device</p>}
           </div>
-          <Link role="menuitem" onClick={() => setOpen(false)} href="/vibe" className="flex min-h-11 items-center rounded-[var(--radius-control)] px-3 text-[14px] text-ink-soft hover:bg-surface-3 hover:text-bone">Your Vibe profile</Link>
+          <Link role="menuitem" onClick={() => setOpen(false)} href="/vibe" className="flex min-h-11 items-center rounded-[var(--radius-control)] px-3 text-[14px] text-ink-soft hover:bg-surface-3 hover:text-bone">Traveler profile</Link>
           <Link role="menuitem" onClick={() => setOpen(false)} href="/trips" className="flex min-h-11 items-center rounded-[var(--radius-control)] px-3 text-[14px] text-ink-soft hover:bg-surface-3 hover:text-bone">Your trips</Link>
-          {members && <Link role="menuitem" onClick={() => setOpen(false)} href="/account" className="flex min-h-11 items-center rounded-[var(--radius-control)] px-3 text-[14px] text-ink-soft hover:bg-surface-3 hover:text-bone">Account settings</Link>}
+          {members && <Link role="menuitem" onClick={() => setOpen(false)} href="/settings" className="flex min-h-11 items-center rounded-[var(--radius-control)] px-3 text-[14px] text-ink-soft hover:bg-surface-3 hover:text-bone">Settings</Link>}
           {members && auth.user && (
             <button
               role="menuitem"

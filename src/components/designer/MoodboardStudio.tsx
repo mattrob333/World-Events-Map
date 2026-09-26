@@ -19,7 +19,7 @@ import {
   mergeProfileUpdate,
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
-import { useDesignerStore } from '@/lib/designer/store';
+import { pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
 import { useVoicePage } from '@/lib/voice/registry';
 import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
@@ -258,12 +258,22 @@ export function MoodboardStudio({
     restored.current = true;
     if (result || spotifyJustConnected) return;
     const draft = readDraftBoard();
-    if (!draft) return;
-    // One-time restore from session storage after hydration.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setResult(draft.result);
-    setBoardId(draft.boardId);
-    setSaved(draft.saved);
+    if (draft) {
+      // One-time restore from session storage after hydration.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setResult(draft.result);
+      setBoardId(draft.boardId);
+      setSaved(draft.saved);
+      return;
+    }
+    // A new tab or another device: open the saved profile, not the ramble.
+    // The recorder stays in "Add to it or fix something by talking".
+    const state = useDesignerStore.getState();
+    const active = pickActiveProfile(state.profiles, state.activeProfileId);
+    if (!active) return;
+    setResult({ profile: active.profile, engine: active.engine });
+    setBoardId(active.id);
+    setSaved(true);
   }, [mounted, result, spotifyJustConnected]);
   useEffect(() => {
     if (!restored.current) return;
@@ -369,7 +379,7 @@ export function MoodboardStudio({
     () => (result ? 'Their Vibe profile is on screen.' : text.trim() ? `They have started typing about themselves: "${text.trim().slice(0, 200)}"` : 'An empty Vibe profile, waiting for them to describe themselves.'),
     (typed) => {
       setText([text.trim(), typed].filter(Boolean).join(' '));
-      return 'Added that to your description. Keep going, then tap Build my Vibe profile.';
+      return 'Added that to your description. Keep going, then tap Build my profile.';
     },
   );
 
@@ -489,7 +499,7 @@ export function MoodboardStudio({
               {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
               <div className={styles.row}>
                 <button type="button" className={styles.cta} onClick={build} disabled={busy}>
-                  {busy ? 'Sorting…' : 'Build my Vibe profile'}
+                  {busy ? 'Sorting…' : 'Build my profile'}
                 </button>
                 <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
                   Try an example
@@ -503,7 +513,7 @@ export function MoodboardStudio({
               {error ? <p className={styles.error} role="alert">{error}</p> : null}
               <p className={styles.hint}>
                 Your browser turns speech into text (Chrome uses Google’s speech service). The text goes to our AI provider (Anthropic)
-                to be sorted into your Vibe profile. dope.travel doesn’t store it, and your profile is saved on this device only.
+                to be sorted into your traveler profile. dope.travel doesn’t store it, and your profile is saved on this device only.
               </p>
             </div>
           </section>
@@ -514,20 +524,20 @@ export function MoodboardStudio({
       <div className={styles.inner}>
         {result ? (
           <>
-            <p className={styles.eyebrow}>Vibe profile</p>
+            <p className={styles.eyebrow}>Traveler profile</p>
             <h1 className={styles.headline}>
               {result.profile.name ? `${result.profile.name}’s vibe.` : 'Your vibe.'} <span className={styles.accentText}>It plans with you.</span>
             </h1>
           </>
         ) : (
           <>
-          <p className={styles.eyebrow}>Vibe profile · step 1 of 2</p>
+          <p className={styles.eyebrow}>Traveler profile · step 1 of 2</p>
           <h1 className={styles.headline}>
             Tell us about you. <span className={styles.accentText}>We’ll learn your vibe.</span>
           </h1>
           <p className={styles.lede}>
             Ramble like you would to a friend: where you’re from, your teams, what’s on your playlist, the concerts you never miss,
-            who you travel with, and the trips you still talk about. We sort it into a Vibe profile that plans trips with you.
+            who you travel with, and the trips you still talk about. We sort it into your traveler profile, and it plans trips with you.
           </p>
 
           </>
@@ -539,7 +549,7 @@ export function MoodboardStudio({
           <section className="mt-10" aria-labelledby="board-title">
             <div className={styles.row}>
               <h2 id="board-title" tabIndex={-1} className="font-display text-[28px] text-ink">
-                Your Vibe profile
+                Your vibe
               </h2>
               <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
                 {result.engine === 'claude' ? 'Sorted by AI' : 'Sorted by simple rules'}

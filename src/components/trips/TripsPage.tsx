@@ -244,7 +244,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
         <div className={styles.heroShade} />
         <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Julia_Mancuso.jpg" target="_blank" rel="noreferrer">Arthur Mouratidis ↗</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noreferrer">CC BY 2.0</a></span>
         <div className={styles.heroContent}>
-          <p className={styles.eyebrow}>dope.travel / YOUR TRIPS</p>
+          <p className={styles.eyebrow}>dope.travel / NEW TRIP</p>
           <h1 id="trips-title">A place becomes <em>a plan.</em></h1>
           <p className={styles.heroLead}>
             Keep the places that stay with you. Then shape the next trip around the people and moments that matter.
@@ -434,7 +434,7 @@ function TrailList({ items }: { items: IntentRecord[] }) {
   })}</ul>;
 }
 
-function YourTrail({ saved, returnList, lead }: { saved: IntentRecord[]; returnList: IntentRecord[]; lead: boolean }) {
+export function YourTrail({ saved, returnList, lead }: { saved: IntentRecord[]; returnList: IntentRecord[]; lead: boolean }) {
   return (
     <section className={lead ? `${styles.yourTrail} ${styles.yourTrailLead}` : styles.yourTrail} aria-labelledby="your-trail-title">
       <div className={styles.sectionHeader}>

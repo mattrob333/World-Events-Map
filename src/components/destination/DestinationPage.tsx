@@ -260,7 +260,7 @@ function DestinationLoaded({
   // run paid research until the traveler asks for it (UFR2-J03).
   const designerHref = `/trips/designer?${new URLSearchParams({ place: pulse.name, region: pulse.country }).toString()}`;
   const planningHref = nextEvent && skiOccasion
-    ? `/trips?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
+    ? `/trips/new?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
     : platformConnected ? circlesHref : designerHref;
   const eventPlanningHref = (event: WorldEvent) => platformConnected
     ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`
