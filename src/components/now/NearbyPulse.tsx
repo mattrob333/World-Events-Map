@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
 import { buildTonight } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
@@ -99,6 +99,8 @@ export function NearbyPulse() {
   const venuesRef = useRef<PulseVenue[]>([]);
   // BestTime's live reading per place tapped, fetched once per visit.
   const [live, setLive] = useState<Record<string, LiveState>>({});
+  // Google's facts for each place tapped (type, rating, price, website); null when Google had none.
+  const [details, setDetails] = useState<Record<string, PlaceFacts | null | 'loading'>>({});
   const columnsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
 
   // The local clock, where they are (the phone follows the time zone when they land).
@@ -297,6 +299,7 @@ export function NearbyPulse() {
     venuesRef.current = venues;
     // A fresh scan: places can be checked live again (a failed check isn't stuck).
     setLive({});
+    setDetails({});
     const { points, columns } = features(venues);
     pointsRef.current = points;
     columnsRef.current = columns;
@@ -333,6 +336,25 @@ export function NearbyPulse() {
       .catch(() => setLive((current) => ({ ...current, [id]: { status: 'error', message: 'The live reading couldn’t be checked. Check your connection.', at: Date.now() } })));
   }, [selected, live]);
 
+  // What kind of place it is: Google's facts for the place they tapped (remembered 12 hours on the server).
+  useEffect(() => {
+    if (!selected || details[selected] !== undefined) return;
+    const venue = venuesRef.current.find((entry) => entry.id === selected);
+    if (!venue?.placeToken) return;
+    const id = selected;
+    setDetails((current) => ({ ...current, [id]: 'loading' }));
+    memberFetch('/api/now/place', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, token: venue.placeToken }),
+    })
+      .then(async (response) => {
+        const body = response.ok ? ((await response.json()) as { place?: PlaceFacts | null }) : null;
+        setDetails((current) => ({ ...current, [id]: body?.place ?? null }));
+      })
+      .catch(() => setDetails((current) => ({ ...current, [id]: null })));
+  }, [selected, details]);
+
   const nowMinutes = now ? now.getHours() * 60 + now.getMinutes() : 0;
   // Busiest first (foot traffic is the point), nudged by their Vibe profile when they have one.
   const ranked = useMemo(() => {
@@ -363,22 +385,7 @@ export function NearbyPulse() {
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && (
-            <article className={styles.picked} aria-live="polite">
-              <button type="button" className={styles.close} onClick={() => setSelected(null)} aria-label="Close">×</button>
-              <p className={styles.pickedKind}>{pretty(picked.category)}{picked.distanceMeters !== undefined ? ` · ${formatMiles(picked.distanceMeters / 1000)}` : ''}{picked.openAllNight ? ' · open all night' : closesLabel(picked.closesMinutes) ? ` · ${closesLabel(picked.closesMinutes)}` : ''}</p>
-              <h2>{picked.name}</h2>
-              <LiveProof venue={picked} state={live[picked.id]} />
-              {winks.get(picked.id) ? <p className={styles.wink}>{winks.get(picked.id)}</p> : null}
-              {picked.address && <p className={styles.address}>{picked.address}</p>}
-              <div className={styles.pickedActions}>
-                <a className="btn btn-primary btn-sm" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">
-                  <SourceLogo source="google maps" size={14} className="mr-1.5" />Take me there ↗
-                </a>
-                <a className="btn btn-ghost btn-sm" href={picked.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Look at the place ↗</a>
-              </div>
-            </article>
-          )}
+        {picked && <PlaceCard venue={picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
@@ -481,5 +488,48 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
       <Meter venue={venue} />
       <p className={styles.proofSource}>{state?.status === 'ok' ? 'Live from the map’s scan a moment ago; BestTime couldn’t re-check it just now.' : note}</p>
     </div>
+  );
+}
+
+type PlaceFacts = { type?: string; rating?: number; ratingCount?: number; price?: string; website?: string; phone?: string; mapsUrl?: string; closesMinutes?: number; openAllNight?: boolean; closedNow?: boolean };
+
+/**
+ * The card for a beam they tapped: what kind of place it is, the live proof
+ * it's busy, and one tap to get there (walk, ride or drive). Facts come from
+ * BestTime and Google only; nothing is filled in.
+ */
+function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue; live?: LiveState; details?: PlaceFacts | null | 'loading'; wink?: string; onClose: () => void }) {
+  const facts = details && details !== 'loading' ? details : null;
+  const ways = wayThere(venue);
+  const miles = venue.distanceMeters !== undefined ? venue.distanceMeters / 1609.34 : undefined;
+  const walkable = miles !== undefined && miles <= 1.2;
+  const closes = facts?.openAllNight || venue.openAllNight
+    ? 'open all night'
+    : closesLabel(facts?.closesMinutes ?? venue.closesMinutes);
+  const kind = [facts?.type ?? pretty(venue.category), miles !== undefined ? formatMiles(venue.distanceMeters! / 1000) : '', facts?.closedNow ? 'Google shows it closed now' : closes].filter(Boolean).join(' · ');
+  const rating = facts?.rating ? `★ ${facts.rating.toFixed(1)}${facts.ratingCount ? ` · ${facts.ratingCount.toLocaleString()} Google reviews` : ''}` : '';
+  return (
+    <article className={styles.picked} aria-live="polite">
+      <button type="button" className={styles.close} onClick={onClose} aria-label="Close">×</button>
+      <p className={styles.pickedKind}>{kind}</p>
+      <h2>{venue.name}</h2>
+      {rating || facts?.price ? <p className={styles.facts}>{[rating, facts?.price].filter(Boolean).join(' · ')}</p> : null}
+      <LiveProof venue={venue} state={live} />
+      {wink ? <p className={styles.wink}>{wink}</p> : null}
+      <p className={styles.getThere}>Get there</p>
+      <div className={styles.ways}>
+        {walkable ? <a className="btn btn-primary btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a> : null}
+        <a className={`btn btn-sm ${walkable ? 'btn-ghost' : 'btn-primary'}`} href={ways.uber} target="_blank" rel="noopener noreferrer">Uber</a>
+        <a className="btn btn-ghost btn-sm" href={ways.lyft} target="_blank" rel="noopener noreferrer">Lyft</a>
+        {walkable ? null : <a className="btn btn-ghost btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a>}
+        <a className="btn btn-ghost btn-sm" href={ways.drive} target="_blank" rel="noopener noreferrer"><SourceLogo source="google maps" size={14} className="mr-1.5" />Drive</a>
+      </div>
+      <div className={styles.more}>
+        <a href={facts?.mapsUrl ?? venue.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name} ${venue.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Photos and reviews on Google Maps ↗</a>
+        {facts?.website ? <a href={facts.website} target="_blank" rel="noopener noreferrer">Website ↗</a> : null}
+        {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
+      </div>
+      {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
+    </article>
   );
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
 
 const venue = (id: string, extra: Record<string, unknown>) => ({ id, name: id, category: 'BAR', location: { lat: 33.75, lng: -84.39 }, ...extra });
 
@@ -65,5 +65,16 @@ describe('tapping a beam', () => {
 
   it('scales with zoom', () => {
     expect(pixelsPerMeter(41.26, 15)).toBeCloseTo(2 * pixelsPerMeter(41.26, 14));
+  });
+});
+
+describe('getting there', () => {
+  it('builds walking, driving, Uber and Lyft links to the exact point', () => {
+    const links = wayThere({ name: 'Proof & Co', address: '1 Main St, Omaha', lat: 41.2565, lng: -95.9345 });
+    expect(links.walk).toBe('https://www.google.com/maps/dir/?api=1&destination=41.256500%2C-95.934500&travelmode=walking');
+    expect(links.drive).toContain('travelmode=driving');
+    expect(links.uber).toMatch(/^https:\/\/m\.uber\.com\/ul\/\?action=setPickup&pickup=my_location&dropoff%5Blatitude%5D=41\.256500/);
+    expect(links.uber).toContain('dropoff%5Bnickname%5D=Proof+%26+Co');
+    expect(links.lyft).toBe('https://lyft.com/ride?id=lyft&destination%5Blatitude%5D=41.256500&destination%5Blongitude%5D=-95.934500');
   });
 });

@@ -44,6 +44,8 @@ export type PulseVenue = {
   mapsUrl?: string;
   /** Signed by the server: lets a member ask for this place's live reading. */
   liveToken?: string;
+  /** Signed by the server over this place's name and point: lets a member open its Google details. */
+  placeToken?: string;
 };
 
 export type PulseResult = {
@@ -143,4 +145,21 @@ export function nearestBeam(tap: { x: number; y: number }, beams: readonly BeamO
     if (!best || distance < best.distance - 2 || (Math.abs(distance - best.distance) <= 2 && beam.busyness > best.busyness)) best = { id: beam.id, distance, busyness: beam.busyness };
   }
   return best?.id ?? null;
+}
+
+/** Ways to get there from where you stand: walking and driving directions, or a ride. Every link opens the app when it's installed. */
+export function wayThere(venue: { name: string; address?: string; lat: number; lng: number }): { walk: string; drive: string; uber: string; lyft: string } {
+  const point = `${venue.lat.toFixed(6)},${venue.lng.toFixed(6)}`;
+  const directions = (mode: 'walking' | 'driving') =>
+    `https://www.google.com/maps/dir/?${new URLSearchParams({ api: '1', destination: point, travelmode: mode }).toString()}`;
+  const uber = new URLSearchParams({
+    action: 'setPickup',
+    pickup: 'my_location',
+    'dropoff[latitude]': venue.lat.toFixed(6),
+    'dropoff[longitude]': venue.lng.toFixed(6),
+    'dropoff[nickname]': venue.name.slice(0, 60),
+    ...(venue.address ? { 'dropoff[formatted_address]': venue.address.slice(0, 140) } : {}),
+  });
+  const lyft = new URLSearchParams({ id: 'lyft', 'destination[latitude]': venue.lat.toFixed(6), 'destination[longitude]': venue.lng.toFixed(6) });
+  return { walk: directions('walking'), drive: directions('driving'), uber: `https://m.uber.com/ul/?${uber.toString()}`, lyft: `https://lyft.com/ride?${lyft.toString()}` };
 }

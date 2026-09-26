@@ -58,6 +58,24 @@ export function validLiveToken(venueId: string, token: unknown, now = Date.now()
   });
 }
 
+/** What the place card may look up, exactly as the pulse returned it. */
+export type SignedPlace = { id: string; name: string; address?: string; lat: number; lng: number };
+const placeKey = (place: SignedPlace) => `place:${place.id}|${place.name}|${place.address ?? ''}|${place.lat.toFixed(5)}|${place.lng.toFixed(5)}`;
+
+/** Like the live token, over the name, address and point too, so a lookup can't be pointed at another place. */
+export function placeToken(place: SignedPlace, now = Date.now()): string {
+  return createHmac('sha256', process.env.BESTTIME_API_KEY_PRIVATE ?? '').update(`${placeKey(place)}:${utcDay(now)}`).digest('base64url').slice(0, 22);
+}
+
+export function validPlaceToken(place: SignedPlace, token: unknown, now = Date.now()): boolean {
+  if (typeof token !== 'string' || token.length !== 22 || !process.env.BESTTIME_API_KEY_PRIVATE) return false;
+  return [now, now - 24 * 60 * 60 * 1000].some((at) => {
+    const expected = Buffer.from(placeToken(place, at));
+    const given = Buffer.from(token);
+    return expected.length === given.length && timingSafeEqual(expected, given);
+  });
+}
+
 /** Ledger pool names are letters only: a member's id, hashed and spelled in letters. */
 export function memberPool(memberId: string): string {
   const hex = createHash('sha256').update(memberId).digest('hex').slice(0, 30);

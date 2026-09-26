@@ -6,7 +6,7 @@ import { withGoogleHours } from '@/lib/now/googlePlaces';
 import { executePulse } from '@/lib/now/pulseService';
 import { PULSE_MAX_RADIUS_METERS, PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
 import { requireMember } from '@/lib/platform/server/member';
-import { liveToken } from '@/lib/now/liveBusyness';
+import { liveToken, placeToken } from '@/lib/now/liveBusyness';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     const radius = typeof raw.radiusMeters === 'number' && Number.isFinite(raw.radiusMeters) ? Math.max(800, Math.min(PULSE_MAX_RADIUS_METERS, Math.round(raw.radiusMeters))) : PULSE_RADIUS_METERS;
     const result = await executePulse({ lat, lng }, what, radius);
     // Closing times BestTime didn't have come from Google Places (members only, capped daily).
-    const venues = (await withGoogleHours(result.venues)).map((venue) => ({ ...venue, liveToken: liveToken(venue.id) }));
+    const venues = (await withGoogleHours(result.venues)).map((venue) => ({ ...venue, liveToken: liveToken(venue.id), placeToken: placeToken({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng }) }));
     return NextResponse.json({ ...result, venues }, { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
