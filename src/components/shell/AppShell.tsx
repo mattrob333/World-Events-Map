@@ -27,14 +27,14 @@ const PRIMARY = [
   { href: '/access', label: 'Access' },
 ] as const;
 
-const MOBILE = [
+// Two tabs either side of the sun in the middle.
+const MOBILE_LEFT = [
   { href: '/', label: 'World', icon: 'world' },
   { href: '/circles', label: 'Circles', icon: 'circles' },
-  { href: '/people', label: 'People', icon: 'people' },
-  { href: '/access', label: 'Access', icon: 'access' },
 ] as const;
+const MOBILE_RIGHT = [{ href: '/access', label: 'Access', icon: 'access' }] as const;
 
-type TabIcon = (typeof MOBILE)[number]['icon'] | 'more';
+type TabIcon = (typeof MOBILE_LEFT)[number]['icon'] | (typeof MOBILE_RIGHT)[number]['icon'] | 'more';
 
 /** Line icons for the phone tab bar: 22px, 1.6 stroke, currentColor. */
 function TabGlyph({ name }: { name: TabIcon }) {
@@ -44,8 +44,6 @@ function TabGlyph({ name }: { name: TabIcon }) {
       return (<svg {...common}><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5S9.4 5.9 12 3.5z" /></svg>);
     case 'circles':
       return (<svg {...common}><circle cx="9" cy="12" r="5.5" /><circle cx="15" cy="12" r="5.5" /></svg>);
-    case 'people':
-      return (<svg {...common}><circle cx="12" cy="8.5" r="3.5" /><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5" /></svg>);
     case 'access':
       return (<svg {...common}><circle cx="8.5" cy="12" r="3.5" /><path d="M12 12h8.5M17.5 12v3M20.5 12v2" /></svg>);
     default:
@@ -53,9 +51,10 @@ function TabGlyph({ name }: { name: TabIcon }) {
   }
 }
 
-// Phone bottom bar only has five slots. NOW, Trips, and Profile live here
-// so they stay reachable without crowding the primary tabs.
+// Phone bottom bar only has five slots, one of them the sun. People, Now,
+// Trips, and Profile live here so they stay reachable without crowding it.
 const MORE_LINKS = [
+  { href: '/people', label: 'People', hint: 'Your travel connections' },
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
   { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
@@ -92,19 +91,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '/';
   const [mounted, setMounted] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [sunOpen, setSunOpen] = useState(false);
   const morePanelId = useId();
+  const sunPanelId = useId();
   const skip = useOnboardingStore((s) => s.skip);
 
   useEffect(() => setMounted(true), []);
-  useEffect(() => setMoreOpen(false), [pathname]);
   useEffect(() => {
-    if (!moreOpen) return;
+    setMoreOpen(false);
+    setSunOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    if (!moreOpen && !sunOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMoreOpen(false);
+      if (event.key !== 'Escape') return;
+      setMoreOpen(false);
+      setSunOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [moreOpen]);
+  }, [moreOpen, sunOpen]);
 
   const world = pathname === '/';
   // The lens invitation belongs to the front door only: on every page it pushed
@@ -163,7 +169,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
-            <SunButton />
+            {/* On phones the sun lives in the middle of the tab bar instead. */}
+            <span className="hidden lg:contents"><SunButton /></span>
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
             {isDemoMode() && <CurrentMemberChip className="hidden lg:flex" mountRoot={false} />}
@@ -244,7 +251,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         <ul className="grid grid-cols-5">
-          {MOBILE.map((item) => (
+          {MOBILE_LEFT.map((item) => (
+            <li key={item.href}>
+              <NavLink
+                href={item.href}
+                aria-current={activePath(pathname, item.href) ? 'page' : undefined}
+                className={cn(
+                  'relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium text-ink-subtle',
+                  activePath(pathname, item.href) && 'text-saffron',
+                )}
+              >
+                {activePath(pathname, item.href) ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
+                <TabGlyph name={item.icon} />
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+          <li className="relative flex justify-center">
+            {/* The sun: round, raised above the bar, the way in to vibing or planning. */}
+            <button
+              type="button"
+              className="absolute -top-5 grid h-[4.25rem] w-[4.25rem] place-items-center rounded-full bg-surface-0 shadow-[0_6px_24px_rgb(242_107_42/0.35)] ring-1 ring-white/[0.08] transition-transform active:scale-95"
+              aria-label="Vibe or plan a trip"
+              aria-expanded={sunOpen}
+              aria-controls={sunPanelId}
+              aria-haspopup="menu"
+              onClick={() => {
+                setMoreOpen(false);
+                setSunOpen((open) => !open);
+              }}
+            >
+              <SunGlyph size={56} glow />
+            </button>
+          </li>
+          {MOBILE_RIGHT.map((item) => (
             <li key={item.href}>
               <NavLink
                 href={item.href}
@@ -272,7 +312,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-controls={morePanelId}
               aria-haspopup="menu"
               aria-label="More"
-              onClick={() => setMoreOpen((open) => !open)}
+              onClick={() => {
+                setSunOpen(false);
+                setMoreOpen((open) => !open);
+              }}
             >
               {moreHref ? <span className="horizon-band absolute inset-x-5 top-0" aria-hidden /> : null}
               <TabGlyph name="more" />
@@ -318,6 +361,45 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <span className="text-[12px] text-ink-subtle">{item.hint}</span>
               </NavLink>
             ))}
+          </div>
+        </>
+      )}
+      {sunOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close"
+            className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-0 z-[45] bg-void/60 lg:hidden"
+            onClick={() => setSunOpen(false)}
+          />
+          <div
+            id={sunPanelId}
+            role="menu"
+            aria-label="Vibe or plan"
+            className="surface-raised fixed inset-x-6 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-50 mx-auto grid max-w-sm grid-cols-2 gap-2 p-2 lg:hidden"
+          >
+            <button
+              type="button"
+              role="menuitem"
+              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
+              onClick={() => {
+                setSunOpen(false);
+                setVibeOpen(true);
+              }}
+            >
+              <SunGlyph size={26} />
+              <span className="text-[15px] font-semibold text-bone">Vibe Now</span>
+              <span className="text-[12px] text-ink-subtle">Talk it out; places appear</span>
+            </button>
+            <NavLink
+              href="/trips/designer"
+              role="menuitem"
+              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
+            >
+              <span aria-hidden className="text-[22px] leading-none">🗓️</span>
+              <span className="text-[15px] font-semibold text-bone">Trip Planner</span>
+              <span className="text-[12px] text-ink-subtle">Your schedule, picks and votes</span>
+            </NavLink>
           </div>
         </>
       )}
