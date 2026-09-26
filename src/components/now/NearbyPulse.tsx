@@ -15,6 +15,8 @@ import { formatMiles } from '@/lib/units';
 import styles from './nearby-pulse.module.css';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
+/** How far the rounded search point can sit from them, so a small radius isn't lopsided. */
+const ROUNDING_SLACK_METERS = 800;
 const STREET_ZOOM = 11.4; // about five miles across a phone screen
 const EMPTY: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 /** If the street style can't load, the pulses still show on a plain dark map. */
@@ -274,12 +276,29 @@ export function NearbyPulse() {
   const located = here !== null;
   useEffect(() => {
     if (!located || !('geolocation' in navigator)) return;
-    const watch = navigator.geolocation.watchPosition(
-      (fix) => setPosition({ lat: fix.coords.latitude, lng: fix.coords.longitude }),
-      () => undefined,
-      { enableHighAccuracy: true, maximumAge: 5_000, timeout: 20_000 },
-    );
-    return () => navigator.geolocation.clearWatch(watch);
+    let watch: number | null = null;
+    const start = () => {
+      if (watch !== null || document.visibilityState !== 'visible') return;
+      watch = navigator.geolocation.watchPosition(
+        (fix) => setPosition({ lat: fix.coords.latitude, lng: fix.coords.longitude }),
+        () => undefined,
+        { enableHighAccuracy: true, maximumAge: 5_000, timeout: 20_000 },
+      );
+    };
+    // Paused while the tab is hidden, to save battery; back on when they return.
+    const toggle = () => {
+      if (document.visibilityState === 'visible') start();
+      else if (watch !== null) {
+        navigator.geolocation.clearWatch(watch);
+        watch = null;
+      }
+    };
+    start();
+    document.addEventListener('visibilitychange', toggle);
+    return () => {
+      document.removeEventListener('visibilitychange', toggle);
+      if (watch !== null) navigator.geolocation.clearWatch(watch);
+    };
   }, [located]);
 
   // Moved well away from where we searched: the map's busy places are for back there.
@@ -317,7 +336,8 @@ export function NearbyPulse() {
     const miles = Math.round(radius / 1609);
     setVenues(null);
     setSelected(null);
-    memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius }) })
+    memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
+      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
@@ -406,11 +426,20 @@ export function NearbyPulse() {
 
   const nowMinutes = now ? now.getHours() * 60 + now.getMinutes() : 0;
   // Busiest first (foot traffic is the point), nudged by their Vibe profile when they have one.
+  // Distances in the list and on the card, from where they are now (on the phone), kept to the nearest 50 m so walking doesn't re-rank every step.
+  const stepLat = position ? Math.round(position.lat * 2000) / 2000 : null;
+  const stepLng = position ? Math.round(position.lng * 2000) / 2000 : null;
+  const nearby = useMemo(() => {
+    if (!venues || stepLat === null || stepLng === null) return venues;
+    return venues.map((venue) => ({ ...venue, distanceMeters: Math.round(metersBetween({ lat: stepLat, lng: stepLng }, venue)) }));
+  }, [venues, stepLat, stepLng]);
+
   const ranked = useMemo(() => {
+    const venues = nearby;
     if (!venues?.length || !now) return [];
     const profile = active?.profile;
     return rankNowPicks(venues, { energy: 'lively', nowMinutes, signals: profile ? allSignals(profile) : [], dials: profile?.dials, limit: venues.length });
-  }, [venues, now, nowMinutes, active]);
+  }, [nearby, now, nowMinutes, active]);
   const tonight = useMemo(() => (ranked.length ? buildTonight(ranked.slice(0, 20), nowMinutes) : null), [ranked, nowMinutes]);
   const winks = useMemo(() => new Map(ranked.map((pick) => [pick.id, pick.wink])), [ranked]);
 
@@ -440,13 +469,13 @@ export function NearbyPulse() {
           </button>
         ) : null}
         {drifted && !selected ? (
-          <button type="button" className={styles.update} onClick={recenter}>You’ve moved · Update the map</button>
+          <button type="button" className={styles.update} onClick={recenter}><span className={styles.updateLong}>You’ve moved · </span>Update the map</button>
         ) : null}
         <div className={styles.top}>
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && <PlaceCard venue={position ? { ...picked, distanceMeters: Math.round(metersBetween(position, picked)) } : picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {picked && <PlaceCard venue={nearby?.find((venue) => venue.id === picked.id) ?? picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>

@@ -171,3 +171,32 @@ describe('executeNow venue cache and provider budget', () => {
     expect(result.picks.some((pick) => pick.candidate.id === 'venue-13')).toBe(false);
   });
 });
+
+describe('drinks: bars filed as restaurants', () => {
+  it('runs a second, budgeted search for them and merges without doubles', async () => {
+    resetNowVenueCacheForTests();
+    mocks.budget.mockClear();
+    mocks.search.mockReset();
+    const bar = { id: 'bar-1', name: 'Mercury', category: 'BAR', location: { lat: 41.26, lng: -95.93 } };
+    const tap = { id: 'tap-1', name: 'Omaha Tap House', category: 'RESTAURANT', location: { lat: 41.26, lng: -95.93 } };
+    mocks.search.mockImplementation(async (input: { categories: string[] }) => (input.categories[0] === 'drinks' ? [bar] : [tap, bar]));
+    const { venueCandidates } = await import('../service');
+    const venues = await venueCandidates({ location: { lat: 41.26, lng: -95.93 }, radiusMeters: 1609, intent: 'drinks', barsFiledAsRestaurants: true });
+    expect(venues.map((venue) => venue.id)).toEqual(['bar-1', 'tap-1']);
+    expect(mocks.search).toHaveBeenCalledTimes(2);
+    expect(mocks.search.mock.calls[1][0]).toMatchObject({ categories: ['drinksrestaurants'], limit: 20 });
+    expect(mocks.budget).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps the bars when the extra search is out of budget', async () => {
+    resetNowVenueCacheForTests();
+    mocks.search.mockReset();
+    mocks.budget.mockReset();
+    mocks.budget.mockResolvedValueOnce({ allowed: true, retry_after_seconds: 0, remaining: 1 }).mockRejectedValueOnce(new Error('budget'));
+    mocks.search.mockResolvedValue([{ id: 'bar-2', name: 'Proof', category: 'BAR', location: { lat: 41.26, lng: -95.93 } }]);
+    const { venueCandidates } = await import('../service');
+    const venues = await venueCandidates({ location: { lat: 41.2, lng: -95.9 }, radiusMeters: 1609, intent: 'drinks', barsFiledAsRestaurants: true });
+    expect(venues.map((venue) => venue.id)).toEqual(['bar-2']);
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+  });
+});

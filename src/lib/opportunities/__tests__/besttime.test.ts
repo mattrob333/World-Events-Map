@@ -214,3 +214,13 @@ describe('drinks includes bars filed as restaurants', () => {
     expect(drinksPlace({ category: 'BAR', name: 'Mercury' })).toBe(true);
   });
 });
+
+describe('drinks names that mean food', () => {
+  it('leaves out barbecue, sushi, oyster and salad bars', async () => {
+    const { drinksPlace } = await import('../besttime');
+    for (const name of ["Joe's Bar-B-Q", 'Sushi Bar Kaito', 'Oyster Bar', 'Salad Bar Co', "Brewster's Diner", 'Famous Dave’s BBQ Bar']) {
+      expect(drinksPlace({ category: 'RESTAURANT', name }), name).toBe(false);
+    }
+    expect(drinksPlace({ category: 'RESTAURANT', name: 'Lucky Bucket Brewpub' })).toBe(true);
+  });
+});

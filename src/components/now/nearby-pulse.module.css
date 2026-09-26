@@ -140,9 +140,13 @@
 }
 .locate:active { transform: scale(0.95); }
 .locateLifted { bottom: calc(58% + 22px); }
+/* Desktop: the card is a side panel, so the button stays put. */
+@media (min-width: 720px) { .locateLifted { bottom: 16px; } }
 .update {
   position: absolute; left: 50%; bottom: 20px; z-index: 4; transform: translateX(-50%);
   min-height: 44px; padding: 0 16px; border-radius: 999px; white-space: nowrap;
   background: #f7c548; color: #111; font-size: 14px; font-weight: 700; box-shadow: var(--shadow-soft-2);
 }
+/* Narrow phones: short text, kept clear of the locate button. */
+@media (max-width: 400px) { .updateLong { display: none; } .update { left: 16px; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .locate { transition: none; } }
