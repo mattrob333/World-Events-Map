@@ -18,6 +18,7 @@ import { useVoiceStore } from '@/lib/voice/registry';
 import { ProfileSwitcher } from './ProfileSwitcher';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { ResumeTrip } from './ResumeTrip';
+import { AccountMenu } from './AccountMenu';
 
 const PRIMARY = [
   { href: '/', label: 'World' },
@@ -120,7 +121,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // The vibe is the way in: prompt until there's a profile, unless they said not now.
   const showVibePrompt = mounted && world && !hasProfile && !skipped;
   const moreHref = currentMoreHref(pathname);
-  const profileCurrent = activePath(pathname, PROFILE_HREF);
   const auth = usePlatformAuth();
   // "Log in" only where membership is connected and nobody is signed in yet.
   const showLogin = mounted && Boolean(auth.client) && !auth.loading && !auth.user;
@@ -185,24 +185,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               Now
             </NavLink>
             <ProfileSwitcher className="hidden lg:block" />
-            <NavLink
-              href={PROFILE_HREF}
-              aria-current={profileCurrent ? 'page' : undefined}
-              className={cn(
-                'inline-flex min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone',
-                profileCurrent && 'bg-surface-3 text-bone shadow-soft-1',
-              )}
-            >
-              Profile
-            </NavLink>
-            {showLogin && (
-              <NavLink
-                href={`/login?next=${encodeURIComponent(pathname)}`}
-                className="hidden min-h-11 items-center rounded-full bg-surface-2 px-3.5 text-[13px] font-semibold text-bone shadow-soft-1 hover:bg-surface-3 sm:inline-flex"
-              >
-                Log in
-              </NavLink>
-            )}
+            {/* Signed in: their avatar and a menu. Signed out: Log in. */}
+            <AccountMenu />
           </div>
         </div>
       </header>

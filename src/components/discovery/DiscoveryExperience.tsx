@@ -464,14 +464,21 @@ export function DiscoveryExperience() {
           {spotlight ? (
             <>
               <EventPhoto key={spotlight.id} eventId={spotlight.id} className={styles.spotlightPhoto} />
-              <div className={styles.place}>
-                {spotlight.city}
-                <span>
-                  {spotlight.country} / {spotlight.category}
-                </span>
-              </div>
-              <h2>{spotlight.name}</h2>
-              <p>{spotlight.tagline}</p>
+              {storyFocus ? (
+                // The heading above already names the city and the event: the card adds what's new.
+                <p className={styles.storyMeta}>{spotlight.country} · {spotlight.category}</p>
+              ) : (
+                <>
+                  <div className={styles.place}>
+                    {spotlight.city}
+                    <span>
+                      {spotlight.country} / {spotlight.category}
+                    </span>
+                  </div>
+                  <h2>{spotlight.name}</h2>
+                </>
+              )}
+              <p className={storyFocus ? styles.storyTagline : undefined}>{spotlight.tagline}</p>
               <div className={styles.sceneDates}>
                 {storyFocus
                   ? formatDateRange(spotlight.start, spotlight.end)
