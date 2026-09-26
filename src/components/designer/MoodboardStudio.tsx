@@ -513,7 +513,7 @@ export function MoodboardStudio({
               {error ? <p className={styles.error} role="alert">{error}</p> : null}
               <p className={styles.hint}>
                 Your browser turns speech into text (Chrome uses Google’s speech service). The text goes to our AI provider (Anthropic)
-                to be sorted into your traveler profile. dope.travel doesn’t store it, and your profile is saved on this device only.
+                to be sorted into your traveler profile. dope.travel doesn’t store it. Your profile is saved on this device (and to your account if you turn that on in Settings).
               </p>
             </div>
           </section>

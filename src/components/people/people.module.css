@@ -1,0 +1,75 @@
+.page { padding: 2.5rem 1rem 6rem; max-width: 72rem; margin: 0 auto; }
+@media (min-width: 640px) { .page { padding: 2.5rem 2rem 6rem; } }
+.lede { margin-top: 0.75rem; max-width: 38rem; color: var(--color-ink-soft); font-size: 1rem; line-height: 1.55; }
+.section { margin-top: 3rem; }
+.sectionHead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem; margin-bottom: 1rem; }
+.sectionHead h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; color: var(--color-bone); }
+.kicker { color: var(--color-saffron); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+
+/* The card: a boarding pass for a person. */
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: 1rem;
+  max-width: 34rem;
+  padding: 1.5rem;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgb(247 197 72 / 0.28), transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgb(255 95 143 / 0.18), transparent 50%),
+    var(--color-surface-2);
+  box-shadow: var(--shadow-soft-3);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -60% auto;
+  z-index: -1;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #f7c548 0%, #ff8a4c 55%, #ff5f8f 100%);
+  opacity: 0.12;
+}
+.cardTop { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.cardBrand { color: var(--color-ink-subtle); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+.cardName { font-family: var(--font-display); font-size: clamp(2.25rem, 7vw, 3rem); line-height: 1; color: var(--color-bone); }
+.cardHome { margin-top: 0.35rem; color: var(--color-ink-soft); font-size: 0.9375rem; }
+.row { display: grid; gap: 0.4rem; }
+.rowLabel { color: var(--color-brass); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chip { padding: 0.3rem 0.7rem; border-radius: 999px; background: rgb(255 255 255 / 0.06); color: var(--color-bone); font-size: 0.8125rem; }
+.chipShared { background: rgb(247 197 72 / 0.18); color: var(--color-saffron); font-weight: 600; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.note { margin-top: 0.75rem; max-width: 34rem; color: var(--color-ink-subtle); font-size: 0.75rem; line-height: 1.5; }
+
+.grid { display: grid; gap: 0.75rem; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.person {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 20px;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-soft-1);
+}
+.personTop { display: flex; align-items: center; gap: 0.75rem; }
+.monogram {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #f7c548 0%, #ff8a4c 55%, #ff5f8f 100%);
+  color: #16120a;
+  font-weight: 700;
+}
+.personName { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.1; color: var(--color-bone); }
+.personMeta { color: var(--color-ink-muted); font-size: 0.8125rem; }
+.personActions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.empty { padding: 1.25rem; border-radius: 20px; border: 1px dashed rgb(255 255 255 / 0.14); color: var(--color-ink-soft); font-size: 0.9375rem; line-height: 1.5; }

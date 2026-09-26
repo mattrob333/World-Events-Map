@@ -73,6 +73,14 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       keywords: haystack('trips', 'my trips', 'saved', 'watched'),
     },
     {
+      id: 'page-people',
+      group: 'pages',
+      title: 'Your people',
+      subtitle: 'Your travel card, and the cards you’ve saved',
+      href: '/people',
+      keywords: haystack('people', 'friends', 'crew', 'travel card', 'share'),
+    },
+    {
       id: 'page-settings',
       group: 'pages',
       title: 'Settings',

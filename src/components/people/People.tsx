@@ -13,11 +13,11 @@ import { useEffect } from 'react';
 
 export function PeopleDirectory() {
   return (
-    <main className="px-4 py-10 sm:px-8">
-      <p className="eyebrow">People</p>
-      <h1 className="mt-3 font-display text-5xl text-ink">Travelers</h1>
+    <section className="mx-auto max-w-[72rem] px-4 pb-16 sm:px-8" aria-labelledby="example-travelers">
+      <p className="eyebrow">Examples</p>
+      <h2 id="example-travelers" className="mt-3 font-display text-4xl text-ink">Example travelers</h2>
       <p className="mt-3 max-w-xl text-[15px] leading-6 text-ink-muted">
-        Profiles are travel identity, not account settings. Public traveler profiles are not open yet. Profiles are private by default and discovery is opt-in.
+        What a traveler portrait could look like. Public traveler profiles are not open yet; when they are, they’ll be private by default and discovery will be opt-in.
       </p>
       <p role="note" className="notice mt-5 max-w-3xl">{TRAVELER_FIXTURE_DISCLOSURE}</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,7 +52,7 @@ export function PeopleDirectory() {
         </Link>
 .
       </p>
-    </main>
+    </section>
   );
 }
 

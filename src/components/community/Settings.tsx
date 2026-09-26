@@ -31,6 +31,7 @@ export function Settings() {
             <Link href="/vibe" className={styles.button}>Open traveler profile</Link>
             {user ? <Link href="/account" className={`${styles.button} ${styles.secondary}`}>Member introduction and travel modes</Link> : null}
           </div>
+          {user ? <AccountSync /> : <p className={styles.small}>Sign in to keep your traveler profiles with your account, on every device.</p>}
         </section>
         <DeviceData />
       </div>
@@ -125,6 +126,72 @@ function ProfileBasics() {
   );
 }
 
+/**
+ * Keep traveler profiles in the account: opt-in, per device. On uploads this
+ * device's profiles (or, when they belong to another account, replaces them
+ * with this account's). Off stops saving first, then deletes the account copy.
+ */
+function AccountSync() {
+  const { client, user } = usePlatformAuth();
+  const hydrated = useHydrated();
+  const on = useDesignerStore((state) => state.accountSync);
+  const owner = useDesignerStore((state) => state.syncOwner);
+  const names = useDesignerStore((state) => state.profiles.map((entry) => entry.label ?? entry.profile.name ?? 'Unnamed').slice(0, 4));
+  const count = useDesignerStore((state) => state.profiles.length);
+  const status = useDesignerStore((state) => state.syncStatus);
+  const setAccountSync = useDesignerStore((state) => state.setAccountSync);
+  const applySyncedProfiles = useDesignerStore((state) => state.applySyncedProfiles);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
+  if (!hydrated || !user) return null;
+  const foreign = Boolean(owner && owner !== user.id);
+  const active = on && owner === user.id;
+
+  async function turnOn() {
+    if (!user) return;
+    if (foreign) {
+      // These belong to someone else's account: they're never uploaded here.
+      applySyncedProfiles([]);
+    }
+    setAccountSync(true, user.id);
+    setMessage(foreign ? 'This device now shows your account’s traveler profiles.' : 'Your traveler profiles are saving to your account.');
+  }
+
+  async function turnOff() {
+    if (!client || !user) return;
+    setMessage('');
+    setBusy(true);
+    // Stop saving first, so nothing in flight re-creates what's being deleted.
+    setAccountSync(false);
+    const { error } = await client.from('traveler_profiles').delete().eq('user_id', user.id);
+    setBusy(false);
+    if (error) {
+      setAccountSync(true, user.id);
+      setMessage('That didn’t go through, so account saving is still on. Check your connection and try again.');
+      return;
+    }
+    setMessage('Removed from your account. They stay on this device.');
+  }
+
+  return (
+    <div className={styles.stack}>
+      <label className={styles.check}>
+        <input type="checkbox" checked={active} disabled={busy} onChange={(event) => void (event.target.checked ? turnOn() : turnOff())} />
+        Keep my traveler profiles in my account
+      </label>
+      <p className={styles.small}>
+        {foreign
+          ? 'The traveler profiles on this device were saved by a different account. Turning this on removes them from this device and shows yours instead; theirs are never added to your account.'
+          : active
+            ? 'On: your profiles (including names and ages you mention, tastes, music summary and travel style) are saved to your account so they follow you to any device. Only you can see them. Off removes them from your account; this device keeps its copy.'
+            : `Off: your profiles live on this device only. Turn this on to save ${count ? `the ${count} on this device (${names.join(', ')}${count > names.length ? '…' : ''})` : 'them'} to your account, where only you can see them, so they follow you to any device.`}
+      </p>
+      {active && status === 'error' ? <p role="alert" className={`${styles.notice} ${styles.error}`}>Couldn’t save to your account just now. It will try again when you’re back online.</p> : null}
+      {message ? <p role="status" className={styles.notice}>{message}</p> : null}
+    </div>
+  );
+}
+
 function DeviceData() {
   const hydrated = useHydrated();
   const clearAll = useDesignerStore((state) => state.clearAll);
@@ -144,12 +211,13 @@ function DeviceData() {
     <section className={styles.card} aria-labelledby="settings-device">
       <h2 id="settings-device">Data on this device</h2>
       <p className={styles.muted}>
-        {hydrated ? `${profiles} traveler profile${profiles === 1 ? '' : 's'} and ${trips} trip${trips === 1 ? '' : 's'} are saved in this browser only.` : 'Profiles and trips are saved in this browser only.'}
+        {hydrated ? `${profiles} traveler profile${profiles === 1 ? '' : 's'} and ${trips} trip${trips === 1 ? '' : 's'} are saved in this browser.` : 'Profiles and trips are saved in this browser.'}
+        {' '}Clearing them here doesn’t touch a copy in your account; it turns account saving off on this device.
       </p>
       {confirming ? (
         <div role="alertdialog" aria-labelledby="settings-clear-title" className={styles.stack}>
           <p id="settings-clear-title" className={styles.muted}>
-            Delete your trips, votes, traveler profiles and cached research from this browser? Links you already sent keep working for the people who have them.
+            Delete your trips, votes, traveler profiles and cached research from this browser? Your account’s copy (if you keep one) stays; turn it off above to remove it. Links you already sent keep working for the people who have them.
           </p>
           <div className={styles.row}>
             <button type="button" className={`${styles.button} ${styles.secondary}`} onClick={clear}>Delete everything</button>

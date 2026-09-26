@@ -149,6 +149,25 @@ describe('clearing the device (K13)', () => {
     expect(storage.getItem('meridian.designer.v1')).not.toContain('Tokyo');
   });
 
+  it('clearAll turns account saving off in the same update, so the cleared profiles are never pushed as deletions', () => {
+    const seen: boolean[] = [];
+    useDesignerStore.getState().setAccountSync(true, 'user-a');
+    const off = useDesignerStore.subscribe((state, previous) => {
+      if (state.profiles !== previous.profiles) seen.push(state.accountSync);
+    });
+    useDesignerStore.getState().saveProfile({ id: 'mb-x', profile: { heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '' }, engine: 'on-device', updatedAt: new Date().toISOString() });
+    useDesignerStore.getState().clearAll();
+    off();
+    // The save was seen with sync on; the clear only ever with sync already off.
+    expect(seen).toEqual([true, false]);
+    expect(useDesignerStore.getState().syncOwner).toBeNull();
+  });
+
+  it('account saving starts off', () => {
+    useDesignerStore.getState().clearAll();
+    expect(useDesignerStore.getState().accountSync).toBe(false);
+  });
+
   it('ranks v2 { savedAt } entries by age, so a fresh place is not evicted first (retest N3)', () => {
     const at = (minutes: number) => new Date(Date.UTC(2026, 8, 24, 0, minutes)).toISOString();
     for (let i = 0; i < 10; i += 1) storage.setItem(`${RESEARCH_PREFIX}v1-${i}`, JSON.stringify({ generatedAt: at(i) }));

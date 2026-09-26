@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 const CurrentMemberChip = dynamic(() => import('@/components/social/CurrentMemberChip').then((m) => m.CurrentMemberChip), { ssr: false });
 const SocialRoot = dynamic(() => import('@/components/social/MemberProfileSheet').then((m) => m.SocialRoot), { ssr: false });
 import { CommandPalette, SearchTrigger } from './CommandPalette';
+import { ProfileSync } from './ProfileSync';
 import { SunButton, SunGlyph, SunModal } from '@/components/voice/SunModal';
 import { useDesignerStore } from '@/lib/designer/store';
 import { useVoiceStore } from '@/lib/voice/registry';
@@ -55,7 +56,7 @@ function TabGlyph({ name }: { name: TabIcon }) {
 // Phone bottom bar only has five slots, one of them the sun. People, Now,
 // Trips, and Profile live here so they stay reachable without crowding it.
 const MORE_LINKS = [
-  { href: '/people', label: 'People', hint: 'Example traveler portraits' },
+  { href: '/people', label: 'People', hint: 'Your travel card and your crew' },
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
   { href: '/trips', label: 'Trips', hint: 'The trips you started, and places you kept' },
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
@@ -400,6 +401,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
       <CommandPalette />
       <SunModal />
+      <ProfileSync />
     </div>
   );
 }

@@ -1107,7 +1107,7 @@ function VibeStage() {
             : mode === 'now'
               ? 'To check foot traffic, dope.travel sends BestTime a point rounded to about a kilometer (or the place you named), keeps none of it, and ranks the results on this device.'
               : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
-              ? 'Your text goes to our AI provider (Anthropic) to be sorted into your Vibe profile. dope.travel doesn’t store it; the profile, and what you said, are saved on this device.'
+              ? 'Your text goes to our AI provider (Anthropic) to be sorted into your Vibe profile. dope.travel doesn’t store it; the profile is saved on this device (and to your account if you turn that on in Settings).'
               : 'dope.travel reads the text to work out where you mean (and may ask a decision model), keeps none of it, and saves the trip on this device.'}`}
         </p>
       </div>

@@ -47,6 +47,16 @@ interface DesignerState {
   setDraftListening: (listening: ListeningProfile | null) => void;
   saveProfile: (profile: SavedProfile) => void;
   removeProfile: (id: string) => void;
+  /** Keep traveler profiles in the account too. Opt-in (Settings), per device. */
+  accountSync: boolean;
+  /** The account this device's profiles belong to once synced; another account never receives them. */
+  syncOwner: string | null;
+  setAccountSync: (on: boolean, owner?: string | null) => void;
+  /** In memory only: how the last account save went, for Settings to show. */
+  syncStatus: 'idle' | 'syncing' | 'saved' | 'error';
+  setSyncStatus: (status: 'idle' | 'syncing' | 'saved' | 'error') => void;
+  /** The profiles after merging with the account copy; the chosen one stays chosen when it still exists. */
+  applySyncedProfiles: (profiles: SavedProfile[]) => void;
   setTrip: (trip: Itinerary) => void;
   /**
    * Opens a shared trip on this device, keeping everyone's votes so far. A
@@ -105,6 +115,16 @@ export const useDesignerStore = create<DesignerState>()(
       mergeUndo: null,
       draftRamble: '',
       draftListening: null,
+      accountSync: false,
+      syncOwner: null,
+      setAccountSync: (accountSync, owner) => set(accountSync ? { accountSync, syncOwner: owner ?? null } : { accountSync, syncStatus: 'idle' }),
+      syncStatus: 'idle',
+      setSyncStatus: (syncStatus) => set({ syncStatus }),
+      applySyncedProfiles: (profiles) =>
+        set((state) => ({
+          profiles: profiles.slice(0, 12),
+          activeProfileId: state.activeProfileId && profiles.some((entry) => entry.id === state.activeProfileId) ? state.activeProfileId : null,
+        })),
       setDraftRamble: (draftRamble) => set({ draftRamble }),
       setDraftListening: (draftListening) => set({ draftListening }),
       saveProfile: (profile) =>
@@ -121,12 +141,12 @@ export const useDesignerStore = create<DesignerState>()(
       setActiveProfile: (id) => set((state) => (state.profiles.some((entry) => entry.id === id) ? { activeProfileId: id } : {})),
       renameProfile: (id, label) =>
         set((state) => ({
-          profiles: state.profiles.map((entry) => (entry.id === id ? { ...entry, label: label.replace(/\s+/g, ' ').trim().slice(0, 24) || undefined } : entry)),
+          profiles: state.profiles.map((entry) => (entry.id === id ? { ...entry, label: label.replace(/\s+/g, ' ').trim().slice(0, 24) || undefined, updatedAt: new Date().toISOString() } : entry)),
         })),
       updateSignals: (id, signals, dials) =>
         set((state) => ({
           profiles: state.profiles.map((entry) => (entry.id === id
-            ? { ...entry, profile: { ...entry.profile, signals: mergeSignals(entry.profile.signals ?? [], signals), ...(dials ? { dials } : {}) } }
+            ? { ...entry, updatedAt: new Date().toISOString(), profile: { ...entry.profile, signals: mergeSignals(entry.profile.signals ?? [], signals), ...(dials ? { dials } : {}) } }
             : entry)),
         })),
       setTrip: (trip) => set({ trip, votes: {}, activeParticipant: trip.participants[0]?.id ?? null, joinedAs: null, lastMergedAt: {}, mergeUndo: null }),
@@ -231,8 +251,13 @@ export const useDesignerStore = create<DesignerState>()(
         });
       },
       pickCard: (slotId, cardId) => get().moveCard(cardId, slotId, slotId, 0),
+      // Device only: account saving goes off in the same update, so the cleared
+      // profiles are never read as deletions and removed from the account.
       clearAll: () =>
         set({
+          accountSync: false,
+          syncOwner: null,
+          syncStatus: 'idle',
           profiles: [],
           activeProfileId: null,
           trip: null,
@@ -273,6 +298,8 @@ export const useDesignerStore = create<DesignerState>()(
         lastMergedAt: state.lastMergedAt,
         draftRamble: state.draftRamble,
         draftListening: state.draftListening,
+        accountSync: state.accountSync,
+        syncOwner: state.syncOwner,
       }),
     },
   ),

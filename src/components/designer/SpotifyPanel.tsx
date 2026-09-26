@@ -142,7 +142,7 @@ export function SpotifyPanel({
           </p>
         ) : null}
         <p className={styles.hint}>
-          Read once, with read-only access, and summarized on this device. dope.travel never stores your Spotify login, and only this summary is saved, on this device only.
+          Read once, with read-only access, and summarized on this device. dope.travel never stores your Spotify login, and only this summary is saved: on this device, and with your traveler profile in your account if you turn that on in Settings.
         </p>
       </section>
     );

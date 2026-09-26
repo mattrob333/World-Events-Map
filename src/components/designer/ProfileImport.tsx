@@ -75,8 +75,8 @@ export function ProfileImport() {
             </h1>
             <p className={styles.lede}>
               {savedId
-                ? 'Your profile is saved on this device only. Plan a trip with it, or find it any time under Profiles on this device in Vibe profile.'
-                : 'Check it over. Your AI built this link through dope.travel, which didn’t keep a copy; the profile rides in the link itself. Saving keeps it on this device only.'}
+                ? 'Your profile is saved on this device (and to your account if you turn that on in Settings). Plan a trip with it, or find it any time under Profiles on this device in Vibe profile.'
+                : 'Check it over. Your AI built this link through dope.travel, which didn’t keep a copy; the profile rides in the link itself. Saving keeps it on this device (and in your account if you turn that on in Settings).'}
             </p>
             <div className={`${styles.row} mt-6`} aria-live="polite">
               {savedId ? (
