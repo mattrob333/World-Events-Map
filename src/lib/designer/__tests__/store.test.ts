@@ -311,3 +311,59 @@ describe('account saving stamps and merges (migration 010)', () => {
     expect([state.accountSync, state.syncOwner]).toEqual([true, 'user-b']);
   });
 });
+
+describe('a second device signing in (review blocker)', () => {
+  it('takes the account’s groups and open trip without overwriting or deleting them', async () => {
+    const { localItems, mergeItems, stateFromItems, knownAfterApply, pendingItems, toRemoteState } = await import('@/lib/travelers/stateSync');
+    const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+    const saved = [
+      { id: 'mb-2', profile: profile('Jen'), engine: 'on-device' as const, updatedAt: '2026-09-20T00:00:00.000Z' },
+      { id: 'mb-1', profile: profile('Matt'), engine: 'on-device' as const, updatedAt: '2026-09-19T00:00:00.000Z' },
+    ];
+    // Device A: two travelers, Family with both, a trip with a vote.
+    let store = useDesignerStore.getState();
+    store.applySyncedProfiles(saved);
+    const family = useDesignerStore.getState().groups.find((group) => group.kind === 'family')!;
+    useDesignerStore.getState().toggleGroupMember(family.id, 'mb-2');
+    const tokyo = trip('Tokyo');
+    useDesignerStore.getState().setTrip(tokyo);
+    const slot = tokyo.days[1].slots[0];
+    useDesignerStore.getState().vote(slot.id, slot.cardIds[0], 'p0', 1);
+    const account = localItems(useDesignerStore.getState()).map(toRemoteState);
+
+    // Device B: fresh, signs in; profiles merge first, then state.
+    useDesignerStore.getState().clearAll();
+    store = useDesignerStore.getState();
+    store.applySyncedProfiles(saved);
+    const merged = mergeItems(localItems(useDesignerStore.getState()), account);
+    useDesignerStore.getState().applySyncedState(stateFromItems(merged.items));
+    const after = useDesignerStore.getState();
+    expect(after.groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['mb-1', 'mb-2']);
+    expect(after.trip?.id).toBe(tokyo.id);
+    expect(after.votes[slot.id][slot.cardIds[0]]).toEqual({ p0: 1 });
+
+    // Nothing of A's is pushed back over it, and nothing is tombstoned.
+    const known = knownAfterApply(localItems(after), merged);
+    const pending = pendingItems(localItems(after), known);
+    expect(pending.removed).toEqual([]);
+    expect(pending.changed.map((item) => `${item.kind}:${item.id}`)).not.toContain('group:grp-family');
+    expect(pending.changed.map((item) => item.kind)).not.toContain('you');
+    expect(pending.changed.map((item) => item.kind)).not.toContain('trip');
+  });
+
+  it('never tombstones account rows the device couldn’t keep', async () => {
+    const { knownAfterApply, pendingItems, localItems } = await import('@/lib/travelers/stateSync');
+    const merged = { items: [{ kind: 'group' as const, id: 'grp-unreadable', data: null, updatedAt: '2026-09-20T00:00:00.000Z' }, { kind: 'trip' as const, id: 'old-trip', data: {}, updatedAt: '2026-09-20T00:00:00.000Z' }], push: [] };
+    const known = knownAfterApply(localItems(useDesignerStore.getState()), merged);
+    expect(pendingItems(localItems(useDesignerStore.getState()), known).removed).toEqual([]);
+  });
+});
+
+describe('claiming the device on "Not now"', () => {
+  it('records the first account only, and turns nothing on', () => {
+    useDesignerStore.getState().claimDevice('user-a');
+    useDesignerStore.getState().claimDevice('user-b');
+    const state = useDesignerStore.getState();
+    expect([state.syncOwner, state.accountSync]).toEqual(['user-a', false]);
+  });
+});

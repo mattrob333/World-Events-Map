@@ -28,10 +28,13 @@ const nextConfig: NextConfig = {
         { source: '/partners', destination: '/', permanent: false },
         { source: '/partners/:path*', destination: '/', permanent: false },
       ]),
-      // The directory goes; circle rooms (/circles/<id>) stay, since shared trips use them.
+      // The directory and the sample trip rooms (/circles/<id> only ever shows samples) go.
+      // Real Circles live at /community?circle=<id>, which stays so invites still open.
       ...(circles ? [] : [
         { source: '/circles', destination: '/trips', permanent: false },
-        { source: '/community', destination: '/trips', permanent: false },
+        { source: '/circles/:id', destination: '/trips', permanent: false },
+        // A real Circle's invite (/community?circle=<id>) still opens: only the bare directory goes.
+        { source: '/community', missing: [{ type: 'query' as const, key: 'circle' }], destination: '/trips', permanent: false },
       ]),
     ];
   },

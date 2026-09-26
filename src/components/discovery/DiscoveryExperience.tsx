@@ -14,7 +14,7 @@ import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import { useChromeStore } from '@/lib/stores/useChromeStore';
 import { useCommandStore } from '@/components/shell/commandStore';
 import { useFilterStore } from '@/lib/stores/useFilterStore';
-import { isDemoMode } from '@/lib/flags';
+import { FEATURES, isDemoMode } from '@/lib/flags';
 import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
 import styles from './discovery.module.css';
 import { LivingDashboard } from './LivingDashboard';
@@ -533,12 +533,18 @@ export function DiscoveryExperience() {
                 <Link className={`btn btn-primary ${styles.primary}`} href={destinationHref(spotlight.id)}>
                   Open {spotlight.city} <span>↗</span>
                 </Link>
-                <Link
-                  className={styles.textLink}
-                  href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
-                >
-                  Start a Circle here →
-                </Link>
+                {FEATURES.circles ? (
+                  <Link
+                    className={styles.textLink}
+                    href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
+                  >
+                    Start a Circle here →
+                  </Link>
+                ) : (
+                  <Link className={styles.textLink} href={`/trips/designer?${new URLSearchParams({ place: spotlight.city, ...(spotlight.country ? { region: spotlight.country } : {}) }).toString()}`}>
+                    Plan a trip here →
+                  </Link>
+                )}
               </div>
             </>
           ) : (
@@ -623,11 +629,14 @@ export function DiscoveryExperience() {
                 : 'No matching events. Change your dates or search to explore more of the calendar.'}
             </p>
           )}
-          <LivePulse
-            key={`${spotlight?.id}:${planMode}:${modeActive}`}
-            eventId={spotlight?.id}
-            planning={planMode || modeActive}
-          />
+          {/* Partner offers are part of Access: shelved (and not polled) unless its flag is on. */}
+          {FEATURES.access ? (
+            <LivePulse
+              key={`${spotlight?.id}:${planMode}:${modeActive}`}
+              eventId={spotlight?.id}
+              planning={planMode || modeActive}
+            />
+          ) : null}
         </aside>
 
         <div className={styles.worldStats}>
@@ -727,7 +736,7 @@ export function DiscoveryExperience() {
           organizers.
           {isDemoMode() && ' Member activity is simulated for this preview.'}
         </p>
-        <Link href="/partners">Partner with us ↗</Link>
+        {FEATURES.access ? <Link href="/partners">Partner with us ↗</Link> : null}
       </footer>
       {selected && <EventDossier />}
       <HoverReadout />

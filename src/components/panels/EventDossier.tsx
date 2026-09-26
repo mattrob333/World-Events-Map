@@ -201,14 +201,23 @@ export function EventDossier({ className }: EventDossierProps) {
                   Find access & stays ↗
                 </Link>
               )}
-              <Link
-                className="btn btn-ghost px-3"
-                href={destination
-                  ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
-                  : `/circles?event=${encodeURIComponent(event.id)}`}
-              >
-                Find a circle ↗
-              </Link>
+              {FEATURES.circles ? (
+                <Link
+                  className="btn btn-ghost px-3"
+                  href={destination
+                    ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
+                    : `/circles?event=${encodeURIComponent(event.id)}`}
+                >
+                  Find a circle ↗
+                </Link>
+              ) : (
+                <Link
+                  className="btn btn-ghost px-3"
+                  href={`/trips/designer?${new URLSearchParams({ place: event.city, ...(event.country ? { region: event.country } : {}) }).toString()}`}
+                >
+                  Plan a trip ↗
+                </Link>
+              )}
             </div>
             <EventSaveButton eventId={event.id} label={event.name} />
             <VenueMap event={event} />

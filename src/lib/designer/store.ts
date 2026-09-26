@@ -37,6 +37,7 @@ interface DesignerState {
   /** The group trips are planned for ("Traveling as"). */
   activeGroupId: string | null;
   setActiveGroup: (id: string) => void;
+  /** The new group's id, or '' when there are already as many groups as fit. */
   addGroup: (name: string, kind?: GroupKind, memberIds?: string[]) => string;
   renameGroup: (id: string, name: string) => void;
   removeGroup: (id: string) => void;
@@ -53,6 +54,8 @@ interface DesignerState {
   applySyncedState: (next: SyncedState) => void;
   /** Signing in with account saving, on a device another account used: its travelers, groups and trips leave this device first. */
   resetForAccount: (owner: string) => void;
+  /** Records which account this device's data belongs to, without saving anything to it. */
+  claimDevice: (owner: string) => void;
   /** The travel profile in use ("Traveling as"); null means the newest one. */
   activeProfileId: string | null;
   setActiveProfile: (id: string) => void;
@@ -132,6 +135,15 @@ function withSlots(trip: Itinerary, slots: Record<string, string[]>): Itinerary 
  * this store is the "pass the phone" version and says so in the UI.
  */
 let applyingRemote = false;
+/** Runs a store update that must not stamp anything as changed here (clearing the device, adopting an account). */
+function quietly(update: () => void) {
+  applyingRemote = true;
+  try {
+    update();
+  } finally {
+    applyingRemote = false;
+  }
+}
 
 export const useDesignerStore = create<DesignerState>()(
   persist(
@@ -175,8 +187,9 @@ export const useDesignerStore = create<DesignerState>()(
           applyingRemote = false;
         }
       },
+      claimDevice: (owner) => set((state) => (state.syncOwner ? {} : { syncOwner: owner })),
       resetForAccount: (owner) =>
-        set({
+        quietly(() => set({
           accountSync: true,
           syncOwner: owner,
           syncStatus: 'idle',
@@ -197,7 +210,7 @@ export const useDesignerStore = create<DesignerState>()(
           tripUpdatedAt: null,
           previousTripUpdatedAt: null,
           youUpdatedAt: null,
-        }),
+        })),
       setMe: (id) =>
         set((state) => {
           if (!state.profiles.some((entry) => entry.id === id)) return {};
@@ -205,7 +218,7 @@ export const useDesignerStore = create<DesignerState>()(
           // The new you leads Solo, Family and Friends.
           const at = new Date().toISOString();
           const groups = state.groups.map((group) => (group.kind === 'custom' ? group : { ...group, memberIds: [id, ...group.memberIds.filter((m) => m !== id && m !== state.meId)], updatedAt: at }));
-          return { meId: id, groups: ensureDefaultGroups(groups, id, ids) };
+          return { meId: id, groups: ensureDefaultGroups(groups, id, ids), youUpdatedAt: at };
         }),
       setActiveGroup: (id) =>
         set((state) => {
@@ -216,8 +229,9 @@ export const useDesignerStore = create<DesignerState>()(
           return { activeGroupId: id, ...(lead ? { activeProfileId: lead } : {}) };
         }),
       addGroup: (name, kind = 'custom', memberIds = []) => {
+        if (get().groups.length >= MAX_GROUPS) return '';
         const group = newGroup(name, kind, memberIds.filter((id) => get().profiles.some((entry) => entry.id === id)));
-        set((state) => ({ groups: [...state.groups, group].slice(0, MAX_GROUPS) }));
+        set((state) => ({ groups: [...state.groups, group] }));
         return group.id;
       },
       renameGroup: (id, name) =>
@@ -263,8 +277,10 @@ export const useDesignerStore = create<DesignerState>()(
       setAccountSync: (accountSync, owner) => set(accountSync ? { accountSync, syncOwner: owner ?? null } : { accountSync, syncStatus: 'idle' }),
       syncStatus: 'idle',
       setSyncStatus: (syncStatus) => set({ syncStatus }),
-      applySyncedProfiles: (profiles) =>
-        set((state) => {
+      applySyncedProfiles: (profiles) => {
+        applyingRemote = true;
+        try {
+          set((state) => {
           const kept = profiles.slice(0, 12);
           const ids = kept.map((entry) => entry.id);
           const meId = state.meId && ids.includes(state.meId) ? state.meId : (kept[kept.length - 1]?.id ?? null);
@@ -274,7 +290,11 @@ export const useDesignerStore = create<DesignerState>()(
             meId,
             groups: ensureDefaultGroups(state.groups, meId, ids),
           };
-        }),
+          });
+        } finally {
+          applyingRemote = false;
+        }
+      },
       setDraftRamble: (draftRamble) => set({ draftRamble }),
       setDraftListening: (draftListening) => set({ draftListening }),
       saveProfile: (profile) =>
@@ -415,7 +435,7 @@ export const useDesignerStore = create<DesignerState>()(
       // Device only: account saving goes off in the same update, so the cleared
       // profiles are never read as deletions and removed from the account.
       clearAll: () =>
-        set({
+        quietly(() => set({
           accountSync: false,
           syncOwner: null,
           syncStatus: 'idle',
@@ -436,7 +456,7 @@ export const useDesignerStore = create<DesignerState>()(
           tripUpdatedAt: null,
           previousTripUpdatedAt: null,
           youUpdatedAt: null,
-        }),
+        })),
     }),
     {
       name: 'meridian.designer.v1',
@@ -496,7 +516,9 @@ useDesignerStore.subscribe((state, prev) => {
     patch.tripUpdatedAt = state.trip ? now : null;
   }
   if (state.previousTrip !== prev.previousTrip) patch.previousTripUpdatedAt = state.previousTrip ? now : null;
-  if (state.meId !== prev.meId || state.trip?.id !== prev.trip?.id || state.previousTrip?.trip.id !== prev.previousTrip?.trip.id) patch.youUpdatedAt = now;
+  // "You" is stamped by trips opening or closing here, and by setMe itself; a meId filled in by
+  // default (first profile, a merge) isn't a choice and mustn't outrank the account's.
+  if (state.trip?.id !== prev.trip?.id || state.previousTrip?.trip.id !== prev.previousTrip?.trip.id) patch.youUpdatedAt = now;
   if (Object.keys(patch).length) useDesignerStore.setState(patch);
 });
 

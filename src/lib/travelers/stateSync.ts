@@ -187,6 +187,17 @@ export function stateFromItems(items: readonly LocalItem[]): {
   return { groups, meId: you.meId, youUpdatedAt: youItem?.updatedAt ?? EPOCH, current, previous };
 }
 
+/**
+ * What the account is known to hold once the merge is applied: only items
+ * this device now has, in the same version the account has. Anything the
+ * device couldn't keep (over a cap, unreadable, a trip no longer open) is
+ * left out, so it is never read as deleted and tombstoned.
+ */
+export function knownAfterApply(after: readonly LocalItem[], merged: { items: readonly LocalItem[]; push: readonly LocalItem[] }): Map<string, string> {
+  const account = knownItems(merged.items, merged.push);
+  return new Map(after.filter((item) => account.get(key(item.kind, item.id)) === item.updatedAt).map((item) => [key(item.kind, item.id), item.updatedAt]));
+}
+
 /** What the account is known to hold after a merge: everything merged that didn't need pushing. */
 export function knownItems(items: readonly LocalItem[], push: readonly LocalItem[]): Map<string, string> {
   const pushed = new Set(push.map((item) => key(item.kind, item.id)));

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { knownAfterMerge, mergeProfiles, pendingPush, syncAllowed, toRemote, tombstone, type RemoteProfile } from '@/lib/designer/profileSync';
 import { useDesignerStore } from '@/lib/designer/store';
-import { knownItems, localItems, mergeItems, pendingItems, stateFromItems, stateTombstone, toRemoteState, type RemoteState } from '@/lib/travelers/stateSync';
+import { knownAfterApply, localItems, mergeItems, pendingItems, stateFromItems, stateTombstone, toRemoteState, type RemoteState } from '@/lib/travelers/stateSync';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
 const PUSH_DELAY_MS = 1500;
@@ -124,8 +124,9 @@ export function ProfileSync() {
       if (!stateResult.error) {
         const merged = mergeItems(localItems(useDesignerStore.getState()), (stateResult.data ?? []) as RemoteState[]);
         useDesignerStore.getState().applySyncedState(stateFromItems(merged.items));
-        // Known: what the account holds and this device now agrees with. Anything the apply changed goes up next.
-        syncedState.current = knownItems(merged.items, merged.push);
+        // Known: what the account holds and this device now agrees with. Anything the apply changed goes up next;
+        // anything the device couldn't keep stays in the account instead of being read as deleted.
+        syncedState.current = knownAfterApply(localItems(useDesignerStore.getState()), merged);
       } else if (MISSING_TABLE.has(stateResult.error.code ?? '')) {
         // Migration 010 isn't applied on this project yet: profiles still save; groups and trips stay on the device.
         stateUnavailable = true;
@@ -138,7 +139,8 @@ export function ProfileSync() {
 
     // Back online or back on the page: finish a first pull that failed, or retry saves that did.
     const retry = () => {
-      if (document.visibilityState !== 'visible') return;
+      // A first pull still running will finish on its own; restarting it here would stall saving.
+      if (document.visibilityState !== 'visible' || starting) return;
       if (!synced.current || (!syncedState.current && !stateUnavailable)) {
         synced.current = null;
         void start();

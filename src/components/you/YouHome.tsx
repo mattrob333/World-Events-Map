@@ -175,7 +175,7 @@ function GroupCard({ group, profiles }: { group: TravelGroup; profiles: SavedPro
     }
     const url = inviteUrl(window.location.origin, invite);
     try {
-      if (navigator.share) await navigator.share({ title: `${group.name} on dope.travel`, url });
+      if (navigator.share) await navigator.share({ title: `Travel with ${group.name}`, url });
       else {
         await navigator.clipboard.writeText(url);
         setStatus('Link copied. Send it to the family you’re traveling with.');
@@ -251,7 +251,7 @@ function AddGroup() {
   return (
     <div className={styles.group}>
       <p className={styles.travelerName}>Travel with another family or crew</p>
-      <p className={styles.sub}>Ask them to open You on dope.travel and tap Share this group, then open the link they send. Or paste it here.</p>
+      <p className={styles.sub}>Ask them to open the You tab, tap Share this group, then open the link they send. Or paste it here.</p>
       <div className={styles.inline}>
         <label htmlFor="group-link" className="sr-only">Group link</label>
         <input id="group-link" className={styles.input} value={text} onChange={(event) => { setText(event.target.value); setError(''); }} placeholder="https://dope.travel/vibe/group#g=…" autoComplete="off" />

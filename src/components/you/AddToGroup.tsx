@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
 import { pickActiveGroup, useDesignerStore } from '@/lib/designer/store';
 import type { TravelCard } from '@/lib/people/card';
+import { MAX_GROUPS } from '@/lib/travelers/groups';
 
 /**
  * Where cards from a link go: a new group that is your family plus them
@@ -21,7 +22,10 @@ export function AddToGroup({ cards, theirName }: { cards: TravelCard[]; theirNam
   const setActiveGroup = useDesignerStore((state) => state.setActiveGroup);
   const targets = groups.filter((group) => group.kind !== 'solo');
   const active = pickActiveGroup(targets, activeGroupId);
-  const [target, setTarget] = useState<string>('new');
+  const full = groups.length >= MAX_GROUPS;
+  const [choice, setTarget] = useState<string>('new');
+  const target = full && choice === 'new' ? (active?.id ?? targets[0]?.id ?? '') : choice;
+  const [error, setError] = useState('');
   if (!hydrated) return null;
   const family = groups.find((group) => group.kind === 'family');
 
@@ -30,6 +34,10 @@ export function AddToGroup({ cards, theirName }: { cards: TravelCard[]; theirNam
     if (target === 'new') {
       const name = `${family?.memberIds.length ? 'Us' : 'Me'} + ${theirName}`.slice(0, 30);
       id = addGroup(name, 'custom', family?.memberIds ?? []);
+    }
+    if (!id) {
+      setError('You have as many groups as fit. Remove one on the You tab, or add them to a group you have.');
+      return;
     }
     addGuests(id, cards);
     setActiveGroup(id);
@@ -41,7 +49,7 @@ export function AddToGroup({ cards, theirName }: { cards: TravelCard[]; theirNam
       <label className="grid gap-1.5 text-[13px] text-ink-muted">
         Add them to
         <select className="min-h-11 rounded-[14px] bg-surface-1 px-3 text-[15px] text-bone shadow-[var(--shadow-inset)]" value={target} onChange={(event) => setTarget(event.target.value)}>
-          <option value="new">A new group: your family and {theirName}</option>
+          {full ? null : <option value="new">A new group: your family and {theirName}</option>}
           {targets.map((group) => (
             <option key={group.id} value={group.id}>{group.name}{group.id === active?.id ? ' (planning for now)' : ''}</option>
           ))}
@@ -50,7 +58,8 @@ export function AddToGroup({ cards, theirName }: { cards: TravelCard[]; theirNam
       <div className="flex flex-wrap gap-2">
         <button type="button" className="btn btn-primary" onClick={add}>Add {cards.length === 1 ? cards[0].name : `all ${cards.length}`}</button>
       </div>
-      <p className="text-[12px] leading-relaxed text-ink-subtle">Saved on this device (and to your account if you turned that on). The link carried their cards; dope.travel didn’t store them.</p>
+      {error ? <p role="alert" className="text-[13px] text-ink-soft">{error}</p> : null}
+      <p className="text-[12px] leading-relaxed text-ink-subtle">Saved on this device (and to your account if you turned that on). The link carried their cards; we didn’t store them.</p>
     </div>
   );
 }

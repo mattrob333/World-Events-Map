@@ -123,7 +123,7 @@ function IdeaCard({ idea, index, saved, watched, onToggle }: {
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button type="button" aria-pressed={saved} onClick={() => onToggle('save')} className="chip">{saved ? 'Saved ✓' : 'Save'}</button>
             <button type="button" aria-pressed={watched} title="Local return list; no notifications" onClick={() => onToggle('watch')} className="chip">{watched ? 'Watching ✓' : 'Watch'}</button>
-            <Link href={`/circles?destination=${encodeURIComponent(idea.slug)}`} className="btn btn-ghost btn-sm">Start Circle ↗</Link>
+            {FEATURES.circles ? <Link href={`/circles?destination=${encodeURIComponent(idea.slug)}`} className="btn btn-ghost btn-sm">Start Circle ↗</Link> : null}
           </div>
         </div>
       </div>

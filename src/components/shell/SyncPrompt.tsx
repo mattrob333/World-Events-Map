@@ -40,6 +40,7 @@ export function SyncPrompt() {
   const travelers = useDesignerStore((state) => state.profiles.length);
   const trips = useDesignerStore((state) => (state.trip ? 1 : 0) + (state.previousTrip ? 1 : 0));
   const setAccountSync = useDesignerStore((state) => state.setAccountSync);
+  const claimDevice = useDesignerStore((state) => state.claimDevice);
   const [answered, setAnswered] = useState<string | null>(null);
   const userId = user?.id ?? null;
   // Read after hydration only, so the server render and the first client render agree.
@@ -52,7 +53,10 @@ export function SyncPrompt() {
   function answer(yes: boolean) {
     if (!userId) return;
     remember(userId);
+    // Either way this device's data is now theirs: another account signing in here later
+    // is sent to Settings' "belongs to another account" path, never offered this upload.
     if (yes) setAccountSync(true, userId);
+    else claimDevice(userId);
     setAnswered(userId);
   }
 

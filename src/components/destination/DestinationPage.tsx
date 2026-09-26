@@ -263,8 +263,8 @@ function DestinationLoaded({
   const designerHref = `/trips/designer?${new URLSearchParams({ place: pulse.name, region: pulse.country }).toString()}`;
   const planningHref = nextEvent && skiOccasion
     ? `/trips/new?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
-    : platformConnected ? circlesHref : designerHref;
-  const eventPlanningHref = (event: WorldEvent) => platformConnected
+    : platformConnected && FEATURES.circles ? circlesHref : designerHref;
+  const eventPlanningHref = (event: WorldEvent) => platformConnected && FEATURES.circles
     ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`
     : designerHref;
   const destinationPhotos = curatedPhotosForDestination(pulse.slug);
