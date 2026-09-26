@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { emptyProfile, type TravelerProfile } from '@/lib/designer/profile';
 import { cardFromProfile } from '@/lib/people/card';
-import { addGuests, createGroup, decodeInvite, encodeInvite, ensureDefaultGroups, groupTravelers, inviteFromGroup, inviteUrl } from './groups';
+import { addGuests, createGroup, fitInvite, decodeInvite, encodeInvite, ensureDefaultGroups, groupTravelers, inviteFromGroup, inviteUrl } from './groups';
 
 const person = (patch: Partial<TravelerProfile>): TravelerProfile => ({ ...emptyProfile(), ...patch });
 
@@ -81,6 +81,16 @@ describe('group invites', () => {
   it('names a default group after its leader', () => {
     const family = createGroup('Family', 'family', ['p-matt', 'p-leo']);
     expect(inviteFromGroup(family, [matt, leo], (entry) => entry.profile.name ?? '').name).toBe('Matt’s family');
+  });
+
+  it('always makes a link the decoder accepts, however full the profiles', () => {
+    const many = (prefix: string, n: number) => Array.from({ length: n }, (_, i) => `${prefix} ${'x'.repeat(50)} ${i}`);
+    const card = (i: number) => ({ v: 1 as const, name: `Traveler number ${i} with a long name`, hometown: 'A very long home city name, Some Region', loves: many('love', 8), music: many('band', 8), teams: many('team', 4), style: many('style', 3), bucketList: many('dream', 5), sentAt: new Date().toISOString() });
+    const invite = fitInvite({ v: 1, name: 'Big crew', cards: Array.from({ length: 12 }, (_, i) => card(i)), sentAt: new Date().toISOString() });
+    const back = decodeInvite(encodeInvite(invite));
+    expect(back).not.toBeNull();
+    expect(back!.cards.length).toBe(invite.cards.length);
+    expect(invite.cards.length).toBeGreaterThan(1);
   });
 
   it('rejects damaged or hostile links', () => {

@@ -7,7 +7,7 @@ const matt: Participant = { id: 'p0', name: 'Matt', kind: 'adult', tags: [], ...
 const trip = (name: string) => composeLocally({ destination: 'custom', place: { name, kind: 'city' }, startDate: '2027-05-10', nights: 2, participants: [matt] }, new Date('2026-09-24T12:00:00Z'));
 
 const base = (patch: Partial<SyncSlice> = {}): SyncSlice => ({
-  groups: [], meId: null, trip: null, votes: {}, activeParticipant: null, joinedAs: null, lastMergedAt: {}, previousTrip: null,
+  groups: [], meId: null, activeGroupId: null, trip: null, votes: {}, activeParticipant: null, joinedAs: null, lastMergedAt: {}, previousTrip: null,
   tripUpdatedAt: null, previousTripUpdatedAt: null, youUpdatedAt: null, ...patch,
 });
 
@@ -17,7 +17,7 @@ describe('traveler state sync', () => {
     const family = { ...createGroup('Family', 'family', ['mb-1']), id: 'grp-family', updatedAt: '2026-09-20T00:00:00.000Z' };
     const items = localItems(base({ groups: [family], meId: 'mb-1', trip: tokyo, tripUpdatedAt: '2026-09-21T00:00:00.000Z', youUpdatedAt: '2026-09-21T00:00:00.000Z' }));
     expect(items.map((item) => `${item.kind}:${item.id}`)).toEqual(['group:grp-family', `trip:${tokyo.id}`, 'you:you']);
-    expect(items[2].data).toEqual({ meId: 'mb-1', tripId: tokyo.id, previousTripId: null });
+    expect(items[2].data).toEqual({ meId: 'mb-1', activeGroupId: null, tripId: tokyo.id, previousTripId: null });
   });
 
   it('a second device picks up the account’s groups and open trip, votes included', () => {

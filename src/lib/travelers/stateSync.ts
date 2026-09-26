@@ -18,7 +18,7 @@ export type RemoteState = { kind: StateKind; local_id: string; data: unknown; de
 /** One syncable thing on this device, with when it last changed. */
 export type LocalItem = { kind: StateKind; id: string; data: unknown; updatedAt: string };
 
-export type YouRow = { meId: string | null; tripId: string | null; previousTripId: string | null };
+export type YouRow = { meId: string | null; activeGroupId: string | null; tripId: string | null; previousTripId: string | null };
 
 export type TripRow = SavedTrip & { lastMergedAt?: Record<string, string> };
 
@@ -90,7 +90,7 @@ export function readTrip(value: unknown): TripRow | null {
 
 export function readYou(value: unknown): YouRow {
   const raw = obj(value) ?? {};
-  return { meId: safeId(raw.meId), tripId: safeId(raw.tripId), previousTripId: safeId(raw.previousTripId) };
+  return { meId: safeId(raw.meId), activeGroupId: safeId(raw.activeGroupId), tripId: safeId(raw.tripId), previousTripId: safeId(raw.previousTripId) };
 }
 
 // --- this device's items -----------------------------------------------------
@@ -98,6 +98,8 @@ export function readYou(value: unknown): YouRow {
 export type SyncSlice = {
   groups: TravelGroup[];
   meId: string | null;
+  /** The group being planned for; it follows you to other devices. */
+  activeGroupId: string | null;
   trip: Itinerary | null;
   votes: TripVotes;
   activeParticipant: string | null;
@@ -120,7 +122,7 @@ export function localItems(state: SyncSlice): LocalItem[] {
   if (state.previousTrip && SAFE_ID.test(state.previousTrip.trip.id) && state.previousTrip.trip.id !== state.trip?.id) {
     items.push({ kind: 'trip', id: state.previousTrip.trip.id, data: state.previousTrip, updatedAt: state.previousTripUpdatedAt ?? EPOCH });
   }
-  const you: YouRow = { meId: state.meId, tripId: state.trip?.id ?? null, previousTripId: state.previousTrip?.trip.id ?? null };
+  const you: YouRow = { meId: state.meId, activeGroupId: state.activeGroupId, tripId: state.trip?.id ?? null, previousTripId: state.previousTrip?.trip.id ?? null };
   items.push({ kind: 'you', id: 'you', data: you, updatedAt: state.youUpdatedAt ?? EPOCH });
   return items;
 }
@@ -163,6 +165,7 @@ export function mergeItems(local: readonly LocalItem[], remote: readonly RemoteS
 export function stateFromItems(items: readonly LocalItem[]): {
   groups: TravelGroup[];
   meId: string | null;
+  activeGroupId: string | null;
   youUpdatedAt: string;
   current: (TripRow & { updatedAt: string }) | null;
   previous: (TripRow & { updatedAt: string }) | null;
@@ -184,7 +187,7 @@ export function stateFromItems(items: readonly LocalItem[]): {
   };
   const current = tripById(you.tripId);
   const previous = you.previousTripId !== you.tripId ? tripById(you.previousTripId) : null;
-  return { groups, meId: you.meId, youUpdatedAt: youItem?.updatedAt ?? EPOCH, current, previous };
+  return { groups, meId: you.meId, activeGroupId: you.activeGroupId, youUpdatedAt: youItem?.updatedAt ?? EPOCH, current, previous };
 }
 
 /**

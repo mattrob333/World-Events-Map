@@ -379,3 +379,31 @@ describe('deleting you', () => {
     expect(useDesignerStore.getState().youUpdatedAt).toBeTruthy();
   });
 });
+
+describe('Codex review follow-ups', () => {
+  const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+
+  it('the group being planned for follows you to another device', () => {
+    useDesignerStore.getState().applySyncedProfiles([{ id: 'mb-1', profile: profile('Matt'), engine: 'on-device', updatedAt: '2026-09-19T00:00:00.000Z' }]);
+    const groups = useDesignerStore.getState().groups;
+    useDesignerStore.getState().applySyncedState({ groups, meId: 'mb-1', activeGroupId: 'grp-friends', youUpdatedAt: '2026-09-25T00:00:00.000Z', current: null, previous: null });
+    expect(useDesignerStore.getState().activeGroupId).toBe('grp-friends');
+    // Choosing a group here is stamped, so it goes up.
+    const before = useDesignerStore.getState().youUpdatedAt;
+    useDesignerStore.getState().setActiveGroup('grp-solo');
+    expect(useDesignerStore.getState().youUpdatedAt).not.toBe(before);
+  });
+
+  it('adopts the time the account stored, without marking anything changed', () => {
+    useDesignerStore.getState().saveProfile({ id: 'mb-1', profile: profile('Matt'), engine: 'on-device', updatedAt: '2030-01-01T00:00:00.000Z' });
+    useDesignerStore.getState().setTrip(trip('Tokyo'));
+    const tripId = useDesignerStore.getState().trip!.id;
+    useDesignerStore.getState().restamp('profile', 'mb-1', '2026-09-26T19:00:00.000Z');
+    useDesignerStore.getState().restamp('trip', tripId, '2026-09-26T19:00:00.000Z');
+    useDesignerStore.getState().restamp('group', 'grp-family', '2026-09-26T19:00:00.000Z');
+    const state = useDesignerStore.getState();
+    expect(state.profiles[0].updatedAt).toBe('2026-09-26T19:00:00.000Z');
+    expect(state.tripUpdatedAt).toBe('2026-09-26T19:00:00.000Z');
+    expect(state.groups.find((group) => group.id === 'grp-family')!.updatedAt).toBe('2026-09-26T19:00:00.000Z');
+  });
+});

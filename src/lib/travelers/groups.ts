@@ -162,7 +162,20 @@ export function inviteFromGroup(group: TravelGroup, profiles: Member[], labels: 
   // "Family" means nothing on their phone; "Matt’s family" does.
   const lead = byId.get(group.memberIds[0]);
   const name = group.kind === 'custom' || !lead ? group.name : `${labels(lead)}’s ${group.name.toLowerCase()}`;
-  return { v: 1, name: clean(name, 30) || 'Our group', cards: cards.slice(0, MAX_GUESTS), sentAt: now.toISOString() };
+  return fitInvite({ v: 1, name: clean(name, 30) || 'Our group', cards: cards.slice(0, MAX_GUESTS), sentAt: now.toISOString() });
+}
+
+/**
+ * Keeps a link inside what `decodeInvite` accepts, so what is shared always
+ * opens: first each card keeps its top picks only, then, if it still won't
+ * fit, the last people are left off (the caller can say so).
+ */
+export function fitInvite(invite: GroupInvite): GroupInvite {
+  if (encodeInvite(invite).length <= MAX_INVITE_CHARS) return invite;
+  const trim = (card: TravelCard): TravelCard => ({ ...card, loves: card.loves.slice(0, 4), music: card.music.slice(0, 4), teams: card.teams.slice(0, 2), style: card.style.slice(0, 2), bucketList: card.bucketList.slice(0, 2) });
+  let cards = invite.cards.map(trim);
+  while (cards.length > 1 && encodeInvite({ ...invite, cards }).length > MAX_INVITE_CHARS) cards = cards.slice(0, -1);
+  return { ...invite, cards };
 }
 
 export function encodeInvite(invite: GroupInvite): string {

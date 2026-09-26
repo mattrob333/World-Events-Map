@@ -21,7 +21,7 @@ export type SavedProfile = {
 };
 
 type SyncedTrip = SavedTrip & { lastMergedAt?: Record<string, string>; updatedAt: string };
-export type SyncedState = { groups: TravelGroup[]; meId: string | null; youUpdatedAt: string; current: SyncedTrip | null; previous: SyncedTrip | null };
+export type SyncedState = { groups: TravelGroup[]; meId: string | null; activeGroupId?: string | null; youUpdatedAt: string; current: SyncedTrip | null; previous: SyncedTrip | null };
 
 /** The trip a shared invite replaced on this device, kept so it can be restored. */
 export type SavedTrip = { trip: Itinerary; votes: TripVotes; activeParticipant: string | null; joinedAs: string | null };
@@ -54,6 +54,8 @@ interface DesignerState {
   applySyncedState: (next: SyncedState) => void;
   /** Signing in with account saving, on a device another account used: its travelers, groups and trips leave this device first. */
   resetForAccount: (owner: string) => void;
+  /** Adopts the time the account stored for an item (a fast clock, pulled back), without marking anything changed. */
+  restamp: (kind: 'profile' | 'group' | 'trip' | 'you', id: string, at: string) => void;
   /** Records which account this device's data belongs to, without saving anything to it. */
   claimDevice: (owner: string) => void;
   /** The travel profile in use ("Traveling as"); null means the newest one. */
@@ -168,8 +170,13 @@ export const useDesignerStore = create<DesignerState>()(
             const previous = next.previous ?? (orphan && next.current ? orphan : null);
             const current = next.current ?? (orphan && !next.current ? orphan : null);
             const sameTrip = current?.trip.id === state.trip?.id;
+            const groups = ensureDefaultGroups(next.groups, meId, ids);
+            const chosen = next.activeGroupId && groups.find((group) => group.id === next.activeGroupId);
+            const lead = chosen ? chosen.memberIds.find((member) => ids.includes(member)) : undefined;
             return {
-              groups: ensureDefaultGroups(next.groups, meId, ids),
+              groups,
+              activeGroupId: chosen ? chosen.id : state.activeGroupId && groups.some((group) => group.id === state.activeGroupId) ? state.activeGroupId : null,
+              ...(lead ? { activeProfileId: lead } : {}),
               meId,
               youUpdatedAt: orphan ? new Date().toISOString() : next.youUpdatedAt,
               trip: current?.trip ?? null,
@@ -187,6 +194,17 @@ export const useDesignerStore = create<DesignerState>()(
           applyingRemote = false;
         }
       },
+      restamp: (kind, id, at) =>
+        quietly(() =>
+          set((state) => {
+            if (kind === 'profile') return { profiles: state.profiles.map((entry) => (entry.id === id ? { ...entry, updatedAt: at } : entry)) };
+            if (kind === 'group') return { groups: state.groups.map((group) => (group.id === id ? { ...group, updatedAt: at } : group)) };
+            if (kind === 'you') return { youUpdatedAt: at };
+            if (state.trip?.id === id) return { tripUpdatedAt: at };
+            if (state.previousTrip?.trip.id === id) return { previousTripUpdatedAt: at };
+            return {};
+          }),
+        ),
       claimDevice: (owner) => set((state) => (state.syncOwner ? {} : { syncOwner: owner })),
       resetForAccount: (owner) =>
         quietly(() => set({
@@ -226,7 +244,8 @@ export const useDesignerStore = create<DesignerState>()(
           if (!group) return {};
           // The leader's taste is what the rest of the app plans from.
           const lead = group.memberIds.find((member) => state.profiles.some((entry) => entry.id === member));
-          return { activeGroupId: id, ...(lead ? { activeProfileId: lead } : {}) };
+          // A choice, so it's stamped and follows you to your other devices.
+          return { activeGroupId: id, youUpdatedAt: new Date().toISOString(), ...(lead ? { activeProfileId: lead } : {}) };
         }),
       addGroup: (name, kind = 'custom', memberIds = []) => {
         if (get().groups.length >= MAX_GROUPS) return '';

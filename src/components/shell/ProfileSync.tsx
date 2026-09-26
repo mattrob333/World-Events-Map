@@ -41,14 +41,28 @@ export function ProfileSync() {
     syncedState.current = null;
     const { setSyncStatus } = useDesignerStore.getState();
 
-    const upsertOne = async (row: RemoteProfile) => {
-      const { error } = await client.from('traveler_profiles').upsert({ ...row, user_id: userId }, { onConflict: 'user_id,local_id' });
-      return !error;
+    // Each write reads back the time the account stored: a fast clock is pulled back to the
+    // server's now (+5 minutes), and the device adopts that time so its copy stops outranking
+    // newer edits from other devices.
+    const settled = (local: string, stored: unknown): string => {
+      const at = typeof stored === 'string' ? Date.parse(stored) : NaN;
+      return Number.isFinite(at) && at < Date.parse(local) ? new Date(at).toISOString() : local;
     };
 
-    const upsertState = async (row: RemoteState) => {
-      const { error } = await client.from('traveler_state').upsert({ ...row, user_id: userId }, { onConflict: 'user_id,kind,local_id' });
-      return !error;
+    const upsertOne = async (row: RemoteProfile): Promise<string | null> => {
+      const { data, error } = await client.from('traveler_profiles').upsert({ ...row, user_id: userId }, { onConflict: 'user_id,local_id' }).select('updated_at').maybeSingle();
+      if (error) return null;
+      const at = settled(row.updated_at, (data as { updated_at?: unknown } | null)?.updated_at);
+      if (at !== row.updated_at && !row.deleted) useDesignerStore.getState().restamp('profile', row.local_id, at);
+      return at;
+    };
+
+    const upsertState = async (row: RemoteState): Promise<string | null> => {
+      const { data, error } = await client.from('traveler_state').upsert({ ...row, user_id: userId }, { onConflict: 'user_id,kind,local_id' }).select('updated_at').maybeSingle();
+      if (error) return null;
+      const at = settled(row.updated_at, (data as { updated_at?: unknown } | null)?.updated_at);
+      if (at !== row.updated_at && !row.deleted) useDesignerStore.getState().restamp(row.kind, row.local_id, at);
+      return at;
     };
 
     const pushChanges = async () => {
@@ -64,7 +78,8 @@ export function ProfileSync() {
       // Checked before every write: once saving is off (or the page moves on), nothing more goes up.
       for (const entry of changed) {
         if (!active) return;
-        if (await upsertOne(toRemote(entry))) known.set(entry.id, entry.updatedAt);
+        const at = await upsertOne(toRemote(entry));
+        if (at) known.set(entry.id, at);
         else failed = true;
       }
       for (const id of removed) {
@@ -74,7 +89,8 @@ export function ProfileSync() {
       }
       for (const item of items.changed) {
         if (!active || !knownState) return;
-        if (await upsertState(toRemoteState(item))) knownState.set(`${item.kind}:${item.id}`, item.updatedAt);
+        const at = await upsertState(toRemoteState(item));
+        if (at) knownState.set(`${item.kind}:${item.id}`, at);
         else failed = true;
       }
       for (const item of items.removed) {

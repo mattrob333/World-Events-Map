@@ -174,11 +174,15 @@ function GroupCard({ group, profiles }: { group: TravelGroup; profiles: SavedPro
       return;
     }
     const url = inviteUrl(window.location.origin, invite);
+    const members = group.memberIds.filter((id) => profiles.some((entry) => entry.id === id)).length;
+    const note = invite.cards.length < members ? ` Only the first ${invite.cards.length} fit in one link.` : '';
     try {
-      if (navigator.share) await navigator.share({ title: `Travel with ${group.name}`, url });
-      else {
+      if (navigator.share) {
+        await navigator.share({ title: `Travel with ${group.name}`, url });
+        if (note) setStatus(note.trim());
+      } else {
         await navigator.clipboard.writeText(url);
-        setStatus('Link copied. Send it to the family you’re traveling with.');
+        setStatus(`Link copied. Send it to the family you’re traveling with.${note}`);
       }
     } catch (cause) {
       if (cause instanceof Error && cause.name === 'AbortError') return;
