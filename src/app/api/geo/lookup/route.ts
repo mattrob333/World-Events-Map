@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { originAllowed } from '@/lib/designer/server/guard';
+import { placeVariants } from '@/lib/now/placeVariants';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 
 export const dynamic = 'force-dynamic';
@@ -43,16 +44,22 @@ export async function GET(request: Request) {
   if (cached && Date.now() - cached.at < DAY_MS) return NextResponse.json({ place: cached.hit });
   const limit = consumeNowClientRateLimit(request);
   if (!limit.allowed) return NextResponse.json({ error: 'Too many lookups. Try again in a few minutes.' }, { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } });
-  await nextSlot();
   try {
-    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=0&q=${encodeURIComponent(q)}`;
-    const response = await fetch(url, { headers: { 'User-Agent': 'dope.travel/1.0 (+https://dope.travel)', Accept: 'application/json' }, signal: AbortSignal.timeout(6000), cache: 'no-store' });
-    if (!response.ok) return NextResponse.json({ error: 'That place could not be looked up.' }, { status: 502 });
-    const rows = (await response.json()) as { lat?: string; lon?: string; display_name?: string }[];
-    const row = rows[0];
-    const lat = Number(row?.lat);
-    const lng = Number(row?.lon);
-    const hit = row && Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng, label: String(row.display_name ?? q).split(',').slice(0, 3).join(',').trim() } : null;
+    let hit: { lat: number; lng: number; label: string } | null = null;
+    for (const variant of placeVariants(q)) {
+      await nextSlot();
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=0&q=${encodeURIComponent(variant)}`;
+      const response = await fetch(url, { headers: { 'User-Agent': 'dope.travel/1.0 (+https://dope.travel)', Accept: 'application/json' }, signal: AbortSignal.timeout(6000), cache: 'no-store' });
+      if (!response.ok) return NextResponse.json({ error: 'That place could not be looked up.' }, { status: 502 });
+      const rows = (await response.json()) as { lat?: string; lon?: string; display_name?: string }[];
+      const row = rows[0];
+      const lat = Number(row?.lat);
+      const lng = Number(row?.lon);
+      if (row && Number.isFinite(lat) && Number.isFinite(lng)) {
+        hit = { lat, lng, label: String(row.display_name ?? variant).split(',').slice(0, 3).join(',').trim() };
+        break;
+      }
+    }
     if (cache.size > 500) cache.delete(cache.keys().next().value as string);
     cache.set(key, { at: Date.now(), hit });
     return NextResponse.json({ place: hit });

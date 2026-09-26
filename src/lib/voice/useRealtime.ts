@@ -212,7 +212,12 @@ export function useRealtime() {
       case 'session.started':
         setPhase('listening');
         if (openerRef.current) {
-          send({ type: 'session.instructions.append', delegation_id: null, content: `Greet them now. Say exactly this, then stop and listen: "${openerRef.current.replace(/"/g, '')}"` });
+          // A cue, not a script: if they're already talking, answering them beats any greeting.
+          send({
+            type: 'session.instructions.append',
+            delegation_id: null,
+            content: `Open right away, casually, in a few words, something like: "${openerRef.current.replace(/"/g, '')}" If they have already started talking, skip the greeting and respond to what they said.`,
+          });
         }
         break;
       case 'session.delegation.created':

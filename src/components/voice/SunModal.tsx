@@ -85,10 +85,14 @@ function localToday() {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 }
 
-/** The concierge's first words, every time: the bullets on screen are the agenda. */
-const OPENER = 'Vibe with me for a second about the topics above.';
-const RESUME = 'Back on it. What else should I find?';
-const CARRY_ON = 'Still here. Keep going.';
+/** The concierge's first words: short and casual, like a friend picking up the phone. */
+const OPENERS: Record<'now' | 'trip' | 'profile', string> = {
+  now: 'Hey! What are you in the mood for?',
+  trip: 'Hey! Where are we thinking?',
+  profile: 'Hey! Tell me how you like to travel.',
+};
+const RESUME = 'Back on it. What else?';
+const CARRY_ON = 'Still here, keep going.';
 
 /** Everything they said, for building when the concierge wasn't asked to (or they tapped I'm done first). */
 function tripTextFrom(facts: Record<string, string>, said: string): string {
@@ -587,7 +591,7 @@ function VibeStage() {
       profile: mode === 'profile' ? '' : profileSummary(pickActiveProfile(all, activeId)),
       handlers: handlers(),
       withMic: true,
-      opener: carryOn ? CARRY_ON : resuming ? RESUME : OPENER,
+      opener: carryOn ? CARRY_ON : resuming ? RESUME : OPENERS[mode],
       keepLines: resuming,
       onActivity: setActivity,
       onTimeUp: () => {
