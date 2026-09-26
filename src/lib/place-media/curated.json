@@ -387,12 +387,606 @@
     "subject": "place"
   },
   "crump-cup-pine-valley": {
-    "title": "Entrance to Pine Valley Golf Club, New Jersey",
+    "title": "Entrance road and gatehouse of Pine Valley Golf Club, New Jersey",
     "imageUrl": "/editorial/crump-cup-pine-valley.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Entrance_to_Pine_Valley_Golf_Club_(1),_May_2022.jpg",
     "credit": "Mr. Matté",
     "license": "CC BY-SA 4.0",
     "photographed": "2022",
+    "subject": "place"
+  },
+  "namib-dark-sky": {
+    "title": "Night sky and the Milky Way over Sossusvlei, Namibia",
+    "imageUrl": "/editorial/namib-dark-sky.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Observing_space_(Unsplash).jpg",
+    "credit": "Jonatan Pie",
+    "license": "CC0",
+    "photographed": "2017",
+    "subject": "place"
+  },
+  "ruaha-dry-season": {
+    "title": "Ruaha River in Ruaha National Park, Tanzania",
+    "imageUrl": "/editorial/ruaha-dry-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ruaha_River,_Ruaha_National_Park_(9)_(29028717505).jpg",
+    "credit": "Richard Mortel",
+    "license": "CC BY 2.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "south-luangwa-walking": {
+    "title": "Elephants crossing the Luangwa River, South Luangwa National Park",
+    "imageUrl": "/editorial/south-luangwa-walking.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Loxodonta_africana_South_Luangwa_National_Park_(1).jpg",
+    "credit": "Geoff Gallice",
+    "license": "CC BY 2.0",
+    "photographed": "2011",
+    "subject": "place"
+  },
+  "mana-pools-dry-season": {
+    "title": "Island in the Zambezi River at Mana Pools National Park",
+    "imageUrl": "/editorial/mana-pools-dry-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Island_in_the_Zambezi_River_at_Mana_Pools_National_Park.jpg",
+    "credit": "Babakathy",
+    "license": "CC0",
+    "photographed": "2010",
+    "subject": "place"
+  },
+  "prix-arc-de-triomphe": {
+    "title": "Garde républicaine at the Prix de l'Arc de Triomphe, Longchamp",
+    "imageUrl": "/editorial/prix-arc-de-triomphe.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2014_Hippodrome_de_Longchamps_(garde_republicaine)_Qatar_Prix_de_l_arc_de_triomphe_94eme_edition.JPG",
+    "credit": "Copyleft",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "sha-wellness-alicante-autumn": {
+    "title": "Serra Gelada headland above the Mediterranean near L'Albir",
+    "imageUrl": "/editorial/sha-wellness-alicante-autumn.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Serra_Gelada_-_29739258807.jpg",
+    "credit": "Nicolas Vigier",
+    "license": "CC0",
+    "photographed": "2018",
+    "subject": "place"
+  },
+  "frieze-london": {
+    "title": "Frieze Sculpture Park in The Regent's Park during Frieze week",
+    "imageUrl": "/editorial/frieze-london.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Frieze_Sculpture_Park_2016,_The_Regent%27s_Park_-_geograph.org.uk_-_5171651.jpg",
+    "credit": "Paul Farmer",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2016",
+    "subject": "event"
+  },
+  "alba-white-truffle-season": {
+    "title": "White truffle market at the Alba truffle fair",
+    "imageUrl": "/editorial/alba-white-truffle-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:March%C3%A9_aux_truffes_blanches_d%27Alba.jpg",
+    "credit": "anaru",
+    "license": "CC BY 2.0",
+    "photographed": "2008",
+    "subject": "event"
+  },
+  "pad-london-art-design": {
+    "title": "Berkeley Square, Mayfair",
+    "imageUrl": "/editorial/pad-london-art-design.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Berkeley_Square,_Mayfair_-_geograph.org.uk_-_6171901.jpg",
+    "credit": "Neil Theasby",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "noma-twelve-seasons-copenhagen": {
+    "title": "Radish tart served at Noma, Copenhagen",
+    "imageUrl": "/editorial/noma-twelve-seasons-copenhagen.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Restaurant_Noma-_Radiset%C3%A6rte_(27009026114).jpg",
+    "credit": "cyclonebill",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "mara-return-migration": {
+    "title": "Wildebeest crossing the Mara River, Maasai Mara",
+    "imageUrl": "/editorial/mara-return-migration.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wildebeest_Jumping_Into_the_Mara_River.jpg",
+    "credit": "Danijel Mihajlovic",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2020",
+    "subject": "place"
+  },
+  "rolex-middle-sea-race": {
+    "title": "Middle Sea Race yachts leaving Grand Harbour, Valletta",
+    "imageUrl": "/editorial/rolex-middle-sea-race.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Middle_Sea_Race_at_Grand_Harbour.jpg",
+    "credit": "Noport",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2020",
+    "subject": "event"
+  },
+  "dutch-design-week-eindhoven": {
+    "title": "Dutch Design Week installation in Eindhoven",
+    "imageUrl": "/editorial/dutch-design-week-eindhoven.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dutch_Design_Week_2013_(11338611655).jpg",
+    "credit": "FaceMePLS",
+    "license": "CC BY 2.0",
+    "photographed": "2013",
+    "subject": "event"
+  },
+  "design-miami-paris": {
+    "title": "Gateway of the hôtel particulier at 51 rue de l'Université, Paris",
+    "imageUrl": "/editorial/design-miami-paris.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:H%C3%B4tel_de_Soyecourt_ou_Pozzo_di_Borgo.jpg",
+    "credit": "Moonik",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2011",
+    "subject": "place"
+  },
+  "breeders-cup-keeneland": {
+    "title": "Starting gate at Keeneland Race Course, Lexington",
+    "imageUrl": "/editorial/breeders-cup-keeneland.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keeneland_gate.jpg",
+    "credit": "Calstanhope",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "art-basel-paris": {
+    "title": "Grand Palais, Paris",
+    "imageUrl": "/editorial/art-basel-paris.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grand_Palais_@_Paris_(34729073762).jpg",
+    "credit": "Guilhem Vellut",
+    "license": "CC BY 2.0",
+    "photographed": "2017",
+    "subject": "place"
+  },
+  "melbourne-cup-carnival": {
+    "title": "Flemington grandstands on Melbourne Cup day",
+    "imageUrl": "/editorial/melbourne-cup-carnival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flemington_main_stand,_2013_Melbourne_Cup.jpg",
+    "credit": "Jupiter Firelyte",
+    "license": "CC BY 2.0",
+    "photographed": "2013",
+    "subject": "event"
+  },
+  "skjervoy-orca-season": {
+    "title": "Port of Skjervøy, northern Norway",
+    "imageUrl": "/editorial/skjervoy-orca-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Port_of_Skjerv%C3%B8y_at_Fiskeneset_in_Skjerv%C3%B8y,_Skjerv%C3%B8y_municipality,_Troms_og_Finnmark,_Norway,_2022_August.jpg",
+    "credit": "Ximonic (Simo Räsänen)",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2022",
+    "subject": "place"
+  },
+  "phobjikha-black-necked-cranes": {
+    "title": "Phobjikha Valley marshland, the cranes' winter habitat",
+    "imageUrl": "/editorial/phobjikha-black-necked-cranes.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Phobjikha_Valley.jpg",
+    "credit": "Phuentsho",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2013",
+    "subject": "place"
+  },
+  "six-senses-zighy-bay-programme": {
+    "title": "Zighy Bay beach and resort seen from the headland, Musandam",
+    "imageUrl": "/editorial/six-senses-zighy-bay-programme.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zighy_Bay,_Musandam_Peninsula,_Oman.jpg",
+    "credit": "Charles J. Sharp",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2014",
+    "subject": "place"
+  },
+  "worlds-50-best-restaurants-lima": {
+    "title": "Kitchen at Central restaurant, Lima",
+    "imageUrl": "/editorial/worlds-50-best-restaurants-lima.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Central_Restaurante_Kitchen_-_Lima,_Peru.jpg",
+    "credit": "Winedirector",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2013",
+    "subject": "place"
+  },
+  "antarctica-early-season": {
+    "title": "Paradise Bay, Antarctic Peninsula",
+    "imageUrl": "/editorial/antarctica-early-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paradise_Bay_Antarctica_(47284351592).jpg",
+    "credit": "Gary Bembridge",
+    "license": "CC BY 2.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "dubai-design-week": {
+    "title": "Poster exhibition in Dubai Design District during Dubai Design Week",
+    "imageUrl": "/editorial/dubai-design-week.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tash_-_DDW_-_Nov14,2017_-81.jpg",
+    "credit": "Hogo agogo",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2017",
+    "subject": "event"
+  },
+  "hospices-de-beaune-auction": {
+    "title": "Glazed-tile roofs of the Hôtel-Dieu, Hospices de Beaune",
+    "imageUrl": "/editorial/hospices-de-beaune-auction.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hospices_beaune_toits1.jpg",
+    "credit": "Jebulon",
+    "license": "Public domain",
+    "photographed": "2010",
+    "subject": "place"
+  },
+  "alba-world-truffle-auction": {
+    "title": "Castle of Grinzane Cavour in winter snow",
+    "imageUrl": "/editorial/alba-world-truffle-auction.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grinzane_Cavour_Castle_snow_10-12-2021.jpg",
+    "credit": "Jeanne Griffin",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2021",
+    "subject": "place"
+  },
+  "chiva-som-hua-hin-season": {
+    "title": "Hua Hin beach, Thailand",
+    "imageUrl": "/editorial/chiva-som-hua-hin-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_Hua_Hin_Beach.jpg",
+    "credit": "Elmschrat",
+    "license": "CC0",
+    "photographed": "2024",
+    "subject": "place"
+  },
+  "atp-finals": {
+    "title": "ATP Finals show court at the O2, London (2014 edition, before the move to Turin)",
+    "imageUrl": "/editorial/atp-finals.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2014-11-12_2014_ATP_World_Tour_Finals_show_court_during_Marin_Cilic_vs_Thomas_Berdych_match_3_by_Michael_Frey.jpg",
+    "credit": "Michael Frey",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "argentine-open-polo": {
+    "title": "Argentine Open match at the Campo Argentino de Polo, Palermo",
+    "imageUrl": "/editorial/argentine-open-polo.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Campeonato_Argentino_de_Polo_2010_-_5237109478_e7ed034169_o.jpg",
+    "credit": "Roger Schultz",
+    "license": "CC BY 2.0",
+    "photographed": "2010",
+    "subject": "event"
+  },
+  "aurora-tromso": {
+    "title": "Northern lights over snowfields near Tromsø",
+    "imageUrl": "/editorial/aurora-tromso.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aurora_Borealis_Troms%C3%B8_Norway.jpg",
+    "credit": "Andi Gentsch",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2013",
+    "subject": "place"
+  },
+  "vatnajokull-ice-caves": {
+    "title": "Blue ice cave in Vatnajökull, Iceland",
+    "imageUrl": "/editorial/vatnajokull-ice-caves.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ice_Cave_Blue_Roof_-_Iceland.jpg",
+    "credit": "Eric Kilby",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2022",
+    "subject": "place"
+  },
+  "pushkar-camel-fair": {
+    "title": "Camels and a herder at the Pushkar Mela Ground during the fair",
+    "imageUrl": "/editorial/pushkar-camel-fair.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Camels_of_Pushkar_Camel_Fair_(2015).jpg",
+    "credit": "Sudipta Dutta Chowdhury",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2015",
+    "subject": "event"
+  },
+  "dunlop-phoenix-tournament": {
+    "title": "Aerial view of Phoenix Seagaia Resort and its golf courses, Miyazaki",
+    "imageUrl": "/editorial/dunlop-phoenix-tournament.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Seagaia_Resort_in_Miyazaki,_Japan.jpg",
+    "credit": "Kenichiro MATOHARA",
+    "license": "CC BY 2.0",
+    "photographed": "2008",
+    "subject": "place"
+  },
+  "fashion-trust-arabia-gala": {
+    "title": "National Museum of Qatar through the Old Palace gateway, Doha",
+    "imageUrl": "/editorial/fashion-trust-arabia-gala.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:National_Museum_of_Qatar.jpg",
+    "credit": "CallMeBarcode",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2023",
+    "subject": "place"
+  },
+  "le-bal-des-debutantes-paris": {
+    "title": "Lobby of the Shangri-La hotel, Paris",
+    "imageUrl": "/editorial/le-bal-des-debutantes-paris.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:DSC08693-Shangri-La_H%C3%B4tel.JPG",
+    "credit": "FLLL",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2014",
+    "subject": "place"
+  },
+  "perigord-black-truffle-lalbenque": {
+    "title": "Truffle market on the rue du Marché aux Truffes, Lalbenque",
+    "imageUrl": "/editorial/perigord-black-truffle-lalbenque.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:March%C3%A9_aux_truffes_Lalbenque.JPG",
+    "credit": "KD46",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2010",
+    "subject": "event"
+  },
+  "aurora-abisko": {
+    "title": "Northern lights over Abisko National Park",
+    "imageUrl": "/editorial/aurora-abisko.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aurora_in_Abisko_National_Park.jpg",
+    "credit": "ClaudiaTen",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2023",
+    "subject": "place"
+  },
+  "al-dhafra-camel-festival": {
+    "title": "Camel race at Moreeb Dune, Liwa, in the Al Dhafra region",
+    "imageUrl": "/editorial/al-dhafra-camel-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Liwa_International_Festival.jpg",
+    "credit": "DMPenAd",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2022",
+    "subject": "place"
+  },
+  "antigua-charter-yacht-show": {
+    "title": "Sailing yachts moored at Nelson's Dockyard, English Harbour",
+    "imageUrl": "/editorial/antigua-charter-yacht-show.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Antigua_English_Harbour_Nelson%27s_Dockyard_2.jpg",
+    "credit": "Dr. Thomas Liptak",
+    "license": "CC BY 4.0",
+    "photographed": "2025",
+    "subject": "place"
+  },
+  "la-liste-gala-paris": {
+    "title": "Ministry of Foreign Affairs on the Quai d'Orsay, Paris",
+    "imageUrl": "/editorial/la-liste-gala-paris.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Minist%C3%A8re_fran%C3%A7ais_des_Affaires_Etrang%C3%A8res_et_Europ%C3%A9ennes_Quai_d%27Orsay_Paris.jpg",
+    "credit": "Jebulon",
+    "license": "CC0",
+    "photographed": "2011",
+    "subject": "place"
+  },
+  "gorilla-trekking-bwindi": {
+    "title": "Mountain gorilla in the Buhoma sector, Bwindi Impenetrable National Park",
+    "imageUrl": "/editorial/gorilla-trekking-bwindi.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mountain_gorilla_(Gorilla_beringei_beringei)_female_eating_root.jpg",
+    "credit": "Charles J. Sharp",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "antarctica-peak-season": {
+    "title": "Lemaire Channel, Antarctic Peninsula",
+    "imageUrl": "/editorial/antarctica-peak-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lemaire_Channel,_Antarctica.jpg",
+    "credit": "Liam Quinn",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2011",
+    "subject": "place"
+  },
+  "phuket-kings-cup-regatta": {
+    "title": "Kata Beach, Phuket, the regatta's home shore",
+    "imageUrl": "/editorial/phuket-kings-cup-regatta.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Phuket_-_Kata_Beach_001.jpg",
+    "credit": "ADwarf",
+    "license": "Public domain",
+    "photographed": "2010",
+    "subject": "place"
+  },
+  "junkanoo-nassau": {
+    "title": "Junkanoo parade costumes in downtown Nassau",
+    "imageUrl": "/editorial/junkanoo-nassau.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Junkanoo_Festival,_Nassau.jpg",
+    "credit": "Jon Worth",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2005",
+    "subject": "event"
+  },
+  "design-miami-beach": {
+    "title": "Gallery program at Design Miami, Miami Beach",
+    "imageUrl": "/editorial/design-miami-beach.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Design_Miami_2015.jpg",
+    "credit": "Farrisbukhari",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2015",
+    "subject": "event"
+  },
+  "marrakech-international-film-festival": {
+    "title": "Jemaa el-Fna square in the late afternoon, Marrakech",
+    "imageUrl": "/editorial/marrakech-international-film-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:ElFnarMarrakech2014.jpg",
+    "credit": "Elgaard",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2014",
+    "subject": "place"
+  },
+  "makgadikgadi-zebra-migration": {
+    "title": "Baines' Baobabs, Nxai Pan National Park",
+    "imageUrl": "/editorial/makgadikgadi-zebra-migration.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Botswana_Nxai_Pan_NP_Baynes_Baobabs.jpg",
+    "credit": "Ralf Ellerich",
+    "license": "CC BY-SA 3.0",
+    "photographed": "1998",
+    "subject": "place"
+  },
+  "galapagos-warm-season": {
+    "title": "Beach and lava rocks at Puerto Villamil, Isabela Island, in January",
+    "imageUrl": "/editorial/galapagos-warm-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Playa_de_Puerto_Villamil.jpg",
+    "credit": "David C. S.",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2020",
+    "subject": "place"
+  },
+  "vivamayr-altaussee-winter-cure": {
+    "title": "Morning fog over Lake Altaussee in winter",
+    "imageUrl": "/editorial/vivamayr-altaussee-winter-cure.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Receding_Fog_over_Lake_Altaussee.jpg",
+    "credit": "Bernd Thaller",
+    "license": "CC BY 2.0",
+    "photographed": "2021",
+    "subject": "place"
+  },
+  "nicoya-blue-zone-nosara": {
+    "title": "Sunset over the Pacific at Nosara beach",
+    "imageUrl": "/editorial/nicoya-blue-zone-nosara.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_in_Nosara_Beach_-_panoramio.jpg",
+    "credit": "Erick Hidalgo",
+    "license": "CC BY 3.0",
+    "photographed": "2010",
+    "subject": "place"
+  },
+  "kamalaya-koh-samui-retreat": {
+    "title": "Beach and sea, Koh Samui",
+    "imageUrl": "/editorial/kamalaya-koh-samui-retreat.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Koh_Samui,_Sea_beach,_Blue_sky,_Thailand.jpg",
+    "credit": "Vyacheslav Argenberg",
+    "license": "CC BY 4.0",
+    "photographed": "2009",
+    "subject": "place"
+  },
+  "lanserhof-tegernsee-january-cure": {
+    "title": "The Tegernsee in January, Bavarian Alps",
+    "imageUrl": "/editorial/lanserhof-tegernsee-january-cure.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tegernsee_from_Tegernseehaus.jpg",
+    "credit": "Gerda Arendt",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2022",
+    "subject": "place"
+  },
+  "hero-dubai-desert-classic": {
+    "title": "Putting green at Emirates Golf Club, Dubai",
+    "imageUrl": "/editorial/hero-dubai-desert-classic.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:EGC2001.jpg",
+    "credit": "PaddyBriggs",
+    "license": "Public domain",
+    "photographed": null,
+    "subject": "place"
+  },
+  "alchemist-copenhagen-season": {
+    "title": "Open kitchen at Alchemist, Copenhagen",
+    "imageUrl": "/editorial/alchemist-copenhagen-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:AlchemistAV4A4031_(48826596217).jpg",
+    "credit": "City Foodsters",
+    "license": "CC BY 2.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "timkat-gondar": {
+    "title": "Timkat crowds at Fasilides' Bath, Gondar",
+    "imageUrl": "/editorial/timkat-gondar.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fasilides_Bath_Timkat_people.JPG",
+    "credit": "Brian Dell",
+    "license": "CC0",
+    "photographed": "2011",
+    "subject": "event"
+  },
+  "australian-open": {
+    "title": "Rod Laver Arena at dusk during the Australian Open",
+    "imageUrl": "/editorial/australian-open.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rod_Laver_Arena_Melbourne_Park_Australian_Open_2023_quarter_final_dusk.jpg",
+    "credit": "Gracchus250",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2023",
+    "subject": "event"
+  },
+  "vienna-philharmonic-ball": {
+    "title": "Golden Hall of the Musikverein, Vienna",
+    "imageUrl": "/editorial/vienna-philharmonic-ball.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wien_-_Musikverein,_gro%C3%9Fer_Saal.JPG",
+    "credit": "C.Stadler/Bwag",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2015",
+    "subject": "place"
+  },
+  "rallye-monte-carlo": {
+    "title": "Hyundai i20 WRC on a mountain stage of the Rallye Monte-Carlo",
+    "imageUrl": "/editorial/rallye-monte-carlo.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Andreas_Mikkelsen_Monte_Carlo_2018_II.jpg",
+    "credit": "Hyundai Motorsport",
+    "license": "CC BY 4.0",
+    "photographed": "2018",
+    "subject": "event"
+  },
+  "snow-polo-world-cup-st-moritz": {
+    "title": "Snow Polo World Cup match on the frozen lake, St. Moritz",
+    "imageUrl": "/editorial/snow-polo-world-cup-st-moritz.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:30th_St._Moritz_Polo_World_Cup_on_Snow_-_20140202_-_Cartier_vs_Ralph_Lauren_18.jpg",
+    "credit": "Clément Bucco-Lechat",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "art-sg-singapore": {
+    "title": "Sands Expo and Convention Centre entrance, Marina Bay Sands",
+    "imageUrl": "/editorial/art-sg-singapore.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Marina_Bay_Sands_Sands_Expo_and_Convention_Centre_11-08-2025.jpg",
+    "credit": "LN9267",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2025",
+    "subject": "place"
+  },
+  "sundance-film-festival": {
+    "title": "Boulder Theater on 14th Street, Boulder",
+    "imageUrl": "/editorial/sundance-film-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boulder_Theater_(32180829776).jpg",
+    "credit": "Paul Sableman",
+    "license": "CC BY 2.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "sharjah-biennial-17": {
+    "title": "Al Mureijah Square, Sharjah Art Foundation",
+    "imageUrl": "/editorial/sharjah-biennial-17.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Section_of_Al_Mureijah_Square,_a_part_of_the_Sharjah_Art_Foundation.jpg",
+    "credit": "M.Ahmadani",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2018",
+    "subject": "place"
+  },
+  "venice-carnival": {
+    "title": "Masked costumes in Piazza San Marco during the Venice Carnival",
+    "imageUrl": "/editorial/venice-carnival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Karneval_in_Venedig_2019,_Markusplatz,_Vendedig,_Italien,_Europ%C3%A4ische_Union.jpg",
+    "credit": "Naturpuur",
+    "license": "CC BY 4.0",
+    "photographed": "2019",
+    "subject": "event"
+  },
+  "singapore-grand-prix": {
+    "title": "Marina Bay street circuit at night during the Singapore Grand Prix",
+    "imageUrl": "/editorial/singapore-grand-prix.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:1_singapore_f1_night_race_2012_city_skyline.jpg",
+    "credit": "chensiyuan",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2012",
+    "subject": "event"
+  },
+  "sao-paulo-grand-prix": {
+    "title": "Interlagos grandstands during Brazilian Grand Prix weekend",
+    "imageUrl": "/editorial/sao-paulo-grand-prix.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Interlagos_2011_laranjinha.jpg",
+    "credit": "Jo Lorib",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2011",
+    "subject": "event"
+  },
+  "dubai-international-boat-show": {
+    "title": "Boats moored in Dubai Marina",
+    "imageUrl": "/editorial/dubai-international-boat-show.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_End_Of_Dubai_Marina_(222830071).jpeg",
+    "credit": "Francisco Anzola",
+    "license": "CC BY 3.0",
+    "photographed": "2014",
+    "subject": "place"
+  },
+  "designart-tokyo": {
+    "title": "Omotesando avenue, Tokyo, in November",
+    "imageUrl": "/editorial/designart-tokyo.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:November_2024,_Buildings_in_Omotesando_-17969.jpeg",
+    "credit": "Syced",
+    "license": "CC0",
+    "photographed": "2024",
     "subject": "place"
   }
 }
