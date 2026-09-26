@@ -378,19 +378,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             aria-label="Vibe or plan"
             className="surface-raised fixed inset-x-6 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-50 mx-auto grid max-w-sm grid-cols-2 gap-2 p-2 lg:hidden"
           >
-            <button
-              type="button"
+            <NavLink
+              href="/nearby"
               role="menuitem"
               className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
-              onClick={() => {
-                setSunOpen(false);
-                setVibeOpen(true);
-              }}
             >
               <SunGlyph size={26} />
               <span className="text-[15px] font-semibold text-bone">Vibe Now</span>
-              <span className="text-[12px] text-ink-subtle">Talk it out; places appear</span>
-            </button>
+              <span className="text-[12px] text-ink-subtle">What’s busy within 5 miles</span>
+            </NavLink>
             <NavLink
               href="/trips/designer"
               role="menuitem"

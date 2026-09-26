@@ -19,12 +19,15 @@ export function resetNowVenueCacheForTests() {
   venueCache.clear();
 }
 
-function cacheKey(request: NowRequest): string {
+type VenueQuery = Pick<NowRequest, 'location' | 'radiusMeters' | 'intent'> & { limit?: number };
+
+function cacheKey(request: VenueQuery): string {
   return [
     request.location.lat.toFixed(3),
     request.location.lng.toFixed(3),
     request.radiusMeters,
     request.intent,
+    request.limit ?? 24,
   ].join(':');
 }
 
@@ -59,7 +62,7 @@ function pruneVenueCache(now: number) {
   }
 }
 
-async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
+export async function venueCandidates(request: VenueQuery): Promise<VenueCandidate[]> {
   const key = cacheKey(request);
   const now = Date.now();
   const cached = venueCache.get(key);
@@ -78,7 +81,7 @@ async function venueCandidates(request: NowRequest): Promise<VenueCandidate[]> {
     radiusMeters: request.radiusMeters,
     at: new Date(now).toISOString(),
     categories: [request.intent],
-    limit: 24,
+    limit: request.limit ?? 24,
   });
   pruneVenueCache(now);
   venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
