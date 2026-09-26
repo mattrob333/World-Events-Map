@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
-import { BestTimeVenueProvider, parseBestTimeVenue } from '../besttime';
+import { BestTimeVenueProvider, closingMinutes, parseBestTimeVenue } from '../besttime';
 
 const origin = { lat: 40.75, lng: -73.98 };
 
@@ -188,5 +188,18 @@ describe('BestTimeVenueProvider', () => {
         categories: ['drinks'],
       }),
     ).resolves.toEqual([]);
+  });
+});
+
+describe('closingMinutes', () => {
+  const venue = (periods: unknown[]) => ({ day_info: { venue_open_close_v2: { '24h': periods } } });
+  it('runs past midnight for a bar that closes at 2am', () => {
+    const bar = venue([{ opens: 17, closes: 2, crosses_midnight: true }]);
+    expect(closingMinutes(bar, 22)).toBe(1560);
+    expect(closingMinutes(bar, 1)).toBe(1560);
+    expect(closingMinutes(bar, 11)).toBeUndefined();
+  });
+  it('reads a same-day close with minutes', () => {
+    expect(closingMinutes(venue([{ opens: 11, closes: 22, closes_minutes: 30 }]), 20)).toBe(22 * 60 + 30);
   });
 });

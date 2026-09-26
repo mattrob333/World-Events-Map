@@ -1,6 +1,6 @@
 import { parseProfileLocally } from '@/lib/designer/profile';
 import { wheresIn } from '@/lib/geo/regions';
-import { PROFILE_TOPICS, TRIP_TOPICS, type Topic, type TopicMode } from './topics';
+import { NOW_TOPICS, PROFILE_TOPICS, TRIP_TOPICS, type Topic, type TopicMode } from './topics';
 import { placeAfterPreposition, placeFromTripRequest, tripCrew } from './vibe';
 
 export type VibeMode = TopicMode;
@@ -65,6 +65,20 @@ export function tripChecklist(text: string, facts: LockedFacts = {}): ChecklistI
   }, facts);
 }
 
+const NOW_WHAT = /\b(bars?|drinks?|cocktails?|beer|wine|food|eat|bite|dinner|restaurant|pizza|tacos?|music|live|jazz|club|dance|dancing|karaoke|something to do)\b/i;
+const NOW_ENERGY = /\b(chill|quiet|low.?key|social|lively|packed|busy|loud|crowd(?:ed)?|foot traffic|buzzing)\b/i;
+const NOW_LATE = /\b(late|open late|after midnight|till \d|until \d|all night|last call|stays open)\b/i;
+
+/** Right now: lit by what they said, or what the concierge locked. */
+export function nowChecklist(text: string, facts: LockedFacts = {}): ChecklistItem[] {
+  return build(NOW_TOPICS, {
+    here: /\b(i'?m (?:in|at|near|over)|here in|around|near)\b/i.test(text),
+    after: NOW_WHAT.test(text),
+    energy: NOW_ENERGY.test(text),
+    late: NOW_LATE.test(text),
+  }, facts);
+}
+
 export function checklistFor(mode: VibeMode, text: string, facts: LockedFacts = {}): ChecklistItem[] {
-  return mode === 'profile' ? profileChecklist(text, facts) : tripChecklist(text, facts);
+  return mode === 'profile' ? profileChecklist(text, facts) : mode === 'now' ? nowChecklist(text, facts) : tripChecklist(text, facts);
 }

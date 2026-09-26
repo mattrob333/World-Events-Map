@@ -53,7 +53,7 @@ describe('POST /api/now/pulse', () => {
     const response = await POST(request(JSON.stringify({ location: { lat: 33.7512, lng: -84.3901 } })));
     expect(response.status).toBe(200);
     expect(response.headers.get('Cache-Control')).toBe('no-store');
-    expect(mocked).toHaveBeenCalledWith({ lat: 33.7512, lng: -84.3901 });
+    expect(mocked).toHaveBeenCalledWith({ lat: 33.7512, lng: -84.3901 }, 'surprise', 8047);
   });
 
   it('turns a spent budget into a polite retry', async () => {

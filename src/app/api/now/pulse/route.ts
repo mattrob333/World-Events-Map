@@ -3,6 +3,7 @@ import { NO_STORE, RequestTooLargeError, jsonError, readBodyWithLimit, validateR
 import { NowProviderBudgetExceededError, NowProviderBudgetUnavailableError } from '@/lib/now/providerBudget';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { executePulse } from '@/lib/now/pulseService';
+import { PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -35,7 +36,10 @@ export async function POST(request: Request) {
     if (!(lat >= -90 && lat <= 90) || !(lng >= -180 && lng <= 180)) {
       return jsonError(400, 'INVALID_NOW_REQUEST', 'A location with latitude and longitude is required.');
     }
-    return NextResponse.json(await executePulse({ lat, lng }), { headers: NO_STORE });
+    const raw = body as Record<string, unknown>;
+    const what: PulseWhat = PULSE_WHATS.includes(raw.what as PulseWhat) ? (raw.what as PulseWhat) : 'surprise';
+    const radius = typeof raw.radiusMeters === 'number' && Number.isFinite(raw.radiusMeters) ? Math.max(800, Math.min(PULSE_RADIUS_METERS, Math.round(raw.radiusMeters))) : PULSE_RADIUS_METERS;
+    return NextResponse.json(await executePulse({ lat, lng }, what, radius), { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
     if (cause instanceof NowProviderBudgetExceededError) {

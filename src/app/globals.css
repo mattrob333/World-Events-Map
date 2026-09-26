@@ -305,6 +305,10 @@
     box-shadow: var(--shadow-soft-2), 0 10px 40px -12px rgb(242 107 42 / 0.45);
   }
   /* The Vibe stage: a full-screen evening sky, the sun low on the horizon. */
+  /* No grey scrollbar rails on the stage; content still scrolls, with a soft fade at the bottom edge. */
+  .vibe-stage, .vibe-stage * { scrollbar-width: none; }
+  .vibe-stage ::-webkit-scrollbar { display: none; }
+  .vibe-scroll { mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 28px), transparent); }
   .vibe-stage {
     background:
       radial-gradient(120% 55% at 50% 108%, rgb(242 107 42 / 0.32), transparent 62%),

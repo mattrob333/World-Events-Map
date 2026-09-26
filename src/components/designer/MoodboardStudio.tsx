@@ -290,6 +290,7 @@ export function MoodboardStudio({
 
   // How they travel, as the voice concierge heard it (pace, budget, hard no's), applied to the next build.
   const voiceStyle = useRef<VoiceStyle | null>(null);
+  const saveAs = useRef<string | 'fresh' | null>(null);
   const withListening = useCallback(
     (parsed: TravelerProfile, engine: ParseEngine = 'on-device'): TravelerProfile => {
       const profile = withVoiceStyle(parsed, voiceStyle.current);
@@ -351,6 +352,8 @@ export function MoodboardStudio({
         const summary = typeof args.summary === 'string' ? args.summary.trim().slice(0, MAX_RAMBLE_CHARS) : '';
         if (summary.length < 10) return 'Error: I need a few sentences first.';
         voiceStyle.current = { pace: args.pace, budget: args.budget, avoid: args.avoid, splurge: args.splurge };
+        // The Vibe stage says whether this is a new profile or an update to one, so a new one never overwrites the board on screen.
+        saveAs.current = typeof args.boardId === 'string' && args.boardId ? args.boardId : args.fresh === true ? 'fresh' : null;
         setText(summary);
         await new Promise((resolve) => window.setTimeout(resolve, 60));
         await buildRef.current();
@@ -391,7 +394,9 @@ export function MoodboardStudio({
 
   function save(): string | undefined {
     if (!result) return undefined;
-    const id = boardId ?? `mb-${Date.now().toString(36)}`;
+    const target = saveAs.current;
+    saveAs.current = null;
+    const id = target === 'fresh' ? `mb-${Date.now().toString(36)}` : target ?? boardId ?? `mb-${Date.now().toString(36)}`;
     saveProfile({ id, profile: result.profile, engine: result.engine, updatedAt: new Date().toISOString() });
     setBoardId(id);
     setSaved(true);

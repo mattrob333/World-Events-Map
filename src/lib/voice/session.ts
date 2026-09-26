@@ -47,6 +47,12 @@ export function liveInstructions(intent: VoiceIntent, context: string, today: st
       'Do not read results out; the canvas shows them. If a result arrives, one short line is enough: "Pulling Zermatt\'s hottest tables now."',
       'When they say they are done, say "Got it. Tap what you love." and delegate so the backend finishes.',
     ].join(' '),
+    vibe_now: [
+      `They are out right now and want somewhere to go. Their screen lists: ${topicAgenda('now')}. The screen already knows where their phone is unless they name a place.`,
+      'Delegate to the backend, without announcing it, as soon as you know what they are after, and again whenever they change it.',
+      'If what they want is unclear, ask one either-or question: "Cocktail bar or dive bar?". Never more than two questions in all. This is quick.',
+      'Do not read the list out; the screen shows it. When results arrive, one short line about the top pick is enough: "Top pick is two blocks away and packed right now."',
+    ].join(' '),
     vibe_profile: [
       `They are setting up their travel profile, the long view of who they are. Their screen lists: ${topicAgenda('profile')}.`,
       'Let them talk through it. Delegate to the backend, silently, whenever they share something about themselves, so it can light up the topic.',
@@ -74,6 +80,13 @@ export function backendInstructions(intent: VoiceIntent, profile: string, today:
       'Use kind "event" with its date for anything dated. Search for their dates when you know them.',
       'For a region ("the Alps"), after show_places pick the two or three best-fitting resorts for them and call focus_places with a reason from their profile, then search those.',
       'When they say they are done, call finish_trip.',
+    ].join('\n');
+  }
+  if (intent === 'vibe_now') {
+    return [...shared,
+      'Call lock_fact for where they are (topic here), what they are after (after), the energy (energy) and how late (late), a few words each.',
+      'Call find_now as soon as you know what they are after: what (drinks, food, music, experience or surprise), energy (chill, social, lively or surprise; "decent foot traffic" is lively), where only if they named a place, late when they want somewhere open late.',
+      'The result lists what is open and busy near them. Pick from it only, weigh their profile, and never invent a venue, a closing time or how busy it is.',
     ].join('\n');
   }
   if (intent === 'vibe_profile') {

@@ -10,7 +10,7 @@ import { BUDGETS, PACES } from '@/lib/designer/profile';
 import { TOPIC_KEYS, topicAgenda } from './topics';
 
 /** vibe_profile and vibe_trip are the header's Vibe stage; the others belong to a page. */
-export type VoiceIntent = 'vibe' | 'vibe_profile' | 'vibe_trip' | 'trip' | 'board' | 'now' | 'general';
+export type VoiceIntent = 'vibe' | 'vibe_profile' | 'vibe_trip' | 'vibe_now' | 'trip' | 'board' | 'now' | 'general';
 
 type JsonSchema = {
   type: 'object';
@@ -88,6 +88,16 @@ export const VOICE_TOOLS = {
       stretch: { type: 'integer', minimum: 0, maximum: 4, description: 'Only if they said how adventurous they are: 0 never push me, 4 surprise me.' },
     }, ['signals']),
   },
+  find_now: {
+    name: 'find_now',
+    description: 'Find places open right now near them, ranked by live and usual foot traffic and their profile; the results appear on their screen. Call as soon as you know what they are after, and again when it changes.',
+    parameters: obj({
+      what: { type: 'string', enum: ['drinks', 'food', 'music', 'experience', 'surprise'], description: 'Bars and cocktails are drinks; a late bite is food; live music or dancing is music.' },
+      energy: { type: 'string', enum: ['chill', 'social', 'lively', 'surprise'], description: 'Low-key is chill; "decent foot traffic", packed or loud is lively.' },
+      where: { type: 'string', description: 'Only if they named a place ("Flushing, Queens", "Shibuya, Tokyo"). Leave empty to use where their phone is.' },
+      late: { type: 'boolean', description: 'True when they want somewhere that stays open late.' },
+    }, ['what', 'energy']),
+  },
   finish_trip: {
     name: 'finish_trip',
     description: 'They are done talking: the canvas stops listening and shows their picks. Call when they say they are done or ask to build it.',
@@ -153,6 +163,7 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
   vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
   vibe_profile: ['lock_fact', 'add_signals', 'describe_me'],
   vibe_trip: ['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip'],
+  vibe_now: ['lock_fact', 'find_now'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
   now: ['set_now_city', 'switch_profile', 'navigate'],
@@ -175,6 +186,7 @@ export const INTENT_OPENERS: Record<VoiceIntent, string> = {
     'When they pause: if where, when or who is missing, ask for it in one short question. If something is ambiguous, ask one either-or question: "Late-night bars or live-music bars?". At most two follow-ups beyond those three.',
     'Do not suggest or describe places yourself; the app ranks them. Once where and when are known and they have finished, say "Got it." and call finish_trip.',
   ].join(' '),
+  vibe_now: 'They are out right now and want somewhere to go. Find out what they are after, then call find_now. The screen shows the results.',
   trip: 'Ask where they want to go, when, and who is coming. Fill things in as they talk, then offer to build it.',
   board: 'Ask them to tell you about themselves like they would a friend: where they are from, their teams, the music they love, food, who they travel with, and the trip they still talk about. Keep it light; one question at a time. When you have enough, call describe_me.',
   now: 'Ask where they are right now and what they feel like doing. Set the city as soon as they say it.',
@@ -182,7 +194,7 @@ export const INTENT_OPENERS: Record<VoiceIntent, string> = {
 };
 
 export function isVoiceIntent(value: unknown): value is VoiceIntent {
-  return value === 'vibe' || value === 'vibe_profile' || value === 'vibe_trip' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
+  return value === 'vibe' || value === 'vibe_profile' || value === 'vibe_trip' || value === 'vibe_now' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
 }
 
 const ROUTES: Record<string, string> = {

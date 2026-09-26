@@ -657,3 +657,34 @@ export function profileTags(profile: TravelerProfile): string[] {
   if (style?.pace === 'packed') tags.add('active');
   return [...tags];
 }
+
+/**
+ * Updating a profile by talking adds and corrects; it never quietly drops
+ * what was there. The new read leads each list, the old one fills in behind.
+ */
+export function mergeProfileUpdate(before: TravelerProfile, after: TravelerProfile): TravelerProfile {
+  const both = (a: readonly string[] | undefined, b: readonly string[] | undefined, max = 12) => uniq([...(a ?? []), ...(b ?? [])]).slice(0, max);
+  const who = (member: FamilyMember) => `${member.relation}:${(member.name ?? member.label).toLowerCase()}`;
+  const family = [...after.family, ...before.family.filter((member) => !after.family.some((next) => who(next) === who(member)))].slice(0, 12);
+  const style = after.style ?? before.style;
+  return {
+    ...before,
+    ...after,
+    name: after.name ?? before.name,
+    age: after.age ?? before.age,
+    hometown: after.hometown ?? before.hometown,
+    heritage: both(after.heritage, before.heritage),
+    teams: both(after.teams, before.teams),
+    music: both(after.music, before.music),
+    artists: both(after.artists, before.artists),
+    events: both(after.events, before.events),
+    family,
+    favoriteTrips: both(after.favoriteTrips, before.favoriteTrips),
+    interests: both(after.interests, before.interests),
+    food: both(after.food, before.food),
+    bestMoments: both(after.bestMoments, before.bestMoments),
+    listening: after.listening ?? before.listening,
+    style: style && before.style && after.style ? { ...before.style, ...after.style, avoid: both(after.style.avoid, before.style.avoid) } : style,
+    summary: after.summary || before.summary,
+  };
+}

@@ -128,6 +128,33 @@ function openDuringLocalHour(venue: UnknownRecord, localHour?: number): boolean 
   return sawUsablePeriod ? false : undefined;
 }
 
+/**
+ * When the opening period that covers this hour ends, in minutes after
+ * midnight (past midnight runs over 1440, so 2am is 1560). Undefined when
+ * the hours are unknown or it's open all day.
+ */
+export function closingMinutes(venue: UnknownRecord, localHour?: number): number | undefined {
+  if (localHour === undefined || localHour < 0 || localHour > 23) return undefined;
+  const schedule = record(record(venue.day_info)?.venue_open_close_v2);
+  if (!schedule || schedule.open_24h === true || !Array.isArray(schedule['24h'])) return undefined;
+  const hourStart = Math.floor(localHour) * 60;
+  for (const rawPeriod of schedule['24h']) {
+    const period = record(rawPeriod);
+    if (!period || period.open_24h === true) continue;
+    const opens = number(period.opens);
+    const closes = number(period.closes);
+    if (opens === undefined || closes === undefined) continue;
+    const start = opens * 60 + (number(period.opens_minutes) ?? 0);
+    const end = closes * 60 + (number(period.closes_minutes) ?? 0);
+    const crosses = period.crosses_midnight === true || end <= start;
+    if (!crosses && hourStart + 60 > start && hourStart < end) return end;
+    // Past midnight: it closes "tomorrow" if we're in the evening part, "today" if in the early-morning tail.
+    if (crosses && hourStart + 60 > start) return end + 1440;
+    if (crosses && hourStart < end) return end + 1440;
+  }
+  return undefined;
+}
+
 export function parseBestTimeVenue(
   raw: unknown,
   origin: VenueSearchInput['location'],
@@ -164,6 +191,7 @@ export function parseBestTimeVenue(
     location: { lat, lng },
     address: text(venue.venue_address) ?? text(info?.venue_address),
     openNow: openDuringLocalHour(venue, localHour),
+    closesMinutes: closingMinutes(venue, localHour),
     distanceMeters: haversineMeters(origin, { lat, lng }),
     rating: rating && rating > 0 ? rating : undefined,
     reviewCount: reviewCount && reviewCount > 0 ? reviewCount : undefined,

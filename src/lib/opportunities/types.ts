@@ -17,6 +17,8 @@ export interface VenueCandidate {
   address?: string;
   openNow?: boolean;
   closesAt?: string;
+  /** Tonight's closing time in minutes after midnight; past midnight runs over 1440 (2am = 1560). */
+  closesMinutes?: number;
   distanceMeters?: number;
   rating?: number;
   reviewCount?: number;

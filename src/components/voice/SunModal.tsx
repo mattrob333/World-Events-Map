@@ -3,8 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
-import { MAX_RAMBLE_CHARS, parseProfileLocally } from '@/lib/designer/profile';
-import { pickActiveProfile, profileLabel, useDesignerStore } from '@/lib/designer/store';
+import { MAX_RAMBLE_CHARS, mergeProfileUpdate, parseProfileLocally } from '@/lib/designer/profile';
+import { pickActiveProfile, profileLabel, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
 import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
@@ -22,6 +22,9 @@ import { buildVibeTrip } from './buildVibeTrip';
 import { SunOrb } from './SunOrb';
 import { VibeCanvas } from './VibeCanvas';
 import { VibePlaces, type VibePayload } from './VibePlaces';
+import { NowPicksPanel } from './NowPicksPanel';
+import { ProfileManager } from './ProfileManager';
+import { askFromText, useNowFinder } from './useNowFinder';
 import { useLiveTranscript } from './useLiveTranscript';
 
 type PageVoice = NonNullable<ReturnType<typeof useVoiceStore.getState>['page']>;
@@ -129,6 +132,12 @@ function profileSummary(saved: ReturnType<typeof pickActiveProfile>): string {
   ].filter(Boolean).join(' ').slice(0, 900);
 }
 
+const TABS: { value: VibeMode; label: string }[] = [
+  { value: 'profile', label: 'Profile' },
+  { value: 'now', label: 'Vibe Now' },
+  { value: 'trip', label: 'Plan a trip' },
+];
+
 const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
   profile: {
     kicker: 'My profile',
@@ -137,8 +146,15 @@ const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; buil
     build: 'Build my vibe',
     placeholder: 'I’m from Atlanta, Braves fan, Fred again.. on repeat, omakase or taco trucks, and I travel with…',
   },
+  now: {
+    kicker: 'Vibe now',
+    title: 'What’s the move?',
+    lede: 'Say where you are and what you’re after. I’ll check what’s open and busy right now.',
+    build: 'Find it',
+    placeholder: 'I’m in Flushing, Queens. A bar that stays open late with a crowd.',
+  },
   trip: {
-    kicker: 'A trip',
+    kicker: 'Plan a trip',
     title: 'All right, let’s vibe.',
     lede: 'Where, when and who are enough to start.',
     build: 'Build the trip',
@@ -170,6 +186,14 @@ function VibeStage() {
   const canvasRef = useRef<Canvas>(EMPTY_CANVAS);
   const [activity, setActivity] = useState<VoiceActivity>({ kind: 'idle' });
   const [forWhom, setForWhom] = useState<ForWhom>('me');
+  // Profile tab: the list of saved profiles, a new one, or one being updated (its id).
+  const [profileTarget, setProfileTarget] = useState<'list' | 'new' | { edit: string }>(hasProfile ? 'list' : 'new');
+  const editingId = typeof profileTarget === 'object' ? profileTarget.edit : null;
+  const editingRef = useRef<string | null>(null);
+  // The profile as it was before an update, so the update adds to it instead of replacing it.
+  const editSnapshot = useRef<SavedProfile | null>(null);
+  useEffect(() => { editingRef.current = editingId; }, [editingId]);
+  const nowFinder = useNowFinder();
   const profiles = useDesignerStore((s) => s.profiles);
   const activeProfileId = useDesignerStore((s) => s.activeProfileId);
   const setActiveProfile = useDesignerStore((s) => s.setActiveProfile);
@@ -220,6 +244,7 @@ function VibeStage() {
   useModalFocus(dialogRef);
   const transcriptEnd = useRef<HTMLSpanElement>(null);
   const copy = COPY[mode];
+  const editingProfile = mode === 'profile' && editingId ? profiles.find((entry) => entry.id === editingId) : undefined;
 
   // ── Routing shared by the live AI conversation and the dictation path ──────
   const reach = useCallback(async (target: VibeTarget): Promise<PageVoice | null> => {
@@ -231,6 +256,20 @@ function VibeStage() {
     router.push(target.href);
     return ready;
   }, [router]);
+
+  /** Where the built profile is saved: onto the one being updated, or a fresh one. */
+  const saveTarget = (): { boardId: string } | { fresh: true } => (editingRef.current ? { boardId: editingRef.current } : { fresh: true });
+
+  /**
+   * Updating a profile: remember it as it was, so the new words are merged
+   * onto it after the build (mergeProfileUpdate) and nothing is lost. The old
+   * profile isn't re-read as text; that would garble names and ages.
+   */
+  const withExisting = (text: string): string => {
+    const id = editingRef.current;
+    editSnapshot.current = id ? useDesignerStore.getState().profiles.find((entry) => entry.id === id) ?? null : null;
+    return text;
+  };
 
   const handlers = useCallback((): VoiceHandlers => {
     const navigate: VoiceHandlers['navigate'] = (args) => {
@@ -314,19 +353,26 @@ function VibeStage() {
       return cleaned.length ? `Noted ${cleaned.length}.` : 'Error: use keys from the vocabulary in your instructions.';
     };
     const describeMe: VoiceHandlers['describe_me'] = async (args) => {
-      const reply = await forwarded.describe_me!(args);
+      const reply = await forwarded.describe_me!({ ...args, summary: withExisting(typeof args.summary === 'string' ? args.summary : ''), ...saveTarget() });
       if (reply.startsWith('Error')) return reply;
       nameNewBoardRef.current();
       // The board is on screen behind the stage; close once the concierge finishes its sentence.
       whenQuiet(() => { rt.stop('ended'); setOpen(false); });
       return `END: ${reply}`;
     };
+    const findNow: VoiceHandlers['find_now'] = (args) => {
+      if (typeof args.where === 'string' && args.where.trim()) setFacts((prev) => ({ ...prev, here: prev.here ?? String(args.where) }));
+      setFacts((prev) => ({ ...prev, after: prev.after ?? String(args.what ?? ''), ...(args.late === true && !prev.late ? { late: 'Open late' } : {}) }));
+      return nowFinder.find(args as Parameters<typeof nowFinder.find>[0]);
+    };
     return mode === 'profile'
       ? { lock_fact: lockFact, add_signals: addSignals, describe_me: describeMe }
-      : mode === 'trip'
+      : mode === 'now'
+        ? { lock_fact: lockFact, find_now: findNow }
+        : mode === 'trip'
         ? { lock_fact: lockFact, show_places: showPlaces, add_spots: addSpots, focus_places: focusPlaces, finish_trip: finishTrip }
         : { ...forwarded, navigate, switch_profile: switchProfile };
-  }, [reach, router, mode, rt, setOpen, whenQuiet, updateCanvas]);
+  }, [reach, router, mode, rt, setOpen, whenQuiet, updateCanvas, nowFinder]);
 
   const context = useCallback(() => {
     const { profiles, activeProfileId } = useDesignerStore.getState();
@@ -334,9 +380,15 @@ function VibeStage() {
     const who = active
       ? `Traveling as ${profileLabel(active)}${active.profile.name ? ` (${active.profile.name})` : ''}. Profiles on this device: ${profiles.map(profileLabel).join(', ')}.`
       : 'No travel profile yet.';
-    const steer = mode === 'profile' ? FOR_WHOM.find((option) => option.value === forWhom)?.steer ?? '' : '';
+    const editing = editingRef.current ? profiles.find((entry) => entry.id === editingRef.current) : undefined;
+    const steer = mode === 'profile'
+      ? editing
+        ? `They are updating their "${profileLabel(editing)}" profile. What it says now: ${profileSummary(editing)} Ask what has changed or what to add; everything already in it stays.`
+        : FOR_WHOM.find((option) => option.value === forWhom)?.steer ?? ''
+      : mode === 'now' ? 'Their phone knows where they are unless they name a place.' : '';
     return [who, steer, mode === 'trip' ? canvasSummary(canvasRef.current) : '', page?.context() ?? ''].filter(Boolean).join(' ');
   }, [page, mode, forWhom]);
+
 
   // ── Setup: is the live AI voice on for this site? ──────────────────────────
   const stopRealtime = useRef(rt.stop);
@@ -434,8 +486,21 @@ function VibeStage() {
     showPlacesRef.current = showPlaces;
     // The board just saved becomes the active one; name it for who it's for.
     nameNewBoardRef.current = () => {
-      const { activeProfileId: id, renameProfile, updateSignals } = useDesignerStore.getState();
-      const label = FOR_WHOM.find((option) => option.value === forWhom)?.board;
+      const store = useDesignerStore.getState();
+      let id = store.activeProfileId;
+      const editing = editingRef.current ? editSnapshot.current : null;
+      const built = id ? store.profiles.find((entry) => entry.id === id) : undefined;
+      if (editing && built) {
+        // The update keeps the edited profile's id and name, and adds to what was there.
+        const profile = { ...mergeProfileUpdate(editing.profile, built.profile), signals: mergeSignals(editing.profile.signals ?? [], built.profile.signals ?? []), dials: built.profile.dials ?? editing.profile.dials };
+        store.saveProfile({ ...built, id: editing.id, label: editing.label, profile });
+        if (built.id !== editing.id) store.removeProfile(built.id);
+        store.setActiveProfile(editing.id);
+        id = editing.id;
+      }
+      editSnapshot.current = null;
+      const { renameProfile, updateSignals } = useDesignerStore.getState();
+      const label = editing ? undefined : FOR_WHOM.find((option) => option.value === forWhom)?.board;
       if (id && label) renameProfile(id, label);
       // What the concierge heard, plus what the words themselves say (typed or dictated).
       const heard = mergeSignals(signalsFromText(dictation.text || aiSaidRef.current), heardSignals.current.signals);
@@ -510,9 +575,9 @@ function VibeStage() {
     afterSpeech.current = null;
     const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
     const result = await rt.start({
-      intent: mode === 'profile' ? 'vibe_profile' : 'vibe_trip',
+      intent: mode === 'profile' ? 'vibe_profile' : mode === 'now' ? 'vibe_now' : 'vibe_trip',
       context: context(),
-      profile: mode === 'trip' ? profileSummary(pickActiveProfile(all, activeId)) : '',
+      profile: mode === 'profile' ? '' : profileSummary(pickActiveProfile(all, activeId)),
       handlers: handlers(),
       withMic: true,
       opener: resuming ? RESUME : OPENER,
@@ -533,6 +598,11 @@ function VibeStage() {
       const said = aiSaid;
       rt.stop('ended');
       afterSpeech.current = null;
+      if (mode === 'now') {
+        dictation.setText(said);
+        setPhase('recap');
+        return;
+      }
       if (mode === 'trip' && (canvasRef.current.places.length || canvasRef.current.spots.length)) {
         setPhase('picking');
         return;
@@ -584,7 +654,12 @@ function VibeStage() {
     setNote(null);
     setRulesDecided(false);
     if (text.length < 10) {
-      setNote(mode === 'profile' ? 'Say a bit more first: where home is, what you love, who you travel with.' : 'Say where you’re thinking of going first.');
+      setNote(mode === 'profile' ? 'Say a bit more first: where home is, what you love, who you travel with.' : mode === 'now' ? 'Say what you’re after, and where if it isn’t here.' : 'Say where you’re thinking of going first.');
+      return;
+    }
+    if (mode === 'now') {
+      setPhase('recap');
+      await nowFinder.find(askFromText(text));
       return;
     }
     setPhase('building');
@@ -624,7 +699,7 @@ function VibeStage() {
       return;
     }
     const board = await reach({ intent: 'board', href: '/vibe' });
-    const reply = board?.handlers.describe_me ? await board.handlers.describe_me({ summary: text }) : 'Error: the profile page did not open. Try again.';
+    const reply = board?.handlers.describe_me ? await board.handlers.describe_me({ summary: withExisting(text), ...saveTarget() }) : 'Error: the profile page did not open. Try again.';
     if (reply.startsWith('Error')) {
       setNote(reply.replace(/^Error:\s*/, ''));
       setPhase('recap');
@@ -684,9 +759,10 @@ function VibeStage() {
       className="vibe-stage fixed inset-0 z-[80] flex flex-col text-bone outline-none"
     >
       {/* Top bar: what we're capturing, and a way out. */}
-      <div className="flex items-center justify-between gap-3 px-4 pb-2 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-8">
-        <div className="flex gap-1 rounded-full bg-surface-1/80 p-1" role="tablist" aria-label="What are we talking about?">
-          {(['profile', 'trip'] as const).map((value) => (
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 pb-2 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-8">
+        <span aria-hidden="true" />
+        <div className="flex gap-1 rounded-full bg-surface-1/80 p-1 shadow-soft-1" role="tablist" aria-label="What are we doing?">
+          {TABS.map(({ value, label }) => (
             <button
               key={value}
               id={`vibe-tab-${value}`}
@@ -695,14 +771,17 @@ function VibeStage() {
               aria-selected={mode === value}
               aria-controls="vibe-panel"
               disabled={view === 'talking' || view === 'building'}
-              onClick={() => setMode(value)}
-              className={`min-h-10 rounded-full px-4 text-[13px] font-medium transition-colors ${mode === value ? 'bg-surface-3 text-bone' : 'text-ink-muted hover:text-bone'}`}
+              onClick={() => {
+                setMode(value);
+                if (value === 'profile') setProfileTarget(profiles.length ? 'list' : 'new');
+              }}
+              className={`min-h-10 whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium transition-colors sm:px-5 ${mode === value ? 'bg-surface-3 text-bone' : 'text-ink-muted hover:text-bone'}`}
             >
-              {value === 'profile' ? 'My profile' : 'A trip'}
+              {label}
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           {voiceEnabled && view === 'talking' && live && (
             <button
               type="button"
@@ -720,12 +799,25 @@ function VibeStage() {
       </div>
 
       <div id="vibe-panel" role="tabpanel" aria-labelledby={`vibe-tab-${mode}`} className="mx-auto flex w-full max-w-[760px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
-        {view === 'intro' ? (
-          <div className="flex flex-1 flex-col overflow-y-auto pb-2 pt-2 sm:pt-10">
-            <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{copy.kicker}</p>
-            <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[60px]">{copy.title}</h2>
-            <p className="mt-2 max-w-[34ch] text-[15px] leading-snug text-ink-soft sm:mt-3 sm:text-[18px]">{copy.lede}</p>
-            {mode === 'profile' ? (
+        {view === 'intro' && mode === 'profile' && profileTarget === 'list' ? (
+          <div className="vibe-scroll flex flex-1 flex-col overflow-y-auto pb-4 pt-2 sm:pt-10">
+            <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">Your profiles</p>
+            <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[52px]">Every way you travel.</h2>
+            <p className="mt-2 max-w-[44ch] text-[15px] leading-snug text-ink-soft sm:text-[17px]">One for the family, one for solo trips, one for the road. Pick the one that plans with you, or talk one up to date.</p>
+            <ProfileManager
+              onNew={() => { setForWhom('me'); setProfileTarget('new'); }}
+              onEdit={(id) => setProfileTarget({ edit: id })}
+            />
+          </div>
+        ) : view === 'intro' ? (
+          <div className="vibe-scroll flex flex-1 flex-col overflow-y-auto pb-2 pt-2 sm:pt-10">
+            {mode === 'profile' && profiles.length > 0 && (
+              <button type="button" className="mb-3 self-start text-[13px] text-ink-muted hover:text-bone" onClick={() => setProfileTarget('list')}>← Your profiles</button>
+            )}
+            <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">{editingProfile ? 'Update a profile' : copy.kicker}</p>
+            <h2 className="mt-2 font-display text-[36px] leading-[1.02] tracking-[-0.01em] sm:text-[60px]">{editingProfile ? `What’s new with ${profileLabel(editingProfile)}?` : copy.title}</h2>
+            <p className="mt-2 max-w-[40ch] text-[15px] leading-snug text-ink-soft sm:mt-3 sm:text-[18px]">{editingProfile ? 'Tell me what’s changed or what to add. Everything already in it stays.' : copy.lede}</p>
+            {mode === 'profile' && editingProfile ? null : mode === 'profile' ? (
               <div className="mt-4" role="group" aria-label="Who’s this vibe for?">
                 <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Who’s this vibe for?</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -736,7 +828,7 @@ function VibeStage() {
               </div>
             ) : profiles.length ? (
               <div className="mt-4" role="group" aria-label="Plan with which vibe?">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">Planning as</p>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">{mode === 'now' ? 'Tuned to' : 'Planning as'}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {profiles.map((entry) => (
                     <button key={entry.id} type="button" className="chip" aria-pressed={(activeProfileId ?? profiles[0]?.id) === entry.id} onClick={() => setActiveProfile(entry.id)}>{profileLabel(entry)}{entry.profile.name ? ` · ${entry.profile.name}` : ''}</button>
@@ -757,8 +849,8 @@ function VibeStage() {
             <p className="sr-only" role="status">{covered} of {checklist.length} covered</p>
             {view === 'talking' && !canvasMode ? (
               // While talking, the bullets are the agenda: each lights up with what was locked for it.
-              <div className="overflow-y-auto">
-                <TopicList items={checklist} live />
+              <div className="vibe-scroll overflow-y-auto">
+                {mode === 'now' && nowFinder.found.status !== 'idle' ? <NowPicksPanel found={nowFinder.found} /> : <TopicList items={checklist} live />}
               </div>
             ) : (
             <ul className="flex flex-wrap gap-1.5" aria-label="What’s covered">
@@ -791,7 +883,7 @@ function VibeStage() {
               </div>
             ) : view === 'recap' || view === 'typing' || view === 'building' ? (
               <div className="mt-5 flex flex-1 flex-col overflow-y-auto pb-3">
-                {view !== 'typing' && (
+                {view !== 'typing' && mode !== 'now' && (
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-saffron">
                     {view === 'building' ? 'On it' : recs ? (vibe ? 'Where your week is' : 'Ideas from our calendar') : 'Here’s what I heard'}
                   </p>
@@ -839,6 +931,7 @@ function VibeStage() {
                     <p className="text-[12px] leading-4 text-ink-subtle">From our events calendar, which doesn’t list every resort or town yet.</p>
                   </div>
                 )}
+                {mode === 'now' && <NowPicksPanel found={nowFinder.found} />}
                 {tripFacts.length > 0 && (
                   <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[15px]">
                     {tripFacts.map(([label, value]) => (
@@ -864,7 +957,7 @@ function VibeStage() {
                     {recapPlace.place}{recapPlace.region ? <span className="text-ink-soft">, {recapPlace.region}</span> : null}
                   </p>
                 )}
-                <label className="mt-4 flex flex-1 flex-col">
+                <label className={`mt-4 flex flex-col ${mode === 'now' ? '' : 'flex-1'}`}>
                   <span className="text-[12px] text-ink-muted">{view === 'typing' ? 'Type it like you’d say it' : 'Tap to fix anything I got wrong'}</span>
                   <textarea
                     value={dictation.text}
@@ -873,7 +966,7 @@ function VibeStage() {
                     placeholder={copy.placeholder}
                     autoFocus={view === 'typing'}
                     disabled={view === 'building'}
-                    className="mx-1 mt-2 min-h-[9rem] flex-1 resize-none rounded-[20px] bg-surface-1/80 p-4 font-display text-[20px] leading-snug text-bone outline-none placeholder:text-ink-subtle focus-visible:shadow-[var(--focus-ring)] sm:text-[22px]"
+                    className={`mx-1 mt-2 resize-none rounded-[20px] bg-surface-1/80 p-4 font-display leading-snug text-bone outline-none placeholder:text-ink-subtle focus-visible:shadow-[var(--focus-ring)] ${mode === 'now' ? 'min-h-[5rem] text-[17px] sm:text-[18px]' : 'min-h-[9rem] flex-1 text-[20px] sm:text-[22px]'}`}
                   />
                 </label>
               </div>
@@ -909,7 +1002,7 @@ function VibeStage() {
 
       {/* The dock: the sun is the button. */}
       <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-3 px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-2 sm:px-8">
-        {view === 'intro' && (
+        {view === 'intro' && !(mode === 'profile' && profileTarget === 'list') && (
           <>
             {canTalk ? (
               <button type="button" onClick={() => void startTalking()} className="group flex flex-col items-center gap-2 rounded-full focus-visible:shadow-[var(--focus-ring)]" aria-label="Start talking">
@@ -981,7 +1074,9 @@ function VibeStage() {
         <p className="max-w-[60ch] text-center text-[11px] leading-snug text-ink-subtle">
           {voiceEnabled
             ? 'Your voice goes to OpenAI to be understood. dope.travel keeps nothing you say; changes happen on this device.'
-            : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
+            : mode === 'now'
+              ? 'To check foot traffic, dope.travel sends BestTime a point rounded to about a kilometer (or the place you named), keeps none of it, and ranks the results on this device.'
+              : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
               ? 'dope.travel gets the text only to sort it into your Vibe profile and keeps none of it. The profile, and what you said, are saved on this device.'
               : 'dope.travel reads the text to work out where you mean (and may ask a decision model), keeps none of it, and saves the trip on this device.'}`}
         </p>

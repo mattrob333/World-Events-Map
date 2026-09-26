@@ -4,6 +4,20 @@
  */
 
 export const PULSE_RADIUS_METERS = 8047; // five miles
+export const PULSE_WHATS = ['drinks', 'food', 'music', 'experience', 'surprise'] as const;
+export type PulseWhat = (typeof PULSE_WHATS)[number];
+
+/** "open till 2am", "open till 11:30pm"; nothing when unknown. */
+export function closesLabel(minutes: number | undefined): string | null {
+  if (minutes === undefined || !Number.isFinite(minutes)) return null;
+  const within = ((minutes % 1440) + 1440) % 1440;
+  const h = Math.floor(within / 60);
+  const m = within % 60;
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const suffix = h < 12 ? 'am' : 'pm';
+  if (within === 0) return 'open till midnight';
+  return `open till ${hour12}${m ? `:${String(m).padStart(2, '0')}` : ''}${suffix}`;
+}
 
 export type PulseVenue = {
   id: string;
@@ -17,6 +31,8 @@ export type PulseVenue = {
   basis: 'live' | 'forecast';
   distanceMeters?: number;
   address?: string;
+  /** Tonight's closing time, minutes after midnight (2am = 1560), from BestTime's hours. */
+  closesMinutes?: number;
 };
 
 export type PulseResult = {
@@ -46,6 +62,7 @@ type VenueLike = {
   liveBusyness?: number;
   distanceMeters?: number;
   address?: string;
+  closesMinutes?: number;
 };
 
 /** Busiest first; closed places and places without a reading are left off rather than shown as quiet. */
@@ -66,6 +83,7 @@ export function toPulseVenues(venues: readonly VenueLike[], limit = 30): PulseVe
       basis: live ? 'live' : 'forecast',
       distanceMeters: venue.distanceMeters,
       address: venue.address?.slice(0, 140),
+      closesMinutes: venue.closesMinutes,
     });
   }
   return out.sort((a, b) => b.busyness - a.busyness || (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0)).slice(0, limit);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { circleRing, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
+import { circleRing, closesLabel, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
 
 const venue = (id: string, extra: Record<string, unknown>) => ({ id, name: id, category: 'BAR', location: { lat: 33.75, lng: -84.39 }, ...extra });
 
@@ -32,5 +32,14 @@ describe('Vibe Now pulse', () => {
     const ring = circleRing({ lat: 33.75, lng: -84.39 }, 50);
     expect(ring[0]).toEqual(ring[ring.length - 1]);
     expect(Math.abs(ring[0]![0] - -84.39)).toBeGreaterThan(0);
+  });
+});
+
+describe('closing times', () => {
+  it('reads "open till" plainly', () => {
+    expect(closesLabel(1560)).toBe('open till 2am');
+    expect(closesLabel(23 * 60 + 30)).toBe('open till 11:30pm');
+    expect(closesLabel(1440)).toBe('open till midnight');
+    expect(closesLabel(undefined)).toBeNull();
   });
 });
