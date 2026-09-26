@@ -2,15 +2,17 @@ import { NextResponse } from 'next/server';
 import { NO_STORE, RequestTooLargeError, jsonError, readBodyWithLimit, validateRequestBoundary } from '@/lib/now/http';
 import { NowProviderBudgetExceededError, NowProviderBudgetUnavailableError } from '@/lib/now/providerBudget';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
+import { withGoogleHours } from '@/lib/now/googlePlaces';
 import { executePulse } from '@/lib/now/pulseService';
-import { PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
+import { PULSE_MAX_RADIUS_METERS, PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
 import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 /**
- * Vibe Now: the busiest places within five miles, from BestTime foot traffic.
+ * Vibe Now: the busiest places within 2, 5 or 10 miles, from BestTime foot
+ * traffic, with tonight's closing times (BestTime's, else Google Places).
  * The phone sends a point rounded to about a kilometer; nothing is stored.
  */
 export async function POST(request: Request) {
@@ -42,8 +44,10 @@ export async function POST(request: Request) {
     }
     const raw = body as Record<string, unknown>;
     const what: PulseWhat = PULSE_WHATS.includes(raw.what as PulseWhat) ? (raw.what as PulseWhat) : 'surprise';
-    const radius = typeof raw.radiusMeters === 'number' && Number.isFinite(raw.radiusMeters) ? Math.max(800, Math.min(PULSE_RADIUS_METERS, Math.round(raw.radiusMeters))) : PULSE_RADIUS_METERS;
-    return NextResponse.json(await executePulse({ lat, lng }, what, radius), { headers: NO_STORE });
+    const radius = typeof raw.radiusMeters === 'number' && Number.isFinite(raw.radiusMeters) ? Math.max(800, Math.min(PULSE_MAX_RADIUS_METERS, Math.round(raw.radiusMeters))) : PULSE_RADIUS_METERS;
+    const result = await executePulse({ lat, lng }, what, radius);
+    // Closing times BestTime didn't have come from Google Places (members only, capped daily).
+    return NextResponse.json({ ...result, venues: await withGoogleHours(result.venues) }, { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
     if (cause instanceof NowProviderBudgetExceededError) {

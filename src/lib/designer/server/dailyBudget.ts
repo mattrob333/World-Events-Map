@@ -21,7 +21,7 @@
  * The day rolls over at 00:00 UTC.
  */
 
-export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice' | 'designerAi';
+export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice' | 'designerAi' | 'places';
 
 type PoolConfig = { env: string; unit: 'usd' | 'calls'; fallback: number };
 
@@ -41,6 +41,8 @@ const POOLS: Record<BudgetPool, PoolConfig> = {
   voice: { env: 'VOICE_DAILY_SESSIONS', unit: 'calls', fallback: 60 },
   /** Anthropic calls from the designer: profile sorting and itinerary curation. */
   designerAi: { env: 'DESIGNER_AI_DAILY_CALLS', unit: 'calls', fallback: 150 },
+  /** Google Places lookups for opening hours in Vibe Now (a few cents each). */
+  places: { env: 'GOOGLE_PLACES_DAILY_CALLS', unit: 'calls', fallback: 200 },
 };
 
 function readNumber(name: string, fallback: number): number {

@@ -41,7 +41,10 @@ export async function GET(request: Request) {
   const member = await requireMember(request);
   if (member instanceof Response) return member;
   if (!fromOurSite(request)) return NextResponse.json({ error: 'Same-origin only.' }, { status: 403 });
-  const q = new URL(request.url).searchParams.get('q')?.replace(/[\u0000-\u001f<>]/g, ' ').trim().slice(0, 80) ?? '';
+  const params = new URL(request.url).searchParams;
+  // Where am I: a point (rounded to about a kilometer by the phone) to its town and region.
+  if (params.has('lat') && params.has('lng')) return reverse(request, Number(params.get('lat')), Number(params.get('lng')));
+  const q = params.get('q')?.replace(/[\u0000-\u001f<>]/g, ' ').trim().slice(0, 80) ?? '';
   if (q.length < 2) return NextResponse.json({ error: 'Say a place.' }, { status: 400 });
   const key = q.toLowerCase();
   const cached = cache.get(key);
@@ -67,6 +70,37 @@ export async function GET(request: Request) {
     if (cache.size > 500) cache.delete(cache.keys().next().value as string);
     cache.set(key, { at: Date.now(), hit });
     return NextResponse.json({ place: hit });
+  } catch {
+    return NextResponse.json({ error: 'That place could not be looked up.' }, { status: 502 });
+  }
+}
+
+const reverseCache = new Map<string, { at: number; label: string | null }>();
+
+async function reverse(request: Request, rawLat: number, rawLng: number): Promise<Response> {
+  if (!Number.isFinite(rawLat) || !Number.isFinite(rawLng) || Math.abs(rawLat) > 90 || Math.abs(rawLng) > 180) {
+    return NextResponse.json({ error: 'That point isn’t on the map.' }, { status: 400 });
+  }
+  const lat = Math.round(rawLat * 100) / 100;
+  const lng = Math.round(rawLng * 100) / 100;
+  const key = `${lat},${lng}`;
+  const cached = reverseCache.get(key);
+  if (cached && Date.now() - cached.at < DAY_MS) return NextResponse.json({ label: cached.label });
+  const limit = consumeNowClientRateLimit(request);
+  if (!limit.allowed) return NextResponse.json({ error: 'Too many lookups. Try again in a few minutes.' }, { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } });
+  try {
+    await nextSlot();
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=10&addressdetails=1&lat=${lat}&lon=${lng}`;
+    const response = await fetch(url, { headers: { 'User-Agent': 'dope.travel/1.0 (+https://dope.travel)', Accept: 'application/json' }, signal: AbortSignal.timeout(6000), cache: 'no-store' });
+    if (!response.ok) return NextResponse.json({ error: 'That place could not be looked up.' }, { status: 502 });
+    const body = (await response.json()) as { address?: Record<string, string> };
+    const a = body.address ?? {};
+    const town = a.city ?? a.town ?? a.village ?? a.suburb ?? a.county;
+    const region = a.state ?? a.country;
+    const label = town ? [town, region].filter(Boolean).join(', ').slice(0, 80) : null;
+    if (reverseCache.size > 500) reverseCache.delete(reverseCache.keys().next().value as string);
+    reverseCache.set(key, { at: Date.now(), label });
+    return NextResponse.json({ label });
   } catch {
     return NextResponse.json({ error: 'That place could not be looked up.' }, { status: 502 });
   }

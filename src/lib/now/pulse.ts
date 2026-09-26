@@ -4,6 +4,9 @@
  */
 
 export const PULSE_RADIUS_METERS = 8047; // five miles
+export const PULSE_MAX_RADIUS_METERS = 16093; // ten miles
+/** The radius choices on the map: 2, 5 and 10 miles. */
+export const PULSE_RADII = [{ miles: 2, meters: 3219 }, { miles: 5, meters: 8047 }, { miles: 10, meters: 16093 }] as const;
 export const PULSE_WHATS = ['drinks', 'food', 'music', 'experience', 'surprise'] as const;
 export type PulseWhat = (typeof PULSE_WHATS)[number];
 
@@ -31,8 +34,14 @@ export type PulseVenue = {
   basis: 'live' | 'forecast';
   distanceMeters?: number;
   address?: string;
-  /** Tonight's closing time, minutes after midnight (2am = 1560), from BestTime's hours. */
+  /** Tonight's closing time, minutes after midnight (2am = 1560). */
   closesMinutes?: number;
+  /** Open around the clock tonight. */
+  openAllNight?: boolean;
+  /** Whose hours these are: BestTime's venue hours, or Google Places. */
+  hoursFrom?: 'besttime' | 'google';
+  /** The place on Google Maps, when Google Places knew it. */
+  mapsUrl?: string;
 };
 
 export type PulseResult = {
