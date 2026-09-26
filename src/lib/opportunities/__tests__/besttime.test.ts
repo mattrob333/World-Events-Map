@@ -203,3 +203,24 @@ describe('closingMinutes', () => {
     expect(closingMinutes(venue([{ opens: 11, closes: 22, closes_minutes: 30 }]), 20)).toBe(22 * 60 + 30);
   });
 });
+
+describe('drinks includes bars filed as restaurants', () => {
+  it('keeps a tap house or pub filed as a restaurant, and leaves out plain restaurants', async () => {
+    const { drinksPlace } = await import('../besttime');
+    expect(drinksPlace({ category: 'RESTAURANT', name: 'Omaha Tap House - Downtown' })).toBe(true);
+    expect(drinksPlace({ category: 'RESTAURANT', name: "Dinker's Bar and Grill" })).toBe(true);
+    expect(drinksPlace({ category: 'RESTAURANT', name: 'Upstream Brewing Company' })).toBe(true);
+    expect(drinksPlace({ category: 'RESTAURANT', name: 'Twisted Fork' })).toBe(false);
+    expect(drinksPlace({ category: 'BAR', name: 'Mercury' })).toBe(true);
+  });
+});
+
+describe('drinks names that mean food', () => {
+  it('leaves out barbecue, sushi, oyster and salad bars', async () => {
+    const { drinksPlace } = await import('../besttime');
+    for (const name of ["Joe's Bar-B-Q", 'Sushi Bar Kaito', 'Oyster Bar', 'Salad Bar Co', "Brewster's Diner", 'Famous Dave’s BBQ Bar']) {
+      expect(drinksPlace({ category: 'RESTAURANT', name }), name).toBe(false);
+    }
+    expect(drinksPlace({ category: 'RESTAURANT', name: 'Lucky Bucket Brewpub' })).toBe(true);
+  });
+});

@@ -8,6 +8,8 @@ type UnknownRecord = Record<string, unknown>;
 const TYPE_MAP: Record<string, string[]> = {
   food: ['RESTAURANT', 'CAFE', 'FOOD_AND_DRINK', 'BAKERY'],
   drinks: ['BAR', 'CLUBS', 'BREWERY', 'CAFE', 'WINERY'],
+  // A second, small search: sports bars and tap houses are often filed as restaurants; drinksPlace() keeps only those.
+  drinksrestaurants: ['RESTAURANT'],
   music: ['CONCERT_HALL', 'PERFORMING_ARTS', 'EVENT_VENUE', 'CLUBS', 'BAR'],
   experience: ['MUSEUM', 'ARTS', 'MARKET', 'PARK', 'TOURIST_DESTINATION', 'EVENT_VENUE'],
   surprise: ['RESTAURANT', 'BAR', 'CAFE', 'MUSEUM', 'ARTS', 'MARKET', 'EVENT_VENUE'],
@@ -61,6 +63,16 @@ function haversineMeters(a: VenueSearchInput['location'], b: VenueSearchInput['l
     Math.sin(dLat / 2) ** 2 +
     Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
   return Math.round(radius * 2 * Math.atan2(Math.sqrt(root), Math.sqrt(1 - root)));
+}
+
+/** Names that say "come for a drink" even when the place is filed as a restaurant (Omaha Tap House, a pub and grill). */
+const DRINKS_NAME = /\b(tap|taps|taphouse|taproom|tavern|pub|bar|brewery|brewpub|brewing|brewhouse|saloon|lounge|alehouse|ale|cantina|sports|beer|beers|beerhall|cocktails?|wine|whiskey|bourbon|speakeasy)\b/i;
+/** "Bar" that means food: barbecue, sushi, oyster and salad bars. */
+const NOT_DRINKS = /\b(bar[\s-]?b[\s-]?q|bbq|barbecue|sushi bar|oyster bar|salad bar|juice bar|smoothie bar|nail bar|brow bar)\b/i;
+
+/** For drinks: every bar, club, brewery, café and winery, and only the restaurants whose name says bar. */
+export function drinksPlace(venue: { category: string; name: string }): boolean {
+  return venue.category.toUpperCase() !== 'RESTAURANT' || (DRINKS_NAME.test(venue.name) && !NOT_DRINKS.test(venue.name));
 }
 
 function requestedTypes(categories?: string[]): string[] {
@@ -253,9 +265,10 @@ export class BestTimeVenueProvider implements VenueFactsProvider {
     const window = record(root.window);
     const localHour = number(window?.time_local);
     const localIndex = number(window?.time_local_index);
+    const drinks = (input.categories ?? []).some((category) => category.toLocaleLowerCase() === 'drinksrestaurants');
     return root.venues
       .map((venue) => parseBestTimeVenue(venue, input.location, localHour, localIndex))
-      .filter((venue): venue is VenueCandidate => venue !== null)
+      .filter((venue): venue is VenueCandidate => venue !== null && (!drinks || drinksPlace(venue)))
       .slice(0, input.limit ?? 30);
   }
 }

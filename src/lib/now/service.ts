@@ -19,7 +19,11 @@ export function resetNowVenueCacheForTests() {
   venueCache.clear();
 }
 
-type VenueQuery = Pick<NowRequest, 'location' | 'radiusMeters' | 'intent'> & { limit?: number };
+type VenueQuery = Pick<NowRequest, 'location' | 'radiusMeters' | 'intent'> & {
+  limit?: number;
+  /** Vibe Now's Drinks: also look for bars filed as restaurants (one more budgeted search). */
+  barsFiledAsRestaurants?: boolean;
+};
 
 function cacheKey(request: VenueQuery): string {
   return [
@@ -28,6 +32,7 @@ function cacheKey(request: VenueQuery): string {
     request.radiusMeters,
     request.intent,
     request.limit ?? 24,
+    request.barsFiledAsRestaurants ? 'plus' : '',
   ].join(':');
 }
 
@@ -76,13 +81,26 @@ export async function venueCandidates(request: VenueQuery): Promise<VenueCandida
   // scale-out cannot mint additional provider budget. Cache hits above are free.
   await requireNowProviderBudget();
   const provider = new BestTimeVenueProvider();
-  const venues = await provider.search({
+  const search = (categories: string[], limit: number) => provider.search({
     location: request.location,
     radiusMeters: request.radiusMeters,
     at: new Date(now).toISOString(),
-    categories: [request.intent],
-    limit: request.limit ?? 24,
+    categories,
+    limit,
   });
+  let venues = await search([request.intent], request.limit ?? 24);
+  if (request.intent === 'drinks' && request.barsFiledAsRestaurants) {
+    // Bars filed as restaurants (tap houses, sports bars): their own small search, so the
+    // most-reviewed restaurants never push real bars out of the first one. Budgeted like any call.
+    try {
+      await requireNowProviderBudget();
+      const barsAsRestaurants = await search(['drinksrestaurants'], 20);
+      const seen = new Set(venues.map((venue) => venue.id));
+      venues = [...venues, ...barsAsRestaurants.filter((venue) => !seen.has(venue.id))];
+    } catch {
+      // Out of budget or the extra search failed: the bars from the first search still stand.
+    }
+  }
   pruneVenueCache(now);
   venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
   return distancesForOrigin(venues, request.location);
