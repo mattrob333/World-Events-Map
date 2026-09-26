@@ -54,6 +54,28 @@
 .chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .picked { position: relative; margin-top: 14px; padding: 16px 16px 14px; border-radius: 20px; background: var(--color-surface-1); box-shadow: var(--shadow-soft-2); }
+/* On the map: the card opens where the thumb is, over the bottom of the map, never below the fold. */
+.stage .picked {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 3; margin: 0;
+  max-height: 58%; overflow-y: auto; overscroll-behavior: contain;
+  padding: 12px 14px; background: rgb(18 18 18 / 0.95); backdrop-filter: blur(10px);
+}
+.stage .picked h2 { font-size: 22px; }
+.stage .picked .proofBig { font-size: 28px; }
+.stage .picked .address { display: none; }
+.stage .picked .pickedActions { margin-top: 8px; }
+@media (min-width: 720px) { .stage .picked { left: 16px; right: auto; bottom: 16px; width: 380px; } }
+
+/* The proof behind a beam: live now vs the usual for this hour. */
+.proof { display: grid; gap: 6px; margin-top: 10px; }
+.proofLive { display: inline-flex; align-items: center; gap: 6px; color: #e4577e; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.proofLive i { width: 8px; height: 8px; border-radius: 50%; background: #e4577e; box-shadow: 0 0 10px #e4577e; animation: blink 1.4s ease-in-out infinite; }
+.proofBig { font-family: var(--font-display); font-size: 34px; line-height: 1; color: var(--color-bone); }
+.proofLine { color: var(--color-ink-soft); font-size: 14px; line-height: 1.4; }
+.proofSource { color: var(--color-ink-subtle); font-size: 12px; line-height: 1.4; }
+.proof .bar { position: relative; overflow: visible; height: 8px; }
+/* The usual for this hour, as a tick on the live bar. */
+.proof .bar b { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--color-bone); opacity: 0.8; }
 .pickedActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .wink { margin-top: 8px; color: var(--color-saffron); font-size: 13.5px; font-weight: 600; }
 

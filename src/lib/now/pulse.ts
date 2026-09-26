@@ -117,3 +117,28 @@ export function circleRing(center: { lat: number; lng: number }, meters: number,
   }
   return ring;
 }
+
+export type BeamOnScreen = { id: string; x: number; y: number; /** How far up the screen the beam's top sits above its base, in pixels. */ rise: number; busyness: number };
+
+/** Screen pixels per meter at a latitude and zoom (512-pixel tiles, as MapLibre draws them). */
+export function pixelsPerMeter(lat: number, zoom: number): number {
+  return (512 * 2 ** zoom) / (40_075_016.686 * Math.max(0.01, Math.cos((lat * Math.PI) / 180)));
+}
+
+/**
+ * The beam a thumb meant: the closest one to the tap, measured to the whole
+ * beam (base to top) rather than its footprint, within a thumb's reach. Ties
+ * go to the busier place.
+ */
+export function nearestBeam(tap: { x: number; y: number }, beams: readonly BeamOnScreen[], reach = 30): string | null {
+  let best: { id: string; distance: number; busyness: number } | null = null;
+  for (const beam of beams) {
+    const topY = beam.y - Math.max(0, beam.rise);
+    // Distance from the tap to the vertical segment between the base and the top.
+    const y = Math.max(topY, Math.min(beam.y, tap.y));
+    const distance = Math.hypot(tap.x - beam.x, tap.y - y);
+    if (distance > reach) continue;
+    if (!best || distance < best.distance - 2 || (Math.abs(distance - best.distance) <= 2 && beam.busyness > best.busyness)) best = { id: beam.id, distance, busyness: beam.busyness };
+  }
+  return best?.id ?? null;
+}

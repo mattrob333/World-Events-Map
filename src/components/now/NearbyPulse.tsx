@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { circleRing, closesLabel, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
 import { buildTonight } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
@@ -27,14 +27,16 @@ function addPulseLayers(map: MapLibreMap, labels: boolean) {
   map.addSource('pulse-points', { type: 'geojson', data: EMPTY });
   map.addLayer({ id: 'pulse-halo', type: 'circle', source: 'pulse-points', paint: { 'circle-radius': ['get', 'radius'], 'circle-color': HEAT, 'circle-opacity': 0.35, 'circle-blur': 0.6, 'circle-pitch-alignment': 'map' } });
   map.addLayer({ id: 'pulse-columns', type: 'fill-extrusion', source: 'pulse-columns', paint: { 'fill-extrusion-color': HEAT, 'fill-extrusion-height': ['get', 'height'], 'fill-extrusion-base': 0, 'fill-extrusion-opacity': 0.9 } });
-  map.addLayer({ id: 'pulse-dots', type: 'circle', source: 'pulse-points', paint: { 'circle-radius': 5, 'circle-color': '#fff', 'circle-stroke-color': HEAT, 'circle-stroke-width': 2 } });
+  map.addLayer({ id: 'pulse-dots', type: 'circle', source: 'pulse-points', paint: { 'circle-radius': 6, 'circle-color': '#fff', 'circle-stroke-color': HEAT, 'circle-stroke-width': 2 } });
+  // The one they tapped: a white ring, so it's clear which beam the card is about.
+  map.addLayer({ id: 'pulse-selected', type: 'circle', source: 'pulse-points', filter: ['==', ['get', 'id'], ''], paint: { 'circle-radius': 13, 'circle-color': 'rgba(255,255,255,0.12)', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2.5, 'circle-pitch-alignment': 'viewport' } });
   // Names need the street style's fonts; on the plain fallback the list names them instead.
   if (labels) {
     map.addLayer({
       id: 'pulse-labels',
       type: 'symbol',
       source: 'pulse-points',
-      filter: ['==', ['get', 'top'], 1],
+      filter: ['any', ['==', ['get', 'top'], 1], ['==', ['get', 'id'], '']],
       layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 12, 'text-offset': [0, 1.4], 'text-anchor': 'top', 'text-max-width': 10 },
       paint: { 'text-color': '#f4f1ea', 'text-halo-color': '#050505', 'text-halo-width': 1.4 },
     });
@@ -94,6 +96,9 @@ export function NearbyPulse() {
   const [now, setNow] = useState<Date | null>(null);
   const active = useActiveProfile();
   const pointsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
+  const venuesRef = useRef<PulseVenue[]>([]);
+  // BestTime's live reading per place tapped, fetched once per visit.
+  const [live, setLive] = useState<Record<string, LiveState>>({});
   const columnsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
 
   // The local clock, where they are (the phone follows the time zone when they land).
@@ -146,12 +151,24 @@ export function NearbyPulse() {
         (map.getSource('pulse-columns') as GeoJSONSource | undefined)?.setData(columnsRef.current);
         if (wired) return;
         wired = true;
-        for (const layer of ['pulse-dots', 'pulse-columns']) {
-          map.on('click', layer, (event) => {
-            const id = event.features?.[0]?.properties?.id;
-            if (typeof id === 'string') setSelected(id);
+        // A thumb on a phone: the nearest beam to the tap, counting its whole height, not just the dot at its foot.
+        map.on('click', (event) => {
+          const list = venuesRef.current;
+          if (!list.length) return;
+          const busiest = list[0]?.busyness ?? 0;
+          const zoom = map.getZoom();
+          const tilt = Math.sin((map.getPitch() * Math.PI) / 180);
+          const beams = list.map((venue) => {
+            const at = map.project([venue.lng, venue.lat]);
+            return { id: venue.id, x: at.x, y: at.y, rise: pulseStyle(venue.busyness, busiest).height * pixelsPerMeter(venue.lat, zoom) * tilt, busyness: venue.busyness };
           });
-        }
+          const id = nearestBeam(event.point, beams);
+          if (!id) return;
+          setSelected(id);
+          // Glide it into the top of the map, clear of the card that opens over the bottom.
+          const venue = list.find((entry) => entry.id === id);
+          if (venue) map.easeTo({ center: [venue.lng, venue.lat], offset: [0, -map.getContainer().clientHeight * 0.28], duration: 700, essential: true });
+        });
         setMapReady(true);
         // Breathing halos: bigger and brighter where it's busiest.
         if (!reduced) {
@@ -277,12 +294,39 @@ export function NearbyPulse() {
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady || !venues) return;
+    venuesRef.current = venues;
     const { points, columns } = features(venues);
     pointsRef.current = points;
     columnsRef.current = columns;
     (map.getSource('pulse-points') as GeoJSONSource | undefined)?.setData(points);
     (map.getSource('pulse-columns') as GeoJSONSource | undefined)?.setData(columns);
   }, [venues, mapReady]);
+
+  // The tapped beam turns white and gets its name, so it's clear which one the card is about.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    const id = selected ?? '';
+    if (map.getLayer('pulse-selected')) map.setFilter('pulse-selected', ['==', ['get', 'id'], id]);
+    if (map.getLayer('pulse-columns')) map.setPaintProperty('pulse-columns', 'fill-extrusion-color', ['case', ['==', ['get', 'id'], id], '#ffffff', HEAT]);
+    if (map.getLayer('pulse-labels')) map.setFilter('pulse-labels', ['any', ['==', ['get', 'top'], 1], ['==', ['get', 'id'], id]]);
+  }, [selected, mapReady]);
+
+  // Proof it's busy: BestTime's live reading for the place they tapped (one paid lookup, cached).
+  useEffect(() => {
+    if (!selected || live[selected]) return;
+    const id = selected;
+    setLive((current) => ({ ...current, [id]: { status: 'loading' } }));
+    memberFetch('/api/now/live', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ venueId: id }) })
+      .then(async (response) => {
+        const body = (await response.json().catch(() => ({}))) as { reading?: LiveReading; error?: { message?: string } | string };
+        const reading = body.reading;
+        if (response.ok && reading) return setLive((current) => ({ ...current, [id]: { status: 'ok', reading } }));
+        const message = typeof body.error === 'string' ? body.error : body.error?.message;
+        setLive((current) => ({ ...current, [id]: { status: 'error', message: message ?? 'The live reading couldn’t be checked.' } }));
+      })
+      .catch(() => setLive((current) => ({ ...current, [id]: { status: 'error', message: 'The live reading couldn’t be checked. Check your connection.' } })));
+  }, [selected, live]);
 
   const nowMinutes = now ? now.getHours() * 60 + now.getMinutes() : 0;
   // Busiest first (foot traffic is the point), nudged by their Vibe profile when they have one.
@@ -296,7 +340,8 @@ export function NearbyPulse() {
 
   const focus = (venue: PulseVenue) => {
     setSelected(venue.id);
-    mapRef.current?.flyTo({ center: [venue.lng, venue.lat], zoom: 14.5, pitch: 50, duration: 1600, essential: true });
+    const height = mapRef.current?.getContainer().clientHeight ?? 0;
+    mapRef.current?.flyTo({ center: [venue.lng, venue.lat], zoom: 14.5, pitch: 50, offset: [0, -height * 0.28], duration: 1600, essential: true });
     box.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -313,6 +358,22 @@ export function NearbyPulse() {
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
+        {picked && (
+            <article className={styles.picked} aria-live="polite">
+              <button type="button" className={styles.close} onClick={() => setSelected(null)} aria-label="Close">×</button>
+              <p className={styles.pickedKind}>{pretty(picked.category)}{picked.distanceMeters !== undefined ? ` · ${formatMiles(picked.distanceMeters / 1000)}` : ''}{picked.openAllNight ? ' · open all night' : closesLabel(picked.closesMinutes) ? ` · ${closesLabel(picked.closesMinutes)}` : ''}</p>
+              <h2>{picked.name}</h2>
+              <LiveProof venue={picked} state={live[picked.id]} />
+              {winks.get(picked.id) ? <p className={styles.wink}>{winks.get(picked.id)}</p> : null}
+              {picked.address && <p className={styles.address}>{picked.address}</p>}
+              <div className={styles.pickedActions}>
+                <a className="btn btn-primary btn-sm" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">
+                  <SourceLogo source="google maps" size={14} className="mr-1.5" />Take me there ↗
+                </a>
+                <a className="btn btn-ghost btn-sm" href={picked.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Look at the place ↗</a>
+              </div>
+            </article>
+          )}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
@@ -335,28 +396,12 @@ export function NearbyPulse() {
           </div>
         </div>
 
-        {picked && (
-          <article className={styles.picked}>
-            <button type="button" className={styles.close} onClick={() => setSelected(null)} aria-label="Close">×</button>
-            <p className={styles.pickedKind}>{pretty(picked.category)}{picked.distanceMeters !== undefined ? ` · ${formatMiles(picked.distanceMeters / 1000)}` : ''}{picked.openAllNight ? ' · open all night' : closesLabel(picked.closesMinutes) ? ` · ${closesLabel(picked.closesMinutes)}` : ''}</p>
-            <h2>{picked.name}</h2>
-            <Meter venue={picked} />
-            {winks.get(picked.id) ? <p className={styles.wink}>{winks.get(picked.id)}</p> : null}
-            {picked.address && <p className={styles.address}>{picked.address}</p>}
-            <div className={styles.pickedActions}>
-              <a className="btn btn-primary btn-sm" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">
-                <SourceLogo source="google maps" size={14} className="mr-1.5" />Take me there ↗
-              </a>
-              <a className="btn btn-ghost btn-sm" href={picked.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${picked.name} ${picked.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Look at the place ↗</a>
-            </div>
-          </article>
-        )}
 
         {tonight && tonight.rows.length > 0 && <TonightTimeline tonight={tonight} selected={selected} onPick={focus} winks={winks} />}
 
         {venues && venues.length > 0 && (
           <p className={styles.source}>
-            Foot traffic from BestTime · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
+            Foot traffic from BestTime · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; taller beams are busier. Tap one for BestTime’s live reading. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
           </p>
         )}
       </div>
@@ -377,5 +422,48 @@ function Meter({ venue, compact = false }: { venue: PulseVenue; compact?: boolea
       <span className={styles.bar} aria-hidden="true"><i style={{ width: `${venue.busyness}%` }} /></span>
       <span className={styles.pct}>{venue.busyness}%{venue.basis === 'live' ? <em> live</em> : null}</span>
     </span>
+  );
+}
+
+type LiveReading = { live?: number; usual?: number; delta?: number; hour?: string; checkedAt: string };
+type LiveState = { status: 'loading' } | { status: 'ok'; reading: LiveReading } | { status: 'error'; message: string };
+
+/**
+ * The proof behind a beam. Live when BestTime measured it just now, with the
+ * usual for this hour beside it; when there's no live reading, it says so and
+ * shows only the usual, labeled as such.
+ */
+function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
+  const reading = state?.status === 'ok' ? state.reading : null;
+  const usual = reading?.usual ?? venue.busyness;
+  const checked = reading ? new Date(reading.checkedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+  if (reading && reading.live !== undefined) {
+    const delta = reading.delta ?? (reading.live - usual);
+    return (
+      <div className={styles.proof}>
+        <p className={styles.proofLive}><i aria-hidden="true" />Live now</p>
+        <p className={styles.proofBig}>{reading.live}% busy</p>
+        <span className={styles.meter}>
+          <span className={styles.bar} aria-hidden="true"><i style={{ width: `${Math.min(100, reading.live)}%` }} /><b style={{ left: `${Math.min(100, usual)}%` }} /></span>
+        </span>
+        <p className={styles.proofLine}>
+          Usually {usual}% at this hour{delta === 0 ? ', right on its usual.' : ` · ${Math.abs(delta)} points ${delta > 0 ? 'busier' : 'quieter'} than usual.`}
+        </p>
+        <p className={styles.proofSource}>Live foot traffic from BestTime{reading.hour ? `, ${reading.hour}` : ''} · checked {checked}</p>
+      </div>
+    );
+  }
+  return (
+    <div className={styles.proof}>
+      <p className={styles.proofLine}>Usually {usual}% busy at this hour.</p>
+      <Meter venue={{ ...venue, busyness: usual, basis: 'forecast' }} />
+      <p className={styles.proofSource}>
+        {!state || state.status === 'loading'
+          ? 'Checking live foot traffic…'
+          : state.status === 'error'
+            ? state.message
+            : 'BestTime has no live reading for this place right now, so this is its usual for the hour.'}
+      </p>
+    </div>
   );
 }
