@@ -3,6 +3,8 @@ import { afterEach, expect, it, vi } from 'vitest';
 vi.mock('server-only', () => ({}));
 const { researchDestination } = vi.hoisted(() => ({ researchDestination: vi.fn(async () => ({ place: 'Lisbon' })) }));
 vi.mock('@/lib/research/destination', () => ({ researchCacheMisses: () => 3, researchDestination }));
+// Signed-in member: this test is about the research switch, not sign-in.
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => ({ id: 'member', email: null }) }));
 
 import { resetDesignerLimitsForTests } from '@/lib/designer/server/guard';
 import { POST } from '../designer/research/route';

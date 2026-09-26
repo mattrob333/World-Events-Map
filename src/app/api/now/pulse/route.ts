@@ -4,6 +4,7 @@ import { NowProviderBudgetExceededError, NowProviderBudgetUnavailableError } fro
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { executePulse } from '@/lib/now/pulseService';
 import { PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -13,6 +14,9 @@ export const runtime = 'nodejs';
  * The phone sends a point rounded to about a kilometer; nothing is stored.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundaryFailure = validateRequestBoundary(request);
   if (boundaryFailure) return boundaryFailure;
   if (!process.env.BESTTIME_API_KEY_PRIVATE) {

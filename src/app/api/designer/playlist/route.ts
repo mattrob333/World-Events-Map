@@ -1,6 +1,7 @@
 import { PlaylistInputError, readPublicPlaylist, spotifyAppConfigured } from '@/lib/designer/server/spotifyApp';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { PlaylistUnavailableError } from '@/lib/designer/spotifyRead';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -8,6 +9,9 @@ export const maxDuration = 30;
 
 /** Reads a public Spotify playlist link into a listening summary. Nothing is stored. */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let link = '';

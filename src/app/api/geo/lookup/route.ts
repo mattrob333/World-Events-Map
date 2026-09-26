@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { originAllowed } from '@/lib/designer/server/guard';
 import { placeVariants } from '@/lib/now/placeVariants';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -36,6 +37,9 @@ function fromOurSite(request: Request): boolean {
  * sent; nothing about them.
  */
 export async function GET(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   if (!fromOurSite(request)) return NextResponse.json({ error: 'Same-origin only.' }, { status: 403 });
   const q = new URL(request.url).searchParams.get('q')?.replace(/[\u0000-\u001f<>]/g, ' ').trim().slice(0, 80) ?? '';
   if (q.length < 2) return NextResponse.json({ error: 'Say a place.' }, { status: 400 });

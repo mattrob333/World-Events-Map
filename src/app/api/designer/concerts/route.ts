@@ -2,6 +2,7 @@ import { EventFeedBudgetError, MAX_CONCERT_ARTISTS, concertLinks, searchArtistEv
 import { readTaste, readWindow, textList, listenerSummary } from '@/lib/designer/music-input';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { jevBudgetAvailable, jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -13,6 +14,9 @@ export const maxDuration = 45;
  * city. Real provider listings only; search links otherwise.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

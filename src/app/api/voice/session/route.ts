@@ -3,6 +3,7 @@ import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { liveSessionConfig, voiceCallLimitSeconds } from '@/lib/voice/session';
 import { isVoiceIntent } from '@/lib/voice/tools';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -27,6 +28,9 @@ export function GET() {
 }
 
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   const apiKey = process.env.OPENAI_API_KEY;

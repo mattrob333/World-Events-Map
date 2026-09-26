@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { handoffNote, openTableSearch, takesTableSearch } from '@/lib/booking/partners';
 import { adultsOnly, basketItems, crewLine, familyOrder, fitCandidates, kidAges, lodgingGuess, planWindow, profileLikes, schedulePicks, type BasketItem } from '@/lib/designer/basket';
@@ -145,7 +146,7 @@ export function PicksBasket({ trip, research, placeName }: { trip: Itinerary; re
     setError('');
     const crew = crewLine(trip.participants);
     try {
-      const response = await fetch('/api/designer/basket', {
+      const response = await memberFetch('/api/designer/basket', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

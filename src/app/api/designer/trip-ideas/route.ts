@@ -3,6 +3,7 @@ import { readWindow, textList } from '@/lib/designer/music-input';
 import { curatedOccasions } from '@/lib/designer/occasions';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { rankTripIdeas, type TripIdeasResponse } from '@/lib/designer/tripIdeas';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -10,6 +11,9 @@ export const maxDuration = 45;
 
 /** Trip ideas where the traveler's artists, festivals, and teams line up, over the next year by default. */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

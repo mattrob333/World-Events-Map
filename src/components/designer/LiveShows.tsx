@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useEffect, useMemo, useState } from 'react';
 import type { ConcertResult, EventKind, LiveEvent } from '@/lib/designer/concerts';
 import type { TasteInput } from '@/lib/designer/scene';
@@ -78,7 +79,7 @@ export function LiveShows({ artists, hometown, taste }: { artists: string[]; hom
     } catch {
       // Storage off: fetch as usual.
     }
-    fetch('/api/designer/concerts', {
+    memberFetch('/api/designer/concerts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ artists, city: scope === 'home' ? hometown : undefined, taste }),

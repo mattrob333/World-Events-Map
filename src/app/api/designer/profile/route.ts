@@ -2,6 +2,7 @@ import { MAX_RAMBLE_CHARS, parseProfileLocally, type ParsedProfile } from '@/lib
 import { designerAiConfigured, parseProfileWithClaude } from '@/lib/designer/server/claude';
 import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { RequestTooLargeError, checkBoundary, consumeAiCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -13,6 +14,9 @@ export const maxDuration = 60;
  * profile comes straight back to the device.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
 

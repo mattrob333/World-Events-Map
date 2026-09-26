@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import Link from 'next/link';
 import { pinPicks, takeVibePicks } from '@/lib/designer/vibePicks';
 import { samePlace } from '@/lib/voice/canvas';
@@ -147,7 +148,7 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
     }
     setBusy(true);
     try {
-      const response = await fetch('/api/designer/itinerary', {
+      const response = await memberFetch('/api/designer/itinerary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...input, profileNotes }),

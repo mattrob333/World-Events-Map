@@ -1,6 +1,7 @@
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { RequestTooLargeError, consumeProviderCall, readJson } from '@/lib/designer/server/guard';
 import { createDopeMcpServer } from '@/lib/mcp/server';
+import { requireMcpToken } from '@/lib/platform/server/member';
 import { siteOrigin } from '@/lib/designer/capabilities';
 
 export const dynamic = 'force-dynamic';
@@ -25,6 +26,9 @@ const rpcError = (status: number, code: number, message: string, headers: Record
  * providers behind the tools also sit behind their own daily budgets.
  */
 export async function POST(request: Request): Promise<Response> {
+  // Private for now: agents connect with MCP_ACCESS_TOKEN as a bearer token.
+  const denied = requireMcpToken(request);
+  if (denied) return denied;
   let parsedBody: unknown;
   try {
     parsedBody = await readJson(request, MAX_BODY_BYTES);

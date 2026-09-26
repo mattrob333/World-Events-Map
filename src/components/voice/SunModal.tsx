@@ -1,5 +1,7 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
+import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
@@ -92,6 +94,7 @@ const OPENERS: Record<'now' | 'trip' | 'profile', string> = {
   profile: 'Hey! Tell me how you like to travel.',
 };
 const RESUME = 'Back on it. What else?';
+const SIGN_IN_NOTE = 'The concierge is members-only for now. Log in to talk it through.';
 const CARRY_ON = 'Still here, keep going.';
 
 /** Everything they said, for building when the concierge wasn't asked to (or they tapped I'm done first). */
@@ -174,6 +177,7 @@ function VibeStage() {
   const rt = useRealtime();
   const dictation = useLiveTranscript();
   const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
+  const auth = usePlatformAuth();
   const [mode, setMode] = useState<VibeMode>(hasProfile ? 'trip' : 'profile');
   const [phase, setPhase] = useState<Phase>('intro');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
@@ -464,7 +468,7 @@ function VibeStage() {
     type Routed = { route?: string; question?: string; place?: PlanPlace | null; vibe?: VibePayload };
     let routed: Routed | null = null;
     try {
-      const response = await fetch('/api/designer/route-trip', {
+      const response = await memberFetch('/api/designer/route-trip', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, hasProfile, today: localToday() }),
@@ -566,6 +570,11 @@ function VibeStage() {
   const continuations = useRef(0);
   const startTalkingRef = useRef<(carryOn?: boolean) => Promise<void>>(async () => undefined);
   const startTalking = async (carryOn = false) => {
+    // Members only for now: the concierge spends money on every conversation.
+    if (auth.client && !auth.user) {
+      setNote(SIGN_IN_NOTE);
+      return;
+    }
     if (!carryOn) continuations.current = 0;
     setNote(null);
     setRecs(null);
@@ -689,7 +698,7 @@ function VibeStage() {
       type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; where?: string[]; vibe?: VibePayload; decidedBy?: 'jev' | 'rules' };
       let routed: Routed | null = null;
       try {
-        const response = await fetch('/api/designer/route-trip', {
+        const response = await memberFetch('/api/designer/route-trip', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, hasProfile, today: localToday() }),
@@ -1024,7 +1033,12 @@ function VibeStage() {
           </div>
         )}
 
-        {shownNote && <p className="notice mb-3 text-[13px]" role="status">{shownNote}</p>}
+        {shownNote && (
+          <p className="notice mb-3 text-[13px]" role="status">
+            {shownNote}
+            {shownNote === SIGN_IN_NOTE ? <> <a href="/login?next=%2F" className="font-semibold text-saffron underline underline-offset-2">Log in</a></> : null}
+          </p>
+        )}
         {rulesDecided && (view === 'recap' || view === 'typing') && (
           <p className="mb-3 text-[12px] leading-4 text-ink-muted">Matched with simple word rules for now. Name a place, or a kind of trip (beach, snow, food, surf, nights out).</p>
         )}

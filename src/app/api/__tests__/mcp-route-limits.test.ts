@@ -7,7 +7,8 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { resetDesignerLimitsForTests } from '@/lib/designer/server/guard';
 import { DELETE, GET, MAX_BATCH_MESSAGES, POST } from '../mcp/route';
 
-const HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' };
+process.env.MCP_ACCESS_TOKEN = 'test-mcp-token-0123456789abcdef';
+const HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', Authorization: 'Bearer test-mcp-token-0123456789abcdef' };
 const msg = (id: number) => ({ jsonrpc: '2.0', id, method: 'tools/list', params: {} });
 
 afterEach(() => {
@@ -73,6 +74,7 @@ describe('/api/mcp abuse limits', () => {
     const methods: string[] = [];
     const fetchImpl = async (input: string | URL | Request, init?: RequestInit) => {
       const request = new Request(input, init);
+      request.headers.set('Authorization', 'Bearer test-mcp-token-0123456789abcdef');
       methods.push(request.method);
       return request.method === 'POST' ? POST(request) : request.method === 'GET' ? GET() : DELETE();
     };

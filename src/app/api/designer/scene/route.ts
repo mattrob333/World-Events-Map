@@ -3,6 +3,7 @@ import { listenerSummary, readTaste, readWindow } from '@/lib/designer/music-inp
 import { publicScene, scenePlaybook, sceneSearchLinks } from '@/lib/designer/scene';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { jevBudgetAvailable, jevConfigured, jevEventFit } from '@/lib/designer/server/jevMusic';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -15,6 +16,9 @@ export const maxDuration = 45;
  * gets map searches so there is always a way in.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

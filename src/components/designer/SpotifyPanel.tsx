@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useState } from 'react';
 import { listeningInsights, parsePlaylistRef, type ListeningProfile } from '@/lib/designer/listening';
 import { startSpotifyConnect } from '@/lib/designer/spotify';
@@ -46,7 +47,7 @@ export function SpotifyPanel({
     if (ref.kind === 'liked' || !canRead) return connect();
     setBusy(true);
     try {
-      const response = await fetch('/api/designer/playlist', {
+      const response = await memberFetch('/api/designer/playlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ link: playlist }),

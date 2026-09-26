@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import Link from 'next/link';
 import { roundForSearch } from '@/lib/now/pulse';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
@@ -146,7 +147,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
     setError('');
     setResult(null);
     try {
-      const response = await fetch('/api/now', {
+      const response = await memberFetch('/api/now', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

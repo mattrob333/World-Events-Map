@@ -7,11 +7,15 @@ import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
 import { validateNowRequest } from '@/lib/now/validation';
 import { NO_STORE, RequestTooLargeError, jsonError, readBodyWithLimit, validateRequestBoundary } from '@/lib/now/http';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundaryFailure = validateRequestBoundary(request);
   if (boundaryFailure) return boundaryFailure;
 

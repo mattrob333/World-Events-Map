@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useCallback, useRef, useState } from 'react';
 import { pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
 import { PULSE_WHATS, roundForSearch, type PulseResult, type PulseWhat } from '@/lib/now/pulse';
@@ -93,7 +94,7 @@ export function useNowFinder() {
     let point: { lat: number; lng: number } | null = null;
     let place = 'you';
     if (ask.where) {
-      const response = await fetch(`/api/geo/lookup?q=${encodeURIComponent(ask.where)}`).catch(() => null);
+      const response = await memberFetch(`/api/geo/lookup?q=${encodeURIComponent(ask.where)}`).catch(() => null);
       const body = response?.ok ? ((await response.json()) as { place?: { lat: number; lng: number; label: string } | null }) : null;
       if (!body?.place) return fail(`Couldn’t find “${ask.where}” on the map. Try a neighborhood and city.`);
       point = body.place;
@@ -103,7 +104,7 @@ export function useNowFinder() {
       if (!point) return fail('Location is off. Allow it for this site, or say where you are.');
     }
 
-    const response = await fetch('/api/now/pulse', {
+    const response = await memberFetch('/api/now/pulse', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ location: roundForSearch(point), what: ask.what, radiusMeters: NEAR_RADIUS }),

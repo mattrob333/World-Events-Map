@@ -1,18 +1,27 @@
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+process.env.MCP_ACCESS_TOKEN = 'test-mcp-token-0123456789abcdef';
 
 import { POST } from '../mcp/route';
 
 function rpc(method: string, params: Record<string, unknown> = {}, id = 1) {
   return new Request('http://localhost/api/mcp', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', Authorization: 'Bearer test-mcp-token-0123456789abcdef' },
     body: JSON.stringify({ jsonrpc: '2.0', id, method, params }),
   });
 }
 
 describe('POST /api/mcp', () => {
+  it('is private: no token or a wrong one gets 401', async () => {
+    const bare = new Request('http://localhost/api/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }) });
+    expect((await POST(bare)).status).toBe(401);
+    const wrong = rpc('tools/list');
+    wrong.headers.set('Authorization', 'Bearer not-the-token');
+    expect((await POST(wrong)).status).toBe(401);
+  });
+
   it('initializes and lists the dope tools', async () => {
     const init = await POST(rpc('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'test', version: '1' } }));
     expect(init.status).toBe(200);
@@ -60,7 +69,7 @@ describe('POST /api/mcp', () => {
   });
 
   it('refuses oversized requests', async () => {
-    const big = new Request('http://localhost/api/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Content-Length': '100000' }, body: '{}' });
+    const big = new Request('http://localhost/api/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Content-Length': '100000', Authorization: 'Bearer test-mcp-token-0123456789abcdef' }, body: '{}' });
     expect((await POST(big)).status).toBe(413);
   });
 });

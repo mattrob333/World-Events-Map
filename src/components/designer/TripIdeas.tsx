@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { TripIdeasResponse } from '@/lib/designer/tripIdeas';
@@ -19,7 +20,7 @@ export function TripIdeas({ artists, teams, homeCity }: { artists: string[]; tea
 
   useEffect(() => {
     let live = true;
-    fetch('/api/designer/trip-ideas', {
+    memberFetch('/api/designer/trip-ideas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ artists, teams, homeCity }),

@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { DesignerDestination } from '@/lib/designer/catalog';
 import { cityAirport, originAirport } from '@/lib/designer/airports';
@@ -347,7 +348,7 @@ export function DestinationResearch({ trip, destination }: { trip: Itinerary; de
     setError('');
     setStatus('');
     try {
-      const response = await fetch('/api/designer/research', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(request) });
+      const response = await memberFetch('/api/designer/research', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(request) });
       const body = (await response.json().catch(() => ({}))) as Research | { error?: string | { message?: string } };
       if (!response.ok || !('topSpots' in body)) {
         const message = 'error' in body ? (typeof body.error === 'string' ? body.error : body.error?.message) : undefined;

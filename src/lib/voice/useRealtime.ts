@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { VoiceHandlers } from './registry';
 import type { VoiceIntent } from './tools';
@@ -316,7 +317,7 @@ export function useRealtime() {
         });
       }
       if (cancelled()) return 'cancelled';
-      const session = await fetch('/api/voice/session', {
+      const session = await memberFetch('/api/voice/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ intent, context, profile, today: localToday(), sdp: pc.localDescription?.sdp ?? offer.sdp }),

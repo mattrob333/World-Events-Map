@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EXAMPLE_RAMBLE, bentoCards, hasBoardContent } from '@/lib/designer/moodboard';
@@ -329,7 +330,7 @@ export function MoodboardStudio({
     }
     setBusy(true);
     try {
-      const response = await fetch('/api/designer/profile', {
+      const response = await memberFetch('/api/designer/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: text }),

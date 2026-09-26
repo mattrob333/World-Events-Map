@@ -14,6 +14,7 @@ import { tripWindow } from '@/lib/vibe/window';
 
 let places: Place[] | null = null;
 import { tripChecklist } from '@/lib/voice/vibeChecklist';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -25,6 +26,9 @@ export const runtime = 'nodejs';
  * Without Jev, plain word rules answer and the response says so.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

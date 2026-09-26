@@ -3,6 +3,7 @@ import { applyCuration, composeLocally, groupTags } from '@/lib/designer/itinera
 import { curateItineraryWithClaude, designerAiConfigured } from '@/lib/designer/server/claude';
 import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { RequestTooLargeError, checkBoundary, consumeAiCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -14,6 +15,9 @@ export const maxDuration = 90;
  * cards within each slot and writes the day headlines.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
 

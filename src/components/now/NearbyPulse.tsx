@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
@@ -203,13 +204,13 @@ export function NearbyPulse() {
     map.once('moveend', () => { if (live) setStage('ready'); });
     map.flyTo({ center: [here.lng, here.lat], zoom: STREET_ZOOM, pitch: 55, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
 
-    fetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: roundForSearch(here) }) })
+    memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: roundForSearch(here) }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
         if (!response.ok) {
           setVenues([]);
-          setNote({ tone: response.status === 503 && body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'info' : 'warn', text: body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'Foot traffic isn’t connected yet. The map is ready; the pulses arrive once BestTime is on.' : body.error ?? 'Foot traffic could not be checked. Try again shortly.' });
+          setNote({ tone: response.status === 503 && body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'info' : 'warn', text: body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'Foot traffic isn’t connected yet. The map is ready; the pulses arrive once BestTime is on.' : body.code === 'SIGN_IN_REQUIRED' || body.code === 'MEMBERS_ONLY' ? 'Vibe Now is members-only for now. Log in from the top right to see what’s busy.' : body.error ?? 'Foot traffic could not be checked. Try again shortly.' });
           return;
         }
         const list = (body.venues ?? []).map((venue) => ({ ...venue, distanceMeters: Math.round(metersBetween(here, venue)) }));

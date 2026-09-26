@@ -1,6 +1,7 @@
 import { isIsoDate } from '@/lib/designer/itinerary';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { researchCacheMisses, researchDestination, type ResearchRequest } from '@/lib/research/destination';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -28,6 +29,9 @@ function addDays(iso: string, days: number) {
  * within ~11 months, 1–30 nights (so date variants can't be minted freely).
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

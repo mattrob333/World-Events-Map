@@ -3,6 +3,7 @@ import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { askJev, jevConfigured, stateHash, type ScoreAnswer } from '@/lib/jev/client';
 import { FIT_BATCH, TRIP_FIT_CONTRACT, rankCandidates, tripFitQuestions, tripFitState, type FitCandidate, type FitContext } from '@/lib/jev/contracts/tripFit';
 import { storeReceipts } from '@/lib/jev/receipts';
+import { requireMember } from '@/lib/platform/server/member';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -32,6 +33,9 @@ function candidate(raw: unknown): FitCandidate | null {
  * ranked by rating and says so.
  */
 export async function POST(request: Request) {
+  // Members only: this route spends money or runs a search.
+  const member = await requireMember(request);
+  if (member instanceof Response) return member;
   const boundary = checkBoundary(request);
   if (boundary) return boundary;
   let body: Record<string, unknown>;

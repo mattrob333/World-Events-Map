@@ -1,5 +1,6 @@
 'use client';
 
+import { memberFetch } from '@/lib/platform/memberFetch';
 import { useEffect, useMemo, useState } from 'react';
 import type { SceneResponse } from '@/lib/designer/concerts';
 import { scenePlaybook, type TasteInput } from '@/lib/designer/scene';
@@ -33,7 +34,7 @@ export function usePersona(taste: TasteInput | null, extra: { listeningHours?: s
   useEffect(() => {
     if (!taste) return;
     let live = true;
-    fetch('/api/designer/persona', {
+    memberFetch('/api/designer/persona', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ taste, ...extra }),
@@ -87,7 +88,7 @@ export function ScenePlaybook({
   useEffect(() => {
     if (!city || !playbook.length) return;
     let live = true;
-    fetch('/api/designer/scene', {
+    memberFetch('/api/designer/scene', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ city, taste, startDate, endDate }),
