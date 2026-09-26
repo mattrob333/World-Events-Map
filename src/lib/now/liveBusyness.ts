@@ -77,9 +77,9 @@ export function validPlaceToken(place: SignedPlace, token: unknown, now = Date.n
 }
 
 /** Ledger pool names are letters only: a member's id, hashed and spelled in letters. */
-export function memberPool(memberId: string): string {
+export function memberPool(memberId: string, prefix = 'liveM'): string {
   const hex = createHash('sha256').update(memberId).digest('hex').slice(0, 30);
-  return `liveM${hex.replace(/[0-9]/g, (digit) => 'ghijklmnop'[Number(digit)])}`;
+  return `${prefix}${hex.replace(/[0-9]/g, (digit) => 'ghijklmnop'[Number(digit)])}`;
 }
 
 export const validVenueId = (value: unknown): value is string => typeof value === 'string' && VENUE_ID.test(value);

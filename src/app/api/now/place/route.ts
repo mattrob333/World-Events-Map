@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { placeDetails } from '@/lib/now/googlePlaces';
 import { NO_STORE, RequestTooLargeError, jsonError, readBodyWithLimit, validateRequestBoundary } from '@/lib/now/http';
-import { validPlaceToken, validVenueId, type SignedPlace } from '@/lib/now/liveBusyness';
+import { takeSharedNamed } from '@/lib/designer/server/sharedBudget';
+import { memberPool, validPlaceToken, validVenueId, type SignedPlace } from '@/lib/now/liveBusyness';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { requireMember } from '@/lib/platform/server/member';
 
@@ -40,7 +41,12 @@ export async function POST(request: Request) {
   if (!validVenueId(place.id) || !place.name || !Number.isFinite(place.lat) || !Number.isFinite(place.lng)) return jsonError(400, 'INVALID_NOW_REQUEST', 'A place is required.');
   if (!validPlaceToken(place, raw.token)) return jsonError(403, 'NOW_PLACE_UNKNOWN', 'Refresh the map, then tap the place again.');
   try {
-    return NextResponse.json({ place: await placeDetails(place) }, { headers: NO_STORE });
+    // Each member's own daily share of Google lookups (places already looked up cost nothing),
+    // so no one can spend the site's budget and switch off closing times for everyone.
+    const raw = Number(process.env.GOOGLE_PLACES_MEMBER_DAILY_CALLS);
+    const cap = Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 30;
+    const charge = () => takeSharedNamed(memberPool(member.id, 'plcM'), cap);
+    return NextResponse.json({ place: await placeDetails(place, new Date(), charge) }, { headers: NO_STORE });
   } catch {
     return NextResponse.json({ place: null }, { headers: NO_STORE });
   }

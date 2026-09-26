@@ -128,4 +128,5 @@
 .ways { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .ways a { min-height: 44px; }
 .more { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; }
-.more a { color: var(--color-brass-bright, var(--color-saffron)); text-decoration: underline; text-underline-offset: 3px; min-height: 32px; display: inline-flex; align-items: center; }
+.more a { color: var(--color-brass-bright, var(--color-saffron)); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+.attribution { display: flex; align-items: center; margin-top: 6px; color: var(--color-ink-subtle); font-size: 11px; }

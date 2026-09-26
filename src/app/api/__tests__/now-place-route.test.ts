@@ -7,6 +7,7 @@ const { member, placeDetails } = vi.hoisted(() => ({
 }));
 vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => member.current }));
 vi.mock('@/lib/now/googlePlaces', () => ({ placeDetails }));
+vi.mock('@/lib/designer/server/sharedBudget', () => ({ takeSharedNamed: vi.fn(async () => true), takeShared: vi.fn(async () => true) }));
 
 import { placeToken } from '@/lib/now/liveBusyness';
 import { resetNowRateLimitsForTests } from '@/lib/now/rateLimit';
@@ -46,4 +47,14 @@ it('without a Google key the card still works, with no details', async () => {
   vi.stubEnv('GOOGLE_PLACES_API_KEY', '');
   member.current = { id: 'member', email: null };
   expect(await (await POST(request(place))).json()).toEqual({ place: null });
+});
+
+it('passes the member’s own share to the lookup', async () => {
+  vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'k');
+  vi.stubEnv('GOOGLE_PLACES_API_KEY', 'g');
+  member.current = { id: 'member', email: null };
+  await POST(request({ ...place, token: placeToken(place) }));
+  const charge = (placeDetails.mock.calls[0] as unknown[])[2] as () => Promise<boolean>;
+  expect(typeof charge).toBe('function');
+  expect(await charge()).toBe(true);
 });

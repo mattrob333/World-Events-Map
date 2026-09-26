@@ -12,6 +12,8 @@ const FIELDS = [
 ].join(',');
 const MAX_LOOKUPS = 10;
 const TTL_MS = 12 * 60 * 60 * 1000;
+/** A failed call is retried after five minutes, not hidden for half a day. */
+const FAILED_TTL_MS = 5 * 60 * 1000;
 
 /** What Google says about a place, for the card: only what it returned, never filled in. */
 export type PlaceDetails = {
@@ -41,9 +43,11 @@ const httpsUrl = (value: unknown) => {
 };
 const cache = new Map<string, { found: Found | null; at: number }>();
 
-async function lookup(venue: PulseVenue, key: string): Promise<Found | null> {
+async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boolean>): Promise<Found | null> {
   const hit = cache.get(venue.id);
-  if (hit && Date.now() - hit.at < TTL_MS) return hit.found;
+  if (hit && Date.now() - hit.at < (hit.found ? TTL_MS : FAILED_TTL_MS)) return hit.found;
+  // A member's own share first (when asked on their behalf), then the site's daily budget.
+  if (charge && !(await charge())) return null;
   if (!(await takeShared('places'))) return null;
   let found: Found | null = null;
   try {
@@ -110,7 +114,8 @@ export async function withGoogleHours(venues: PulseVenue[], now = new Date()): P
   for (const venue of marked) {
     const found = results.get(venue.id);
     if (!found?.periods || found.utcOffsetMinutes === undefined) {
-      out.push(venue);
+      // Google knew the place but not its hours: keep its Maps link anyway.
+      out.push(found?.mapsUrl ? { ...venue, mapsUrl: found.mapsUrl } : venue);
       continue;
     }
     const closes = closesTonight(found.periods, localNow(now, found.utcOffsetMinutes));
@@ -131,10 +136,10 @@ export async function withGoogleHours(venues: PulseVenue[], now = new Date()): P
  * daily `places` budget) as the hours above, so a place already looked up
  * costs nothing more.
  */
-export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'address' | 'lat' | 'lng'>, now = new Date()): Promise<PlaceDetails | null> {
+export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'address' | 'lat' | 'lng'>, now = new Date(), charge?: () => Promise<boolean>): Promise<PlaceDetails | null> {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   if (!key) return null;
-  const found = await lookup({ ...venue, category: '', busyness: 0, basis: 'forecast' }, key);
+  const found = await lookup({ ...venue, category: '', busyness: 0, basis: 'forecast' }, key, charge);
   if (!found) return null;
   const details = { ...found.details };
   if (found.periods && found.utcOffsetMinutes !== undefined) {

@@ -530,6 +530,9 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
         {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
       </div>
       {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
+      {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone) ? (
+        <p className={styles.attribution}><SourceLogo source="google maps" size={12} className="mr-1" />Place details from Google Maps</p>
+      ) : null}
     </article>
   );
 }
