@@ -59,3 +59,4 @@ Destination dossiers also use the following locally stored place scenes. Their c
 | `pantanal-jaguar-season` | place · 2015 | Wolves201 | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pantanal_jaguar_male_JF.jpg) |
 | `venice-biennale-arte` | event · 2024 | Jennifer 8. Lee | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2024_Venice_Biennale_Arsenale_Interior_1.jpg) |
 | `presidents-cup` | place · 2008 (Medinah Country Club clubhouse) | Dan Perry | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Medinah_Country_Club,_Medinah,_Illinois.jpg) |
+| `crump-cup-pine-valley` | place · 2022 (entrance to Pine Valley Golf Club) | Mr. Matté | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Entrance_to_Pine_Valley_Golf_Club_(1),_May_2022.jpg) |
