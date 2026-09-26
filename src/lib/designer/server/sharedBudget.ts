@@ -42,7 +42,7 @@ async function claim(pool: string, units: number, cap: number): Promise<{ day: s
   }
 }
 
-async function refund(pool: BudgetPool, units: number, day: string): Promise<void> {
+async function refund(pool: string, units: number, day: string): Promise<void> {
   if (!(units > 0)) return;
   const db = await database();
   if (!db) return;
@@ -113,4 +113,13 @@ export async function takeSharedNamed(name: string, cap: number, units = 1, now 
   const granted = result === 'unavailable' ? !strict() : result !== 'refused';
   if (!granted) namedLocal.set(name, { day, spent });
   return granted;
+}
+
+/** Gives back units taken from a named pool today (the call they were for never went ahead). */
+export async function refundSharedNamed(name: string, units = 1, now = Date.now()): Promise<void> {
+  if (!/^[a-zA-Z]{1,40}$/.test(name)) return;
+  const day = new Date(now).toISOString().slice(0, 10);
+  const local = namedLocal.get(name);
+  if (local?.day === day) namedLocal.set(name, { day, spent: Math.max(0, local.spent - units) });
+  await refund(name, units, day);
 }

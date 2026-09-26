@@ -295,6 +295,8 @@ export function NearbyPulse() {
     const map = mapRef.current;
     if (!map || !mapReady || !venues) return;
     venuesRef.current = venues;
+    // A fresh scan: places can be checked live again (a failed check isn't stuck).
+    setLive({});
     const { points, columns } = features(venues);
     pointsRef.current = points;
     columnsRef.current = columns;
@@ -314,7 +316,9 @@ export function NearbyPulse() {
 
   // Proof it's busy: BestTime's live reading for the place they tapped (one paid lookup, cached).
   useEffect(() => {
-    if (!selected || live[selected]) return;
+    const known = selected ? live[selected] : undefined;
+    // A failed check can be tried again after two minutes (the server remembers failures that long).
+    if (!selected || (known && !(known.status === 'error' && Date.now() - known.at > 120_000))) return;
     const id = selected;
     setLive((current) => ({ ...current, [id]: { status: 'loading' } }));
     const token = venuesRef.current.find((venue) => venue.id === id)?.liveToken;
@@ -324,9 +328,9 @@ export function NearbyPulse() {
         const reading = body.reading;
         if (response.ok && reading) return setLive((current) => ({ ...current, [id]: { status: 'ok', reading } }));
         const message = typeof body.error === 'string' ? body.error : body.error?.message;
-        setLive((current) => ({ ...current, [id]: { status: 'error', message: message ?? 'The live reading couldn’t be checked.' } }));
+        setLive((current) => ({ ...current, [id]: { status: 'error', message: message ?? 'The live reading couldn’t be checked.', at: Date.now() } }));
       })
-      .catch(() => setLive((current) => ({ ...current, [id]: { status: 'error', message: 'The live reading couldn’t be checked. Check your connection.' } })));
+      .catch(() => setLive((current) => ({ ...current, [id]: { status: 'error', message: 'The live reading couldn’t be checked. Check your connection.', at: Date.now() } })));
   }, [selected, live]);
 
   const nowMinutes = now ? now.getHours() * 60 + now.getMinutes() : 0;
@@ -427,7 +431,7 @@ function Meter({ venue, compact = false }: { venue: PulseVenue; compact?: boolea
 }
 
 type LiveReading = { live?: number; usual?: number; delta?: number; hour?: string; checkedAt: string };
-type LiveState = { status: 'loading' } | { status: 'ok'; reading: LiveReading } | { status: 'error'; message: string };
+type LiveState = { status: 'loading' } | { status: 'ok'; reading: LiveReading } | { status: 'error'; message: string; at: number };
 
 /**
  * The proof behind a beam. Live when BestTime measured it just now, with the
@@ -471,11 +475,11 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
       </div>
     );
   }
-  // The map scan's own reading was live: keep its label.
+  // The map scan's own reading was live: keep its label, and say the re-check didn't add to it.
   return (
     <div className={styles.proof}>
       <Meter venue={venue} />
-      <p className={styles.proofSource}>{note}</p>
+      <p className={styles.proofSource}>{state?.status === 'ok' ? 'Live from the map’s scan a moment ago; BestTime couldn’t re-check it just now.' : note}</p>
     </div>
   );
 }

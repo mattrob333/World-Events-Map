@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
-const { takeShared, takeSharedNamed } = vi.hoisted(() => ({ takeShared: vi.fn(async () => true), takeSharedNamed: vi.fn(async () => true) }));
-vi.mock('@/lib/designer/server/sharedBudget', () => ({ takeShared, takeSharedNamed }));
+const { takeShared, takeSharedNamed, refundSharedNamed } = vi.hoisted(() => ({ takeShared: vi.fn(async () => true), takeSharedNamed: vi.fn(async () => true), refundSharedNamed: vi.fn(async () => undefined) }));
+vi.mock('@/lib/designer/server/sharedBudget', () => ({ takeShared, takeSharedNamed, refundSharedNamed }));
 
 import { liveBusyness, liveToken, memberPool, validLiveToken } from '../liveBusyness';
 
@@ -38,8 +38,11 @@ it('remembers a failure so a broken place doesn’t cost a credit on every tap',
 it('stops at the member’s share, and at the site cap, before calling BestTime', async () => {
   takeSharedNamed.mockImplementationOnce(async () => false);
   await expect(liveBusyness('ven_member_cap', 'member-a')).rejects.toThrow(/today’s live checks/);
+  expect(refundSharedNamed).not.toHaveBeenCalled();
   takeShared.mockImplementationOnce(async () => false);
   await expect(liveBusyness('ven_site_cap', 'member-a')).rejects.toThrow(/today’s limit/);
+  // The site said no, so the member's own share is given back.
+  expect(refundSharedNamed).toHaveBeenCalledTimes(1);
   expect(fetchMock).not.toHaveBeenCalled();
 });
 

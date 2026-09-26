@@ -1,6 +1,6 @@
 import 'server-only';
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
-import { takeShared, takeSharedNamed } from '@/lib/designer/server/sharedBudget';
+import { refundSharedNamed, takeShared, takeSharedNamed } from '@/lib/designer/server/sharedBudget';
 
 const ENDPOINT = 'https://besttime.app/api/v1/forecasts/live';
 const TTL_MS = 5 * 60 * 1000;
@@ -9,7 +9,7 @@ const FAILED_TTL_MS = 2 * 60 * 1000;
 /** One member's share of the day's live checks, so no one can use up everyone's. */
 const memberCap = () => {
   const raw = Number(process.env.BESTTIME_LIVE_MEMBER_DAILY_CALLS);
-  return Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 60;
+  return Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 20;
 };
 const VENUE_ID = /^[A-Za-z0-9_-]{6,120}$/;
 
@@ -100,8 +100,13 @@ export async function liveBusyness(venueId: string, memberId: string): Promise<L
   if (!key || !validVenueId(venueId)) return null;
   const hit = cache.get(venueId);
   if (hit && Date.now() - hit.at < (hit.reading ? TTL_MS : FAILED_TTL_MS)) return hit.reading;
-  if (!(await takeSharedNamed(memberPool(memberId), memberCap()))) throw new LiveBudgetError('You’ve used today’s live checks.');
-  if (!(await takeShared('bestTimeLive'))) throw new LiveBudgetError('Live checks are at today’s limit.');
+  const pool = memberPool(memberId);
+  if (!(await takeSharedNamed(pool, memberCap()))) throw new LiveBudgetError('You’ve used today’s live checks.');
+  if (!(await takeShared('bestTimeLive'))) {
+    // The site is at its cap: the member's own share isn't spent on a check that never ran.
+    await refundSharedNamed(pool);
+    throw new LiveBudgetError('Live checks are at today’s limit.');
+  }
   try {
     const params = new URLSearchParams({ api_key_private: key, venue_id: venueId });
     const response = await fetch(`${ENDPOINT}?${params.toString()}`, { method: 'POST', signal: AbortSignal.timeout(6000), cache: 'no-store' });
