@@ -65,12 +65,11 @@ const MORE_LINKS = [
   { href: '/circles', label: 'Circles', hint: 'Travel with members', on: FEATURES.circles },
 ].filter((item) => item.on);
 
-// Mirrors getPlatformClient(): member services exist only with both public keys.
-const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 // One profile: the traveler profile. The member account (sign-in, privacy, data) is "Settings" in More.
 const PROFILE_HREF = '/vibe';
 const PRIMARY_HREFS: readonly string[] = PRIMARY.map((item) => item.href);
-const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/settings');
+// Settings always shows: without member services it still holds device data and Bring your AI.
+const MORE_ITEMS = MORE_LINKS;
 
 function activePath(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
