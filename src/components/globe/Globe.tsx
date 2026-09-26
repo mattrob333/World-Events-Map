@@ -47,6 +47,7 @@ import { CameraRig } from './CameraRig';
 import { Effects } from './Effects';
 import { GlobeFallback } from './GlobeFallback';
 import { TravelRoute } from './TravelRoute';
+import { ReachArcs } from './ReachArcs';
 import { ViewerMarker, type ViewerMarkerInfo } from './ViewerMarker';
 
 const DEFAULT_INITIAL_VIEW: GeoPoint = { lat: 24, lon: 8 };
@@ -94,6 +95,7 @@ export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMa
       <BeaconField beacons={beacons} winterMode={winterMode} />
       <TravelRoute />
       {viewerMarker && <ViewerMarker {...viewerMarker} />}
+      {viewerMarker && <ReachArcs beacons={beacons} origin={viewerMarker.coords} />}
 
       <CameraRig
         initialDistance={INITIAL_DISTANCE}

@@ -32,6 +32,10 @@ Current migrations:
 2. `002_live_signals.sql`
 3. `003_affinity_graph.sql`
 4. `004_now_provider_budget.sql`
+5. `005_research.sql`
+6. `006_advisor_hardening.sql`
+7. `007_feed_library.sql`
+8. `008_daily_budgets.sql` (must be applied before deploying code that uses `sharedBudget.ts`: in production, paid calls fail closed without it)
 
 ## 2. Secrets and configuration
 

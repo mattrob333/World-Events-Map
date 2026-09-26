@@ -12,15 +12,11 @@
  * when the provider reported one and for the full ceiling when it did not
  * (a missing cost header, a timeout, a thrown error: we assume we were billed).
  *
- * IMPORTANT, honest scope: these ledgers live in process memory. On Vercel
- * each serverless instance (and each cold start) has its own ledger, so the
- * true worst case is `cap × concurrent instances`. There is no durable store
- * for these pools yet. The NOW budget (src/lib/now/providerBudget.ts) is
- * durable, but it counts calls in one fixed 10-minute window with a cap
- * hard-coded in migration 004, so it cannot hold USD amounts or named daily
- * pools without a new migration. Adding that migration (a `reserve/settle`
- * RPC keyed by pool and UTC day) is the remaining step before public launch;
- * `DailyBudgetStore` is the seam where it plugs in.
+ * Scope: these ledgers live in process memory, one per serverless instance.
+ * They are the fast first check. Paid call sites go through sharedBudget.ts,
+ * which also claims against the durable per-pool, per-UTC-day ledger from
+ * migration 008, so the cap holds across instances (and fails closed in
+ * production when that ledger can't be reached).
  *
  * The day rolls over at 00:00 UTC.
  */

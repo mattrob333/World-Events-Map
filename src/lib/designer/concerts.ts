@@ -6,7 +6,7 @@
  */
 
 import { SCENE_RULES, type Scene, type SceneKey } from './scene';
-import { take } from './server/dailyBudget';
+import { takeShared } from './server/sharedBudget';
 
 export type EventKind = 'artist' | 'festival' | 'tribute' | 'scene' | 'game';
 export type EventSource = 'ticketmaster' | 'seatgeek';
@@ -215,8 +215,8 @@ export class EventFeedBudgetError extends Error {
 }
 
 /** Every upstream request counts against the daily budget; all of a fan-out is taken up front, or none. */
-function chargeFanOut(requests: number) {
-  if (requests > 0 && !take('eventFeeds', requests)) throw new EventFeedBudgetError();
+async function chargeFanOut(requests: number) {
+  if (requests > 0 && !(await takeShared('eventFeeds', requests))) throw new EventFeedBudgetError();
 }
 
 export type ProviderKeys = { ticketmaster?: string; seatgeek?: string };
@@ -271,7 +271,7 @@ function dedupe(events: LiveEvent[]): LiveEvent[] {
 export async function searchArtistEvents(search: ConcertSearch, keys: ProviderKeys, fetchImpl: typeof fetch = fetch): Promise<LiveEvent[]> {
   const artists = search.artists.slice(0, MAX_CONCERT_ARTISTS);
   const window = { city: search.city, startDate: search.startDate, endDate: search.endDate };
-  chargeFanOut(artists.length * 2 * (Number(Boolean(keys.ticketmaster)) + Number(Boolean(keys.seatgeek))));
+  await chargeFanOut(artists.length * 2 * (Number(Boolean(keys.ticketmaster)) + Number(Boolean(keys.seatgeek))));
   const jobs: Promise<LiveEvent[]>[] = [];
   for (const artist of artists) {
     for (const wanted of ['artist', 'tribute'] as const) {
@@ -312,7 +312,7 @@ export async function searchCityScene(
   const scenes = input.scenes.slice(0, 3);
   const window = { city: input.city, startDate: input.startDate, endDate: input.endDate, size: 15 };
   const genreQueries = keys.ticketmaster ? scenes.filter((key) => SCENE_RULES[key]?.ticketmasterGenre).length : 0;
-  chargeFanOut(genreQueries + (keys.ticketmaster ? 1 : 0) + (keys.seatgeek ? 2 : 0));
+  await chargeFanOut(genreQueries + (keys.ticketmaster ? 1 : 0) + (keys.seatgeek ? 2 : 0));
   const jobs: Promise<Omit<LiveEvent, 'kind'>[]>[] = [];
   for (const key of scenes) {
     const genre = SCENE_RULES[key]?.ticketmasterGenre;
@@ -373,7 +373,7 @@ export async function searchTeamGames(
 ): Promise<LiveEvent[]> {
   const teams = search.teams.slice(0, 4);
   const window = { city: search.city, startDate: search.startDate, endDate: search.endDate, size: 20 };
-  chargeFanOut(teams.length * (Number(Boolean(keys.ticketmaster)) + Number(Boolean(keys.seatgeek))));
+  await chargeFanOut(teams.length * (Number(Boolean(keys.ticketmaster)) + Number(Boolean(keys.seatgeek))));
   const jobs: Promise<LiveEvent[]>[] = [];
   const tag = (team: string) => (event: Omit<LiveEvent, 'kind'>): LiveEvent[] => {
     if (!isTeamGame(event.name, event.lineup ?? [], team)) return [];

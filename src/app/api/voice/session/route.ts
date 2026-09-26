@@ -1,5 +1,5 @@
 import { after } from 'next/server';
-import { take } from '@/lib/designer/server/dailyBudget';
+import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { liveSessionConfig, voiceCallLimitSeconds } from '@/lib/voice/session';
 import { isVoiceIntent } from '@/lib/voice/tools';
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   const today = typeof body.today === 'string' ? body.today : '';
 
   if (!consumeProviderCall(request, 'voice')) return jsonError(429, 'VOICE_COOLDOWN', 'Lots of talking just now. Give it a few minutes, or type instead.');
-  if (!take('voice')) return jsonError(503, 'VOICE_DAILY_LIMIT', 'Voice is resting for today. Type instead; it works the same.');
+  if (!(await takeShared('voice'))) return jsonError(503, 'VOICE_DAILY_LIMIT', 'Voice is resting for today. Type instead; it works the same.');
 
   const response = await fetch(LIVE_URL, {
     method: 'POST',

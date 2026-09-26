@@ -1,6 +1,7 @@
 import 'server-only';
 import type { LiveEvent } from '../concerts';
-import { remaining, take } from './dailyBudget';
+import { remaining } from './dailyBudget';
+import { takeShared } from './sharedBudget';
 
 /**
  * Jev (TypeSafe) as a structured judge of musical taste: it reads a
@@ -61,7 +62,7 @@ async function ask(state: Obj, questions: Obj, fetchImpl: typeof fetch): Promise
   const apiKey = process.env.TYPESAFE_API_KEY;
   if (!apiKey) return null;
   // One unit of the daily Jev budget per upstream request, taken before sending.
-  if (!take('jev')) return null;
+  if (!(await takeShared('jev'))) return null;
   try {
     const response = await fetchImpl(ENDPOINT, {
       method: 'POST',

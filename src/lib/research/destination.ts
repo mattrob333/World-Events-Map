@@ -1,7 +1,8 @@
 import 'server-only';
 
 import { SCENE_RULES, type SceneKey } from '@/lib/designer/scene';
-import { reserve, type BudgetPool } from '@/lib/designer/server/dailyBudget';
+import type { BudgetPool } from '@/lib/designer/server/dailyBudget';
+import { reserveShared } from '@/lib/designer/server/sharedBudget';
 import { tregCall, type TregCallReceipt } from './tregClient';
 import {
   fold,
@@ -191,7 +192,7 @@ function makeCaller(token: string, run: RunBudget, pools: BudgetPool[], deps: Re
     if (!run.take(micro)) return { ok: false, reason: 'budget' };
     // Reserve the ceiling against the shared day total before calling, so
     // concurrent requests can never together pass the daily cap.
-    const daily = reserve(pools, micro, deps.now?.() ?? Date.now());
+    const daily = await reserveShared(pools, micro, deps.now?.() ?? Date.now());
     if (!daily) {
       run.settle(micro, 0);
       return { ok: false, reason: 'daily' };
