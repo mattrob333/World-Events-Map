@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { ActivityStream } from '@/components/activity/ActivityStream';
 import { HotRightNow } from '@/components/heat/HotRightNow';
 import { HomeMusicMap } from '@/components/designer/HomeMusicMap';
-import { LiveStories } from './LiveStories';
+import { TravelSmarter } from './TravelSmarter';
 import { EVENTS } from '@/lib/data/events';
 import { indexDestinations } from '@/lib/pulse';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
@@ -44,7 +44,7 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
 
       {/* Home keeps what earns its place: live stories when there are some, then the scenes.
           The research lanes, the wire tab, the ideas ranking and the saved trail live on their own pages. */}
-      {mode === 'feed' && <><HotRightNow /><HomeMusicMap /><LiveStories /><ActivityStream /></>}
+      {mode === 'feed' && <><HotRightNow /><HomeMusicMap /><TravelSmarter /><ActivityStream /></>}
     </section>
   );
 }

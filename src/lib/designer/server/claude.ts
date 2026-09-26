@@ -6,7 +6,7 @@ import { CARD_INDEX, DESTINATION_INDEX } from '../catalog';
 import { candidatesFor, groupTags, type Curation, type Itinerary } from '../itinerary';
 import { normalizeProfile, type TravelerProfile } from '../profile';
 
-const MODEL = 'claude-opus-5';
+const MODEL = 'claude-opus-5-5';
 // Server-side refusal fallbacks: a declined request is re-run on a fallback
 // model inside the same call instead of failing the traveler's request.
 const BETAS = ['server-side-fallback-2026-07-01'];

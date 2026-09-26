@@ -198,7 +198,7 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
   - Hidden on phones: the route pass, the World Heat ranking and the stats.
   - Place photos (`EventPhoto`) on the spotlight and on the "next move" cards, which are a swipe rail on phones. Scene cards lead with the curated photo.
   - Fixed: shortlist cards no longer clip their credit, and the "Start a Circle" link no longer sits on a black box.
-- **Live stories:** `GET /api/feed/latest` (public, no input, cached 10 minutes at the edge) serves headlines from `meridian_feed_items` that name a place we cover. Filtering is in `src/lib/vibe/latestStories.ts`: tier A/B only, no service-notice or gear noise, English only, one story per source and per place, at most 4 days old, pictured places first. `LiveStories` renders nothing until there are at least 2.
+- **Travel smarter:** `GET /api/feed/smarter` (public, no input, cached 10 minutes at the edge, 20 in memory) serves this week's stories from `meridian_feed_items`, from an allowlist of points blogs, deal sites, gear reviewers and travel magazines. `src/lib/smarter/lanes.ts` sorts them into lanes (points, lounges, deals, gear, stays, hostels, tips), drops incidents and non-English, lets each publisher only into the lanes it's trusted for, and keeps one story per publisher per lane, at most 7 days old. `TravelSmarter` on home shows lane tabs, a lead story, a list, and a toolkit of real tools (`src/lib/smarter/toolkit.ts`, no prices or affiliate links). It renders nothing below 4 stories. No hostel feeds are in the library yet, so that lane stays hidden.
 
 ## Red team 2026-09-25 (third pass)
 
