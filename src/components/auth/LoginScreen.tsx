@@ -10,9 +10,19 @@ type Step = 'start' | 'email' | 'sent';
 
 /** Only same-site paths: "/trips", never "//evil.example" or back to /login. */
 export function safeNext(value: string | null): string {
-  if (!value || !value.startsWith('/') || value.startsWith('//') || value.startsWith('/\\')) return '/';
-  if (value === '/login' || value.startsWith('/login?') || value.startsWith('/login/')) return '/';
-  return value.slice(0, 300);
+  // Browsers drop tabs and newlines inside URLs, so "/\t/evil.example" would read as "//evil.example".
+  if (!value || /[\u0000-\u001f\\]/.test(value) || !value.startsWith('/') || value.startsWith('//')) return '/';
+  const base = 'https://same-site.invalid';
+  let url: URL;
+  try {
+    url = new URL(value, base);
+  } catch {
+    return '/';
+  }
+  if (url.origin !== base) return '/';
+  const path = `${url.pathname}${url.search}${url.hash}`;
+  if (url.pathname === '/login' || url.pathname.startsWith('/login/')) return '/';
+  return path.slice(0, 300);
 }
 
 /**
@@ -139,7 +149,7 @@ export function LoginScreen() {
         </div>
       </div>
 
-      <p className={styles.footnote}>No password. Your email is only used to sign you in.</p>
+      {client && <p className={styles.footnote}>No password. Your email is only used to sign you in.</p>}
     </main>
   );
 }

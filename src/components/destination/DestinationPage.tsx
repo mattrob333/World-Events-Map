@@ -540,7 +540,7 @@ function DestinationLoaded({
           href={planningHref}
           className={`btn btn-ghost ${styles.stickyPlan}`}
         >
-          {nextEvent ? `Plan ${nextEvent.name}` : 'Explore trip planning'} <span aria-hidden="true">↗</span>
+          <span className={styles.stickyPlanText}>{nextEvent ? `Plan ${nextEvent.name}` : 'Explore trip planning'}</span> <span aria-hidden="true">↗</span>
         </Link>
       </div>}
     </main>

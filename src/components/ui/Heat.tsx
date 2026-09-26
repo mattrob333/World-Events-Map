@@ -28,7 +28,7 @@ export function HeatDot({
   return (
     <span
       role={labelled ? 'img' : 'presentation'}
-      aria-label={labelled ? `${HEAT_LABEL[heat]} demand` : undefined}
+      aria-label={labelled ? `${HEAT_LABEL[heat]} modeled interest` : undefined}
       aria-hidden={labelled ? undefined : true}
       className={cn('relative inline-flex shrink-0 items-center justify-center', className)}
       style={{ width: px, height: px }}
@@ -80,7 +80,7 @@ export function HeatBadge({ heat, score, compact = false, className }: HeatBadge
         </span>
       )}
       <span className="sr-only">
-        {HEAT_LABEL[heat]} demand
+        {HEAT_LABEL[heat]} interest
         {score === undefined ? '' : `, score ${formatScore(score)} of 100`}
       </span>
     </span>

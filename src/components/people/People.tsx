@@ -48,7 +48,7 @@ export function PeopleDirectory() {
       <p className="mt-10 text-[14px] text-ink-muted">
         Signed-in members still edit their private record in{' '}
         <Link href="/account" className="text-brass-bright underline underline-offset-4">
-          Profile
+          Account
         </Link>
 .
       </p>
@@ -68,7 +68,7 @@ export function TravelerProfile({ handle }: { handle: string }) {
       <main className="px-4 py-16">
         <EmptyState
           title="No editorial portrait with that handle."
-          body="These pages are fixture identity surfaces. They are not live member records."
+          body="These are example portraits, not real members."
           action={
             <Link href="/people" className="btn btn-ghost">
               Traveler directory

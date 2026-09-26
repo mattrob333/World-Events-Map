@@ -25,8 +25,17 @@ async function fetchText(url: string): Promise<string | null> {
       signal: AbortSignal.timeout(8000),
       cache: 'no-store',
     });
-    if (!response.ok) return null;
-    const text = await response.text();
+    if (!response.ok || !response.body) return null;
+    // Stop reading at the cap, so one enormous feed can't exhaust memory.
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let text = '';
+    while (text.length < MAX_FEED_BYTES) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      text += decoder.decode(value, { stream: true });
+    }
+    await reader.cancel().catch(() => undefined);
     return text.length > MAX_FEED_BYTES ? text.slice(0, MAX_FEED_BYTES) : text;
   } catch {
     return null;

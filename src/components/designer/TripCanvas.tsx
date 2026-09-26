@@ -154,7 +154,7 @@ export function TripCanvas({ trip, onRestart }: { trip: Itinerary; onRestart: ()
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span className={`${styles.badge} ${trip.engine === 'claude' ? styles.badgeAi : ''}`}>
-              {trip.engine === 'claude' ? 'Curated by Claude' : 'Drafted on this device'}
+              {trip.engine === 'claude' ? 'Curated by AI' : 'Drafted on this device'}
             </span>
             <span className={styles.badge}>{totals.loves} loves so far</span>
           </div>

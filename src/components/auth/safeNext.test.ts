@@ -15,4 +15,10 @@ describe('login redirect', () => {
     expect(safeNext('/login?next=/')).toBe('/');
     expect(safeNext('javascript:alert(1)')).toBe('/');
   });
+
+  it('refuses paths a browser would read as another site', () => {
+    for (const value of ['/\t/evil.example', '/\n/evil.example', '/\r\\evil.example', '/\\evil.example', '//evil.example']) {
+      expect(safeNext(value)).toBe('/');
+    }
+  });
 });

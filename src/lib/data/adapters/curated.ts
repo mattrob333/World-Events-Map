@@ -39,7 +39,7 @@ export const curatedSource: EventSource = {
       label: 'dope.travel curated calendar',
       status: 'live',
       lastSyncedAt: bootedAt,
-      detail: `${EVENTS.length} events, hand-verified`,
+      detail: `${EVENTS.length} events, editorially curated; demand signals are modeled baselines`,
     };
   },
 };

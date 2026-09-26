@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { roundForSearch } from '@/lib/now/pulse';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { PlatformShell } from '@/components/community/PlatformShell';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
@@ -119,8 +120,9 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setLat(position.coords.latitude.toFixed(5));
-        setLng(position.coords.longitude.toFixed(5));
+        // About a kilometer, like Pulse: their exact position never leaves the phone.
+        setLat(position.coords.latitude.toFixed(2));
+        setLng(position.coords.longitude.toFixed(2));
         setLocating(false);
       },
       () => {
@@ -148,7 +150,7 @@ export function NowExperience({ providerConfigured, initialCity }: { providerCon
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          location: { lat: parsedLat, lng: parsedLng },
+          location: roundForSearch({ lat: parsedLat, lng: parsedLng }),
           intent,
           vibe,
           radiusMeters,

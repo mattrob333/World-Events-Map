@@ -21,13 +21,14 @@ export async function GET() {
       },
     );
   } catch (err) {
+    console.error('events route failed', err instanceof Error ? err.message : err);
     // The curated import is static, so reaching here means something
     // pathological. Still: never 500 the globe's only data endpoint.
     return NextResponse.json(
       {
         events: [],
         meta: { eventCount: 0, sources: [] },
-        error: err instanceof Error ? err.message : 'Unknown error',
+        error: 'Events are unavailable right now.',
       },
       { status: 500 },
     );

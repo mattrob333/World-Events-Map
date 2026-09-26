@@ -33,6 +33,19 @@ function devicePosition(): Promise<{ lat: number; lng: number } | null> {
   });
 }
 
+/** "the mood for a bar" is not a place; "a wedding in Austin" is Austin. */
+function placeFrom(raw: string | undefined): { where?: string } {
+  if (!raw) return {};
+  let where = raw;
+  if (/^(?:a|an|the|my|our)\s/i.test(where)) {
+    const inner = /\s(?:in|near|around)\s+(.+)$/i.exec(where)?.[1];
+    if (!inner) return {};
+    where = inner;
+  }
+  if (/^(?:home|work|the office|bed|the mood)\b/i.test(where) || where.length <= 2) return {};
+  return { where };
+}
+
 /** Reads a typed or dictated ask ("I'm in Flushing, want a late bar with a crowd"). */
 export function askFromText(text: string): NowAsk {
   const t = text.toLowerCase();
@@ -40,12 +53,18 @@ export function askFromText(text: string): NowAsk {
     : /\b(eat|food|bite|dinner|restaurant|pizza|taco|tacos|ramen|burger)\b/.test(t) ? 'food'
     : /\b(music|live|jazz|club|dance|dancing|dj|karaoke)\b/.test(t) ? 'music'
     : /\b(something to do|museum|gallery|show)\b/.test(t) ? 'experience' : 'surprise';
-  const energy: NowEnergy = /\b(busy|packed|crowd|crowded|foot traffic|lively|loud|buzzing|popping)\b/.test(t) ? 'lively'
-    : /\b(chill|quiet|low.?key|calm|mellow)\b/.test(t) ? 'chill' : 'social';
+  // "not too busy", "no crowds" mean quiet, not lively.
+  const unnegated = t.replace(/\b(?:not|no|never|isn'?t|without)\s+(?:too\s+|very\s+|that\s+|super\s+|a\s+)?(?:busy|packed|crowds?|crowded|loud|lively|buzzing|popping)\b/g, ' quiet ');
+  const energy: NowEnergy = /\b(busy|packed|crowd|crowded|foot traffic|lively|loud|buzzing|popping)\b/.test(unnegated) ? 'lively'
+    : /\b(chill|quiet|low.?key|calm|mellow)\b/.test(unnegated) ? 'chill' : 'social';
   const late = /\b(late|after midnight|all night|stays open|open till|last call)\b/.test(t);
   const plain = text.replace(/[’‘]/g, "'");
-  const where = /\b(?:i'?m|we'?re|i am|we are)\s+(?:(?:over\s+)?(?:here\s+)?(?:in|at|near|around))\s+([a-z0-9' -]+?(?:,\s*[a-z' -]+)?)(?=[.!?]|,?\s+(?:and|looking|want|it'?s|at\s+\d)|$)/i.exec(plain)?.[1]?.trim();
-  return { what, energy, late, ...(where && where.length > 2 ? { where } : {}) };
+  const CLAUSE = "(?:and|but|so|looking|want|wanna|need|trying|it'?s|what|where|any|at\\s+\\d)";
+  const found = new RegExp(
+    `\\b(?:i'?m|we'?re|i am|we are)\\s+(?:(?:over\\s+)?(?:here\\s+)?(?:in|at|near|around))\\s+([a-z0-9' -]+?(?:,(?!\\s*${CLAUSE}\\b)\\s*[a-z' -]+?)?)(?=[.!?]|,?\\s+${CLAUSE}\\b|,\\s*${CLAUSE}\\b|$)`,
+    'i',
+  ).exec(plain)?.[1]?.trim();
+  return { what, energy, late, ...placeFrom(found) };
 }
 
 /**

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { isHappeningToday } from '@/lib/data/scene-time';
 import { useEffect, useMemo, useState } from 'react';
 import { EVENTS } from '@/lib/data/events';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
@@ -71,7 +72,8 @@ export function liveDates(event: Pick<WorldEvent, 'start' | 'end'>, today: strin
 function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: number; today: string; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
   const { event, slug } = pick;
   const why = whyNow(event, today);
-  const live = event.start <= today && event.end >= today;
+  // Live means on right now where it happens (its own time zone), not on the date the timeline is set to.
+  const live = event.start <= today && event.end >= today && isHappeningToday(event, new Date());
   const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -120,7 +122,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
           <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={`${photo.title} · ${photo.credit} · ${photo.license}`}>
             {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗
           </a>
-        ) : <span>Photo being sourced</span>}
+        ) : <span>No photo yet</span>}
       </div>
     </article>
   );
@@ -260,7 +262,7 @@ export function WorldIntro({
               // eslint-disable-next-line @next/next/no-img-element
               <img {...photoImageProps(displayedFeaturedPhoto, 'pass')} alt="" decoding="async" referrerPolicy="no-referrer" onError={() => setFailedFeaturedImage(displayedFeaturedPhoto.imageUrl)} />
             ) : null}
-            <span>{displayedFeaturedPhoto ? photoArchiveLabel(displayedFeaturedPhoto) : 'Photo being sourced'}</span>
+            <span>{displayedFeaturedPhoto ? photoArchiveLabel(displayedFeaturedPhoto) : 'No photo yet'}</span>
           </div>
           <div className={styles.passRoute}>
             <span className={styles.passPlace}><small>FROM</small><strong>{originName ?? 'YOUR VIEW'}</strong></span>

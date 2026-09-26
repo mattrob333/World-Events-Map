@@ -556,6 +556,7 @@ export function mergeReply(trip: Itinerary, votes: TripVotes, reply: TripReply, 
   if (!target && trip.participants.length >= MAX_PARTICIPANTS) throw new Error(`Trips can have up to ${MAX_PARTICIPANTS} travelers.`);
   const whoId = target?.id ?? reply.participant.id;
   if (!isSafeId(whoId)) throw new Error('That picks link is damaged.');
+  if ((target ?? reply.participant).kind === 'kid' && trip.participants.some((p) => p.kind !== 'kid')) throw new Error('Kids come along but don’t vote, so there’s nothing to add from this link.');
   let newcomer: Participant | undefined;
   if (!target) {
     const clash = trip.participants.some((p) => p.color.toLowerCase() === reply.participant.color.toLowerCase() || p.emoji === reply.participant.emoji);

@@ -19,7 +19,7 @@ const PALETTE = [
 
 const VOICE = [
   ['Confident, not loud', 'We know the spot. We don’t need to shout about it.'],
-  ['Fun, not goofy', 'The name does the winking. We never use “dope” in a sentence, and never write slang we wouldn’t say out loud.'],
+  ['Fun, not goofy', 'The name does the winking. The brand word never appears in our sentences, and we never write slang we wouldn’t say out loud.'],
   ['Specific, not salesy', '“Rock cover band, Friday, two blocks from the hotel.” Not “unforgettable experiences.”'],
   ['Honest', 'Ideas are ideas, prices are “listed at”, and we say where things come from.'],
 ];

@@ -1,7 +1,8 @@
 /**
  * Daily spend caps for paid (or quota-limited) upstream providers used by the
  * designer, research and MCP routes: Treg research, Treg flights, Jev
- * (TypeSafe), and the Ticketmaster/SeatGeek event feeds.
+ * (TypeSafe), the Ticketmaster/SeatGeek event feeds, voice sessions and the
+ * designer's Anthropic calls.
  *
  * How it works: every upstream request reserves its worst-case cost (Treg's
  * per-call ceiling, or one unit for count-based pools) BEFORE it is sent,
@@ -24,7 +25,7 @@
  * The day rolls over at 00:00 UTC.
  */
 
-export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice';
+export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice' | 'designerAi';
 
 type PoolConfig = { env: string; unit: 'usd' | 'calls'; fallback: number };
 
@@ -42,6 +43,8 @@ const POOLS: Record<BudgetPool, PoolConfig> = {
   eventFeeds: { env: 'EVENT_FEED_DAILY_CALLS', unit: 'calls', fallback: 2000 },
   /** OpenAI Realtime voice sessions (each capped at a few minutes of audio). */
   voice: { env: 'VOICE_DAILY_SESSIONS', unit: 'calls', fallback: 60 },
+  /** Anthropic calls from the designer: profile sorting and itinerary curation. */
+  designerAi: { env: 'DESIGNER_AI_DAILY_CALLS', unit: 'calls', fallback: 150 },
 };
 
 function readNumber(name: string, fallback: number): number {

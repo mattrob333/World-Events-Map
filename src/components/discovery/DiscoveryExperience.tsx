@@ -607,7 +607,7 @@ export function DiscoveryExperience() {
                     ? `${dateLabel(event.start)} · modeled heat ${Math.round(event.buzz.score)}/100`
                     : planMode
                     ? `${event.category} · ${dateLabel(event.start)}`
-                    : `${event.buzz.heat} · heat ${Math.round(event.buzz.score)}/100`}
+                    : `${event.category} · modeled interest ${Math.round(event.buzz.score)}/100`}
                 </small>
               </span>
               <span className={styles.arrow}>↗</span>

@@ -162,7 +162,7 @@ function SceneCard({ scene, featured, onFeature }: {
         </div>}
       </div>
       <div className={styles.cardBody}>
-        <div className={styles.cardMeta}><span className={styles.editorialMark}>M</span><span>dope.travel EDITORIAL</span><span className={styles.dot}>·</span><span>CURATED SCENE</span></div>
+        <div className={styles.cardMeta}><span className={styles.editorialMark} aria-hidden="true" /><span>dope.travel EDITORIAL</span><span className={styles.dot}>·</span><span>CURATED SCENE</span></div>
         <h3>{scene.line}</h3>
         <p>{scene.event.tagline}.</p>
         {photo && <a className={styles.photoCredit} href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={photo.title}>

@@ -1,6 +1,7 @@
 import { InputError, validateComposeBody } from '@/lib/designer/validate';
 import { applyCuration, composeLocally, groupTags } from '@/lib/designer/itinerary';
 import { curateItineraryWithClaude, designerAiConfigured } from '@/lib/designer/server/claude';
+import { take } from '@/lib/designer/server/dailyBudget';
 import { RequestTooLargeError, checkBoundary, consumeAiCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 
 export const dynamic = 'force-dynamic';
@@ -29,6 +30,9 @@ export async function POST(request: Request) {
   if (!designerAiConfigured()) return jsonOk({ itinerary: base });
   if (!consumeAiCall(request)) {
     return jsonOk({ itinerary: base, notice: 'The AI designer is busy for you right now, so this draft was built on the device.' });
+  }
+  if (!take('designerAi')) {
+    return jsonOk({ itinerary: base, notice: 'The AI designer is resting for today, so this draft was built on the device.' });
   }
   try {
     const curation = await curateItineraryWithClaude(base, parsed.profileNotes);

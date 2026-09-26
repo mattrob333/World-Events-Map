@@ -82,7 +82,9 @@ export function IdeaCard({
   onDragEnd,
 }: Props) {
   const mine = voter ? votes?.[voter.id] : undefined;
-  const { up, down } = tally(votes);
+  // Kids come along but don't vote: votes saved before that rule don't count.
+  const grownUps = participants.some((person) => person.kind !== 'kid') ? new Set(participants.filter((person) => person.kind !== 'kid').map((person) => person.id)) : null;
+  const { up, down } = tally(grownUps && votes ? Object.fromEntries(Object.entries(votes).filter(([id]) => grownUps.has(id))) : votes);
   const lovers = participants.filter((person) => votes?.[person.id] === 1);
 
   function handleDragStart(event: DragEvent<HTMLElement>) {

@@ -1,8 +1,7 @@
-import { afterEach, describe, expect, it } from 'vitest';
-import {
-  consumeNowClientRateLimit,
-  resetNowRateLimitsForTests,
-} from '../rateLimit';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('server-only', () => ({}));
+const { consumeNowClientRateLimit, resetNowRateLimitsForTests } = await import('../rateLimit');
 
 function requestFor(ip: string) {
   return new Request('http://localhost/api/now', {
@@ -46,11 +45,18 @@ describe('NOW warm-instance client admission guard', () => {
 
   it('hard-caps tracked identities by evicting the oldest entry', () => {
     for (let index = 0; index < 5001; index += 1) {
-      expect(consumeNowClientRateLimit(requestFor(`2001:db8::${index}`), 1_000).allowed).toBe(true);
+      expect(consumeNowClientRateLimit(requestFor(`2001:db8:${index.toString(16)}::1`), 1_000).allowed).toBe(true);
     }
 
     // The first identity was evicted when the hard cap was reached, so it gets a
     // fresh bucket instead of growing the map beyond its fixed maximum.
-    expect(consumeNowClientRateLimit(requestFor('2001:db8::0'), 1_000).allowed).toBe(true);
+    expect(consumeNowClientRateLimit(requestFor('2001:db8:0::1'), 1_000).allowed).toBe(true);
+  });
+
+  it('counts one IPv6 /64 as one client, however many addresses it rotates through', () => {
+    for (let index = 0; index < 12; index += 1) {
+      expect(consumeNowClientRateLimit(requestFor(`2001:db8:1:2::${index.toString(16)}`), 1_000).allowed).toBe(true);
+    }
+    expect(consumeNowClientRateLimit(requestFor('2001:db8:1:2::ffff'), 1_000).allowed).toBe(false);
   });
 });

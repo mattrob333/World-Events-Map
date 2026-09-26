@@ -464,7 +464,9 @@ function validateStructure(events: WorldEvent[]): void {
     }
 
     // Collections
-    if (!Array.isArray(e.venues) || e.venues.length === 0) err(at, 'venues is empty');
+    // Named, verifiable venues only; an empty list reads "Venue to be announced by the organizer".
+    if (!Array.isArray(e.venues)) err(at, 'venues must be a list');
+    else if (e.venues.some((venue: unknown) => typeof venue !== 'string' || !venue.trim())) err(at, 'venues has a blank entry');
     if (!Array.isArray(e.tags) || e.tags.length === 0) err(at, 'tags is empty');
     if (Array.isArray(e.tags) && new Set(e.tags).size !== e.tags.length) {
       warn(at, 'tags contains duplicates');

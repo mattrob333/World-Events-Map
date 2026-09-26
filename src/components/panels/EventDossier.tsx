@@ -231,9 +231,9 @@ export function EventDossier({ className }: EventDossierProps) {
                 size="sm"
               />
               <Stat
-                label="Spend, per person"
+                label="Rough spend, per person"
                 value={event.providerId ? 'Ask the host' : `${formatMoney(event.estimatedSpend.min)} – ${formatMoney(event.estimatedSpend.max)}`}
-                note={event.providerId ? 'No estimate provided' : 'excluding charter'}
+                note={event.providerId ? 'No estimate provided' : 'Our editorial estimate, excluding charter. Not a quote.'}
                 size="sm"
                 align="end"
               />
@@ -273,11 +273,11 @@ export function EventDossier({ className }: EventDossierProps) {
             {/* ── Ground ─────────────────────────────────────────────── */}
             <Section label="Venues">
               <ul className="flex flex-col gap-1.5">
-                {event.venues.map((v) => (
+                {event.venues.length ? event.venues.map((v) => (
                   <li key={v} className="text-[13px] leading-5 text-ink-soft">
                     {v}
                   </li>
-                ))}
+                )) : <li className="text-[13px] leading-5 text-ink-muted">Venue to be announced by the organizer</li>}
               </ul>
             </Section>
 
@@ -292,7 +292,7 @@ export function EventDossier({ className }: EventDossierProps) {
                   </span>
                 </div>
                 <span className="label-sm shrink-0 text-ink-muted">
-                  FBO {event.nearestJetPort.fboQuality}
+                  Private-jet facilities: {event.nearestJetPort.fboQuality} (editorial rating)
                 </span>
               </div>
             </Section>
@@ -302,7 +302,7 @@ export function EventDossier({ className }: EventDossierProps) {
             </Section>}
 
             {/* ── Why the index rates it ─────────────────────────────── */}
-            {!event.providerId && <Section label="Signal">
+            {!event.providerId && <Section label="Modeled interest">
               <div className="flex items-end justify-between gap-4 pb-3">
                 <div className="flex items-baseline gap-2.5">
                   <HeatDot heat={event.buzz.heat} size="md" glow />
@@ -322,8 +322,9 @@ export function EventDossier({ className }: EventDossierProps) {
               </div>
 
               <p className="pb-3 text-[11px] leading-4 text-ink-muted">
-                {HEAT_NOTE[event.buzz.heat]}. Bars are each signal&rsquo;s weighted
-                contribution to the score — the components sum to it.
+                {HEAT_NOTE[event.buzz.heat]}. Modeled from our curated calendar, refreshed by live
+                signals only where they&rsquo;re connected; not live booking data. Bars are each
+                signal&rsquo;s weighted contribution to the score.
               </p>
 
               <ul className="flex flex-col gap-2">

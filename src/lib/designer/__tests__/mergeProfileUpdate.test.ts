@@ -26,3 +26,34 @@ describe('family, counted once', () => {
     expect(saved.family).toHaveLength(3);
   });
 });
+
+describe('updates never double-count or wipe', () => {
+  const people = (family: { label: string; age?: number; name?: string }[]) => family.map((m) => `${m.label}${m.age ?? ''}${m.name ? `:${m.name}` : ''}`).sort();
+  const withFamily = (family: unknown[]) => normalizeProfile({ family });
+
+  it('"two sons, 12 and 8" after Leo 12 and Max 8 is still two sons', () => {
+    const before = withFamily([{ relation: 'child', label: 'Son', name: 'Leo', age: 12 }, { relation: 'child', label: 'Son', name: 'Max', age: 8 }]);
+    const merged = mergeProfileUpdate(before, parseProfileLocally('We have two sons, 12 and 8.'));
+    expect(people(merged.family)).toEqual(['Son12:Leo', 'Son8:Max']);
+  });
+  it('"my wife" after Wife Kelly is still Kelly', () => {
+    const before = withFamily([{ relation: 'partner', label: 'Wife', name: 'Kelly' }]);
+    const merged = mergeProfileUpdate(before, parseProfileLocally('My wife loves jazz.'));
+    expect(people(merged.family)).toEqual(['Wife:Kelly']);
+  });
+  it('naming one of two unnamed sons names him, no third son', () => {
+    const before = withFamily([{ relation: 'child', label: 'Son', age: 12 }, { relation: 'child', label: 'Son', age: 8 }]);
+    const merged = mergeProfileUpdate(before, withFamily([{ relation: 'child', label: 'Son', name: 'Leo', age: 12 }]));
+    expect(people(merged.family)).toEqual(['Son12:Leo', 'Son8']);
+  });
+  it('keeps pace, budget and the lists when the update never mentions them', () => {
+    const before = normalizeProfile({ style: { pace: 'slow', budget: 'premium', lodging: ['villa'], dietary: ['vegetarian'], avoid: ['cruises'], bucketList: ['Patagonia'], languages: ['Spanish'], notes: 'Loves long lunches.' } });
+    const after = normalizeProfile({ interests: ['live music'], style: { lodging: [], dietary: [], avoid: [], bucketList: [], languages: [] } });
+    const style = mergeProfileUpdate(before, after).style!;
+    expect(style).toMatchObject({ pace: 'slow', budget: 'premium', lodging: ['villa'], dietary: ['vegetarian'], avoid: ['cruises'], bucketList: ['Patagonia'], languages: ['Spanish'], notes: 'Loves long lunches.' });
+  });
+  it('reads digits as a count: "4 kids", "my 3 daughters"', () => {
+    expect(parseProfileLocally('I have 4 kids.').family).toHaveLength(4);
+    expect(parseProfileLocally('Traveling with my 3 daughters.').family).toHaveLength(3);
+  });
+});

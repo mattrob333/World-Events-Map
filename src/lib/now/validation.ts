@@ -71,7 +71,8 @@ export function validateNowRequest(input: unknown): NowRequest {
     : undefined;
 
   return {
-    location: { lat, lng },
+    // Rounded to about a kilometer before anything reaches a provider or a cache key.
+    location: { lat: Math.round(lat * 100) / 100, lng: Math.round(lng * 100) / 100 },
     intent: body.intent as NowIntent,
     vibe: body.vibe as NowVibe,
     radiusMeters: Math.round(radiusMeters),

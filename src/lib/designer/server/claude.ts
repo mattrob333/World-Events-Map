@@ -50,7 +50,7 @@ const ProfileSchema = z.object({
 });
 
 const PROFILE_SYSTEM = `You sort a traveler's spoken ramble into a travel profile for a trip-planning Vibe profile.
-Record only what the speaker actually said. Never guess ages, names, teams, or nationalities that were not stated; use null or an empty list instead.
+Record only what the speaker actually said. Never guess ages, names, teams, or nationalities that were not stated; use null or an empty list instead. In any text you write, never use the word "dope" in a sentence and never name the AI model.
 Normalize names (for example "the Braves" becomes "Atlanta Braves" only when the speaker's context makes the team unambiguous).
 "family" covers the people they travel with; put a partner's stated nationality in that member's "note" and in "heritage".
 "music" is genres and styles; "artists" are specific bands and musicians they name (as stated, properly capitalized). "events" are concerts, festivals, and live events they mention. "favoriteTrips" are places they have been and loved.
@@ -94,7 +94,7 @@ For each slot, return up to 5 card ids from that slot's allowed list, best first
 Vary the week: avoid repeating the same lead card on different days unless the list has nothing else, and pace big days with easier ones.
 Write each day's "title" (max 6 words, may start with one emoji) and "hype" (one vivid sentence, max 25 words) about that day's lead picks.
 "note" is an optional short reason the lead pick fits this group (max 18 words), or null.
-Never invent venues, prices, availability, or bookings. Use only the card ids you were given.`;
+Never invent venues, prices, availability, or bookings. Use only the card ids you were given. In any text you write, never use the word "dope" in a sentence and never name the AI model.`;
 
 function describeGroup(itinerary: Itinerary): string {
   return itinerary.participants

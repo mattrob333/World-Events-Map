@@ -32,7 +32,7 @@ export const GALA_EVENTS: WorldEvent[] = [
     accessNote:
       'There is no ticket and no application that works cold — debutantes are selected by the organiser, Ophélie Renouard, usually a year ahead, and every other seat in the room is a parent, a sponsor house or a press invitation; the practical route is a couture-house or jewellery-maison relationship',
     bookingLeadDays: 365,
-    venues: ['Shangri-La Paris', 'Paris palace hotel ballroom'],
+    venues: ['Shangri-La Paris'],
     nearestJetPort: LFPB,
     description:
       'Le Bal has run since 1992 and admits roughly twenty debutantes a year, each dressed by a named couture house and each partnered with a cavalier, in a Paris palace-hotel ballroom on a Saturday in late November. There is no public entry at any price. It is not a charity auction with tables to buy — the guest list is built from the families invited, their sponsors and a small press pool, which is why the room is under 400 people.',

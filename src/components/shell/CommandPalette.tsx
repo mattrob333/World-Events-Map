@@ -98,6 +98,16 @@ export function CommandPalette() {
     else links[Math.max(0, Math.min(links.length - 1, at + (event.key === 'ArrowDown' ? 1 : -1)))]!.focus();
   };
 
+  // The page behind stays put while search is open.
+  useEffect(() => {
+    if (!open) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [open]);
+
   if (!open) return null;
 
   return (
@@ -128,7 +138,7 @@ export function CommandPalette() {
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={withAppKeyGuard()}
             placeholder="Destinations, events, people, circles, access"
-            className="h-10 min-w-0 flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-ink-muted"
+            className="h-10 min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink-muted"
             aria-label="Search destinations, events, people, circles and access"
           />
           <kbd className="label-sm hidden text-ink-faint sm:inline">ESC</kbd>

@@ -40,7 +40,7 @@ export const CULINARY_EVENTS: WorldEvent[] = [
     accessNote:
       'The ceremony itself is for listed chefs, the voting academy and partners — outsiders get in through a sponsor table or a hotel partner package; the surrounding week of chef dinners across Miraflores and Barranco is where the value actually is',
     bookingLeadDays: 180,
-    venues: ['Lima', 'Central', 'Maido', 'Kjolle'],
+    venues: ['Central', 'Maido', 'Kjolle'],
     nearestJetPort: SPJC,
     description:
       'The 2026 ceremony runs in Lima on Wednesday 4 November, moved from the originally announced Abu Dhabi. The list matters commercially — a top-ten placing rewrites a restaurant\'s reservation book overnight — and the ceremony pulls almost every chef on it into one city for four or five days. The real programme is the collateral: guest dinners, four-hands services and the Peruvian kitchens themselves, with Central and Maido both a short drive from the venue.',
@@ -118,7 +118,7 @@ export const CULINARY_EVENTS: WorldEvent[] = [
     estimatedSpend: { min: 4000, max: 14000, currency: 'USD' },
     accessNote:
       'The ceremony seats chefs and press only; the practical play is to hold Tokyo and Kyoto counter reservations across that week, since newly starred rooms become unbookable within hours of the announcement',
-    venues: ['Tokyo', 'MICHELIN Guide ceremony venue'],
+    venues: [],
     nearestJetPort: RJTT,
     description:
       'On 16 February 2027, MICHELIN unveils the Tokyo, Kyoto-Osaka and Nara selections together in Tokyo for the first time, marking twenty years of the guide in Japan. Tokyo has held more starred restaurants than any other city for most of that period. The announcement moves reservations immediately — a first star at a ten-seat counter closes the book for a year — so the reason to be in the country is the week around it, not the room itself.',

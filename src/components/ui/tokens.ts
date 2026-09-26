@@ -72,10 +72,10 @@ export const HEAT_LABEL: Record<HeatLevel, string> = {
 };
 
 export const HEAT_NOTE: Record<HeatLevel, string> = {
-  smoldering: 'Quiet. Early enough that nothing is booked out',
-  warm: 'Building. The circuit has noticed',
-  hot: 'Contended. Beds and slots are tightening',
-  blazing: 'Peak demand. Book, or accept the compromise',
+  smoldering: 'Quiet',
+  warm: 'Building',
+  hot: 'Popular',
+  blazing: 'Very popular',
   supernova: 'The defining week of its season',
 };
 

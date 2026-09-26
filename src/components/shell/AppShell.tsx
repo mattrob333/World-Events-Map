@@ -55,7 +55,7 @@ function TabGlyph({ name }: { name: TabIcon }) {
 // Phone bottom bar only has five slots, one of them the sun. People, Now,
 // Trips, and Profile live here so they stay reachable without crowding it.
 const MORE_LINKS = [
-  { href: '/people', label: 'People', hint: 'Your travel connections' },
+  { href: '/people', label: 'People', hint: 'Example traveler portraits' },
   { href: '/now', label: 'Now', hint: "Tonight's scene" },
   { href: '/trips', label: 'Trips', hint: 'Saved, watched, and I’d go' },
   { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
@@ -194,16 +194,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Outside the glass header: its backdrop-filter would trap the fixed sheet and invitation strip. */}
       {isDemoMode() && <SocialRoot />}
 
-      {showVibePrompt && (
+      {showVibePrompt && !sunOpen && !moreOpen && (
         // A floating card, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
-        // Bottom-right on desktop: bottom-left is where the hero's own call to action sits.
-        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]">
+        // Bottom-right on desktop: bottom-left is where the hero's own call to action sits. On phones it sits above the raised sun.
+        <div className="fixed inset-x-3 bottom-[calc(6.25rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]">
           {/* Slim on phones (one line), the fuller card on larger screens. */}
           <div className="vibe-prompt mx-auto flex max-w-[1600px] items-center gap-3 rounded-full py-1.5 pl-2 pr-1.5 sm:rounded-[20px] sm:py-3 sm:pl-3 sm:pr-2">
             <span className="sm:hidden"><SunGlyph size={30} glow /></span>
             <span className="hidden sm:inline-flex"><SunGlyph size={40} glow /></span>
             <span className="min-w-0 flex-1">
-              <strong className="block truncate text-[15px] font-semibold leading-tight text-bone">Start here: set your vibe</strong>
+              <strong className="block truncate text-[15px] font-semibold leading-tight text-bone"><span className="sm:hidden">Set your vibe</span><span className="hidden sm:inline">Start here: set your vibe</span></strong>
               <span className="hidden text-[12.5px] leading-snug text-ink-soft sm:block">Two minutes of talking tunes every trip to you. Make one for you, the family, or work trips.</span>
             </span>
             <span className="flex shrink-0 items-center gap-1">

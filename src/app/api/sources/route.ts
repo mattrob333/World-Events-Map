@@ -29,8 +29,9 @@ export async function GET() {
       { headers: { 'Cache-Control': 'no-store' } },
     );
   } catch (err) {
+    console.error('sources route failed', err instanceof Error ? err.message : err);
     return NextResponse.json(
-      { sources: [], error: err instanceof Error ? err.message : 'Unknown error' },
+      { sources: [], error: 'Sources are unavailable right now.' },
       { status: 500 },
     );
   }

@@ -526,12 +526,13 @@
   }
 }
 
-/* Keyboard focus never lands under the fixed tab bar (or the floating vibe prompt above it). */
+/* Keyboard focus never lands under the fixed tab bar and its raised sun (or the floating vibe prompt above it),
+   with room for the buttons that sit just under a focused field. */
 @media (max-width: 1023.98px) {
   html {
-    scroll-padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(9rem + env(safe-area-inset-bottom));
   }
   html:has(.vibe-prompt) {
-    scroll-padding-bottom: calc(12rem + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(13rem + env(safe-area-inset-bottom));
   }
 }

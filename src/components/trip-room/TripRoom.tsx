@@ -228,8 +228,8 @@ export function TripRoom({ id }: { id: string }) {
 
       {tab === 'overview' && (
         <div className="mt-8 grid gap-4 lg:grid-cols-3">
-          <Panel title="Countdown" accent>
-            <p className="font-display text-4xl text-ink">{formatDateRange(trip.start, trip.end)}</p>
+          <Panel title="Dates" accent>
+            <p className="font-display text-2xl leading-tight text-ink sm:text-3xl">{formatDateRange(trip.start, trip.end)}</p>
             <p className="mt-3 text-[13px] text-ink-muted">{trip.nextDecision}</p>
           </Panel>
           <Panel title="Destination pulse">

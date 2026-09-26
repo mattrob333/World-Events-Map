@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { Itinerary } from './itinerary';
 import type { ListeningProfile } from './listening';
-import type { ParseEngine, TravelerProfile } from './profile';
+import { dedupeFamily, type ParseEngine, type TravelerProfile } from './profile';
 import { isSafeId, mergeReply as mergeReplyInto, type MergeSummary, type TripReply } from './tripShare';
 import { moveCard as moveCardBetween, type TripVotes } from './votes';
 
@@ -249,6 +249,19 @@ export const useDesignerStore = create<DesignerState>()(
     {
       name: 'meridian.designer.v1',
       storage: createJSONStorage(() => localStorage),
+      // v1: profiles saved before the family fix can hold the same kids twice; clean them once on load.
+      version: 1,
+      migrate: (persisted, version) => {
+        const state = persisted as { profiles?: unknown } | null;
+        if (version < 1 && state && Array.isArray(state.profiles)) {
+          state.profiles = state.profiles.map((entry) => {
+            const saved = entry as Partial<SavedProfile> | null;
+            const family = saved?.profile?.family;
+            return saved?.profile && Array.isArray(family) ? { ...saved, profile: { ...saved.profile, family: dedupeFamily(family) } } : entry;
+          });
+        }
+        return persisted as DesignerState;
+      },
       partialize: (state) => ({
         profiles: state.profiles,
         activeProfileId: state.activeProfileId,

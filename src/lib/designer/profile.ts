@@ -391,7 +391,7 @@ function parseFamily(text: string, profile: TravelerProfile) {
 
   // "two young sons, 8 and 12" / "a daughter who's 5" / "my son Leo, 10" / "Two boys, Jack is 12 and Sam is 8"
   const groupPattern =
-    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our)?\s*(?:(?:young|little|teenage|grown|adult|older|younger)\s+)*(sons|daughters|kids|boys|girls|children|son|daughter|kid|child)\b(?=([^.;!?]{0,60}))/gi;
+    /\b(a|an|one|two|three|four|five|six|twin|twins|my|our|\d{1,2})?\s*(?:(?:young|little|teenage|grown|adult|older|younger)\s+)*(sons|daughters|kids|boys|girls|children|son|daughter|kid|child)\b(?=([^.;!?]{0,60}))/gi;
   for (const match of text.matchAll(groupPattern)) {
     const countWord = (match[1] ?? '').toLowerCase();
     const word = match[2].toLowerCase();
@@ -405,7 +405,7 @@ function parseFamily(text: string, profile: TravelerProfile) {
     const names = pairs.length === ages.length ? pairs.map((m) => m[1]) : [];
     const plural = word.endsWith('s') || word === 'children' || countWord === 'twins';
     const singleName = rest.match(/^\s*,?\s*(?:named|called)?\s*([A-Z][a-z]+)\b/)?.[1];
-    const explicit = NUMBER_WORDS[countWord];
+    const explicit = /^\d{1,2}$/.test(countWord) ? Number(countWord) || undefined : NUMBER_WORDS[countWord];
     const kids = family.filter((member) => member.relation === 'child');
 
     if (explicit === undefined && kids.length) {
@@ -698,14 +698,57 @@ export function profileTags(profile: TravelerProfile): string[] {
 }
 
 /**
+ * The same person said again: one partner is one partner; a named kid matches
+ * an unnamed one of the same kind and age ("two sons, 12 and 8" after Leo 12
+ * and Max 8 is still two sons).
+ */
+function samePerson(a: FamilyMember, b: FamilyMember): boolean {
+  if (a.relation !== b.relation) return false;
+  if (a.relation === 'partner') return true;
+  if (a.name && b.name) return a.name.toLowerCase() === b.name.toLowerCase();
+  const kind = (member: FamilyMember) => member.label.toLowerCase();
+  if (kind(a) !== kind(b) && kind(a) !== 'kid' && kind(b) !== 'kid') return false;
+  return a.age === undefined || b.age === undefined || a.age === b.age;
+}
+
+/** The new read leads; each old member is matched at most once and fills in what the new one lacks. */
+function mergeFamily(before: readonly FamilyMember[], after: readonly FamilyMember[]): FamilyMember[] {
+  const unmatched = [...before];
+  const merged = after.map((next) => {
+    const index = unmatched.findIndex((old) => samePerson(old, next));
+    if (index < 0) return next;
+    const [old] = unmatched.splice(index, 1);
+    const label = next.label === 'Kid' && old.label !== 'Kid' ? old.label : next.label;
+    return { ...old, ...next, label, name: next.name ?? old.name, age: next.age ?? old.age, guessed: next.guessed && old.guessed ? true : undefined };
+  });
+  return [...merged, ...unmatched];
+}
+
+/** Style fields one by one: a new read that didn't mention pace keeps the old pace. */
+function mergeStyle(before: TravelStyle, after: TravelStyle): TravelStyle {
+  const both = (a: readonly string[], b: readonly string[]) => uniq([...a, ...b]).slice(0, 12);
+  return {
+    budget: after.budget ?? before.budget,
+    pace: after.pace ?? before.pace,
+    social: after.social ?? before.social,
+    lodging: both(after.lodging, before.lodging),
+    homeAirport: after.homeAirport ?? before.homeAirport,
+    dietary: both(after.dietary, before.dietary),
+    avoid: both(after.avoid, before.avoid),
+    bucketList: both(after.bucketList, before.bucketList),
+    languages: both(after.languages, before.languages),
+    notes: after.notes && before.notes && !after.notes.includes(before.notes) ? `${before.notes} ${after.notes}` : after.notes ?? before.notes,
+  };
+}
+
+/**
  * Updating a profile by talking adds and corrects; it never quietly drops
  * what was there. The new read leads each list, the old one fills in behind.
  */
 export function mergeProfileUpdate(before: TravelerProfile, after: TravelerProfile): TravelerProfile {
   const both = (a: readonly string[] | undefined, b: readonly string[] | undefined, max = 12) => uniq([...(a ?? []), ...(b ?? [])]).slice(0, max);
-  const who = (member: FamilyMember) => `${member.relation}:${(member.name ?? member.label).toLowerCase()}`;
-  const family = dedupeFamily([...after.family, ...before.family.filter((member) => !after.family.some((next) => who(next) === who(member)))]).slice(0, 12);
-  const style = after.style ?? before.style;
+  const family = dedupeFamily(mergeFamily(before.family, after.family)).slice(0, 12);
+  const style = after.style && before.style ? mergeStyle(before.style, after.style) : after.style ?? before.style;
   return {
     ...before,
     ...after,
@@ -723,7 +766,7 @@ export function mergeProfileUpdate(before: TravelerProfile, after: TravelerProfi
     food: both(after.food, before.food),
     bestMoments: both(after.bestMoments, before.bestMoments),
     listening: after.listening ?? before.listening,
-    style: style && before.style && after.style ? { ...before.style, ...after.style, avoid: both(after.style.avoid, before.style.avoid) } : style,
+    style,
     summary: after.summary || before.summary,
   };
 }

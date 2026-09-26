@@ -85,7 +85,7 @@ export const ART_EVENTS: WorldEvent[] = [
     accessNote:
       'Public ticketing at the Giardini and Arsenale all season; the collateral palazzo shows and foundation dinners run on private lists secured through your gallery or a Venice-based art adviser',
     bookingLeadDays: 90,
-    venues: ['Giardini della Biennale', 'Arsenale', 'collateral palazzo venues'],
+    venues: ['Giardini della Biennale', 'Arsenale'],
     description:
       'The oldest recurring exhibition in contemporary art, split between the national pavilions in the Giardini and the curated exhibition in the Arsenale rope works. Going in autumn rather than at the May vernissage means the city is navigable, the pavilions are quiet enough to actually read, and hotel rates are roughly half. The collateral events scattered through private palazzi are where the interesting curatorial work often sits.',
     whyGo: [

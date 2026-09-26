@@ -789,6 +789,15 @@ function VibeStage() {
               aria-controls="vibe-panel"
               disabled={view === 'talking' || view === 'building'}
               onClick={() => {
+                if (value !== mode) {
+                  // A new tab is a new conversation: nothing from the last one (its dock, facts or picks) carries over.
+                  setPhase('intro');
+                  setNote(null);
+                  setRecs(null);
+                  setVibe(null);
+                  setFacts({});
+                  nowFinder.reset();
+                }
                 setMode(value);
                 if (value === 'profile') setProfileTarget(profiles.length ? 'list' : 'new');
               }}
@@ -1094,7 +1103,7 @@ function VibeStage() {
             : mode === 'now'
               ? 'To check foot traffic, dope.travel sends BestTime a point rounded to about a kilometer (or the place you named), keeps none of it, and ranks the results on this device.'
               : `${usedSpeech && canTalk ? 'Your browser turns speech into text (Chrome uses Google’s speech service). ' : ''}${mode === 'profile'
-              ? 'dope.travel gets the text only to sort it into your Vibe profile and keeps none of it. The profile, and what you said, are saved on this device.'
+              ? 'Your text goes to our AI provider (Anthropic) to be sorted into your Vibe profile. dope.travel doesn’t store it; the profile, and what you said, are saved on this device.'
               : 'dope.travel reads the text to work out where you mean (and may ask a decision model), keeps none of it, and saves the trip on this device.'}`}
         </p>
       </div>

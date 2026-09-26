@@ -502,8 +502,8 @@ export function MoodboardStudio({
               </div>
               {error ? <p className={styles.error} role="alert">{error}</p> : null}
               <p className={styles.hint}>
-                Your browser turns speech into text (Chrome uses Google’s speech service). The text is sent to dope.travel only to
-                sort it, is not stored on our servers, and your profile is saved on this device only.
+                Your browser turns speech into text (Chrome uses Google’s speech service). The text goes to our AI provider (Anthropic)
+                to be sorted into your Vibe profile. dope.travel doesn’t store it, and your profile is saved on this device only.
               </p>
             </div>
           </section>
@@ -542,7 +542,7 @@ export function MoodboardStudio({
                 Your Vibe profile
               </h2>
               <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
-                {result.engine === 'claude' ? 'Sorted by Claude' : 'Sorted by simple rules'}
+                {result.engine === 'claude' ? 'Sorted by AI' : 'Sorted by simple rules'}
               </span>
               <span className={styles.badge}>Editorial imagery · not your photos</span>
               {result.profile.listening ? <span className={styles.badge}><SourceLogo source="spotify" size={12} className="mr-1" />Spotify</span> : null}

@@ -72,6 +72,8 @@ export function useRealtime() {
   const speakPoll = useRef<number | null>(null);
   const openerRef = useRef<string | undefined>(undefined);
   const closing = useRef<number | null>(null);
+  /** Bumped by every teardown: a start() still awaiting finds out it was cancelled. */
+  const gen = useRef(0);
   const pending = useRef(new Map<string, Pending>());
   const eventSeq = useRef(0);
 
@@ -85,6 +87,7 @@ export function useRealtime() {
   }, []);
 
   const teardown = useCallback((final: VoicePhase) => {
+    gen.current += 1;
     // A graceful close still pending must never reach a conversation started after it.
     if (closing.current) window.clearTimeout(closing.current);
     closing.current = null;
@@ -119,6 +122,10 @@ export function useRealtime() {
     if (dcRef.current?.readyState === 'open') {
       send({ type: 'session.close' });
       setPhase(final);
+      // They ended it: the time-up continuation must not fire during the graceful close.
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+      if (closing.current) window.clearTimeout(closing.current);
       closing.current = window.setTimeout(() => teardown(final), 1500);
       return;
     }
@@ -146,7 +153,10 @@ export function useRealtime() {
     pending.current.delete(responseId);
     activityRef.current?.({ kind: 'idle' });
     if (!entry?.outputs.length) return;
+    const session = gen.current;
     const results = await Promise.all(entry.outputs);
+    // A newer conversation started meanwhile: these call ids mean nothing to it.
+    if (gen.current !== session) return;
     let ending = false;
     for (const { call, output } of results) {
       let text = output;
@@ -230,8 +240,10 @@ export function useRealtime() {
     }
   }, [grow, onBackendEvent, send, teardown]);
 
-  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, keepLines, onActivity, onTimeUp }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied'> => {
+  const start = useCallback(async ({ intent, context, profile = '', handlers, withMic, opener, keepLines, onActivity, onTimeUp }: StartOptions): Promise<'ok' | 'not-configured' | 'failed' | 'mic-denied' | 'cancelled'> => {
     teardown('idle');
+    const mine = gen.current;
+    const cancelled = () => gen.current !== mine;
     handlersRef.current = handlers;
     activityRef.current = onActivity;
     openerRef.current = opener;
@@ -243,8 +255,14 @@ export function useRealtime() {
       try {
         mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
       } catch {
+        if (cancelled()) return 'cancelled';
         setPhase('idle');
         return 'mic-denied';
+      }
+      // Closed while the mic prompt was up: release the mic and go no further.
+      if (cancelled()) {
+        mic.getTracks().forEach((track) => track.stop());
+        return 'cancelled';
       }
     }
     try {
@@ -280,6 +298,7 @@ export function useRealtime() {
       dc.onmessage = (e) => onEvent(String(e.data));
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
+      if (cancelled()) return 'cancelled';
       if (pc.iceGatheringState !== 'complete') {
         await new Promise<void>((resolve) => {
           const done = () => {
@@ -291,23 +310,35 @@ export function useRealtime() {
           window.setTimeout(resolve, 3000);
         });
       }
+      if (cancelled()) return 'cancelled';
       const session = await fetch('/api/voice/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ intent, context, profile, today: localToday(), sdp: pc.localDescription?.sdp ?? offer.sdp }),
       }).catch(() => null);
       const body = (await session?.json().catch(() => null)) as { sdp?: string; seconds?: number; error?: string; code?: string } | null;
+      // Closed while the session was being made: the peer connection is already torn down, so nothing connects.
+      if (cancelled()) {
+        pc.close();
+        mic?.getTracks().forEach((track) => track.stop());
+        return 'cancelled';
+      }
       if (!session?.ok || !body?.sdp) {
         teardown('error');
         setError(body?.error ?? 'Voice couldn’t start just now.');
         return body?.code === 'VOICE_NOT_CONFIGURED' ? 'not-configured' : 'failed';
       }
       await pc.setRemoteDescription({ type: 'answer', sdp: body.sdp });
+      if (cancelled()) {
+        pc.close();
+        return 'cancelled';
+      }
       const seconds = typeof body.seconds === 'number' ? body.seconds : 240;
+      // A few seconds ahead of the server's own hang-up, so "keep talking" gets its turn.
       timerRef.current = window.setTimeout(() => {
         teardown('ended');
         onTimeUp?.();
-      }, seconds * 1000);
+      }, Math.max(10, seconds - 4) * 1000);
       // GPT-Live has no "done speaking" event over WebRTC; the output level says when it talks.
       let quietSince = 0;
       speakPoll.current = window.setInterval(() => {
@@ -327,6 +358,7 @@ export function useRealtime() {
       }, 120);
       return 'ok';
     } catch (cause) {
+      if (cancelled()) return 'cancelled';
       teardown('error');
       setError(cause instanceof Error ? cause.message : 'Voice couldn’t connect.');
       return 'failed';

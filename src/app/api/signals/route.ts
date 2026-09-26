@@ -56,8 +56,9 @@ export async function GET(request: Request) {
       { headers: { 'Cache-Control': 'no-store' } },
     );
   } catch (err) {
+    console.error('signals route failed', err instanceof Error ? err.message : err);
     return NextResponse.json(
-      { signals: {}, error: err instanceof Error ? err.message : 'Unknown error' },
+      { signals: {}, error: 'Signals are unavailable right now.' },
       { status: 500 },
     );
   }

@@ -41,11 +41,12 @@ export async function GET() {
       { headers: { 'Cache-Control': 'no-store' } },
     );
   } catch (err) {
+    console.error('travel-wire route failed', err instanceof Error ? err.message : err);
     return NextResponse.json(
       {
         generatedAt: new Date().toISOString(),
         status: 'empty',
-        note: err instanceof Error ? err.message : 'Travel wire unavailable',
+        note: 'Travel wire unavailable',
         cards: [],
         omitted: 0,
       },

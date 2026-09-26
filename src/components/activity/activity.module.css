@@ -309,7 +309,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--color-surface-3);
+  /* The dope.travel sun, not the old MERIDIAN "M". */
+  background: linear-gradient(180deg, var(--color-saffron) 0%, var(--color-tangerine, #ff8a4c) 55%, var(--color-flamingo, #ff5f8f) 100%);
   box-shadow: var(--shadow-soft-1);
   font: italic 15px var(--font-display);
   letter-spacing: 0;

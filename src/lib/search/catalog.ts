@@ -75,8 +75,8 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     {
       id: 'page-account',
       group: 'pages',
-      title: 'Profile',
-      subtitle: 'Your traveler lens',
+      title: 'Account',
+      subtitle: 'Sign-in and member settings',
       href: '/account',
       keywords: haystack('profile', 'account', 'settings'),
     },

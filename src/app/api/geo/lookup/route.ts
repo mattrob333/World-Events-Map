@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { originAllowed } from '@/lib/designer/server/guard';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 
 export const dynamic = 'force-dynamic';
@@ -6,7 +7,26 @@ export const runtime = 'nodejs';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const cache = new Map<string, { at: number; hit: { lat: number; lng: number; label: string } | null }>();
-let lastCall = 0;
+// One Nominatim request at a time, at least 1.1 s apart, however many arrive together.
+let queue: Promise<void> = Promise.resolve();
+function nextSlot(): Promise<void> {
+  const slot = queue.then(() => new Promise<void>((resolve) => setTimeout(resolve, 1100)));
+  const turn = queue;
+  queue = slot;
+  return turn;
+}
+
+/** From our own pages only: a same-origin fetch, or failing that header, our own Referer. */
+function fromOurSite(request: Request): boolean {
+  const site = request.headers.get('sec-fetch-site');
+  if (site) return site === 'same-origin';
+  const referer = request.headers.get('referer');
+  try {
+    return referer ? originAllowed(new URL(referer).origin) : false;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * A place they named ("Flushing, Queens") to a point, for Vibe Now. Uses
@@ -15,8 +35,7 @@ let lastCall = 0;
  * sent; nothing about them.
  */
 export async function GET(request: Request) {
-  const site = request.headers.get('sec-fetch-site');
-  if (site && site !== 'same-origin') return NextResponse.json({ error: 'Same-origin only.' }, { status: 403 });
+  if (!fromOurSite(request)) return NextResponse.json({ error: 'Same-origin only.' }, { status: 403 });
   const q = new URL(request.url).searchParams.get('q')?.replace(/[\u0000-\u001f<>]/g, ' ').trim().slice(0, 80) ?? '';
   if (q.length < 2) return NextResponse.json({ error: 'Say a place.' }, { status: 400 });
   const key = q.toLowerCase();
@@ -24,9 +43,7 @@ export async function GET(request: Request) {
   if (cached && Date.now() - cached.at < DAY_MS) return NextResponse.json({ place: cached.hit });
   const limit = consumeNowClientRateLimit(request);
   if (!limit.allowed) return NextResponse.json({ error: 'Too many lookups. Try again in a few minutes.' }, { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } });
-  const wait = lastCall + 1100 - Date.now();
-  if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
-  lastCall = Date.now();
+  await nextSlot();
   try {
     const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=0&q=${encodeURIComponent(q)}`;
     const response = await fetch(url, { headers: { 'User-Agent': 'dope.travel/1.0 (+https://dope.travel)', Accept: 'application/json' }, signal: AbortSignal.timeout(6000), cache: 'no-store' });

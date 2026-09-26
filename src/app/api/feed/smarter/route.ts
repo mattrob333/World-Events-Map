@@ -54,9 +54,13 @@ async function load(): Promise<SmarterStory[] | null> {
   });
 }
 
+let loading: Promise<SmarterStory[] | null> | null = null;
+
 export async function GET() {
   if (!cached || Date.now() - cached.at > TTL_MS) {
-    const stories = await load().catch(() => null);
+    // One rebuild at a time: a burst of requests shares it.
+    loading ??= load().catch(() => null).finally(() => { loading = null; });
+    const stories = await loading;
     if (stories) cached = { stories, at: Date.now() };
     else if (!cached) {
       return NextResponse.json({ state: 'unavailable', stories: [] }, { headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60' } });

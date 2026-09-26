@@ -154,15 +154,22 @@
 
 /* The "Plan …" pill floats above the phone tab bar and only after the facts
    bar has scrolled away (UFR2-J11). */
-.stickyPlanDock { position: fixed; right: 1rem; bottom: calc(5rem + env(safe-area-inset-bottom)); z-index: 30; display: flex; justify-content: flex-end; pointer-events: none; animation: stickyIn var(--duration-quick, 180ms) var(--ease-glide, ease-out); }
+/* Clear of the raised sun button in the phone tab bar. */
+.stickyPlanDock { position: fixed; right: 1rem; bottom: calc(6.5rem + env(safe-area-inset-bottom)); z-index: 30; display: flex; justify-content: flex-end; pointer-events: none; animation: stickyIn var(--duration-quick, 180ms) var(--ease-glide, ease-out); }
 .stickyPlanDock > * { pointer-events: auto; }
-.stickyPlan { max-width: calc(100vw - 2rem); overflow: hidden; text-overflow: ellipsis; background: var(--gradient-surface), var(--color-surface-3); box-shadow: var(--shadow-soft-3); }
+.stickyPlan { max-width: calc(100vw - 2rem); min-width: 0; justify-content: flex-start; background: var(--gradient-surface), var(--color-surface-3); box-shadow: var(--shadow-soft-3); }
+.stickyPlanText { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @keyframes stickyIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (min-width: 1024px) { .stickyPlanDock { right: 1.5rem; bottom: 1.5rem; } }
 
 @media (max-width: 1050px) {
   .belowHero { grid-template-columns: 1fr; }
   .moment { max-width: none; }
+  /* Tablets: five columns leave each fact a few characters; wrap to rows of three. */
+  .factBar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .factBar > div:nth-child(3n + 1) { box-shadow: none; }
+  .factBar > a { grid-column: 1 / -1; justify-self: start; }
+  .factBar strong { white-space: normal; }
 }
 
 @media (max-width: 740px) {

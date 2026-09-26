@@ -35,7 +35,7 @@ function addPulseLayers(map: MapLibreMap, labels: boolean) {
   }
 }
 
-type Stage = 'spinning' | 'locating' | 'flying' | 'ready';
+type Stage = 'spinning' | 'locating' | 'denied' | 'flying' | 'ready';
 type Note = { tone: 'info' | 'warn'; text: string; retry?: boolean } | null;
 type Here = { lat: number; lng: number };
 
@@ -107,10 +107,13 @@ export function NearbyPulse() {
         map.setStyle(FALLBACK_STYLE);
       };
       // No street style within 8 seconds, or it failed: carry on without it.
-      const styleTimer = window.setTimeout(() => { if (!map.isStyleLoaded()) fallBack(); }, 8000);
-      map.on('error', () => { if (!map.isStyleLoaded()) fallBack(); });
+      let styleReady = false;
+      const styleTimer = window.setTimeout(() => { if (!styleReady) fallBack(); }, 8000);
+      // Only a style that never loaded falls back; a stray tile error later keeps the street map.
+      map.on('error', () => { if (!styleReady) fallBack(); });
       let wired = false;
       map.on('style.load', () => {
+        styleReady = true;
         window.clearTimeout(styleTimer);
         map.setProjection({ type: 'globe' });
         addPulseLayers(map, !fellBack);
@@ -169,7 +172,7 @@ export function NearbyPulse() {
     navigator.geolocation.getCurrentPosition(
       (position) => setHere({ lat: position.coords.latitude, lng: position.coords.longitude }),
       () => {
-        setStage('spinning');
+        setStage('denied');
         setNote({ tone: 'warn', text: 'Location is off. Allow it for this site to see what’s busy around you.', retry: true });
       },
       { enableHighAccuracy: false, timeout: 12_000, maximumAge: 120_000 },
@@ -196,8 +199,9 @@ export function NearbyPulse() {
       youRef.current = new maplibregl.Marker({ element: dot }).setLngLat([here.lng, here.lat]).addTo(map);
     });
     setStage('flying');
-    map.flyTo({ center: [here.lng, here.lat], zoom: STREET_ZOOM, pitch: 55, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
+    // Listen first: with reduced motion the move ends synchronously inside flyTo.
     map.once('moveend', () => { if (live) setStage('ready'); });
+    map.flyTo({ center: [here.lng, here.lat], zoom: STREET_ZOOM, pitch: 55, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
 
     fetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: roundForSearch(here) }) })
       .then(async (response) => {
@@ -239,14 +243,15 @@ export function NearbyPulse() {
   };
 
   const picked = venues?.find((venue) => venue.id === selected) ?? null;
-  const status = stage === 'spinning' ? 'Finding you…' : stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null ? 'Reading foot traffic…' : venues.length ? `${venues.length} places buzzing within 5 miles` : 'Within 5 miles of you';
+  // A failed lookup says so; "Finding you…" only while we're actually looking.
+  const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' ? 'Finding you…' : stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null ? 'Reading foot traffic…' : venues.length ? `${venues.length} places buzzing within 5 miles` : 'Within 5 miles of you';
 
   return (
     <section className={styles.stage} aria-label="Vibe Now: what’s busy around you">
       <div ref={box} className={styles.map} />
       <div className={styles.top}>
         <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW</p>
-        <p className={styles.status} aria-live="polite">{status}</p>
+        <h1 className={styles.status} aria-live="polite">{status}</h1>
       </div>
 
       {note && (

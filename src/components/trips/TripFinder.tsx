@@ -87,9 +87,9 @@ export function TripFinder({ onFamilySki }: { onFamilySki?: () => void }) {
       {interest === 'ski' && <div className={styles.snowOutlook} role="note">
         <div><span>SNOW OUTLOOK</span><strong>Plan the week. Check the mountain.</strong></div>
         <p>These are curated ski dates, not a snow report. Snow depth, recent snowfall, forecast, open lifts, and family terrain still need a verified resort or weather source before you decide where conditions are best.</p>
-        <span className={`tag ${styles.snowStatus}`}>LIVE CONDITIONS · SOURCE NEEDED</span>
+        <span className={`tag ${styles.snowStatus}`}>LIVE SNOW REPORTS · NOT CONNECTED YET</span>
         <div className={styles.snowLinks} aria-label="Official mountain condition reports">
-          <span>CHECK OFFICIAL REPORTS ↗</span>
+          <span>CHECK OFFICIAL REPORTS</span>
           <a href="https://www.aspensnowmass.com/four-mountains/aspen-mountain/snow-and-grooming-report" target="_blank" rel="noopener noreferrer">Aspen Snowmass</a>
           <a href="https://www.engadin.ch/en/reports/snowsports-report" target="_blank" rel="noopener noreferrer">St. Moritz / Engadin</a>
           <a href="https://verbier4vallees.ch/en/useful-information/live-information-winter" target="_blank" rel="noopener noreferrer">Verbier</a>
