@@ -57,12 +57,14 @@ function ensureClientSlot(key: string) {
 export function consumeNowClientRateLimit(
   request: Request,
   now = Date.now(),
+  /** A separate bucket (and limit) for one route, keyed by who is asking when known, so it can't starve the others. */
+  options: { scope?: string; who?: string; limit?: number } = {},
 ): { allowed: boolean; retryAfterSeconds: number } {
-  const key = trustedClientKey(request);
+  const key = options.scope ? `${options.scope}:${options.who ?? trustedClientKey(request)}` : trustedClientKey(request);
   ensureClientSlot(key);
 
   const current = clientBuckets.get(key) ?? freshBucket(now);
-  const client = consume(current, PER_CLIENT_LIMIT, now);
+  const client = consume(current, options.limit ?? PER_CLIENT_LIMIT, now);
   clientBuckets.set(key, client.bucket);
   return { allowed: client.allowed, retryAfterSeconds: client.retryAfterSeconds };
 }

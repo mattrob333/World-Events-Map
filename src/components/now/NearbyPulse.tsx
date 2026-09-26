@@ -317,7 +317,8 @@ export function NearbyPulse() {
     if (!selected || live[selected]) return;
     const id = selected;
     setLive((current) => ({ ...current, [id]: { status: 'loading' } }));
-    memberFetch('/api/now/live', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ venueId: id }) })
+    const token = venuesRef.current.find((venue) => venue.id === id)?.liveToken;
+    memberFetch('/api/now/live', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ venueId: id, token }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as { reading?: LiveReading; error?: { message?: string } | string };
         const reading = body.reading;
@@ -435,35 +436,46 @@ type LiveState = { status: 'loading' } | { status: 'ok'; reading: LiveReading } 
  */
 function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
   const reading = state?.status === 'ok' ? state.reading : null;
-  const usual = reading?.usual ?? venue.busyness;
+  // The usual for this hour only ever comes from a forecast: BestTime's, or the scan's when it was one.
+  const usual = reading?.usual ?? (venue.basis === 'forecast' ? venue.busyness : undefined);
   const checked = reading ? new Date(reading.checkedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+  const note = !state || state.status === 'loading'
+    ? 'Checking live foot traffic…'
+    : state.status === 'error'
+      ? state.message
+      : 'BestTime has no live reading for this place right now.';
   if (reading && reading.live !== undefined) {
-    const delta = reading.delta ?? (reading.live - usual);
+    const delta = reading.delta ?? (usual !== undefined ? reading.live - usual : undefined);
     return (
       <div className={styles.proof}>
         <p className={styles.proofLive}><i aria-hidden="true" />Live now</p>
         <p className={styles.proofBig}>{reading.live}% busy</p>
         <span className={styles.meter}>
-          <span className={styles.bar} aria-hidden="true"><i style={{ width: `${Math.min(100, reading.live)}%` }} /><b style={{ left: `${Math.min(100, usual)}%` }} /></span>
+          <span className={styles.bar} aria-hidden="true"><i style={{ width: `${Math.min(100, reading.live)}%` }} />{usual !== undefined ? <b style={{ left: `${Math.min(100, usual)}%` }} /> : null}</span>
         </span>
-        <p className={styles.proofLine}>
-          Usually {usual}% at this hour{delta === 0 ? ', right on its usual.' : ` · ${Math.abs(delta)} points ${delta > 0 ? 'busier' : 'quieter'} than usual.`}
-        </p>
+        {usual !== undefined ? (
+          <p className={styles.proofLine}>
+            Usually {usual}% at this hour{delta === undefined || delta === 0 ? '.' : ` · ${Math.abs(delta)} points ${delta > 0 ? 'busier' : 'quieter'} than usual.`}
+          </p>
+        ) : null}
         <p className={styles.proofSource}>Live foot traffic from BestTime{reading.hour ? `, ${reading.hour}` : ''} · checked {checked}</p>
       </div>
     );
   }
+  if (usual !== undefined) {
+    return (
+      <div className={styles.proof}>
+        <p className={styles.proofLine}>Usually {usual}% busy at this hour.</p>
+        <Meter venue={{ ...venue, busyness: usual, basis: 'forecast' }} />
+        <p className={styles.proofSource}>{state?.status === 'ok' ? `${note} This is its usual for the hour.` : note}</p>
+      </div>
+    );
+  }
+  // The map scan's own reading was live: keep its label.
   return (
     <div className={styles.proof}>
-      <p className={styles.proofLine}>Usually {usual}% busy at this hour.</p>
-      <Meter venue={{ ...venue, busyness: usual, basis: 'forecast' }} />
-      <p className={styles.proofSource}>
-        {!state || state.status === 'loading'
-          ? 'Checking live foot traffic…'
-          : state.status === 'error'
-            ? state.message
-            : 'BestTime has no live reading for this place right now, so this is its usual for the hour.'}
-      </p>
+      <Meter venue={venue} />
+      <p className={styles.proofSource}>{note}</p>
     </div>
   );
 }

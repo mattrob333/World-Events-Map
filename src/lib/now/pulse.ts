@@ -42,6 +42,8 @@ export type PulseVenue = {
   hoursFrom?: 'besttime' | 'google';
   /** The place on Google Maps, when Google Places knew it. */
   mapsUrl?: string;
+  /** Signed by the server: lets a member ask for this place's live reading. */
+  liveToken?: string;
 };
 
 export type PulseResult = {
