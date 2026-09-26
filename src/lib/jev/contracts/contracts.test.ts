@@ -62,13 +62,15 @@ describe('trip-fit@1 ranking', () => {
   });
 });
 
-describe('feed-item@1 routing', () => {
-  const a = (over: Partial<Record<string, number>> = {}): FeedItemAnswers => ({
+describe('feed-item@2 routing', () => {
+  const a = (over: Partial<Record<string, number>> = {}, tripType = 'food'): FeedItemAnswers => ({
     travel_relevance: { type: 'noul', p: over.rel ?? 0.9 },
-    trip_type: { type: 'choice', selected: 'food', probabilities: { food: over.type ?? 0.8 }, confidence: 0.8 },
+    trip_type: { type: 'choice', selected: tripType, probabilities: { [tripType]: over.type ?? 0.8 }, confidence: 0.8 },
     region: { type: 'choice', selected: 'japan', probabilities: { japan: 0.9 }, confidence: 0.9 },
     newsworthy: { type: 'score', score: over.news ?? 2.4, levels: 4, probabilities: [0, 0, 0.6, 0.4], confidence: 0.8 },
     sales_pitch: { type: 'noul', p: over.pitch ?? 0.05 },
+    us_usable: { type: 'noul', p: over.us ?? 0.95 },
+    audience: { type: 'choice', selected: 'us', probabilities: { us: 0.9, anyone: 0.1 }, confidence: 0.9 },
     risky_instructions: { type: 'noul', p: over.risk ?? 0.01 },
   }) as unknown as FeedItemAnswers;
   it('has a higher bar for public than for a personal feed, and sends risk to review', () => {
@@ -77,5 +79,17 @@ describe('feed-item@1 routing', () => {
     expect(routeFeedItem(a({ risk: 0.4 })).route).toBe('review');
     expect(routeFeedItem(a({ pitch: 0.6 })).route).toBe('review');
     expect(routeFeedItem(a({ rel: 0.2 })).route).toBe('reject');
+  });
+  it('holds cards, offers and fares to a higher US bar than places anyone can visit', () => {
+    // A Singapore bank's card: not for US readers.
+    expect(routeFeedItem(a({ us: 0.05 }, 'points'))).toMatchObject({ route: 'reject', why: 'card, offer or fare not open to US residents' });
+    expect(routeFeedItem(a({ us: 0.2 }, 'deals')).route).toBe('reject');
+    expect(routeFeedItem(a({ us: 0.4 }, 'points')).route).toBe('review');
+    expect(routeFeedItem(a({ us: 0.9 }, 'points')).route).toBe('public');
+    // A lounge in Manchester: US travelers use it, even if a UK blog wrote it up.
+    expect(routeFeedItem(a({ us: 0.4 }, 'luxury')).route).not.toBe('reject');
+    expect(routeFeedItem(a({ us: 0.05 }, 'luxury')).route).toBe('reject');
+    // Uncertain eligibility never reaches the public feed.
+    expect(routeFeedItem(a({ us: 0.65 })).route).toBe('personal');
   });
 });

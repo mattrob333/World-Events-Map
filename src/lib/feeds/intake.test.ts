@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { JevResult } from '@/lib/jev/client';
 import type { feedItemQuestions } from '@/lib/jev/contracts/feedItem';
+import { FEED_ITEM_CONTRACT } from '@/lib/jev/contracts/feedItem';
 import { JEV_PER_RUN, PER_SOURCE_CAP, itemId, runFeedIntake } from './intake';
 import type { LibrarySource } from './library';
 
@@ -13,12 +14,14 @@ const source = (name: string, tier: 'A' | 'B' | 'C' = 'A', signalOnly = false): 
 const rss = (items: { title: string; url: string; hoursAgo: number }[]) =>
   `<rss><channel>${items.map((item) => `<item><title>${item.title}</title><link>${item.url}</link><pubDate>${new Date(now.getTime() - item.hoursAgo * 3_600_000).toUTCString()}</pubDate><description>About ${item.title}</description></item>`).join('')}</channel></rss>`;
 
-const answers = (relevance: number, pitch = 0.05) => ({
+const answers = (relevance: number, pitch = 0.05, usUsable = 0.95, tripType = 'food') => ({
   travel_relevance: { type: 'noul', p: relevance },
-  trip_type: { type: 'choice', selected: 'food', probabilities: { food: 0.8, none: 0.2 }, confidence: 0.8 },
+  trip_type: { type: 'choice', selected: tripType, probabilities: { [tripType]: 0.8, none: 0.2 }, confidence: 0.8 },
   region: { type: 'choice', selected: 'japan', probabilities: { japan: 0.9, unclear: 0.1 }, confidence: 0.9 },
   newsworthy: { type: 'score', score: 2.4, levels: 4, probabilities: [0, 0.1, 0.4, 0.5], confidence: 0.8 },
   sales_pitch: { type: 'noul', p: pitch },
+  us_usable: { type: 'noul', p: usUsable },
+  audience: { type: 'choice', selected: usUsable >= 0.5 ? 'us' : 'singapore', probabilities: { us: usUsable, singapore: 1 - usUsable }, confidence: 0.8 },
   risky_instructions: { type: 'noul', p: 0.01 },
 });
 
@@ -52,7 +55,7 @@ describe('feed intake', () => {
     expect(urls).not.toContain('https://b.example/known');
     // Same title from two sources is one story.
     expect(result.rows.filter((row) => row.title === 'Tokyo opening')).toHaveLength(1);
-    expect(result.receipts.every((receipt) => receipt.actionTaken === false && receipt.contract === 'feed-item@1')).toBe(true);
+    expect(result.receipts.every((receipt) => receipt.actionTaken === false && receipt.contract === FEED_ITEM_CONTRACT)).toBe(true);
     expect(result.rows.every((row) => row.jev_route === 'public')).toBe(true);
     expect(result.rows[0]!.jev_region).toBe('japan');
   });
@@ -73,6 +76,24 @@ describe('feed intake', () => {
     const byTitle = Object.fromEntries(result.rows.map((row) => [row.title, row.jev_route]));
     expect(byTitle).toEqual({ Pitch: 'review', Broken: 'review' });
     expect(result.receipts.find((receipt) => receipt.failure === 'timeout')?.answers).toBeNull();
+  });
+
+  it('rejects a card only non-US residents can get, and keeps a lounge abroad', async () => {
+    const feed = rss([
+      { title: 'Trust Freedom Card 100,000 miles sign-up bonus', url: 'https://a.example/card', hoursAgo: 1 },
+      { title: 'Aspire opens 300-seat Manchester lounge', url: 'https://a.example/lounge', hoursAgo: 2 },
+    ]);
+    const result = await runFeedIntake([source('a')], {
+      now,
+      fetchText: async () => feed,
+      ask: async (state) => state.title.startsWith('Trust')
+        ? { ok: true, answers: answers(0.9, 0.05, 0.03, 'points') as never, model: 'jev-latest', latencyMs: 90 }
+        : { ok: true, answers: answers(0.9, 0.05, 0.9, 'luxury') as never, model: 'jev-latest', latencyMs: 90 },
+      known: async () => new Set(),
+    });
+    const byUrl = Object.fromEntries(result.rows.map((row) => [row.url, row.jev_route]));
+    expect(byUrl['https://a.example/card']).toBe('reject');
+    expect(byUrl['https://a.example/lounge']).toBe('public');
   });
 
   it('never screens more than the per-run budget', async () => {

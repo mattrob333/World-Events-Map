@@ -7,8 +7,11 @@ import { choice, noul, score, type AnswersFor } from '../client';
  * library says about its publisher); no conclusions from earlier steps.
  * Runs in shadow first: the route is recorded, nothing is published on it,
  * until labeled samples show Jev's confidence tracks accuracy.
+ *
+ * @2 adds who can use it: dope.travel readers live in the US, so a card,
+ * offer or fare only a resident of another country can use is not for them.
  */
-export const FEED_ITEM_CONTRACT = 'feed-item@1';
+export const FEED_ITEM_CONTRACT = 'feed-item@2';
 
 export const TRIP_TYPES = [
   'ski', 'surf', 'beach', 'city', 'food', 'nightlife', 'music', 'festivals', 'sports', 'luxury',
@@ -101,6 +104,23 @@ export const feedItemQuestions = {
     'Is the text mainly trying to sell something: sponsored or affiliate copy, a deal or promo code, a product roundup, or a booking pitch?',
     { true: 'The main purpose is to sell or earn a commission.', false: 'The main purpose is to report or inform, even if it mentions a price.' },
   ),
+  us_usable: noul(
+    'Can a traveler who lives in the United States act on `title` and `excerpt` as written? A credit card, bank offer, sign-up bonus or loyalty promotion counts only if a US resident can apply or register. A fare counts only if a US traveler can book it from home at that price. A place, hotel, lounge, event or product abroad that any visitor can use counts. Judge the supplied text; the publisher fields describe what the source usually covers.',
+    { true: 'A US resident can apply, register, book or visit as described.', false: 'Only residents of another country can use it: a card or bank offer from a non-US bank, a promotion for non-US members, or a fare priced from a foreign home city.' },
+  ),
+  audience: choice(
+    'Which readers is `title` and `excerpt` written for? Judge from currency, banks, cards, departure cities and spelling in the supplied text.',
+    {
+      us: 'People who live in the United States',
+      canada: 'People who live in Canada',
+      'uk-ireland': 'People who live in the UK or Ireland',
+      europe: 'People who live in continental Europe',
+      'australia-nz': 'People who live in Australia or New Zealand',
+      singapore: 'People who live in Singapore',
+      'asia-other': 'People who live elsewhere in Asia',
+      anyone: 'Any traveler, wherever they live',
+    },
+  ),
   risky_instructions: noul(
     'Does the text give dosing, medical treatment, drug use or payment and booking instructions a reader might follow?',
     { true: 'It instructs the reader on dosing, treatment, drug use, or how to pay or book.', false: 'No such instructions.' },
@@ -108,6 +128,9 @@ export const feedItemQuestions = {
 };
 
 export type FeedItemAnswers = AnswersFor<typeof feedItemQuestions>;
+
+/** Trip types where the story is a card, offer or fare the reader must be eligible for. */
+const MONEY_TYPES: ReadonlySet<string> = new Set(['points', 'deals']);
 
 /** What code may do with a story. Each action class has its own bar. */
 export type FeedItemRoute = 'reject' | 'review' | 'personal' | 'public';
@@ -123,9 +146,15 @@ export function routeFeedItem(a: FeedItemAnswers): { route: FeedItemRoute; why: 
   const typeConfidence = a.trip_type.probabilities[a.trip_type.selected] ?? 0;
   if (relevance < 0.35) return { route: 'reject', why: 'not travel-relevant' };
   if (a.trip_type.selected === 'none' && typeConfidence >= 0.6) return { route: 'reject', why: 'no trip type fits' };
+  // US readers: money stories need a higher bar than a place anyone can visit.
+  const usUsable = a.us_usable.p;
+  const money = MONEY_TYPES.has(a.trip_type.selected);
+  if (money && usUsable < 0.25) return { route: 'reject', why: 'card, offer or fare not open to US residents' };
+  if (usUsable < 0.1) return { route: 'reject', why: 'not usable by US travelers' };
+  if (money && usUsable < 0.6) return { route: 'review', why: 'unclear if US residents can use this offer' };
   if (a.risky_instructions.p >= 0.3) return { route: 'review', why: 'possible dosing, medical or payment instructions' };
   if (a.sales_pitch.p >= 0.5) return { route: 'review', why: 'reads as a sales pitch' };
-  if (relevance >= 0.85 && newsworthy >= 2 && a.sales_pitch.p < 0.3 && a.risky_instructions.p < 0.15 && typeConfidence >= 0.6) {
+  if (relevance >= 0.85 && newsworthy >= 2 && a.sales_pitch.p < 0.3 && a.risky_instructions.p < 0.15 && typeConfidence >= 0.6 && usUsable >= 0.7) {
     return { route: 'public', why: 'relevant, newsworthy and clean' };
   }
   if (relevance >= 0.7 && newsworthy >= 1.5) return { route: 'personal', why: 'relevant enough to rank for a traveler' };

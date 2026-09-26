@@ -53,6 +53,40 @@ export const SMARTER_SOURCES: Readonly<Record<string, readonly LaneKey[]>> = {
 };
 const GEAR_HOUSES = /^(carryology|pack hacker|google news: carry-on)/i;
 
+/**
+ * dope.travel readers live in the US. These publishers write for readers in
+ * another country: their cards, bank offers and fares are for those readers.
+ * A lounge, a hotel or a bag is the same for everyone, so those lanes stay.
+ */
+export const NON_US_READERS: ReadonlySet<string> = new Set([
+  'The MileLion', 'Head for Points', 'Point Hacks', 'Australian Frequent Flyer', 'Prince of Travel',
+  'HolidayPirates', 'Independent Travel', 'Telegraph Travel',
+]);
+const OPEN_TO_ALL: readonly LaneKey[] = ['lounges', 'stays', 'gear'];
+
+/** Lanes where a story only helps if a US resident can apply, register or book it. */
+const MONEY_LANES: ReadonlySet<LaneKey> = new Set(['points', 'deals']);
+
+/**
+ * Signs that a money story is for someone outside the US: a price in another
+ * currency, or a card or bank that only lends to residents of another country.
+ * Loyalty programs (Avios, KrisFlyer, Aeroplan) are not here: US cards
+ * transfer to them.
+ */
+const FOREIGN_MONEY = new RegExp([
+  /(?<![A-Za-z])(?:S|A|C|NZ|HK)\$\s?\d/.source, // not US$
+  /[£€₹¥]\s?\d/.source,
+  /\d\s?(?:SGD|AUD|CAD|NZD|GBP|EUR|HKD|INR)\b/.source,
+  /\b(?:SGD|AUD|CAD|NZD|GBP|HKD)\s?\d/.source,
+  /\b(?:DBS|UOB|OCBC|Maybank|Trust (?:Bank|Freedom|Link)|HSBC (?:Revolution|TravelOne)|Barclaycard|Amex (?:UK|Australia|Canada|Singapore)|American Express (?:UK|Australia|Canada|Singapore)|Scotiabank|RBC|CIBC|TD Aeroplan|BMO|ANZ|Westpac|NAB|CommBank|Commonwealth Bank|Curve card)\b/.source,
+].join('|'), 'i');
+
+/** True when a US resident could not act on this story. */
+export function foreignForUs(lane: LaneKey, title: string, excerpt = '', source = ''): boolean {
+  if (NON_US_READERS.has(source) && !OPEN_TO_ALL.includes(lane)) return true;
+  return MONEY_LANES.has(lane) && FOREIGN_MONEY.test(`${title}. ${excerpt}`);
+}
+
 export function laneFor(title: string, excerpt = '', source = ''): LaneKey | null {
   const text = `${title}. ${excerpt}`;
   if (title.trim().split(/\s+/).length < 4 || NOISE.test(title)) return null;
@@ -62,7 +96,9 @@ export function laneFor(title: string, excerpt = '', source = ''): LaneKey | nul
   const allowed = source ? SMARTER_SOURCES[source] ?? [] : EVERY;
   const lanes = LANES.filter((lane) => allowed.includes(lane.key));
   // The headline decides; the excerpt only when the headline says nothing.
-  return (lanes.find((lane) => lane.test.test(title)) ?? lanes.find((lane) => lane.test.test(text)))?.key ?? (HOSTEL_HOUSES.has(source) ? 'hostels' : null);
+  const lane = (lanes.find((candidate) => candidate.test.test(title)) ?? lanes.find((candidate) => candidate.test.test(text)))?.key ?? (HOSTEL_HOUSES.has(source) ? 'hostels' : null);
+  // US readers only: a card, offer or fare they can't use is left out, not moved to another lane.
+  return lane && foreignForUs(lane, title, excerpt, source) ? null : lane;
 }
 
 export type SmarterRow = { title: string; excerpt: string; url: string; source: string; tier: 'A' | 'B' | 'C'; publishedAt: string };
