@@ -6,6 +6,7 @@ import { ActivityStream } from '@/components/activity/ActivityStream';
 import { HotRightNow } from '@/components/heat/HotRightNow';
 import { HomeMusicMap } from '@/components/designer/HomeMusicMap';
 import { TravelSmarter } from './TravelSmarter';
+import { FEATURES } from '@/lib/flags';
 import { EVENTS } from '@/lib/data/events';
 import { indexDestinations } from '@/lib/pulse';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
@@ -42,9 +43,9 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
         })}
       </nav></>}
 
-      {/* Home keeps what earns its place: live stories when there are some, then the scenes.
-          The research lanes, the wire tab, the ideas ranking and the saved trail live on their own pages. */}
-      {mode === 'feed' && <><HotRightNow /><HomeMusicMap /><TravelSmarter /><ActivityStream /></>}
+      {/* Pulse: the globe, then what's hot right now. The music map, Travel smarter and the
+          activity stream are off the default view (NEXT_PUBLIC_FEATURE_HOME_EXTRAS brings them back). */}
+      {mode === 'feed' && <><HotRightNow />{FEATURES.homeExtras && <><HomeMusicMap /><TravelSmarter /><ActivityStream /></>}</>}
     </section>
   );
 }

@@ -31,6 +31,7 @@ import { indexDestinations } from '@/lib/pulse';
 import { track } from '@/lib/analytics';
 import type { WorldEvent } from '@/lib/types';
 import { WorldIntro } from './WorldIntro';
+import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { EventPhoto } from './EventPhoto';
 import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
 import { discoveryQuery, readDiscoveryState, type DiscoveryState } from './journey-url';
@@ -63,6 +64,8 @@ const INTEREST_LABEL: Record<TripInterest, string> = {
 export function DiscoveryExperience() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  // Members skip the invitation hero: Pulse opens on the globe (a shared journey link still shows its pass).
+  const member = Boolean(usePlatformAuth().user);
   const linkedEventId = searchParams.get('event');
   useLiveCalendarSync();
   const signalStatus = useLiveCalendar((s) => s.status);
@@ -379,7 +382,7 @@ export function DiscoveryExperience() {
         </section>
       )}
 
-      {!planMode && !query && <WorldIntro
+      {!planMode && !query && (!member || Boolean(journeyEventId ?? linkedEventId)) && <WorldIntro
         journeyId={journeyEventId ?? linkedEventId ?? null}
         origin={hasViewerOrigin ? viewer.coords : null}
         originName={originName}
@@ -649,11 +652,11 @@ export function DiscoveryExperience() {
         </div>
       </section>
 
-      {/* Under the globe: tap an event and the globe above flies there. */}
+      {/* Pulse: straight after the globe, what's hot right now; then what's coming up. */}
+      {!planMode && !query && <LivingDashboard mode="feed" />}
       {!planMode && !query && (
         <ComingUp today={rangeStart} events={modeActive ? modeEvents : EVENTS} onOpen={travelFromCard} />
       )}
-      {!planMode && !query && <LivingDashboard mode="feed" />}
       <section className={styles.nextSection}>
         <div className={styles.sectionHeading}>
           <div>
