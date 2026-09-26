@@ -147,7 +147,7 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
 - **Honesty rules:** no reason without a source, no "trending" until 30 days of news history exist, and curated buzz is never printed.
 
 **Next:**
-- Migration 008 (place keys on feed items, needed within about 2 weeks as rows grow).
+- Migration 010 (place keys on feed items, needed within about 2 weeks as rows grow; 008 and 009 are now taken).
 - Ticketmaster artist shows.
 - Phase 2, the live voice concierge (needs `VOICE_ENABLED=1` on Preview and a voice budget decision).
 - Phase 3, trip build.
@@ -199,6 +199,16 @@ The plan is in `docs/plans/vibe-concierge/`: `PLAN.md` decides between the produ
   - Place photos (`EventPhoto`) on the spotlight and on the "next move" cards, which are a swipe rail on phones. Scene cards lead with the curated photo.
   - Fixed: shortlist cards no longer clip their credit, and the "Start a Circle" link no longer sits on a black box.
 - **Travel smarter:** `GET /api/feed/smarter` (public, no input, cached 10 minutes at the edge, 20 in memory) serves this week's stories from `meridian_feed_items`, from an allowlist of points blogs, deal sites, gear reviewers and travel magazines. `src/lib/smarter/lanes.ts` sorts them into lanes (points, lounges, deals, gear, stays, hostels, tips), drops incidents and non-English, lets each publisher only into the lanes it's trusted for, and keeps one story per publisher per lane, at most 7 days old. `TravelSmarter` on home shows lane tabs, a lead story, a list, and a toolkit of real tools (`src/lib/smarter/toolkit.ts`, no prices or affiliate links). It renders nothing below 4 stories. The hostels & backpacking lane reads nine hostel and backpacker blogs added 2026-09-26 (Hostelgeeks, Hostelworld Blog, Hostel Management, Indie Traveller and others, beat `hostels`); it appears once the daily intake has stored their stories.
+
+## 2026-09-26: red team fixes, spend caps, account profiles, People
+
+- **Red team pass** (four auditors: mobile, security/cost, logic, content honesty). Fixed: login open redirect; `/api/now` location rounded to about 1 km; IPv6 /64 rate-limit keys; Nominatim one-at-a-time queue and same-site only; image-fetch SSRF hardening (https public hosts every hop); honest "modeled interest" and "editorial estimate" labels; voice mic leak when closing mid-connect; profile style wipe and family double-counting on edits; Vibe Now place parsing; LIVE uses the event's time zone; many mobile layout fixes.
+- **Durable spend caps (migration 008, applied).** `meridian_daily_budget` + `claim_/refund_meridian_daily_budget`, used through `src/lib/designer/server/sharedBudget.ts` by voice, designer AI (`DESIGNER_AI_DAILY_CALLS`, default 150), Jev, event feeds and research. Production fails closed (logged) if the ledger is unreachable.
+- **Traveler profiles in the account (migration 009, applied).** Opt-in per device in Settings; `src/components/shell/ProfileSync.tsx` + `src/lib/designer/profileSync.ts`. The device remembers the owning account; other accounts never receive its profiles; clearing the device never deletes from the account.
+- **Your people (`/people`).** Travel cards (`src/lib/people/card.ts`) travel in the URL fragment (`/people/card#c=…`), exclude family, heritage and the traveler's own words; saved people are device-only (`dope.people.v1`).
+- **Home and globe.** Travel smarter (lanes, story images from publishers' og:image, US-readers filter, hostels and backpacking feeds); saffron LIVE rings on the globe; reach arcs from the viewer's city; the phone hero settles on the featured trip's own photo; "Talk it through" in the phone sun menu.
+- Reviews: a separate high-capability review pass ran on 008 and 009 (009 was blocked once, then shipped with fixes). **No Astra review ran.**
+- Still open: circles expose departure city and dates to every signed-in member (needs a column-level design); sign-out keeps device profiles (by design, now owner-tagged); Jev feed screening is capped per run but not in the daily ledger; about 70 events after mid-April 2027 still need photos.
 
 ## Red team 2026-09-25 (third pass)
 
