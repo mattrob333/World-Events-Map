@@ -198,6 +198,22 @@ export function knownAfterApply(after: readonly LocalItem[], merged: { items: re
   return new Map(after.filter((item) => account.get(key(item.kind, item.id)) === item.updatedAt).map((item) => [key(item.kind, item.id), item.updatedAt]));
 }
 
+/**
+ * Trips the account still holds that no device can reach any more: not open
+ * here after the merge, not named by the winning "you" row, and older than
+ * it. Clearing them keeps the account under its trip cap; a trip still open
+ * on another device is newer than the row that replaced it, so it stays.
+ */
+export function staleTrips(after: readonly LocalItem[], merged: { items: readonly LocalItem[] }): string[] {
+  const you = merged.items.find((item) => item.kind === 'you');
+  const named = new Set([readYou(you?.data).tripId, readYou(you?.data).previousTripId].filter(Boolean));
+  const held = new Set(after.filter((item) => item.kind === 'trip').map((item) => item.id));
+  const cutoff = time(you?.updatedAt);
+  return merged.items
+    .filter((item) => item.kind === 'trip' && !held.has(item.id) && !named.has(item.id) && time(item.updatedAt) < cutoff)
+    .map((item) => item.id);
+}
+
 /** What the account is known to hold after a merge: everything merged that didn't need pushing. */
 export function knownItems(items: readonly LocalItem[], push: readonly LocalItem[]): Map<string, string> {
   const pushed = new Set(push.map((item) => key(item.kind, item.id)));

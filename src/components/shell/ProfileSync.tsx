@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { knownAfterMerge, mergeProfiles, pendingPush, syncAllowed, toRemote, tombstone, type RemoteProfile } from '@/lib/designer/profileSync';
 import { useDesignerStore } from '@/lib/designer/store';
-import { knownAfterApply, localItems, mergeItems, pendingItems, stateFromItems, stateTombstone, toRemoteState, type RemoteState } from '@/lib/travelers/stateSync';
+import { knownAfterApply, localItems, staleTrips, mergeItems, pendingItems, stateFromItems, stateTombstone, toRemoteState, type RemoteState } from '@/lib/travelers/stateSync';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
 const PUSH_DELAY_MS = 1500;
@@ -126,7 +126,13 @@ export function ProfileSync() {
         useDesignerStore.getState().applySyncedState(stateFromItems(merged.items));
         // Known: what the account holds and this device now agrees with. Anything the apply changed goes up next;
         // anything the device couldn't keep stays in the account instead of being read as deleted.
-        syncedState.current = knownAfterApply(localItems(useDesignerStore.getState()), merged);
+        const after = localItems(useDesignerStore.getState());
+        syncedState.current = knownAfterApply(after, merged);
+        // Trips nothing points at any more are cleared from the account, so its trip cap never fills with leftovers.
+        for (const id of staleTrips(after, merged)) {
+          if (!active) return;
+          await upsertState(stateTombstone('trip', id));
+        }
       } else if (MISSING_TABLE.has(stateResult.error.code ?? '')) {
         // Migration 010 isn't applied on this project yet: profiles still save; groups and trips stay on the device.
         stateUnavailable = true;

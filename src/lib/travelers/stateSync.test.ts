@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { composeLocally, participantStyle, type Participant } from '@/lib/designer/itinerary';
 import { createGroup } from './groups';
-import { EPOCH, knownItems, localItems, mergeItems, pendingItems, readGroup, readTrip, stateFromItems, type RemoteState, type SyncSlice } from './stateSync';
+import { EPOCH, knownItems, staleTrips, localItems, mergeItems, pendingItems, readGroup, readTrip, stateFromItems, type RemoteState, type SyncSlice } from './stateSync';
 
 const matt: Participant = { id: 'p0', name: 'Matt', kind: 'adult', tags: [], ...participantStyle(0) };
 const trip = (name: string) => composeLocally({ destination: 'custom', place: { name, kind: 'city' }, startDate: '2027-05-10', nights: 2, participants: [matt] }, new Date('2026-09-24T12:00:00Z'));
@@ -73,5 +73,13 @@ describe('traveler state sync', () => {
     expect(row?.votes).toEqual({});
     expect(row?.activeParticipant).toBeNull();
     expect(row?.joinedAs).toBe('p0');
+  });
+
+  it('clears account trips nothing points at any more, but never one still open elsewhere', () => {
+    const you = { kind: 'you' as const, id: 'you', data: { meId: null, tripId: 'trip-now', previousTripId: 'trip-before' }, updatedAt: '2026-09-25T00:00:00.000Z' };
+    const trip = (id: string, at: string) => ({ kind: 'trip' as const, id, data: {}, updatedAt: at });
+    const merged = { items: [you, trip('trip-now', '2026-09-25T00:00:00.000Z'), trip('trip-before', '2026-09-01T00:00:00.000Z'), trip('trip-old', '2026-09-01T00:00:00.000Z'), trip('trip-other-device', '2026-09-26T00:00:00.000Z'), trip('trip-here', '2026-09-01T00:00:00.000Z')] };
+    const after = [trip('trip-now', '2026-09-25T00:00:00.000Z'), trip('trip-here', '2026-09-01T00:00:00.000Z')];
+    expect(staleTrips(after, merged)).toEqual(['trip-old']);
   });
 });

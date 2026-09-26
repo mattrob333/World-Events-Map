@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { FEATURES } from '@/lib/flags';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { useLiveCalendar, useLiveCalendarSync } from '@/lib/data/live-store';
 import { EventSaveButton } from './EventSaveButton';
@@ -75,12 +76,14 @@ export function SavedEvents({ initialEvent = '' }: { initialEvent?: string }) {
                   >
                     Explore event
                   </a>
-                  <a
-                    href={`/community?event=${encodeURIComponent(id)}`}
-                    className={`${styles.button} ${styles.secondary}`}
-                  >
-                    Find a circle
-                  </a>
+                  {FEATURES.circles ? (
+                    <a
+                      href={`/community?event=${encodeURIComponent(id)}`}
+                      className={`${styles.button} ${styles.secondary}`}
+                    >
+                      Find a circle
+                    </a>
+                  ) : null}
                   <EventSaveButton eventId={id} />
                 </div>
               </article>

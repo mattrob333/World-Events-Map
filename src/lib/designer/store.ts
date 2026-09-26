@@ -316,6 +316,8 @@ export const useDesignerStore = create<DesignerState>()(
             profiles,
             activeProfileId: state.activeProfileId === id ? null : state.activeProfileId,
             meId,
+            // Deleting you hands the passport on: a choice, so it follows you to other devices.
+            ...(state.meId === id ? { youUpdatedAt: new Date().toISOString() } : {}),
             groups: ensureDefaultGroups(state.groups.map((group) => ({ ...group, memberIds: group.memberIds.filter((member) => member !== id) })), meId, ids),
           };
         }),

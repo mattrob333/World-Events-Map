@@ -12,7 +12,7 @@ export const DEMO_LABEL = 'Demo — simulated members and activity';
 export const FEATURES = {
   /** Charter, aviation and partner offers: /access, /partners. */
   access: process.env.NEXT_PUBLIC_FEATURE_ACCESS === '1',
-  /** The Circles directory and member matching: /circles (index), /community. Circle rooms stay on. */
+  /** The Circles directory, sample trip rooms and member matching: /circles, /circles/<id>, /community. Real Circle invites (/community?circle=) stay on. */
   circles: process.env.NEXT_PUBLIC_FEATURE_CIRCLES === '1',
   // The music map, Travel smarter and the activity stream, below Hot right now on Pulse.
   homeExtras: process.env.NEXT_PUBLIC_FEATURE_HOME_EXTRAS === '1',

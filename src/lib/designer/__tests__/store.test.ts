@@ -367,3 +367,15 @@ describe('claiming the device on "Not now"', () => {
     expect([state.syncOwner, state.accountSync]).toEqual(['user-a', false]);
   });
 });
+
+describe('deleting you', () => {
+  it('hands the passport on and stamps it, so other devices follow', () => {
+    const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+    useDesignerStore.getState().saveProfile({ id: 'p-a', profile: profile('Matt'), engine: 'on-device', updatedAt: '2026-09-01T00:00:00.000Z' });
+    useDesignerStore.getState().saveProfile({ id: 'p-b', profile: profile('Marina'), engine: 'on-device', updatedAt: '2026-09-02T00:00:00.000Z' });
+    expect(useDesignerStore.getState().youUpdatedAt).toBeNull();
+    useDesignerStore.getState().removeProfile('p-a');
+    expect(useDesignerStore.getState().meId).toBe('p-b');
+    expect(useDesignerStore.getState().youUpdatedAt).toBeTruthy();
+  });
+});
