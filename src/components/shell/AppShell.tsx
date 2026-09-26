@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useId, useState } from 'react';
 import { cn } from '@/components/ui';
 import { useOnboardingStore } from '@/lib/onboarding';
-import { DEMO_LABEL, isDemoMode } from '@/lib/flags';
+import { DEMO_LABEL, FEATURES, isDemoMode } from '@/lib/flags';
 import dynamic from 'next/dynamic';
 
 // Demo-only social layer: loaded on demand so non-demo builds don't ship it.
@@ -21,20 +21,24 @@ import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { ResumeTrip } from './ResumeTrip';
 import { AccountMenu } from './AccountMenu';
 
+/**
+ * One North Star: show where the energy is, at any zoom, and help me get into
+ * it. Five places: Pulse (what's hot, from the globe down), Trips, Now (the
+ * sun: what's hot near me), You (your travelers), More.
+ */
 const PRIMARY = [
-  { href: '/', label: 'World' },
-  { href: '/circles', label: 'Circles' },
-  { href: '/people', label: 'People' },
+  { href: '/', label: 'Pulse' },
   { href: '/trips', label: 'Trips' },
-  { href: '/access', label: 'Access' },
+  { href: '/now', label: 'Now' },
+  { href: '/vibe', label: 'You' },
 ] as const;
 
-// Two tabs either side of the sun in the middle.
+// Two tabs either side of the sun (Now) in the middle.
 const MOBILE_LEFT = [
-  { href: '/', label: 'World', icon: 'world' },
-  { href: '/circles', label: 'Circles', icon: 'circles' },
+  { href: '/', label: 'Pulse', icon: 'pulse' },
+  { href: '/trips', label: 'Trips', icon: 'trips' },
 ] as const;
-const MOBILE_RIGHT = [{ href: '/access', label: 'Access', icon: 'access' }] as const;
+const MOBILE_RIGHT = [{ href: '/vibe', label: 'You', icon: 'you' }] as const;
 
 type TabIcon = (typeof MOBILE_LEFT)[number]['icon'] | (typeof MOBILE_RIGHT)[number]['icon'] | 'more';
 
@@ -42,33 +46,29 @@ type TabIcon = (typeof MOBILE_LEFT)[number]['icon'] | (typeof MOBILE_RIGHT)[numb
 function TabGlyph({ name }: { name: TabIcon }) {
   const common = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true };
   switch (name) {
-    case 'world':
+    case 'pulse':
       return (<svg {...common}><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5S9.4 5.9 12 3.5z" /></svg>);
-    case 'circles':
-      return (<svg {...common}><circle cx="9" cy="12" r="5.5" /><circle cx="15" cy="12" r="5.5" /></svg>);
-    case 'access':
-      return (<svg {...common}><circle cx="8.5" cy="12" r="3.5" /><path d="M12 12h8.5M17.5 12v3M20.5 12v2" /></svg>);
+    case 'trips':
+      return (<svg {...common}><rect x="4" y="7.5" width="16" height="12" rx="2.5" /><path d="M9 7.5V6a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 6v1.5M4 12.5h16" /></svg>);
+    case 'you':
+      return (<svg {...common}><circle cx="12" cy="8.5" r="3.5" /><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5" /></svg>);
     default:
       return (<svg {...common}><circle cx="6" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="18" cy="12" r="1.2" /></svg>);
   }
 }
 
-// Phone bottom bar only has five slots, one of them the sun. People, Now,
-// Trips, and Profile live here so they stay reachable without crowding it.
+// More: settings, and shelved features only when their flag is on.
 const MORE_LINKS = [
-  { href: '/people', label: 'People', hint: 'Your travel card and your crew' },
-  { href: '/now', label: 'Now', hint: "Tonight's scene" },
-  { href: '/trips', label: 'Trips', hint: 'The trips you started, and places you kept' },
-  { href: '/trips/designer', label: 'Trip designer', hint: 'Drag, swipe, and vote on a group trip' },
-  { href: '/vibe', label: 'Traveler profile', hint: 'Talk about you; the trips follow' },
-  { href: '/agents', label: 'Bring your AI', hint: 'Let your agent set you up' },
-  { href: '/settings', label: 'Settings', hint: 'Account, profile basics, privacy and data' },
-] as const;
+  { href: '/settings', label: 'Settings', hint: 'Account, privacy, your data', on: true },
+  { href: '/access', label: 'Access', hint: 'Charter and partner offers', on: FEATURES.access },
+  { href: '/circles', label: 'Circles', hint: 'Travel with members', on: FEATURES.circles },
+].filter((item) => item.on);
 
 // Mirrors getPlatformClient(): member services exist only with both public keys.
 const MEMBERSHIP_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 // One profile: the traveler profile. The member account (sign-in, privacy, data) is "Settings" in More.
 const PROFILE_HREF = '/vibe';
+const PRIMARY_HREFS: readonly string[] = PRIMARY.map((item) => item.href);
 const MORE_ITEMS = MORE_LINKS.filter((item) => MEMBERSHIP_CONFIGURED || item.href !== '/settings');
 
 function activePath(pathname: string, href: string): boolean {
@@ -83,7 +83,7 @@ function activePath(pathname: string, href: string): boolean {
  */
 export function currentMoreHref(pathname: string, profileHref: string = PROFILE_HREF): string | null {
   const match = MORE_LINKS
-    .filter((item) => item.href !== profileHref && activePath(pathname, item.href))
+    .filter((item) => item.href !== profileHref && !PRIMARY_HREFS.includes(item.href) && activePath(pathname, item.href))
     .sort((a, b) => b.href.length - a.href.length)[0];
   return match?.href ?? null;
 }
@@ -174,17 +174,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SearchTrigger />
             {/* Demo only: the member plate mounts the profile sheet, invitations and share links. */}
             {isDemoMode() && <CurrentMemberChip className="hidden lg:flex" mountRoot={false} />}
-            {/* lg and up: below that, Now lives in More so one route never lights twice. */}
-            <NavLink
-              href="/now"
-              aria-current={activePath(pathname, '/now') ? 'page' : undefined}
-              className={cn(
-                'hidden min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone lg:inline-flex',
-                activePath(pathname, '/now') && 'bg-surface-3 text-bone shadow-soft-1',
-              )}
+            {/* Desktop More: the same menu as the phone's, as a dropdown. */}
+            <button
+              type="button"
+              className={cn('hidden min-h-11 items-center rounded-full px-3.5 text-[13px] font-medium text-ink-muted hover:text-bone lg:inline-flex', (moreOpen || moreHref) && 'text-bone')}
+              aria-expanded={moreOpen}
+              aria-controls={morePanelId}
+              aria-haspopup="menu"
+              onClick={() => {
+                setSunOpen(false);
+                setMoreOpen((open) => !open);
+              }}
             >
-              Now
-            </NavLink>
+              More
+            </button>
             <ProfileSwitcher className="hidden lg:block" />
             {/* Signed in: their avatar and a menu. Signed out: Log in. */}
             <AccountMenu />
@@ -256,7 +259,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               className="absolute -top-5 grid h-[4.25rem] w-[4.25rem] place-items-center rounded-full bg-surface-0 shadow-[0_6px_24px_rgb(242_107_42/0.35)] ring-1 ring-white/[0.08] transition-transform active:scale-95"
-              aria-label="Vibe or plan a trip"
+              aria-label="Now: what’s busy near you, or talk it through"
               aria-expanded={sunOpen}
               aria-controls={sunPanelId}
               aria-haspopup="menu"
@@ -313,13 +316,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             aria-label="Close more menu"
-            className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-0 z-[45] bg-void/60 lg:hidden"
+            className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-0 z-[45] bg-void/60 lg:bottom-0 lg:bg-transparent"
             onClick={() => setMoreOpen(false)}
           />
           <div
             id={morePanelId}
             role="menu"
-            className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 lg:hidden"
+            className="surface-raised fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 px-2 py-2 lg:inset-x-auto lg:bottom-auto lg:right-4 lg:top-16 lg:w-80"
           >
             {showLogin && (
               <NavLink
@@ -359,28 +362,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div
             id={sunPanelId}
             role="menu"
-            aria-label="Vibe or plan"
+            aria-label="Now"
             className="surface-raised fixed inset-x-6 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-50 mx-auto grid max-w-sm grid-cols-2 gap-2 p-2 lg:hidden"
           >
             <NavLink
-              href="/nearby"
+              href="/now"
               role="menuitem"
               className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
             >
               <SunGlyph size={26} />
               <span className="text-[15px] font-semibold text-bone">Vibe Now</span>
-              <span className="text-[12px] text-ink-subtle">What’s busy within 5 miles</span>
+              <span className="text-[12px] text-ink-subtle">What’s busy near you, and till when</span>
             </NavLink>
-            <NavLink
-              href="/trips/designer"
-              role="menuitem"
-              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
-            >
-              <span aria-hidden className="text-[22px] leading-none">🗓️</span>
-              <span className="text-[15px] font-semibold text-bone">Trip Planner</span>
-              <span className="text-[12px] text-ink-subtle">Your schedule, picks and votes</span>
-            </NavLink>
-            {/* The talking concierge: your traveler profile, Vibe Now or a trip, by voice. */}
+            {/* The talking concierge: your traveler profile, tonight or a trip, by voice. */}
             <button
               type="button"
               role="menuitem"
@@ -388,13 +382,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 setSunOpen(false);
                 setVibeOpen(true);
               }}
-              className="col-span-2 flex min-h-14 items-center gap-3 rounded-[var(--radius-control)] bg-surface-2 px-3 text-left hover:bg-surface-3"
+              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
             >
-              <span aria-hidden className="text-[18px] leading-none text-saffron">✦</span>
-              <span className="flex flex-col">
-                <span className="text-[15px] font-semibold text-bone">Talk it through</span>
-                <span className="text-[12px] text-ink-subtle">Your traveler profile, tonight or a trip, by voice</span>
-              </span>
+              <span aria-hidden className="text-[22px] leading-none text-saffron">✦</span>
+              <span className="text-[15px] font-semibold text-bone">Talk it through</span>
+              <span className="text-[12px] text-ink-subtle">Profile, tonight or a trip, by voice</span>
             </button>
           </div>
         </>

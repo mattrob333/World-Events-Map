@@ -25,7 +25,6 @@ import { useVoicePage } from '@/lib/voice/registry';
 import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
 import { LiveShows } from './LiveShows';
-import { ScenePlaybook, usePersona } from './ScenePlaybook';
 import { SpotifyPanel, type SpotifyCapabilities } from './SpotifyPanel';
 import { TripIdeas } from './TripIdeas';
 import { useHydrated } from './useHydrated';
@@ -292,13 +291,7 @@ export function MoodboardStudio({
 
   const cards = useMemo(() => (result ? bentoCards(result.profile) : []), [result]);
   const taste = useMemo(() => (result ? tasteFrom(result.profile) : null), [result]);
-  const hasTaste = Boolean(taste && (taste.genres.length || taste.topArtists?.length));
   const artists = useMemo(() => (result ? profileArtists(result.profile) : []), [result]);
-  const board = result?.profile.listening;
-  const persona = usePersona(hasTaste ? taste : null, {
-    listeningHours: board?.nightOwl !== undefined ? `${Math.round(board.nightOwl * 100)}% of plays after 10 pm` : undefined,
-    playlistHabits: board?.playlistHints,
-  });
 
   // How they travel, as the voice concierge heard it (pace, budget, hard no's), applied to the next build.
   const voiceStyle = useRef<VoiceStyle | null>(null);
@@ -592,8 +585,6 @@ export function MoodboardStudio({
                 );
               })}
             </div>
-
-            {hasTaste && taste ? <ScenePlaybook taste={taste} persona={persona} /> : null}
 
             {artists.length || result.profile.teams.length ? (
               <TripIdeas

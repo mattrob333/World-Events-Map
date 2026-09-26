@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { FEATURES } from '@/lib/flags';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
@@ -192,12 +193,14 @@ export function EventDossier({ className }: EventDossierProps) {
                   Open {event.city} destination →
                 </Link>
               )}
-              <Link
-                className="btn btn-primary px-3"
-                href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
-              >
-                Find access & stays ↗
-              </Link>
+              {FEATURES.access && (
+                <Link
+                  className="btn btn-primary px-3"
+                  href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
+                >
+                  Find access & stays ↗
+                </Link>
+              )}
               <Link
                 className="btn btn-ghost px-3"
                 href={destination

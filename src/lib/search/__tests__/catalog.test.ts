@@ -2,23 +2,21 @@ import { describe, expect, it } from 'vitest';
 import { buildSearchCatalog, searchCatalog } from '../catalog';
 
 describe('unified search catalog', () => {
-  it('returns destination, people, access and circle groups for Aspen', () => {
+  it('returns destinations and events for Aspen, and keeps shelved features out', () => {
     const hits = searchCatalog('aspen');
     const groups = new Set(hits.map((hit) => hit.group));
     expect(groups.has('destinations')).toBe(true);
     expect(groups.has('events')).toBe(true);
-    expect(groups.has('access')).toBe(true);
+    // Access, sample circle rooms and example portraits are shelved (North Star spec) unless flagged on.
+    expect(groups.has('access')).toBe(false);
+    expect(groups.has('circles')).toBe(false);
+    expect(buildSearchCatalog().some((hit) => hit.group === 'people')).toBe(false);
     expect(hits.some((hit) => hit.href.includes('/destinations/aspen'))).toBe(true);
   });
 
-  it('labels people hits as editorial portraits', () => {
-    const hits = searchCatalog('mara');
-    expect(hits.some((hit) => hit.subtitle.includes('editorial'))).toBe(true);
-  });
-
-  it('includes NOW as a first-class page hit', () => {
-    const hits = searchCatalog('now');
-    expect(hits.some((hit) => hit.href === '/now' && hit.title === 'NOW')).toBe(true);
+  it('includes Now and You as first-class page hits', () => {
+    expect(searchCatalog('now').some((hit) => hit.href === '/now' && hit.title === 'Now')).toBe(true);
+    expect(searchCatalog('family').some((hit) => hit.href === '/vibe')).toBe(true);
   });
 
   it('never labels editorial fixtures as saved (UFR-A08)', () => {

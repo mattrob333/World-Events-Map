@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useRouter } from 'next/navigation';
 import { useHydrated } from '@/components/designer/useHydrated';
 import { formatDateRange } from '@/components/ui/tokens';
@@ -99,7 +100,7 @@ export function MyTrips() {
           )}
           <p className={styles.heroNote}>
             Trips you design are saved on this device.
-            {user ? <> Trips you share with other people are in <Link href="/circles" className="underline">Circles</Link>.</> : null}
+            {user && FEATURES.circles ? <> Trips you share with other people are in <Link href="/circles" className="underline">Circles</Link>.</> : null}
           </p>
         </section>
 

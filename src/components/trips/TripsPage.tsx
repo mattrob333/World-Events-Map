@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { SignInCard } from '@/components/community/PlatformShell';
 import { formatDateRange } from '@/components/ui/tokens';
@@ -239,7 +240,14 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
     <main className={styles.page}>
       {/* A traveler who kept something comes here to find it: it leads (UFR2-J04). */}
       {hasTrail && <div className={styles.trailLead}><YourTrail saved={saved} returnList={returnList} lead /></div>}
-      <section className={styles.hero} aria-labelledby="trips-title">
+      {/* Members already know the pitch: they get the tools, not the marketing hero. */}
+      {user ? <header className={styles.memberHead}>
+        <h1 id="trips-title">Trips</h1>
+        <div className={styles.heroActions}>
+          <Link href="/trips/designer" className={styles.primaryAction}>Plan a trip <span aria-hidden="true">↗</span></Link>
+          <button type="button" onClick={revealSkiPlanner} className={styles.secondaryAction}>Start a family ski trip</button>
+        </div>
+      </header> : <section className={styles.hero} aria-labelledby="trips-title">
         <div className={styles.heroImage} role="img" aria-label="Julia Mancuso skiing Aspen's World Cup downhill course in 2007" />
         <div className={styles.heroShade} />
         <span className={styles.heroCredit}>Photo, display crop: <a href="https://commons.wikimedia.org/wiki/File:Julia_Mancuso.jpg" target="_blank" rel="noreferrer">Arthur Mouratidis ↗</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noreferrer">CC BY 2.0</a></span>
@@ -252,11 +260,11 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           <div className={styles.heroActions}>
             <button type="button" onClick={revealSkiPlanner} className={hasTrail ? styles.secondaryAction : styles.primaryAction}>Start a family ski trip <span aria-hidden="true">↗</span></button>
             <Link href="/trips/designer" className={styles.secondaryAction}>Open the trip designer</Link>
-            <a href="#sample-rooms" className={styles.secondaryAction}>Preview a trip room <span aria-hidden="true">↓</span></a>
+            {FEATURES.circles && <a href="#sample-rooms" className={styles.secondaryAction}>Preview a trip room <span aria-hidden="true">↓</span></a>}
           </div>
           <p className={styles.heroNote}>Aspen ski archive, 2007. Shared trips require membership; saved places stay on this device.</p>
         </div>
-      </section>
+      </section>}
 
       <TripFinder onFamilySki={revealSkiPlanner} />
 
@@ -372,7 +380,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
           </div>
         </section>}
 
-        <section id="sample-rooms" className={styles.rooms} aria-labelledby="sample-rooms-title">
+        {FEATURES.circles && <section id="sample-rooms" className={styles.rooms} aria-labelledby="sample-rooms-title">
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.eyebrow}>A GLIMPSE OF WHAT COMES NEXT</p>
@@ -406,7 +414,7 @@ function TripsPageContent({ featuredSki, eventId, auth }: { featuredSki: boolean
               );
             })}
           </div>
-        </section>
+        </section>}
 
         {!hasTrail && <YourTrail saved={saved} returnList={returnList} lead={false} />}
       </div>

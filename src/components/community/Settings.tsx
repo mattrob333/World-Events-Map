@@ -33,6 +33,13 @@ export function Settings() {
           </div>
           {user ? <AccountSync /> : <p className={styles.small}>Sign in to keep your traveler profiles with your account, on every device.</p>}
         </section>
+        <section className={styles.card} aria-labelledby="settings-ai">
+          <h2 id="settings-ai">Bring your AI</h2>
+          <p className={styles.muted}>Connect Claude, ChatGPT or another assistant to your traveler profile and trip tools.</p>
+          <div className={styles.row}>
+            <Link href="/agents" className={`${styles.button} ${styles.secondary}`}>Set up your AI</Link>
+          </div>
+        </section>
         <DeviceData />
       </div>
     </PlatformShell>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { formatDateRange } from '@/components/ui';
 import { EVENTS } from '@/lib/data/events';
@@ -74,7 +75,7 @@ export function IdeasRail() {
             <p className="eyebrow">Your trail</p>
             <h2 className="mt-1 font-display text-[23px] leading-tight text-ink">Saved activity</h2>
           </div>
-          <Link href="/circles" className="btn btn-ghost btn-sm">Explore Circles ↗</Link>
+          {FEATURES.circles ? <Link href="/circles" className="btn btn-ghost btn-sm">Explore Circles ↗</Link> : null}
         </div>
         {activity.length ? (
           <ul className="mt-4 space-y-2">

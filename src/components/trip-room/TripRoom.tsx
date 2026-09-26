@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useMemo, useState } from 'react';
 import { Button, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
 import { OpportunityCardView } from '@/components/shell';
@@ -91,7 +92,7 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
                 Back to {pulse.name}
               </Link>
             ) : null}
-            {membershipConfigured ? <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="btn btn-ghost btn-sm min-h-11">
+            {membershipConfigured && FEATURES.circles ? <Link href={selectedEvent ? `/community?event=${encodeURIComponent(selectedEvent.id)}` : '/community'} className="btn btn-ghost btn-sm min-h-11">
               {selectedEvent ? 'Find real Circles for this event' : 'Open Community Circles'}
             </Link> : null}
           </div>
@@ -167,8 +168,8 @@ export function TripRoom({ id }: { id: string }) {
           title="This trip room is not on the preview board."
           body="Sample rooms exist for Aspen and Monte-Carlo. Live Circles remain under Community."
           action={
-            <Link href="/circles" className="btn btn-ghost">
-              All trip rooms
+            <Link href="/trips" className="btn btn-ghost">
+              Your trips
             </Link>
           }
         />

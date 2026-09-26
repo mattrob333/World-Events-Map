@@ -11,10 +11,28 @@ const nextConfig: NextConfig = {
   // The Vibe profile used to be called the mood board; old links land on it. The Spotify
   // callback (/moodboard/spotify) and import links (/moodboard/import) keep their paths.
   async redirects() {
+    // Shelved by the North Star spec: hidden, code kept, back on with the flag (see src/lib/flags.ts).
+    const access = process.env.NEXT_PUBLIC_FEATURE_ACCESS === '1';
+    const circles = process.env.NEXT_PUBLIC_FEATURE_CIRCLES === '1';
     return [
       { source: '/moodboard', destination: '/vibe', permanent: false },
-      // Constellation (the affinity star map) was retired; its matching data lives on for People.
-      { source: '/constellation', destination: '/people', permanent: false },
+      // Constellation and the example portraits are gone; your travelers live on the You tab.
+      { source: '/constellation', destination: '/vibe', permanent: false },
+      { source: '/people', destination: '/vibe', permanent: false },
+      { source: '/people/:handle((?!card$)[^/]+)', destination: '/vibe', permanent: false },
+      // One Now: the Vibe Now map.
+      { source: '/nearby', destination: '/now', permanent: false },
+      ...(access ? [] : [
+        { source: '/access', destination: '/', permanent: false },
+        { source: '/access/:path*', destination: '/', permanent: false },
+        { source: '/partners', destination: '/', permanent: false },
+        { source: '/partners/:path*', destination: '/', permanent: false },
+      ]),
+      // The directory goes; circle rooms (/circles/<id>) stay, since shared trips use them.
+      ...(circles ? [] : [
+        { source: '/circles', destination: '/trips', permanent: false },
+        { source: '/community', destination: '/trips', permanent: false },
+      ]),
     ];
   },
   // Baseline hardening only. A strict script/img CSP would break the remote

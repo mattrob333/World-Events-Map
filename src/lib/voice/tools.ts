@@ -7,6 +7,7 @@
  */
 
 import { BUDGETS, PACES } from '@/lib/designer/profile';
+import { FEATURES } from '@/lib/flags';
 import { TOPIC_KEYS, topicAgenda } from './topics';
 
 /** vibe_profile and vibe_trip are the header's Vibe stage; the others belong to a page. */
@@ -198,7 +199,9 @@ export function isVoiceIntent(value: unknown): value is VoiceIntent {
 }
 
 const ROUTES: Record<string, string> = {
-  home: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', now: '/now', trips: '/trips', access: '/access', circles: '/circles',
+  home: '/', pulse: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', you: '/vibe', 'traveler profile': '/vibe', now: '/now', trips: '/trips', settings: '/settings',
+  ...(FEATURES.access ? { access: '/access' } : {}),
+  ...(FEATURES.circles ? { circles: '/circles' } : {}),
 };
 
 export function routeFor(to: unknown): string | null {

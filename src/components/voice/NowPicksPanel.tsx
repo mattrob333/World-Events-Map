@@ -53,7 +53,7 @@ export function NowPicksPanel({ found }: { found: NowFound }) {
       )}
       <p className="mt-2 text-[11.5px] leading-snug text-ink-subtle">
         Foot traffic from BestTime, {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; closing times from its listed hours, so check before you go.{found.ask.where ? ' Place search © OpenStreetMap.' : ''}{' '}
-        <Link href="/nearby" className="font-semibold text-saffron underline underline-offset-2">See the busy map</Link>
+        <Link href="/now" className="font-semibold text-saffron underline underline-offset-2">See the busy map</Link>
       </p>
     </section>
   );
