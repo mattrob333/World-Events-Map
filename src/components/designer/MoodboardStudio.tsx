@@ -20,7 +20,8 @@ import {
   mergeProfileUpdate,
 } from '@/lib/designer/profile';
 import { tasteFrom } from '@/lib/designer/scene';
-import { pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
+import { pickActiveGroup, pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
+import { YouHome } from '@/components/you/YouHome';
 import { useVoicePage } from '@/lib/voice/registry';
 import { BentoBoard } from './BentoBoard';
 import styles from './designer.module.css';
@@ -237,10 +238,12 @@ export function MoodboardStudio({
   const [error, setError] = useState('');
   const [boardId, setBoardId] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  /** "Add a traveler": the next profile built is someone new, and joins the group being planned for. */
+  const [adding, setAdding] = useState(false);
   const mounted = useHydrated();
   const profiles = useDesignerStore((state) => state.profiles);
   const saveProfile = useDesignerStore((state) => state.saveProfile);
-  const removeProfile = useDesignerStore((state) => state.removeProfile);
+  const toggleGroupMember = useDesignerStore((state) => state.toggleGroupMember);
   // The draft lives in the device store so it survives the Spotify sign-in redirect.
   const draftRamble = useDesignerStore((state) => state.draftRamble);
   const setDraftRamble = useDesignerStore((state) => state.setDraftRamble);
@@ -413,7 +416,16 @@ export function MoodboardStudio({
       return twin.id;
     }
     const id = target === 'fresh' ? `mb-${Date.now().toString(36)}` : target ?? boardId ?? `mb-${Date.now().toString(36)}`;
+    const isNew = !profiles.some((entry) => entry.id === id);
     saveProfile({ id, profile: result.profile, engine: result.engine, updatedAt: new Date().toISOString() });
+    if (adding && isNew) {
+      // A new traveler joins the group being planned for (Family when that's Solo).
+      const { groups, activeGroupId } = useDesignerStore.getState();
+      const active = pickActiveGroup(groups, activeGroupId);
+      const joinTo = active && active.kind !== 'solo' ? active : groups.find((group) => group.kind === 'family');
+      if (joinTo && !joinTo.memberIds.includes(id)) toggleGroupMember(joinTo.id, id);
+      setAdding(false);
+    }
     setBoardId(id);
     setSaved(true);
     return id;
@@ -440,6 +452,33 @@ export function MoodboardStudio({
       setSaved(false);
     }
   }
+
+  function openTraveler(id: string) {
+    const entry = useDesignerStore.getState().profiles.find((item) => item.id === id);
+    if (!entry) return;
+    setAdding(false);
+    saveAs.current = null;
+    setResult({ profile: entry.profile, engine: entry.engine });
+    setBoardId(entry.id);
+    setSaved(true);
+    window.setTimeout(() => document.getElementById('board-title')?.scrollIntoView({ block: 'start', behavior: 'smooth' }), 30);
+  }
+
+  function addTraveler() {
+    setResult(null);
+    setBoardId(null);
+    setSaved(false);
+    setAdding(true);
+    setDraftRamble('');
+    setDraftListening(null);
+    saveAs.current = 'fresh';
+    window.setTimeout(() => {
+      document.getElementById('add-traveler-title')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      document.getElementById('ramble')?.focus({ preventScroll: true });
+    }, 30);
+  }
+
+  const hasTravelers = mounted && profiles.length > 0;
 
   const micLabel =
     dictation.status === 'unsupported'
@@ -488,12 +527,12 @@ export function MoodboardStudio({
                 value={text}
                 maxLength={MAX_RAMBLE_CHARS}
                 onChange={(event) => setText(event.target.value)}
-                placeholder="I'm 44, from Atlanta. Braves fan. Two boys, 8 and 12…"
+                placeholder={adding ? "I'm Ava, I'm 9. I love horses, pancakes and the beach…" : "I'm 44, from Atlanta. Braves fan. Two boys, 8 and 12…"}
               />
               {dictation.interim ? <p className={styles.interim}>{dictation.interim}</p> : null}
               <div className={styles.row}>
                 <button type="button" className={styles.cta} onClick={build} disabled={busy}>
-                  {busy ? 'Sorting…' : 'Build my profile'}
+                  {busy ? 'Sorting…' : adding ? 'Build their profile' : 'Build my profile'}
                 </button>
                 <button type="button" className={styles.ghost} onClick={() => setText(EXAMPLE_RAMBLE)}>
                   Try an example
@@ -516,7 +555,29 @@ export function MoodboardStudio({
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        {result ? (
+        {hasTravelers ? (
+          <>
+            <p className={styles.eyebrow}>You</p>
+            <h1 className={`${styles.headline} mb-6`}>Your travelers.</h1>
+            <YouHome openId={adding ? null : boardId} onOpen={openTraveler} onAddTraveler={addTraveler} />
+          </>
+        ) : null}
+        {hasTravelers ? (
+          adding ? (
+            <>
+              <p className={styles.eyebrow}>New traveler</p>
+              <h2 id="add-traveler-title" className="font-display text-[28px] text-ink">Hand them the phone.</h2>
+              <p className={styles.lede}>
+                Let them talk for a minute: what they love doing, favorite foods, music, and the best trip they remember. We sort it into their own profile.
+              </p>
+              <div className={`${styles.row} mt-3`}>
+                <button type="button" className={styles.ghost} onClick={() => { setAdding(false); saveAs.current = null; const { profiles: all, activeProfileId } = useDesignerStore.getState(); const back = pickActiveProfile(all, activeProfileId); if (back) openTraveler(back.id); }}>
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : null
+        ) : result ? (
           <>
             <p className={styles.eyebrow}>Traveler profile</p>
             <h1 className={styles.headline}>
@@ -537,13 +598,13 @@ export function MoodboardStudio({
           </>
         )}
 
-        {!result ? recorderSection : null}
+        {!result && (!hasTravelers || adding) ? recorderSection : null}
 
         {result ? (
           <section className="mt-10" aria-labelledby="board-title">
             <div className={styles.row}>
               <h2 id="board-title" tabIndex={-1} className="font-display text-[28px] text-ink">
-                Your vibe
+                {hasTravelers && result.profile.name ? `${result.profile.name}’s profile` : 'Your vibe'}
               </h2>
               <span className={`${styles.badge} ${result.engine === 'claude' ? styles.badgeAi : ''}`}>
                 {result.engine === 'claude' ? 'Sorted by AI' : 'Sorted by simple rules'}
@@ -600,7 +661,7 @@ export function MoodboardStudio({
 
             <div className={`${styles.row} mt-6`}>
               <button type="button" className={styles.cta} onClick={save}>
-                {saved ? '✓ Saved on this device' : 'Save my profile'}
+                {saved ? '✓ Saved' : adding ? 'Save their profile' : 'Save my profile'}
               </button>
               <button type="button" className={styles.ghost} onClick={() => router.push(`/trips/designer?with=${save()}`)}>
                 Plan a trip with this profile →
@@ -632,52 +693,6 @@ export function MoodboardStudio({
           </details>
         ) : null}
 
-        {mounted && profiles.length ? (
-          <section className="mt-12" aria-labelledby="saved-title">
-            <h2 id="saved-title" className={styles.eyebrow}>
-              Profiles on this device
-            </h2>
-            <div className={styles.savedList}>
-              {profiles.map((entry) => {
-                const tile = bentoCards(entry.profile)[0];
-                return (
-                  <div key={entry.id} className={styles.savedCard}>
-                    <span
-                      className={styles.savedSwatch}
-                      style={{ background: tile ? `linear-gradient(135deg, ${tile.palette[0]}, ${tile.palette[1]})` : 'var(--color-surface-3)' }}
-                      aria-hidden
-                    >
-                      {tile?.emoji ?? '✨'}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[14px] text-ink">{entry.profile.name ?? entry.profile.hometown ?? 'My profile'}</p>
-                      <p className="truncate text-[12px] text-ink-subtle">{entry.profile.summary || 'Saved profile'}</p>
-                    </div>
-                    <button
-                      type="button"
-                      className={styles.miniBtn}
-                      onClick={() => {
-                        setResult({ profile: entry.profile, engine: entry.engine });
-                        setBoardId(entry.id);
-                        setSaved(true);
-                      }}
-                    >
-                      Open
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.miniBtn}
-                      onClick={() => removeProfile(entry.id)}
-                      aria-label="Delete this profile from the device"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        ) : null}
       </div>
     </main>
   );

@@ -9,6 +9,7 @@ import {
 import styles from '@/components/community/community.module.css';
 import { SavedEvents } from './SavedEvents';
 import { TravelModesEditor } from './TravelModesEditor';
+import { FEATURES } from '@/lib/flags';
 
 export function Account({ initialEvent = '' }: { initialEvent?: string }) {
   const { user } = usePlatformAuth();
@@ -173,27 +174,39 @@ function AccountContent({ initialEvent }: { initialEvent: string }) {
               )}
             </section>
           )}
-          <TravelModesEditor />
+          {/* Travel modes merged into groups on the You tab; the Circles matching editor returns with Circles. */}
+          {FEATURES.circles ? <TravelModesEditor /> : null}
           <SavedEvents initialEvent={initialEvent} />
         </div>
-        <aside className={styles.card}>
-          <span className={styles.eyebrow}>One person. Different trips.</span>
-          <h2>Choose the lens before dope.travel chooses the people.</h2>
-          <p className={styles.muted}>
-            Family ski, solo weekend and work layover should produce completely different circles and recommendations. Travel modes let you switch context without pretending you only have one traveler identity.
-          </p>
-          <p className={styles.muted}>
-            Your home airport also becomes the source for future aviation matching. dope.travel will not show a personalized charter estimate until the actual origin is known.
-          </p>
-          <div className={styles.row}>
-            <a href="/community" className={styles.button}>
-              Explore travel circles
-            </a>
-            <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>
-              Edit traveler lens
-            </a>
-          </div>
-        </aside>
+        {FEATURES.circles ? (
+          <aside className={styles.card}>
+            <span className={styles.eyebrow}>One person. Different trips.</span>
+            <h2>Choose the lens before dope.travel chooses the people.</h2>
+            <p className={styles.muted}>
+              Family ski, solo weekend and work layover should produce completely different circles and recommendations. Travel modes let you switch context without pretending you only have one traveler identity.
+            </p>
+            <p className={styles.muted}>
+              Your home airport also becomes the source for future aviation matching. dope.travel will not show a personalized charter estimate until the actual origin is known.
+            </p>
+            <div className={styles.row}>
+              <a href="/community" className={styles.button}>
+                Explore travel circles
+              </a>
+              <a href="/welcome" className={`${styles.button} ${styles.secondary}`}>
+                Edit traveler lens
+              </a>
+            </div>
+          </aside>
+        ) : (
+          <aside className={styles.card}>
+            <span className={styles.eyebrow}>Solo, Family, Friends</span>
+            <h2>Who’s coming lives on the You tab.</h2>
+            <p className={styles.muted}>Each person gets their own traveler profile, and groups decide who a trip is for. Pick the group in the header or on You.</p>
+            <div className={styles.row}>
+              <a href="/vibe" className={styles.button}>Your travelers and groups</a>
+            </div>
+          </aside>
+        )}
       </div>
     </PlatformShell>
   );

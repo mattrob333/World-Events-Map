@@ -3,8 +3,8 @@ import { MoodboardStudio } from '@/components/designer/MoodboardStudio';
 import { serverCapabilities } from '@/lib/designer/capabilities';
 
 export const metadata: Metadata = {
-  title: 'Traveler profile · dope.travel',
-  description: 'Talk about yourself, add your Spotify, and get a traveler profile that plans trips with you.',
+  title: 'You · dope.travel',
+  description: 'A traveler profile for everyone you travel with, built by talking for a minute, and the groups your trips are planned for.',
 };
 
 export default async function VibePage({ searchParams }: { searchParams: Promise<{ spotify?: string }> }) {

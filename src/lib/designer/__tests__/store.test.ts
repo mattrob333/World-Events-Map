@@ -195,3 +195,84 @@ describe('clearing the device (K13)', () => {
     expect(storage.getItem('unrelated')).toBe('keep');
   });
 });
+
+describe('travelers and groups', () => {
+  const profile = (name: string, age?: number) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name, age });
+  const save = (id: string, name: string, age?: number) =>
+    useDesignerStore.getState().saveProfile({ id, profile: profile(name, age), engine: 'on-device', updatedAt: new Date().toISOString() });
+
+  it('the first profile is you, and Solo, Family and Friends start with you', () => {
+    save('p-matt', 'Matt');
+    const state = useDesignerStore.getState();
+    expect(state.meId).toBe('p-matt');
+    expect(state.groups.map((group) => [group.kind, group.memberIds])).toEqual([['solo', ['p-matt']], ['family', ['p-matt']], ['friends', ['p-matt']]]);
+  });
+
+  it('adding a traveler keeps you as the one planning, and groups take them in only when asked', () => {
+    save('p-matt', 'Matt');
+    save('p-leo', 'Leo', 8);
+    const state = useDesignerStore.getState();
+    expect(state.meId).toBe('p-matt');
+    expect(state.activeProfileId).toBe('p-matt');
+    const family = state.groups.find((group) => group.kind === 'family')!;
+    expect(family.memberIds).toEqual(['p-matt']);
+    state.toggleGroupMember(family.id, 'p-leo');
+    expect(useDesignerStore.getState().groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt', 'p-leo']);
+  });
+
+  it('never takes you out of Solo, Family or Friends, and Solo stays just you', () => {
+    save('p-matt', 'Matt');
+    save('p-jen', 'Jen');
+    const { groups, toggleGroupMember } = useDesignerStore.getState();
+    const family = groups.find((group) => group.kind === 'family')!;
+    const solo = groups.find((group) => group.kind === 'solo')!;
+    toggleGroupMember(family.id, 'p-matt');
+    toggleGroupMember(solo.id, 'p-jen');
+    const after = useDesignerStore.getState().groups;
+    expect(after.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt']);
+    expect(after.find((group) => group.kind === 'solo')!.memberIds).toEqual(['p-matt']);
+  });
+
+  it('switching the group plans from its leader', () => {
+    save('p-matt', 'Matt');
+    save('p-jen', 'Jen');
+    const state = useDesignerStore.getState();
+    const id = state.addGroup('Jen and the girls', 'custom', ['p-jen']);
+    useDesignerStore.getState().setActiveGroup(id);
+    expect(useDesignerStore.getState().activeGroupId).toBe(id);
+    expect(useDesignerStore.getState().activeProfileId).toBe('p-jen');
+  });
+
+  it('deleting a traveler takes them out of every group; deleting you hands the passport on', () => {
+    save('p-matt', 'Matt');
+    save('p-jen', 'Jen');
+    const family = useDesignerStore.getState().groups.find((group) => group.kind === 'family')!;
+    useDesignerStore.getState().toggleGroupMember(family.id, 'p-jen');
+    useDesignerStore.getState().removeProfile('p-jen');
+    expect(useDesignerStore.getState().groups.every((group) => !group.memberIds.includes('p-jen'))).toBe(true);
+    useDesignerStore.getState().removeProfile('p-matt');
+    expect(useDesignerStore.getState().meId).toBeNull();
+  });
+
+  it('adds guests from a link to a group, never to Solo, and clearAll forgets groups', () => {
+    save('p-matt', 'Matt');
+    const card = { v: 1 as const, name: 'Sam', loves: ['skiing'], music: [], teams: [], style: [], bucketList: [], sentAt: new Date().toISOString() };
+    const { groups, addGuests } = useDesignerStore.getState();
+    addGuests(groups.find((group) => group.kind === 'solo')!.id, [card]);
+    addGuests(groups.find((group) => group.kind === 'friends')!.id, [card]);
+    const after = useDesignerStore.getState().groups;
+    expect(after.find((group) => group.kind === 'solo')!.guests).toHaveLength(0);
+    expect(after.find((group) => group.kind === 'friends')!.guests.map((guest) => guest.card.name)).toEqual(['Sam']);
+    useDesignerStore.getState().clearAll();
+    expect(useDesignerStore.getState().groups).toEqual([]);
+    expect(useDesignerStore.getState().meId).toBeNull();
+  });
+
+  it('migrates a v1 device: the oldest profile is you, with default groups', async () => {
+    const options = useDesignerStore.persist.getOptions();
+    const migrated = (await options.migrate!({ profiles: [{ id: 'new', profile: profile('Kid') }, { id: 'old', profile: profile('Matt') }] }, 1)) as { meId: string; groups: { kind: string; memberIds: string[] }[] };
+    expect(migrated.meId).toBe('old');
+    expect(migrated.groups.map((group) => group.kind)).toEqual(['solo', 'family', 'friends']);
+    expect(migrated.groups[1].memberIds).toEqual(['old']);
+  });
+});

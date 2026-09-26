@@ -8,6 +8,8 @@ import type { ListeningProfile } from './listening';
 import { dedupeFamily, type ParseEngine, type TravelerProfile } from './profile';
 import { isSafeId, mergeReply as mergeReplyInto, type MergeSummary, type TripReply } from './tripShare';
 import { moveCard as moveCardBetween, type TripVotes } from './votes';
+import type { TravelCard } from '@/lib/people/card';
+import { addGuests as addGuestsTo, createGroup as newGroup, ensureDefaultGroups, MAX_GROUP_MEMBERS, MAX_GROUPS, type GroupKind, type TravelGroup } from '@/lib/travelers/groups';
 
 export type SavedProfile = {
   id: string;
@@ -22,7 +24,24 @@ export type SavedProfile = {
 export type SavedTrip = { trip: Itinerary; votes: TripVotes; activeParticipant: string | null; joinedAs: string | null };
 
 interface DesignerState {
+  /** One traveler per profile: you, your partner, each kid, a friend. */
   profiles: SavedProfile[];
+  /** Which profile is you (the passport). The first one saved, unless changed. */
+  meId: string | null;
+  setMe: (id: string) => void;
+  /** Who is coming: Solo, Family, Friends, and any group added from a link. */
+  groups: TravelGroup[];
+  /** The group trips are planned for ("Traveling as"). */
+  activeGroupId: string | null;
+  setActiveGroup: (id: string) => void;
+  addGroup: (name: string, kind?: GroupKind, memberIds?: string[]) => string;
+  renameGroup: (id: string, name: string) => void;
+  removeGroup: (id: string) => void;
+  /** Adds or removes a traveler; the leader (first member) of Solo, Family and Friends stays. */
+  toggleGroupMember: (groupId: string, profileId: string) => void;
+  /** Another family's cards, from an "add group" link. */
+  addGuests: (groupId: string, cards: TravelCard[]) => void;
+  removeGuest: (groupId: string, guestId: string) => void;
   /** The travel profile in use ("Traveling as"); null means the newest one. */
   activeProfileId: string | null;
   setActiveProfile: (id: string) => void;
@@ -105,6 +124,58 @@ export const useDesignerStore = create<DesignerState>()(
   persist(
     (set, get) => ({
       profiles: [],
+      meId: null,
+      groups: [],
+      activeGroupId: null,
+      setMe: (id) =>
+        set((state) => {
+          if (!state.profiles.some((entry) => entry.id === id)) return {};
+          const ids = state.profiles.map((entry) => entry.id);
+          // The new you leads Solo, Family and Friends.
+          const groups = state.groups.map((group) => (group.kind === 'custom' ? group : { ...group, memberIds: [id, ...group.memberIds.filter((m) => m !== id && m !== state.meId)] }));
+          return { meId: id, groups: ensureDefaultGroups(groups, id, ids) };
+        }),
+      setActiveGroup: (id) =>
+        set((state) => {
+          const group = state.groups.find((entry) => entry.id === id);
+          if (!group) return {};
+          // The leader's taste is what the rest of the app plans from.
+          const lead = group.memberIds.find((member) => state.profiles.some((entry) => entry.id === member));
+          return { activeGroupId: id, ...(lead ? { activeProfileId: lead } : {}) };
+        }),
+      addGroup: (name, kind = 'custom', memberIds = []) => {
+        const group = newGroup(name, kind, memberIds.filter((id) => get().profiles.some((entry) => entry.id === id)));
+        set((state) => ({ groups: [...state.groups, group].slice(0, MAX_GROUPS) }));
+        return group.id;
+      },
+      renameGroup: (id, name) =>
+        set((state) => ({
+          groups: state.groups.map((group) => (group.id === id ? { ...group, name: name.replace(/\s+/g, ' ').trim().slice(0, 30) || group.name, updatedAt: new Date().toISOString() } : group)),
+        })),
+      removeGroup: (id) =>
+        set((state) => {
+          const group = state.groups.find((entry) => entry.id === id);
+          if (!group || group.kind !== 'custom') return {};
+          return { groups: state.groups.filter((entry) => entry.id !== id), activeGroupId: state.activeGroupId === id ? null : state.activeGroupId };
+        }),
+      toggleGroupMember: (groupId, profileId) =>
+        set((state) => ({
+          groups: state.groups.map((group) => {
+            if (group.id !== groupId || group.kind === 'solo') return group;
+            if (group.memberIds.includes(profileId)) {
+              if (group.kind !== 'custom' && profileId === group.memberIds[0]) return group;
+              return { ...group, memberIds: group.memberIds.filter((id) => id !== profileId), updatedAt: new Date().toISOString() };
+            }
+            if (!state.profiles.some((entry) => entry.id === profileId)) return group;
+            return { ...group, memberIds: [...group.memberIds, profileId].slice(0, MAX_GROUP_MEMBERS), updatedAt: new Date().toISOString() };
+          }),
+        })),
+      addGuests: (groupId, cards) =>
+        set((state) => ({ groups: state.groups.map((group) => (group.id === groupId && group.kind !== 'solo' ? addGuestsTo(group, cards) : group)) })),
+      removeGuest: (groupId, guestId) =>
+        set((state) => ({
+          groups: state.groups.map((group) => (group.id === groupId ? { ...group, guests: group.guests.filter((guest) => guest.id !== guestId), updatedAt: new Date().toISOString() } : group)),
+        })),
       activeProfileId: null,
       trip: null,
       votes: {},
@@ -121,23 +192,41 @@ export const useDesignerStore = create<DesignerState>()(
       syncStatus: 'idle',
       setSyncStatus: (syncStatus) => set({ syncStatus }),
       applySyncedProfiles: (profiles) =>
-        set((state) => ({
-          profiles: profiles.slice(0, 12),
-          activeProfileId: state.activeProfileId && profiles.some((entry) => entry.id === state.activeProfileId) ? state.activeProfileId : null,
-        })),
+        set((state) => {
+          const kept = profiles.slice(0, 12);
+          const ids = kept.map((entry) => entry.id);
+          const meId = state.meId && ids.includes(state.meId) ? state.meId : (kept[kept.length - 1]?.id ?? null);
+          return {
+            profiles: kept,
+            activeProfileId: state.activeProfileId && ids.includes(state.activeProfileId) ? state.activeProfileId : null,
+            meId,
+            groups: ensureDefaultGroups(state.groups, meId, ids),
+          };
+        }),
       setDraftRamble: (draftRamble) => set({ draftRamble }),
       setDraftListening: (draftListening) => set({ draftListening }),
       saveProfile: (profile) =>
         set((state) => {
           const previous = state.profiles.find((entry) => entry.id === profile.id);
           const saved = previous?.label && !profile.label ? { ...profile, label: previous.label } : profile;
-          return { profiles: [saved, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12), activeProfileId: profile.id };
+          const profiles = [saved, ...state.profiles.filter((entry) => entry.id !== profile.id)].slice(0, 12);
+          const ids = profiles.map((entry) => entry.id);
+          // The first profile on a device is you.
+          const meId = state.meId && ids.includes(state.meId) ? state.meId : profile.id;
+          return { profiles, activeProfileId: previous ? state.activeProfileId ?? profile.id : state.meId ? state.activeProfileId ?? meId : profile.id, meId, groups: ensureDefaultGroups(state.groups, meId, ids) };
         }),
       removeProfile: (id) =>
-        set((state) => ({
-          profiles: state.profiles.filter((entry) => entry.id !== id),
-          activeProfileId: state.activeProfileId === id ? null : state.activeProfileId,
-        })),
+        set((state) => {
+          const profiles = state.profiles.filter((entry) => entry.id !== id);
+          const ids = profiles.map((entry) => entry.id);
+          const meId = state.meId === id ? (profiles[profiles.length - 1]?.id ?? null) : state.meId;
+          return {
+            profiles,
+            activeProfileId: state.activeProfileId === id ? null : state.activeProfileId,
+            meId,
+            groups: ensureDefaultGroups(state.groups.map((group) => ({ ...group, memberIds: group.memberIds.filter((member) => member !== id) })), meId, ids),
+          };
+        }),
       setActiveProfile: (id) => set((state) => (state.profiles.some((entry) => entry.id === id) ? { activeProfileId: id } : {})),
       renameProfile: (id, label) =>
         set((state) => ({
@@ -259,6 +348,9 @@ export const useDesignerStore = create<DesignerState>()(
           syncOwner: null,
           syncStatus: 'idle',
           profiles: [],
+          meId: null,
+          groups: [],
+          activeGroupId: null,
           activeProfileId: null,
           trip: null,
           votes: {},
@@ -275,9 +367,10 @@ export const useDesignerStore = create<DesignerState>()(
       name: 'meridian.designer.v1',
       storage: createJSONStorage(() => localStorage),
       // v1: profiles saved before the family fix can hold the same kids twice; clean them once on load.
-      version: 1,
+      // v2: travelers and groups. The oldest profile is you; Solo, Family and Friends start with you.
+      version: 2,
       migrate: (persisted, version) => {
-        const state = persisted as { profiles?: unknown } | null;
+        const state = persisted as { profiles?: unknown; meId?: string | null; groups?: TravelGroup[]; activeGroupId?: string | null } | null;
         if (version < 1 && state && Array.isArray(state.profiles)) {
           state.profiles = state.profiles.map((entry) => {
             const saved = entry as Partial<SavedProfile> | null;
@@ -285,10 +378,20 @@ export const useDesignerStore = create<DesignerState>()(
             return saved?.profile && Array.isArray(family) ? { ...saved, profile: { ...saved.profile, family: dedupeFamily(family) } } : entry;
           });
         }
+        if (version < 2 && state) {
+          const profiles = Array.isArray(state.profiles) ? (state.profiles as SavedProfile[]).filter((entry) => entry && typeof entry.id === 'string') : [];
+          const meId = profiles[profiles.length - 1]?.id ?? null;
+          state.meId = meId;
+          state.groups = ensureDefaultGroups([], meId, profiles.map((entry) => entry.id));
+          state.activeGroupId = null;
+        }
         return persisted as DesignerState;
       },
       partialize: (state) => ({
         profiles: state.profiles,
+        meId: state.meId,
+        groups: state.groups,
+        activeGroupId: state.activeGroupId,
         activeProfileId: state.activeProfileId,
         trip: state.trip,
         votes: state.votes,
@@ -316,9 +419,14 @@ export function useActiveProfile(): SavedProfile | undefined {
   return pickActiveProfile(profiles, activeId);
 }
 
-/** "Family" when kids come along, "Crew" with other adults, else "Solo"; a chosen label wins. */
+/**
+ * What to call a profile: a chosen label, else the traveler's name. An
+ * unnamed profile falls back to who it describes: "Family" when kids come
+ * along, "Crew" with other adults, else "Solo".
+ */
 export function profileLabel(saved: SavedProfile): string {
   if (saved.label) return saved.label;
+  if (saved.profile.name) return saved.profile.name;
   const family = saved.profile.family ?? [];
   if (family.some((member) => member.relation === 'child' || (member.age !== undefined && member.age < 18))) return 'Family';
   if (family.length) return family.some((member) => member.relation === 'partner') && family.length === 1 ? 'Couple' : 'Crew';
@@ -336,4 +444,18 @@ export function localCopyOf(tripId: string, state: Pick<DesignerState, 'trip' | 
   if (state.trip?.id === tripId) return { trip: state.trip, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs, setAside: false };
   if (state.previousTrip?.trip.id === tripId) return { ...state.previousTrip, setAside: true };
   return null;
+}
+
+/** The group trips are planned for: the chosen one, else Family when it has more than you, else Solo. */
+export function pickActiveGroup(groups: TravelGroup[], activeId: string | null): TravelGroup | undefined {
+  return groups.find((group) => group.id === activeId)
+    ?? groups.find((group) => group.kind === 'family' && group.memberIds.length > 1)
+    ?? groups.find((group) => group.kind === 'solo')
+    ?? groups[0];
+}
+
+export function useActiveGroup(): TravelGroup | undefined {
+  const groups = useDesignerStore((state) => state.groups);
+  const activeId = useDesignerStore((state) => state.activeGroupId);
+  return pickActiveGroup(groups, activeId);
 }

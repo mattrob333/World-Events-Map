@@ -18,6 +18,8 @@ export type TravelCard = {
   teams: string[];
   style: string[];
   bucketList: string[];
+  /** Under 18, so trips plan for a kid. Never the age itself. */
+  kid?: true;
   sentAt: string;
 };
 
@@ -41,6 +43,7 @@ export function cardFromProfile(profile: TravelerProfile, fallbackName: string, 
     teams: list(profile.teams, 4),
     style: list([style?.pace && PACE[style.pace], style?.budget && BUDGET[style.budget], style?.social && SOCIAL[style.social]].filter(Boolean), 3),
     bucketList: list(style?.bucketList ?? [], 5),
+    ...(profile.age !== undefined && profile.age < 18 ? { kid: true as const } : {}),
     sentAt: now.toISOString(),
   };
 }
@@ -68,7 +71,8 @@ export function decodeCard(encoded: string): TravelCard | null {
     const hometown = clean(raw.hometown, 60);
     return {
       v: 1, name, ...(hometown ? { hometown } : {}),
-      loves: list(raw.loves), music: list(raw.music), teams: list(raw.teams, 4), style: list(raw.style, 3), bucketList: list(raw.bucketList, 5), sentAt: sent,
+      loves: list(raw.loves), music: list(raw.music), teams: list(raw.teams, 4), style: list(raw.style, 3), bucketList: list(raw.bucketList, 5),
+      ...(raw.kid === true ? { kid: true as const } : {}), sentAt: sent,
     };
   } catch {
     return null;

@@ -250,7 +250,11 @@ function parseAge(text: string): number | undefined {
     text.match(/\b(\d{2})[- ]years?[- ]old\s+(?:man|woman|guy|dad|mom|mother|father|person)\b/i) ??
     text.match(new RegExp(String.raw`\b${I_AM}\s+(?:a\s+)?(\d{2})[- ]years?[- ]old`));
   const age = match ? Number(match[1]) : undefined;
-  return age && age >= 13 && age <= 110 ? age : undefined;
+  if (age && age >= 13 && age <= 110) return age;
+  // A kid talking: "I'm 8." / "I'm 8, and…" / "I'm 8 years old". Only a clause that ends there, so "I'm 5 minutes away" isn't an age.
+  const kid = text.match(new RegExp(String.raw`\b${I_AM}\s+(\d{1,2})(?:\s+(?:and a half|years?\s+old))?\s*(?=[,.!;]|\s+and\b|$)`));
+  const young = kid ? Number(kid[1]) : undefined;
+  return young && young >= 3 && young < 18 ? young : undefined;
 }
 
 function parseName(text: string): string | undefined {

@@ -11,7 +11,7 @@ import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 
 /**
  * Settings, the usual way: account, profile basics, privacy, and what is
- * stored on this device. The member introduction and travel modes (who
+ * stored on this device. The member introduction (and, with Circles on, the travel modes
  * Circles match you with) are a separate page, linked from here.
  */
 export function Settings() {
@@ -25,11 +25,11 @@ export function Settings() {
         </section>
         {user ? <ProfileBasics key={user.id} /> : null}
         <section className={styles.card} aria-labelledby="settings-profiles">
-          <h2 id="settings-profiles">Traveler profile</h2>
-          <p className={styles.muted}>What you told us about you, your crew and your taste. It shapes every trip idea.</p>
+          <h2 id="settings-profiles">Travelers and groups</h2>
+          <p className={styles.muted}>A profile for each person you travel with, and the groups trips are planned for. They shape every trip idea.</p>
           <div className={styles.row}>
-            <Link href="/vibe" className={styles.button}>Open traveler profile</Link>
-            {user ? <Link href="/account" className={`${styles.button} ${styles.secondary}`}>Member introduction and travel modes</Link> : null}
+            <Link href="/vibe" className={styles.button}>Open You</Link>
+            {user ? <Link href="/account" className={`${styles.button} ${styles.secondary}`}>Member introduction</Link> : null}
           </div>
           {user ? <AccountSync /> : <p className={styles.small}>Sign in to keep your traveler profiles with your account, on every device.</p>}
         </section>
