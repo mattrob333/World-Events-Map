@@ -103,4 +103,8 @@ describe('US readers only', () => {
     expect(laneFor('Book Qatar Qsuites with Avios transferred from Amex', '', 'Frequent Miler')).toBe('points');
     expect(laneFor('A £450 a night London hotel opening worth the trip', '', 'Travel + Leisure')).toBe('stays');
   });
+  it('matches foreign bank names by their capitals, not ordinary words', () => {
+    expect(laneFor('Nab flights to Tokyo from $599 roundtrip', '', 'The Flight Deal')).toBe('deals');
+    expect(laneFor('Earn 90,000 points with the NAB Rewards Signature card', '', 'One Mile at a Time')).toBeNull();
+  });
 });

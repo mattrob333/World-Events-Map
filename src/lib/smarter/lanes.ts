@@ -73,18 +73,20 @@ const MONEY_LANES: ReadonlySet<LaneKey> = new Set(['points', 'deals']);
  * Loyalty programs (Avios, KrisFlyer, Aeroplan) are not here: US cards
  * transfer to them.
  */
-const FOREIGN_MONEY = new RegExp([
+const FOREIGN_PRICE = new RegExp([
   /(?<![A-Za-z])(?:S|A|C|NZ|HK)\$\s?\d/.source, // not US$
   /[£€₹¥]\s?\d/.source,
   /\d\s?(?:SGD|AUD|CAD|NZD|GBP|EUR|HKD|INR)\b/.source,
   /\b(?:SGD|AUD|CAD|NZD|GBP|HKD)\s?\d/.source,
-  /\b(?:DBS|UOB|OCBC|Maybank|Trust (?:Bank|Freedom|Link)|HSBC (?:Revolution|TravelOne)|Barclaycard|Amex (?:UK|Australia|Canada|Singapore)|American Express (?:UK|Australia|Canada|Singapore)|Scotiabank|RBC|CIBC|TD Aeroplan|BMO|ANZ|Westpac|NAB|CommBank|Commonwealth Bank|Curve card)\b/.source,
 ].join('|'), 'i');
+// Case-sensitive: short bank names (NAB, ANZ, RBC, BMO) are also ordinary words ("Nab a $199 fare").
+const FOREIGN_BANK = new RegExp(/\b(?:DBS|UOB|OCBC|Maybank|Trust (?:Bank|Freedom|Link)|HSBC (?:Revolution|TravelOne)|Barclaycard|Amex (?:UK|Australia|Canada|Singapore)|American Express (?:UK|Australia|Canada|Singapore)|Scotiabank|RBC|CIBC|TD Aeroplan|BMO|ANZ|Westpac|NAB|CommBank|Commonwealth Bank|Curve card)\b/.source);
 
 /** True when a US resident could not act on this story. */
 export function foreignForUs(lane: LaneKey, title: string, excerpt = '', source = ''): boolean {
   if (NON_US_READERS.has(source) && !OPEN_TO_ALL.includes(lane)) return true;
-  return MONEY_LANES.has(lane) && FOREIGN_MONEY.test(`${title}. ${excerpt}`);
+  const text = `${title}. ${excerpt}`;
+  return MONEY_LANES.has(lane) && (FOREIGN_PRICE.test(text) || FOREIGN_BANK.test(text));
 }
 
 export function laneFor(title: string, excerpt = '', source = ''): LaneKey | null {
