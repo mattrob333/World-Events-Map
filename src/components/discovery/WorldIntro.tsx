@@ -10,7 +10,7 @@ import { curatedPhotoForEvent, photoArchiveLabel } from '@/lib/place-media/curat
 import { photoImageProps } from '@/lib/place-media/sources';
 import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
-import { whyNow } from '@/lib/discovery/whyNow';
+import { shortDate, whyNow } from '@/lib/discovery/whyNow';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
 import { INTERESTS, SEASONS } from '@/components/trips/TripFinder';
@@ -61,9 +61,16 @@ const dateLabel = (date: string) =>
     timeZone: 'UTC',
   });
 
+/** The dates of an event that's on now: "Sep 23 – Sep 26", or its last day. */
+export function liveDates(event: Pick<WorldEvent, 'start' | 'end'>, today: string): string {
+  if (event.end === today) return event.start === today ? 'Today only' : `${shortDate(event.start)} – today, last day`;
+  return event.start === event.end ? shortDate(event.start) : `${shortDate(event.start)} – ${shortDate(event.end)}`;
+}
+
 function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: number; today: string; onTravel: (event: WorldEvent, photo: PlacePhoto | null) => void }) {
   const { event, slug } = pick;
   const why = whyNow(event, today);
+  const live = event.start <= today && event.end >= today;
   const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -97,10 +104,11 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
         ) : null}
       </div>
       <button type="button" className={styles.cardFlight} onClick={() => onTravel(event, imageFailed ? null : photo)} aria-label={`Fly across the globe to ${event.city} for ${event.name}`}>
-        <span className={styles.cardTop}><span>{event.category}</span><span>{dateLabel(event.start)}</span></span>
+        {/* On now: a live chip up top, like a stream's LIVE badge, and the dates move down under the name. */}
+        <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip}><i aria-hidden="true" />Happening now</span> : <span>{dateLabel(event.start)}</span>}</span>
         <span className={styles.cardCity}>{event.city}</span>
         <span className={styles.cardEvent}>{event.name}</span>
-        <span className={styles.cardWhen} data-tone={why.tone}>{why.when}</span>
+        <span className={styles.cardWhen} data-tone={why.tone}>{live ? liveDates(event, today) : why.when}</span>
         {why.planBy && <span className={styles.cardPlan} data-urgency={why.planBy.urgency}>{why.planBy.label}</span>}
         <span className={styles.cardFly}><span aria-hidden="true">✈</span> Fly there on the globe <span aria-hidden="true">↗</span></span>
       </button>
