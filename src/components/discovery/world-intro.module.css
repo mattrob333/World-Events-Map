@@ -407,6 +407,7 @@
 }
 .radarCards > div { min-width: 0; }
 .radarCard {
+  container-type: inline-size;
   --tone: #3d3226;
   position: relative;
   /* Grows to fit the photo credit instead of clipping it. */
@@ -477,6 +478,10 @@
 .cardTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
 /* Category as a tag, date as data. */
 .cardTop span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding: 5px 10px;
   border-radius: var(--radius-chip);
   background: rgb(5 5 5 / 0.55);
@@ -506,6 +511,7 @@
   text-shadow: 0 2px 12px #050505, 0 0 2px rgb(5 5 5 / 0.8);
 }
 .cardTop span.liveChip {
+  flex: none;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -840,3 +846,9 @@
   text-underline-offset: 3px;
 }
 .finderLink:hover { text-decoration-color: var(--color-bone); }
+
+/* Narrow cards: when it's on now, the live chip owns the top row. */
+@container (max-width: 260px) {
+  .cardTop span:first-child:has(+ span.liveChip) { display: none; }
+  .cardTop:has(span.liveChip) { justify-content: flex-end; }
+}

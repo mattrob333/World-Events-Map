@@ -106,6 +106,15 @@ export function DiscoveryExperience() {
   const routeTimer = useRef<number | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
+  // The front door always opens at the top: the browser doesn't drop them
+  // back mid-page where they left off (a link to a place or #section still lands there).
+  useEffect(() => {
+    if (window.location.hash || new URLSearchParams(window.location.search).has('journey')) return;
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    return () => { window.history.scrollRestoration = previous; };
+  }, []);
   useEffect(() => {
     const tick = () => {
       syncLocalToday();
@@ -337,10 +346,6 @@ export function DiscoveryExperience() {
           </button>
         )}
       </div>
-
-      {!planMode && !query && (
-        <ComingUp today={rangeStart} events={modeActive ? modeEvents : EVENTS} onOpen={travelFromCard} />
-      )}
 
       {planMode && (
         <section
@@ -637,6 +642,10 @@ export function DiscoveryExperience() {
         </div>
       </section>
 
+      {/* Under the globe: tap an event and the globe above flies there. */}
+      {!planMode && !query && (
+        <ComingUp today={rangeStart} events={modeActive ? modeEvents : EVENTS} onOpen={travelFromCard} />
+      )}
       {!planMode && !query && <LivingDashboard mode="feed" />}
       <section className={styles.nextSection}>
         <div className={styles.sectionHeading}>

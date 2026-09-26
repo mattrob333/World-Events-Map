@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EVENTS } from '@/lib/data/events';
 import type { WorldEvent } from '@/lib/types';
-import { buildLanes, COMING_UP_DAYS } from './comingUp';
+import { buildLanes, COMING_UP_DAYS, laneLabel, packRows } from './comingUp';
 
 const base = EVENTS[0];
 const ev = (id: string, start: string, end: string, extra: Partial<WorldEvent> = {}): WorldEvent => ({ ...base, id, start, end, ...extra });
@@ -14,7 +14,7 @@ describe('coming-up calendar lanes', () => {
     const ids = lanes.map((lane) => lane.event.id);
     expect(ids).toContain('fest');
     expect(ids).toContain('cup');
-    expect(lanes.length).toBeLessThanOrEqual(14);
+    expect(lanes.length).toBeLessThanOrEqual(20);
   });
 
   it('clips bars to the window and skips what is over', () => {
@@ -38,7 +38,7 @@ describe('coming-up heads-ups', () => {
     const later = ev('later', '2026-12-10', '2026-12-12', { bookingLeadDays: 60 });
     const ids = buildLanes([...busy, later], today).map((lane) => lane.event.id);
     expect(ids).toContain('later');
-    expect(ids.length).toBeLessThanOrEqual(14);
+    expect(ids.length).toBeLessThanOrEqual(20);
   });
 });
 
@@ -58,5 +58,27 @@ describe('coming-up mix', () => {
     const busy = Array.from({ length: 10 }, (_, i) => ev(`on-${i}`, '2026-09-23', '2026-09-26'));
     const ids = buildLanes([...busy, ev('tomorrow', '2026-09-25', '2026-09-27')], today).map((lane) => lane.event.id);
     expect(ids).toContain('tomorrow');
+  });
+});
+
+describe('coming-up packing', () => {
+  it('shares a row between events that do not overlap, and keeps every event', () => {
+    const lanes = buildLanes([
+      ev('a', '2026-09-24', '2026-09-26'),
+      ev('b', '2026-10-20', '2026-10-22'),
+      ev('c', '2026-09-25', '2026-09-27'),
+      ev('d', '2026-11-05', '2026-11-06'),
+    ], today);
+    const rows = packRows(lanes, 44);
+    expect(rows.flat()).toHaveLength(4);
+    expect(rows.length).toBeLessThan(4);
+    for (const row of rows) {
+      for (let i = 1; i < row.length; i += 1) expect(row[i]!.start).toBeGreaterThanOrEqual(row[i - 1]!.end);
+    }
+  });
+
+  it('labels the event first, then the place', () => {
+    const [lane] = buildLanes([ev('x', '2026-09-24', '2026-09-26', { name: 'Oktoberfest', city: 'Munich' })], today);
+    expect(laneLabel(lane!)).toBe('Oktoberfest · Munich');
   });
 });

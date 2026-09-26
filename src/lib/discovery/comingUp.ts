@@ -4,7 +4,7 @@ import type { WorldEvent } from '@/lib/types';
 import { whyNow, type WhyNow } from './whyNow';
 
 export const COMING_UP_DAYS = 56;
-const MAX_LANES = 14;
+const MAX_LANES = 20;
 const PLAN_LANES = 3;
 const NOW_LANES = 3;
 /** Runs longer than this are seasons (a dry season, a migration), not moments; they rank last. */
@@ -65,4 +65,64 @@ export function buildLanes(events: readonly WorldEvent[], today: string): Lane[]
   const picked = [...moments, ...heads];
   // Draw in date order so the calendar reads left to right, top to bottom.
   return picked.sort((a, b) => (a.bar?.from ?? a.planCol ?? COMING_UP_DAYS) - (b.bar?.from ?? b.planCol ?? COMING_UP_DAYS) || a.sortKey - b.sortKey);
+}
+
+/** What a lane says on the calendar: the event first, then where. */
+export function laneLabel(lane: Lane): string {
+  const { event, bar } = lane;
+  if (bar) return `${shortName(event.name)} · ${event.city}`;
+  return `${planWord(lane)} → ${shortName(event.name)}`;
+}
+
+/** "Paris Fashion Week — Spring/Summer 2027" reads as "Paris Fashion Week" on the strip; the full name is in its tooltip. */
+export function shortName(name: string): string {
+  return name.split(/\s[—–-]\s/)[0]!.trim();
+}
+
+/** The plan-by words for the strip: short, the diamond's color carries the urgency. */
+export function planWord(lane: Lane): string {
+  const deadline = lane.why.planBy?.deadline;
+  if (!deadline) return 'Plan ahead';
+  return lane.planCol === 0 ? 'Book today' : `Book by ${shortDateOf(deadline)}`;
+}
+
+const shortDateOf = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+
+const LABEL_MAX = 34;
+/** Roughly how many day columns a label needs at the calendar's type size. */
+export function labelColumns(label: string, columnPx: number): number {
+  const chars = Math.min(label.length, LABEL_MAX + 1);
+  return Math.max(2, Math.ceil((chars * 7.1 + 34) / columnPx));
+}
+
+export type PlacedLane = Lane & { label: string; start: number; end: number };
+
+/**
+ * Packs lanes onto as few rows as possible: anything whose span (its dates,
+ * and room for its label) doesn't overlap shares a row. Keeps every event and
+ * makes the calendar a few rows tall instead of one row per event.
+ */
+export function packRows(lanes: readonly Lane[], columnPx: number, days = COMING_UP_DAYS): PlacedLane[][] {
+  const placed = lanes.map((lane): PlacedLane => {
+    const label = laneLabel(lane);
+    const from = Math.min(lane.bar?.from ?? days, lane.planCol ?? days);
+    const dated = lane.bar ? lane.bar.to + 1 : from + 1;
+    const labelStart = lane.bar ? lane.bar.from : (lane.planCol ?? 0);
+    return { ...lane, label, start: from, end: Math.min(days + 12, Math.max(dated, labelStart + labelColumns(label, columnPx))) };
+  });
+  placed.sort((a, b) => a.start - b.start || b.end - a.end);
+  const rows: PlacedLane[][] = [];
+  const ends: number[] = [];
+  for (const lane of placed) {
+    // A little air between neighbors on the same row.
+    const row = ends.findIndex((end) => end + 0.25 <= lane.start);
+    if (row === -1) {
+      rows.push([lane]);
+      ends.push(lane.end);
+    } else {
+      rows[row]!.push(lane);
+      ends[row] = lane.end;
+    }
+  }
+  return rows;
 }

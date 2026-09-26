@@ -1,71 +1,50 @@
-/* The "coming up" calendar: today on the left, eight weeks out. */
+/* The coming-up strip: a self-contained card under the globe. */
 .shell {
-  --col: 44px;
-  padding: 10px 3.2% 12px;
-  background: var(--color-surface-0);
-  border-top: 1px solid rgb(244 241 234 / 0.06);
+  margin: 8px var(--gutter, 3.2%) 36px;
+  padding: 18px 20px 14px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgb(244 241 234 / 0.035), transparent 60%), var(--color-surface-1);
+  box-shadow: var(--shadow-soft-2), inset 0 0 0 1px rgb(244 241 234 / 0.05);
 }
-.head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.kicker { margin: 0; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; color: var(--color-saffron); }
+.title { margin: 4px 0 0; font: 400 clamp(22px, 2vw, 28px)/1.1 var(--font-display); color: var(--color-bone); }
+.summary { margin: 4px 0 0; font-size: 0.8125rem; color: var(--color-ink-soft); }
+.pager { display: flex; gap: 6px; flex: none; }
+.pager button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  color: var(--color-bone);
+  font-size: 20px;
+  line-height: 1;
 }
-.today {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
-  margin: 0;
-  min-width: 0;
-}
-.kicker {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-saffron);
-}
-.today strong { font-size: 0.9375rem; color: var(--color-bone); }
-.summary { font-size: 0.8125rem; color: var(--color-ink-soft); }
-.toggle {
-  flex: none;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: var(--radius-chip);
-  background: var(--color-surface-1);
-  color: var(--color-ink-soft);
-  font-size: 0.8125rem;
-}
-.toggle:hover { color: var(--color-bone); background: var(--color-surface-2); }
+.pager button:hover { background: var(--color-surface-3); }
+.pager button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .scroller {
-  margin-top: 10px;
+  margin-top: 12px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   border-radius: 14px;
-  background: var(--color-surface-1);
-  box-shadow: var(--shadow-inset);
+  background: rgb(5 5 5 / 0.35);
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent);
 }
-.scroller:focus-visible { outline: none; box-shadow: var(--shadow-inset), var(--focus-ring); }
-.grid {
-  position: relative;
-  width: calc(var(--days) * var(--col));
-  padding-bottom: 8px;
-}
-/* Today's column runs the full height of the calendar. */
+.scroller::-webkit-scrollbar { display: none; }
+.scroller:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.grid { position: relative; width: calc(var(--days) * var(--col)); padding-bottom: 6px; }
+/* Today's column runs the full height. */
 .grid::before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0 auto 0 0;
   width: var(--col);
-  background: rgb(247 197 72 / 0.07);
+  background: rgb(247 197 72 / 0.08);
   pointer-events: none;
 }
-.dayRow { display: flex; }
+.dayRow { display: flex; border-bottom: 1px solid rgb(244 241 234 / 0.05); }
 .day {
   position: relative;
   display: flex;
@@ -73,54 +52,86 @@
   align-items: center;
   width: var(--col);
   flex: none;
-  padding: 16px 0 4px;
-  font-size: 0.8125rem;
+  padding: 14px 0 4px;
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   color: var(--color-ink-soft);
 }
-.day small { font-size: 0.625rem; color: var(--color-ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.day[data-week] { box-shadow: inset 1px 0 0 rgb(244 241 234 / 0.06); }
+.day small { font-size: 0.5625rem; color: var(--color-ink-muted); letter-spacing: 0.06em; }
 .day em {
   position: absolute;
-  top: 3px;
+  top: 2px;
   left: 6px;
   font-style: normal;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-ink-muted);
   white-space: nowrap;
 }
-.day[data-weekend] { background: rgb(244 241 234 / 0.025); }
+.day[data-weekend] { background: rgb(244 241 234 / 0.02); }
 .day[data-today] { color: var(--color-saffron); font-weight: 700; }
 .day[data-today] em { color: var(--color-saffron); }
 
-.lanes { margin: 0; padding: 0; list-style: none; }
-.lane { position: relative; height: 27px; }
-.bar {
+.rows { margin: 6px 0 0; padding: 0; list-style: none; }
+.row { position: relative; height: 28px; }
+
+/* One event: a pill wide enough for its name; the colored fill is its real dates. */
+.item {
   position: absolute;
   top: 3px;
   bottom: 3px;
-  left: calc(var(--from) * var(--col) + 2px);
-  width: calc((var(--to) - var(--from)) * var(--col) - 4px);
-  min-width: calc(var(--col) - 4px);
-  overflow: hidden;
-  padding: 0 8px;
-  border-radius: 8px;
-  background: var(--color-surface-3);
+  left: calc(var(--start) * var(--col) + 2px);
+  width: calc((var(--end) - var(--start)) * var(--col) - 4px);
+  border-radius: 999px;
   color: var(--color-ink-soft);
   font-size: 0.75rem;
-  line-height: 24px;
   text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  transition: background 0.2s;
 }
-.bar strong { color: var(--color-bone); font-weight: 600; }
-.bar[data-tone='now'] { background: rgb(247 197 72 / 0.22); box-shadow: inset 3px 0 0 var(--color-saffron); }
-.bar[data-tone='soon'] { background: rgb(242 107 42 / 0.2); box-shadow: inset 3px 0 0 var(--color-tangerine); }
-.bar:hover, .bar:focus-visible { color: var(--color-bone); outline: none; box-shadow: var(--focus-ring); }
-
-/* Plan-by: a diamond on the date, a dashed lead to the trip it's for. */
+.item:hover, .item:focus-visible { background: rgb(244 241 234 / 0.06); outline: none; }
+.item:focus-visible { box-shadow: var(--focus-ring); }
+.fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--from) * var(--col));
+  width: calc((var(--to) - var(--from)) * var(--col) - 4px);
+  min-width: 12px;
+  border-radius: 999px;
+  background: rgb(244 241 234 / 0.12);
+}
+.item[data-tone='now'] .fill { background: linear-gradient(90deg, rgb(247 197 72 / 0.5), rgb(247 197 72 / 0.22)); box-shadow: inset 0 0 0 1px rgb(247 197 72 / 0.5); }
+.item[data-tone='soon'] .fill { background: linear-gradient(90deg, rgb(242 107 42 / 0.5), rgb(242 107 42 / 0.2)); box-shadow: inset 0 0 0 1px rgb(242 107 42 / 0.45); }
+.label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--at) * var(--col) + 10px);
+  right: 8px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgb(5 5 5 / 0.8);
+}
+.label strong { margin-right: 4px; color: var(--color-bone); font-weight: 600; }
+.diamond {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--at) * var(--col) + var(--col) / 2 - 5px);
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  background: var(--color-signal);
+}
+.diamond[data-urgency='closing'] { background: var(--color-saffron); }
+.diamond[data-urgency='critical'] { background: var(--color-flamingo); box-shadow: 0 0 10px rgb(228 87 126 / 0.6); }
 .lead {
   position: absolute;
   top: 50%;
@@ -129,77 +140,25 @@
   border-top: 1px dashed rgb(244 241 234 / 0.25);
   pointer-events: none;
 }
-.plan {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
-  left: calc(var(--col-n, 0) * var(--col) + var(--col) / 2 - 12px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 6px;
-  color: var(--color-ink-soft);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  border-radius: 8px;
-}
-.plan i,
-.legend b {
-  display: inline-block;
-  flex: none;
-  width: 11px;
-  height: 11px;
-  transform: rotate(45deg);
-  border-radius: 2px;
-  background: var(--color-signal);
-}
-.plan[data-urgency='closing'] i, .legend b[data-urgency='closing'] { background: var(--color-saffron); }
-.plan[data-urgency='critical'] i, .legend b[data-urgency='critical'] { background: var(--color-flamingo); }
-.plan span { padding: 2px 8px; border-radius: 6px; background: var(--color-surface-2); color: var(--color-bone); }
-.plan:hover span, .plan:focus-visible span { background: var(--color-surface-3); }
-.plan:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .legend {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 16px;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   font-size: 0.6875rem;
   color: var(--color-ink-muted);
 }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
-.legend i { display: inline-block; width: 14px; height: 8px; border-radius: 3px; }
-.legend i[data-tone='now'] { background: rgb(247 197 72 / 0.5); }
-.legend i[data-tone='soon'] { background: rgb(242 107 42 / 0.5); }
-.legend b { width: 8px; height: 8px; }
-.legendNote { flex-basis: 100%; }
+.legend i { display: inline-block; width: 16px; height: 8px; border-radius: 999px; background: rgb(244 241 234 / 0.2); }
+.legend i[data-tone='now'] { background: rgb(247 197 72 / 0.6); }
+.legend i[data-tone='soon'] { background: rgb(242 107 42 / 0.6); }
+.legend b { display: inline-block; width: 8px; height: 8px; transform: rotate(45deg); border-radius: 2px; background: var(--color-flamingo); }
+.legendNote { margin-left: auto; }
 
-/* The label follows aria-expanded; before the stored choice is read, phones show "Show". */
-.toggle[aria-expanded='false'] .whenOpen,
-.toggle[aria-expanded='true'] .whenClosed { display: none; }
 @media (max-width: 640px) {
-  .bodyUndecided { display: none; }
-  .toggle[data-undecided] .whenOpen { display: none; }
-  .toggle[data-undecided] .whenClosed { display: inline; }
-  .shell { --col: 40px; padding-inline: 16px; }
-  .summary { flex-basis: 100%; }
-}
-
-/* A stored choice, applied by the inline script before first paint (it outranks the phone default above). */
-.shell[data-comingup='0'] .bodyUndecided { display: none; }
-.shell[data-comingup='1'] .bodyUndecided { display: block; }
-.shell[data-comingup='0'] .toggle[data-undecided] .whenOpen,
-.shell[data-comingup='1'] .toggle[data-undecided] .whenClosed { display: none; }
-.shell[data-comingup='0'] .toggle[data-undecided] .whenClosed,
-.shell[data-comingup='1'] .toggle[data-undecided] .whenOpen { display: inline; }
-
-/* Phones: one line: the date, what's on, and the toggle. */
-@media (max-width: 600px) {
-  .shell { padding-top: 6px; padding-bottom: 8px; }
-  .head .kicker { display: none; }
-  .today { flex-wrap: nowrap; gap: 8px; }
-  .today strong { flex: none; font-size: 0.875rem; }
-  .summary { flex-basis: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8125rem; }
-  .toggle { padding: 0 12px; font-size: 0.75rem; }
+  .shell { margin: 4px 12px 28px; padding: 14px 12px 12px; border-radius: 20px; }
+  .pager { display: none; }
+  .legendNote { flex-basis: 100%; margin-left: 0; }
 }

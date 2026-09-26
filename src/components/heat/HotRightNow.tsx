@@ -73,8 +73,11 @@ export function HotRightNow() {
           return (
             <Link key={ticker.subjectId} role="listitem" className={styles.card} href={hrefFor(event.id)}>
               <EventPhoto eventId={event.id} className={styles.photo} />
-              <span className={styles.rank}>{index + 1}</span>
-              <HeatTicker ticker={ticker} />
+              {/* Rank and the ticker ride along the top edge, clear of the photo's subject. */}
+              <span className={styles.top}>
+                <span className={styles.rank}>{index + 1}</span>
+                <HeatTicker ticker={ticker} />
+              </span>
               <span className={styles.name}>{event.name}</span>
               <span className={styles.where}>{event.city}, {event.country}</span>
             </Link>

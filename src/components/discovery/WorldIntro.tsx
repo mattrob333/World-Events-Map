@@ -11,6 +11,7 @@ import { photoImageProps } from '@/lib/place-media/sources';
 import { indexDestinations } from '@/lib/pulse';
 import { orderShortlistEvents, selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import { shortDate, whyNow } from '@/lib/discovery/whyNow';
+import { shortName } from '@/lib/discovery/comingUp';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import styles from './world-intro.module.css';
 import { INTERESTS, SEASONS } from '@/components/trips/TripFinder';
@@ -107,7 +108,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
         {/* On now: a live chip up top, like a stream's LIVE badge, and the dates move down under the name. */}
         <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip}><i aria-hidden="true" />Happening now</span> : <span>{dateLabel(event.start)}</span>}</span>
         {/* The event leads; the place is where it happens. */}
-        <span className={styles.cardCity}>{event.name}</span>
+        <span className={styles.cardCity} title={event.name}>{shortName(event.name)}</span>
         <span className={styles.cardEvent}>{event.city}</span>
         <span className={styles.cardWhen} data-tone={why.tone}>{live ? liveDates(event, today) : why.when}</span>
         {why.planBy && <span className={styles.cardPlan} data-urgency={why.planBy.urgency}>{why.planBy.label}</span>}

@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px;
+  padding: 10px 12px 14px;
   overflow: hidden;
   border-radius: var(--radius-card);
   scroll-snap-align: start;
@@ -46,7 +46,8 @@
 .card::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(5 5 5 / 0.35), rgb(5 5 5 / 0.1) 35%, rgb(5 5 5 / 0.9) 75%); }
 .card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .photo { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.rank { font-family: var(--font-display); font-size: 22px; color: rgb(244 241 234 / 0.7); }
+.top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rank { flex: none; font-family: var(--font-display); font-size: 22px; line-height: 1; color: rgb(244 241 234 / 0.8); text-shadow: 0 1px 6px rgb(5 5 5 / 0.8); }
 .name { margin-top: auto; font-family: var(--font-display); font-size: 1.4rem; line-height: 1.1; }
 .where { color: rgb(244 241 234 / 0.8); font-size: 0.8125rem; }
 .note { margin-top: 6px; color: var(--color-ink-subtle); font-size: 0.6875rem; }
