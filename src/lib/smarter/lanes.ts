@@ -12,7 +12,7 @@ export const LANES: readonly { key: LaneKey; label: string; emoji: string; test:
   { key: 'gear', label: 'Gear & gadgets', emoji: '🧳', test: /\b(luggage|carry-?ons?|suitcases?|backpacks?|packing|gadgets?|headphones|earbuds|chargers?|power ?banks?|airtags?|travel (?:bags?|gear|pillows?|adapters?)|duffels?|slings?|one-?bag|packing cubes?)\b/i },
   { key: 'lounges', label: 'Lounges & upgrades', emoji: '🥂', test: /\b(lounges?|business class|first class|upgrades?d?|suites? (?:class|seat)|priority pass|centurion|polaris|admirals club|sky ?club|flagship|chelsea|spa treatments?)\b/i },
   { key: 'points', label: 'Points & perks', emoji: '💳', test: /\b(points?|miles|award (?:seats?|flights?|travel)|transfer bonus(?:es)?|elite status|bonvoy|hilton honors|world of hyatt|hyatt|amex|american express|chase|sapphire|aadvantage|skymiles|mileageplus|avios|velocity|credit cards?|welcome offers?|sign-?up bonus|redeem|redemptions?|statement credits?)\b/i },
-  { key: 'deals', label: 'Deals', emoji: '🏷️', test: /(?:[£$€]\s?\d{2,}|\b(?:fare sale|error fares?|flash sale|deals?|cheap(?:est)?|bargains?|half[- ]price)\b)/i },
+  { key: 'deals', label: 'Deals', emoji: '🏷️', test: /(?:\b(?:flights?|fares?|return|roundtrip|round-trip|nights?|package|holidays?|breaks?)\b.{0,60}[£$€]\s?\d{2,}|[£$€]\s?\d{2,}.{0,60}\b(?:roundtrip|round-trip|return|one-way|economy|per night|pp)\b|\b(?:fare sale|error fares?|flash sale|travel deals?|flight deals?|hotel deals?|deal alert|cheap(?:est)? (?:flights?|fares?|vacation|holiday|package|hotels?)|bargains?|half[- ]price)\b)/i },
   { key: 'stays', label: 'Stays & openings', emoji: '🏝️', test: /\b(all-inclusive|resorts?|new hotels?|hotel openings?|opens?|opening|villas?|boutique hotels?|safari camps?|where to stay)\b/i },
   { key: 'tips', label: 'Tips & hacks', emoji: '🧠', test: /\b(tips?|hacks?|how to|what to do|mistakes?|checklist|tricks?|beware|should you|worth it|guide to|here'?s what)\b/i },
 ];
@@ -21,7 +21,7 @@ export const LANES: readonly { key: LaneKey; label: string; emoji: string; test:
 export const LANE_ORDER: readonly LaneKey[] = ['points', 'lounges', 'deals', 'stays', 'gear', 'hostels', 'tips'];
 
 /** Incidents, crime and disasters are news, but not the craft of traveling well. */
-const NOISE = /\b(handcuff\w*|arrest\w*|police|courts?|lawsuits?|sued|immunity|mayday|crash\w*|dies|died|death|dead|killed|injur\w*|hurricanes?|shooting|stabb\w*|brawl|bodycam|naked|fined|scam\w*|duped|layoffs?|earnings|strikes?|collaps\w*|apy|brokerage|balance transfers?|hustled|fashion week|discount codes?)\b/i;
+const NOISE = /\b(handcuff\w*|arrest\w*|police|courts?|lawsuits?|sued|immunity|mayday|crash\w*|dies|died|death|dead|killed|injur\w*|hurricanes?|shooting|stabb\w*|brawl|bodycam|naked|fined|scam\w*|duped|layoffs?|earnings|strikes?|collaps\w*|apy|brokerage|balance transfers?|hustled|fashion week|discount codes?|settlements?|certification|shareholders?|lawsuit)\b/i;
 const NOT_ENGLISH = /(?:^|\s)(?:le|la|les|des|du|une|et|pour|que|el|los|las|del|und|der|die|das|il|della|di)(?=\s)/gi;
 
 /** Hostel and backpacker publishers: anything they write that isn't clearly deals, gear or tips is backpacker reading. */
@@ -60,11 +60,13 @@ export function laneFor(title: string, excerpt = '', source = ''): LaneKey | nul
   // Gear reviewers' stories are gear even when the headline doesn't say "luggage".
   if (GEAR_HOUSES.test(source)) return 'gear';
   const allowed = source ? SMARTER_SOURCES[source] ?? [] : EVERY;
-  return LANES.find((lane) => allowed.includes(lane.key) && lane.test.test(text))?.key ?? (HOSTEL_HOUSES.has(source) ? 'hostels' : null);
+  const lanes = LANES.filter((lane) => allowed.includes(lane.key));
+  // The headline decides; the excerpt only when the headline says nothing.
+  return (lanes.find((lane) => lane.test.test(title)) ?? lanes.find((lane) => lane.test.test(text)))?.key ?? (HOSTEL_HOUSES.has(source) ? 'hostels' : null);
 }
 
 export type SmarterRow = { title: string; excerpt: string; url: string; source: string; tier: 'A' | 'B' | 'C'; publishedAt: string };
-export type SmarterStory = SmarterRow & { lane: LaneKey };
+export type SmarterStory = SmarterRow & { lane: LaneKey; image?: string | null };
 
 /**
  * Newest first within a lane, at most `perLane`, one story per publisher per

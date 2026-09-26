@@ -28,14 +28,17 @@ const laneOf = (key: LaneKey) => LANES.find((lane) => lane.key === key)!;
 
 /**
  * Travel smarter: this week's points plays, lounge intel, fare deals, gear and
- * new stays, from the blogs and magazines people who travel a lot read. Each
- * opens the publisher. The toolkit below is the standing kit: real tools, no
+ * new stays, from the blogs and magazines people who travel a lot read, each
+ * with its publisher's own preview image. Each opens the publisher. The toolkit below is the standing kit: real tools, no
  * prices, no affiliate links. Hidden until there's enough to be worth a look.
  */
 export function TravelSmarter() {
   const [stories, setStories] = useState<SmarterStory[]>([]);
   const [now, setNow] = useState(0);
   const [lane, setLane] = useState<LaneKey | 'all'>('all');
+  const [broken, setBroken] = useState<ReadonlySet<string>>(() => new Set());
+  const pictureOf = (story: SmarterStory) => (story.image && !broken.has(story.image) ? story.image : null);
+  const onBroken = (src: string) => setBroken((prev) => new Set(prev).add(src));
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,7 +55,11 @@ export function TravelSmarter() {
   const lanes = useMemo(() => LANE_ORDER.map(laneOf).filter((entry) => stories.some((story) => story.lane === entry.key)), [stories]);
   const shown = useMemo(() => (lane === 'all' ? mixed(stories) : stories.filter((story) => story.lane === lane).slice(0, 7)), [lane, stories]);
   if (stories.length < 4) return null;
-  const [lead, ...rest] = shown;
+  // Lead with a pictured story when there is one.
+  const leadIndex = Math.max(0, shown.findIndex((story) => pictureOf(story)));
+  const lead = shown[leadIndex];
+  const rest = shown.filter((_, index) => index !== leadIndex);
+  const leadPicture = lead ? pictureOf(lead) : null;
 
   return (
     <section className={styles.smarter} aria-labelledby="travel-smarter-title">
@@ -79,7 +86,12 @@ export function TravelSmarter() {
 
       {lead && (
         <div className={styles.grid} role="tabpanel" aria-label={lane === 'all' ? 'Top picks' : laneOf(lane).label}>
-          <a className={styles.lead} data-lane={lead.lane} href={lead.url} target="_blank" rel="noopener noreferrer">
+          <a className={`${styles.lead} ${leadPicture ? styles.pictured : ''}`} data-lane={lead.lane} href={lead.url} target="_blank" rel="noopener noreferrer">
+            {leadPicture && (
+              // The publisher's own preview image for this story, as link previews show it.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className={styles.leadPhoto} src={leadPicture} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => onBroken(leadPicture)} />
+            )}
             <span className={styles.chip}><span aria-hidden="true">{laneOf(lead.lane).emoji}</span> {laneOf(lead.lane).label}</span>
             <span className={styles.leadTitle}>{lead.title}</span>
             {lead.excerpt && <span className={styles.excerpt}>{lead.excerpt}</span>}
@@ -89,7 +101,15 @@ export function TravelSmarter() {
             {rest.map((story) => (
               <li key={story.url}>
                 <a className={styles.row} href={story.url} target="_blank" rel="noopener noreferrer">
-                  <span className={styles.rowLane} data-lane={story.lane} aria-label={laneOf(story.lane).label}>{laneOf(story.lane).emoji}</span>
+                  {pictureOf(story) ? (
+                    <span className={styles.thumb}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={pictureOf(story)!} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => onBroken(story.image!)} />
+                      <span className={styles.thumbLane} aria-label={laneOf(story.lane).label}>{laneOf(story.lane).emoji}</span>
+                    </span>
+                  ) : (
+                    <span className={styles.rowLane} data-lane={story.lane} aria-label={laneOf(story.lane).label}>{laneOf(story.lane).emoji}</span>
+                  )}
                   <span className={styles.rowBody}>
                     <span className={styles.rowTitle}>{story.title}</span>
                     <span className={styles.rowMeta}><SourceLogo source={story.source} size={12} />{story.source} · {now ? ago(story.publishedAt, now) : ''}</span>

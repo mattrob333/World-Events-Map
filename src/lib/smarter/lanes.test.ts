@@ -58,3 +58,22 @@ describe('hostels and backpacking', () => {
     expect(laneFor('Cheapest flights to Bangkok this winter', '', 'Stoked to Travel')).toBe('deals');
   });
 });
+
+describe('deals are deals', () => {
+  it.each([
+    ['Apple Agrees to $250 Million Siri Apple Intelligence Settlement', 'Miles to Memories'],
+    ['Boeing 737 MAX 10 Certification Just Days Away, And It’s A Big Deal For Airlines', 'One Mile at a Time'],
+  ])('%s is not a deal', (title, source) => {
+    expect(laneFor(title, '', source)).not.toBe('deals');
+  });
+  it('a branding deal in the excerpt does not make a hotel story a deal', () => {
+    expect(laneFor('Do you know Marriott has guaranteed compensation amounts for benefit failures?', 'When a hotel owner makes a branding deal with a major hotel chain', 'Head for Points')).not.toBe('deals');
+  });
+  it.each([
+    ['Non-stop flights from Frankfurt to Toronto for €476'],
+    ['Scandinavian Airlines: San Francisco – Stavanger, Norway. $594 (Basic Economy) / $694 (Regular Economy). Roundtrip, including all Taxes'],
+    ['Cheapest Vacation Package to Las Vegas We’ve Seen'],
+  ])('%s is a deal', (title) => {
+    expect(laneFor(title, '', 'Fly4free')).toBe('deals');
+  });
+});

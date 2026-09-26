@@ -3,13 +3,15 @@
  *
  * The home page's "Travel smarter" section: this week's points plays, lounge
  * news, fare deals, gear and new stays from the points blogs, deal sites and
- * travel magazines in the news intake. Read-only, takes no input, calls no
- * paid service, and is cached at the edge for ten minutes.
+ * travel magazines in the news intake, each with the preview image its
+ * publisher set for link previews. Read-only, takes no input, calls no paid
+ * service, and is cached at the edge for ten minutes.
  */
 
 import { NextResponse } from 'next/server';
 import { signalDatabase } from '@/lib/data/durable';
-import { pickSmarter, SMARTER_SOURCES, type SmarterRow, type SmarterStory } from '@/lib/smarter/lanes';
+import { LANE_ORDER, pickSmarter, SMARTER_SOURCES, type SmarterRow, type SmarterStory } from '@/lib/smarter/lanes';
+import { previewImages } from '@/lib/smarter/server/images';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -42,7 +44,14 @@ async function load(): Promise<SmarterStory[] | null> {
       tier: row.source_tier === 'A' || row.source_tier === 'B' ? row.source_tier : 'C',
       publishedAt: row.published_at ?? row.fetched_at,
     }));
-  return pickSmarter(rows, new Date());
+  const picked = pickSmarter(rows, new Date(), { perLane: 10 });
+  const images = await previewImages(picked.map((story) => story.url));
+  const withImages = picked.map((story) => ({ ...story, image: images.get(story.url) ?? null }));
+  // Within a lane, pictured stories first; keep up to 8.
+  return LANE_ORDER.flatMap((lane) => {
+    const list = withImages.filter((story) => story.lane === lane);
+    return [...list.filter((story) => story.image), ...list.filter((story) => !story.image)].slice(0, 8);
+  });
 }
 
 export async function GET() {
