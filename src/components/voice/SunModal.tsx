@@ -6,7 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
 import { MAX_RAMBLE_CHARS, mergeProfileUpdate, parseProfileLocally } from '@/lib/designer/profile';
-import { pickActiveProfile, profileLabel, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { pickActiveGroup, pickActiveProfile, profileLabel, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { groupTravelers } from '@/lib/travelers/groups';
 import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
@@ -117,6 +118,15 @@ const FOR_WHOM = [
   { value: 'crew', label: 'The crew', board: 'The crew', steer: 'This profile is for trips with friends: ask who the crew is and what the group always ends up doing.' },
 ] as const;
 type ForWhom = (typeof FOR_WHOM)[number]['value'];
+
+/** The group being planned for, for the voice's context: who is coming. */
+function groupLine(): string {
+  const { groups, activeGroupId, profiles } = useDesignerStore.getState();
+  const group = pickActiveGroup(groups, activeGroupId);
+  if (!group) return '';
+  const people = groupTravelers(group, profiles).map((traveler) => `${traveler.name}${traveler.kind === 'kid' ? ' (kid)' : ''}`);
+  return ` Planning for the group "${group.name}"${people.length ? `: ${people.join(', ')}` : ''}. Groups: ${groups.map((entry) => entry.name).join(', ')}.`;
+}
 
 /** The saved profile, in a few hundred characters, for the backend's ranking. Sent only when voice starts. */
 function profileSummary(saved: ReturnType<typeof pickActiveProfile>): string {
@@ -290,7 +300,13 @@ function VibeStage() {
     };
     const switchProfile: VoiceHandlers['switch_profile'] = (args) => {
       const wanted = typeof args.name === 'string' ? args.name.trim().toLowerCase() : '';
-      const { profiles, setActiveProfile } = useDesignerStore.getState();
+      const { profiles, setActiveProfile, groups, setActiveGroup } = useDesignerStore.getState();
+      // Groups first ("switch to Family"), then a traveler by name.
+      const group = wanted ? groups.find((entry) => entry.name.toLowerCase() === wanted) ?? groups.find((entry) => entry.name.toLowerCase().includes(wanted)) : undefined;
+      if (group) {
+        setActiveGroup(group.id);
+        return `Now planning for ${group.name}: ${groupTravelers(group, profiles).map((traveler) => traveler.name).join(', ') || 'no one yet'}.`;
+      }
       const match =
         profiles.find((entry) => profileLabel(entry).toLowerCase() === wanted) ??
         profiles.find((entry) => wanted && (entry.profile.name ?? '').toLowerCase().includes(wanted)) ??
@@ -387,7 +403,7 @@ function VibeStage() {
     const { profiles, activeProfileId } = useDesignerStore.getState();
     const active = pickActiveProfile(profiles, activeProfileId);
     const who = active
-      ? `Traveling as ${profileLabel(active)}${active.profile.name ? ` (${active.profile.name})` : ''}. Profiles on this device: ${profiles.map(profileLabel).join(', ')}.`
+      ? `Traveling as ${profileLabel(active)}${active.profile.name ? ` (${active.profile.name})` : ''}. Travelers on this device: ${profiles.map(profileLabel).join(', ')}.${groupLine()}`
       : 'No travel profile yet.';
     const editing = editingRef.current ? profiles.find((entry) => entry.id === editingRef.current) : undefined;
     const steer = mode === 'profile'

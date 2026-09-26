@@ -42,6 +42,10 @@ export type PulseVenue = {
   hoursFrom?: 'besttime' | 'google';
   /** The place on Google Maps, when Google Places knew it. */
   mapsUrl?: string;
+  /** Signed by the server: lets a member ask for this place's live reading. */
+  liveToken?: string;
+  /** Signed by the server over this place's name and point: lets a member open its Google details. */
+  placeToken?: string;
 };
 
 export type PulseResult = {
@@ -116,4 +120,46 @@ export function circleRing(center: { lat: number; lng: number }, meters: number,
     ring.push([center.lng + dLng * Math.cos(angle), center.lat + dLat * Math.sin(angle)]);
   }
   return ring;
+}
+
+export type BeamOnScreen = { id: string; x: number; y: number; /** How far up the screen the beam's top sits above its base, in pixels. */ rise: number; busyness: number };
+
+/** Screen pixels per meter at a latitude and zoom (512-pixel tiles, as MapLibre draws them). */
+export function pixelsPerMeter(lat: number, zoom: number): number {
+  return (512 * 2 ** zoom) / (40_075_016.686 * Math.max(0.01, Math.cos((lat * Math.PI) / 180)));
+}
+
+/**
+ * The beam a thumb meant: the closest one to the tap, measured to the whole
+ * beam (base to top) rather than its footprint, within a thumb's reach. Ties
+ * go to the busier place.
+ */
+export function nearestBeam(tap: { x: number; y: number }, beams: readonly BeamOnScreen[], reach = 30): string | null {
+  let best: { id: string; distance: number; busyness: number } | null = null;
+  for (const beam of beams) {
+    const topY = beam.y - Math.max(0, beam.rise);
+    // Distance from the tap to the vertical segment between the base and the top.
+    const y = Math.max(topY, Math.min(beam.y, tap.y));
+    const distance = Math.hypot(tap.x - beam.x, tap.y - y);
+    if (distance > reach) continue;
+    if (!best || distance < best.distance - 2 || (Math.abs(distance - best.distance) <= 2 && beam.busyness > best.busyness)) best = { id: beam.id, distance, busyness: beam.busyness };
+  }
+  return best?.id ?? null;
+}
+
+/** Ways to get there from where you stand: walking and driving directions, or a ride. Every link opens the app when it's installed. */
+export function wayThere(venue: { name: string; address?: string; lat: number; lng: number }): { walk: string; drive: string; uber: string; lyft: string } {
+  const point = `${venue.lat.toFixed(6)},${venue.lng.toFixed(6)}`;
+  const directions = (mode: 'walking' | 'driving') =>
+    `https://www.google.com/maps/dir/?${new URLSearchParams({ api: '1', destination: point, travelmode: mode }).toString()}`;
+  const uber = new URLSearchParams({
+    action: 'setPickup',
+    pickup: 'my_location',
+    'dropoff[latitude]': venue.lat.toFixed(6),
+    'dropoff[longitude]': venue.lng.toFixed(6),
+    'dropoff[nickname]': venue.name.slice(0, 60),
+    ...(venue.address ? { 'dropoff[formatted_address]': venue.address.slice(0, 140) } : {}),
+  });
+  const lyft = new URLSearchParams({ id: 'lyft', 'destination[latitude]': venue.lat.toFixed(6), 'destination[longitude]': venue.lng.toFixed(6) });
+  return { walk: directions('walking'), drive: directions('driving'), uber: `https://m.uber.com/ul/?${uber.toString()}`, lyft: `https://lyft.com/ride?${lyft.toString()}` };
 }

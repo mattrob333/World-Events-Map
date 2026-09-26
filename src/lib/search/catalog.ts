@@ -1,5 +1,6 @@
 import { EVENTS } from '@/lib/data/events';
 import { listOpportunities } from '@/lib/access';
+import { FEATURES } from '@/lib/flags';
 import { listAllInspiration } from '@/lib/inspiration';
 import { buildDestinationPulses, slugifyPlace } from '@/lib/pulse';
 import type { PulseStatus } from '@/lib/pulse/types';
@@ -59,10 +60,10 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     {
       id: 'page-now',
       group: 'pages',
-      title: 'NOW',
-      subtitle: "Tonight's scene — local brief",
+      title: 'Now',
+      subtitle: 'What’s busy near you, and when it closes',
       href: '/now',
-      keywords: haystack('now', 'tonight', 'nearby', 'scene', 'local'),
+      keywords: haystack('now', 'tonight', 'nearby', 'vibe now', 'busy', 'layover', 'local'),
     },
     {
       id: 'page-trips',
@@ -73,12 +74,12 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       keywords: haystack('trips', 'my trips', 'saved', 'watched'),
     },
     {
-      id: 'page-people',
+      id: 'page-you',
       group: 'pages',
-      title: 'Your people',
-      subtitle: 'Your travel card, and the cards you’ve saved',
-      href: '/people',
-      keywords: haystack('people', 'friends', 'crew', 'travel card', 'share'),
+      title: 'You',
+      subtitle: 'Your travelers: profiles for you, your family and friends',
+      href: '/vibe',
+      keywords: haystack('you', 'profile', 'traveler profile', 'family', 'travelers', 'people', 'solo', 'friends'),
     },
     {
       id: 'page-settings',
@@ -112,7 +113,8 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     });
   }
 
-  for (const portrait of TRAVELER_PORTRAITS) {
+  // Shelved (North Star spec): example portraits, sample trip rooms and Access offers stay out of search unless flagged on.
+  for (const portrait of FEATURES.circles ? TRAVELER_PORTRAITS : []) {
     hits.push({
       id: `person-${portrait.person.handle}`,
       group: 'people',
@@ -128,7 +130,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     });
   }
 
-  for (const trip of TRIP_ROOM_FIXTURES) {
+  for (const trip of FEATURES.circles ? TRIP_ROOM_FIXTURES : []) {
     hits.push({
       id: `circle-${trip.id}`,
       group: 'circles',
@@ -139,7 +141,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     });
   }
 
-  for (const offer of listOpportunities()) {
+  for (const offer of FEATURES.access ? listOpportunities() : []) {
     hits.push({
       id: `access-${offer.id}`,
       group: 'access',
@@ -159,7 +161,7 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
       group: 'editorial',
       title: item.title,
       subtitle: `${item.kind} · editorial board`,
-      href: slug ? `/destinations/${slug}` : '/circles',
+      href: slug ? `/destinations/${slug}` : '/',
       keywords: haystack(item.title, item.subtitle, item.kind, item.category),
     });
   }

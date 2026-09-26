@@ -38,3 +38,45 @@ describe('withGoogleHours', () => {
     expect(out.map((v) => v.hoursFrom)).toEqual(['besttime', undefined]);
   });
 });
+
+describe('placeDetails', () => {
+  afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
+
+  it('keeps only what Google returned, cleaned', async () => {
+    vi.stubEnv('GOOGLE_PLACES_API_KEY', 'test-key');
+    const { placeDetails } = await import('../googlePlaces');
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ places: [{
+      primaryTypeDisplayName: { text: 'Cocktail bar' }, rating: 4.63, userRatingCount: 1203, priceLevel: 'PRICE_LEVEL_MODERATE',
+      websiteUri: 'javascript:alert(1)', nationalPhoneNumber: '(402) 555-0100<script>', googleMapsUri: 'https://maps.google.com/?cid=9',
+      currentOpeningHours: { periods: [{ open: { day: 5, hour: 16, minute: 0 }, close: { day: 6, hour: 2, minute: 0 } }] }, utcOffsetMinutes: -300,
+    }] }))));
+    const details = await placeDetails({ id: 'details-1', name: 'Proof', lat: 41.26, lng: -95.93 }, NOW);
+    expect(details).toEqual({ type: 'Cocktail bar', rating: 4.6, ratingCount: 1203, price: '$$', phone: '(402) 555-0100', mapsUrl: 'https://maps.google.com/?cid=9', closesMinutes: 1560 });
+  });
+
+  it('says nothing without a key', async () => {
+    vi.stubEnv('GOOGLE_PLACES_API_KEY', '');
+    const { placeDetails } = await import('../googlePlaces');
+    expect(await placeDetails({ id: 'details-2', name: 'Proof', lat: 41.26, lng: -95.93 })).toBeNull();
+  });
+});
+
+describe('lookup budget and failures', () => {
+  afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
+
+  it('asks the member’s share first, and a failure is retried rather than hidden for 12 hours', async () => {
+    vi.stubEnv('GOOGLE_PLACES_API_KEY', 'test-key');
+    const { placeDetails } = await import('../googlePlaces');
+    const refuse = vi.fn(async () => false);
+    const fetchMock = vi.fn(async () => new Response('down', { status: 503 }));
+    vi.stubGlobal('fetch', fetchMock);
+    expect(await placeDetails({ id: 'budget-1', name: 'X', lat: 1, lng: 1 }, NOW, refuse)).toBeNull();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(await placeDetails({ id: 'budget-2', name: 'X', lat: 1, lng: 1 }, NOW)).toBeNull();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    vi.useFakeTimers({ now: Date.now() + 6 * 60 * 1000 });
+    await placeDetails({ id: 'budget-2', name: 'X', lat: 1, lng: 1 }, NOW);
+    vi.useRealTimers();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+});

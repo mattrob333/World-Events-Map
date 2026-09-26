@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { circleRing, closesLabel, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
 
 const venue = (id: string, extra: Record<string, unknown>) => ({ id, name: id, category: 'BAR', location: { lat: 33.75, lng: -84.39 }, ...extra });
 
@@ -41,5 +41,40 @@ describe('closing times', () => {
     expect(closesLabel(23 * 60 + 30)).toBe('open till 11:30pm');
     expect(closesLabel(1440)).toBe('open till midnight');
     expect(closesLabel(undefined)).toBeNull();
+  });
+});
+
+describe('tapping a beam', () => {
+  const beams = [
+    { id: 'tall', x: 100, y: 300, rise: 120, busyness: 90 },
+    { id: 'short', x: 140, y: 300, rise: 10, busyness: 30 },
+  ];
+
+  it('picks a beam by its tall part, not only its base', () => {
+    expect(nearestBeam({ x: 104, y: 200 }, beams)).toBe('tall');
+  });
+
+  it('picks the closest within a thumb’s reach, and nothing beyond it', () => {
+    expect(nearestBeam({ x: 137, y: 305 }, beams)).toBe('short');
+    expect(nearestBeam({ x: 300, y: 100 }, beams)).toBeNull();
+  });
+
+  it('breaks near-ties toward the busier place', () => {
+    expect(nearestBeam({ x: 120, y: 300 }, beams)).toBe('tall');
+  });
+
+  it('scales with zoom', () => {
+    expect(pixelsPerMeter(41.26, 15)).toBeCloseTo(2 * pixelsPerMeter(41.26, 14));
+  });
+});
+
+describe('getting there', () => {
+  it('builds walking, driving, Uber and Lyft links to the exact point', () => {
+    const links = wayThere({ name: 'Proof & Co', address: '1 Main St, Omaha', lat: 41.2565, lng: -95.9345 });
+    expect(links.walk).toBe('https://www.google.com/maps/dir/?api=1&destination=41.256500%2C-95.934500&travelmode=walking');
+    expect(links.drive).toContain('travelmode=driving');
+    expect(links.uber).toMatch(/^https:\/\/m\.uber\.com\/ul\/\?action=setPickup&pickup=my_location&dropoff%5Blatitude%5D=41\.256500/);
+    expect(links.uber).toContain('dropoff%5Bnickname%5D=Proof+%26+Co');
+    expect(links.lyft).toBe('https://lyft.com/ride?id=lyft&destination%5Blatitude%5D=41.256500&destination%5Blongitude%5D=-95.934500');
   });
 });

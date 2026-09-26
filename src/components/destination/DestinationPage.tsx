@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
@@ -28,7 +29,8 @@ import type { InspirationItem } from '@/lib/inspiration';
 import styles from './destination-page.module.css';
 import { SourceLogo } from '@/components/brand/SourceLogo';
 
-const TABS = ['pulse', 'happening', 'people', 'inspiration', 'access'] as const;
+// People, sample rooms and Access are shelved (North Star spec) unless their flags are on.
+const TABS = ['pulse', 'happening', ...(FEATURES.circles ? (['people'] as const) : []), 'inspiration', ...(FEATURES.access ? (['access'] as const) : [])] as const;
 type Tab = (typeof TABS)[number];
 
 const TAB_LABEL: Record<Tab, string> = {
@@ -261,8 +263,8 @@ function DestinationLoaded({
   const designerHref = `/trips/designer?${new URLSearchParams({ place: pulse.name, region: pulse.country }).toString()}`;
   const planningHref = nextEvent && skiOccasion
     ? `/trips/new?season=winter&interest=ski&event=${encodeURIComponent(nextEvent.id)}#family-ski`
-    : platformConnected ? circlesHref : designerHref;
-  const eventPlanningHref = (event: WorldEvent) => platformConnected
+    : platformConnected && FEATURES.circles ? circlesHref : designerHref;
+  const eventPlanningHref = (event: WorldEvent) => platformConnected && FEATURES.circles
     ? `/circles?destination=${encodeURIComponent(pulse.slug)}&event=${encodeURIComponent(event.id)}`
     : designerHref;
   const destinationPhotos = curatedPhotosForDestination(pulse.slug);

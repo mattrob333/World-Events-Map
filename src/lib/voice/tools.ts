@@ -7,6 +7,7 @@
  */
 
 import { BUDGETS, PACES } from '@/lib/designer/profile';
+import { FEATURES } from '@/lib/flags';
 import { TOPIC_KEYS, topicAgenda } from './topics';
 
 /** vibe_profile and vibe_trip are the header's Vibe stage; the others belong to a page. */
@@ -145,13 +146,13 @@ export const VOICE_TOOLS = {
   },
   switch_profile: {
     name: 'switch_profile',
-    description: 'Switch which travel profile is in use ("I\'m going solo", "the family trip"). Pass the profile label or a person\'s name from the list in context.',
+    description: 'Switch who the trip is for ("I\'m going solo", "the family trip", "with the Smiths"). Pass a group name (Solo, Family, Friends, or another from the list in context) or a traveler\'s name.',
     parameters: obj({ name: { type: 'string' } }, ['name']),
   },
   navigate: {
     name: 'navigate',
     description: 'Open another part of dope.travel.',
-    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'vibe profile', 'now', 'trips', 'access', 'circles'] } }, ['to']),
+    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'vibe profile', 'you', 'now', 'trips', 'settings', ...(FEATURES.access ? ['access'] : []), ...(FEATURES.circles ? ['circles'] : [])] } }, ['to']),
   },
 } satisfies Record<string, VoiceToolSpec>;
 
@@ -198,7 +199,9 @@ export function isVoiceIntent(value: unknown): value is VoiceIntent {
 }
 
 const ROUTES: Record<string, string> = {
-  home: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', now: '/now', trips: '/trips', access: '/access', circles: '/circles',
+  home: '/', pulse: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', you: '/vibe', 'traveler profile': '/vibe', now: '/now', trips: '/trips', settings: '/settings',
+  ...(FEATURES.access ? { access: '/access' } : {}),
+  ...(FEATURES.circles ? { circles: '/circles' } : {}),
 };
 
 export function routeFor(to: unknown): string | null {

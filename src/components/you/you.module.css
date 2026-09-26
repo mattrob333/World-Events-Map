@@ -1,0 +1,115 @@
+/* The You tab: passport, travelers, groups. Afterglow tokens only. */
+.stack { display: grid; gap: 2.25rem; margin-bottom: 2.5rem; }
+
+.passport {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgb(247 197 72 / 0.26), transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgb(255 95 143 / 0.16), transparent 50%),
+    var(--color-surface-2);
+  box-shadow: var(--shadow-soft-3);
+}
+.passportTop { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.brand { color: var(--color-ink-subtle); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+.name { font-family: var(--font-display); font-size: clamp(2.1rem, 7vw, 3rem); line-height: 1; color: var(--color-bone); }
+.home { margin-top: 0.3rem; color: var(--color-ink-soft); font-size: 0.9375rem; }
+.stats { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.stat { display: grid; gap: 0.15rem; }
+.stat strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--color-bone); line-height: 1; }
+.stat span { color: var(--color-ink-subtle); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+
+.sectionHead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.9rem; }
+.sectionHead h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05; color: var(--color-bone); }
+.sub { margin-top: 0.3rem; max-width: 36rem; color: var(--color-ink-soft); font-size: 0.9rem; line-height: 1.5; }
+
+.grid { display: grid; gap: 0.7rem; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.traveler {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+  border-radius: 20px;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-soft-1);
+}
+.travelerOpen { box-shadow: var(--shadow-soft-1), inset 0 0 0 1px rgb(247 197 72 / 0.5); }
+.travelerTop { display: flex; align-items: center; gap: 0.7rem; }
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-size: 1.1rem;
+}
+.travelerName { color: var(--color-bone); font-size: 1rem; font-weight: 600; }
+.travelerMeta { color: var(--color-ink-subtle); font-size: 0.8125rem; }
+.loves { color: var(--color-ink-soft); font-size: 0.8125rem; line-height: 1.45; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.me { padding: 0.15rem 0.55rem; border-radius: 999px; background: rgb(247 197 72 / 0.16); color: var(--color-saffron); font-size: 0.6875rem; font-weight: 700; }
+
+.addTraveler {
+  display: grid;
+  place-items: center;
+  gap: 0.35rem;
+  min-height: 8rem;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px dashed rgb(255 255 255 / 0.18);
+  color: var(--color-ink-soft);
+  text-align: center;
+  font-size: 0.9rem;
+}
+.addTraveler:hover { color: var(--color-bone); border-color: rgb(247 197 72 / 0.5); }
+.addTraveler strong { color: var(--color-bone); font-size: 1rem; }
+
+.switch { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.group {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 22px;
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-soft-1);
+}
+.who { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.05);
+  color: var(--color-ink-soft);
+  font-size: 0.875rem;
+}
+.pick[aria-pressed='true'] { background: rgb(247 197 72 / 0.16); color: var(--color-saffron); font-weight: 600; }
+.pick:disabled { opacity: 0.85; cursor: default; }
+.guest { background: rgb(255 95 143 / 0.12); color: var(--color-bone); }
+.x { margin-left: 0.2rem; color: var(--color-ink-subtle); }
+.note { color: var(--color-ink-subtle); font-size: 0.75rem; line-height: 1.5; }
+.inline { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.input {
+  min-height: 2.75rem;
+  min-width: 0;
+  flex: 1 1 12rem;
+  padding: 0 0.9rem;
+  border-radius: 14px;
+  background: var(--color-surface-0);
+  color: var(--color-bone);
+  box-shadow: var(--shadow-inset);
+  font-size: 1rem;
+}
+.status { color: var(--color-ink-soft); font-size: 0.8125rem; }

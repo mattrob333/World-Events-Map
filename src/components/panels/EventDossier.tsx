@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { FEATURES } from '@/lib/flags';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
@@ -192,20 +193,31 @@ export function EventDossier({ className }: EventDossierProps) {
                   Open {event.city} destination →
                 </Link>
               )}
-              <Link
-                className="btn btn-primary px-3"
-                href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
-              >
-                Find access & stays ↗
-              </Link>
-              <Link
-                className="btn btn-ghost px-3"
-                href={destination
-                  ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
-                  : `/circles?event=${encodeURIComponent(event.id)}`}
-              >
-                Find a circle ↗
-              </Link>
+              {FEATURES.access && (
+                <Link
+                  className="btn btn-primary px-3"
+                  href={destination ? `/access?destination=${encodeURIComponent(destination.slug)}` : '/access'}
+                >
+                  Find access & stays ↗
+                </Link>
+              )}
+              {FEATURES.circles ? (
+                <Link
+                  className="btn btn-ghost px-3"
+                  href={destination
+                    ? `/circles?destination=${encodeURIComponent(destination.slug)}&event=${encodeURIComponent(event.id)}`
+                    : `/circles?event=${encodeURIComponent(event.id)}`}
+                >
+                  Find a circle ↗
+                </Link>
+              ) : (
+                <Link
+                  className="btn btn-ghost px-3"
+                  href={`/trips/designer?${new URLSearchParams({ place: event.city, ...(event.country ? { region: event.country } : {}) }).toString()}`}
+                >
+                  Plan a trip ↗
+                </Link>
+              )}
             </div>
             <EventSaveButton eventId={event.id} label={event.name} />
             <VenueMap event={event} />

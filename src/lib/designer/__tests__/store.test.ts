@@ -195,3 +195,215 @@ describe('clearing the device (K13)', () => {
     expect(storage.getItem('unrelated')).toBe('keep');
   });
 });
+
+describe('travelers and groups', () => {
+  const profile = (name: string, age?: number) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name, age });
+  const save = (id: string, name: string, age?: number) =>
+    useDesignerStore.getState().saveProfile({ id, profile: profile(name, age), engine: 'on-device', updatedAt: new Date().toISOString() });
+
+  it('the first profile is you, and Solo, Family and Friends start with you', () => {
+    save('p-matt', 'Matt');
+    const state = useDesignerStore.getState();
+    expect(state.meId).toBe('p-matt');
+    expect(state.groups.map((group) => [group.kind, group.memberIds])).toEqual([['solo', ['p-matt']], ['family', ['p-matt']], ['friends', ['p-matt']]]);
+  });
+
+  it('adding a traveler keeps you as the one planning, and groups take them in only when asked', () => {
+    save('p-matt', 'Matt');
+    save('p-leo', 'Leo', 8);
+    const state = useDesignerStore.getState();
+    expect(state.meId).toBe('p-matt');
+    expect(state.activeProfileId).toBe('p-matt');
+    const family = state.groups.find((group) => group.kind === 'family')!;
+    expect(family.memberIds).toEqual(['p-matt']);
+    state.toggleGroupMember(family.id, 'p-leo');
+    expect(useDesignerStore.getState().groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt', 'p-leo']);
+  });
+
+  it('never takes you out of Solo, Family or Friends, and Solo stays just you', () => {
+    save('p-matt', 'Matt');
+    save('p-marina', 'Marina');
+    const { groups, toggleGroupMember } = useDesignerStore.getState();
+    const family = groups.find((group) => group.kind === 'family')!;
+    const solo = groups.find((group) => group.kind === 'solo')!;
+    toggleGroupMember(family.id, 'p-matt');
+    toggleGroupMember(solo.id, 'p-marina');
+    const after = useDesignerStore.getState().groups;
+    expect(after.find((group) => group.kind === 'family')!.memberIds).toEqual(['p-matt']);
+    expect(after.find((group) => group.kind === 'solo')!.memberIds).toEqual(['p-matt']);
+  });
+
+  it('switching the group plans from its leader', () => {
+    save('p-matt', 'Matt');
+    save('p-marina', 'Marina');
+    const state = useDesignerStore.getState();
+    const id = state.addGroup('Marina and the girls', 'custom', ['p-marina']);
+    useDesignerStore.getState().setActiveGroup(id);
+    expect(useDesignerStore.getState().activeGroupId).toBe(id);
+    expect(useDesignerStore.getState().activeProfileId).toBe('p-marina');
+  });
+
+  it('deleting a traveler takes them out of every group; deleting you hands the passport on', () => {
+    save('p-matt', 'Matt');
+    save('p-marina', 'Marina');
+    const family = useDesignerStore.getState().groups.find((group) => group.kind === 'family')!;
+    useDesignerStore.getState().toggleGroupMember(family.id, 'p-marina');
+    useDesignerStore.getState().removeProfile('p-marina');
+    expect(useDesignerStore.getState().groups.every((group) => !group.memberIds.includes('p-marina'))).toBe(true);
+    useDesignerStore.getState().removeProfile('p-matt');
+    expect(useDesignerStore.getState().meId).toBeNull();
+  });
+
+  it('adds guests from a link to a group, never to Solo, and clearAll forgets groups', () => {
+    save('p-matt', 'Matt');
+    const card = { v: 1 as const, name: 'Sam', loves: ['skiing'], music: [], teams: [], style: [], bucketList: [], sentAt: new Date().toISOString() };
+    const { groups, addGuests } = useDesignerStore.getState();
+    addGuests(groups.find((group) => group.kind === 'solo')!.id, [card]);
+    addGuests(groups.find((group) => group.kind === 'friends')!.id, [card]);
+    const after = useDesignerStore.getState().groups;
+    expect(after.find((group) => group.kind === 'solo')!.guests).toHaveLength(0);
+    expect(after.find((group) => group.kind === 'friends')!.guests.map((guest) => guest.card.name)).toEqual(['Sam']);
+    useDesignerStore.getState().clearAll();
+    expect(useDesignerStore.getState().groups).toEqual([]);
+    expect(useDesignerStore.getState().meId).toBeNull();
+  });
+
+  it('migrates a v1 device: the oldest profile is you, with default groups', async () => {
+    const options = useDesignerStore.persist.getOptions();
+    const migrated = (await options.migrate!({ profiles: [{ id: 'new', profile: profile('Kid') }, { id: 'old', profile: profile('Matt') }] }, 1)) as { meId: string; groups: { kind: string; memberIds: string[] }[] };
+    expect(migrated.meId).toBe('old');
+    expect(migrated.groups.map((group) => group.kind)).toEqual(['solo', 'family', 'friends']);
+    expect(migrated.groups[1].memberIds).toEqual(['old']);
+  });
+});
+
+describe('account saving stamps and merges (migration 010)', () => {
+  it('stamps trip and "you" changes made here, not ones from the account', () => {
+    const tokyo = trip('Tokyo');
+    useDesignerStore.getState().setTrip(tokyo);
+    let state = useDesignerStore.getState();
+    expect(state.tripUpdatedAt).toBeTruthy();
+    expect(state.youUpdatedAt).toBeTruthy();
+    const from = '2026-01-01T00:00:00.000Z';
+    state.applySyncedState({ groups: [], meId: null, youUpdatedAt: from, current: { trip: tokyo, votes: {}, activeParticipant: 'p0', joinedAs: null, updatedAt: from }, previous: null });
+    state = useDesignerStore.getState();
+    expect(state.tripUpdatedAt).toBe(from);
+    expect(state.youUpdatedAt).toBe(from);
+  });
+
+  it('sets aside a trip open here that the account doesn’t list, instead of losing it', () => {
+    const tokyo = trip('Tokyo');
+    const lisbon = { ...trip('Lisbon'), id: 'trip-lisbon' };
+    useDesignerStore.getState().setTrip(tokyo);
+    useDesignerStore.getState().applySyncedState({ groups: [], meId: null, youUpdatedAt: '2026-09-25T00:00:00.000Z', current: { trip: lisbon, votes: {}, activeParticipant: null, joinedAs: null, updatedAt: '2026-09-25T00:00:00.000Z' }, previous: null });
+    const state = useDesignerStore.getState();
+    expect(state.trip?.id).toBe('trip-lisbon');
+    expect(state.previousTrip?.trip.id).toBe(tokyo.id);
+  });
+
+  it('resetForAccount clears another account’s data and turns saving on for this one', () => {
+    useDesignerStore.getState().setTrip(trip('Tokyo'));
+    useDesignerStore.getState().resetForAccount('user-b');
+    const state = useDesignerStore.getState();
+    expect(state.trip).toBeNull();
+    expect(state.profiles).toEqual([]);
+    expect(state.groups).toEqual([]);
+    expect([state.accountSync, state.syncOwner]).toEqual([true, 'user-b']);
+  });
+});
+
+describe('a second device signing in (review blocker)', () => {
+  it('takes the account’s groups and open trip without overwriting or deleting them', async () => {
+    const { localItems, mergeItems, stateFromItems, knownAfterApply, pendingItems, toRemoteState } = await import('@/lib/travelers/stateSync');
+    const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+    const saved = [
+      { id: 'mb-2', profile: profile('Marina'), engine: 'on-device' as const, updatedAt: '2026-09-20T00:00:00.000Z' },
+      { id: 'mb-1', profile: profile('Matt'), engine: 'on-device' as const, updatedAt: '2026-09-19T00:00:00.000Z' },
+    ];
+    // Device A: two travelers, Family with both, a trip with a vote.
+    let store = useDesignerStore.getState();
+    store.applySyncedProfiles(saved);
+    const family = useDesignerStore.getState().groups.find((group) => group.kind === 'family')!;
+    useDesignerStore.getState().toggleGroupMember(family.id, 'mb-2');
+    const tokyo = trip('Tokyo');
+    useDesignerStore.getState().setTrip(tokyo);
+    const slot = tokyo.days[1].slots[0];
+    useDesignerStore.getState().vote(slot.id, slot.cardIds[0], 'p0', 1);
+    const account = localItems(useDesignerStore.getState()).map(toRemoteState);
+
+    // Device B: fresh, signs in; profiles merge first, then state.
+    useDesignerStore.getState().clearAll();
+    store = useDesignerStore.getState();
+    store.applySyncedProfiles(saved);
+    const merged = mergeItems(localItems(useDesignerStore.getState()), account);
+    useDesignerStore.getState().applySyncedState(stateFromItems(merged.items));
+    const after = useDesignerStore.getState();
+    expect(after.groups.find((group) => group.kind === 'family')!.memberIds).toEqual(['mb-1', 'mb-2']);
+    expect(after.trip?.id).toBe(tokyo.id);
+    expect(after.votes[slot.id][slot.cardIds[0]]).toEqual({ p0: 1 });
+
+    // Nothing of A's is pushed back over it, and nothing is tombstoned.
+    const known = knownAfterApply(localItems(after), merged);
+    const pending = pendingItems(localItems(after), known);
+    expect(pending.removed).toEqual([]);
+    expect(pending.changed.map((item) => `${item.kind}:${item.id}`)).not.toContain('group:grp-family');
+    expect(pending.changed.map((item) => item.kind)).not.toContain('you');
+    expect(pending.changed.map((item) => item.kind)).not.toContain('trip');
+  });
+
+  it('never tombstones account rows the device couldn’t keep', async () => {
+    const { knownAfterApply, pendingItems, localItems } = await import('@/lib/travelers/stateSync');
+    const merged = { items: [{ kind: 'group' as const, id: 'grp-unreadable', data: null, updatedAt: '2026-09-20T00:00:00.000Z' }, { kind: 'trip' as const, id: 'old-trip', data: {}, updatedAt: '2026-09-20T00:00:00.000Z' }], push: [] };
+    const known = knownAfterApply(localItems(useDesignerStore.getState()), merged);
+    expect(pendingItems(localItems(useDesignerStore.getState()), known).removed).toEqual([]);
+  });
+});
+
+describe('claiming the device on "Not now"', () => {
+  it('records the first account only, and turns nothing on', () => {
+    useDesignerStore.getState().claimDevice('user-a');
+    useDesignerStore.getState().claimDevice('user-b');
+    const state = useDesignerStore.getState();
+    expect([state.syncOwner, state.accountSync]).toEqual(['user-a', false]);
+  });
+});
+
+describe('deleting you', () => {
+  it('hands the passport on and stamps it, so other devices follow', () => {
+    const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+    useDesignerStore.getState().saveProfile({ id: 'p-a', profile: profile('Matt'), engine: 'on-device', updatedAt: '2026-09-01T00:00:00.000Z' });
+    useDesignerStore.getState().saveProfile({ id: 'p-b', profile: profile('Marina'), engine: 'on-device', updatedAt: '2026-09-02T00:00:00.000Z' });
+    expect(useDesignerStore.getState().youUpdatedAt).toBeNull();
+    useDesignerStore.getState().removeProfile('p-a');
+    expect(useDesignerStore.getState().meId).toBe('p-b');
+    expect(useDesignerStore.getState().youUpdatedAt).toBeTruthy();
+  });
+});
+
+describe('Codex review follow-ups', () => {
+  const profile = (name: string) => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '', name });
+
+  it('the group being planned for follows you to another device', () => {
+    useDesignerStore.getState().applySyncedProfiles([{ id: 'mb-1', profile: profile('Matt'), engine: 'on-device', updatedAt: '2026-09-19T00:00:00.000Z' }]);
+    const groups = useDesignerStore.getState().groups;
+    useDesignerStore.getState().applySyncedState({ groups, meId: 'mb-1', activeGroupId: 'grp-friends', youUpdatedAt: '2026-09-25T00:00:00.000Z', current: null, previous: null });
+    expect(useDesignerStore.getState().activeGroupId).toBe('grp-friends');
+    // Choosing a group here is stamped, so it goes up.
+    const before = useDesignerStore.getState().youUpdatedAt;
+    useDesignerStore.getState().setActiveGroup('grp-solo');
+    expect(useDesignerStore.getState().youUpdatedAt).not.toBe(before);
+  });
+
+  it('adopts the time the account stored, without marking anything changed', () => {
+    useDesignerStore.getState().saveProfile({ id: 'mb-1', profile: profile('Matt'), engine: 'on-device', updatedAt: '2030-01-01T00:00:00.000Z' });
+    useDesignerStore.getState().setTrip(trip('Tokyo'));
+    const tripId = useDesignerStore.getState().trip!.id;
+    useDesignerStore.getState().restamp('profile', 'mb-1', '2026-09-26T19:00:00.000Z');
+    useDesignerStore.getState().restamp('trip', tripId, '2026-09-26T19:00:00.000Z');
+    useDesignerStore.getState().restamp('group', 'grp-family', '2026-09-26T19:00:00.000Z');
+    const state = useDesignerStore.getState();
+    expect(state.profiles[0].updatedAt).toBe('2026-09-26T19:00:00.000Z');
+    expect(state.tripUpdatedAt).toBe('2026-09-26T19:00:00.000Z');
+    expect(state.groups.find((group) => group.id === 'grp-family')!.updatedAt).toBe('2026-09-26T19:00:00.000Z');
+  });
+});

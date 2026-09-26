@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { formatDateRange } from '@/components/ui';
 import { EVENTS } from '@/lib/data/events';
@@ -74,7 +75,7 @@ export function IdeasRail() {
             <p className="eyebrow">Your trail</p>
             <h2 className="mt-1 font-display text-[23px] leading-tight text-ink">Saved activity</h2>
           </div>
-          <Link href="/circles" className="btn btn-ghost btn-sm">Explore Circles ↗</Link>
+          {FEATURES.circles ? <Link href="/circles" className="btn btn-ghost btn-sm">Explore Circles ↗</Link> : null}
         </div>
         {activity.length ? (
           <ul className="mt-4 space-y-2">
@@ -122,7 +123,7 @@ function IdeaCard({ idea, index, saved, watched, onToggle }: {
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button type="button" aria-pressed={saved} onClick={() => onToggle('save')} className="chip">{saved ? 'Saved ✓' : 'Save'}</button>
             <button type="button" aria-pressed={watched} title="Local return list; no notifications" onClick={() => onToggle('watch')} className="chip">{watched ? 'Watching ✓' : 'Watch'}</button>
-            <Link href={`/circles?destination=${encodeURIComponent(idea.slug)}`} className="btn btn-ghost btn-sm">Start Circle ↗</Link>
+            {FEATURES.circles ? <Link href={`/circles?destination=${encodeURIComponent(idea.slug)}`} className="btn btn-ghost btn-sm">Start Circle ↗</Link> : null}
           </div>
         </div>
       </div>

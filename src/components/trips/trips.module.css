@@ -11,6 +11,22 @@
   box-shadow: var(--focus-ring);
 }
 
+/* Members: a plain header in place of the photo hero. */
+.memberHead {
+  padding: 28px max(4vw, calc((100vw - 1650px) / 2)) 8px;
+}
+
+.memberHead h1 {
+  margin: 0;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.memberHead .heroActions {
+  margin-top: 16px;
+}
+
 /* The photo hero is one rounded sheet sitting on the evening sky. */
 .hero {
   position: relative;

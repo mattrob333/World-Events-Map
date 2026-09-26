@@ -281,7 +281,7 @@ function cleanTaste(value: unknown): TasteInput | undefined {
   return { genres, topArtists, ...(eras.length ? { eras } : {}), ...(energy ? { energy } : {}) };
 }
 
-function cleanVotes(value: unknown): TripVotes {
+export function cleanVotes(value: unknown): TripVotes {
   const votes = dict<Record<string, Record<string, 1 | -1>>>();
   for (const [slotId, slotRaw] of own(value).slice(0, 200)) {
     if (!isSafeId(slotId)) continue;

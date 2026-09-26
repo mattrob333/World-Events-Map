@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/lib/flags';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { EVENTS } from '@/lib/data/events';
@@ -71,7 +72,7 @@ export function NowUnavailable({ city = '' }: { city?: string }) {
         </select>
       </label>
       <p className={styles.unavailableLinks}>
-        <Link href="/access">Browse ACCESS samples ↗</Link> · <Link href="/">Explore the world calendar ↗</Link>
+        {FEATURES.access ? <><Link href="/access">Browse ACCESS samples ↗</Link> · </> : null}<Link href="/">See what’s hot on the globe ↗</Link>
       </p>
     </section>
   );

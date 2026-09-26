@@ -12,7 +12,8 @@ import type { PlaceSpec } from '@/lib/designer/place';
 import { EXAMPLE_RAMBLE } from '@/lib/designer/moodboard';
 import { parseProfileLocally, profileTags, type TravelerProfile } from '@/lib/designer/profile';
 import { mergeTastes, tasteFrom } from '@/lib/designer/scene';
-import { pickActiveProfile, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { pickActiveGroup, pickActiveProfile, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
+import { groupTravelers } from '@/lib/travelers/groups';
 import { planPlaceFromParams, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoicePage } from '@/lib/voice/registry';
 import styles from './designer.module.css';
@@ -61,7 +62,14 @@ export function placeFromInput(value: string, kind: DestinationKind): PlaceSpec 
 
 const KIND_LABEL: Record<DestinationKind, string> = { city: '🏙️ City', beach: '🏝️ Beach', ski: '⛷️ Ski' };
 
-function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedProfile[]; initialWith?: string; initialPlace?: PlanPlace; onCreate: (trip: Itinerary, notice?: string) => void }) {
+/** Who's coming, from the group being planned for; empty when it has no one yet. */
+function travelersFromGroup(groupId: string | undefined, boards: SavedProfile[]): Draft[] {
+  const { groups, activeGroupId } = useDesignerStore.getState();
+  const group = (groupId ? groups.find((entry) => entry.id === groupId) : undefined) ?? pickActiveGroup(groups, activeGroupId);
+  return group ? groupTravelers(group, boards) : [];
+}
+
+function Setup({ boards, initialWith, initialGroup, initialPlace, onCreate }: { boards: SavedProfile[]; initialWith?: string; initialGroup?: string; initialPlace?: PlanPlace; onCreate: (trip: Itinerary, notice?: string) => void }) {
   const [destination, setDestination] = useState<TripDestination>('custom');
   // ?place=Munich&region=Germany (from a destination or search) fills "Where to?";
   // it never creates the trip or runs research on its own.
@@ -72,7 +80,12 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   const [nights, setNights] = useState(() => (initialPlace?.nights ? Math.min(MAX_NIGHTS, initialPlace.nights) : 7));
   const initialBoard = boards.find((board) => board.id === initialWith) ?? pickActiveProfile(boards, useDesignerStore.getState().activeProfileId);
   const [hometown, setHometown] = useState(initialBoard?.profile.hometown ?? '');
-  const [travelers, setTravelers] = useState<Draft[]>(() => (initialBoard ? travelersFromBoard(initialBoard) : []));
+  // A profile named in the link plans for that person's party; otherwise the group being planned for comes along.
+  const [travelers, setTravelers] = useState<Draft[]>(() => {
+    const fromGroup = initialWith ? [] : travelersFromGroup(initialGroup, boards);
+    if (fromGroup.length) return fromGroup.slice(0, MAX_PARTICIPANTS);
+    return initialBoard ? travelersFromBoard(initialBoard) : [];
+  });
   const [name, setName] = useState('');
   const [kind, setKind] = useState<'adult' | 'kid'>('adult');
   const [age, setAge] = useState('');
@@ -85,6 +98,17 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   useEffect(
     () =>
       useDesignerStore.subscribe((state, prev) => {
+        // Switching the group (header, You tab or voice) swaps in everyone in it.
+        if (state.activeGroupId !== prev.activeGroupId) {
+          const group = pickActiveGroup(state.groups, state.activeGroupId);
+          const people = group ? groupTravelers(group, state.profiles) : [];
+          if (people.length) {
+            setTravelers(people.slice(0, MAX_PARTICIPANTS));
+            const lead = state.profiles.find((entry) => entry.id === group?.memberIds[0]);
+            if (lead?.profile.hometown) setHometown(lead.profile.hometown);
+            return;
+          }
+        }
         if (state.activeProfileId === prev.activeProfileId) return;
         const next = pickActiveProfile(state.profiles, state.activeProfileId);
         if (!next) return;
@@ -449,10 +473,11 @@ function Setup({ boards, initialWith, initialPlace, onCreate }: { boards: SavedP
   );
 }
 
-export function TripDesigner({ initialWith }: { initialWith?: string }) {
+export function TripDesigner({ initialWith, initialGroup }: { initialWith?: string; initialGroup?: string }) {
   const mounted = useHydrated();
   const [notice, setNotice] = useState<string | undefined>();
   const [withId, setWithId] = useState(initialWith);
+  const [groupId, setGroupId] = useState(initialGroup);
   // Read once on first load (also on a client-side navigation, where
   // window.location is not updated yet). It only prefills "Where to?".
   const searchParams = useSearchParams();
@@ -479,7 +504,7 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
       <div className={styles.inner}>
         {!mounted ? (
           <p className="py-16 text-ink-muted">Opening the designer…</p>
-        ) : trip && !withId && !placeParam ? (
+        ) : trip && !withId && !groupId && !placeParam ? (
           <>
             {notice ? <p className={styles.notice}>{notice}</p> : null}
             <TripCanvas
@@ -492,21 +517,23 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
               }}
             />
           </>
-        ) : trip && (withId || placeParam) ? (
+        ) : trip && (withId || groupId || placeParam) ? (
           <ReplacePrompt
             place={placeParam?.place}
             onKeep={() => {
               window.history.replaceState(null, '', '/trips/designer');
               setWithId(undefined);
+              setGroupId(undefined);
               setPlaceParam(undefined);
             }}
             onReplace={clearTrip}
           />
         ) : (
           <Setup
-            key={`${withId ?? 'new'}|${placeParam ? `${placeParam.place}|${placeParam.start ?? ''}|${placeParam.nights ?? ''}` : ''}`}
+            key={`${withId ?? groupId ?? 'new'}|${placeParam ? `${placeParam.place}|${placeParam.start ?? ''}|${placeParam.nights ?? ''}` : ''}`}
             boards={boards}
             initialWith={withId}
+            initialGroup={groupId}
             initialPlace={placeParam}
             onCreate={(created, message) => {
               // Picks tapped on the Vibe canvas lead their time blocks, when they're for this place.
@@ -516,9 +543,10 @@ export function TripDesigner({ initialWith }: { initialWith?: string }) {
               setTrip(mine.length ? pinPicks(created, mine) : created);
               if (mine.length) message = `${mine.length} of your picks lead their time blocks. ${message ?? ''}`.trim();
               setNotice(message);
-              if (withId || placeParam) {
+              if (withId || groupId || placeParam) {
                 window.history.replaceState(null, '', '/trips/designer');
                 setWithId(undefined);
+                setGroupId(undefined);
                 setPlaceParam(undefined);
               }
               window.scrollTo({ top: 0 });

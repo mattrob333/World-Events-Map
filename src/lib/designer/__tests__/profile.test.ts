@@ -79,3 +79,12 @@ describe('UFR2-H01: artists feed the music features', () => {
     expect(normalizeProfile({}).artists).toBeUndefined();
   });
 });
+
+describe('a kid describing themselves', () => {
+  it('reads a young age only when the clause ends there', () => {
+    expect(parseProfileLocally("I'm Leo, I'm 8. I love dinosaurs.").age).toBe(8);
+    expect(parseProfileLocally("I'm 11 years old and I love horses").age).toBe(11);
+    expect(parseProfileLocally("I'm 5 minutes from the beach and love surfing").age).toBeUndefined();
+    expect(parseProfileLocally("I'm 44, from Atlanta.").age).toBe(44);
+  });
+});

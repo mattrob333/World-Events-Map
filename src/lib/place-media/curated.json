@@ -988,5 +988,581 @@
     "license": "CC0",
     "photographed": "2024",
     "subject": "place"
+  },
+  "serengeti-calving-ndutu": {
+    "title": "Wildebeest migration herd grazing near Ndutu in February",
+    "imageUrl": "/editorial/serengeti-calving-ndutu.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gnu_herd_near_Ndutu_Lodge,_Serengeti_(17054675145).jpg",
+    "credit": "Christoph Strässler",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2009",
+    "subject": "event"
+  },
+  "baja-grey-whale-lagoon": {
+    "title": "Grey whale spy-hopping in Laguna San Ignacio",
+    "imageUrl": "/editorial/baja-grey-whale-lagoon.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Big_Spy_Hop,_Laguna_San_Ignacio.jpg",
+    "credit": "Joe McKenna",
+    "license": "CC BY 2.0",
+    "photographed": "2010",
+    "subject": "event"
+  },
+  "yala-leopard-season": {
+    "title": "Sri Lankan leopard in Yala National Park",
+    "imageUrl": "/editorial/yala-leopard-season.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Srilankan_leopard_in_Yala_National_Park_1.jpg",
+    "credit": "AdrianRanasinghe",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "vienna-opera-ball": {
+    "title": "Debutantes' opening entry at the Vienna Opera Ball, Wiener Staatsoper",
+    "imageUrl": "/editorial/vienna-opera-ball.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vienna_Opera_Ball_27_February_2014_05.JPG",
+    "credit": "Gryffindor",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "copacabana-palace-magic-ball": {
+    "title": "Copacabana Palace hotel facade on Avenida Atlântica, Rio de Janeiro",
+    "imageUrl": "/editorial/copacabana-palace-magic-ball.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Copacabana_Palace_Hotel_Rio.jpg",
+    "credit": "Charles J. Sharp",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2012",
+    "subject": "place"
+  },
+  "indian-wells-masters": {
+    "title": "Stadium 1 at the Indian Wells Tennis Garden during the 2008 tournament",
+    "imageUrl": "/editorial/indian-wells-masters.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Indian_Wells_Tennis_Garden,_Stadium_1.jpg",
+    "credit": "IvanAndreevich",
+    "license": "CC BY 3.0",
+    "photographed": "2008",
+    "subject": "event"
+  },
+  "fiesta-vendimia-mendoza": {
+    "title": "Acto Central of the Fiesta Nacional de la Vendimia at the Teatro Griego Frank Romero Day, Mendoza",
+    "imageUrl": "/editorial/fiesta-vendimia-mendoza.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:VendimiaMendoza.jpg",
+    "credit": "Javinaselli",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2017",
+    "subject": "event"
+  },
+  "academy-awards-99th": {
+    "title": "Dolby Theatre auditorium before the 95th Academy Awards ceremony",
+    "imageUrl": "/editorial/academy-awards-99th.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dolby_Theatre_Oscars_Los_Angeles_USA_Mar23_IMG_8321.jpg",
+    "credit": "Timothy A. Gonsalves",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2023",
+    "subject": "event"
+  },
+  "ultra-music-festival-miami": {
+    "title": "Ultra Music Festival stages set up in Bayfront Park, Miami, seen from above",
+    "imageUrl": "/editorial/ultra-music-festival-miami.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bayfront_Park,_Miami,_FL,_USA_-_2014_Ultra_Music_Festival.jpg",
+    "credit": "Pietro",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "japanese-grand-prix": {
+    "title": "Suzuka grandstand crowd celebrating at the Japanese Grand Prix",
+    "imageUrl": "/editorial/japanese-grand-prix.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2012_Formula_1_Japanese_Grand_Prix!_Suzuka!_(8070681535).jpg",
+    "credit": "musume miyuki",
+    "license": "CC BY 2.0",
+    "photographed": "2012",
+    "subject": "event"
+  },
+  "art-basel-qatar": {
+    "title": "Msheireb Downtown Doha at night, with the district tram",
+    "imageUrl": "/editorial/art-basel-qatar.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Msheireb_Downtown_Doha_tram_at_night.jpg",
+    "credit": "Michael Coghlan",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2023",
+    "subject": "place"
+  },
+  "clinique-la-prairie-revitalisation": {
+    "title": "Montreux and Lake Geneva seen from the Clarens shore",
+    "imageUrl": "/editorial/clinique-la-prairie-revitalisation.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panorama_Montreux_et_L%C3%A9man_depuis_Clarens_(juin_2019).JPG",
+    "credit": "Florian Pépellin",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "ananda-himalayas-panchakarma": {
+    "title": "View over the valley below Ananda in the Himalayas, Narendra Nagar",
+    "imageUrl": "/editorial/ananda-himalayas-panchakarma.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Himalayan_view_from_Ananda_spa,_Narendra_Nagar.jpg",
+    "credit": "peem (Flickr)",
+    "license": "CC BY 2.0",
+    "photographed": "2007",
+    "subject": "place"
+  },
+  "fuorisalone-milano-design-week": {
+    "title": "Brera Design District banners over a Brera street during Fuorisalone",
+    "imageUrl": "/editorial/fuorisalone-milano-design-week.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:%22_12_Milan_Design_Week_(Fuorisalone)_Brera_district_01.JPG",
+    "credit": "Pava",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2012",
+    "subject": "event"
+  },
+  "met-gala-costume-institute": {
+    "title": "Press outside the Met Gala entrance tent, Metropolitan Museum of Art (2026 edition)",
+    "imageUrl": "/editorial/met-gala-costume-institute.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Outside_the_2026_Met_Gala_1.jpg",
+    "credit": "SWinxy",
+    "license": "CC BY 4.0",
+    "photographed": "2026",
+    "subject": "event"
+  },
+  "miami-grand-prix": {
+    "title": "Porsche support race at the Miami Grand Prix, Miami International Autodrome",
+    "imageUrl": "/editorial/miami-grand-prix.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Start_of_the_Porsche_Sprint_Challenge_North_America_at_the_F1_Miami_GP_-_2022.jpg",
+    "credit": "USACJack",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2022",
+    "subject": "event"
+  },
+  "st-barths-bucket-regatta": {
+    "title": "Gustavia harbour, St Barthélemy, from the hillside above the town",
+    "imageUrl": "/editorial/st-barths-bucket-regatta.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gustavia_Harbour_St_Barthelemy.JPG",
+    "credit": "Kevin Gabbert",
+    "license": "Public domain",
+    "photographed": "2007",
+    "subject": "place"
+  },
+  "bal-de-la-rose-monaco": {
+    "title": "Aerial view of the Monte-Carlo Sporting complex, Monaco",
+    "imageUrl": "/editorial/bal-de-la-rose-monaco.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Monte_Carlo_Sporting_Club_in_2023.jpg",
+    "credit": "Resilentos",
+    "license": "CC BY 3.0",
+    "photographed": "2023",
+    "subject": "place"
+  },
+  "kentucky-derby": {
+    "title": "Derby Day crowds along the Churchill Downs home stretch beneath the twin spires",
+    "imageUrl": "/editorial/kentucky-derby.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2012_Derby_crowd.jpg",
+    "credit": "Kentucky National Guard Public Affairs Office",
+    "license": "CC BY 2.0",
+    "photographed": "2012",
+    "subject": "event"
+  },
+  "cannes-film-festival": {
+    "title": "Palais des Festivals and the Vieux-Port, Cannes",
+    "imageUrl": "/editorial/cannes-film-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Palais_des_festivals_et_des_congres_de_Cannes_IMG_1306.jpg",
+    "credit": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "amfar-gala-cannes": {
+    "title": "Garden avenue of the Hôtel du Cap-Eden-Roc leading to the sea",
+    "imageUrl": "/editorial/amfar-gala-cannes.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hauptachse_Hotel_Du_Cap_zum_Pavillon_Eden_Roc.jpg",
+    "credit": "John Jason Junior",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2011",
+    "subject": "place"
+  },
+  "glyndebourne-festival-opera": {
+    "title": "Glyndebourne Opera House from the gardens",
+    "imageUrl": "/editorial/glyndebourne-festival-opera.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glyndebourne_Opera_House_(September_2017).jpg",
+    "credit": "Gregg Gorman",
+    "license": "CC BY 2.0",
+    "photographed": "2017",
+    "subject": "place"
+  },
+  "concorso-eleganza-villa-deste": {
+    "title": "Alfa Romeo 8C 2900B on the lawn at the Concorso d'Eleganza Villa d'Este",
+    "imageUrl": "/editorial/concorso-eleganza-villa-deste.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alfa_Romeo_8C_2900B_at_Villa_d%27Este.jpg",
+    "credit": "Yanko Malinov",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "event"
+  },
+  "roland-garros": {
+    "title": "Court Philippe-Chatrier during Roland-Garros qualifying week",
+    "imageUrl": "/editorial/roland-garros.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Court_Philippe_Chatrier_2024.jpg",
+    "credit": "MFonzatti",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2024",
+    "subject": "event"
+  },
+  "gorilla-trekking-rwanda": {
+    "title": "Mountain gorilla in Volcanoes National Park, Rwanda",
+    "imageUrl": "/editorial/gorilla-trekking-rwanda.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mountain_gorilla_(Gorilla_beringei_beringei)_female_3.jpg",
+    "credit": "Charles J. Sharp",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "monaco-grand-prix": {
+    "title": "Port Hercule and grandstands during Monaco Grand Prix week",
+    "imageUrl": "/editorial/monaco-grand-prix.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Montecarlo%27s_harbour_during_the_days_of_Formula_1_Monaco_GP_2013.jpg",
+    "credit": "Uncidunci",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2013",
+    "subject": "event"
+  },
+  "le-mans-24-hours": {
+    "title": "Prototypes and packed grandstands at the 24 Hours of Le Mans, Circuit de la Sarthe",
+    "imageUrl": "/editorial/le-mans-24-hours.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:United-autosports-le-mans-race-010.jpg",
+    "credit": "United Autosports",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2019",
+    "subject": "event"
+  },
+  "mille-miglia": {
+    "title": "1928 Bentley ready to start the Mille Miglia on Viale Venezia, Brescia",
+    "imageUrl": "/editorial/mille-miglia.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mille_Miglia_2020_partenza_N_40_Bentley_1928_in_Viale_Venezia_a_Brescia.jpg",
+    "credit": "Wolfgang Moroder",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2020",
+    "subject": "event"
+  },
+  "art-basel-basel": {
+    "title": "Visitors under the Messe Basel canopy during Art Basel",
+    "imageUrl": "/editorial/art-basel-basel.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Messe_Basel_during_Art_Basel_2025.jpg",
+    "credit": "Bea Phi",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2025",
+    "subject": "event"
+  },
+  "giorgio-armani-tennis-classic": {
+    "title": "The Hurlingham Club clubhouse and lawn, Fulham",
+    "imageUrl": "/editorial/giorgio-armani-tennis-classic.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hurlingham_Club,_September_2016_84.jpg",
+    "credit": "Edwardx",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "glastonbury-festival": {
+    "title": "Pyramid Stage at night during Glastonbury Festival",
+    "imageUrl": "/editorial/glastonbury-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pyramid_Stage,_Adele,_Glastonbury_Festival_2016_IMG_8701_(27355017094).jpg",
+    "credit": "Brian Marks",
+    "license": "CC BY 2.0",
+    "photographed": "2016",
+    "subject": "event"
+  },
+  "inti-raymi-cusco": {
+    "title": "Inti Raymi dancers on the Sacsayhuamán esplanade above Cusco",
+    "imageUrl": "/editorial/inti-raymi-cusco.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dance_group_in_the_ruins_of_Sacsayhuam%C3%A1n._Inti_Raymi_2011.jpg",
+    "credit": "jack_g",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2011",
+    "subject": "event"
+  },
+  "chio-aachen": {
+    "title": "Garde républicaine mounted band in the main arena at CHIO Aachen",
+    "imageUrl": "/editorial/chio-aachen.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Garde_r%C3%A9publicaine_CHIO_2019_Aachen_Germany.jpg",
+    "credit": "Qwertzu111111",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "event"
+  },
+  "wimbledon": {
+    "title": "Centre Court at the All England Club, outside the Championships",
+    "imageUrl": "/editorial/wimbledon.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wimbledon_Centre_Court_(May_15,_2019).jpg",
+    "credit": "GATORFAN2525",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "palio-di-siena-assunta": {
+    "title": "Crowds packing Piazza del Campo for the Palio dell'Assunta",
+    "imageUrl": "/editorial/palio-di-siena-assunta.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Palio_di_Siena_-_Assunta_2011_-_Piazza_del_Campo.jpg",
+    "credit": "Janus Kinase",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2011",
+    "subject": "event"
+  },
+  "gion-matsuri-kyoto": {
+    "title": "Yamaboko floats in the Gion Matsuri procession on Oike-dori, Kyoto",
+    "imageUrl": "/editorial/gion-matsuri-kyoto.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gion_Matsuri_2017-5.jpg",
+    "credit": "江戸村のとくぞう",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2017",
+    "subject": "event"
+  },
+  "karlovy-vary-film-festival": {
+    "title": "Hotel Thermal dressed for the Karlovy Vary International Film Festival",
+    "imageUrl": "/editorial/karlovy-vary-film-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hotel_Thermal_54._mezin%C3%A1rodn%C3%AD_filmov%C3%BD_festival_Karlovy_Vary.jpg",
+    "credit": "Eliška Jindříšková",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "event"
+  },
+  "zonamaco-mexico-city": {
+    "title": "Gallery booth at ZONAMACO, Centro Citibanamex, Mexico City",
+    "imageUrl": "/editorial/zonamaco-mexico-city.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zona_Maco_2017_HJ2A7246_(32792099305).jpg",
+    "credit": "Gobierno CDMX",
+    "license": "CC0",
+    "photographed": "2017",
+    "subject": "event"
+  },
+  "goodwood-festival-of-speed": {
+    "title": "Supercar run on the hill climb at the Goodwood Festival of Speed",
+    "imageUrl": "/editorial/goodwood-festival-of-speed.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Afternoon_Supercar_Hill_Climb_at_2014_Goodwood_Festival_of_Speed_(14523151684).jpg",
+    "credit": "Michelin LIVE UK",
+    "license": "CC BY 2.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "the-open-championship": {
+    "title": "The Swilcan Bridge and the R&A clubhouse on the Old Course, St Andrews",
+    "imageUrl": "/editorial/the-open-championship.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:R%26A_Clubhouse,_Old_Course,_Swilcan_Burn_bridge.jpg",
+    "credit": "Optograph",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2012",
+    "subject": "place"
+  },
+  "tomorrowland-boom": {
+    "title": "Crowds before the Tomorrowland Mainstage at De Schorre, Boom",
+    "imageUrl": "/editorial/tomorrowland-boom.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tomorrowland_2018_Mainstage.jpg",
+    "credit": "Semirben12",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2018",
+    "subject": "event"
+  },
+  "fuji-rock-festival": {
+    "title": "Coldplay on stage at Fuji Rock Festival, Naeba",
+    "imageUrl": "/editorial/fuji-rock-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coldplay_at_the_Fuji_Rock_Festival_2011.jpg",
+    "credit": "Christopher Johnson (globalite)",
+    "license": "CC BY-SA 2.0",
+    "photographed": "2011",
+    "subject": "event"
+  },
+  "bayreuth-festival": {
+    "title": "The Bayreuth Festspielhaus on the Green Hill",
+    "imageUrl": "/editorial/bayreuth-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Festspielhaus_Bayreuth_2016.jpg",
+    "credit": "El Grafo",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2016",
+    "subject": "place"
+  },
+  "champagne-harvest-vendange": {
+    "title": "Hand-picking chardonnay during the Champagne harvest near Avize",
+    "imageUrl": "/editorial/champagne-harvest-vendange.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vendanges_2012_en_Champagne_(Avize,_chardonnay).jpg",
+    "credit": "Perguillaume",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2012",
+    "subject": "event"
+  },
+  "ryder-cup": {
+    "title": "Adare Manor seen from the golf course",
+    "imageUrl": "/editorial/ryder-cup.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Adare_Manor_from_Golf_Course.jpg",
+    "credit": "SullyShave",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2021",
+    "subject": "place"
+  },
+  "naadam-ulaanbaatar": {
+    "title": "Horsemen at the Naadam opening ceremony, National Sports Stadium, Ulaanbaatar",
+    "imageUrl": "/editorial/naadam-ulaanbaatar.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naadam_2023,_Ulan_Bator_01.jpg",
+    "credit": "Bernard Gagnon",
+    "license": "CC0",
+    "photographed": "2023",
+    "subject": "event"
+  },
+  "okavango-high-water": {
+    "title": "Okavango Delta floodplains from the air in August",
+    "imageUrl": "/editorial/okavango-high-water.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vista_a%C3%A9rea_del_delta_del_Okavango,_Botsuana,_2018-08-01,_DD_39.jpg",
+    "credit": "Diego Delso",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2018",
+    "subject": "place"
+  },
+  "us-open-tennis": {
+    "title": "Arthur Ashe Stadium full for a US Open match",
+    "imageUrl": "/editorial/us-open-tennis.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Arthur_Ashe_Stadium_View.JPG",
+    "credit": "Alexisrael",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2007",
+    "subject": "event"
+  },
+  "sabi-sand-leopards": {
+    "title": "Leopard walking a sand track in the Djuma concession, Sabi Sand",
+    "imageUrl": "/editorial/sabi-sand-leopards.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:African_Leopard_Sabi_Sands_Fir0002_Oct18.jpg",
+    "credit": "Fir0002",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2018",
+    "subject": "place"
+  },
+  "burning-man": {
+    "title": "Art car in the dust on the playa at Burning Man, Black Rock City",
+    "imageUrl": "/editorial/burning-man.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Burning_Man_2017_(36045569443).jpg",
+    "credit": "BLM Nevada",
+    "license": "Public domain",
+    "photographed": "2017",
+    "subject": "event"
+  },
+  "nantucket-race-week": {
+    "title": "Docks at the Nantucket Boat Basin, Nantucket Harbor",
+    "imageUrl": "/editorial/nantucket-race-week.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:20180524_-_18_-_Nantucket,_MA.jpg",
+    "credit": "Andre Carrotflower",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2018",
+    "subject": "place"
+  },
+  "salzburg-festival": {
+    "title": "The Grosses Festspielhaus, Salzburg, at night",
+    "imageUrl": "/editorial/salzburg-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gro%C3%9Fes_Festspielhaus_Salzburg_at_night_2023-09-28_01.jpg",
+    "credit": "Leonhard Lenz",
+    "license": "CC0",
+    "photographed": "2023",
+    "subject": "place"
+  },
+  "kerala-karkidakam-ayurveda": {
+    "title": "Paddy fields near Kollengode, Palakkad, Kerala",
+    "imageUrl": "/editorial/kerala-karkidakam-ayurveda.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fields_near_Kollengode,_Kerala_06.jpg",
+    "credit": "Noon Plastic",
+    "license": "CC BY 4.0",
+    "photographed": "2024",
+    "subject": "place"
+  },
+  "palmwag-desert-rhino": {
+    "title": "The Uniab valley at Palmwag, Namibia, from the air",
+    "imageUrl": "/editorial/palmwag-desert-rhino.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:020525081Namibia.JPG",
+    "credit": "Graf-flugplatz",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2002",
+    "subject": "place"
+  },
+  "basque-asador-txuleta-circuit": {
+    "title": "Asador Etxebarri across the village square in Axpe",
+    "imageUrl": "/editorial/basque-asador-txuleta-circuit.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Across_the_square_to_Asador_Etxebarri_(17910009633).jpg",
+    "credit": "Winniepix",
+    "license": "CC BY 2.0",
+    "photographed": "2015",
+    "subject": "place"
+  },
+  "pga-championship": {
+    "title": "PGA of America headquarters at PGA Frisco, Texas",
+    "imageUrl": "/editorial/pga-championship.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Exterior_view_of_the_Professional_Golfers%27_Association_(PGA)_of_America_headquarters_in_Frisco,_Texas.jpg",
+    "credit": "Jackilometresan",
+    "license": "CC0",
+    "photographed": "2026",
+    "subject": "place"
+  },
+  "three-days-of-design-copenhagen": {
+    "title": "Pakhus 48 on the Copenhagen waterfront",
+    "imageUrl": "/editorial/three-days-of-design-copenhagen.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pakhus_48_(Copenhagen).jpg",
+    "credit": "Ramblersen2",
+    "license": "CC0",
+    "photographed": "2025",
+    "subject": "place"
+  },
+  "bocuse-dor-lyon-2027": {
+    "title": "Inside Les Halles de Lyon – Paul Bocuse, the city's covered food market",
+    "imageUrl": "/editorial/bocuse-dor-lyon-2027.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Halles_de_Lyon-Paul_Bocuse_004.jpg",
+    "credit": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2019",
+    "subject": "place"
+  },
+  "palio-di-siena-provenzano": {
+    "title": "Horses rounding the Piazza del Campo in the July Palio di Provenzano",
+    "imageUrl": "/editorial/palio-di-siena-provenzano.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Palio_di_Siena_2_luglio_2010.jpg",
+    "credit": "Roberto Vicario",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2010",
+    "subject": "event"
+  },
+  "dark-mofo-hobart": {
+    "title": "Winter Feast lights on the Hobart waterfront during Dark Mofo",
+    "imageUrl": "/editorial/dark-mofo-hobart.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dark_Mofo_and_City_of_Hobart_Winter_Feast_-_43431504875.jpg",
+    "credit": "DarkLab Media",
+    "license": "CC BY 2.0",
+    "photographed": "2018",
+    "subject": "event"
+  },
+  "montreux-jazz-festival": {
+    "title": "Lake-steamer party moored off the Montreux quays during the Jazz Festival",
+    "imageUrl": "/editorial/montreux-jazz-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lac_L%C3%A9man_depuis_les_quais_de_montreux.jpg",
+    "credit": "Lune11",
+    "license": "CC BY-SA 4.0",
+    "photographed": "2018",
+    "subject": "event"
+  },
+  "lollapalooza-brasil": {
+    "title": "Muse on stage at Lollapalooza Brasil, Autódromo de Interlagos",
+    "imageUrl": "/editorial/lollapalooza-brasil.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lollapalooza_2014_-_Muse_Live_@_Autodromo_de_Interlagos,_S%C3%A3o_Paulo,_SP,_Brazil,_(04_05_2014)_(13672933005).jpg",
+    "credit": "M. Bells. Photography",
+    "license": "CC BY 2.0",
+    "photographed": "2014",
+    "subject": "event"
+  },
+  "verbier-festival": {
+    "title": "Mont Fort seen from Bec des Rosses above Verbier in summer",
+    "imageUrl": "/editorial/verbier-festival.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bec_des_Rosses_sight_to_%22Mt_Fort%22_on_summer_-_panoramio.jpg",
+    "credit": "Picea Abies",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2012",
+    "subject": "place"
+  },
+  "festival-aix-en-provence": {
+    "title": "Cours Mirabeau and the old town of Aix-en-Provence from the air",
+    "imageUrl": "/editorial/festival-aix-en-provence.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cours_Mirabeau_from_the_air_in_Aix_en_Provence.jpg",
+    "credit": "FrogsLegs71",
+    "license": "CC BY-SA 3.0",
+    "photographed": "2024",
+    "subject": "place"
   }
 }
