@@ -1,7 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { HERO_POOL, heroRun, heroSrc, heroSrcSet, markSeen, type HeroPhoto } from '@/lib/hero/pool';
+import { photoArchiveLabel } from '@/lib/place-media/curated';
+import type { PlacePhoto } from '@/lib/place-media/media';
+import { photoImageProps } from '@/lib/place-media/sources';
 import styles from './world-intro.module.css';
 
 const SEEN_KEY = 'dope.hero.seen.v1';
@@ -32,12 +35,29 @@ function writeSeen(ids: string[]) {
   }
 }
 
+/** Where the pass card (with the featured trip's photo) is hidden: the hero carries that photo instead. */
+const NO_PASS = '(max-width: 760px)';
+const subscribeNoPass = (onChange: () => void) => {
+  const query = window.matchMedia(NO_PASS);
+  query.addEventListener('change', onChange);
+  return () => query.removeEventListener('change', onChange);
+};
+
+/** The trip the hero's button is about, when it has a reviewed photo of its own. */
+export type HeroFeature = { key: string; photo: PlacePhoto; event: string; place: string };
+
 /**
  * The living hero: a lead photo in the server HTML, then a run of real photos
  * for this visit (unseen first), slow crossfades between them, the place and
- * credit always on screen. An evening-sky gradient sits underneath.
+ * credit always on screen. An evening-sky gradient sits underneath. When the
+ * featured trip has its own photo, the hero settles on it, so the picture,
+ * the button and the caption are about the same place.
  */
-export function HeroPool() {
+export function HeroPool({ feature: offered = null }: { feature?: HeroFeature | null }) {
+  const noPass = useSyncExternalStore(subscribeNoPass, () => window.matchMedia(NO_PASS).matches, () => false);
+  const feature = noPass ? offered : null;
+  const [featureState, setFeatureState] = useState<{ key: string; status: 'loaded' | 'failed' } | null>(null);
+  const featureShown = feature && featureState?.key === feature.key && featureState.status === 'loaded' ? feature : null;
   const [run, setRun] = useState<HeroPhoto[]>([LEAD]);
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState<Record<string, boolean>>({});
@@ -66,7 +86,7 @@ export function HeroPool() {
   useEffect(() => {
     if (!current || !loaded[current.id]) return;
     writeSeen(markSeen(readSeen(), [current.id]));
-    if (run.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (featureShown || run.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const hold = index === 0 && leadIsStale ? SEEN_LEAD_HOLD_MS : HOLD_MS;
     const timer = window.setTimeout(() => {
       if (document.visibilityState !== 'visible') return;
@@ -74,7 +94,7 @@ export function HeroPool() {
       setIndex((value) => (value + 1) % run.length);
     }, hold);
     return () => window.clearTimeout(timer);
-  }, [current, loaded, run.length, index, leadIsStale]);
+  }, [current, loaded, run.length, index, leadIsStale, featureShown]);
 
   if (!run.length) return null;
   // Mount the previous photo (held fully visible underneath, so a crossfade
@@ -113,8 +133,33 @@ export function HeroPool() {
             }
           />
         ))}
+        {feature && !(featureState?.key === feature.key && featureState.status === 'failed') ? (
+          // A reviewed photo of the featured trip, crossfading over the scenery once it has loaded.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={`feature-${feature.key}`}
+            {...photoImageProps(feature.photo, 'hero')}
+            alt=""
+            decoding="async"
+            fetchPriority="low"
+            referrerPolicy="no-referrer"
+            onLoad={() => setFeatureState({ key: feature.key, status: 'loaded' })}
+            onError={() => setFeatureState({ key: feature.key, status: 'failed' })}
+            className={featureShown ? styles.heroPoolOn : undefined}
+          />
+        ) : null}
       </div>
-      {current && loaded[current.id] ? (
+      {featureShown ? (
+        <p className={styles.heroPlace}>
+          <span className={styles.heroPlaceName}>
+            <span aria-hidden="true">◉ </span>
+            {featureShown.photo.subject === 'event' ? featureShown.event : featureShown.place} · {photoArchiveLabel(featureShown.photo)}
+          </span>
+          <a href={featureShown.photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={featureShown.photo.title}>
+            {featureShown.photo.credit} · {featureShown.photo.license} ↗
+          </a>
+        </p>
+      ) : current && loaded[current.id] ? (
         <p className={styles.heroPlace}>
           <span className={styles.heroPlaceName}>
             <span aria-hidden="true">◉ </span>

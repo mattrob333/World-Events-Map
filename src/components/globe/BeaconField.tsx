@@ -11,7 +11,7 @@
  *   pillars  — short stems along the local normal, fading out toward the top.
  *   discs    — a crisp point with a soft, small halo on the surface.
  *   rings    — restrained pulse rings, blazing/supernova only, phase-staggered
- *              from a hash of the event id.
+ *              from a hash of the event id; saffron rings on anything live now.
  *   focus    — a locked brass reticle around the selected event.
  *   crystal  — a six-armed ice mark for curated ski events in winter mode.
  *
@@ -50,6 +50,8 @@ const LIFT_FOCUS = 0.0050;
 const LIFT_CRYSTAL = 0.0055;
 
 const UP_Y = new THREE.Vector3(0, 1, 0);
+/** The LIVE chip's saffron, as a ring colour. */
+const LIVE_RING = new THREE.Color('#f7c548');
 const UP_Z = new THREE.Vector3(0, 0, 1);
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -502,7 +504,14 @@ function BeaconFieldImpl({ beacons, winterMode = false }: BeaconFieldProps) {
         scale.set(rr, rr, 1);
         matrix.compose(position, quatZ, scale);
         rings.setMatrixAt(nRing, matrix);
-        writeInstance(layers.ring, nRing, e, intensity * 0.8);
+        if (e.live) {
+          // Live now: saffron, and bright even when the timeline sits elsewhere.
+          layers.ring.color.setXYZ(nRing, LIVE_RING.r, LIVE_RING.g, LIVE_RING.b);
+          layers.ring.intensity.setX(nRing, Math.max(intensity, 0.75));
+          layers.ring.phase.setX(nRing, e.phase);
+        } else {
+          writeInstance(layers.ring, nRing, e, intensity * 0.8);
+        }
         nRing++;
       }
 

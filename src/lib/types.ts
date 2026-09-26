@@ -211,6 +211,8 @@ export interface Beacon {
   focused: boolean;
   /** Number of peers signalling interest — drives the ring count */
   peerCount: number;
+  /** Happening right now where it takes place: the globe's saffron LIVE rings. */
+  live?: boolean;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

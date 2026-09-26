@@ -63,6 +63,7 @@
  */
 
 import { useMemo } from 'react';
+import { isHappeningToday } from '@/lib/data/scene-time';
 import type {
   Beacon,
   BuzzScore,
@@ -288,8 +289,9 @@ export function useBeacons(): Beacon[] {
   const { counts } = usePeerData();
 
   return useMemo(
-    () =>
-      events.map((e) => ({
+    () => {
+      const now = new Date();
+      return events.map((e) => ({
         eventId: e.id,
         coords: e.coords,
         score: e.buzz.score,
@@ -301,7 +303,9 @@ export function useBeacons(): Beacon[] {
         daysUntil: e.daysUntil,
         focused: e.id === selectedEventId,
         peerCount: counts[e.id] ?? 0,
-      })),
+        live: isHappeningToday(e, now),
+      }));
+    },
     [events, selectedEventId, counts],
   );
 }

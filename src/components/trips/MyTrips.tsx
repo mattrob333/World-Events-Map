@@ -95,7 +95,6 @@ export function MyTrips() {
           ) : (
             <div className={styles.emptyTrail}>
               <p>You have not started a trip yet. Create one and it shows here, finished or not.</p>
-              <Link href="/trips/new">Create new trip <span aria-hidden="true">↗</span></Link>
             </div>
           )}
           <p className={styles.heroNote}>

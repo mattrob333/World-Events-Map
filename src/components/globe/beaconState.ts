@@ -44,6 +44,8 @@ export interface BeaconEntry {
   emissive: number;
   /** Whether this beacon earns pulse rings. */
   pulses: boolean;
+  /** Happening right now: its rings pulse in saffron, whatever its heat. */
+  live: boolean;
   /**
    * Stable animation offset in [0, 1), hashed from `eventId`.
    *
@@ -112,7 +114,8 @@ export class BeaconRegistry {
           normal: latLonToVec3(b.coords.lat, b.coords.lon, 1),
           color: categoryColor(b.category),
           emissive: heatIntensity(b.heat),
-          pulses: heatPulses(b.heat),
+          pulses: heatPulses(b.heat) || b.live === true,
+          live: b.live === true,
           phase: hash01(b.eventId),
           // New beacons grow in from nothing rather than appearing at size.
           relevance: 0,
@@ -127,9 +130,10 @@ export class BeaconRegistry {
         this.entries.set(b.eventId, e);
         membershipChanged = true;
       } else {
-        if (e.beacon.heat !== b.heat) {
+        if (e.beacon.heat !== b.heat || e.live !== (b.live === true)) {
           e.emissive = heatIntensity(b.heat);
-          e.pulses = heatPulses(b.heat);
+          e.live = b.live === true;
+          e.pulses = heatPulses(b.heat) || e.live;
         }
         if (e.beacon.category !== b.category) e.color.copy(categoryColor(b.category));
         if (
@@ -268,7 +272,9 @@ export function discRadius(e: BeaconEntry): number {
 /** Outer radius the pulse ring expands to. */
 export function ringRadius(e: BeaconEntry): number {
   const s = clamp01(e.score / 100);
-  return (0.024 + 0.036 * s) * (0.5 + 0.5 * clamp01(e.relevance)) * e.presence;
+  const r = (0.024 + 0.036 * s) * (0.5 + 0.5 * clamp01(e.relevance)) * e.presence;
+  // Live rings stay big enough to spot from orbit, however quiet the event.
+  return e.live ? Math.max(r, 0.042 * e.presence) : r;
 }
 
 /**

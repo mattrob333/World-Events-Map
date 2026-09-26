@@ -60,7 +60,7 @@ function ProfileBasics() {
       .then(({ data, error: failure }) => {
         if (!active) return;
         if (failure) {
-          setError(failure.message);
+          setError('Your settings couldn’t load just now. Refresh to try again.');
           return;
         }
         setName(data?.display_name ?? '');
@@ -89,7 +89,7 @@ function ProfileBasics() {
       is_public: visible,
     });
     setBusy(false);
-    if (failure) setError(failure.message);
+    if (failure) setError('That didn’t save. Check your connection and try again.');
     else setNotice('Settings saved.');
   }
 

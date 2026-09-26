@@ -379,6 +379,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span className="text-[15px] font-semibold text-bone">Trip Planner</span>
               <span className="text-[12px] text-ink-subtle">Your schedule, picks and votes</span>
             </NavLink>
+            {/* The talking concierge: your traveler profile, Vibe Now or a trip, by voice. */}
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setSunOpen(false);
+                setVibeOpen(true);
+              }}
+              className="col-span-2 flex min-h-14 items-center gap-3 rounded-[var(--radius-control)] bg-surface-2 px-3 text-left hover:bg-surface-3"
+            >
+              <span aria-hidden className="text-[18px] leading-none text-saffron">✦</span>
+              <span className="flex flex-col">
+                <span className="text-[15px] font-semibold text-bone">Talk it through</span>
+                <span className="text-[12px] text-ink-subtle">Your traveler profile, tonight or a trip, by voice</span>
+              </span>
+            </button>
           </div>
         </>
       )}

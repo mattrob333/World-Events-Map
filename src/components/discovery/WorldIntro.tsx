@@ -230,7 +230,7 @@ export function WorldIntro({
     <section className={styles.intro} aria-label="Discover your next journey">
       <div className={styles.hero}>
         <div className={styles.heroPhoto} aria-hidden="true" />
-        <HeroPool />
+        <HeroPool feature={featured && displayedFeaturedPhoto ? { key: featured.id, photo: displayedFeaturedPhoto, event: featured.name, place: featured.city } : null} />
         <div className={styles.heroShade} aria-hidden="true" />
         <div className={styles.heroCopy}>
           <span className={styles.kicker}><span aria-hidden="true">✦</span> THE WORLD IS AN INVITATION</span>
