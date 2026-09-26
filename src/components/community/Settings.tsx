@@ -147,7 +147,7 @@ function AccountSync() {
   const count = useDesignerStore((state) => state.profiles.length);
   const status = useDesignerStore((state) => state.syncStatus);
   const setAccountSync = useDesignerStore((state) => state.setAccountSync);
-  const applySyncedProfiles = useDesignerStore((state) => state.applySyncedProfiles);
+  const resetForAccount = useDesignerStore((state) => state.resetForAccount);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   if (!hydrated || !user) return null;
@@ -158,10 +158,11 @@ function AccountSync() {
     if (!user) return;
     if (foreign) {
       // These belong to someone else's account: they're never uploaded here.
-      applySyncedProfiles([]);
+      resetForAccount(user.id);
+    } else {
+      setAccountSync(true, user.id);
     }
-    setAccountSync(true, user.id);
-    setMessage(foreign ? 'This device now shows your account’s traveler profiles.' : 'Your traveler profiles are saving to your account.');
+    setMessage(foreign ? 'This device now shows your account’s travelers, groups and trips.' : 'Your travelers, groups and trips are saving to your account.');
   }
 
   async function turnOff() {
@@ -171,8 +172,11 @@ function AccountSync() {
     // Stop saving first, so nothing in flight re-creates what's being deleted.
     setAccountSync(false);
     const { error } = await client.from('traveler_profiles').delete().eq('user_id', user.id);
+    // Groups and trips too (a project without migration 010 has none to remove).
+    const state = error ? null : await client.from('traveler_state').delete().eq('user_id', user.id);
+    const stateFailed = Boolean(state?.error && !['42P01', 'PGRST205'].includes(state.error.code ?? ''));
     setBusy(false);
-    if (error) {
+    if (error || stateFailed) {
       setAccountSync(true, user.id);
       setMessage('That didn’t go through, so account saving is still on. Check your connection and try again.');
       return;
@@ -184,14 +188,14 @@ function AccountSync() {
     <div className={styles.stack}>
       <label className={styles.check}>
         <input type="checkbox" checked={active} disabled={busy} onChange={(event) => void (event.target.checked ? turnOn() : turnOff())} />
-        Keep my traveler profiles in my account
+        Keep my travelers, groups and trips in my account
       </label>
       <p className={styles.small}>
         {foreign
-          ? 'The traveler profiles on this device were saved by a different account. Turning this on removes them from this device and shows yours instead; theirs are never added to your account.'
+          ? 'The travelers, groups and trips on this device were saved by a different account. Turning this on removes them from this device and shows yours instead; theirs are never added to your account.'
           : active
-            ? 'On: your profiles (including names and ages you mention, tastes, music summary and travel style) are saved to your account so they follow you to any device. Only you can see them. Off removes them from your account; this device keeps its copy.'
-            : `Off: your profiles live on this device only. Turn this on to save ${count ? `the ${count} on this device (${names.join(', ')}${count > names.length ? '…' : ''})` : 'them'} to your account, where only you can see them, so they follow you to any device.`}
+            ? 'On: your traveler profiles (including names and ages you mention, tastes, music summary and travel style), groups and trips with their votes are saved to your account so they follow you to any device. Only you can see them. Off removes them from your account; this device keeps its copy.'
+            : `Off: your travelers, groups and trips live on this device only. Turn this on to save ${count ? `the ${count} ${count === 1 ? 'traveler' : 'travelers'} on this device (${names.join(', ')}${count > names.length ? '…' : ''}), your groups and trips` : 'them'} to your account, where only you can see them, so they follow you to any device.`}
       </p>
       {active && status === 'error' ? <p role="alert" className={`${styles.notice} ${styles.error}`}>Couldn’t save to your account just now. It will try again when you’re back online.</p> : null}
       {message ? <p role="status" className={styles.notice}>{message}</p> : null}

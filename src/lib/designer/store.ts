@@ -20,6 +20,9 @@ export type SavedProfile = {
   label?: string;
 };
 
+type SyncedTrip = SavedTrip & { lastMergedAt?: Record<string, string>; updatedAt: string };
+export type SyncedState = { groups: TravelGroup[]; meId: string | null; youUpdatedAt: string; current: SyncedTrip | null; previous: SyncedTrip | null };
+
 /** The trip a shared invite replaced on this device, kept so it can be restored. */
 export type SavedTrip = { trip: Itinerary; votes: TripVotes; activeParticipant: string | null; joinedAs: string | null };
 
@@ -42,6 +45,14 @@ interface DesignerState {
   /** Another family's cards, from an "add group" link. */
   addGuests: (groupId: string, cards: TravelCard[]) => void;
   removeGuest: (groupId: string, guestId: string) => void;
+  /** When the open trip (with votes), the set-aside trip, and "you" last changed on this device; for account saving. */
+  tripUpdatedAt: string | null;
+  previousTripUpdatedAt: string | null;
+  youUpdatedAt: string | null;
+  /** Groups, trips and "you" after merging with the account copy. */
+  applySyncedState: (next: SyncedState) => void;
+  /** Signing in with account saving, on a device another account used: its travelers, groups and trips leave this device first. */
+  resetForAccount: (owner: string) => void;
   /** The travel profile in use ("Traveling as"); null means the newest one. */
   activeProfileId: string | null;
   setActiveProfile: (id: string) => void;
@@ -120,6 +131,8 @@ function withSlots(trip: Itinerary, slots: Record<string, string[]>): Itinerary 
  * voting across phones needs accounts and a shared table (not built yet), so
  * this store is the "pass the phone" version and says so in the UI.
  */
+let applyingRemote = false;
+
 export const useDesignerStore = create<DesignerState>()(
   persist(
     (set, get) => ({
@@ -127,12 +140,71 @@ export const useDesignerStore = create<DesignerState>()(
       meId: null,
       groups: [],
       activeGroupId: null,
+      tripUpdatedAt: null,
+      previousTripUpdatedAt: null,
+      youUpdatedAt: null,
+      applySyncedState: (next) => {
+        applyingRemote = true;
+        try {
+          set((state) => {
+            const ids = state.profiles.map((entry) => entry.id);
+            const meId = next.meId && ids.includes(next.meId) ? next.meId : state.meId && ids.includes(state.meId) ? state.meId : (state.profiles[state.profiles.length - 1]?.id ?? null);
+            // A trip open here that the account's copy doesn't list is set aside, not lost, when there's room.
+            const orphan: SyncedTrip | null = state.trip && next.current?.trip.id !== state.trip.id && next.previous?.trip.id !== state.trip.id
+              ? { trip: state.trip, votes: state.votes, activeParticipant: state.activeParticipant, joinedAs: state.joinedAs, updatedAt: state.tripUpdatedAt ?? new Date().toISOString() }
+              : null;
+            const previous = next.previous ?? (orphan && next.current ? orphan : null);
+            const current = next.current ?? (orphan && !next.current ? orphan : null);
+            const sameTrip = current?.trip.id === state.trip?.id;
+            return {
+              groups: ensureDefaultGroups(next.groups, meId, ids),
+              meId,
+              youUpdatedAt: orphan ? new Date().toISOString() : next.youUpdatedAt,
+              trip: current?.trip ?? null,
+              votes: current?.votes ?? {},
+              activeParticipant: current?.activeParticipant ?? null,
+              joinedAs: current?.joinedAs ?? null,
+              lastMergedAt: (current as SyncedTrip | null)?.lastMergedAt ?? (sameTrip ? state.lastMergedAt : {}),
+              mergeUndo: sameTrip ? state.mergeUndo : null,
+              tripUpdatedAt: current?.updatedAt ?? null,
+              previousTrip: previous ? { trip: previous.trip, votes: previous.votes, activeParticipant: previous.activeParticipant, joinedAs: previous.joinedAs } : null,
+              previousTripUpdatedAt: previous?.updatedAt ?? null,
+            };
+          });
+        } finally {
+          applyingRemote = false;
+        }
+      },
+      resetForAccount: (owner) =>
+        set({
+          accountSync: true,
+          syncOwner: owner,
+          syncStatus: 'idle',
+          profiles: [],
+          meId: null,
+          groups: [],
+          activeGroupId: null,
+          activeProfileId: null,
+          trip: null,
+          votes: {},
+          activeParticipant: null,
+          joinedAs: null,
+          previousTrip: null,
+          lastMergedAt: {},
+          mergeUndo: null,
+          draftRamble: '',
+          draftListening: null,
+          tripUpdatedAt: null,
+          previousTripUpdatedAt: null,
+          youUpdatedAt: null,
+        }),
       setMe: (id) =>
         set((state) => {
           if (!state.profiles.some((entry) => entry.id === id)) return {};
           const ids = state.profiles.map((entry) => entry.id);
           // The new you leads Solo, Family and Friends.
-          const groups = state.groups.map((group) => (group.kind === 'custom' ? group : { ...group, memberIds: [id, ...group.memberIds.filter((m) => m !== id && m !== state.meId)] }));
+          const at = new Date().toISOString();
+          const groups = state.groups.map((group) => (group.kind === 'custom' ? group : { ...group, memberIds: [id, ...group.memberIds.filter((m) => m !== id && m !== state.meId)], updatedAt: at }));
           return { meId: id, groups: ensureDefaultGroups(groups, id, ids) };
         }),
       setActiveGroup: (id) =>
@@ -361,6 +433,9 @@ export const useDesignerStore = create<DesignerState>()(
           mergeUndo: null,
           draftRamble: '',
           draftListening: null,
+          tripUpdatedAt: null,
+          previousTripUpdatedAt: null,
+          youUpdatedAt: null,
         }),
     }),
     {
@@ -403,10 +478,27 @@ export const useDesignerStore = create<DesignerState>()(
         draftListening: state.draftListening,
         accountSync: state.accountSync,
         syncOwner: state.syncOwner,
+        tripUpdatedAt: state.tripUpdatedAt,
+        previousTripUpdatedAt: state.previousTripUpdatedAt,
+        youUpdatedAt: state.youUpdatedAt,
       }),
     },
   ),
 );
+
+// Stamps what changed on this device, so account saving knows which copy is newer.
+// Not while loading from storage (hasHydrated is false then) or applying the account's copy.
+useDesignerStore.subscribe((state, prev) => {
+  if (applyingRemote || !useDesignerStore.persist?.hasHydrated?.()) return;
+  const now = new Date().toISOString();
+  const patch: Partial<Pick<DesignerState, 'tripUpdatedAt' | 'previousTripUpdatedAt' | 'youUpdatedAt'>> = {};
+  if (state.trip !== prev.trip || state.votes !== prev.votes || state.activeParticipant !== prev.activeParticipant || state.joinedAs !== prev.joinedAs || state.lastMergedAt !== prev.lastMergedAt) {
+    patch.tripUpdatedAt = state.trip ? now : null;
+  }
+  if (state.previousTrip !== prev.previousTrip) patch.previousTripUpdatedAt = state.previousTrip ? now : null;
+  if (state.meId !== prev.meId || state.trip?.id !== prev.trip?.id || state.previousTrip?.trip.id !== prev.previousTrip?.trip.id) patch.youUpdatedAt = now;
+  if (Object.keys(patch).length) useDesignerStore.setState(patch);
+});
 
 /** The profile in use: the chosen one, else the newest. */
 export function pickActiveProfile(profiles: SavedProfile[], activeId: string | null): SavedProfile | undefined {

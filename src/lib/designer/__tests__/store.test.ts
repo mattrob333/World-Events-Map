@@ -276,3 +276,38 @@ describe('travelers and groups', () => {
     expect(migrated.groups[1].memberIds).toEqual(['old']);
   });
 });
+
+describe('account saving stamps and merges (migration 010)', () => {
+  it('stamps trip and "you" changes made here, not ones from the account', () => {
+    const tokyo = trip('Tokyo');
+    useDesignerStore.getState().setTrip(tokyo);
+    let state = useDesignerStore.getState();
+    expect(state.tripUpdatedAt).toBeTruthy();
+    expect(state.youUpdatedAt).toBeTruthy();
+    const from = '2026-01-01T00:00:00.000Z';
+    state.applySyncedState({ groups: [], meId: null, youUpdatedAt: from, current: { trip: tokyo, votes: {}, activeParticipant: 'p0', joinedAs: null, updatedAt: from }, previous: null });
+    state = useDesignerStore.getState();
+    expect(state.tripUpdatedAt).toBe(from);
+    expect(state.youUpdatedAt).toBe(from);
+  });
+
+  it('sets aside a trip open here that the account doesn’t list, instead of losing it', () => {
+    const tokyo = trip('Tokyo');
+    const lisbon = { ...trip('Lisbon'), id: 'trip-lisbon' };
+    useDesignerStore.getState().setTrip(tokyo);
+    useDesignerStore.getState().applySyncedState({ groups: [], meId: null, youUpdatedAt: '2026-09-25T00:00:00.000Z', current: { trip: lisbon, votes: {}, activeParticipant: null, joinedAs: null, updatedAt: '2026-09-25T00:00:00.000Z' }, previous: null });
+    const state = useDesignerStore.getState();
+    expect(state.trip?.id).toBe('trip-lisbon');
+    expect(state.previousTrip?.trip.id).toBe(tokyo.id);
+  });
+
+  it('resetForAccount clears another account’s data and turns saving on for this one', () => {
+    useDesignerStore.getState().setTrip(trip('Tokyo'));
+    useDesignerStore.getState().resetForAccount('user-b');
+    const state = useDesignerStore.getState();
+    expect(state.trip).toBeNull();
+    expect(state.profiles).toEqual([]);
+    expect(state.groups).toEqual([]);
+    expect([state.accountSync, state.syncOwner]).toEqual([true, 'user-b']);
+  });
+});

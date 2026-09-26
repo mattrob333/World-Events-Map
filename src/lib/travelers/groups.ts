@@ -53,7 +53,8 @@ export function ensureDefaultGroups(groups: TravelGroup[], meId: string | null, 
   const out = [...tidy];
   for (const kind of ['solo', 'family', 'friends'] as const) {
     if (out.some((group) => group.kind === kind)) continue;
-    out.push(createGroup(DEFAULT_GROUP_NAMES[kind], kind, meId && known.has(meId) ? [meId] : [], now));
+    // A fixed id, so the same default group on two devices is one group in the account.
+    out.push({ ...createGroup(DEFAULT_GROUP_NAMES[kind], kind, meId && known.has(meId) ? [meId] : [], now), id: `grp-${kind}` });
   }
   // Solo is only ever you.
   return out

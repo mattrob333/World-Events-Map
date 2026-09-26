@@ -13,6 +13,7 @@ const CurrentMemberChip = dynamic(() => import('@/components/social/CurrentMembe
 const SocialRoot = dynamic(() => import('@/components/social/MemberProfileSheet').then((m) => m.SocialRoot), { ssr: false });
 import { CommandPalette, SearchTrigger } from './CommandPalette';
 import { ProfileSync } from './ProfileSync';
+import { SyncPrompt } from './SyncPrompt';
 import { SunButton, SunGlyph, SunModal } from '@/components/voice/SunModal';
 import { useDesignerStore } from '@/lib/designer/store';
 import { useVoiceStore } from '@/lib/voice/registry';
@@ -394,6 +395,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <CommandPalette />
       <SunModal />
       <ProfileSync />
+      <SyncPrompt />
     </div>
   );
 }
