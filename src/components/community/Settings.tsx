@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { PlatformShell, SignInCard } from '@/components/community/PlatformShell';
 import styles from '@/components/community/community.module.css';
 import { useHydrated } from '@/components/designer/useHydrated';
@@ -143,8 +143,10 @@ function AccountSync() {
   const hydrated = useHydrated();
   const on = useDesignerStore((state) => state.accountSync);
   const owner = useDesignerStore((state) => state.syncOwner);
-  const names = useDesignerStore((state) => state.profiles.map((entry) => entry.label ?? entry.profile.name ?? 'Unnamed').slice(0, 4));
-  const count = useDesignerStore((state) => state.profiles.length);
+  // Select the stored list itself: a list built inside the selector is new on every read, and React re-renders forever.
+  const profiles = useDesignerStore((state) => state.profiles);
+  const names = useMemo(() => profiles.map((entry) => entry.label ?? entry.profile.name ?? 'Unnamed').slice(0, 4), [profiles]);
+  const count = profiles.length;
   const status = useDesignerStore((state) => state.syncStatus);
   const setAccountSync = useDesignerStore((state) => state.setAccountSync);
   const resetForAccount = useDesignerStore((state) => state.resetForAccount);
