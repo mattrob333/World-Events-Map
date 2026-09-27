@@ -1602,3 +1602,40 @@
   }
   .cards > .eventCard { flex: 0 0 78%; min-height: 300px; scroll-snap-align: start; }
 }
+
+/* ---- Pulse, first screen on a phone ------------------------------------------------
+   The globe leads, under one quiet line; the headline, stats, desktop hints, controls,
+   region chips and the second search box (the header has one) step aside. */
+.mobileHead { display: none; }
+.nearYou {
+  display: flex; align-items: center; gap: 14px;
+  margin: 16px auto 0; width: min(100% - 32px, 56rem); min-height: 64px; padding: 12px 16px;
+  border-radius: 22px; background: var(--color-surface-1); box-shadow: var(--shadow-soft-2);
+  color: var(--color-bone); font-size: 20px;
+}
+.nearYou:hover { background: var(--color-surface-2); }
+.nearYouSun { flex: none; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(180deg, #f7c548 0%, #ff8a4c 55%, #e4577e 100%); box-shadow: 0 0 18px rgb(247 197 72 / 0.45); }
+.nearYouText { display: grid; flex: 1; gap: 2px; }
+.nearYouText strong { font-size: 16px; font-weight: 700; }
+.nearYouText small { color: var(--color-ink-muted); font-size: 12.5px; }
+@media (max-width: 760px) {
+  .toolbar .search, .toolbar .status, .regions { display: none; }
+  .world {
+    display: block; height: auto; min-height: 0; max-height: none;
+    padding: 400px 0 0; overflow: hidden;
+  }
+  /* Same globe box as before (it frames the viewer well), just moved up to the top. */
+  .globe { top: 0; height: 400px; }
+  .worldHeading, .worldStats, .globeHint, .globeControls, .world .pulse { display: none; }
+  .mobileHead {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+    position: absolute; top: 12px; left: 16px; right: 16px; z-index: 2; margin: 0;
+    color: var(--color-saffron); font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+    pointer-events: none; text-shadow: 0 1px 8px rgb(0 0 0 / 0.8);
+  }
+  .mobileHead i { width: 8px; height: 8px; border-radius: 50%; background: #e4577e; box-shadow: 0 0 10px #e4577e; }
+  .mobileHead span { color: var(--color-ink-soft); font-weight: 600; letter-spacing: 0.04em; }
+  /* The event card shows when they've picked one on the globe; otherwise Coming up below lists them. */
+  .world .spotlight { display: none; }
+  .world .spotlight[data-selected='true'] { display: block; position: static; width: auto; margin: 12px 16px 0; }
+}
