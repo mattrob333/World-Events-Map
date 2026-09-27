@@ -63,10 +63,8 @@ export function useLiveCalendarSync() {
       if (pending || document.hidden) return;
       pending = true;
       try {
-        const response = await fetch('/api/events', {
-          cache: 'no-store',
-          signal: controller.signal,
-        });
+        // No request-side bypass: the edge keeps the calendar for a minute (see the route), which is the point.
+        const response = await fetch('/api/events', { signal: controller.signal });
         if (!response.ok) throw new Error('Calendar unavailable');
         const data = await response.json();
         if (!Array.isArray(data.events) || !data.events.length)

@@ -47,3 +47,8 @@
 .empty { position: absolute; left: 16px; right: 16px; top: 112px; max-width: 420px; padding: 12px 14px; border-radius: 14px; background: rgb(18 18 18 / 0.9); color: var(--color-ink-soft); font-size: 13.5px; }
 .source { position: absolute; right: 16px; bottom: 60px; max-width: 360px; color: var(--color-ink-subtle); font-size: 10.5px; text-align: right; text-shadow: 0 1px 6px #000; pointer-events: none; }
 @media (max-width: 899px) { .source { display: none; } }
+
+.credit { position: absolute; right: 10px; bottom: 6px; z-index: 2; color: rgb(244 241 234 / 0.45); font-size: 10px; text-decoration: none; }
+.credit:hover { color: var(--color-bone); }
+/* Phones: under the heading, clear of the place card that opens over the bottom of the map. */
+@media (max-width: 899px) { .credit { top: 90px; right: 16px; bottom: auto; z-index: 4; } .list { top: 110px; } }

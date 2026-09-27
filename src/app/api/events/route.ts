@@ -1,4 +1,4 @@
-/** Public read-only calendar. Fresh cached demand and approved partner events; no vendor calls. CDN caching is disabled so expired signals and moderation changes do not linger. */
+/** Public read-only calendar. Fresh cached demand and approved partner events; no vendor calls. Cached at the edge for a minute (served stale for two more while it refreshes), so moderation changes and expired signals clear within minutes while every visit isn't a fresh build. */
 import { NextResponse } from 'next/server';
 import { dataMeta, getEnrichedEvents } from '@/lib/data/server';
 import { getProviderEvents } from '@/lib/data/provider-events';
@@ -16,7 +16,7 @@ export async function GET() {
       { events: [...events, ...partnerEvents], meta: { ...dataMeta(), partnerStatus } },
       {
         headers: {
-          'Cache-Control': 'no-store',
+          'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=120',
         },
       },
     );

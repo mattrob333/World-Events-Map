@@ -86,7 +86,7 @@ export function LoginScreen() {
         <h1 className={styles.logo}>
           {/* The brand lockup: the sun is the "o". */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/worldvibe-lockup.png" alt="worldvibe.now" width={1200} height={168} />
+          <img src="/brand/worldvibe-lockup-960.webp" alt="worldvibe.now" width={960} height={134} />
         </h1>
         <p className={styles.tagline}>Find the moment. Follow the feeling.</p>
 

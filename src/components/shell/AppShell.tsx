@@ -143,7 +143,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <NavLink href="/" className="flex min-h-11 shrink-0 items-center" aria-label="worldvibe.now home">
             {/* One lockup, so ".now" always shares the wordmark's baseline. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
-            <img src="/brand/worldvibe-lockup.png" alt="" width={200} height={28} className="h-6 w-auto sm:h-7" />
+            <img src="/brand/worldvibe-lockup-480.webp" alt="" width={200} height={28} className="h-6 w-auto sm:h-7" />
           </NavLink>
           {isDemoMode() && (
             <span
