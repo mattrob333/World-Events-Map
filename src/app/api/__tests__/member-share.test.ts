@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('server-only', () => ({}));
 vi.mock('next/server', async (importOriginal) => ({ ...(await importOriginal<typeof import('next/server')>()), after: () => undefined }));
 vi.mock('@/lib/jev/receipts', () => ({ storeReceipts: vi.fn(async () => {}) }));
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => ({ id: 'member', email: null }) }));
 vi.mock('@/lib/designer/server/claude', () => ({
   designerAiConfigured: vi.fn(() => true),
   parseProfileWithClaude: vi.fn(async () => ({ heritage: [], teams: [], music: [], events: [], family: [], favoriteTrips: [], interests: [], food: [], summary: '' })),
