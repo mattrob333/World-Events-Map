@@ -7,7 +7,7 @@
   background: #050505;
   overflow: hidden;
 }
-@media (min-width: 1024px) { .stage { height: min(68vh, 680px); } }
+@media (min-width: 1024px) { .stage { height: min(78vh, 780px); } }
 .map { position: absolute; inset: 0; }
 
 .top { position: absolute; top: 12px; left: 16px; right: 16px; pointer-events: none; }
@@ -63,8 +63,15 @@
 .stage .picked h2 { font-size: 22px; }
 .stage .picked .proofBig { font-size: 28px; }
 .stage .picked .address { display: none; }
+.shut { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: rgb(228 87 126 / 0.14); color: var(--color-bone); font-size: 14px; font-weight: 600; line-height: 1.4; }
+.today { margin-top: 4px; color: var(--color-ink-soft); font-size: 13px; }
 .stage .picked .pickedActions { margin-top: 8px; }
-@media (min-width: 720px) { .stage .picked { left: 16px; right: auto; bottom: 16px; width: 380px; } }
+/* Wider screens: a tall card down the left of the map, with room for everything. */
+@media (min-width: 720px) {
+  .stage .picked { left: 16px; right: auto; top: 88px; bottom: 16px; width: 400px; max-height: none; padding: 18px 20px; }
+  .stage .picked h2 { font-size: 28px; }
+  .stage .picked .address { display: block; }
+}
 
 /* The proof behind a beam: live now vs the usual for this hour. */
 .proof { display: grid; gap: 6px; margin-top: 10px; }

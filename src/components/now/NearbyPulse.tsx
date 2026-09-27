@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
 import { buildTonight } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
@@ -17,7 +17,8 @@ import styles from './nearby-pulse.module.css';
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
 /** How far the rounded search point can sit from them, so a small radius isn't lopsided. */
 const ROUNDING_SLACK_METERS = 800;
-const STREET_ZOOM = 11.4; // about five miles across a phone screen
+/** Below this width the place card covers the bottom of the map, so a tapped place is lifted clear of it. */
+const WIDE_PX = 720;
 const EMPTY: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 /** If the street style can't load, the pulses still show on a plain dark map. */
 const FALLBACK_STYLE = { version: 8 as const, sources: {}, layers: [{ id: 'background', type: 'background' as const, paint: { 'background-color': '#0c0c0c' } }] };
@@ -25,6 +26,9 @@ const HEAT = ['interpolate', ['linear'], ['get', 'rank'], 0, '#f7c548', 0.6, '#f
 
 function addPulseLayers(map: MapLibreMap, labels: boolean) {
   if (map.getSource('pulse-points')) return;
+  // The search radius, so it's clear how far the map looked.
+  map.addSource('pulse-radius', { type: 'geojson', data: EMPTY });
+  map.addLayer({ id: 'pulse-radius', type: 'line', source: 'pulse-radius', paint: { 'line-color': '#f4f1ea', 'line-opacity': 0.35, 'line-width': 1.5, 'line-dasharray': [2, 2] } });
   map.addSource('pulse-columns', { type: 'geojson', data: EMPTY });
   map.addSource('pulse-points', { type: 'geojson', data: EMPTY });
   map.addLayer({ id: 'pulse-halo', type: 'circle', source: 'pulse-points', paint: { 'circle-radius': ['get', 'radius'], 'circle-color': HEAT, 'circle-opacity': 0.35, 'circle-blur': 0.6, 'circle-pitch-alignment': 'map' } });
@@ -54,6 +58,17 @@ function metersBetween(a: Here, b: Here): number {
   const rad = (d: number) => (d * Math.PI) / 180;
   const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2;
   return 2 * r * Math.asin(Math.sqrt(h));
+}
+
+/** Where a place is centered: the middle of the map, or on a phone the middle of what the card leaves showing. */
+function lift(map: MapLibreMap): [number, number] {
+  const box = map.getContainer();
+  return box.clientWidth >= WIDE_PX ? [0, 0] : [0, -box.clientHeight * 0.28];
+}
+
+function radiusRing(center: Here | null, meters: number): GeoJSON.FeatureCollection {
+  if (!center) return EMPTY;
+  return { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'LineString', coordinates: circleRing(center, meters, 96) }, properties: {} }] };
 }
 
 const pretty = (category: string) => category.toLowerCase().replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
@@ -100,7 +115,10 @@ export function NearbyPulse() {
   const [now, setNow] = useState<Date | null>(null);
   const active = useActiveProfile();
   const pointsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
+  // What's drawn (and tappable) on the map, and every place the scan returned (for their signed tokens).
   const venuesRef = useRef<PulseVenue[]>([]);
+  const allRef = useRef<PulseVenue[]>([]);
+  const ringRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
   // BestTime's live reading per place tapped, fetched once per visit.
   const [live, setLive] = useState<Record<string, LiveState>>({});
   // Google's facts for each place tapped (type, rating, price, website); null when Google had none.
@@ -155,6 +173,7 @@ export function NearbyPulse() {
         addPulseLayers(map, !fellBack);
         (map.getSource('pulse-points') as GeoJSONSource | undefined)?.setData(pointsRef.current);
         (map.getSource('pulse-columns') as GeoJSONSource | undefined)?.setData(columnsRef.current);
+        (map.getSource('pulse-radius') as GeoJSONSource | undefined)?.setData(ringRef.current);
         if (wired) return;
         wired = true;
         // A thumb on a phone: the nearest beam to the tap, counting its whole height, not just the dot at its foot.
@@ -171,9 +190,9 @@ export function NearbyPulse() {
           const id = nearestBeam(event.point, beams);
           if (!id) return;
           setSelected(id);
-          // Glide it into the top of the map, clear of the card that opens over the bottom.
+          // Center it, at the same zoom (on a phone, above the card that opens over the bottom).
           const venue = list.find((entry) => entry.id === id);
-          if (venue) map.easeTo({ center: [venue.lng, venue.lat], offset: [0, -map.getContainer().clientHeight * 0.28], duration: 700, essential: true });
+          if (venue) map.easeTo({ center: [venue.lng, venue.lat], offset: lift(map), duration: 700, essential: true });
         });
         setMapReady(true);
         // Breathing halos: bigger and brighter where it's busiest.
@@ -236,22 +255,27 @@ export function NearbyPulse() {
     return () => window.clearTimeout(timer);
   }, [locate]);
 
-  // Found them: dive to street level (or, already there, glide to the new search point).
+  // Found them: dive in until the whole search radius fills the map (or, already there, glide to the
+  // new search point or the new radius).
   useEffect(() => {
     const map = mapRef.current;
     if (!here || !map || !mapReady) return;
     let live = true;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (map.getZoom() > 9) {
-      map.easeTo({ center: [here.lng, here.lat], duration: reduced ? 0 : 900, essential: true });
+    ringRef.current = radiusRing(here, radius);
+    (map.getSource('pulse-radius') as GeoJSONSource | undefined)?.setData(ringRef.current);
+    const box = map.getContainer();
+    const zoom = zoomForRadius(here.lat, radius, box.clientWidth, box.clientHeight);
+    if (map.getZoom() > 7) {
+      map.easeTo({ center: [here.lng, here.lat], zoom, duration: reduced ? 0 : 900, essential: true });
       return;
     }
     setStage('flying');
     // Listen first: with reduced motion the move ends synchronously inside flyTo.
     map.once('moveend', () => { if (live) setStage('ready'); });
-    map.flyTo({ center: [here.lng, here.lat], zoom: STREET_ZOOM, pitch: 55, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
+    map.flyTo({ center: [here.lng, here.lat], zoom, pitch: 45, bearing: -18, duration: reduced ? 0 : 5200, essential: true });
     return () => { live = false; };
-  }, [here, mapReady]);
+  }, [here, mapReady, radius]);
 
   // The blue dot is you, and it follows you as you walk. Only the phone knows this point; searches still use a rounded one.
   useEffect(() => {
@@ -313,8 +337,9 @@ export function NearbyPulse() {
       locate();
       return;
     }
-    map?.easeTo({ center: [point.lng, point.lat], zoom: Math.max(map.getZoom(), 14), duration: 800, essential: true });
+    // Walked on: a fresh search from here (the map refits to it). Otherwise just back to the blue dot.
     if (drifted && position) setHere(position);
+    else map?.easeTo({ center: [point.lng, point.lat], duration: 800, essential: true });
   };
 
   // Where they are, in words ("Omaha, Nebraska"), from a point rounded to about a kilometer.
@@ -336,6 +361,10 @@ export function NearbyPulse() {
     const miles = Math.round(radius / 1609);
     setVenues(null);
     setSelected(null);
+    // A fresh scan: places can be checked live again (a failed check isn't stuck).
+    setLive({});
+    setDetails({});
+    allRef.current = [];
     memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
       body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS }) })
       .then(async (response) => {
@@ -348,10 +377,11 @@ export function NearbyPulse() {
         }
         setNote(null);
         const list = (body.venues ?? []).map((venue) => ({ ...venue, distanceMeters: Math.round(metersBetween(here, venue)) })).filter((venue) => venue.distanceMeters <= radius * 1.05);
+        allRef.current = list;
         setVenues(list);
         const kinds = new Set(list.map((venue) => venue.basis));
         setBasis(kinds.size > 1 ? 'mixed' : kinds.has('live') ? 'live' : 'forecast');
-        if (!list.length) setNote({ tone: 'info', text: `Nothing within ${miles} miles has a foot-traffic reading this hour. Try a wider radius.` });
+        if (!list.length) setNote({ tone: 'info', text: `Nothing within ${miles} ${miles === 1 ? 'mile' : 'miles'} has a foot-traffic reading this hour. Try a wider radius.` });
       })
       .catch(() => {
         if (!live) return;
@@ -361,20 +391,21 @@ export function NearbyPulse() {
     return () => { live = false; };
   }, [here, radius, what]);
 
+  // Places Google lists as closed (for now or for good), or shows closed at this hour, come off the map and the list.
+  const shut = useMemo(() => new Set(Object.entries(details).filter(([, facts]) => facts && facts !== 'loading' && (facts.shut || facts.closedNow)).map(([id]) => id)), [details]);
+  const open = useMemo(() => (venues && shut.size ? venues.filter((venue) => !shut.has(venue.id)) : venues), [venues, shut]);
+
   // Pulses on the map.
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapReady || !venues) return;
-    venuesRef.current = venues;
-    // A fresh scan: places can be checked live again (a failed check isn't stuck).
-    setLive({});
-    setDetails({});
-    const { points, columns } = features(venues);
+    if (!map || !mapReady || !open) return;
+    venuesRef.current = open;
+    const { points, columns } = features(open);
     pointsRef.current = points;
     columnsRef.current = columns;
     (map.getSource('pulse-points') as GeoJSONSource | undefined)?.setData(points);
     (map.getSource('pulse-columns') as GeoJSONSource | undefined)?.setData(columns);
-  }, [venues, mapReady]);
+  }, [open, mapReady]);
 
   // The tapped beam turns white and gets its name, so it's clear which one the card is about.
   useEffect(() => {
@@ -393,7 +424,7 @@ export function NearbyPulse() {
     if (!selected || (known && !(known.status === 'error' && Date.now() - known.at > 120_000))) return;
     const id = selected;
     setLive((current) => ({ ...current, [id]: { status: 'loading' } }));
-    const token = venuesRef.current.find((venue) => venue.id === id)?.liveToken;
+    const token = allRef.current.find((venue) => venue.id === id)?.liveToken;
     memberFetch('/api/now/live', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ venueId: id, token }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as { reading?: LiveReading; error?: { message?: string } | string };
@@ -408,7 +439,7 @@ export function NearbyPulse() {
   // What kind of place it is: Google's facts for the place they tapped (remembered 12 hours on the server).
   useEffect(() => {
     if (!selected || details[selected] !== undefined) return;
-    const venue = venuesRef.current.find((entry) => entry.id === selected);
+    const venue = allRef.current.find((entry) => entry.id === selected);
     if (!venue?.placeToken) return;
     const id = selected;
     setDetails((current) => ({ ...current, [id]: 'loading' }));
@@ -430,9 +461,9 @@ export function NearbyPulse() {
   const stepLat = position ? Math.round(position.lat * 2000) / 2000 : null;
   const stepLng = position ? Math.round(position.lng * 2000) / 2000 : null;
   const nearby = useMemo(() => {
-    if (!venues || stepLat === null || stepLng === null) return venues;
-    return venues.map((venue) => ({ ...venue, distanceMeters: Math.round(metersBetween({ lat: stepLat, lng: stepLng }, venue)) }));
-  }, [venues, stepLat, stepLng]);
+    if (!open || stepLat === null || stepLng === null) return open;
+    return open.map((venue) => ({ ...venue, distanceMeters: Math.round(metersBetween({ lat: stepLat, lng: stepLng }, venue)) }));
+  }, [open, stepLat, stepLng]);
 
   const ranked = useMemo(() => {
     const venues = nearby;
@@ -443,17 +474,20 @@ export function NearbyPulse() {
   const tonight = useMemo(() => (ranked.length ? buildTonight(ranked.slice(0, 20), nowMinutes) : null), [ranked, nowMinutes]);
   const winks = useMemo(() => new Map(ranked.map((pick) => [pick.id, pick.wink])), [ranked]);
 
+  // From the list: centered on the map at the zoom they're at, like tapping its beam.
   const focus = (venue: PulseVenue) => {
     setSelected(venue.id);
-    const height = mapRef.current?.getContainer().clientHeight ?? 0;
-    mapRef.current?.flyTo({ center: [venue.lng, venue.lat], zoom: 14.5, pitch: 50, offset: [0, -height * 0.28], duration: 1600, essential: true });
+    const map = mapRef.current;
+    map?.easeTo({ center: [venue.lng, venue.lat], offset: lift(map), duration: 900, essential: true });
     box.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // The card stays for a place they tapped even once Google says it's closed, to say so.
   const picked = venues?.find((venue) => venue.id === selected) ?? null;
+  const pickedNearby = picked ? nearby?.find((venue) => venue.id === picked.id) ?? picked : null;
   const miles = Math.round(radius / 1609);
   const clock = now ? now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
-  const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' || stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null ? 'Reading foot traffic…' : venues.length ? `${venues.length} places buzzing within ${miles} miles` : `Within ${miles} miles of you`;
+  const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' || stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null || open === null ? 'Reading foot traffic…' : open.length ? `${open.length} ${open.length === 1 ? 'place' : 'places'} buzzing within ${miles} ${miles === 1 ? 'mile' : 'miles'}` : `Within ${miles} ${miles === 1 ? 'mile' : 'miles'} of you`;
 
   return (
     <main className={styles.page}>
@@ -475,7 +509,7 @@ export function NearbyPulse() {
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && <PlaceCard venue={nearby?.find((venue) => venue.id === picked.id) ?? picked} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {picked && pickedNearby && <PlaceCard venue={pickedNearby} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
@@ -581,7 +615,7 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
   );
 }
 
-type PlaceFacts = { type?: string; rating?: number; ratingCount?: number; price?: string; website?: string; phone?: string; mapsUrl?: string; closesMinutes?: number; openAllNight?: boolean; closedNow?: boolean };
+type PlaceFacts = { type?: string; address?: string; hoursToday?: string; rating?: number; ratingCount?: number; price?: string; website?: string; phone?: string; mapsUrl?: string; closesMinutes?: number; openAllNight?: boolean; closedNow?: boolean; shut?: 'temporarily' | 'permanently' };
 
 /**
  * The card for a beam they tapped: what kind of place it is, the live proof
@@ -596,31 +630,48 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
   const closes = facts?.openAllNight || venue.openAllNight
     ? 'open all night'
     : closesLabel(facts?.closesMinutes ?? venue.closesMinutes);
-  const kind = [facts?.type ?? pretty(venue.category), miles !== undefined ? formatMiles(venue.distanceMeters! / 1000) : '', facts?.closedNow ? 'Google shows it closed now' : closes].filter(Boolean).join(' · ');
+  const closed = facts?.shut === 'permanently'
+    ? 'Google lists this place as permanently closed.'
+    : facts?.shut === 'temporarily'
+      ? 'Google lists this place as temporarily closed.'
+      : facts?.closedNow
+        ? 'Google shows it closed at this hour.'
+        : null;
+  const kind = [facts?.type ?? pretty(venue.category), miles !== undefined ? formatMiles(venue.distanceMeters! / 1000) : '', closed ? '' : closes].filter(Boolean).join(' · ');
   const rating = facts?.rating ? `★ ${facts.rating.toFixed(1)}${facts.ratingCount ? ` · ${facts.ratingCount.toLocaleString()} Google reviews` : ''}` : '';
+  const address = facts?.address ?? venue.address;
+  // A rough walking time at an easy pace (80 m a minute), only where it's a walk.
+  const walkMinutes = walkable && venue.distanceMeters !== undefined ? Math.max(1, Math.round(venue.distanceMeters / 80)) : null;
   return (
     <article className={styles.picked} aria-live="polite">
       <button type="button" className={styles.close} onClick={onClose} aria-label="Close">×</button>
       <p className={styles.pickedKind}>{kind}</p>
       <h2>{venue.name}</h2>
+      {closed ? <p className={styles.shut} role="status">{closed} It’s off the map.</p> : null}
       {rating || facts?.price ? <p className={styles.facts}>{[rating, facts?.price].filter(Boolean).join(' · ')}</p> : null}
-      <LiveProof venue={venue} state={live} />
-      {wink ? <p className={styles.wink}>{wink}</p> : null}
-      <p className={styles.getThere}>Get there</p>
-      <div className={styles.ways}>
-        {walkable ? <a className="btn btn-primary btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a> : null}
-        <a className={`btn btn-sm ${walkable ? 'btn-ghost' : 'btn-primary'}`} href={ways.uber} target="_blank" rel="noopener noreferrer">Uber</a>
-        <a className="btn btn-ghost btn-sm" href={ways.lyft} target="_blank" rel="noopener noreferrer">Lyft</a>
-        {walkable ? null : <a className="btn btn-ghost btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a>}
-        <a className="btn btn-ghost btn-sm" href={ways.drive} target="_blank" rel="noopener noreferrer"><SourceLogo source="google maps" size={14} className="mr-1.5" />Drive</a>
-      </div>
+      {address ? <p className={styles.address}>{address}</p> : null}
+      {facts?.hoursToday && !facts.shut ? <p className={styles.today}>Hours today · {facts.hoursToday}</p> : null}
+      {closed ? null : <LiveProof venue={venue} state={live} />}
+      {wink && !closed ? <p className={styles.wink}>{wink}</p> : null}
+      {closed ? null : (
+        <>
+          <p className={styles.getThere}>Get there</p>
+          <div className={styles.ways}>
+            {walkable ? <a className="btn btn-primary btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk{walkMinutes ? ` · about ${walkMinutes} min` : ''}</a> : null}
+            <a className={`btn btn-sm ${walkable ? 'btn-ghost' : 'btn-primary'}`} href={ways.uber} target="_blank" rel="noopener noreferrer">Uber</a>
+            <a className="btn btn-ghost btn-sm" href={ways.lyft} target="_blank" rel="noopener noreferrer">Lyft</a>
+            {walkable ? null : <a className="btn btn-ghost btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a>}
+            <a className="btn btn-ghost btn-sm" href={ways.drive} target="_blank" rel="noopener noreferrer"><SourceLogo source="google maps" size={14} className="mr-1.5" />Drive</a>
+          </div>
+        </>
+      )}
       <div className={styles.more}>
         <a href={facts?.mapsUrl ?? venue.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name} ${venue.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Photos and reviews on Google Maps ↗</a>
         {facts?.website ? <a href={facts.website} target="_blank" rel="noopener noreferrer">Website ↗</a> : null}
         {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
       </div>
       {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
-      {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone) ? (
+      {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone || facts.address || facts.hoursToday || closed) ? (
         <p className={styles.attribution}><SourceLogo source="google maps" size={12} className="mr-1" />Place details from Google Maps</p>
       ) : null}
     </article>
