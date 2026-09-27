@@ -60,10 +60,17 @@ function metersBetween(a: Here, b: Here): number {
   return 2 * r * Math.asin(Math.sqrt(h));
 }
 
-/** Where a place is centered: the middle of the map, or on a phone the middle of what the card leaves showing. */
+/** Where the wide card ends (16px in, 400px across). */
+const CARD_EDGE_PX = 416;
+
+/**
+ * Where a place is centered: the middle of the map. On a phone it sits in the middle of what the bottom card
+ * leaves showing; on a tablet, where the middle would fall behind the side card, in the middle of the rest.
+ */
 function lift(map: MapLibreMap): [number, number] {
   const box = map.getContainer();
-  return box.clientWidth >= WIDE_PX ? [0, 0] : [0, -box.clientHeight * 0.28];
+  if (box.clientWidth < WIDE_PX) return [0, -box.clientHeight * 0.28];
+  return box.clientWidth / 2 < CARD_EDGE_PX + 80 ? [CARD_EDGE_PX / 2, 0] : [0, 0];
 }
 
 function radiusRing(center: Here | null, meters: number): GeoJSON.FeatureCollection {
@@ -619,7 +626,7 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
   );
 }
 
-type PlaceFacts = { type?: string; address?: string; hoursToday?: string; rating?: number; ratingCount?: number; price?: string; website?: string; phone?: string; mapsUrl?: string; closesMinutes?: number; openAllNight?: boolean; closedNow?: boolean; shut?: 'temporarily' | 'permanently' };
+type PlaceFacts = { type?: string; address?: string; hoursToday?: string; hoursTodayUsual?: boolean; rating?: number; ratingCount?: number; price?: string; website?: string; phone?: string; mapsUrl?: string; closesMinutes?: number; openAllNight?: boolean; closedNow?: boolean; shut?: 'temporarily' | 'permanently' };
 
 /**
  * The card for a beam they tapped: what kind of place it is, the live proof
@@ -656,7 +663,7 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
       {closed ? <p className={styles.shut} role="status">{closed}{offMap ? ' It’s off the map.' : ' BestTime still reads it as busy right now, so check before you go.'}</p> : null}
       {rating || facts?.price ? <p className={styles.facts}>{[rating, facts?.price].filter(Boolean).join(' · ')}</p> : null}
       {address ? <p className={styles.address}>{address}</p> : null}
-      {facts?.hoursToday && !facts.shut ? <p className={styles.today}>Usual hours today · {facts.hoursToday}</p> : null}
+      {facts?.hoursToday && !facts.shut ? <p className={styles.today}>{facts.hoursTodayUsual ? 'Usual hours today' : 'Hours today'} · {facts.hoursToday}</p> : null}
       {closed && offMap ? null : <LiveProof venue={venue} state={live} />}
       {wink && !(closed && offMap) ? <p className={styles.wink}>{wink}</p> : null}
       {closed && offMap ? null : (

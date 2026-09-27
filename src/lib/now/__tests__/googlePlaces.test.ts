@@ -95,7 +95,20 @@ describe('placeDetails', () => {
       regularOpeningHours: { weekdayDescriptions: week, periods: [{ open: { day: 5, hour: 16, minute: 0 }, close: { day: 6, hour: 2, minute: 0 } }] }, utcOffsetMinutes: -300,
     }] }))));
     const details = await placeDetails({ id: 'details-3', name: 'Site-1 Brewing', lat: 41.26, lng: -95.93 }, NOW);
-    expect(details).toMatchObject({ shut: 'temporarily', address: '1500 Harney St, Omaha, NE 68102, USA', hoursToday: '4:00 PM – 2:00 AM' });
+    expect(details).toMatchObject({ shut: 'temporarily', address: '1500 Harney St, Omaha, NE 68102, USA', hoursToday: '4:00 PM – 2:00 AM', hoursTodayUsual: true });
+  });
+
+  it('prefers this week’s hours (a holiday) over the regular week', async () => {
+    vi.stubEnv('GOOGLE_PLACES_API_KEY', 'test-key');
+    const { placeDetails } = await import('../googlePlaces');
+    const regular = ['Monday: Closed', 'Tuesday: Closed', 'Wednesday: Closed', 'Thursday: Closed', 'Friday: 4:00 PM – 2:00 AM', 'Saturday: Closed', 'Sunday: Closed'];
+    const current = regular.map((line) => (line.startsWith('Friday') ? 'Friday: Closed' : line));
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ places: [{
+      displayName: { text: 'Holiday Bar' }, currentOpeningHours: { weekdayDescriptions: current, periods: [] }, regularOpeningHours: { weekdayDescriptions: regular }, utcOffsetMinutes: -300,
+    }] }))));
+    const details = await placeDetails({ id: 'details-4', name: 'Holiday Bar', lat: 41.26, lng: -95.93 }, NOW);
+    expect(details).toMatchObject({ hoursToday: 'Closed', closedNow: true });
+    expect(details?.hoursTodayUsual).toBeUndefined();
   });
 
   it('says nothing without a key', async () => {

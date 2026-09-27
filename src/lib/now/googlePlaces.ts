@@ -8,7 +8,7 @@ const ENDPOINT = 'https://places.googleapis.com/v1/places:searchText';
 // fields (status, address, type, rating, price, website, phone) don't raise the price of a lookup.
 const FIELDS = [
   'places.displayName', 'places.businessStatus', 'places.formattedAddress', 'places.currentOpeningHours.periods', 'places.regularOpeningHours.periods',
-  'places.regularOpeningHours.weekdayDescriptions', 'places.utcOffsetMinutes', 'places.googleMapsUri',
+  'places.currentOpeningHours.weekdayDescriptions', 'places.regularOpeningHours.weekdayDescriptions', 'places.utcOffsetMinutes', 'places.googleMapsUri',
   'places.primaryTypeDisplayName', 'places.rating', 'places.userRatingCount', 'places.priceLevel', 'places.websiteUri', 'places.nationalPhoneNumber',
 ].join(',');
 /** The busiest places on each map are checked with Google: open or not, and hours when BestTime had none. */
@@ -29,6 +29,8 @@ export type PlaceDetails = {
   address?: string;
   /** Google's own line for today, e.g. "4:00 PM – 2:00 AM". */
   hoursToday?: string;
+  /** The line is from the regular week: this week's (holidays and special hours) wasn't given. */
+  hoursTodayUsual?: boolean;
   closesMinutes?: number;
   openAllNight?: boolean;
   closedNow?: boolean;
@@ -37,7 +39,7 @@ export type PlaceDetails = {
 };
 
 /** `matched`: Google's name agrees with ours, so its word on whether the place is open can be trusted. */
-type Found = { periods?: HoursPeriod[]; utcOffsetMinutes?: number; mapsUrl?: string; week?: string[]; matched: boolean; details: PlaceDetails };
+type Found = { periods?: HoursPeriod[]; utcOffsetMinutes?: number; mapsUrl?: string; week?: string[]; usualWeek?: boolean; matched: boolean; details: PlaceDetails };
 
 const COMMON = new Set(['the', 'and', 'bar', 'grill', 'pub', 'cafe', 'restaurant', 'kitchen', 'lounge', 'tavern', 'house', 'room', 'company', 'brewing', 'brewery', 'co']);
 const words = (name: string) => name.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/&/g, ' and ').split(/[^a-z0-9]+/).filter((word) => word.length >= 3);
@@ -95,7 +97,7 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
     if (response.ok) {
       type Place = {
         displayName?: { text?: string }; businessStatus?: string; formattedAddress?: string;
-        currentOpeningHours?: { periods?: HoursPeriod[] }; regularOpeningHours?: { periods?: HoursPeriod[]; weekdayDescriptions?: string[] }; utcOffsetMinutes?: number; googleMapsUri?: string;
+        currentOpeningHours?: { periods?: HoursPeriod[]; weekdayDescriptions?: string[] }; regularOpeningHours?: { periods?: HoursPeriod[]; weekdayDescriptions?: string[] }; utcOffsetMinutes?: number; googleMapsUri?: string;
         primaryTypeDisplayName?: { text?: string }; rating?: number; userRatingCount?: number; priceLevel?: string; websiteUri?: string; nationalPhoneNumber?: string;
       };
       const body = (await response.json()) as { places?: Place[] };
@@ -105,9 +107,10 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
         const mapsUrl = typeof place.googleMapsUri === 'string' && /^https:\/\/(maps\.google\.com|www\.google\.com\/maps|goo\.gl\/maps|maps\.app\.goo\.gl)\//.test(place.googleMapsUri) ? place.googleMapsUri : undefined;
         const rating = typeof place.rating === 'number' && place.rating > 0 && place.rating <= 5 ? Math.round(place.rating * 10) / 10 : undefined;
         const ratingCount = typeof place.userRatingCount === 'number' && place.userRatingCount > 0 ? Math.round(place.userRatingCount) : undefined;
-        const week = Array.isArray(place.regularOpeningHours?.weekdayDescriptions) && place.regularOpeningHours.weekdayDescriptions.length === 7
-          ? place.regularOpeningHours.weekdayDescriptions.map((line) => (typeof line === 'string' ? line : ''))
-          : undefined;
+        // This week's hours (holidays, special days) first, as the closed-now check uses them; else the regular week.
+        const asWeek = (lines: unknown) => (Array.isArray(lines) && lines.length === 7 ? lines.map((line) => (typeof line === 'string' ? line : '')) : undefined);
+        const currentWeek = asWeek(place.currentOpeningHours?.weekdayDescriptions);
+        const week = currentWeek ?? asWeek(place.regularOpeningHours?.weekdayDescriptions);
         const details: PlaceDetails = {
           shut: typeof place.businessStatus === 'string' ? SHUT[place.businessStatus] : undefined,
           type: clean(place.primaryTypeDisplayName?.text, 40),
@@ -122,7 +125,7 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
         found = {
           ...(Array.isArray(periods) && typeof place.utcOffsetMinutes === 'number' ? { periods, utcOffsetMinutes: place.utcOffsetMinutes } : {}),
           ...(mapsUrl ? { mapsUrl } : {}),
-          ...(week ? { week } : {}),
+          ...(week ? { week, ...(currentWeek ? {} : { usualWeek: true }) } : {}),
           matched: sameName(venue.name, place.displayName?.text),
           details: Object.fromEntries(Object.entries(details).filter(([, value]) => value !== undefined)) as PlaceDetails,
         };
@@ -193,7 +196,10 @@ export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'addr
   if (!found.matched) delete details.shut;
   if (found.utcOffsetMinutes !== undefined) {
     const hoursToday = todayLine(found.week, localNow(now, found.utcOffsetMinutes).day);
-    if (hoursToday) details.hoursToday = hoursToday;
+    if (hoursToday) {
+      details.hoursToday = hoursToday;
+      if (found.usualWeek) details.hoursTodayUsual = true;
+    }
   }
   if (found.periods && found.utcOffsetMinutes !== undefined) {
     const closes = closesTonight(found.periods, localNow(now, found.utcOffsetMinutes));
