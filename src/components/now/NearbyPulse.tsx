@@ -391,8 +391,12 @@ export function NearbyPulse() {
     return () => { live = false; };
   }, [here, radius, what]);
 
-  // Places Google lists as closed (for now or for good), or shows closed at this hour, come off the map and the list.
-  const shut = useMemo(() => new Set(Object.entries(details).filter(([, facts]) => facts && facts !== 'loading' && (facts.shut || facts.closedNow)).map(([id]) => id)), [details]);
+  // Places Google lists as closed (for now or for good), or shows closed at this hour, come off the map and the list;
+  // never one BestTime reads live as busy right now.
+  const shut = useMemo(() => {
+    const liveNow = new Set((venues ?? []).filter((venue) => venue.basis === 'live').map((venue) => venue.id));
+    return new Set(Object.entries(details).filter(([id, facts]) => !liveNow.has(id) && facts && facts !== 'loading' && (facts.shut || facts.closedNow)).map(([id]) => id));
+  }, [details, venues]);
   const open = useMemo(() => (venues && shut.size ? venues.filter((venue) => !shut.has(venue.id)) : venues), [venues, shut]);
 
   // Pulses on the map.
@@ -630,6 +634,8 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
   const closes = facts?.openAllNight || venue.openAllNight
     ? 'open all night'
     : closesLabel(facts?.closesMinutes ?? venue.closesMinutes);
+  // A place BestTime reads live stays on the map; the card still passes on what Google says.
+  const offMap = venue.basis !== 'live';
   const closed = facts?.shut === 'permanently'
     ? 'Google lists this place as permanently closed.'
     : facts?.shut === 'temporarily'
@@ -640,20 +646,20 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
   const kind = [facts?.type ?? pretty(venue.category), miles !== undefined ? formatMiles(venue.distanceMeters! / 1000) : '', closed ? '' : closes].filter(Boolean).join(' · ');
   const rating = facts?.rating ? `★ ${facts.rating.toFixed(1)}${facts.ratingCount ? ` · ${facts.ratingCount.toLocaleString()} Google reviews` : ''}` : '';
   const address = facts?.address ?? venue.address;
-  // A rough walking time at an easy pace (80 m a minute), only where it's a walk.
-  const walkMinutes = walkable && venue.distanceMeters !== undefined ? Math.max(1, Math.round(venue.distanceMeters / 80)) : null;
+  // A rough walking time, only where it's a walk: the straight line plus a quarter for streets, at 80 m a minute, rounded up.
+  const walkMinutes = walkable && venue.distanceMeters !== undefined ? Math.max(1, Math.ceil((venue.distanceMeters * 1.25) / 80)) : null;
   return (
     <article className={styles.picked} aria-live="polite">
       <button type="button" className={styles.close} onClick={onClose} aria-label="Close">×</button>
       <p className={styles.pickedKind}>{kind}</p>
       <h2>{venue.name}</h2>
-      {closed ? <p className={styles.shut} role="status">{closed} It’s off the map.</p> : null}
+      {closed ? <p className={styles.shut} role="status">{closed}{offMap ? ' It’s off the map.' : ' BestTime still reads it as busy right now, so check before you go.'}</p> : null}
       {rating || facts?.price ? <p className={styles.facts}>{[rating, facts?.price].filter(Boolean).join(' · ')}</p> : null}
       {address ? <p className={styles.address}>{address}</p> : null}
-      {facts?.hoursToday && !facts.shut ? <p className={styles.today}>Hours today · {facts.hoursToday}</p> : null}
-      {closed ? null : <LiveProof venue={venue} state={live} />}
-      {wink && !closed ? <p className={styles.wink}>{wink}</p> : null}
-      {closed ? null : (
+      {facts?.hoursToday && !facts.shut ? <p className={styles.today}>Usual hours today · {facts.hoursToday}</p> : null}
+      {closed && offMap ? null : <LiveProof venue={venue} state={live} />}
+      {wink && !(closed && offMap) ? <p className={styles.wink}>{wink}</p> : null}
+      {closed && offMap ? null : (
         <>
           <p className={styles.getThere}>Get there</p>
           <div className={styles.ways}>

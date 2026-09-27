@@ -36,7 +36,22 @@ export type PlaceDetails = {
   shut?: 'temporarily' | 'permanently';
 };
 
-type Found = { periods?: HoursPeriod[]; utcOffsetMinutes?: number; mapsUrl?: string; week?: string[]; details: PlaceDetails };
+/** `matched`: Google's name agrees with ours, so its word on whether the place is open can be trusted. */
+type Found = { periods?: HoursPeriod[]; utcOffsetMinutes?: number; mapsUrl?: string; week?: string[]; matched: boolean; details: PlaceDetails };
+
+const COMMON = new Set(['the', 'and', 'bar', 'grill', 'pub', 'cafe', 'restaurant', 'kitchen', 'lounge', 'tavern', 'house', 'room', 'company', 'brewing', 'brewery', 'co']);
+const words = (name: string) => name.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/&/g, ' and ').split(/[^a-z0-9]+/).filter((word) => word.length >= 3);
+
+/** Whether Google's listing is the same place: one name holds the other, or they share a distinctive word. Exported for tests. */
+export function sameName(ours: string, theirs: string | undefined): boolean {
+  if (!theirs) return false;
+  const a = words(ours).join(' ');
+  const b = words(theirs).join(' ');
+  if (!a || !b) return false;
+  if (a.includes(b) || b.includes(a)) return true;
+  const mine = new Set(words(ours).filter((word) => !COMMON.has(word)));
+  return words(theirs).some((word) => !COMMON.has(word) && mine.has(word));
+}
 
 const SHUT: Record<string, PlaceDetails['shut']> = { CLOSED_TEMPORARILY: 'temporarily', CLOSED_PERMANENTLY: 'permanently' };
 
@@ -79,7 +94,7 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
     });
     if (response.ok) {
       type Place = {
-        businessStatus?: string; formattedAddress?: string;
+        displayName?: { text?: string }; businessStatus?: string; formattedAddress?: string;
         currentOpeningHours?: { periods?: HoursPeriod[] }; regularOpeningHours?: { periods?: HoursPeriod[]; weekdayDescriptions?: string[] }; utcOffsetMinutes?: number; googleMapsUri?: string;
         primaryTypeDisplayName?: { text?: string }; rating?: number; userRatingCount?: number; priceLevel?: string; websiteUri?: string; nationalPhoneNumber?: string;
       };
@@ -108,6 +123,7 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
           ...(Array.isArray(periods) && typeof place.utcOffsetMinutes === 'number' ? { periods, utcOffsetMinutes: place.utcOffsetMinutes } : {}),
           ...(mapsUrl ? { mapsUrl } : {}),
           ...(week ? { week } : {}),
+          matched: sameName(venue.name, place.displayName?.text),
           details: Object.fromEntries(Object.entries(details).filter(([, value]) => value !== undefined)) as PlaceDetails,
         };
       }
@@ -136,7 +152,9 @@ export async function withGoogleHours(venues: PulseVenue[], now = new Date()): P
   const out: PulseVenue[] = [];
   for (const venue of marked) {
     const found = results.get(venue.id);
-    if (found?.details.shut) continue;
+    // Only trusted when Google's listing is this place, and never over a live reading that it's busy right now.
+    const trusted = found?.matched && venue.basis !== 'live';
+    if (trusted && found?.details.shut) continue;
     const withLink = found?.mapsUrl ? { ...venue, mapsUrl: found.mapsUrl } : venue;
     if (!found?.periods || found.utcOffsetMinutes === undefined) {
       // Google knew the place but not its hours: keep its Maps link anyway.
@@ -144,9 +162,9 @@ export async function withGoogleHours(venues: PulseVenue[], now = new Date()): P
       continue;
     }
     const closes = closesTonight(found.periods, localNow(now, found.utcOffsetMinutes));
-    if (closes === null) continue;
+    if (closes === null && trusted) continue;
     // BestTime's own hours stand when it had them; Google only fills the gap.
-    if (venue.closesMinutes !== undefined) {
+    if (venue.closesMinutes !== undefined || closes === null) {
       out.push(withLink);
       continue;
     }
@@ -171,13 +189,17 @@ export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'addr
   const found = await lookup({ ...venue, category: '', busyness: 0, basis: 'forecast' }, key, charge);
   if (!found) return null;
   const details = { ...found.details };
+  // Google's listing may be another business at the address: then it doesn't get to say this one is closed.
+  if (!found.matched) delete details.shut;
   if (found.utcOffsetMinutes !== undefined) {
     const hoursToday = todayLine(found.week, localNow(now, found.utcOffsetMinutes).day);
     if (hoursToday) details.hoursToday = hoursToday;
   }
   if (found.periods && found.utcOffsetMinutes !== undefined) {
     const closes = closesTonight(found.periods, localNow(now, found.utcOffsetMinutes));
-    if (closes === null) details.closedNow = true;
+    if (closes === null) {
+      if (found.matched) details.closedNow = true;
+    }
     else if (closes === 'open-24h') details.openAllNight = true;
     else details.closesMinutes = closes;
   }
