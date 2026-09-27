@@ -1635,7 +1635,7 @@
   }
   .mobileHead i { width: 8px; height: 8px; border-radius: 50%; background: #e4577e; box-shadow: 0 0 10px #e4577e; }
   .mobileHead span { color: var(--color-ink-soft); font-weight: 600; letter-spacing: 0.04em; }
-  /* The event card shows when they've picked one on the globe; otherwise Coming up below lists them. */
+  /* The event card shows when they've picked an event (not merely a season or interest); otherwise Coming up lists them. */
   .world .spotlight { display: none; }
-  .world .spotlight[data-selected='true'] { display: block; position: static; width: auto; margin: 12px 16px 0; }
+  .world .spotlight[data-picked='true'] { display: block; position: static; width: auto; margin: 12px 16px 0; }
 }

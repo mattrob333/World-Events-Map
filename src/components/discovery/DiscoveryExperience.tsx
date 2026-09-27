@@ -420,7 +420,7 @@ export function DiscoveryExperience() {
           )}
         </div>
         {/* Phones: one quiet line on the globe instead of the headline, stats and controls. */}
-        {!planMode && !storyFocus ? (
+        {!planMode && !selectedStory ? (
           <p className={styles.mobileHead}>
             <i aria-hidden="true" /> PULSE{originName ? ` · ${originName}` : ''} <span>Brighter means busier</span>
           </p>
@@ -465,7 +465,7 @@ export function DiscoveryExperience() {
           </p>
         </div>
 
-        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined}>
+        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined} data-picked={selectedStory ? 'true' : undefined}>
           <div className={styles.eyebrow}>
             <span className={styles.spark}>✦</span>{' '}
             {selectedStory ? 'THIS IS YOUR DESTINATION' : modeActive ? 'FIRST ON YOUR SHORTLIST' : planMode ? 'IN YOUR TRAVEL WINDOW' : nearbyScenes.length ? 'NEAREST EVENT ON THE CALENDAR' : 'A SCENE TO EXPLORE'}
@@ -673,7 +673,7 @@ export function DiscoveryExperience() {
           <span className={styles.nearYouSun} aria-hidden="true" />
           <span className={styles.nearYouText}>
             <strong>What’s busy near you</strong>
-            <small>Live foot traffic, a mile around you</small>
+            <small>Foot traffic, a mile around you</small>
           </span>
           <span aria-hidden="true">→</span>
         </Link>
