@@ -7,6 +7,7 @@ import {
   useState,
   type FormEvent,
 } from 'react';
+import { FEATURES } from '@/lib/flags';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import {
   OFFER_PRICE_QUALIFIER,
@@ -123,7 +124,14 @@ function CommunityContent({
   initialOffer: string;
 }) {
   const { client, user, loading } = usePlatformAuth();
-  const [tab, setTab] = useState<CommunityTab>(initialOffer ? 'offers' : initialTab);
+  // Shelved (src/lib/flags.ts): partner offers and requests need ACCESS, the directory needs Circles.
+  // Hidden and not fetched while off; a real Circle invite still opens either way.
+  const offersOn = FEATURES.access;
+  const directoryOn = FEATURES.circles;
+  const tabs: CommunityTab[] = offersOn ? ['circles', 'offers', 'requests'] : ['circles'];
+  const [tab, setTab] = useState<CommunityTab>(
+    !offersOn ? 'circles' : initialOffer ? 'offers' : initialTab,
+  );
   const [circles, setCircles] = useState<Circle[]>([]);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -152,21 +160,23 @@ function CommunityContent({
     if (!client) return;
     try {
       const results = await Promise.all([
-        user
+        user && directoryOn
           ? client
               .from('circles')
               .select('*')
               .order('start_date', { ascending: true })
               .limit(100)
           : Promise.resolve({ data: [], error: null }),
-        fetchPublishedOffers(client).then(({ offers: published, error: offerError }) => ({
-          data: published as Offer[],
-          error: offerError ? new Error(offerError) : null,
-        })),
-        user
+        offersOn
+          ? fetchPublishedOffers(client).then(({ offers: published, error: offerError }) => ({
+              data: published as Offer[],
+              error: offerError ? new Error(offerError) : null,
+            }))
+          : Promise.resolve({ data: [] as Offer[], error: null }),
+        user && directoryOn
           ? client.from('circle_members').select('*').eq('user_id', user.id)
           : Promise.resolve({ data: [], error: null }),
-        user
+        user && offersOn
           ? client
               .from('inquiries')
               .select('*')
@@ -179,7 +189,7 @@ function CommunityContent({
       if (failure) throw failure;
       setCircles(results[0].data ?? []);
       setOffers(results[1].data ?? []);
-      if (initialOffer && !openedOffer.current) {
+      if (offersOn && initialOffer && !openedOffer.current) {
         openedOffer.current = true;
         const match = (results[1].data ?? []).find((offer) => offer.id === initialOffer);
         if (match) setOfferRequest(match);
@@ -192,7 +202,7 @@ function CommunityContent({
     } finally {
       setFetching(false);
     }
-  }, [client, user, initialOffer]);
+  }, [client, user, initialOffer, offersOn, directoryOn]);
 
   useEffect(() => {
     void refresh();
@@ -370,32 +380,38 @@ function CommunityContent({
     <PlatformShell
       eyebrow="Good places. Better company."
       title="Find your next circle."
-      description="Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details."
+      description={
+        offersOn
+          ? 'Meet around a shared interest, shape a weekend together, and ask trusted travel partners to take care of the details.'
+          : 'Meet around a shared interest and shape a weekend together.'
+      }
     >
       {initialCircle && !circlePath && <p className={`${styles.notice} ${styles.error}`}>This Circle link is invalid. Ask the host for a new link.</p>}
       {circlePath && !user && client && <p className={styles.notice}>Sign in below to open this Circle invitation. The host approves requests before you can join its private conversation.</p>}
       {circlePath && !client && <p className={styles.notice}>This Circle invitation needs member sign-in, which is not available on this preview yet. Nothing was joined. Ask the host to share the trip details another way.</p>}
-      <div
-        className={styles.tabs}
-        role="tablist"
-        aria-label="Community sections"
-      >
-        {(['circles', 'offers', 'requests'] as const).map((value) => (
-          <button
-            key={value}
-            role="tab"
-            aria-selected={tab === value}
-            className={`${styles.button} ${styles.secondary} ${styles.tab} ${tab === value ? styles.active : ''}`}
-            onClick={() => setTab(value)}
-          >
-            {value === 'circles'
-              ? 'Travel circles'
-              : value === 'offers'
-                ? 'Partner offers'
-                : 'Your requests'}
-          </button>
-        ))}
-      </div>
+      {tabs.length > 1 && (
+        <div
+          className={styles.tabs}
+          role="tablist"
+          aria-label="Community sections"
+        >
+          {tabs.map((value) => (
+            <button
+              key={value}
+              role="tab"
+              aria-selected={tab === value}
+              className={`${styles.button} ${styles.secondary} ${styles.tab} ${tab === value ? styles.active : ''}`}
+              onClick={() => setTab(value)}
+            >
+              {value === 'circles'
+                ? 'Travel circles'
+                : value === 'offers'
+                  ? 'Partner offers'
+                  : 'Your requests'}
+            </button>
+          ))}
+        </div>
+      )}
       {error && (
         <div className={`${styles.notice} ${styles.error}`} role="alert">
           {error}
@@ -415,7 +431,7 @@ function CommunityContent({
           {notice}
         </p>
       )}
-      {eventFilter && (
+      {eventFilter && (directoryOn || offersOn) && (
         <p className={styles.notice}>
           Showing circles and offers for your selected event.{' '}
           <button
@@ -428,7 +444,18 @@ function CommunityContent({
       )}
       <div className={styles.grid}>
         <section className={styles.stack}>
-          {tab === 'circles' && (
+          {tab === 'circles' && !directoryOn && (
+            <section className={styles.card}>
+              <h2>{circlePath ? 'Your Circle invitation.' : 'Circles open from an invitation.'}</h2>
+              <p className={styles.muted}>
+                {circlePath
+                  ? 'The Circle opens here once you’re signed in. The host approves who joins.'
+                  : 'Ask the host for their Circle link.'}{' '}
+                <a className={styles.inlineLink} href="/trips">Your trips ↗</a>
+              </p>
+            </section>
+          )}
+          {tab === 'circles' && directoryOn && (
             <>
               <div className={styles.between}>
                 <h2>Make a plan worth sharing.</h2>
@@ -577,7 +604,7 @@ function CommunityContent({
               )}
             </>
           )}
-          {tab === 'offers' && (
+          {offersOn && tab === 'offers' && (
             <>
               <h2>A good reason to go.</h2>
               <p className={styles.muted}>
@@ -635,7 +662,7 @@ function CommunityContent({
               )}
             </>
           )}
-          {tab === 'requests' && (
+          {offersOn && tab === 'requests' && (
             <>
               <h2>Your partner requests.</h2>
               {!user ? (
@@ -693,7 +720,7 @@ function CommunityContent({
               Edit your introduction & privacy
             </a>
           )}
-          {offerRequest && (
+          {offersOn && offerRequest && (
             <section className={styles.card}>
               <div className={styles.between}>
                 <h2>Make it your trip.</h2>
@@ -995,7 +1022,7 @@ function CommunityContent({
               )}
             </section>
           )}
-          {!selected && !offerRequest && (
+          {directoryOn && !selected && !offerRequest && (
             <section className={styles.card}>
               <span className={styles.eyebrow}>
                 The beginning of a great story

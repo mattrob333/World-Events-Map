@@ -1,6 +1,6 @@
 import { MAX_RAMBLE_CHARS, parseProfileLocally, type ParsedProfile } from '@/lib/designer/profile';
 import { designerAiConfigured, parseProfileWithClaude } from '@/lib/designer/server/claude';
-import { takeShared } from '@/lib/designer/server/sharedBudget';
+import { takeMemberShare } from '@/lib/designer/server/memberShare';
 import { RequestTooLargeError, checkBoundary, consumeAiCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { requireMember } from '@/lib/platform/server/member';
 
@@ -38,7 +38,9 @@ export async function POST(request: Request) {
 
   if (!designerAiConfigured()) return local();
   if (!consumeAiCall(request)) return local('AI sorting is busy for you right now, so this was sorted on the device.');
-  if (!(await takeShared('designerAi'))) return local('AI sorting is resting for today, so this was sorted on the device.');
+  const share = await takeMemberShare(member.id, 'designerAi');
+  if (share === 'member') return local('You’ve used your AI sorting for today, so this was sorted on the device.');
+  if (share === 'site') return local('AI sorting is resting for today, so this was sorted on the device.');
   try {
     const profile = await parseProfileWithClaude(text);
     return jsonOk({ profile, engine: 'claude' } satisfies ParsedProfile);

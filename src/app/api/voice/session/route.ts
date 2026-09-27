@@ -1,5 +1,5 @@
 import { after } from 'next/server';
-import { takeShared } from '@/lib/designer/server/sharedBudget';
+import { takeMemberShare } from '@/lib/designer/server/memberShare';
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { liveSessionConfig, voiceCallLimitSeconds } from '@/lib/voice/session';
 import { isVoiceIntent } from '@/lib/voice/tools';
@@ -20,7 +20,8 @@ const LIVE_URL = 'https://api.openai.com/v1/live/sessions';
  *
  * GPT-Live talks; its Responses backend reasons, searches the web (trip
  * canvas only) and calls this intent's tools, which run in the browser.
- * Cost is bounded by the time cap, the per-client limiter and the daily cap.
+ * Cost is bounded by the time cap, the per-client limiter, each member's
+ * daily share and the site's daily cap.
  */
 /** Whether voice is on, so the modal can skip the mic prompt when it isn't. */
 export function GET() {
@@ -50,7 +51,10 @@ export async function POST(request: Request) {
   const today = typeof body.today === 'string' ? body.today : '';
 
   if (!consumeProviderCall(request, 'voice')) return jsonError(429, 'VOICE_COOLDOWN', 'Lots of talking just now. Give it a few minutes, or type instead.');
-  if (!(await takeShared('voice'))) return jsonError(503, 'VOICE_DAILY_LIMIT', 'Voice is resting for today. Type instead; it works the same.');
+  // This member's share first, so no one account can use up everyone's voice for the day.
+  const share = await takeMemberShare(member.id, 'voice');
+  if (share === 'member') return jsonError(429, 'VOICE_MEMBER_DAILY_LIMIT', 'You’ve used your voice sessions for today. Type instead; it works the same.');
+  if (share === 'site') return jsonError(503, 'VOICE_DAILY_LIMIT', 'Voice is resting for today. Type instead; it works the same.');
 
   const response = await fetch(LIVE_URL, {
     method: 'POST',

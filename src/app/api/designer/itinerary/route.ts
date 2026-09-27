@@ -1,7 +1,7 @@
 import { InputError, validateComposeBody } from '@/lib/designer/validate';
 import { applyCuration, composeLocally, groupTags } from '@/lib/designer/itinerary';
 import { curateItineraryWithClaude, designerAiConfigured } from '@/lib/designer/server/claude';
-import { takeShared } from '@/lib/designer/server/sharedBudget';
+import { takeMemberShare } from '@/lib/designer/server/memberShare';
 import { RequestTooLargeError, checkBoundary, consumeAiCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { requireMember } from '@/lib/platform/server/member';
 
@@ -35,7 +35,11 @@ export async function POST(request: Request) {
   if (!consumeAiCall(request)) {
     return jsonOk({ itinerary: base, notice: 'The AI designer is busy for you right now, so this draft was built on the device.' });
   }
-  if (!(await takeShared('designerAi'))) {
+  const share = await takeMemberShare(member.id, 'designerAi');
+  if (share === 'member') {
+    return jsonOk({ itinerary: base, notice: 'You’ve used your AI designer drafts for today, so this draft was built on the device.' });
+  }
+  if (share === 'site') {
     return jsonOk({ itinerary: base, notice: 'The AI designer is resting for today, so this draft was built on the device.' });
   }
   try {

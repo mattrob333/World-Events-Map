@@ -1,5 +1,5 @@
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
-import { takeShared } from '@/lib/designer/server/sharedBudget';
+import { takeMemberShare } from '@/lib/designer/server/memberShare';
 import { askJev, jevConfigured, stateHash, type ScoreAnswer } from '@/lib/jev/client';
 import { FIT_BATCH, TRIP_FIT_CONTRACT, rankCandidates, tripFitQuestions, tripFitState, type FitCandidate, type FitContext } from '@/lib/jev/contracts/tripFit';
 import { storeReceipts } from '@/lib/jev/receipts';
@@ -67,8 +67,13 @@ export async function POST(request: Request) {
   if (!jevConfigured()) {
     return jsonOk({ ...rankCandidates(candidates, null, context.likes), note: 'The fit check isn’t connected, so these are ranked by rating.' });
   }
-  if (!consumeProviderCall(request, 'jev', Date.now(), batches.length) || !(await takeShared('jev', batches.length))) {
+  if (!consumeProviderCall(request, 'jev', Date.now(), batches.length)) {
     return jsonOk({ ...rankCandidates(candidates, null, context.likes), note: 'Fit check is busy right now, so these are ranked by rating.' });
+  }
+  const share = await takeMemberShare(member.id, 'jev', batches.length);
+  if (share !== 'granted') {
+    const note = share === 'member' ? 'You’ve used your fit checks for today, so these are ranked by rating.' : 'Fit check is busy right now, so these are ranked by rating.';
+    return jsonOk({ ...rankCandidates(candidates, null, context.likes), note });
   }
 
   const answers: Record<string, ScoreAnswer> = {};
