@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { formatDateRange } from '@/components/ui/tokens';
 import { forYou, HOME_DAYS, homeEvents } from '@/lib/discovery/home';
-import { countryAt, regionAround } from '@/lib/geo/homeCountry';
+import { countryAt, countryFromCalendar, regionAround } from '@/lib/geo/homeCountry';
 import { SEASONS, SNOW_SPOTS, snowLevel } from '@/lib/geo/snowSeasons';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import type { Signal } from '@/lib/vibe/signals';
@@ -57,7 +57,10 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
   const [picked, setPicked] = useState<Picked>(null);
   const [snow, setSnow] = useState(false);
   const [month, setMonth] = useState(() => Number(today.slice(5, 7)));
-  const country = useMemo(() => countryAt(viewer), [viewer]);
+  const country = useMemo(() => {
+    const zone = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : undefined;
+    return countryAt(viewer, zone) ?? countryFromCalendar(viewer, events);
+  }, [viewer, events]);
   const bounds = useMemo(() => country?.bounds ?? regionAround(viewer), [country, viewer]);
   const list = useMemo(() => (country ? homeEvents(events, country.code, today) : []), [events, country, today]);
   const reasons = useMemo(() => new Map(list.map((event) => [event.id, forYou(event, signals)])), [list, signals]);

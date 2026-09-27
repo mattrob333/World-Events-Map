@@ -39,10 +39,77 @@ export const COUNTRY_VIEWS: readonly CountryView[] = [
 
 const area = (view: CountryView) => (view.bounds[2] - view.bounds[0]) * (view.bounds[3] - view.bounds[1]);
 
-/** The country a point falls in: the smallest box that holds it (Switzerland before France), or null. */
-export function countryAt(point: GeoPoint): CountryView | null {
-  const holding = COUNTRY_VIEWS.filter(({ bounds: [w, s, e, n] }) => point.lon >= w && point.lon <= e && point.lat >= s && point.lat <= n);
-  return holding.sort((a, b) => area(a) - area(b))[0] ?? null;
+/**
+ * The lower 48, roughly: the US box alone takes in Toronto, Vancouver and
+ * Montreal, and Mexico's box takes in Texas. Points are [lon, lat], drawn
+ * along the Canadian border (through the Great Lakes) and the Mexican border,
+ * out to sea elsewhere. Border towns can still land on the wrong side.
+ */
+const LOWER_48: readonly [number, number][] = [
+  [-125, 49], [-95.2, 49], [-89.6, 48], [-84.8, 46.5], [-82.4, 45.3], [-83, 42], [-79, 43.3], [-76.3, 44.2],
+  [-74.7, 45], [-71.5, 45], [-70, 46.7], [-67.8, 47.1], [-67, 45], [-66, 44], [-80, 24], [-97.1, 25.9],
+  [-99.5, 27.5], [-101.4, 29.8], [-103, 29], [-106.5, 31.8], [-108.2, 31.3], [-111.1, 31.3], [-114.8, 32.5],
+  [-117.1, 32.5], [-118, 32], [-125, 40],
+];
+
+function inside(point: GeoPoint, ring: readonly [number, number][]): boolean {
+  let hit = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    if ((yi > point.lat) !== (yj > point.lat) && point.lon < ((xj - xi) * (point.lat - yi)) / (yj - yi) + xi) hit = !hit;
+  }
+  return hit;
+}
+
+/** The device's time zone, when it names one of the listed countries: settles boxes that overlap (Strasbourg is in Germany's box too). */
+const ZONE_COUNTRY: Record<string, string> = {
+  'Europe/London': 'GB', 'Europe/Dublin': 'IE', 'Europe/Paris': 'FR', 'Europe/Madrid': 'ES', 'Europe/Lisbon': 'PT',
+  'Europe/Rome': 'IT', 'Europe/Berlin': 'DE', 'Europe/Zurich': 'CH', 'Europe/Vienna': 'AT', 'Europe/Amsterdam': 'NL',
+  'Europe/Brussels': 'BE', 'Europe/Athens': 'GR', 'Europe/Stockholm': 'SE', 'Europe/Oslo': 'NO',
+  'America/Toronto': 'CA', 'America/Vancouver': 'CA', 'America/Edmonton': 'CA', 'America/Winnipeg': 'CA', 'America/Halifax': 'CA',
+  'America/Mexico_City': 'MX', 'America/Tijuana': 'MX', 'America/Monterrey': 'MX', 'America/Cancun': 'MX',
+};
+
+/**
+ * The country a point falls in: the lower 48 by outline, the others by box
+ * (the device's time zone first where boxes overlap, then the smallest), or
+ * null when it isn't one of the listed countries.
+ */
+export function countryAt(point: GeoPoint, zone?: string): CountryView | null {
+  if (inside(point, LOWER_48)) return COUNTRY_VIEWS.find((view) => view.code === 'US') ?? null;
+  const holding = COUNTRY_VIEWS.filter(({ code, bounds: [w, s, e, n] }) => code !== 'US' && point.lon >= w && point.lon <= e && point.lat >= s && point.lat <= n);
+  const zoned = zone ? holding.find((view) => view.code === ZONE_COUNTRY[zone]) : undefined;
+  return zoned ?? holding.sort((a, b) => area(a) - area(b))[0] ?? null;
+}
+
+type Placed = { country: string; countryCode: string; coords: GeoPoint };
+
+/**
+ * Somewhere the list doesn't cover (Singapore, Kenya, Alaska): the country of
+ * the nearest place on the calendar within about 600 km, framed around its
+ * events and the traveler. Null when nothing on the calendar is that close.
+ */
+export function countryFromCalendar(point: GeoPoint, events: readonly Placed[]): CountryView | null {
+  const km = (a: GeoPoint, b: GeoPoint) => {
+    const rad = Math.PI / 180;
+    const h = Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2;
+    return 12_742 * Math.asin(Math.min(1, Math.sqrt(h)));
+  };
+  let nearest: { event: Placed; km: number } | null = null;
+  for (const event of events) {
+    const d = km(point, event.coords);
+    if (!nearest || d < nearest.km) nearest = { event, km: d };
+  }
+  if (!nearest || nearest.km > 600) return null;
+  const { countryCode, country } = nearest.event;
+  const points = [point, ...events.filter((event) => event.countryCode === countryCode && km(point, event.coords) <= 1500).map((event) => event.coords)];
+  let [w, s, e, n] = [Math.min(...points.map((p) => p.lon)), Math.min(...points.map((p) => p.lat)), Math.max(...points.map((p) => p.lon)), Math.max(...points.map((p) => p.lat))];
+  // At least a couple of degrees across, so a city-state isn't one blown-up block.
+  const padLon = Math.max(1, (2 - (e - w)) / 2);
+  const padLat = Math.max(1, (2 - (n - s)) / 2);
+  [w, s, e, n] = [w - padLon, s - padLat, e + padLon, n + padLat];
+  return { code: countryCode, name: country, bounds: [w, s, e, n] };
 }
 
 /** A frame for somewhere outside the listed countries: about 800 km around the point. */

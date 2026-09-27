@@ -205,8 +205,6 @@ export function DiscoveryExperience() {
   );
 
   const pulseScenes = planMode ? scenes : worldHeat;
-  // Home needs to know roughly where they are; a journey or event link always shows the globe.
-  const lens: Lens = !viewer.coords || planMode || journeyEventId || linkedEventId ? 'world' : lensChoice ?? (member ? 'home' : 'world');
   const destinationsIndex = useMemo(() => indexDestinations(EVENTS), []);
   const destinationHref = (eventId: string) => {
     const destination = destinationsIndex.byEventId.get(eventId);
@@ -237,6 +235,10 @@ export function DiscoveryExperience() {
   );
   const hasViewerOrigin = viewer.status === 'granted' &&
     (viewer.source === 'browser' || viewer.source === 'chosen') && Boolean(viewer.coords);
+  // Home needs a real location (their device's, or a city they chose), never the time-zone guess;
+  // a journey or event link always shows the globe.
+  const canHome = hasViewerOrigin && !planMode && !journeyEventId && !linkedEventId;
+  const lens: Lens = canHome ? lensChoice ?? (member ? 'home' : 'world') : 'world';
   const selectedRoute = storyFocus && spotlight && hasViewerOrigin && viewer.coords
     ? estimateRoute(viewer.coords, spotlight.coords)
     : null;
@@ -416,7 +418,7 @@ export function DiscoveryExperience() {
         season={tripMode.season}
         interest={tripMode.interest}
       />}
-      {!planMode && viewer.coords ? (
+      {canHome ? (
         <div className={styles.lenses} role="group" aria-label="Map">
           <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
           <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
