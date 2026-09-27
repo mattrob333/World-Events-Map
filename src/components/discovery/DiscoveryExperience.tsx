@@ -419,6 +419,12 @@ export function DiscoveryExperience() {
             </div>
           )}
         </div>
+        {/* Phones: one quiet line on the globe instead of the headline, stats and controls. */}
+        {!planMode && !selectedStory ? (
+          <p className={styles.mobileHead}>
+            <i aria-hidden="true" /> PULSE{originName ? ` · ${originName}` : ''} <span>Brighter means busier</span>
+          </p>
+        ) : null}
         <div className={styles.worldHeading} data-selected={storyFocus ? 'true' : undefined}>
           <span className={styles.eyebrow}>
             {selectedStory
@@ -427,7 +433,7 @@ export function DiscoveryExperience() {
               ? `YOUR ${modeLabel.toUpperCase()} SHORTLIST`
               : planMode
               ? 'GO WHERE THE MOMENT TAKES YOU'
-              : 'PICK A PLACE. FIND YOUR PEOPLE.'}
+              : 'PULSE · WHERE THE ENERGY IS'}
           </span>
           <h2>
             {storyFocus && spotlight ? (
@@ -444,9 +450,9 @@ export function DiscoveryExperience() {
               </>
             ) : (
               <>
-                The world is{' '}
+                See where it’s{' '}
                 <br />
-                <em>wide open.</em>
+                <em>happening.</em>
               </>
             )}
           </h2>
@@ -455,11 +461,11 @@ export function DiscoveryExperience() {
               ? `${spotlight.name} · ${formatDateRange(spotlight.start, spotlight.end)}`
               : planMode
               ? 'Follow the season, find your scene, and make it a trip.'
-              : 'Spin the globe, follow a spark, and see where it leads.'}
+              : 'Brighter means busier. Spin the globe to explore.'}
           </p>
         </div>
 
-        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined}>
+        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined} data-picked={selectedStory ? 'true' : undefined}>
           <div className={styles.eyebrow}>
             <span className={styles.spark}>✦</span>{' '}
             {selectedStory ? 'THIS IS YOUR DESTINATION' : modeActive ? 'FIRST ON YOUR SHORTLIST' : planMode ? 'IN YOUR TRAVEL WINDOW' : nearbyScenes.length ? 'NEAREST EVENT ON THE CALENDAR' : 'A SCENE TO EXPLORE'}
@@ -660,6 +666,18 @@ export function DiscoveryExperience() {
           <GlobeControls />
         </div>
       </section>
+
+      {/* The way in from the globe: what's busy right where you are. */}
+      {!planMode && !query ? (
+        <Link href="/now" className={styles.nearYou}>
+          <span className={styles.nearYouSun} aria-hidden="true" />
+          <span className={styles.nearYouText}>
+            <strong>What’s busy near you</strong>
+            <small>Foot traffic, a mile around you</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      ) : null}
 
       {/* Pulse: straight after the globe, what's hot right now; then what's coming up. */}
       {!planMode && !query && <LivingDashboard mode="feed" />}

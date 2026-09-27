@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useHydrated } from '@/components/designer/useHydrated';
 import { useDesignerStore } from '@/lib/designer/store';
@@ -34,6 +35,9 @@ function remember(userId: string) {
  */
 export function SyncPrompt() {
   const hydrated = useHydrated();
+  const pathname = usePathname() ?? '';
+  // Asked where their travelers, groups and trips live (You, Trips), never over the globe on first open.
+  const onTheirStuff = pathname.startsWith('/vibe') || pathname.startsWith('/trips');
   const { user } = usePlatformAuth();
   const accountSync = useDesignerStore((state) => state.accountSync);
   const owner = useDesignerStore((state) => state.syncOwner);
@@ -44,11 +48,15 @@ export function SyncPrompt() {
   const [answered, setAnswered] = useState<string | null>(null);
   const userId = user?.id ?? null;
   // Read after hydration only, so the server render and the first client render agree.
-  const show = hydrated && Boolean(userId) && answered !== userId && !accountSync && !(owner && owner !== userId) && !asked(userId!);
+  const show = hydrated && onTheirStuff && Boolean(userId) && answered !== userId && !accountSync && !(owner && owner !== userId) && !asked(userId!);
   if (!show || !userId) return null;
-  const what = travelers || trips
-    ? [travelers ? `${travelers} ${travelers === 1 ? 'traveler' : 'travelers'}` : '', 'your groups', trips ? `${trips === 1 ? 'your trip' : 'your trips'}` : ''].filter(Boolean).join(', ')
-    : 'your travelers, groups and trips';
+  // "your traveler profile and groups", "your 3 traveler profiles, groups and trip"
+  const parts = [
+    travelers === 1 ? 'traveler profile' : travelers > 1 ? `${travelers} traveler profiles` : 'traveler profiles',
+    'groups',
+    ...(trips === 1 ? ['trip'] : trips > 1 ? ['trips'] : []),
+  ];
+  const what = `your ${parts.length > 1 ? `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}` : parts[0]}`;
 
   function answer(yes: boolean) {
     if (!userId) return;
