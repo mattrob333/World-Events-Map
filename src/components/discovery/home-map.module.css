@@ -50,4 +50,5 @@
 
 .credit { position: absolute; right: 10px; bottom: 6px; z-index: 2; color: rgb(244 241 234 / 0.45); font-size: 10px; text-decoration: none; }
 .credit:hover { color: var(--color-bone); }
-@media (max-width: 899px) { .credit { bottom: 60px; } }
+/* Phones: under the heading, clear of the place card that opens over the bottom of the map. */
+@media (max-width: 899px) { .credit { top: 90px; right: 16px; bottom: auto; z-index: 4; } .list { top: 110px; } }
