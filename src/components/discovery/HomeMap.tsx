@@ -196,7 +196,7 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
           <p className={styles.cardDates}>{formatDateRange(pickedEvent.start, pickedEvent.end)}</p>
           {reasons.get(pickedEvent.id) ? <p className={styles.why}>For you: {reasons.get(pickedEvent.id)}</p> : null}
           <p className={styles.tagline}>{pickedEvent.tagline}</p>
-          <Link className="btn btn-primary btn-sm" href={hrefFor(pickedEvent.id)}>Open {pickedEvent.city} ↗</Link>
+          <Link prefetch={false} className="btn btn-primary btn-sm" href={hrefFor(pickedEvent.id)}>Open {pickedEvent.city} ↗</Link>
         </article>
       ) : pickedSnow ? (
         <article className={styles.card} aria-live="polite">
@@ -205,7 +205,7 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
           <h3>{pickedSnow.name}</h3>
           <p className={styles.why}>{MONTHS[month - 1]}: {LEVEL_WORDS[snowLevel(pickedSnow.region, month)]}.</p>
           <p className={styles.tagline}>{SEASONS[pickedSnow.region].label}. Typical months, not this year’s dates: openings move with the snow, so check the resort.</p>
-          <Link className="btn btn-ghost btn-sm" href={`/trips/designer?${new URLSearchParams({ place: pickedSnow.name, region: pickedSnow.country }).toString()}`}>Plan a trip here →</Link>
+          <Link prefetch={false} className="btn btn-ghost btn-sm" href={`/trips/designer?${new URLSearchParams({ place: pickedSnow.name, region: pickedSnow.country }).toString()}`}>Plan a trip here →</Link>
         </article>
       ) : null}
 

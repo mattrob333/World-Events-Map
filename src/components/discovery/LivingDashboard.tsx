@@ -34,7 +34,7 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
         {picks.map((place, index) => {
           const event = EVENTS.find((item) => place.eventIds.includes(item.id) && windowIds.has(item.id));
           return (
-            <Link className={styles.story} data-tone={index % 6} href={`/destinations/${place.slug}`} key={place.id}>
+            <Link prefetch={false} className={styles.story} data-tone={index % 6} href={`/destinations/${place.slug}`} key={place.id}>
               <span className={styles.storyArt} aria-hidden="true"><span>{place.countryCode}</span><i /></span>
               <span className={styles.storyText}><small>{event?.category ?? 'DISCOVER'}</small><strong>{place.name}</strong><span>{event?.name ?? 'Find your scene'}</span></span>
               <span className={styles.storyArrow} aria-hidden="true">↗</span>

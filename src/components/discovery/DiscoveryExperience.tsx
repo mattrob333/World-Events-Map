@@ -363,7 +363,7 @@ export function DiscoveryExperience() {
         </label>
         {/* Phones: the offer sits right under the box instead of a screen below it. */}
         {planOffer && (
-          <Link
+          <Link prefetch={false}
             href={planOffer.href}
             className="flex min-h-11 basis-full items-center gap-2 text-[14px] font-medium text-bone underline decoration-bone/40 underline-offset-4 md:hidden"
           >
@@ -422,7 +422,7 @@ export function DiscoveryExperience() {
         <div className={styles.lenses} role="group" aria-label="Map">
           <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
           <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
-          <Link href="/now">Now</Link>
+          <Link prefetch={false} href="/now">Now</Link>
         </div>
       ) : null}
       {lens === 'home' && viewer.coords ? (
@@ -575,18 +575,18 @@ export function DiscoveryExperience() {
               )}
               {/* Sticky inside the scrolling spotlight so the next step never hides below its fold (UFR-A09, B11). */}
               <div className={styles.spotlightActions}>
-                <Link className={`btn btn-primary ${styles.primary}`} href={destinationHref(spotlight.id)}>
+                <Link prefetch={false} className={`btn btn-primary ${styles.primary}`} href={destinationHref(spotlight.id)}>
                   Open {spotlight.city} <span>↗</span>
                 </Link>
                 {FEATURES.circles ? (
-                  <Link
+                  <Link prefetch={false}
                     className={styles.textLink}
                     href={`/circles?destination=${encodeURIComponent(destinationsIndex.byEventId.get(spotlight.id)?.slug ?? '')}&event=${encodeURIComponent(spotlight.id)}`}
                   >
                     Start a Circle here →
                   </Link>
                 ) : (
-                  <Link className={styles.textLink} href={`/trips/designer?${new URLSearchParams({ place: spotlight.city, ...(spotlight.country ? { region: spotlight.country } : {}) }).toString()}`}>
+                  <Link prefetch={false} className={styles.textLink} href={`/trips/designer?${new URLSearchParams({ place: spotlight.city, ...(spotlight.country ? { region: spotlight.country } : {}) }).toString()}`}>
                     Plan a trip here →
                   </Link>
                 )}
@@ -605,7 +605,7 @@ export function DiscoveryExperience() {
                   : 'Great trips start a little ahead. Explore the calendar to find your next moment.'}
               </p>
               {query && planOffer && (
-                <Link className={`btn btn-primary ${styles.primary}`} href={planOffer.href}>
+                <Link prefetch={false} className={`btn btn-primary ${styles.primary}`} href={planOffer.href}>
                   Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span>
                 </Link>
               )}
@@ -647,7 +647,7 @@ export function DiscoveryExperience() {
               : 'Curated occasions ranked by modeled travel interest.'}
           </p>
           {pulseScenes.slice(0, 3).map((event, index) => (
-            <Link
+            <Link prefetch={false}
               key={event.id}
               className={styles.pulseItem}
               href={destinationHref(event.id)}
@@ -709,7 +709,7 @@ export function DiscoveryExperience() {
 
       {/* The way in from the globe: what's busy right where you are. */}
       {!planMode && !query ? (
-        <Link href="/now" className={styles.nearYou}>
+        <Link prefetch={false} href="/now" className={styles.nearYou}>
           <span className={styles.nearYouSun} aria-hidden="true" />
           <span className={styles.nearYouText}>
             <strong>What’s busy near you</strong>
@@ -736,7 +736,7 @@ export function DiscoveryExperience() {
         </div>
         <div className={styles.cards}>
           {upcoming.map((event, index) => (
-            <Link
+            <Link prefetch={false}
               className={`${styles.eventCard} ${styles[`card${index}`]}`}
               key={event.id}
               href={destinationHref(event.id)}
@@ -775,7 +775,7 @@ export function DiscoveryExperience() {
         {showAll && (
           <div className={styles.directoryGrid}>
             {scenes.map((event) => (
-              <Link key={event.id} href={destinationHref(event.id)}>
+              <Link prefetch={false} key={event.id} href={destinationHref(event.id)}>
                 <strong>{event.name}</strong>
                 <span>
                   {event.city} · {dateLabel(event.start)} ↗
@@ -794,7 +794,7 @@ export function DiscoveryExperience() {
           organizers.
           {isDemoMode() && ' Member activity is simulated for this preview.'}
         </p>
-        {FEATURES.access ? <Link href="/partners">Partner with us ↗</Link> : null}
+        {FEATURES.access ? <Link prefetch={false} href="/partners">Partner with us ↗</Link> : null}
       </footer>
       {selected && <EventDossier />}
       <HoverReadout />

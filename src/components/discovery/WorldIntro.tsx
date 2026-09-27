@@ -117,7 +117,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
         <span className={styles.cardFly}><span aria-hidden="true">✈</span> Fly there on the globe <span aria-hidden="true">↗</span></span>
       </button>
       <div className={styles.cardBottom}>
-        <Link href={`/destinations/${slug}?event=${encodeURIComponent(event.id)}`}>Explore the place <span aria-hidden="true">↗</span></Link>
+        <Link prefetch={false} href={`/destinations/${slug}?event=${encodeURIComponent(event.id)}`}>Explore the place <span aria-hidden="true">↗</span></Link>
         {photo && !imageFailed ? (
           <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer" title={`${photo.title} · ${photo.credit} · ${photo.license}`}>
             {photoArchiveLabel(photo)} · {photo.credit} · {photo.license} ↗
@@ -239,7 +239,7 @@ export function WorldIntro({
           <div className={styles.heroActions}>
           {featured && (estimate?.airHours === 0 && destinations.byEventId.get(featured.id) ? (
             // Already there: flying a route to your own city makes no sense (red team UFR-C10).
-            <Link className={`btn btn-primary ${styles.heroCta}`} href={`/destinations/${destinations.byEventId.get(featured.id)!.slug}?event=${encodeURIComponent(featured.id)}`}>
+            <Link prefetch={false} className={`btn btn-primary ${styles.heroCta}`} href={`/destinations/${destinations.byEventId.get(featured.id)!.slug}?event=${encodeURIComponent(featured.id)}`}>
               You&apos;re here · see {featured.city} <span aria-hidden="true">↗</span>
             </Link>
           ) : (

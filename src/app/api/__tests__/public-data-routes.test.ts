@@ -16,7 +16,8 @@ describe('public calendar and source contracts', () => {
 
     const events = await eventsRoute.GET();
     expect(events.status).toBe(200);
-    expect(events.headers.get('Cache-Control')).toBe('no-store');
+    // A minute at the edge, then refreshed in the background: moderation changes clear within minutes.
+    expect(events.headers.get('Cache-Control')).toBe('public, max-age=0, s-maxage=60, stale-while-revalidate=120');
     expect(await events.json()).toEqual({ events: EVENTS, meta: { ...server.dataMeta(), partnerStatus: 'available' } });
 
     const sources = await sourcesRoute.GET();
