@@ -16,12 +16,19 @@ describe('closesTonight', () => {
   it('closed now is null', () => {
     expect(closesTonight([p(5, 11, 5, 21)], fri10pm)).toBeNull();
   });
-  it('still open at 1am Saturday from Friday night: closes at 120 (2am today)', () => {
-    expect(closesTonight([p(5, 16, 6, 2)], { day: 6, minutes: 60 })).toBe(120);
+  it('still open at 1am Saturday from Friday night: closes at 1560, on the night clock (1am = 1500)', () => {
+    expect(closesTonight([p(5, 16, 6, 2)], { day: 6, minutes: 60 })).toBe(1560);
+  });
+  it('the same close reads the same at 10pm and at 1am', () => {
+    expect(closesTonight([p(5, 16, 6, 2)], fri10pm)).toBe(closesTonight([p(5, 16, 6, 2)], { day: 6, minutes: 60 }));
+  });
+  it('from 5am the day is a new one again', () => {
+    expect(closesTonight([p(6, 5, 6, 14)], { day: 6, minutes: 5 * 60 })).toBe(14 * 60);
+    expect(closesTonight([p(6, 4, 6, 14)], { day: 6, minutes: 4 * 60 + 59 })).toBe(14 * 60 + 1440);
   });
   it('Saturday night into Sunday wraps the week', () => {
     expect(closesTonight([p(6, 18, 0, 3)], { day: 6, minutes: 23 * 60 })).toBe(1620);
-    expect(closesTonight([p(6, 18, 0, 3)], { day: 0, minutes: 90 })).toBe(180);
+    expect(closesTonight([p(6, 18, 0, 3)], { day: 0, minutes: 90 })).toBe(1620);
   });
   it('a period with no close means open around the clock', () => {
     expect(closesTonight([{ open: { day: 0, hour: 0, minute: 0 } }], fri10pm)).toBe('open-24h');

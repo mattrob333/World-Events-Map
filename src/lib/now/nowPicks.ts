@@ -6,6 +6,7 @@
 import { matchCandidate, type CandidateFacts } from '@/lib/vibe/concierge';
 import type { Signal, VibeDials } from '@/lib/vibe/signals';
 import { closesLabel, type PulseVenue } from './pulse';
+import { nightClock } from './tonight';
 
 export type NowEnergy = 'chill' | 'social' | 'lively' | 'surprise';
 
@@ -44,8 +45,7 @@ export function rankNowPicks(
   options: { energy: NowEnergy; late?: boolean; nowMinutes: number; signals?: readonly Signal[]; dials?: VibeDials; limit?: number },
 ): NowPick[] {
   const { energy, late = false, nowMinutes, signals = [], dials, limit = 5 } = options;
-  // Before 5am, "now" belongs to last night: 1am is 1500 on the closing-time clock.
-  const clock = nowMinutes < 300 ? nowMinutes + 1440 : nowMinutes;
+  const clock = nightClock(nowMinutes);
   const picks: NowPick[] = [];
   for (const venue of venues) {
     if (late && venue.closesMinutes !== undefined && venue.closesMinutes - clock < 60) continue;

@@ -1,12 +1,15 @@
 import 'server-only';
 
+import { reserveShared } from '@/lib/designer/server/sharedBudget';
 import { BestTimeVenueProvider } from '@/lib/opportunities/besttime';
 import { TypeSafeJudgmentProvider } from '@/lib/opportunities/typesafe';
 import type { CandidateJudgment, GeoPoint, JudgmentInput, VenueCandidate } from '@/lib/opportunities';
 import { rankNowCandidates, selectNowPicks } from './engine';
+import type { MemberCharge } from './liveBusyness';
 import {
   NowProviderBudgetExceededError,
   NowProviderBudgetUnavailableError,
+  NowSearchBudgetError,
   requireNowProviderBudget,
 } from './providerBudget';
 import type { NowRequest, NowResult } from './types';
@@ -14,9 +17,35 @@ import type { NowRequest, NowResult } from './types';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
 const venueCache = new Map<string, { expiresAt: number; venues: VenueCandidate[] }>();
+/** Identical searches at once share one paid call. */
+const pending = new Map<string, Promise<VenueCandidate[]>>();
 
 export function resetNowVenueCacheForTests() {
   venueCache.clear();
+  pending.clear();
+}
+
+/**
+ * Every budget one BestTime venue search needs, or none: the member's own
+ * daily share (when asked on a member's behalf), the site's daily searches,
+ * then the per-minute provider budget. A later refusal gives back what was
+ * already taken, so a search that never ran costs nothing.
+ */
+export async function claimVenueSearch(charge?: MemberCharge): Promise<void> {
+  if (charge && !(await charge.take())) throw new NowSearchBudgetError('member');
+  const daily = await reserveShared(['nowVenue'], 1);
+  if (!daily) {
+    await charge?.refund();
+    throw new NowSearchBudgetError('site');
+  }
+  try {
+    await requireNowProviderBudget();
+  } catch (cause) {
+    daily.settle(0);
+    await charge?.refund();
+    throw cause;
+  }
+  daily.settle(1);
 }
 
 type VenueQuery = Pick<NowRequest, 'location' | 'radiusMeters' | 'intent'> & {
@@ -67,19 +96,36 @@ function pruneVenueCache(now: number) {
   }
 }
 
-export async function venueCandidates(request: VenueQuery): Promise<VenueCandidate[]> {
+/**
+ * BestTime's venues for a search, cached five minutes. Concurrent identical
+ * searches share one call, charged to whoever started it; if that caller's
+ * own share had run out, the others ask on their own.
+ */
+export async function venueCandidates(request: VenueQuery, charge?: MemberCharge): Promise<VenueCandidate[]> {
   const key = cacheKey(request);
-  const now = Date.now();
-  const cached = venueCache.get(key);
-  if (cached && cached.expiresAt > now) {
-    return distancesForOrigin(cached.venues, request.location);
+  for (;;) {
+    const cached = venueCache.get(key);
+    if (cached && cached.expiresAt > Date.now()) return distancesForOrigin(cached.venues, request.location);
+    if (cached) venueCache.delete(key);
+    const running = pending.get(key);
+    if (!running) break;
+    try {
+      return distancesForOrigin(await running, request.location);
+    } catch (cause) {
+      if (!(cause instanceof NowSearchBudgetError && cause.scope === 'member')) throw cause;
+    }
   }
-  if (cached) venueCache.delete(key);
+  const call = searchVenues(request, key, charge).finally(() => pending.delete(key));
+  pending.set(key, call);
+  return distancesForOrigin(await call, request.location);
+}
 
+async function searchVenues(request: VenueQuery, key: string, charge?: MemberCharge): Promise<VenueCandidate[]> {
+  const now = Date.now();
   // This is the point at which dope.travel is actually about to make a paid
-  // external request. The claim is atomic in shared Postgres, so serverless
+  // external request. The claims are atomic in shared Postgres, so serverless
   // scale-out cannot mint additional provider budget. Cache hits above are free.
-  await requireNowProviderBudget();
+  await claimVenueSearch(charge);
   const provider = new BestTimeVenueProvider();
   const search = (categories: string[], limit: number) => provider.search({
     location: request.location,
@@ -93,7 +139,7 @@ export async function venueCandidates(request: VenueQuery): Promise<VenueCandida
     // Bars filed as restaurants (tap houses, sports bars): their own small search, so the
     // most-reviewed restaurants never push real bars out of the first one. Budgeted like any call.
     try {
-      await requireNowProviderBudget();
+      await claimVenueSearch(charge);
       const barsAsRestaurants = await search(['drinksrestaurants'], 20);
       const seen = new Set(venues.map((venue) => venue.id));
       venues = [...venues, ...barsAsRestaurants.filter((venue) => !seen.has(venue.id))];
@@ -103,7 +149,7 @@ export async function venueCandidates(request: VenueQuery): Promise<VenueCandida
   }
   pruneVenueCache(now);
   venueCache.set(key, { expiresAt: now + CACHE_TTL_MS, venues });
-  return distancesForOrigin(venues, request.location);
+  return venues;
 }
 
 function judgmentInput(request: NowRequest, candidates: VenueCandidate[]): JudgmentInput {
@@ -191,9 +237,9 @@ async function optionalJudgments(
   }
 }
 
-export async function executeNow(request: NowRequest): Promise<NowResult> {
+export async function executeNow(request: NowRequest, charge?: MemberCharge): Promise<NowResult> {
   const warnings: string[] = [];
-  const candidates = await venueCandidates(request);
+  const candidates = await venueCandidates(request, charge);
   const deterministic = rankNowCandidates({ request, candidates });
   const shortlist = deterministic.slice(0, 12).map((item) => item.candidate);
   const judgment = await optionalJudgments(request, shortlist, warnings);

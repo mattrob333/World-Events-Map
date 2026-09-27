@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next';
 
+/** A Circle id, as circleInvitePath accepts it (src/lib/trips/circleInvite.ts). Anchored by Next. */
+const CIRCLE_ID = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ['three'],
@@ -33,8 +36,9 @@ const nextConfig: NextConfig = {
       ...(circles ? [] : [
         { source: '/circles', destination: '/trips', permanent: false },
         { source: '/circles/:id', destination: '/trips', permanent: false },
-        // A real Circle's invite (/community?circle=<id>) still opens: only the bare directory goes.
-        { source: '/community', missing: [{ type: 'query' as const, key: 'circle' }], destination: '/trips', permanent: false },
+        // A real Circle's invite (/community?circle=<id>) still opens: anything without a
+        // well-formed id (missing, empty or junk) goes, so the directory isn't one `?circle=` away.
+        { source: '/community', missing: [{ type: 'query' as const, key: 'circle', value: CIRCLE_ID }], destination: '/trips', permanent: false },
       ]),
     ];
   },

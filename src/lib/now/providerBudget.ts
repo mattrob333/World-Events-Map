@@ -25,6 +25,22 @@ export class NowProviderBudgetUnavailableError extends Error {
   }
 }
 
+/**
+ * A daily venue-search cap said no: `member` for one member's own share,
+ * `site` for everyone's. Both reset at 00:00 UTC.
+ */
+export class NowSearchBudgetError extends Error {
+  readonly retryAfterSeconds: number;
+
+  constructor(readonly scope: 'member' | 'site', now = Date.now()) {
+    super(scope === 'member' ? 'This member has used today’s venue searches.' : 'Venue searches are at today’s limit.');
+    this.name = 'NowSearchBudgetError';
+    const midnight = new Date(now);
+    midnight.setUTCHours(24, 0, 0, 0);
+    this.retryAfterSeconds = Math.max(1, Math.ceil((midnight.getTime() - now) / 1000));
+  }
+}
+
 function isBudgetClaim(value: unknown): value is BudgetClaim {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
   const claim = value as Record<string, unknown>;

@@ -1,6 +1,7 @@
 import 'server-only';
 import { takeShared } from '@/lib/designer/server/sharedBudget';
 import { closesTonight, localNow, type HoursPeriod } from './googleHours';
+import { dailyCalls, memberCharge, type MemberCharge } from './liveBusyness';
 import type { PulseVenue } from './pulse';
 
 const ENDPOINT = 'https://places.googleapis.com/v1/places:searchText';
@@ -73,15 +74,45 @@ const httpsUrl = (value: unknown) => {
     return undefined;
   }
 };
-const cache = new Map<string, { found: Found | null; at: number }>();
+/** Why there's nothing: a daily budget said no, Google couldn't be reached, or Google had no such place. */
+export type MissReason = 'budget' | 'unavailable' | 'none';
+/** `memberRefused`: the member who asked had used their own share (another member still may ask). */
+type Lookup = { found: Found; reason?: undefined; memberRefused?: undefined } | { found: null; reason: MissReason; memberRefused?: boolean };
 
-async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boolean>): Promise<Found | null> {
-  const hit = cache.get(venue.id);
-  if (hit && Date.now() - hit.at < (hit.found ? TTL_MS : FAILED_TTL_MS)) return hit.found;
-  // A member's own share first (when asked on their behalf), then the site's daily budget.
-  if (charge && !(await charge())) return null;
-  if (!(await takeShared('places'))) return null;
+const cache = new Map<string, { at: number } & Lookup>();
+/** Lookups of the same place at once share one paid call. */
+const pending = new Map<string, Promise<Lookup>>();
+
+/** One member's daily share of Google lookups, so no one can spend the site's budget and switch off closing times for everyone. */
+export function placesMemberCharge(memberId: string): MemberCharge {
+  return memberCharge(memberId, 'plcM', dailyCalls('GOOGLE_PLACES_MEMBER_DAILY_CALLS', 80));
+}
+
+/** Remembered (a found place for 12 hours, a miss for five minutes) or shared with a lookup already running; else one budgeted call. */
+async function lookup(venue: PulseVenue, key: string, charge?: MemberCharge): Promise<Lookup> {
+  for (;;) {
+    const hit = cache.get(venue.id);
+    if (hit && Date.now() - hit.at < (hit.found ? TTL_MS : FAILED_TTL_MS)) return hit.found ? { found: hit.found } : { found: null, reason: hit.reason! };
+    const running = pending.get(venue.id);
+    if (!running) break;
+    const shared = await running;
+    if (!shared.memberRefused) return shared;
+  }
+  const call = callGoogle(venue, key, charge).finally(() => pending.delete(venue.id));
+  pending.set(venue.id, call);
+  return call;
+}
+
+async function callGoogle(venue: PulseVenue, key: string, charge?: MemberCharge): Promise<Lookup> {
+  // A member's own share first (when asked on their behalf), then the site's daily budget. Refusals aren't remembered.
+  if (charge && !(await charge.take())) return { found: null, reason: 'budget', memberRefused: true };
+  if (!(await takeShared('places'))) {
+    // The site is at its cap: the member's unit isn't spent on a lookup that never ran.
+    await charge?.refund();
+    return { found: null, reason: 'budget' };
+  }
   let found: Found | null = null;
+  let reason: MissReason = 'unavailable';
   try {
     const response = await fetch(ENDPOINT, {
       method: 'POST',
@@ -102,6 +133,7 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
       };
       const body = (await response.json()) as { places?: Place[] };
       const place = body.places?.[0];
+      reason = 'none';
       if (place) {
         const periods = place.currentOpeningHours?.periods ?? place.regularOpeningHours?.periods;
         const mapsUrl = typeof place.googleMapsUri === 'string' && /^https:\/\/(maps\.google\.com|www\.google\.com\/maps|goo\.gl\/maps|maps\.app\.goo\.gl)\//.test(place.googleMapsUri) ? place.googleMapsUri : undefined;
@@ -134,9 +166,10 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
   } catch {
     found = null;
   }
+  const result: Lookup = found ? { found } : { found: null, reason };
   if (cache.size > 2000) cache.delete(cache.keys().next().value!);
-  cache.set(venue.id, { found, at: Date.now() });
-  return found;
+  cache.set(venue.id, { ...result, at: Date.now() });
+  return result;
 }
 
 /**
@@ -146,12 +179,12 @@ async function lookup(venue: PulseVenue, key: string, charge?: () => Promise<boo
  * this hour, is dropped, since it isn't somewhere to go tonight. Places
  * BestTime had no hours for get tonight's closing time from Google.
  */
-export async function withGoogleHours(venues: PulseVenue[], now = new Date()): Promise<PulseVenue[]> {
+export async function withGoogleHours(venues: PulseVenue[], now = new Date(), charge?: MemberCharge): Promise<PulseVenue[]> {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   const marked = venues.map((venue) => (venue.closesMinutes !== undefined ? { ...venue, hoursFrom: 'besttime' as const } : venue));
   if (!key) return marked;
   const checked = [...marked].sort((a, b) => b.busyness - a.busyness).slice(0, MAX_LOOKUPS);
-  const results = new Map(await Promise.all(checked.map(async (venue) => [venue.id, await lookup(venue, key)] as const)));
+  const results = new Map(await Promise.all(checked.map(async (venue) => [venue.id, (await lookup(venue, key, charge)).found] as const)));
   const out: PulseVenue[] = [];
   for (const venue of marked) {
     const found = results.get(venue.id);
@@ -186,11 +219,11 @@ export async function withGoogleHours(venues: PulseVenue[], now = new Date()): P
  * daily `places` budget) as the hours above, so a place already looked up
  * costs nothing more.
  */
-export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'address' | 'lat' | 'lng'>, now = new Date(), charge?: () => Promise<boolean>): Promise<PlaceDetails | null> {
+export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'address' | 'lat' | 'lng'>, now = new Date(), charge?: MemberCharge): Promise<{ place: PlaceDetails; reason?: undefined } | { place: null; reason: MissReason }> {
   const key = process.env.GOOGLE_PLACES_API_KEY;
-  if (!key) return null;
-  const found = await lookup({ ...venue, category: '', busyness: 0, basis: 'forecast' }, key, charge);
-  if (!found) return null;
+  if (!key) return { place: null, reason: 'unavailable' };
+  const { found, reason } = await lookup({ ...venue, category: '', busyness: 0, basis: 'forecast' }, key, charge);
+  if (!found) return { place: null, reason: reason! };
   const details = { ...found.details };
   // Google's listing may be another business at the address: then it doesn't get to say this one is closed.
   if (!found.matched) delete details.shut;
@@ -209,5 +242,5 @@ export async function placeDetails(venue: Pick<PulseVenue, 'id' | 'name' | 'addr
     else if (closes === 'open-24h') details.openAllNight = true;
     else details.closesMinutes = closes;
   }
-  return details;
+  return { place: details };
 }

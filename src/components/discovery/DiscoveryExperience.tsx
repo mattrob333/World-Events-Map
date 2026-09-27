@@ -42,6 +42,13 @@ import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search'
 import { planTripOffer } from '@/lib/search/planPlace';
 import { formatMiles } from '@/lib/units';
 import { SourceLogo } from '@/components/brand/SourceLogo';
+import { HomeMap } from './HomeMap';
+import { useActiveProfile } from '@/lib/designer/store';
+import { allSignals } from '@/lib/vibe/signals';
+
+/** Which map Pulse opens on, remembered on this device: the globe, or their own country. */
+type Lens = 'world' | 'home';
+const LENS_KEY = 'meridian.lens.v1';
 
 // Built on the first search, not on page load.
 let searchIndex: SearchHit[] | null = null;
@@ -109,6 +116,23 @@ export function DiscoveryExperience() {
   const routeTimer = useRef<number | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
+  const active = useActiveProfile();
+  const signals = useMemo(() => (active?.profile ? allSignals(active.profile) : []), [active]);
+  // Returning members open on Home (their country on one screen); first visits and shared links open on the globe.
+  const [lensChoice, setLensChoice] = useState<Lens | null>(null);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        const saved = window.localStorage.getItem(LENS_KEY);
+        if (saved === 'world' || saved === 'home') setLensChoice(saved);
+      } catch { /* Storage can be disabled. */ }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+  const chooseLens = (next: Lens) => {
+    setLensChoice(next);
+    try { window.localStorage.setItem(LENS_KEY, next); } catch { /* Storage can be disabled. */ }
+  };
   // The front door always opens at the top: the browser doesn't drop them
   // back mid-page where they left off (a link to a place or #section still lands there).
   useEffect(() => {
@@ -211,6 +235,10 @@ export function DiscoveryExperience() {
   );
   const hasViewerOrigin = viewer.status === 'granted' &&
     (viewer.source === 'browser' || viewer.source === 'chosen') && Boolean(viewer.coords);
+  // Home needs a real location (their device's, or a city they chose), never the time-zone guess;
+  // a journey or event link always shows the globe.
+  const canHome = hasViewerOrigin && !planMode && !journeyEventId && !linkedEventId;
+  const lens: Lens = canHome ? lensChoice ?? (member ? 'home' : 'world') : 'world';
   const selectedRoute = storyFocus && spotlight && hasViewerOrigin && viewer.coords
     ? estimateRoute(viewer.coords, spotlight.coords)
     : null;
@@ -390,6 +418,17 @@ export function DiscoveryExperience() {
         season={tripMode.season}
         interest={tripMode.interest}
       />}
+      {canHome ? (
+        <div className={styles.lenses} role="group" aria-label="Map">
+          <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
+          <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
+          <Link href="/now">Now</Link>
+        </div>
+      ) : null}
+      {lens === 'home' && viewer.coords ? (
+        <HomeMap events={events} signals={signals} viewer={viewer.coords} today={rangeStart} hrefFor={destinationHref} />
+      ) : null}
+      {lens === 'world' ? <>
       <nav className={styles.regions} aria-label="Explore map regions">
         <span>YOUR WORLD</span>
         {[
@@ -666,6 +705,7 @@ export function DiscoveryExperience() {
           <GlobeControls />
         </div>
       </section>
+      </> : null}
 
       {/* The way in from the globe: what's busy right where you are. */}
       {!planMode && !query ? (

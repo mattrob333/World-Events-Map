@@ -5,18 +5,18 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, PULSE_ROUNDING_SLACK_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
-import { buildTonight } from '@/lib/now/tonight';
+import { buildTonight, nightClock } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
-import { TonightTimeline } from './TonightTimeline';
+import { HourBars, TonightTimeline } from './TonightTimeline';
 import { formatMiles } from '@/lib/units';
 import styles from './nearby-pulse.module.css';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
-/** How far the rounded search point can sit from them, so a small radius isn't lopsided. */
-const ROUNDING_SLACK_METERS = 800;
+/** How far the rounded search point can sit from them, so a small radius isn't lopsided (the server only searches these widths). */
+const ROUNDING_SLACK_METERS = PULSE_ROUNDING_SLACK_METERS;
 /** Below this width the place card covers the bottom of the map, so a tapped place is lifted clear of it. */
 const WIDE_PX = 720;
 const EMPTY: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
@@ -50,7 +50,7 @@ function addPulseLayers(map: MapLibreMap, labels: boolean) {
 }
 
 type Stage = 'spinning' | 'locating' | 'denied' | 'flying' | 'ready';
-type Note = { tone: 'info' | 'warn'; text: string; retry?: boolean } | null;
+type Note = { tone: 'info' | 'warn'; text: string; retry?: boolean; signIn?: boolean } | null;
 type Here = { lat: number; lng: number };
 
 function metersBetween(a: Here, b: Here): number {
@@ -128,8 +128,8 @@ export function NearbyPulse() {
   const ringRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
   // BestTime's live reading per place tapped, fetched once per visit.
   const [live, setLive] = useState<Record<string, LiveState>>({});
-  // Google's facts for each place tapped (type, rating, price, website); null when Google had none.
-  const [details, setDetails] = useState<Record<string, PlaceFacts | null | 'loading'>>({});
+  // Google's facts for each place tapped (type, rating, price, website); null when Google had none, 'paused' when today's lookups are used up.
+  const [details, setDetails] = useState<Record<string, PlaceFacts | null | 'loading' | 'paused'>>({});
   const columnsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
 
   // The local clock, where they are (the phone follows the time zone when they land).
@@ -159,7 +159,8 @@ export function NearbyPulse() {
         attributionControl: false,
       });
       // Credits up top, clear of the list.
-      map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap' }), 'top-right');
+      // Map credits bottom-left, clear of the heading and the locate button.
+      map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap' }), 'bottom-left');
       mapRef.current = map;
       let fellBack = false;
       const fallBack = () => {
@@ -274,8 +275,10 @@ export function NearbyPulse() {
     const box = map.getContainer();
     const zoom = zoomForRadius(here.lat, radius, box.clientWidth, box.clientHeight);
     if (map.getZoom() > 7) {
+      // A radius picked mid-dive cancels the dive's own finish: this glide ends it instead.
+      map.once('moveend', () => { if (live) setStage((current) => (current === 'flying' ? 'ready' : current)); });
       map.easeTo({ center: [here.lng, here.lat], zoom, duration: reduced ? 0 : 900, essential: true });
-      return;
+      return () => { live = false; };
     }
     setStage('flying');
     // Listen first: with reduced motion the move ends synchronously inside flyTo.
@@ -373,13 +376,15 @@ export function NearbyPulse() {
     setDetails({});
     allRef.current = [];
     memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
-      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS }) })
+      // The phone's weekday and hour only choose which day's hourly forecast to show.
+      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: { day: (new Date().getDay() + 6) % 7, hour: new Date().getHours() } }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
         if (!response.ok) {
           setVenues([]);
-          setNote({ tone: response.status === 503 && body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'info' : 'warn', text: body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'Foot traffic isn’t connected yet. The map is ready; the pulses arrive once BestTime is on.' : body.code === 'SIGN_IN_REQUIRED' || body.code === 'MEMBERS_ONLY' ? 'Vibe Now is members-only for now. Log in from the top right to see what’s busy.' : body.error ?? 'Foot traffic could not be checked. Try again shortly.' });
+          const signIn = body.code === 'SIGN_IN_REQUIRED' || body.code === 'MEMBERS_ONLY';
+          setNote({ tone: response.status === 503 && body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'info' : 'warn', signIn, text: body.code === 'NOW_PROVIDER_NOT_CONFIGURED' ? 'How busy places are isn’t available right now. The map still works; check back soon.' : signIn ? 'Vibe Now is for members. Log in to see what’s busy around you.' : body.error ?? 'Foot traffic could not be checked. Try again shortly.' });
           return;
         }
         setNote(null);
@@ -402,7 +407,7 @@ export function NearbyPulse() {
   // never one BestTime reads live as busy right now.
   const shut = useMemo(() => {
     const liveNow = new Set((venues ?? []).filter((venue) => venue.basis === 'live').map((venue) => venue.id));
-    return new Set(Object.entries(details).filter(([id, facts]) => !liveNow.has(id) && facts && facts !== 'loading' && (facts.shut || facts.closedNow)).map(([id]) => id));
+    return new Set(Object.entries(details).filter(([id, facts]) => !liveNow.has(id) && typeof facts === 'object' && facts !== null && (facts.shut || facts.closedNow)).map(([id]) => id));
   }, [details, venues]);
   const open = useMemo(() => (venues && shut.size ? venues.filter((venue) => !shut.has(venue.id)) : venues), [venues, shut]);
 
@@ -460,8 +465,8 @@ export function NearbyPulse() {
       body: JSON.stringify({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, token: venue.placeToken }),
     })
       .then(async (response) => {
-        const body = response.ok ? ((await response.json()) as { place?: PlaceFacts | null }) : null;
-        setDetails((current) => ({ ...current, [id]: body?.place ?? null }));
+        const body = response.ok ? ((await response.json()) as { place?: PlaceFacts | null; reason?: 'budget' | 'unavailable' | 'none' }) : null;
+        setDetails((current) => ({ ...current, [id]: body?.place ?? (body?.reason === 'budget' ? 'paused' : null) }));
       })
       .catch(() => setDetails((current) => ({ ...current, [id]: null })));
   }, [selected, details]);
@@ -498,7 +503,7 @@ export function NearbyPulse() {
   const pickedNearby = picked ? nearby?.find((venue) => venue.id === picked.id) ?? picked : null;
   const miles = Math.round(radius / 1609);
   const clock = now ? now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
-  const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' || stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null || open === null ? 'Reading foot traffic…' : open.length ? `${open.length} ${open.length === 1 ? 'place' : 'places'} buzzing within ${miles} ${miles === 1 ? 'mile' : 'miles'}` : `Within ${miles} ${miles === 1 ? 'mile' : 'miles'} of you`;
+  const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' || stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null || open === null ? 'Reading foot traffic…' : open.length ? `${open.length} ${open.length === 1 ? 'place' : 'places'} buzzing within ${miles} ${miles === 1 ? 'mile' : 'miles'}` : note?.tone === 'warn' || note?.signIn ? 'Vibe Now' : `Within ${miles} ${miles === 1 ? 'mile' : 'miles'} of you`;
 
   return (
     <main className={styles.page}>
@@ -520,11 +525,12 @@ export function NearbyPulse() {
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && pickedNearby && <PlaceCard venue={pickedNearby} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {picked && pickedNearby && <PlaceCard venue={pickedNearby} nowMinutes={nowMinutes} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
             {note.retry && <button type="button" className="btn btn-primary btn-sm" onClick={locate}>Try again</button>}
+            {note.signIn && <a className="btn btn-primary btn-sm" href="/login?next=%2Fnow">Log in</a>}
           </div>
         )}
       </section>
@@ -548,7 +554,7 @@ export function NearbyPulse() {
 
         {venues && venues.length > 0 && (
           <p className={styles.source}>
-            Foot traffic from BestTime · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; taller beams are busier. Tap one for BestTime’s live reading. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
+            Foot traffic from BestTime · bars under each place are its usual busyness by hour · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; taller beams are busier. Tap one for BestTime’s live reading. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
           </p>
         )}
       </div>
@@ -633,8 +639,8 @@ type PlaceFacts = { type?: string; address?: string; hoursToday?: string; hoursT
  * it's busy, and one tap to get there (walk, ride or drive). Facts come from
  * BestTime and Google only; nothing is filled in.
  */
-function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue; live?: LiveState; details?: PlaceFacts | null | 'loading'; wink?: string; onClose: () => void }) {
-  const facts = details && details !== 'loading' ? details : null;
+function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading' | 'paused'; wink?: string; onClose: () => void }) {
+  const facts = typeof details === 'object' ? details : null;
   const ways = wayThere(venue);
   const miles = venue.distanceMeters !== undefined ? venue.distanceMeters / 1609.34 : undefined;
   const walkable = miles !== undefined && miles <= 1.2;
@@ -678,12 +684,20 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
           </div>
         </>
       )}
+      {venue.hourly && !(closed && offMap) ? (
+        <>
+          <p className={styles.chartTitle}>Usually busy tonight</p>
+          <HourBars hourly={venue.hourly} start={Math.floor(nightClock(nowMinutes) / 60) * 60 - 120} end={Math.floor(nightClock(nowMinutes) / 60) * 60 + 600} now={nightClock(nowMinutes)} closes={venue.openAllNight ? undefined : (facts?.closesMinutes ?? venue.closesMinutes)} labels />
+          <p className={styles.proofSource}>BestTime’s usual foot traffic by hour, not a live reading.</p>
+        </>
+      ) : null}
       <div className={styles.more}>
         <a href={facts?.mapsUrl ?? venue.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name} ${venue.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Photos and reviews on Google Maps ↗</a>
         {facts?.website ? <a href={facts.website} target="_blank" rel="noopener noreferrer">Website ↗</a> : null}
         {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
       </div>
       {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
+      {details === 'paused' ? <p className={styles.proofSource}>Google details are paused for today.</p> : null}
       {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone || facts.address || facts.hoursToday || closed) ? (
         <p className={styles.attribution}><SourceLogo source="google maps" size={12} className="mr-1" />Place details from Google Maps</p>
       ) : null}

@@ -1,6 +1,10 @@
 import 'server-only';
-import { lookup } from 'node:dns/promises';
-import { isIP } from 'node:net';
+import { lookup as dnsLookup, type LookupAddress } from 'node:dns';
+import type { IncomingMessage } from 'node:http';
+import { get, type RequestOptions } from 'node:https';
+import { BlockList, isIP, type LookupFunction } from 'node:net';
+import { pipeline, type Readable } from 'node:stream';
+import { createBrotliDecompress, createGunzip, createInflate } from 'node:zlib';
 import { ogImageFrom } from '../ogImage';
 
 const DAY_MS = 86_400_000;
@@ -10,20 +14,46 @@ const cache = new Map<string, { image: string | null; at: number }>();
 
 const MAX_HOPS = 3;
 
-/** Private, loopback, link-local and other non-public addresses. */
+/** Every address a link preview must never reach. IPv4-mapped IPv6 (::ffff:a.b.c.d) is checked as its IPv4. */
+const BLOCKED = new BlockList();
+for (const [network, prefix] of [
+  ['0.0.0.0', 8], ['10.0.0.0', 8], ['100.64.0.0', 10], ['127.0.0.0', 8], ['169.254.0.0', 16], ['172.16.0.0', 12],
+  ['192.0.0.0', 24], ['192.168.0.0', 16], ['198.18.0.0', 15], ['224.0.0.0', 3],
+] as const) BLOCKED.addSubnet(network, prefix, 'ipv4');
+for (const [network, prefix] of [
+  // Unspecified, loopback and IPv4-compatible (::a.b.c.d).
+  ['::', 128], ['::1', 128], ['::', 96],
+  // NAT64: any IPv4 address, private ones included, wrapped in IPv6.
+  ['64:ff9b::', 96], ['64:ff9b:1::', 48],
+  ['fc00::', 7], ['fe80::', 10], ['fec0::', 10], ['ff00::', 8],
+] as const) BLOCKED.addSubnet(network, prefix, 'ipv6');
+
+/** Private, loopback, link-local and other non-public addresses. Anything that isn't an IP address counts too. */
 export function privateAddress(address: string): boolean {
-  const v4 = /^(?:::ffff:)?(\d+)\.(\d+)\.(\d+)\.(\d+)$/i.exec(address);
-  if (v4) {
-    const [a, b] = [Number(v4[1]), Number(v4[2])];
-    return a === 0 || a === 10 || a === 127 || (a === 100 && b >= 64 && b <= 127) || (a === 169 && b === 254)
-      || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 198 && (b === 18 || b === 19)) || a >= 224;
-  }
-  const v6 = address.toLowerCase();
-  return v6 === '::' || v6 === '::1' || /^f[cd]/.test(v6) || /^fe[89ab]/.test(v6) || /^ff/.test(v6);
+  const family = isIP(address);
+  if (!family) return true;
+  return BLOCKED.check(address, family === 6 ? 'ipv6' : 'ipv4');
 }
 
+/**
+ * DNS for the connection itself: the address checked is the address dialled,
+ * so a name can't pass a check and then resolve somewhere private when the
+ * socket opens (DNS rebinding). Any private answer refuses the whole name.
+ */
+export const publicLookup: LookupFunction = (hostname, options, callback) => {
+  dnsLookup(hostname, { family: options.family, hints: options.hints, all: true }, (error, found: LookupAddress[]) => {
+    if (error) return callback(error, '', 0);
+    if (!found.length || found.some((entry) => privateAddress(entry.address))) {
+      return callback(Object.assign(new Error(`Refused a non-public address for ${hostname}`), { code: 'EPRIVATE' }), '', 0);
+    }
+    // Node asks for every address when it races IPv4 and IPv6 (autoSelectFamily).
+    if (options.all) return (callback as unknown as (error: null, addresses: LookupAddress[]) => void)(null, found);
+    callback(null, found[0].address, found[0].family);
+  });
+};
+
 /** Only public https hosts, checked on every hop: a feed link can't bounce us into a private network. */
-async function publicHttps(raw: string): Promise<URL | null> {
+function publicHttps(raw: string): URL | null {
   let url: URL;
   try {
     url = new URL(raw);
@@ -32,41 +62,62 @@ async function publicHttps(raw: string): Promise<URL | null> {
   }
   const host = url.hostname.replace(/^\[|\]$/g, '');
   if (url.protocol !== 'https:' || (url.port && url.port !== '443') || isIP(host) || host === 'localhost' || /\.(?:local|internal|localhost)$/i.test(host)) return null;
-  const addresses = await lookup(host, { all: true }).catch(() => []);
-  if (!addresses.length || addresses.some((entry) => privateAddress(entry.address))) return null;
   return url;
+}
+
+/** One GET whose socket can only open to a public address (publicLookup runs at connect time). */
+function request(url: URL, signal: AbortSignal): Promise<IncomingMessage> {
+  const options: RequestOptions = {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dope.travel link preview; +https://dope.travel)', Accept: 'text/html', 'Accept-Encoding': 'gzip, deflate, br' },
+    lookup: publicLookup,
+    signal,
+  };
+  return new Promise((resolve, reject) => {
+    get(url, options, resolve).on('error', reject);
+  });
+}
+
+/** The body as sent before compression; a failed or aborted response fails the stream too. */
+function decoded(response: IncomingMessage): Readable {
+  const encoding = String(response.headers['content-encoding'] ?? '').trim().toLowerCase();
+  const unzip = encoding === 'gzip' || encoding === 'x-gzip' ? createGunzip() : encoding === 'deflate' ? createInflate() : encoding === 'br' ? createBrotliDecompress() : null;
+  return unzip ? pipeline(response, unzip, () => undefined) : response;
 }
 
 /** Reads only the top of the page, where the meta tags live. */
 async function headOf(start: string): Promise<{ html: string; url: string } | null> {
+  const signal = AbortSignal.timeout(4000);
   let next = start;
-  let response: Response | null = null;
+  let response: IncomingMessage | null = null;
   for (let hop = 0; hop <= MAX_HOPS; hop += 1) {
-    const url = await publicHttps(next);
+    const url = publicHttps(next);
     if (!url) return null;
-    response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dope.travel link preview; +https://dope.travel)', Accept: 'text/html' },
-      signal: AbortSignal.timeout(4000),
-      redirect: 'manual',
-      cache: 'no-store',
-    });
-    const location = response.status >= 300 && response.status < 400 ? response.headers.get('location') : null;
+    response = await request(url, signal);
+    const status = response.statusCode ?? 0;
+    const location = status >= 300 && status < 400 ? response.headers.location : undefined;
     if (!location) break;
-    await response.body?.cancel().catch(() => undefined);
+    response.destroy();
     next = new URL(location, url).toString();
     response = null;
   }
-  if (!response || !response.ok || !response.body || !/html/i.test(response.headers.get('content-type') ?? '')) return null;
-  const reader = response.body.getReader();
+  if (!response) return null;
+  const status = response.statusCode ?? 0;
+  if (status < 200 || status >= 300 || !/html/i.test(String(response.headers['content-type'] ?? ''))) {
+    response.destroy();
+    return null;
+  }
+  const body = decoded(response);
   const decoder = new TextDecoder();
   let html = '';
-  while (html.length < MAX_BYTES) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    html += decoder.decode(value, { stream: true });
-    if (/<\/head>/i.test(html)) break;
+  try {
+    for await (const chunk of body) {
+      html += decoder.decode(chunk as Uint8Array, { stream: true });
+      if (html.length >= MAX_BYTES || /<\/head>/i.test(html)) break;
+    }
+  } finally {
+    body.destroy();
+    response.destroy();
   }
-  await reader.cancel().catch(() => undefined);
   return { html, url: next };
 }
 

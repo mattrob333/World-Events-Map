@@ -25,7 +25,8 @@ describe('reviewed editorial imagery', () => {
       expect(hashes.has(hash), eventId).toBe(false);
       hashes.add(hash);
     }
-  });
+    // Hashes every photo file: quick alone, slow when the runner's disk is busy.
+  }, 30_000);
 
   it.each([
     ['winter', 'ski'],

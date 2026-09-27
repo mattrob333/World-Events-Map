@@ -1,7 +1,7 @@
 import { RequestTooLargeError, checkBoundary, consumeProviderCall, jsonError, jsonOk, readJson } from '@/lib/designer/server/guard';
 import { EVENTS } from '@/lib/data/events';
 import { recommendDestinations } from '@/lib/discovery/recommend';
-import { takeShared } from '@/lib/designer/server/sharedBudget';
+import { takeMemberShare } from '@/lib/designer/server/memberShare';
 import { askJev, jevConfigured, stateHash } from '@/lib/jev/client';
 import { TRIP_ROUTER_CONTRACT, routeTripRequest, tripRouterQuestions, tripRouterState, type TripRequestFacts } from '@/lib/jev/contracts/tripRouter';
 import { storeReceipts } from '@/lib/jev/receipts';
@@ -57,7 +57,8 @@ export async function POST(request: Request) {
 
   const state = tripRouterState(facts);
   // No key: word rules, and no limiter token or receipt spent on a call that can't happen.
-  const allowed = jevConfigured() && consumeProviderCall(request, 'jev') && (await takeShared('jev'));
+  // Past this member's share (or the site's) for today, word rules answer too.
+  const allowed = jevConfigured() && consumeProviderCall(request, 'jev') && (await takeMemberShare(member.id, 'jev')) === 'granted';
   const result = allowed ? await askJev(state, tripRouterQuestions) : null;
   const decided = routeTripRequest(facts, result?.ok ? result.answers : null);
 

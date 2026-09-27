@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 import {
   NowProviderBudgetExceededError,
   NowProviderBudgetUnavailableError,
+  NowSearchBudgetError,
 } from '@/lib/now/providerBudget';
+import { dailyCalls, memberCharge } from '@/lib/now/liveBusyness';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
 import { validateNowRequest } from '@/lib/now/validation';
@@ -27,7 +29,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const clientLimit = consumeNowClientRateLimit(request);
+  // Per member: one person's requests never count against another's.
+  const clientLimit = consumeNowClientRateLimit(request, Date.now(), { scope: 'now', who: member.id });
   if (!clientLimit.allowed) {
     return jsonError(
       429,
@@ -48,11 +51,22 @@ export async function POST(request: Request) {
     }
 
     const input = validateNowRequest(body);
-    const result = await executeNow(input);
+    // The member's own daily share of venue searches (the same pool as the map's), spent only on an uncached search.
+    const result = await executeNow(input, memberCharge(member.id, 'nowM', dailyCalls('BESTTIME_SEARCH_MEMBER_DAILY_CALLS', 60)));
     return NextResponse.json(result, { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) {
       return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);
+    }
+    if (cause instanceof NowSearchBudgetError) {
+      return jsonError(
+        429,
+        'NOW_DAILY_LIMIT',
+        cause.scope === 'member'
+          ? 'You’ve used today’s NOW searches. More open up tomorrow.'
+          : 'NOW searches are at today’s limit. Try again tomorrow.',
+        { 'Retry-After': String(cause.retryAfterSeconds) },
+      );
     }
     if (cause instanceof NowProviderBudgetExceededError) {
       return jsonError(

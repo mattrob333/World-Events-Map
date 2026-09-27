@@ -12,8 +12,8 @@ import { jsonError } from '@/lib/designer/server/guard';
  * only those accounts get in: sign-up is open, so "signed in" alone would
  * still let anyone use the tools.
  *
- * Local development without Supabase configured stays open; production
- * without it is closed.
+ * Only `next dev` without Supabase configured stays open; every other build
+ * without it (production, previews, a plain `next start`) is closed.
  */
 export type Member = { id: string; email: string | null };
 
@@ -52,8 +52,8 @@ async function verify(token: string): Promise<Member | null> {
 export async function requireMember(request: Request): Promise<Member | Response> {
   const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
   if (!configured) {
-    if (process.env.VERCEL_ENV === 'production') return jsonError(503, 'MEMBERS_UNAVAILABLE', 'Sign-in isn’t available right now.');
-    return { id: 'local-dev', email: null };
+    if (process.env.NODE_ENV === 'development') return { id: 'local-dev', email: null };
+    return jsonError(503, 'MEMBERS_UNAVAILABLE', 'Sign-in isn’t available right now.');
   }
   const token = /^Bearer\s+(\S{20,4096})$/i.exec(request.headers.get('authorization') ?? '')?.[1];
   const member = token ? await verify(token) : null;

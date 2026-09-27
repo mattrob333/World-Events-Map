@@ -1,7 +1,7 @@
 'use client';
 
 import { closesLabel, type PulseVenue } from '@/lib/now/pulse';
-import type { Tonight } from '@/lib/now/tonight';
+import { hourLabel, type Tonight } from '@/lib/now/tonight';
 import { formatMiles } from '@/lib/units';
 import styles from './nearby-pulse.module.css';
 
@@ -16,6 +16,36 @@ function left(minutes: number | null): string {
 }
 
 /**
+ * BestTime's usual busyness hour by hour, as upright bars from `start` to `end`
+ * (minutes on the closing-time clock). The hour we're in is lit; hours after
+ * closing are faded. Nothing is drawn for hours BestTime didn't give.
+ */
+export function HourBars({ hourly, start, end, now, closes, labels = false }: { hourly: readonly number[]; start: number; end: number; now: number; closes?: number; labels?: boolean }) {
+  const hours: { at: number; value: number }[] = [];
+  for (let at = Math.floor(start / 60) * 60; at < end; at += 60) {
+    const value = hourly[Math.floor(at / 60) % 24];
+    if (typeof value === 'number') hours.push({ at, value });
+  }
+  if (!hours.length) return null;
+  const peak = hours.reduce((best, hour) => (hour.value > best.value ? hour : best), hours[0]);
+  const span = end - start;
+  return (
+    <span className={labels ? styles.hoursBig : styles.hours} role="img" aria-label={`Usually busiest around ${hourLabel(peak.at)} (${peak.value}%)`}>
+      {hours.map((hour) => {
+        const current = now >= hour.at && now < hour.at + 60;
+        const shut = closes !== undefined && hour.at >= closes;
+        return (
+          <span key={hour.at} className={styles.hour} style={{ left: `${((hour.at - start) / span) * 100}%`, width: `${(60 / span) * 100}%` }}>
+            <i data-now={current || undefined} data-shut={shut || undefined} style={{ height: `${Math.max(4, hour.value)}%` }} />
+            {labels ? <small>{(hour.at / 60) % 2 === 0 ? hourLabel(hour.at) : ''}</small> : null}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+/**
  * Tonight, on an hourly scale: one row per place, a bar from now until it
  * closes (brighter where it's busier), so you can see what's still open
  * and for how long. Tap a row to see it on the map.
@@ -25,7 +55,7 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
     <section className={styles.tonight} aria-labelledby="tonight-title">
       <div className={styles.tonightHead}>
         <h2 id="tonight-title">Tonight</h2>
-        <p>Open now, and when each one closes.</p>
+        <p>Open now, when each one closes, and how busy it usually gets each hour.</p>
       </div>
       <div className={styles.scale} aria-hidden="true">
         {tonight.ticks.map((tick) => (
@@ -46,6 +76,7 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
                   </small>
                   {winks.get(venue.id) ? <em>{winks.get(venue.id)}</em> : null}
                 </span>
+                <span className={styles.lane}>
                 <span className={styles.track}>
                   {to === null ? (
                     <i className={styles.unknown} style={{ left: `${from * 100}%` }} />
@@ -56,6 +87,8 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
                       style={{ left: `${from * 100}%`, width: `${Math.max(2, (to - from) * 100)}%`, opacity: 0.45 + (venue.busyness / 100) * 0.55 }}
                     />
                   )}
+                </span>
+                {venue.hourly ? <HourBars hourly={venue.hourly} start={tonight.start} end={tonight.end} now={tonight.now} closes={venue.openAllNight ? undefined : venue.closesMinutes} /> : null}
                 </span>
                 <span className={styles.rowClose} data-soon={soon || undefined}>
                   {to === null ? 'hours unknown' : soon ? `last call · ${left(minutesLeft)}` : closes?.replace('open till', 'till') ?? ''}

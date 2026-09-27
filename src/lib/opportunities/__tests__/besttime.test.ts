@@ -224,3 +224,23 @@ describe('drinks names that mean food', () => {
     expect(drinksPlace({ category: 'RESTAURANT', name: 'Lucky Bucket Brewpub' })).toBe(true);
   });
 });
+
+describe('parseDayForecast', () => {
+  it('turns a 6am-first BestTime day into clock hours and skips anything that isn’t a whole day', async () => {
+    const { parseDayForecast } = await import('../besttime');
+    const day = Array.from({ length: 24 }, (_, i) => i * 4); // 6am = 0, 5am next day = 92
+    const out = parseDayForecast({ status: 'OK', venues: [
+      { venue_id: 'ven_full', day_int: 4, day_raw: day },
+      { venue_id: 'ven_short', day_int: 4, day_raw: [50] },
+      { venue_id: 'ven_other_day', day_int: 3, day_raw: day },
+      { venue_id: 'ven_bad', day_int: 4, day_raw: [...day.slice(0, 23), 'x'] },
+    ] }, 4);
+    expect([...out.hourly.keys()]).toEqual(['ven_full']);
+    const hours = out.hourly.get('ven_full')!;
+    expect(hours[6]).toBe(0);
+    expect(hours[22]).toBe(64);
+    expect(hours[0]).toBe(72);
+    expect(hours[5]).toBe(92);
+    expect(out.shape).toEqual({ venues: 4, lengths: { '24': 3, '1': 1 }, dayMatches: 3, dayMismatches: 1 });
+  });
+});

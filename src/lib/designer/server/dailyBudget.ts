@@ -21,7 +21,7 @@
  * The day rolls over at 00:00 UTC.
  */
 
-export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice' | 'designerAi' | 'places' | 'bestTimeLive';
+export type BudgetPool = 'research' | 'researchPlace' | 'researchFlights' | 'jev' | 'eventFeeds' | 'voice' | 'designerAi' | 'places' | 'bestTimeLive' | 'nowVenue';
 
 type PoolConfig = { env: string; unit: 'usd' | 'calls'; fallback: number };
 
@@ -45,6 +45,8 @@ const POOLS: Record<BudgetPool, PoolConfig> = {
   places: { env: 'GOOGLE_PLACES_DAILY_CALLS', unit: 'calls', fallback: 200 },
   /** BestTime live foot-traffic lookups, one per place tapped in Vibe Now (1 credit each). */
   bestTimeLive: { env: 'BESTTIME_LIVE_DAILY_CALLS', unit: 'calls', fallback: 150 },
+  /** BestTime venue searches (Vibe Now's map, NOW picks, the hourly chart): one per uncached search. */
+  nowVenue: { env: 'BESTTIME_SEARCH_DAILY_CALLS', unit: 'calls', fallback: 600 },
 };
 
 function readNumber(name: string, fallback: number): number {

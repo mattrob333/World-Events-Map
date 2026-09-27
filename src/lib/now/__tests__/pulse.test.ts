@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, toPulseVenues, zoomForRadius } from '../pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, snapPulseRadius, toPulseVenues, zoomForRadius, PULSE_SEARCH_RADII } from '../pulse';
 
 const venue = (id: string, extra: Record<string, unknown>) => ({ id, name: id, category: 'BAR', location: { lat: 33.75, lng: -84.39 }, ...extra });
 
@@ -91,5 +91,18 @@ describe('fitting the radius', () => {
     expect(zoomForRadius(41.26, 8047, 390, 520)).toBeLessThan(zoomForRadius(41.26, 1609, 390, 520));
     expect(zoomForRadius(41.26, 10, 390, 520)).toBeLessThanOrEqual(16);
     expect(zoomForRadius(41.26, 5_000_000, 390, 520)).toBe(8);
+  });
+
+  it('searches only the map’s own radii plus the phone’s slack; anything else snaps to the nearest', () => {
+    expect(PULSE_SEARCH_RADII).toEqual([2409, 4019, 8847]);
+    expect(snapPulseRadius(1609 + 800)).toBe(2409);
+    expect(snapPulseRadius(3219 + 800)).toBe(4019);
+    expect(snapPulseRadius(8047 + 800)).toBe(8847);
+    expect(snapPulseRadius(2410)).toBe(2409);
+    expect(snapPulseRadius(12_345)).toBe(8847);
+    expect(snapPulseRadius(800)).toBe(2409);
+    expect(snapPulseRadius(undefined)).toBe(2409);
+    expect(snapPulseRadius(Number.NaN)).toBe(2409);
+    expect(snapPulseRadius('5000')).toBe(2409);
   });
 });

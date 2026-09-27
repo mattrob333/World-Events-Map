@@ -6,6 +6,8 @@
  * in the place's local time) plus the place's UTC offset, so "now" is worked
  * out where the place is, not where the server is.
  */
+import { nightClock } from './tonight';
+
 export type HoursPoint = { day: number; hour: number; minute: number };
 export type HoursPeriod = { open: HoursPoint; close?: HoursPoint };
 
@@ -19,8 +21,10 @@ export function localNow(nowUtc: Date, utcOffsetMinutes: number): { day: number;
 }
 
 /**
- * When the place closes, as minutes after today's local midnight (2am
- * tomorrow = 1560), if it is open now. `'open-24h'` for a period with no
+ * When the place closes, on the night clock the Tonight timeline and picks
+ * use (tonight.ts): minutes after the midnight that began this evening, so a
+ * 2am close is 1560 at 10pm and still 1560 at 1am (before 5am, now belongs to
+ * last night). Only if it is open now. `'open-24h'` for a period with no
  * close; null when closed now or the hours don't say.
  */
 export function closesTonight(periods: readonly HoursPeriod[], now: { day: number; minutes: number }): number | 'open-24h' | null {
@@ -33,7 +37,7 @@ export function closesTonight(periods: readonly HoursPeriod[], now: { day: numbe
     for (const shift of [0, WEEK, -WEEK]) {
       const start = open + shift;
       const end = close + shift;
-      if (nowAt >= start && nowAt < end) return end - now.day * 1440;
+      if (nowAt >= start && nowAt < end) return end - now.day * 1440 + (nightClock(now.minutes) - now.minutes);
     }
   }
   return null;

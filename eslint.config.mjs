@@ -25,6 +25,8 @@ const config = [
       'build/**',
       'public/**',
       'docs/**',
+      // Agent worktrees: separate checkouts of this repo, linted in their own right.
+      '.claude/**',
       'next-env.d.ts',
       'tsconfig.tsbuildinfo',
     ],

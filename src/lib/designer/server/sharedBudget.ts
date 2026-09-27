@@ -115,6 +115,10 @@ export async function takeSharedNamed(name: string, cap: number, units = 1, now 
   return granted;
 }
 
+export function resetNamedPoolsForTests() {
+  namedLocal.clear();
+}
+
 /** Gives back units taken from a named pool today (the call they were for never went ahead). */
 export async function refundSharedNamed(name: string, units = 1, now = Date.now()): Promise<void> {
   if (!/^[a-zA-Z]{1,40}$/.test(name)) return;

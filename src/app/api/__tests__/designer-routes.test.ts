@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+// Signed in: member sign-in itself is covered in member.test.ts (it fails closed outside `next dev`).
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => ({ id: 'member', email: null }) }));
 vi.mock('@/lib/designer/server/claude', () => ({
   designerAiConfigured: vi.fn(() => false),
   parseProfileWithClaude: vi.fn(),

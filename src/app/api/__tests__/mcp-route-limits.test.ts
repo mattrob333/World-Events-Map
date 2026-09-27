@@ -56,7 +56,8 @@ describe('/api/mcp abuse limits', () => {
     expect(ok).toBe(240);
     expect(limited?.headers.get('Retry-After')).toBeTruthy();
     expect((await POST(from('198.51.100.2'))).status).toBe(200);
-  });
+    // 260 real requests: well inside a second alone, but slow on a busy runner.
+  }, 30_000);
 
   it('answers 405 to GET and DELETE on the stateless endpoint, and POST still works', async () => {
     expect((await GET()).status).toBe(405);

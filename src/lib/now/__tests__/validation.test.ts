@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateNowRequest } from '../validation';
+import { NOW_RADII, validateNowRequest } from '../validation';
 
 describe('validateNowRequest', () => {
   it('normalizes a valid mobile request', () => {
@@ -14,9 +14,21 @@ describe('validateNowRequest', () => {
       travelModeName: 'Solo Weekend',
     });
 
-    expect(result.radiusMeters).toBe(3000);
+    // Snapped to the nearest fixed radius (2 miles), so each cached search is shared, not dodged.
+    expect(result.radiusMeters).toBe(3219);
     expect(result.interests).toEqual(['food', 'music']);
     expect(result.travelModeName).toBe('Solo Weekend');
+  });
+
+  it('snaps every radius to a small fixed set', () => {
+    const radius = (radiusMeters: number) => validateNowRequest({ location: { lat: 40, lng: -73 }, intent: 'food', vibe: 'chill', radiusMeters }).radiusMeters;
+    expect(radius(250)).toBe(805);
+    expect(radius(805)).toBe(805);
+    expect(radius(4828)).toBe(4828);
+    expect(radius(9656)).toBe(9656);
+    expect(radius(25_000)).toBe(24140);
+    const seen = new Set(Array.from({ length: 500 }, (_, i) => radius(250 + i * 49.5)));
+    expect([...seen].every((value) => (NOW_RADII as readonly number[]).includes(value))).toBe(true);
   });
 
   it('rejects invalid coordinates and oversized radii', () => {

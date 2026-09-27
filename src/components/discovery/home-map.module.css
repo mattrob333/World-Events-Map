@@ -1,0 +1,49 @@
+/* Home: your country on one screen. */
+.home { position: relative; height: min(72svh, 640px); min-height: 460px; overflow: hidden; background: #050505; }
+@media (min-width: 1024px) { .home { height: min(78vh, 760px); } }
+.map { position: absolute; inset: 0; }
+
+.head { position: absolute; top: 12px; left: 16px; right: 16px; pointer-events: none; }
+.kicker { display: inline-flex; align-items: center; gap: 8px; color: var(--color-saffron); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; }
+.kicker i { width: 8px; height: 8px; border-radius: 50%; background: #e4577e; box-shadow: 0 0 12px #e4577e; }
+.head h2 { margin-top: 4px; font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--color-bone); text-shadow: 0 2px 12px rgb(0 0 0 / 0.8); }
+.sub { margin-top: 2px; color: var(--color-ink-soft); font-size: 13px; text-shadow: 0 1px 8px rgb(0 0 0 / 0.9); }
+
+.tools { position: absolute; left: 16px; right: 16px; bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; z-index: 2; }
+.chip, .month { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; background: rgb(24 24 24 / 0.92); color: var(--color-ink-soft); font-size: 13px; font-weight: 600; backdrop-filter: blur(8px); }
+.chip[aria-pressed='true'] { background: #bfe3ff; color: #08131d; }
+.months { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+.month { min-height: 36px; padding: 0 10px; font-size: 12px; }
+.month[aria-pressed='true'] { background: #eaf6ff; color: #08131d; }
+.chip:focus-visible, .month:focus-visible, .list button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.you { width: 14px; height: 14px; border-radius: 50%; background: #4aa3ff; border: 3px solid #fff; box-shadow: 0 0 0 6px rgb(74 163 255 / 0.25); }
+
+.card {
+  position: absolute; left: 10px; right: 10px; bottom: 64px; z-index: 3; max-height: 55%; overflow-y: auto;
+  padding: 14px 16px; border-radius: 18px; background: rgb(18 18 18 / 0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow-soft-2);
+}
+.card h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.1; color: var(--color-bone); padding-right: 36px; }
+.cardKind { color: var(--color-saffron); font-size: 12px; font-weight: 600; text-transform: capitalize; margin-bottom: 4px; }
+.cardDates { margin-top: 4px; color: var(--color-ink-soft); font-size: 13px; }
+.why { margin-top: 8px; color: #f08fae; font-size: 13.5px; font-weight: 600; }
+.tagline { margin: 6px 0 10px; color: var(--color-ink-soft); font-size: 13.5px; line-height: 1.45; }
+.close { position: absolute; top: 0; right: 0; width: 44px; height: 44px; color: var(--color-ink-soft); font-size: 18px; }
+
+/* The list: a strip under the heading on phones, down the left of the map on wider screens. */
+.list { position: absolute; left: 0; right: 0; top: 100px; z-index: 2; display: flex; gap: 6px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+.list li { flex: none; }
+.list button { display: grid; width: 190px; min-height: 44px; padding: 7px 10px; border-radius: 12px; background: rgb(18 18 18 / 0.88); text-align: left; backdrop-filter: blur(8px); }
+.list button[data-mine] { box-shadow: inset 3px 0 0 #e4577e; }
+.list strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-bone); font-size: 13px; }
+.list small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-ink-subtle); font-size: 11px; }
+@media (min-width: 900px) {
+  .list { left: 16px; right: auto; top: 112px; width: 300px; display: grid; gap: 4px; padding: 0; overflow: visible; }
+  .list button { width: 100%; padding: 8px 12px; }
+  .list strong { font-size: 13.5px; }
+  .list small { font-size: 11.5px; }
+  .card { left: auto; right: 16px; bottom: 72px; width: 360px; max-height: calc(100% - 150px); }
+}
+.empty { position: absolute; left: 16px; right: 16px; top: 112px; max-width: 420px; padding: 12px 14px; border-radius: 14px; background: rgb(18 18 18 / 0.9); color: var(--color-ink-soft); font-size: 13.5px; }
+.source { position: absolute; right: 16px; bottom: 60px; max-width: 360px; color: var(--color-ink-subtle); font-size: 10.5px; text-align: right; text-shadow: 0 1px 6px #000; pointer-events: none; }
+@media (max-width: 899px) { .source { display: none; } }

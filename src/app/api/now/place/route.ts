@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { placeDetails } from '@/lib/now/googlePlaces';
+import { placeDetails, placesMemberCharge } from '@/lib/now/googlePlaces';
 import { NO_STORE, RequestTooLargeError, jsonError, readBodyWithLimit, validateRequestBoundary } from '@/lib/now/http';
-import { takeSharedNamed } from '@/lib/designer/server/sharedBudget';
-import { memberPool, validPlaceToken, validVenueId, type SignedPlace } from '@/lib/now/liveBusyness';
+import { validPlaceToken, validVenueId, type SignedPlace } from '@/lib/now/liveBusyness';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { requireMember } from '@/lib/platform/server/member';
 
@@ -21,7 +20,7 @@ export async function POST(request: Request) {
   const boundaryFailure = validateRequestBoundary(request);
   if (boundaryFailure) return boundaryFailure;
   // No Google key: the card still works from BestTime alone.
-  if (!process.env.GOOGLE_PLACES_API_KEY) return NextResponse.json({ place: null }, { headers: NO_STORE });
+  if (!process.env.GOOGLE_PLACES_API_KEY) return NextResponse.json({ place: null, reason: 'unavailable' }, { headers: NO_STORE });
   const limit = consumeNowClientRateLimit(request, Date.now(), { scope: 'place', who: member.id, limit: 30 });
   if (!limit.allowed) return jsonError(429, 'NOW_RATE_LIMITED', 'Too many requests. Wait a few minutes and try again.', { 'Retry-After': String(limit.retryAfterSeconds) });
   let raw: Record<string, unknown>;
@@ -43,11 +42,10 @@ export async function POST(request: Request) {
   try {
     // Each member's own daily share of Google lookups (places already looked up cost nothing),
     // so no one can spend the site's budget and switch off closing times for everyone.
-    const raw = Number(process.env.GOOGLE_PLACES_MEMBER_DAILY_CALLS);
-    const cap = Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 30;
-    const charge = () => takeSharedNamed(memberPool(member.id, 'plcM'), cap);
-    return NextResponse.json({ place: await placeDetails(place, new Date(), charge) }, { headers: NO_STORE });
+    // With no place, `reason` says why: a daily budget ('budget'), Google unreachable ('unavailable'), or no listing ('none').
+    const result = await placeDetails(place, new Date(), placesMemberCharge(member.id));
+    return NextResponse.json(result.place ? { place: result.place } : { place: null, reason: result.reason }, { headers: NO_STORE });
   } catch {
-    return NextResponse.json({ place: null }, { headers: NO_STORE });
+    return NextResponse.json({ place: null, reason: 'unavailable' }, { headers: NO_STORE });
   }
 }
