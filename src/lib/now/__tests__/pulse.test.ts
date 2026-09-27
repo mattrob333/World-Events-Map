@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, toPulseVenues } from '../pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, pulseStyle, roundForSearch, toPulseVenues, zoomForRadius } from '../pulse';
 
 const venue = (id: string, extra: Record<string, unknown>) => ({ id, name: id, category: 'BAR', location: { lat: 33.75, lng: -84.39 }, ...extra });
 
@@ -76,5 +76,20 @@ describe('getting there', () => {
     expect(links.uber).toMatch(/^https:\/\/m\.uber\.com\/ul\/\?action=setPickup&pickup=my_location&dropoff%5Blatitude%5D=41\.256500/);
     expect(links.uber).toContain('dropoff%5Bnickname%5D=Proof+%26+Co');
     expect(links.lyft).toBe('https://lyft.com/ride?id=lyft&destination%5Blatitude%5D=41.256500&destination%5Blongitude%5D=-95.934500');
+  });
+});
+
+describe('fitting the radius', () => {
+  it('shows the whole circle across most of the shorter side', () => {
+    const zoom = zoomForRadius(41.26, 1609, 390, 520);
+    const across = 2 * 1609 * pixelsPerMeter(41.26, zoom);
+    expect(across).toBeGreaterThan(300);
+    expect(across).toBeLessThanOrEqual(390 * 0.8 + 0.5);
+  });
+
+  it('zooms out for a wider radius and stays within street-map limits', () => {
+    expect(zoomForRadius(41.26, 8047, 390, 520)).toBeLessThan(zoomForRadius(41.26, 1609, 390, 520));
+    expect(zoomForRadius(41.26, 10, 390, 520)).toBeLessThanOrEqual(16);
+    expect(zoomForRadius(41.26, 5_000_000, 390, 520)).toBe(8);
   });
 });

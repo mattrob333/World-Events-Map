@@ -131,6 +131,17 @@ export function pixelsPerMeter(lat: number, zoom: number): number {
 }
 
 /**
+ * The zoom that fits the whole search circle on screen: its diameter spans
+ * `fill` of the map's shorter side (at the circle's latitude, looking straight
+ * down; a tilted map shows a little more past it).
+ */
+export function zoomForRadius(lat: number, radiusMeters: number, widthPx: number, heightPx: number, fill = 0.8): number {
+  const across = Math.max(120, Math.min(widthPx, heightPx) * fill);
+  const zoom = Math.log2((across * 40_075_016.686 * Math.max(0.01, Math.cos((lat * Math.PI) / 180))) / (512 * 2 * Math.max(100, radiusMeters)));
+  return Math.max(8, Math.min(16, zoom));
+}
+
+/**
  * The beam a thumb meant: the closest one to the tap, measured to the whole
  * beam (base to top) rather than its footprint, within a thumb's reach. Ties
  * go to the busier place.
