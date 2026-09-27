@@ -57,7 +57,7 @@ it('passes the member’s own share to the lookup', async () => {
   const charge = (placeDetails.mock.calls[0] as unknown[])[2] as { take: () => Promise<boolean>; refund: () => Promise<void> };
   expect(await charge.take()).toBe(true);
   const { takeSharedNamed } = await import('@/lib/designer/server/sharedBudget');
-  expect(vi.mocked(takeSharedNamed).mock.calls[0]).toEqual([expect.stringMatching(/^plcM[a-zA-Z]+$/), 30]);
+  expect(vi.mocked(takeSharedNamed).mock.calls[0]).toEqual([expect.stringMatching(/^plcM[a-zA-Z]+$/), 80]);
 });
 
 it('says why there are no details, so the card can say Google is paused for today', async () => {

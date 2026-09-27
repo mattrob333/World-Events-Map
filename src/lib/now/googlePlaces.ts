@@ -85,7 +85,7 @@ const pending = new Map<string, Promise<Lookup>>();
 
 /** One member's daily share of Google lookups, so no one can spend the site's budget and switch off closing times for everyone. */
 export function placesMemberCharge(memberId: string): MemberCharge {
-  return memberCharge(memberId, 'plcM', dailyCalls('GOOGLE_PLACES_MEMBER_DAILY_CALLS', 30));
+  return memberCharge(memberId, 'plcM', dailyCalls('GOOGLE_PLACES_MEMBER_DAILY_CALLS', 80));
 }
 
 /** Remembered (a found place for 12 hours, a miss for five minutes) or shared with a lookup already running; else one budgeted call. */
