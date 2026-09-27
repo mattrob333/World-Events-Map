@@ -12,6 +12,7 @@ import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
 import { HourBars, TonightTimeline } from './TonightTimeline';
 import { formatMiles } from '@/lib/units';
+import { letPageScroll } from '@/lib/geo/mapGestures';
 import styles from './nearby-pulse.module.css';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
@@ -148,6 +149,7 @@ export function NearbyPulse() {
     let cancelled = false;
     let spin = 0;
     let pulse = 0;
+    let unscroll = () => {};
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     void import('maplibre-gl').then(({ default: maplibregl }) => {
       if (cancelled || !box.current) return;
@@ -158,9 +160,8 @@ export function NearbyPulse() {
         zoom: 1.2,
         attributionControl: false,
       });
-      // Credits up top, clear of the list.
-      // Map credits bottom-left, clear of the heading and the locate button.
-      map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap' }), 'bottom-left');
+      // A two-finger swipe scrolls the page to the list; a pinch zooms the map. The credit is quiet text in the page.
+      unscroll = letPageScroll(box.current);
       mapRef.current = map;
       let fellBack = false;
       const fallBack = () => {
@@ -229,6 +230,7 @@ export function NearbyPulse() {
     });
     return () => {
       cancelled = true;
+      unscroll();
       cancelAnimationFrame(spin);
       cancelAnimationFrame(pulse);
       youRef.current?.remove();
@@ -509,6 +511,7 @@ export function NearbyPulse() {
     <main className={styles.page}>
       <section className={styles.stage} aria-label="Vibe Now: what’s busy around you">
         <div ref={box} className={styles.map} />
+        <a className={styles.credit} href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap · OpenFreeMap</a>
         {here ? (
           <button type="button" className={`${styles.locate} ${selected ? styles.locateLifted : ''}`} onClick={recenter} aria-label={drifted ? 'Update the map for where you are now' : 'Center the map on you'}>
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">

@@ -7,6 +7,7 @@ import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { formatDateRange } from '@/components/ui/tokens';
 import { forYou, HOME_DAYS, homeEvents } from '@/lib/discovery/home';
 import { countryAt, countryFromCalendar, regionAround } from '@/lib/geo/homeCountry';
+import { letPageScroll } from '@/lib/geo/mapGestures';
 import { SEASONS, SNOW_SPOTS, snowLevel } from '@/lib/geo/snowSeasons';
 import type { GeoPoint, WorldEvent } from '@/lib/types';
 import type { Signal } from '@/lib/vibe/signals';
@@ -69,10 +70,12 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
 
   useEffect(() => {
     let cancelled = false;
+    let unscroll = () => {};
     void import('maplibre-gl').then(({ default: maplibregl }) => {
       if (cancelled || !box.current) return;
-      const map = new maplibregl.Map({ container: box.current, style: STYLE_URL, bounds, fitBoundsOptions: { padding: 24 }, attributionControl: false, dragRotate: false, pitchWithRotate: false });
-      map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'OpenFreeMap' }), 'top-right');
+      // One world (no repeated copies when zoomed out); the credit is drawn below as quiet text.
+      const map = new maplibregl.Map({ container: box.current, style: STYLE_URL, bounds, fitBoundsOptions: { padding: 24 }, attributionControl: false, dragRotate: false, pitchWithRotate: false, renderWorldCopies: false });
+      unscroll = letPageScroll(box.current);
       mapRef.current = map;
       let styled = false;
       const fallBack = () => { if (!styled && !cancelled) map.setStyle(FALLBACK_STYLE); };
@@ -107,6 +110,7 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
     });
     return () => {
       cancelled = true;
+      unscroll();
       youRef.current?.remove();
       youRef.current = null;
       mapRef.current?.remove();
@@ -118,7 +122,18 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
 
   // A new home (they chose another city): frame it.
   useEffect(() => {
-    if (ready) mapRef.current?.fitBounds(bounds, { padding: 24, duration: 900 });
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    // Home stays home: a little room to look around the country, never out to a whole (repeated) world.
+    map.setMaxBounds(null);
+    map.setMinZoom(null);
+    const fit = map.cameraForBounds(bounds, { padding: 24 });
+    const [w, s, e, n] = bounds;
+    const padLon = (e - w) * 0.6;
+    const padLat = (n - s) * 0.6;
+    map.setMaxBounds([[Math.max(-180, w - padLon), Math.max(-85, s - padLat)], [Math.min(180, e + padLon), Math.min(85, n + padLat)]]);
+    if (fit?.zoom !== undefined) map.setMinZoom(Math.max(0, fit.zoom - 1));
+    map.fitBounds(bounds, { padding: 24, duration: 900 });
   }, [bounds, ready]);
 
   useEffect(() => {
@@ -210,6 +225,8 @@ export function HomeMap({ events, signals, viewer, today, hrefFor }: { events: r
       ) : null}
 
       <p className={styles.source}>{snow ? 'Snow glow: the typical ski season for each mountain region, brightest in its usual best months. ' : ''}Events from the curated calendar; dates need confirming with organizers.</p>
+      {/* The map data's license asks for a visible credit: quiet text, not a badge. */}
+      <a className={styles.credit} href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap · OpenFreeMap</a>
     </section>
   );
 }
