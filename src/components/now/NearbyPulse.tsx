@@ -7,10 +7,10 @@ import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
 import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
-import { buildTonight } from '@/lib/now/tonight';
+import { buildTonight, nightClock } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
-import { TonightTimeline } from './TonightTimeline';
+import { HourBars, TonightTimeline } from './TonightTimeline';
 import { formatMiles } from '@/lib/units';
 import styles from './nearby-pulse.module.css';
 
@@ -373,7 +373,8 @@ export function NearbyPulse() {
     setDetails({});
     allRef.current = [];
     memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
-      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS }) })
+      // The phone's weekday and hour only choose which day's hourly forecast to show.
+      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: { day: (new Date().getDay() + 6) % 7, hour: new Date().getHours() } }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
@@ -520,7 +521,7 @@ export function NearbyPulse() {
           <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
           <h1 className={styles.status} aria-live="polite">{status}</h1>
         </div>
-        {picked && pickedNearby && <PlaceCard venue={pickedNearby} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {picked && pickedNearby && <PlaceCard venue={pickedNearby} nowMinutes={nowMinutes} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
@@ -548,7 +549,7 @@ export function NearbyPulse() {
 
         {venues && venues.length > 0 && (
           <p className={styles.source}>
-            Foot traffic from BestTime · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; taller beams are busier. Tap one for BestTime’s live reading. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
+            Foot traffic from BestTime · bars under each place are its usual busyness by hour · {basis === 'live' ? 'live now' : basis === 'mixed' ? 'live where marked, else the usual for this hour' : 'the usual for this hour'}; taller beams are busier. Tap one for BestTime’s live reading. Closing times from BestTime’s venue hours{venues.some((venue) => venue.hoursFrom === 'google') ? ', else Google Places' : ''}; check before you go. {active ? 'Ordered by your Vibe profile.' : 'Set your vibe and this list orders itself around you.'} Your exact location stays on your phone.
           </p>
         )}
       </div>
@@ -633,7 +634,7 @@ type PlaceFacts = { type?: string; address?: string; hoursToday?: string; hoursT
  * it's busy, and one tap to get there (walk, ride or drive). Facts come from
  * BestTime and Google only; nothing is filled in.
  */
-function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue; live?: LiveState; details?: PlaceFacts | null | 'loading'; wink?: string; onClose: () => void }) {
+function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading'; wink?: string; onClose: () => void }) {
   const facts = details && details !== 'loading' ? details : null;
   const ways = wayThere(venue);
   const miles = venue.distanceMeters !== undefined ? venue.distanceMeters / 1609.34 : undefined;
@@ -665,6 +666,13 @@ function PlaceCard({ venue, live, details, wink, onClose }: { venue: PulseVenue;
       {address ? <p className={styles.address}>{address}</p> : null}
       {facts?.hoursToday && !facts.shut ? <p className={styles.today}>{facts.hoursTodayUsual ? 'Usual hours today' : 'Hours today'} · {facts.hoursToday}</p> : null}
       {closed && offMap ? null : <LiveProof venue={venue} state={live} />}
+      {venue.hourly && !(closed && offMap) ? (
+        <>
+          <p className={styles.chartTitle}>Usually busy tonight</p>
+          <HourBars hourly={venue.hourly} start={Math.floor(nightClock(nowMinutes) / 60) * 60 - 120} end={Math.floor(nightClock(nowMinutes) / 60) * 60 + 600} now={nightClock(nowMinutes)} closes={venue.openAllNight ? undefined : (facts?.closesMinutes ?? venue.closesMinutes)} labels />
+          <p className={styles.proofSource}>BestTime’s usual foot traffic by hour, not a live reading.</p>
+        </>
+      ) : null}
       {wink && !(closed && offMap) ? <p className={styles.wink}>{wink}</p> : null}
       {closed && offMap ? null : (
         <>

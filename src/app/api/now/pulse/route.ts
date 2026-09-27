@@ -4,7 +4,8 @@ import { NowProviderBudgetExceededError, NowProviderBudgetUnavailableError } fro
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
 import { withGoogleHours } from '@/lib/now/googlePlaces';
 import { executePulse } from '@/lib/now/pulseService';
-import { PULSE_MAX_RADIUS_METERS, PULSE_RADIUS_METERS, PULSE_WHATS, type PulseWhat } from '@/lib/now/pulse';
+import { PULSE_MAX_RADIUS_METERS, PULSE_RADIUS_METERS, PULSE_WHATS, roundForSearch, type PulseWhat } from '@/lib/now/pulse';
+import { bestTimeDay, hourlyForArea } from '@/lib/now/hourly';
 import { requireMember } from '@/lib/platform/server/member';
 import { liveToken, placeToken } from '@/lib/now/liveBusyness';
 
@@ -46,9 +47,19 @@ export async function POST(request: Request) {
     const raw = body as Record<string, unknown>;
     const what: PulseWhat = PULSE_WHATS.includes(raw.what as PulseWhat) ? (raw.what as PulseWhat) : 'surprise';
     const radius = typeof raw.radiusMeters === 'number' && Number.isFinite(raw.radiusMeters) ? Math.max(800, Math.min(PULSE_MAX_RADIUS_METERS, Math.round(raw.radiusMeters))) : PULSE_RADIUS_METERS;
-    const result = await executePulse({ lat, lng }, what, radius);
+    // The phone's own weekday (0 = Monday) and hour pick BestTime's day for the hourly chart; nothing else uses them.
+    const clock = raw.clock && typeof raw.clock === 'object' ? (raw.clock as Record<string, unknown>) : null;
+    const weekday = typeof clock?.day === 'number' && Number.isInteger(clock.day) && clock.day >= 0 && clock.day <= 6 ? clock.day : null;
+    const hour = typeof clock?.hour === 'number' && Number.isInteger(clock.hour) && clock.hour >= 0 && clock.hour <= 23 ? clock.hour : null;
+    const [result, hourly] = await Promise.all([
+      executePulse({ lat, lng }, what, radius),
+      weekday !== null && hour !== null ? hourlyForArea(roundForSearch({ lat, lng }), radius, what, bestTimeDay(weekday, hour)) : Promise.resolve(null),
+    ]);
     // Closing times BestTime didn't have come from Google Places (members only, capped daily).
-    const venues = (await withGoogleHours(result.venues)).map((venue) => ({ ...venue, liveToken: liveToken(venue.id), placeToken: placeToken({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng }) }));
+    const venues = (await withGoogleHours(result.venues)).map((venue) => {
+      const day = hourly?.get(venue.id);
+      return { ...venue, ...(day ? { hourly: day } : {}), liveToken: liveToken(venue.id), placeToken: placeToken({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng }) };
+    });
     return NextResponse.json({ ...result, venues }, { headers: NO_STORE });
   } catch (cause) {
     if (cause instanceof RequestTooLargeError) return jsonError(413, 'NOW_REQUEST_TOO_LARGE', cause.message);

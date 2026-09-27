@@ -43,6 +43,8 @@ export type PulseVenue = {
   hoursFrom?: 'besttime' | 'google';
   /** The place on Google Maps, when Google Places knew it. */
   mapsUrl?: string;
+  /** BestTime's usual busyness (0–100) for each clock hour of tonight's BestTime day (6am to 5am), indexed 0 = midnight … 23 = 11pm. */
+  hourly?: number[];
   /** Signed by the server: lets a member ask for this place's live reading. */
   liveToken?: string;
   /** Signed by the server over this place's name and point: lets a member open its Google details. */

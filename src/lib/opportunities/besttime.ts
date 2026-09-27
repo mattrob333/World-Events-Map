@@ -219,6 +219,45 @@ export function parseBestTimeVenue(
   };
 }
 
+/** What a full-day answer looked like: counts only, for the logs (no places, no keys). */
+export type DayShape = { venues: number; lengths: Record<string, number>; dayMatches: number; dayMismatches: number };
+
+/**
+ * BestTime's usual foot traffic for each hour of one day, per venue, from a
+ * Venue Filter asked for a whole day (`day_int`, no `now`). BestTime's day runs
+ * 6am to 5am: `day_raw[0]` is 6am, `day_raw[23]` is 5am the next morning. The
+ * result is indexed by clock hour (0 = midnight … 23 = 11pm) for that BestTime
+ * day. Only exact 24-hour days for the asked day are kept; anything else is
+ * left out rather than guessed at.
+ */
+export function parseDayForecast(payload: unknown, dayInt: number): { hourly: Map<string, number[]>; shape: DayShape } {
+  const hourly = new Map<string, number[]>();
+  const shape: DayShape = { venues: 0, lengths: {}, dayMatches: 0, dayMismatches: 0 };
+  const root = record(payload);
+  if (!root || !Array.isArray(root.venues)) return { hourly, shape };
+  for (const raw of root.venues) {
+    const venue = record(raw);
+    if (!venue) continue;
+    shape.venues += 1;
+    const id = text(venue.venue_id) ?? text(record(venue.venue_info)?.venue_id);
+    const series = Array.isArray(venue.day_raw) ? venue.day_raw : [];
+    shape.lengths[String(series.length)] = (shape.lengths[String(series.length)] ?? 0) + 1;
+    const day = number(venue.day_int);
+    if (day !== undefined) {
+      if (day === dayInt) shape.dayMatches += 1;
+      else shape.dayMismatches += 1;
+    }
+    if (!id || series.length !== 24 || (day !== undefined && day !== dayInt)) continue;
+    if (!series.every((value) => typeof value === 'number' && Number.isFinite(value))) continue;
+    const byClock = new Array<number>(24);
+    series.forEach((value, index) => {
+      byClock[(index + 6) % 24] = Math.max(0, Math.min(100, Math.round(value as number)));
+    });
+    hourly.set(id, byClock);
+  }
+  return { hourly, shape };
+}
+
 export class BestTimeVenueProvider implements VenueFactsProvider {
   readonly id = 'besttime';
 
@@ -270,5 +309,40 @@ export class BestTimeVenueProvider implements VenueFactsProvider {
       .map((venue) => parseBestTimeVenue(venue, input.location, localHour, localIndex))
       .filter((venue): venue is VenueCandidate => venue !== null && (!drinks || drinksPlace(venue)))
       .slice(0, input.limit ?? 30);
+  }
+
+  /**
+   * One day's usual foot traffic, hour by hour, for the venues in an area (one
+   * Venue Filter call, billed like the search above). See parseDayForecast.
+   */
+  async dayForecast(input: VenueSearchInput, dayInt: number): Promise<ReturnType<typeof parseDayForecast>> {
+    if (!this.apiKey) throw new Error('BestTime is not configured.');
+    if (!Number.isInteger(dayInt) || dayInt < 0 || dayInt > 6) throw new Error('A day from 0 (Monday) to 6 (Sunday) is required.');
+    const params = new URLSearchParams({
+      api_key_private: this.apiKey,
+      lat: input.location.lat.toFixed(3),
+      lng: input.location.lng.toFixed(3),
+      radius: String(Math.max(250, Math.min(25_000, Math.round(input.radiusMeters)))),
+      day_int: String(dayInt),
+      foot_traffic: 'both',
+      own_venues_only: 'false',
+      order_by: 'reviews',
+      order: 'desc',
+      limit: String(Math.max(1, Math.min(50, input.limit ?? 30))),
+      page: '0',
+    });
+    const types = requestedTypes(input.categories);
+    if (types.length) params.set('types', types.join(','));
+    const response = await fetch(`https://besttime.app/api/v1/venues/filter?${params}`, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!response.ok) throw new Error(`BestTime request failed with status ${response.status}.`);
+    const payload: unknown = await response.json();
+    const root = record(payload);
+    if (text(root?.status)?.toLocaleLowerCase() === 'error') throw new Error(text(root?.message) ?? 'BestTime could not complete the venue request.');
+    return parseDayForecast(payload, dayInt);
   }
 }

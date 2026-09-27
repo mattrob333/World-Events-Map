@@ -14,7 +14,7 @@ export type TonightRow = {
   minutesLeft: number | null;
 };
 
-export type Tonight = { start: number; end: number; ticks: { at: number; label: string; position: number }[]; rows: TonightRow[] };
+export type Tonight = { start: number; end: number; /** Now, on the closing-time clock. */ now: number; ticks: { at: number; label: string; position: number }[]; rows: TonightRow[] };
 
 const MIN_SPAN = 3 * 60;
 const MAX_SPAN = 8 * 60;
@@ -49,5 +49,5 @@ export function buildTonight(venues: readonly PulseVenue[], nowMinutes: number):
       minutesLeft: known ? (venue.openAllNight ? null : Math.max(0, close! - now)) : null,
     };
   }).filter((row) => row.minutesLeft === null || row.minutesLeft > 0);
-  return { start, end, ticks, rows };
+  return { start, end, now, ticks, rows };
 }
