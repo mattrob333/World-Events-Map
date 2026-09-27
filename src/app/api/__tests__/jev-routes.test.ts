@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+// Signed in: member sign-in itself is covered in member.test.ts (it fails closed outside `next dev`).
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => ({ id: 'member', email: null }) }));
 vi.mock('@/lib/jev/receipts', () => ({ storeReceipts: vi.fn(async () => {}) }));
 
 import { resetDesignerLimitsForTests } from '@/lib/designer/server/guard';

@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const pending: (() => Promise<void>)[] = [];
 vi.mock('server-only', () => ({}));
+// Signed in: member sign-in itself is covered in member.test.ts (it fails closed outside `next dev`).
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => ({ id: 'member', email: null }) }));
 vi.mock('next/server', async (importOriginal) => ({ ...(await importOriginal<typeof import('next/server')>()), after: (fn: () => Promise<void>) => pending.push(fn) }));
 
 import { resetDailyBudgetsForTests } from '@/lib/designer/server/dailyBudget';

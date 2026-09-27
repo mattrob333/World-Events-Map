@@ -2,10 +2,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/lib/now/service', () => ({ executeNow: vi.fn() }));
+const { member } = vi.hoisted(() => ({ member: { current: { id: 'member-1', email: null } as Response | { id: string; email: null } } }));
+vi.mock('@/lib/platform/server/member', () => ({ requireMember: async () => member.current }));
 
 import {
   NowProviderBudgetExceededError,
   NowProviderBudgetUnavailableError,
+  NowSearchBudgetError,
 } from '@/lib/now/providerBudget';
 import { resetNowRateLimitsForTests } from '@/lib/now/rateLimit';
 import { executeNow } from '@/lib/now/service';
@@ -41,6 +44,7 @@ function request(
 }
 
 afterEach(() => {
+  member.current = { id: 'member-1', email: null };
   vi.unstubAllEnvs();
   mockedExecuteNow.mockReset();
   resetNowRateLimitsForTests();
@@ -134,6 +138,31 @@ describe('POST /api/now', () => {
     expect(response?.status).toBe(429);
     expect(response?.headers.get('retry-after')).toBeTruthy();
     expect(mockedExecuteNow).toHaveBeenCalledTimes(12);
+  });
+
+  it('is members only', async () => {
+    vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
+    member.current = new Response('no', { status: 401 });
+    expect((await POST(request(validBody()))).status).toBe(401);
+    expect(mockedExecuteNow).not.toHaveBeenCalled();
+  });
+
+  it('passes the member’s own daily share of searches, on a snapped radius', async () => {
+    vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
+    mockedExecuteNow.mockResolvedValue({ picks: [], candidateCount: 0, venueSource: 'besttime', judgmentSource: 'meridian-deterministic', generatedAt: '2026-09-17T18:00:00.000Z', degraded: true, warnings: [] });
+    await POST(request(validBody()));
+    const [input, charge] = mockedExecuteNow.mock.calls[0];
+    expect(input.radiusMeters).toBe(3219);
+    expect(charge).toEqual(expect.objectContaining({ take: expect.any(Function), refund: expect.any(Function) }));
+  });
+
+  it('says plainly when today’s searches are used up', async () => {
+    vi.stubEnv('BESTTIME_API_KEY_PRIVATE', 'test-private-key');
+    mockedExecuteNow.mockRejectedValue(new NowSearchBudgetError('member'));
+    const response = await POST(request(validBody()));
+    expect(response.status).toBe(429);
+    expect(Number(response.headers.get('retry-after'))).toBeGreaterThan(0);
+    expect(await response.json()).toMatchObject({ code: 'NOW_DAILY_LIMIT', error: 'You’ve used today’s NOW searches. More open up tomorrow.' });
   });
 
   it('returns durable provider-budget exhaustion as a retriable 429', async () => {

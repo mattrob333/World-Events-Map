@@ -1,4 +1,4 @@
-import { ipKey } from '@/lib/designer/server/guard';
+import { clientKey } from '@/lib/designer/server/guard';
 const WINDOW_MS = 10 * 60 * 1000;
 const PER_CLIENT_LIMIT = 12;
 const MAX_TRACKED_CLIENTS = 5000;
@@ -31,15 +31,6 @@ function consume(bucket: Bucket, limit: number, now: number) {
   };
 }
 
-function trustedClientKey(request: Request): string {
-  // Vercel documents x-vercel-forwarded-for as the platform-provided public
-  // client IP header. Prefer it so a browser caller cannot create arbitrary
-  // limiter identities by supplying its own X-Forwarded-For value.
-  // ipKey validates the address and groups IPv6 by /64, so one host can't
-  // rotate through its own addresses (or send junk) to mint fresh buckets.
-  return ipKey(request.headers.get('x-vercel-forwarded-for')) ?? ipKey(request.headers.get('x-real-ip')) ?? 'anonymous';
-}
-
 function ensureClientSlot(key: string) {
   if (clientBuckets.has(key) || clientBuckets.size < MAX_TRACKED_CLIENTS) return;
 
@@ -60,7 +51,9 @@ export function consumeNowClientRateLimit(
   /** A separate bucket (and limit) for one route, keyed by who is asking when known, so it can't starve the others. */
   options: { scope?: string; who?: string; limit?: number } = {},
 ): { allowed: boolean; retryAfterSeconds: number } {
-  const key = options.scope ? `${options.scope}:${options.who ?? trustedClientKey(request)}` : trustedClientKey(request);
+  // Client IP headers are trusted only where a trusted proxy sets them (guard.ts): off Vercel,
+  // x-vercel-forwarded-for is anyone's to write, so it can't mint fresh buckets.
+  const key = options.scope ? `${options.scope}:${options.who ?? clientKey(request)}` : clientKey(request);
   ensureClientSlot(key);
 
   const current = clientBuckets.get(key) ?? freshBucket(now);

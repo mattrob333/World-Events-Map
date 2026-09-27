@@ -31,12 +31,17 @@ describe('members only', () => {
     expect(allowlist('  ')).toBeNull();
   });
 
-  it('production without sign-in configured is closed; local development is open', async () => {
+  it('without sign-in configured, only `next dev` is open; every other build is closed', async () => {
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', '');
-    vi.stubEnv('VERCEL_ENV', 'production');
-    const closed = await requireMember(request());
-    expect(closed instanceof Response && closed.status).toBe(503);
-    vi.stubEnv('VERCEL_ENV', 'development');
+    for (const [nodeEnv, vercelEnv] of [['production', 'production'], ['production', 'preview'], ['production', ''], ['test', '']]) {
+      vi.stubEnv('NODE_ENV', nodeEnv);
+      vi.stubEnv('VERCEL_ENV', vercelEnv);
+      const closed = await requireMember(request());
+      expect(closed instanceof Response && closed.status).toBe(503);
+      expect(closed instanceof Response && (await closed.json()).code).toBe('MEMBERS_UNAVAILABLE');
+    }
+    vi.stubEnv('NODE_ENV', 'development');
+    vi.stubEnv('VERCEL_ENV', '');
     expect(await requireMember(request())).toEqual({ id: 'local-dev', email: null });
   });
 

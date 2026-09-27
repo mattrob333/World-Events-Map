@@ -4,6 +4,9 @@ type UnknownRecord = Record<string, unknown>;
 
 const INTENTS = new Set<NowIntent>(['food', 'drinks', 'music', 'experience', 'surprise']);
 const VIBES = new Set<NowVibe>(['chill', 'social', 'lively', 'surprise']);
+/** The radii NOW searches (½ to 15 miles). Others snap to the nearest, so each cached search is shared, not dodged. */
+export const NOW_RADII = [805, 1609, 3219, 4828, 8047, 9656, 16093, 24140] as const;
+const snapRadius = (meters: number) => NOW_RADII.reduce<number>((best, radius) => (Math.abs(radius - meters) < Math.abs(best - meters) ? radius : best), NOW_RADII[0]);
 
 function record(value: unknown): UnknownRecord | undefined {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -75,7 +78,7 @@ export function validateNowRequest(input: unknown): NowRequest {
     location: { lat: Math.round(lat * 100) / 100, lng: Math.round(lng * 100) / 100 },
     intent: body.intent as NowIntent,
     vibe: body.vibe as NowVibe,
-    radiusMeters: Math.round(radiusMeters),
+    radiusMeters: snapRadius(radiusMeters),
     availableMinutes: optionalNumber(body.availableMinutes, 'Available time', 30, 1440),
     maxPriceLevel: optionalNumber(body.maxPriceLevel, 'Maximum price level', 1, 5),
     minRating: optionalNumber(body.minRating, 'Minimum rating', 1, 5),

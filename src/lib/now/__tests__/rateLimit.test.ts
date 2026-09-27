@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 const { consumeNowClientRateLimit, resetNowRateLimitsForTests } = await import('../rateLimit');
@@ -10,10 +10,14 @@ function requestFor(ip: string) {
 }
 
 afterEach(() => {
+  vi.unstubAllEnvs();
   resetNowRateLimitsForTests();
 });
 
 describe('NOW warm-instance client admission guard', () => {
+  // On Vercel, the edge sets the client IP headers, so each address is its own client.
+  beforeEach(() => { vi.stubEnv('VERCEL', '1'); });
+
   it('blocks one noisy client after twelve requests', () => {
     const noisy = requestFor('203.0.113.20');
     for (let index = 0; index < 12; index += 1) {
@@ -33,7 +37,16 @@ describe('NOW warm-instance client admission guard', () => {
     expect(consumeNowClientRateLimit(request, 1_000 + 10 * 60 * 1000 + 1).allowed).toBe(true);
   });
 
-  it('does not trust arbitrary x-forwarded-for as a limiter identity', () => {
+  it('off Vercel, x-vercel-forwarded-for is anyone’s to write, so it never mints a fresh identity', () => {
+    vi.stubEnv('VERCEL', '');
+    for (let index = 0; index < 12; index += 1) {
+      expect(consumeNowClientRateLimit(requestFor(`198.51.100.${index}`), 1_000).allowed).toBe(true);
+    }
+    expect(consumeNowClientRateLimit(requestFor('198.51.100.250'), 1_000).allowed).toBe(false);
+  });
+
+  it('off Vercel, does not trust arbitrary x-forwarded-for as a limiter identity', () => {
+    vi.stubEnv('VERCEL', '');
     const spoof = (ip: string) =>
       new Request('http://localhost/api/now', { headers: { 'x-forwarded-for': ip } });
 

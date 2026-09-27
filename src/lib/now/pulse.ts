@@ -5,9 +5,18 @@
 
 // A mile by default: close enough to walk, and the map pinches out for more.
 export const PULSE_RADIUS_METERS = 1609; // one mile
-export const PULSE_MAX_RADIUS_METERS = 16093; // ten miles
 /** The radius choices on the map: 2, 5 and 10 miles. */
 export const PULSE_RADII = [{ miles: 1, meters: 1609 }, { miles: 2, meters: 3219 }, { miles: 5, meters: 8047 }] as const;
+/** The phone asks this much wider than the radius it shows, as the search centre is rounded (up to ~700 m off). */
+export const PULSE_ROUNDING_SLACK_METERS = 800;
+/** The only radii the server searches: each map choice plus the slack. Anything else snaps to the nearest, so the cache can't be dodged. */
+export const PULSE_SEARCH_RADII = PULSE_RADII.map((choice) => choice.meters + PULSE_ROUNDING_SLACK_METERS);
+
+export function snapPulseRadius(meters: unknown): number {
+  const asked = typeof meters === 'number' && Number.isFinite(meters) ? meters : PULSE_RADIUS_METERS + PULSE_ROUNDING_SLACK_METERS;
+  return PULSE_SEARCH_RADII.reduce((best, radius) => (Math.abs(radius - asked) < Math.abs(best - asked) ? radius : best));
+}
+
 export const PULSE_WHATS = ['drinks', 'food', 'music', 'experience', 'surprise'] as const;
 export type PulseWhat = (typeof PULSE_WHATS)[number];
 

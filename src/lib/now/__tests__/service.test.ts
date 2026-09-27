@@ -6,6 +6,12 @@ const mocks = vi.hoisted(() => ({
   search: vi.fn(),
   judge: vi.fn(),
   budget: vi.fn(),
+  daily: { allow: true, settled: [] as number[] },
+}));
+
+// The site's daily venue searches: allowed unless a test says no; settle(0) is a refund.
+vi.mock('@/lib/designer/server/sharedBudget', () => ({
+  reserveShared: vi.fn(async () => (mocks.daily.allow ? { amount: 1, settle: (actual: number) => mocks.daily.settled.push(actual) } : null)),
 }));
 
 vi.mock('@/lib/opportunities/besttime', () => ({
@@ -30,8 +36,15 @@ vi.mock('../providerBudget', async (importOriginal) => {
   };
 });
 
-import { executeNow, resetNowVenueCacheForTests } from '../service';
+import { executeNow, resetNowVenueCacheForTests, venueCandidates } from '../service';
+import { NowProviderBudgetExceededError, NowSearchBudgetError } from '../providerBudget';
 import type { NowRequest } from '../types';
+
+/** A member's share: `left` units, counting what was taken and given back. */
+const share = (left: number) => {
+  const state = { left, taken: 0, refunded: 0 };
+  return { state, take: vi.fn(async () => (state.left > 0 ? (state.left -= 1, state.taken += 1, true) : false)), refund: vi.fn(async () => { state.left += 1; state.refunded += 1; }) };
+};
 
 beforeEach(() => {
   mocks.budget.mockResolvedValue({
@@ -46,6 +59,8 @@ afterEach(() => {
   mocks.search.mockReset();
   mocks.judge.mockReset();
   mocks.budget.mockReset();
+  mocks.daily.allow = true;
+  mocks.daily.settled = [];
   resetNowVenueCacheForTests();
 });
 
@@ -198,5 +213,82 @@ describe('drinks: bars filed as restaurants', () => {
     const venues = await venueCandidates({ location: { lat: 41.2, lng: -95.9 }, radiusMeters: 1609, intent: 'drinks', barsFiledAsRestaurants: true });
     expect(venues.map((venue) => venue.id)).toEqual(['bar-2']);
     expect(mocks.search).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('daily venue-search budgets', () => {
+  const query = { location: { lat: 41.26, lng: -95.93 }, radiusMeters: 2409, intent: 'food' as const };
+  const venue = { id: 'v-1', name: 'Diner', category: 'RESTAURANT', location: { lat: 41.26, lng: -95.93 } };
+
+  it('charges the member and the site once per real search, never for a cached one', async () => {
+    mocks.search.mockResolvedValue([venue]);
+    const mine = share(5);
+    await venueCandidates(query, mine);
+    await venueCandidates(query, mine);
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(mine.state).toEqual({ left: 4, taken: 1, refunded: 0 });
+    expect(mocks.daily.settled).toEqual([1]);
+  });
+
+  it('a member out of searches is refused before any paid work', async () => {
+    const spent = share(0);
+    await expect(venueCandidates(query, spent)).rejects.toMatchObject({ scope: 'member' });
+    expect(mocks.search).not.toHaveBeenCalled();
+    expect(mocks.budget).not.toHaveBeenCalled();
+    expect(mocks.daily.settled).toEqual([]);
+  });
+
+  it('the site at its daily cap gives the member’s unit back', async () => {
+    mocks.daily.allow = false;
+    const mine = share(5);
+    const refusal = venueCandidates(query, mine);
+    await expect(refusal).rejects.toBeInstanceOf(NowSearchBudgetError);
+    await expect(refusal).rejects.toMatchObject({ scope: 'site' });
+    expect(mine.state).toEqual({ left: 5, taken: 1, refunded: 1 });
+    expect(mocks.search).not.toHaveBeenCalled();
+  });
+
+  it('a per-minute provider refusal gives back both daily units', async () => {
+    mocks.budget.mockReset();
+    mocks.budget.mockRejectedValue(new NowProviderBudgetExceededError(30));
+    const mine = share(5);
+    await expect(venueCandidates(query, mine)).rejects.toBeInstanceOf(NowProviderBudgetExceededError);
+    expect(mine.state.refunded).toBe(1);
+    expect(mocks.daily.settled).toEqual([0]);
+    expect(mocks.search).not.toHaveBeenCalled();
+  });
+
+  it('identical searches at once share one call, charged to the first', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    mocks.search.mockImplementation(async () => { await gate; return [venue]; });
+    const a = share(5);
+    const b = share(5);
+    const both = Promise.all([venueCandidates(query, a), venueCandidates(query, b)]);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    release();
+    const [first, second] = await both;
+    expect(first.map((v) => v.id)).toEqual(['v-1']);
+    expect(second.map((v) => v.id)).toEqual(['v-1']);
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(a.state.taken + b.state.taken).toBe(1);
+  });
+
+  it('one member out of searches doesn’t fail another’s identical search', async () => {
+    mocks.search.mockResolvedValue([venue]);
+    const spent = share(0);
+    const fresh = share(5);
+    const [refused, served] = await Promise.allSettled([venueCandidates(query, spent), venueCandidates(query, fresh)]);
+    expect(refused.status).toBe('rejected');
+    expect(served.status === 'fulfilled' && served.value.map((v) => v.id)).toEqual(['v-1']);
+    expect(mocks.search).toHaveBeenCalledTimes(1);
+    expect(fresh.state.taken).toBe(1);
+  });
+
+  it('a failed search isn’t remembered: the next ask tries again', async () => {
+    mocks.search.mockRejectedValueOnce(new Error('down')).mockResolvedValue([venue]);
+    await expect(venueCandidates(query)).rejects.toThrow('down');
+    expect((await venueCandidates(query)).map((v) => v.id)).toEqual(['v-1']);
+    expect(mocks.search).toHaveBeenCalledTimes(2);
   });
 });

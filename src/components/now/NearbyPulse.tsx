@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
+import { circleRing, closesLabel, nearestBeam, pixelsPerMeter, wayThere, PULSE_RADII, PULSE_RADIUS_METERS, PULSE_ROUNDING_SLACK_METERS, pulseStyle, roundForSearch, zoomForRadius, type PulseResult, type PulseVenue, type PulseWhat } from '@/lib/now/pulse';
 import { rankNowPicks } from '@/lib/now/nowPicks';
 import { buildTonight, nightClock } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
@@ -15,8 +15,8 @@ import { formatMiles } from '@/lib/units';
 import styles from './nearby-pulse.module.css';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
-/** How far the rounded search point can sit from them, so a small radius isn't lopsided. */
-const ROUNDING_SLACK_METERS = 800;
+/** How far the rounded search point can sit from them, so a small radius isn't lopsided (the server only searches these widths). */
+const ROUNDING_SLACK_METERS = PULSE_ROUNDING_SLACK_METERS;
 /** Below this width the place card covers the bottom of the map, so a tapped place is lifted clear of it. */
 const WIDE_PX = 720;
 const EMPTY: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
@@ -128,8 +128,8 @@ export function NearbyPulse() {
   const ringRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
   // BestTime's live reading per place tapped, fetched once per visit.
   const [live, setLive] = useState<Record<string, LiveState>>({});
-  // Google's facts for each place tapped (type, rating, price, website); null when Google had none.
-  const [details, setDetails] = useState<Record<string, PlaceFacts | null | 'loading'>>({});
+  // Google's facts for each place tapped (type, rating, price, website); null when Google had none, 'paused' when today's lookups are used up.
+  const [details, setDetails] = useState<Record<string, PlaceFacts | null | 'loading' | 'paused'>>({});
   const columnsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
 
   // The local clock, where they are (the phone follows the time zone when they land).
@@ -407,7 +407,7 @@ export function NearbyPulse() {
   // never one BestTime reads live as busy right now.
   const shut = useMemo(() => {
     const liveNow = new Set((venues ?? []).filter((venue) => venue.basis === 'live').map((venue) => venue.id));
-    return new Set(Object.entries(details).filter(([id, facts]) => !liveNow.has(id) && facts && facts !== 'loading' && (facts.shut || facts.closedNow)).map(([id]) => id));
+    return new Set(Object.entries(details).filter(([id, facts]) => !liveNow.has(id) && typeof facts === 'object' && facts !== null && (facts.shut || facts.closedNow)).map(([id]) => id));
   }, [details, venues]);
   const open = useMemo(() => (venues && shut.size ? venues.filter((venue) => !shut.has(venue.id)) : venues), [venues, shut]);
 
@@ -465,8 +465,8 @@ export function NearbyPulse() {
       body: JSON.stringify({ id: venue.id, name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, token: venue.placeToken }),
     })
       .then(async (response) => {
-        const body = response.ok ? ((await response.json()) as { place?: PlaceFacts | null }) : null;
-        setDetails((current) => ({ ...current, [id]: body?.place ?? null }));
+        const body = response.ok ? ((await response.json()) as { place?: PlaceFacts | null; reason?: 'budget' | 'unavailable' | 'none' }) : null;
+        setDetails((current) => ({ ...current, [id]: body?.place ?? (body?.reason === 'budget' ? 'paused' : null) }));
       })
       .catch(() => setDetails((current) => ({ ...current, [id]: null })));
   }, [selected, details]);
@@ -639,8 +639,8 @@ type PlaceFacts = { type?: string; address?: string; hoursToday?: string; hoursT
  * it's busy, and one tap to get there (walk, ride or drive). Facts come from
  * BestTime and Google only; nothing is filled in.
  */
-function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading'; wink?: string; onClose: () => void }) {
-  const facts = details && details !== 'loading' ? details : null;
+function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading' | 'paused'; wink?: string; onClose: () => void }) {
+  const facts = typeof details === 'object' ? details : null;
   const ways = wayThere(venue);
   const miles = venue.distanceMeters !== undefined ? venue.distanceMeters / 1609.34 : undefined;
   const walkable = miles !== undefined && miles <= 1.2;
@@ -697,6 +697,7 @@ function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue:
         {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
       </div>
       {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
+      {details === 'paused' ? <p className={styles.proofSource}>Google details are paused for today.</p> : null}
       {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone || facts.address || facts.hoursToday || closed) ? (
         <p className={styles.attribution}><SourceLogo source="google maps" size={12} className="mr-1" />Place details from Google Maps</p>
       ) : null}
