@@ -81,7 +81,7 @@
   to { opacity: 1; transform: none; }
 }
 .logo { margin: 0; }
-.logo img { display: block; width: min(76vw, 340px); height: auto; filter: drop-shadow(0 8px 40px rgb(242 107 42 / 0.25)); }
+.logo img { display: block; width: min(84vw, 460px); height: auto; filter: drop-shadow(0 8px 40px rgb(242 107 42 / 0.25)); }
 .tagline {
   margin: 14px 0 0;
   font-family: var(--font-display, serif);
