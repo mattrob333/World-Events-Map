@@ -147,7 +147,7 @@
 .headText p { margin-top: 3px; font-size: 13px; color: var(--color-ink-subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .headActions { display: flex; margin: -6px -10px 0 0; }
 .iconBtn { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--color-ink-subtle); transition: color 0.15s, background 0.15s; }
-.iconBtn:hover { color: var(--color-bone); background: var(--color-surface-2); }
+@media (hover: hover) { .iconBtn:hover { color: var(--color-bone); background: var(--color-surface-2); } }
 .iconBtn[aria-pressed='true'] { color: var(--color-saffron); }
 .iconBtn[data-pop] svg { animation: pop 0.4s var(--ease-glide); }
 .iconBtn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
@@ -260,4 +260,41 @@
 @media (prefers-reduced-motion: reduce) {
   .card, .section, .stripBar, .label, .iconBtn[data-pop] svg, .verdict[data-tone='good'] .verdictDot, .skeleton { animation: none; }
   .card { transition: none; }
+}
+
+/* The wish-list heart: flamingo when on, with a pop. */
+.heart[aria-pressed='true'] { color: var(--color-flamingo); }
+.heart[data-pop] svg { animation: heartPop 0.45s var(--ease-glide); }
+@keyframes heartPop { 35% { transform: scale(1.35); } 70% { transform: scale(0.92); } }
+.wished {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px;
+  font-size: 13px; color: var(--color-ink-soft); animation: fadeUp 0.35s var(--ease-glide) both;
+}
+.wished svg { color: var(--color-flamingo); }
+.wished a { color: var(--color-bone); text-decoration: underline; text-underline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .heart[data-pop] svg, .wished { animation: none; } }
+
+/* Phones: the filters fold into one pill; tap it to pick a month and a kind. */
+.filterPill { display: none; }
+@media (max-width: 1023px) {
+  .filters { align-items: flex-start; }
+  .filterPill {
+    display: inline-flex; align-items: center; gap: 8px; margin-left: 12px; min-height: 40px; padding: 0 14px;
+    border-radius: 999px; font-size: 14px; font-weight: 650; color: var(--color-bone); pointer-events: auto;
+    background: rgb(15 15 15 / 0.82); border: 1px solid rgb(244 241 234 / 0.12); backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px -12px rgb(0 0 0 / 0.8); position: relative;
+  }
+  .filterPill::after { content: ''; position: absolute; inset: -4px 0; }
+  .filterPill:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .filterPill svg:first-child { color: var(--color-brass-bright); }
+  .filterChevron { transition: transform 0.25s var(--ease-glide); }
+  .filters[data-open] .filterChevron { transform: rotate(180deg); }
+  .filterRows {
+    display: grid; gap: 6px; width: 100%; max-height: 0; opacity: 0; overflow: hidden; pointer-events: none;
+    transform: translateY(-6px); transition: max-height 0.3s var(--ease-glide), opacity 0.2s, transform 0.3s var(--ease-glide);
+  }
+  .filters[data-open] .filterRows { max-height: 120px; opacity: 1; pointer-events: auto; transform: none; }
+}
+@media (min-width: 1024px) {
+  .filterRows { display: grid; gap: 6px; }
 }

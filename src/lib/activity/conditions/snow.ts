@@ -1,3 +1,4 @@
+import { MONTHS_LONG } from '../activities';
 import type { Fetcher, Stat, Units } from './types';
 import { getJSON, num, OPEN_METEO, openMeteoUrl, round, unitParams } from './http';
 
@@ -89,10 +90,25 @@ export const fetchSnow: Fetcher = async (a, { units, now }) => {
     kind: 'snow',
     stats,
     note,
-    explain: explainSnow(pastSum, depth, units),
+    // Real fresh snow is news in any month; otherwise, out of season, say when to look again.
+    explain: (pastSum !== null && pastSum >= SNOW_BANDS[units].fresh ? undefined : offSeasonLine(a, now)) ?? explainSnow(pastSum, depth, units),
     good,
     basis: 'Modeled',
     sources: [OPEN_METEO],
     updatedAt: now.toISOString(),
   };
 };
+
+/**
+ * Out of season, depth and snowfall say little ("thin cover" at a closed
+ * resort misleads): say when it's worth checking again instead.
+ */
+export function offSeasonLine(a: { bestMonths: number[] }, now: Date): string | undefined {
+  const month = now.getMonth() + 1;
+  if (!a.bestMonths.length || a.bestMonths.includes(month)) return undefined;
+  for (let i = 1; i <= 12; i++) {
+    const m = ((month - 1 + i) % 12) + 1;
+    if (a.bestMonths.includes(m)) return `Off season. Check back in ${MONTHS_LONG[m - 1]}, when the season starts.`;
+  }
+  return undefined;
+}

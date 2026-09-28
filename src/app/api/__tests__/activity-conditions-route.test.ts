@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ACTIVITIES } from '@/lib/activity/activities';
+import { ACTIVITIES } from '@/lib/activity/data';
 
 vi.mock('server-only', () => ({}));
 
@@ -23,6 +23,7 @@ beforeEach(() => {
   vi.spyOn(console, 'warn').mockImplementation(() => {});
 });
 afterEach(() => {
+  vi.useRealTimers();
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
   vi.restoreAllMocks();
@@ -46,6 +47,9 @@ describe('GET /api/activity-conditions', () => {
   });
 
   it('serves snow conditions from the upstream with a six-hour edge cache', async () => {
+    // The fixture is a December morning; in September a ski area is off season.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(2026, 11, 10, 9));
     fetchMock.mockResolvedValue(json({
       current: { time: '2026-12-10T09:00', temperature_2m: -4, snow_depth: 0.9 },
       daily: { time: ['2026-12-09', '2026-12-10'], snowfall_sum: [10, 2] },

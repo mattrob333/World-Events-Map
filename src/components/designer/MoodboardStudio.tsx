@@ -22,6 +22,7 @@ import {
 import { tasteFrom } from '@/lib/designer/scene';
 import { pickActiveGroup, pickActiveProfile, useDesignerStore } from '@/lib/designer/store';
 import { YouHome } from '@/components/you/YouHome';
+import { WishlistCalendar } from '@/components/you/WishlistCalendar';
 import { ScenePlaybook, usePersona } from './ScenePlaybook';
 import { useVoicePage } from '@/lib/voice/registry';
 import { BentoBoard } from './BentoBoard';
@@ -563,6 +564,11 @@ export function MoodboardStudio({
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
+        {!hasTravelers ? (
+          <div className="mb-10">
+            <WishlistCalendar hideWhenEmpty />
+          </div>
+        ) : null}
         {hasTravelers ? (
           <>
             <p className={styles.eyebrow}>You</p>

@@ -1,5 +1,3 @@
-import raw from '@/data/activities/activities.json';
-
 /**
  * Activities: why people travel, everywhere, and when to go. Spots (a surf
  * break, a ski area, a fjord) and dated events (a festival, a Grand Prix),
@@ -96,7 +94,6 @@ export interface Activity {
   ticketUrl?: string;
 }
 
-export const ACTIVITIES = raw as Activity[];
 
 export const CATEGORY_META: Record<Category, { label: string; color: string }> = {
   ski: { label: 'Ski', color: '#4FA3C7' },
