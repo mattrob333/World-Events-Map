@@ -85,10 +85,12 @@ export function wishlistRows(
         category: a.category,
         when: verdict(a, 'now', now).text,
       };
-      if (a.kind === 'event' && a.eventDates) {
-        const span = spanFor(a.eventDates.start, a.eventDates.end, start);
-        rows.push({ ...base, when: formatShort(a.eventDates.start, a.eventDates.end), detail: base.when, span, soon: span ? span.from : 99 });
+      const span = a.kind === 'event' && a.eventDates ? spanFor(a.eventDates.start, a.eventDates.end, start) : undefined;
+      if (span && a.eventDates) {
+        rows.push({ ...base, when: formatShort(a.eventDates.start, a.eventDates.end), detail: base.when, span, soon: span.from });
       } else {
+        // Undated spots, and events whose dates fall outside this year (past, or not
+        // announced this far out), show the months they're usually best in.
         const months = Array.from({ length: 12 }, (_, i): MonthState => {
           const m = ((start.getMonth() + i) % 12) + 1;
           return a.peakMonths.includes(m) ? 'peak' : a.bestMonths.includes(m) ? 'best' : 'off';
@@ -108,7 +110,8 @@ export function wishlistRows(
         key: `event:${ev.id}`,
         name: ev.name,
         place: ev.city,
-        href: save.href,
+        // Open it on the globe, wherever it was saved from.
+        href: `/?event=${encodeURIComponent(ev.id)}`,
         color: '#F26B2A',
         span,
         when: formatShort(ev.start, ev.end),

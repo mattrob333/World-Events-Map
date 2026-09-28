@@ -91,7 +91,7 @@ export const fetchSnow: Fetcher = async (a, { units, now }) => {
     stats,
     note,
     // Real fresh snow is news in any month; otherwise, out of season, say when to look again.
-    explain: (good ? undefined : offSeasonLine(a, now)) ?? explainSnow(pastSum, depth, units),
+    explain: (pastSum !== null && pastSum >= SNOW_BANDS[units].fresh ? undefined : offSeasonLine(a, now)) ?? explainSnow(pastSum, depth, units),
     good,
     basis: 'Modeled',
     sources: [OPEN_METEO],

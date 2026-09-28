@@ -42,12 +42,22 @@ describe('wishlistRows', () => {
     expect(rows[0].span!.from).toBeGreaterThan(1);
     expect(rows[0].span!.from).toBeLessThan(1.4);
     expect(rows[0].when).toBe('Oct 10 to Oct 12');
-    expect(rows[0].href).toBe('/x/soon');
+    expect(rows[0].href).toBe('/?event=soon');
   });
 
   it('labels the window months from this one, marking a new year', () => {
     const m = windowMonths(NOW);
     expect(m[0].label).toBe('Sep');
     expect(m[4]).toEqual({ label: 'Jan', year: 2027 });
+  });
+
+  it('shows a hearted event outside this year by its usual months, not an empty row', () => {
+    const ev = [...spots.values()].find((a) => a.kind === 'event' && a.eventDates)!;
+    const far = new Map(spots);
+    far.set(ev.id, { ...ev, eventDates: { ...ev.eventDates!, start: '2028-06-01', end: '2028-06-03' } });
+    const [row] = wishlistRows([save('spot', ev.id)], far, new Map(), NOW);
+    expect(row.span).toBeUndefined();
+    expect(row.months).toHaveLength(12);
+    expect(row.months!.some((m) => m !== 'off')).toBe(true);
   });
 });

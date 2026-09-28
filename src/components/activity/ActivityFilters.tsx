@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { ChevronDown, SlidersHorizontal, Sparkles } from 'lucide-react';
 import { CATEGORIES, CATEGORY_META, MONTHS_LONG, MONTHS_SHORT, type Activity, type Category } from '@/lib/activity/activities';
 import type { MonthSel } from '@/lib/activity/season';
@@ -8,6 +8,13 @@ import { useActivityStore } from '@/lib/activity/store';
 import { CATEGORY_ICON } from './icons';
 import { glyphColor } from './markerTextures';
 import styles from './spot.module.css';
+
+const PHONE = '(max-width: 1023px)';
+function subscribePhone(onChange: () => void) {
+  const mq = window.matchMedia(PHONE);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
 
 const MONTHS: MonthSel[] = ['now', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -55,6 +62,8 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
 
   // On a phone the two rows fold into one pill that says what's showing.
   const [open, setOpen] = useState(false);
+  // On a phone the folded rows are out of reach for keyboards and screen readers too.
+  const folded = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE).matches, () => false) && !open;
   const rootRef = useRef<HTMLDivElement>(null);
   const cardOpen = useActivityStore((st) => Boolean(st.selectedId || st.pendingId));
   // It folds away when a spot opens, or on a tap anywhere else.
@@ -81,7 +90,7 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
         <span>{when} · {kinds}</span>
         <ChevronDown size={15} aria-hidden="true" className={styles.filterChevron} />
       </button>
-      <div id="activity-filter-rows" className={styles.filterRows}>
+      <div id="activity-filter-rows" className={styles.filterRows} inert={folded || undefined}>
       <FadeRow role="radiogroup" aria-label="Month">
         {MONTHS.map((m) => {
           const on = month === m;
