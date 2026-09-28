@@ -1,0 +1,206 @@
+{
+ "Midnight sun at North Cape": {
+  "lat": 71.17,
+  "lng": 25.7859,
+  "source": "https://www.openstreetmap.org/node/33728378",
+  "match": "Nordkapp, Finnmark, Norge"
+ },
+ "Hemsedal skiing": {
+  "lat": 60.8511,
+  "lng": 8.4899,
+  "source": "https://www.openstreetmap.org/relation/2150871",
+  "match": "Hemsedal skisenter, Hemsedal, Buskerud, Norge"
+ },
+ "Ruka skiing": {
+  "lat": 66.1656,
+  "lng": 29.1515,
+  "source": "https://www.openstreetmap.org/node/290414149",
+  "match": "Ruka, Kuusamo, Koillismaan seutukunta, Pohjois-Pohjanmaa, Manner-Suomi, 93830, Suomi / Fin"
+ },
+ "Ring Road drive": {
+  "lat": 63.6155,
+  "lng": -19.9882,
+  "source": "https://www.openstreetmap.org/node/2427040668",
+  "match": "Seljalandsfoss, Rangárþing eystra, Suðurland, Ísland"
+ },
+ "Edinburgh Festival Fringe": {
+  "lat": 55.9497,
+  "lng": -3.1911,
+  "source": "https://www.openstreetmap.org/way/2956321",
+  "match": "High Street, Abbeyhill, Old Town, City of Edinburgh, Alba / Scotland, EH1 1PN, United King"
+ },
+ "Scottish Highlands and whisky": {
+  "lat": 57.4708,
+  "lng": -3.2255,
+  "source": "https://www.openstreetmap.org/node/861976141",
+  "match": "Aberlour, Moray, Alba / Scotland, AB38 9PX, United Kingdom"
+ },
+ "Douro Valley harvest": {
+  "lat": 41.191,
+  "lng": -7.546,
+  "source": "https://www.openstreetmap.org/relation/4204530",
+  "match": "Pinhão, Alijó, Vila Real, Portugal"
+ },
+ "Venice Carnival": {
+  "lat": 45.4343,
+  "lng": 12.3387,
+  "source": "https://www.openstreetmap.org/way/172349507",
+  "match": "Piazza San Marco, San Marco, Venezia-Murano-Burano, Lido, Venezia, Veneto, 30124, Italia"
+ },
+ "Art Basel": {
+  "lat": 47.5643,
+  "lng": 7.5997,
+  "source": "https://www.openstreetmap.org/way/315916510",
+  "match": "Messe Basel, Messeplatz, Messe, Rosental, Kleinbasel, Basel, Basel-Stadt, 4005, Schweiz/Su"
+ },
+ "Salzburg Festival": {
+  "lat": 47.7987,
+  "lng": 13.041,
+  "source": "https://www.openstreetmap.org/way/64132509",
+  "match": "Großes Festspielhaus, Zugang Großes Festspielhaus, Altstadt, Salzburg, 5020, Österreich"
+ },
+ "Vienna ball season": {
+  "lat": 48.2033,
+  "lng": 16.3692,
+  "source": "https://www.openstreetmap.org/way/8097595",
+  "match": "Wiener Staatsoper, 2, Opernring, Kärntner Viertel, Katastralgemeinde Innere Stadt, Innere "
+ },
+ "Amsterdam Dance Event": {
+  "lat": 52.364,
+  "lng": 4.8828,
+  "source": "https://www.openstreetmap.org/way/1231991755",
+  "match": "Leidseplein, Centrum, Amsterdam, Noord-Holland, Nederland"
+ },
+ "Wadi Shab": {
+  "lat": 22.8178,
+  "lng": 59.1821,
+  "source": "https://www.openstreetmap.org/way/842757268",
+  "match": "وادي الشاب, ولاية قريات, ولاية جعلان بني بو علي, محافظة مسقط, عمان"
+ },
+ "Devil's Pool": {
+  "lat": -17.9235,
+  "lng": 25.8544,
+  "source": "https://www.openstreetmap.org/way/676841771",
+  "match": "Livingstone Island, Livingstone, Livingstone District, Southern Province, Zambia"
+ },
+ "Victoria Falls, Zimbabwe side": {
+  "lat": -17.9229,
+  "lng": 25.8477,
+  "source": "https://www.openstreetmap.org/way/579843538",
+  "match": "Devil's Cataract, Victoria Falls, Hwange, Matabeleland North, Zimbabwe"
+ },
+ "Zambezi rafting": {
+  "lat": -17.964,
+  "lng": 25.8554,
+  "source": "https://www.openstreetmap.org/way/601210361",
+  "match": "Batoka Gorge, Victoria Falls, Hwange, Matabeleland North, Zimbabwe"
+ },
+ "Niseko powder": {
+  "lat": 42.862,
+  "lng": 140.6984,
+  "source": "https://www.openstreetmap.org/way/193442713",
+  "match": "GRAND HIRAFU .Base, ひらふ坂, ニセコひらふ1条3丁目, Hirafu West Village, 倶知安町, 虻田郡, 後志総合振興局, 北海道, 北海道地方"
+ },
+ "Hakuba skiing": {
+  "lat": 36.6981,
+  "lng": 137.8621,
+  "source": "https://www.openstreetmap.org/relation/4759944",
+  "match": "白馬村, 北安曇郡, 長野県, 日本"
+ },
+ "Cherry blossoms in Kyoto": {
+  "lat": 35.0214,
+  "lng": 135.7943,
+  "source": "https://www.openstreetmap.org/way/407490692",
+  "match": "Philosophenweg, 鹿ケ谷寺ノ前町, 永観堂町飛地, 左京区, 京都市, 京都府, 606-8427, 日本"
+ },
+ "Seoul food and nightlife": {
+  "lat": 37.5579,
+  "lng": 126.9261,
+  "source": "https://www.openstreetmap.org/node/6586943205",
+  "match": "애니메이트 홍대점, 188, 양화로, 신촌, 동교동, 서교동, 마포구, 서울특별시, 04051, 대한민국"
+ },
+ "Dim sum": {
+  "lat": 22.3298,
+  "lng": 114.1609,
+  "source": "https://www.openstreetmap.org/node/2621314796",
+  "match": "深水埗 Sham Shui Po, 深水埗區 Sham Shui Po District, 九龍 Kowloon, 香港 Hong Kong, 中国"
+ },
+ "Hoi An lantern nights": {
+  "lat": 15.8792,
+  "lng": 108.3238,
+  "source": "https://www.openstreetmap.org/node/4955662821",
+  "match": "Đài Kỷ Niệm Danh Nhân Chí Sĩ Quảng Nam, Trần Hưng Đạo, An Hội, Phường Hội An, Hội An, Thàn"
+ },
+ "Overwater villas": {
+  "lat": 4.751,
+  "lng": 73.4398,
+  "source": "https://www.openstreetmap.org/way/671807125",
+  "match": "ގާފަރު Gaafaru, މާލެ އަތޮޅު, ދިވެހިރާއްޖެ"
+ },
+ "Manta diving at Hanifaru": {
+  "lat": 5.1827,
+  "lng": 73.1331,
+  "source": "https://www.openstreetmap.org/way/19879457",
+  "match": "Hanifaru, މާޅޮސްމަޑުލު ދެކުނުބުރި, ދިވެހިރާއްޖެ"
+ },
+ "Maafushi local island": {
+  "lat": 3.9412,
+  "lng": 73.49,
+  "source": "https://www.openstreetmap.org/relation/9328389",
+  "match": "Maafushi, މާލެ އަތޮޅު, 08090, ދިވެހިރާއްޖެ"
+ },
+ "Everest Base Camp trek": {
+  "lat": 27.9997,
+  "lng": 86.8488,
+  "source": "https://www.openstreetmap.org/node/5225912921",
+  "match": "Everest Base Camp, Khumbupasanglahmu-04, खुम्बु पासाङल्हामु गाउँपालिका, सोलुखुम्बु जिल्ला,"
+ },
+ "Banff and Lake Louise": {
+  "lat": 51.425,
+  "lng": -116.1775,
+  "source": "https://www.openstreetmap.org/node/2665400241",
+  "match": "Lake Louise, Improvement District No. 9, Alberta, Canada"
+ },
+ "Tulum cenotes": {
+  "lat": 20.2466,
+  "lng": -87.4641,
+  "source": "https://www.openstreetmap.org/node/976101133",
+  "match": "Grand Cenote, Carretera Tulum - Nuevo X-Can, Tulum, Quintana Roo, 77760, México"
+ },
+ "Puerto Escondido surf": {
+  "lat": 15.8437,
+  "lng": -97.0512,
+  "source": "https://www.openstreetmap.org/way/192166819",
+  "match": "Playa Zicatela, Punta de Zicatela, Brisas de Zicatela, Santa María Colotepec, Oaxaca, Méxi"
+ },
+ "Iguazu Falls, Argentine side": {
+  "lat": -25.6959,
+  "lng": -54.437,
+  "source": "https://www.openstreetmap.org/way/551980154",
+  "match": "Garganta del Diablo, Municipio de Puerto Iguazú, Departamento Iguazú, Misiones, Argentina"
+ },
+ "Lima food": {
+  "lat": -12.1215,
+  "lng": -77.0259,
+  "source": "https://www.openstreetmap.org/relation/1944770",
+  "match": "Miraflores, Lima, Lima Metropolitana, Lima, Perú"
+ },
+ "Cartagena old town": {
+  "lat": 10.4235,
+  "lng": -75.5511,
+  "source": "https://www.openstreetmap.org/node/4434771990",
+  "match": "Ciudad Amurallada, Plaza de Bolívar, Centro, Cartagena de Indias, Dique, Bolívar, RAP Cari"
+ },
+ "José Ignacio": {
+  "lat": -34.8448,
+  "lng": -54.6377,
+  "source": "https://www.openstreetmap.org/relation/2453191",
+  "match": "José Ignacio, Maldonado, 20402, Uruguay"
+ },
+ "Milford Track": {
+  "lat": -44.619,
+  "lng": 167.8688,
+  "source": "https://www.openstreetmap.org/relation/10706231",
+  "match": "Milford Sound / Piopiotahi, Fiordland Community, Southland, New Zealand / Aotearoa"
+ }
+}

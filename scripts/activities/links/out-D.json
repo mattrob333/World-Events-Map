@@ -1,0 +1,1474 @@
+{
+  "niseko-powder-jp": {
+    "officialSite": "https://www.nisekotourism.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Niseko",
+    "hashtags": [
+      "niseko",
+      "nisekopowder",
+      "hokkaido"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CTS",
+        "city": "Sapporo",
+        "driveTime": "2.5 h"
+      }
+    ]
+  },
+  "hakuba-skiing-jp": {
+    "officialSite": "https://www.hakubavalley.com/en/",
+    "tickets": "https://www.hakubavalley.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hakuba",
+    "hashtags": [
+      "hakubavalley",
+      "hakuba",
+      "nagano"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MMJ",
+        "city": "Matsumoto",
+        "driveTime": "1.5 h"
+      }
+    ]
+  },
+  "sapporo-snow-festival-jp": {
+    "officialSite": "https://www.snowfes.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sapporo_Snow_Festival",
+    "hashtags": [
+      "snowfes",
+      "sapporosnowfestival",
+      "sapporo"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CTS",
+        "city": "Sapporo"
+      }
+    ],
+    "bookAheadNote": "Sapporo hotels sell out during festival week, so book lodging months ahead."
+  },
+  "cherry-blossoms-in-kyoto-jp": {
+    "officialSite": "https://kyoto.travel/en/seasonal-info/cherryblossom/",
+    "hashtags": [
+      "sakura",
+      "kyoto",
+      "hanami"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KIX",
+        "city": "Osaka"
+      },
+      {
+        "iata": "ITM",
+        "city": "Osaka"
+      }
+    ]
+  },
+  "japanese-grand-prix-jp": {
+    "officialSite": "https://www.suzukacircuit.jp/eng/",
+    "tickets": "https://ticketing.formula1.com/japan/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Suzuka_Circuit",
+    "hashtags": [
+      "f1",
+      "japanesegp",
+      "suzuka"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "NGO",
+        "city": "Nagoya",
+        "driveTime": "1 h"
+      }
+    ]
+  },
+  "gion-matsuri-jp": {
+    "officialSite": "https://www.yasaka-jinja.or.jp/en/gion_fes/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Gion_Matsuri",
+    "hashtags": [
+      "gionmatsuri",
+      "kyoto",
+      "matsuri"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KIX",
+        "city": "Osaka"
+      }
+    ]
+  },
+  "mount-fuji-climb-jp": {
+    "officialSite": "https://www.fujisan-climb.jp/en/",
+    "tickets": "https://www.fujisan-climb.jp/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mount_Fuji",
+    "hashtags": [
+      "mountfuji",
+      "fujisan",
+      "climbfuji"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HND",
+        "city": "Tokyo"
+      }
+    ],
+    "bookAheadNote": "Yoshida Trail entries are capped at 4,000 climbers a day; reserve online before you go."
+  },
+  "hakone-onsen-jp": {
+    "officialSite": "https://www.hakonenavi.jp/international/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hakone",
+    "hashtags": [
+      "hakone",
+      "onsen",
+      "hotspring"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HND",
+        "city": "Tokyo"
+      }
+    ]
+  },
+  "seoul-cherry-blossoms-kr": {
+    "officialSite": "https://world.seoul.go.kr/yeouido-cherry-blossom-festival/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Yeouido",
+    "hashtags": [
+      "yeouido",
+      "seoulsakura",
+      "cherryblossom"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ICN",
+        "city": "Seoul"
+      }
+    ]
+  },
+  "seoul-food-and-nightlife-kr": {
+    "officialSite": "https://english.visitseoul.net/area/Nighttime-Adventures-in-Seoul/ENP000032",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hongdae",
+    "hashtags": [
+      "hongdae",
+      "seoulnightlife",
+      "seoul"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ICN",
+        "city": "Seoul"
+      },
+      {
+        "iata": "GMP",
+        "city": "Seoul"
+      }
+    ]
+  },
+  "k-pop-concerts-kr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Gocheok_Sky_Dome",
+    "hashtags": [
+      "kpop",
+      "gocheokskydome",
+      "seoul"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ICN",
+        "city": "Seoul"
+      }
+    ]
+  },
+  "seoraksan-fall-foliage-kr": {
+    "officialSite": "https://english.knps.or.kr/Knp/Seoraksan/Intro/Introduction.aspx?MenuNum=1&Submenu=Npp",
+    "wikipedia": "https://en.wikipedia.org/wiki/Seoraksan_National_Park",
+    "hashtags": [
+      "seoraksan",
+      "fallfoliage",
+      "sokcho"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YNY",
+        "city": "Yangyang"
+      }
+    ]
+  },
+  "pyeongchang-skiing-kr": {
+    "officialSite": "https://www.yongpyong.co.kr/eng/",
+    "tickets": "https://www.yongpyong.co.kr/eng/skiNboard/utilizationFee/liftCharge.do",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mona_Yongpyong",
+    "hashtags": [
+      "yongpyong",
+      "pyeongchang",
+      "skikorea"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YNY",
+        "city": "Yangyang"
+      }
+    ]
+  },
+  "harbin-ice-festival-cn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Harbin_International_Ice_and_Snow_Sculpture_Festival",
+    "hashtags": [
+      "harbinicefestival",
+      "harbin",
+      "iceandsnow"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HRB",
+        "city": "Harbin"
+      }
+    ],
+    "bookAheadNote": "Exact opening dates and ticket prices are usually only confirmed in late November, so book flights with flexibility."
+  },
+  "great-wall-at-mutianyu-cn": {
+    "officialSite": "https://en.mutianyugreatwall.com/",
+    "tickets": "https://en.mutianyugreatwall.com/reservation-center/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mutianyu",
+    "hashtags": [
+      "greatwall",
+      "mutianyu",
+      "beijing"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PEK",
+        "city": "Beijing"
+      },
+      {
+        "iata": "PKX",
+        "city": "Beijing"
+      }
+    ],
+    "bookAheadNote": "Tickets need a real-name reservation and only open 15 days ahead."
+  },
+  "zhangjiajie-pillars-cn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Zhangjiajie_National_Forest_Park",
+    "hashtags": [
+      "zhangjiajie",
+      "avatarmountains",
+      "nationalforestpark"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "DYG",
+        "city": "Zhangjiajie"
+      }
+    ]
+  },
+  "chinese-grand-prix-cn": {
+    "tickets": "https://ticketing.formula1.com/china/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Shanghai_International_Circuit",
+    "hashtags": [
+      "f1",
+      "chinesegp",
+      "shanghai"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PVG",
+        "city": "Shanghai"
+      },
+      {
+        "iata": "SHA",
+        "city": "Shanghai"
+      }
+    ]
+  },
+  "hong-kong-sevens-hk": {
+    "officialSite": "https://hksevens.com/",
+    "tickets": "https://hksevens.com/tickets/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hong_Kong_Sevens",
+    "hashtags": [
+      "hksevens",
+      "rugby7s",
+      "hongkong"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HKG",
+        "city": "Hong Kong"
+      }
+    ],
+    "bookAheadNote": "Multi-day passes have sold out well ahead of the event in recent years."
+  },
+  "dim-sum-hk": {
+    "officialSite": "https://www.timhowan.com.hk/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Tim_Ho_Wan",
+    "hashtags": [
+      "dimsum",
+      "hongkongfood",
+      "timhowan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HKG",
+        "city": "Hong Kong"
+      }
+    ]
+  },
+  "dragon-s-back-hike-hk": {
+    "officialSite": "https://www.discoverhongkong.com/eng/place-to-go/travel.guide-dragon-s-back.html",
+    "wikipedia": "https://en.wikipedia.org/wiki/Dragon%27s_Back",
+    "hashtags": [
+      "dragonsback",
+      "hongkonghiking",
+      "sheko"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HKG",
+        "city": "Hong Kong"
+      }
+    ]
+  },
+  "pingxi-sky-lanterns-tw": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Pingxi_District",
+    "hashtags": [
+      "skylantern",
+      "pingxi",
+      "taiwanlanternfestival"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TPE",
+        "city": "Taipei"
+      },
+      {
+        "iata": "TSA",
+        "city": "Taipei"
+      }
+    ],
+    "bookAheadNote": "The exact date follows the lunar calendar and New Taipei City usually only confirms it in January."
+  },
+  "taipei-night-markets-tw": {
+    "officialSite": "https://eng.taiwan.net.tw/m1.aspx?sNo=0002090&id=154",
+    "wikipedia": "https://en.wikipedia.org/wiki/Shilin_Night_Market",
+    "hashtags": [
+      "shilinnightmarket",
+      "taipei",
+      "nightmarket"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TPE",
+        "city": "Taipei"
+      },
+      {
+        "iata": "TSA",
+        "city": "Taipei"
+      }
+    ]
+  },
+  "taroko-gorge-tw": {
+    "officialSite": "https://www.taroko.gov.tw/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Taroko_National_Park",
+    "hashtags": [
+      "tarokogorge",
+      "hualien",
+      "taiwan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HUN",
+        "city": "Hualien"
+      }
+    ]
+  },
+  "koh-tao-diving-th": {
+    "officialSite": "https://www.tourismthailand.org/Destinations/Provinces/Ko-Tao/361",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ko_Tao",
+    "hashtags": [
+      "kohtao",
+      "scubadiving",
+      "thailand"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "USM",
+        "city": "Koh Samui"
+      }
+    ]
+  },
+  "phi-phi-and-andaman-beaches-th": {
+    "officialSite": "https://www.tourismthailand.org/Destinations/Provinces/Ko-Phi-Phi/359",
+    "wikipedia": "https://en.wikipedia.org/wiki/Phi_Phi_Islands",
+    "hashtags": [
+      "phiphi",
+      "andaman",
+      "krabi"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KBV",
+        "city": "Krabi"
+      }
+    ]
+  },
+  "songkran-th": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Songkran_(Thailand)",
+    "hashtags": [
+      "songkran",
+      "thainewyear",
+      "waterfestival"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BKK",
+        "city": "Bangkok"
+      },
+      {
+        "iata": "DMK",
+        "city": "Bangkok"
+      }
+    ]
+  },
+  "yi-peng-lanterns-th": {
+    "officialSite": "https://yipenglanternfestival.in.th/",
+    "tickets": "https://yipenglanternfestival.in.th/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Chiang_Mai",
+    "hashtags": [
+      "yipeng",
+      "loykrathong",
+      "chiangmai"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CNX",
+        "city": "Chiang Mai"
+      }
+    ],
+    "bookAheadNote": "Official CAD lantern-release tickets for the main event sell out weeks in advance."
+  },
+  "bangkok-street-food-and-muay-thai-th": {
+    "officialSite": "https://rajadamnern.com/",
+    "tickets": "https://rajadamnern.com/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Rajadamnern_Stadium",
+    "hashtags": [
+      "muaythai",
+      "rajadamnern",
+      "bangkokstreetfood"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BKK",
+        "city": "Bangkok"
+      },
+      {
+        "iata": "DMK",
+        "city": "Bangkok"
+      }
+    ]
+  },
+  "ha-long-bay-vn": {
+    "officialSite": "https://vietnam.travel/places-to-go/northern-vietnam/ha-long",
+    "wikipedia": "https://en.wikipedia.org/wiki/H%E1%BA%A1_Long_Bay",
+    "hashtags": [
+      "halongbay",
+      "vietnam",
+      "unesco"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HAN",
+        "city": "Hanoi"
+      },
+      {
+        "iata": "VDO",
+        "city": "Van Don"
+      }
+    ]
+  },
+  "hoi-an-lantern-nights-vn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/H%E1%BB%99i_An",
+    "hashtags": [
+      "hoian",
+      "lanternfestival",
+      "vietnam"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "DAD",
+        "city": "Da Nang"
+      }
+    ],
+    "bookAheadNote": "The lantern night happens every full moon, not just once a year; confirm the current lunar date before visiting."
+  },
+  "ha-giang-loop-vn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/H%C3%A0_Giang_province",
+    "hashtags": [
+      "hagiangloop",
+      "vietnam",
+      "motorbiketrip"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HAN",
+        "city": "Hanoi"
+      }
+    ]
+  },
+  "tet-in-hanoi-vn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Ho%C3%A0n_Ki%E1%BA%BFm_Lake",
+    "hashtags": [
+      "tet",
+      "hanoi",
+      "lunarnewyear"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HAN",
+        "city": "Hanoi"
+      }
+    ]
+  },
+  "angkor-wat-kh": {
+    "officialSite": "https://www.apsaraauthority.gov.kh/",
+    "tickets": "https://www.angkorenterprise.gov.kh/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Angkor_Wat",
+    "hashtags": [
+      "angkorwat",
+      "siemreap",
+      "cambodia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SAI",
+        "city": "Siem Reap"
+      }
+    ]
+  },
+  "koh-rong-beaches-kh": {
+    "officialSite": "https://www.tourismcambodia.com/travelguides/provinces/sihanouk-ville/what-to-see/427_koh-rong-island.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Koh_Rong",
+    "hashtags": [
+      "kohrong",
+      "cambodia",
+      "islandlife"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KOS",
+        "city": "Sihanoukville"
+      }
+    ]
+  },
+  "phnom-penh-riverside-kh": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Royal_Palace_of_Cambodia",
+    "hashtags": [
+      "phnompenh",
+      "cambodia",
+      "riverside"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PNH",
+        "city": "Phnom Penh"
+      }
+    ]
+  },
+  "uluwatu-surf-id": {
+    "officialSite": "https://uluwatutemple.id/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Uluwatu_Temple",
+    "hashtags": [
+      "uluwatu",
+      "bali",
+      "balisurf"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "DPS",
+        "city": "Denpasar"
+      }
+    ]
+  },
+  "raja-ampat-diving-id": {
+    "officialSite": "https://kkprajaampat.id/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Raja_Ampat_Islands",
+    "hashtags": [
+      "rajaampat",
+      "diving",
+      "westpapua"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "DEO",
+        "city": "Sorong"
+      }
+    ],
+    "bookAheadNote": "A Marine Park entry permit (environmental service fee) is required and best arranged before arrival."
+  },
+  "komodo-dragons-id": {
+    "officialSite": "https://komodonp.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Komodo_National_Park",
+    "hashtags": [
+      "komodonationalpark",
+      "komododragon",
+      "labuanbajo"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LBJ",
+        "city": "Labuan Bajo"
+      }
+    ],
+    "bookAheadNote": "All visitors must book an entry slot in advance through the SiORA online reservation system; walk-in tickets are no longer sold."
+  },
+  "ubud-yoga-retreats-id": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Ubud",
+    "hashtags": [
+      "ubud",
+      "bali",
+      "yogaretreat"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "DPS",
+        "city": "Denpasar"
+      }
+    ]
+  },
+  "cloud-9-surf-ph": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Siargao",
+    "hashtags": [
+      "cloud9",
+      "siargao",
+      "surfingcapital"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "IAO",
+        "city": "Siargao"
+      }
+    ]
+  },
+  "el-nido-island-hopping-ph": {
+    "officialSite": "https://www.elnidoofficial.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/El_Nido,_Palawan",
+    "hashtags": [
+      "elnido",
+      "palawan",
+      "islandhopping"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PPS",
+        "city": "Puerto Princesa"
+      },
+      {
+        "iata": "ENI",
+        "city": "El Nido"
+      }
+    ]
+  },
+  "coron-wreck-diving-ph": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Coron,_Palawan",
+    "hashtags": [
+      "coron",
+      "wreckdiving",
+      "palawan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "USU",
+        "city": "Busuanga/Coron"
+      }
+    ]
+  },
+  "borneo-orangutans-my": {
+    "officialSite": "https://sabahtourism.com/destination/sepilok-orangutan-rehabilitation-centre/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sepilok_Orangutan_Rehabilitation_Centre",
+    "hashtags": [
+      "sepilok",
+      "orangutan",
+      "sandakan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SDK",
+        "city": "Sandakan"
+      }
+    ]
+  },
+  "mount-kinabalu-my": {
+    "officialSite": "https://www.sabahparks.org.my/kinabalu-park/mount-kinabalu",
+    "tickets": "https://reservation.sabahparks.org.my/mountain-climbing/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mount_Kinabalu",
+    "hashtags": [
+      "mountkinabalu",
+      "sabah",
+      "climbkinabalu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BKI",
+        "city": "Kota Kinabalu"
+      }
+    ],
+    "bookAheadNote": "Climb permits are limited daily and a registered mountain guide is mandatory; slots book out months ahead."
+  },
+  "sipadan-diving-my": {
+    "officialSite": "https://www.sabahparks.org.my/services/diving-sipadan",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sipadan",
+    "hashtags": [
+      "sipadan",
+      "diving",
+      "sabah"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TWU",
+        "city": "Tawau"
+      }
+    ],
+    "bookAheadNote": "Only a limited number of dive permits are issued per day and the island is closed to diving every November; book operators well ahead."
+  },
+  "singapore-grand-prix-sg": {
+    "officialSite": "https://www.singaporegp.sg/",
+    "tickets": "https://ticketing.formula1.com/singapore/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Marina_Bay_Street_Circuit",
+    "hashtags": [
+      "singaporegp",
+      "f1",
+      "marinabay"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SIN",
+        "city": "Singapore"
+      }
+    ]
+  },
+  "hawker-food-sg": {
+    "officialSite": "https://maxwellfoodcentre.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Maxwell_Food_Centre",
+    "hashtags": [
+      "hawkerfood",
+      "singaporefood",
+      "maxwellfoodcentre"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SIN",
+        "city": "Singapore"
+      }
+    ]
+  },
+  "gardens-by-the-bay-sg": {
+    "officialSite": "https://www.gardensbythebay.com.sg/",
+    "tickets": "https://www.gardensbythebay.com.sg/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Gardens_by_the_Bay",
+    "hashtags": [
+      "gardensbythebay",
+      "singapore",
+      "supertrees"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SIN",
+        "city": "Singapore"
+      }
+    ]
+  },
+  "overwater-villas-mv": {
+    "officialSite": "https://visitmaldives.com/en",
+    "hashtags": [
+      "maldives",
+      "overwatervilla",
+      "northmale"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MLE",
+        "city": "Male"
+      }
+    ]
+  },
+  "manta-diving-at-hanifaru-mv": {
+    "hashtags": [
+      "hanifaru",
+      "mantaray",
+      "baaatoll"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MLE",
+        "city": "Male"
+      },
+      {
+        "iata": "DRV",
+        "city": "Dharavandhoo"
+      }
+    ],
+    "bookAheadNote": "Hanifaru Bay has strict visitor and snorkeler caps under its marine-protected-area rules."
+  },
+  "maafushi-local-island-mv": {
+    "officialSite": "https://maafushi.gov.mv/guide",
+    "wikipedia": "https://en.wikipedia.org/wiki/Maafushi",
+    "hashtags": [
+      "maafushi",
+      "maldives",
+      "localisland"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MLE",
+        "city": "Male"
+      }
+    ]
+  },
+  "arugam-bay-surf-lk": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Arugam_Bay",
+    "hashtags": [
+      "arugambay",
+      "srilankasurf",
+      "surf"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BTC",
+        "city": "Batticaloa"
+      },
+      {
+        "iata": "CMB",
+        "city": "Colombo"
+      }
+    ]
+  },
+  "yala-leopards-lk": {
+    "tickets": "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Yala_National_Park",
+    "hashtags": [
+      "yalanationalpark",
+      "leopards",
+      "srilanka"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CMB",
+        "city": "Colombo"
+      }
+    ],
+    "bookAheadNote": "Some park blocks close for weeks at a time seasonally; check the Wildlife Department status before booking a safari."
+  },
+  "esala-perahera-lk": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Temple_of_the_Tooth",
+    "hashtags": [
+      "esalaperahera",
+      "kandy",
+      "srilanka"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CMB",
+        "city": "Colombo"
+      }
+    ],
+    "bookAheadNote": "Dates follow the lunar calendar and are announced only a few months ahead by the Temple of the Tooth authorities."
+  },
+  "sigiriya-lk": {
+    "tickets": "https://eservices.ccf.gov.lk/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sigiriya",
+    "hashtags": [
+      "sigiriya",
+      "srilanka",
+      "lionrock"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CMB",
+        "city": "Colombo"
+      }
+    ]
+  },
+  "holi-in-mathura-in": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Mathura",
+    "hashtags": [
+      "holi",
+      "mathura",
+      "holifestival"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AGR",
+        "city": "Agra"
+      },
+      {
+        "iata": "DEL",
+        "city": "Delhi"
+      }
+    ]
+  },
+  "diwali-in-jaipur-in": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Jaipur",
+    "hashtags": [
+      "diwali",
+      "jaipur",
+      "festivaloflights"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "JAI",
+        "city": "Jaipur"
+      }
+    ]
+  },
+  "rajasthan-palaces-in": {
+    "officialSite": "https://www.citypalaceudaipur.com/",
+    "tickets": "https://ticket.citypalacemuseum.org/",
+    "wikipedia": "https://en.wikipedia.org/wiki/City_Palace,_Udaipur",
+    "hashtags": [
+      "udaipur",
+      "citypalace",
+      "rajasthan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "UDR",
+        "city": "Udaipur"
+      }
+    ]
+  },
+  "goa-beaches-in": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Palolem_Beach",
+    "hashtags": [
+      "goa",
+      "palolem",
+      "beachlife"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GOI",
+        "city": "Goa"
+      },
+      {
+        "iata": "GOX",
+        "city": "Goa"
+      }
+    ]
+  },
+  "ladakh-treks-in": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Leh",
+    "hashtags": [
+      "ladakh",
+      "leh",
+      "himalayatrek"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "IXL",
+        "city": "Leh"
+      }
+    ],
+    "bookAheadNote": "An Inner Line Permit is required for many Ladakh routes; arrange it in Leh or online beforehand."
+  },
+  "ranthambore-tigers-in": {
+    "officialSite": "https://www.tourism.rajasthan.gov.in/ranthambore.html",
+    "tickets": "https://booking.forestrajasthan.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ranthambore_National_Park",
+    "hashtags": [
+      "ranthambore",
+      "tigersafari",
+      "rajasthan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "JAI",
+        "city": "Jaipur"
+      }
+    ],
+    "bookAheadNote": "Safari zones book out; reserve jeep/canter safaris online up to 90 days ahead."
+  },
+  "everest-base-camp-trek-np": {
+    "officialSite": "https://ntb.gov.np/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Everest_base_camps",
+    "hashtags": [
+      "everestbasecamp",
+      "ebctrek",
+      "khumbu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KTM",
+        "city": "Kathmandu"
+      },
+      {
+        "iata": "LUA",
+        "city": "Lukla"
+      }
+    ],
+    "bookAheadNote": "Both a Sagarmatha National Park permit and a local Khumbu entry permit are required to trek to EBC."
+  },
+  "annapurna-circuit-np": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Annapurna_Circuit",
+    "hashtags": [
+      "annapurnacircuit",
+      "acap",
+      "nepaltrekking"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "KTM",
+        "city": "Kathmandu"
+      },
+      {
+        "iata": "PKR",
+        "city": "Pokhara"
+      }
+    ],
+    "bookAheadNote": "An Annapurna Conservation Area Permit (ACAP) is required and must be collected in person in Kathmandu or Pokhara."
+  },
+  "pokhara-np": {
+    "officialSite": "https://ntb.gov.np/pokhara",
+    "wikipedia": "https://en.wikipedia.org/wiki/Pokhara",
+    "hashtags": [
+      "pokhara",
+      "nepal",
+      "phewalake"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PKR",
+        "city": "Pokhara"
+      }
+    ]
+  },
+  "paro-tsechu-bt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Rinpung_Dzong",
+    "hashtags": [
+      "parotsechu",
+      "bhutan",
+      "tsechu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PBH",
+        "city": "Paro"
+      }
+    ],
+    "bookAheadNote": "Tsechu dates follow the Bhutanese lunar calendar and can still shift; confirm with a licensed Bhutan tour operator (mandatory for all visitors) before booking flights."
+  },
+  "tiger-s-nest-hike-bt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Paro_Taktsang",
+    "hashtags": [
+      "tigersnest",
+      "parotaktsang",
+      "bhutan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PBH",
+        "city": "Paro"
+      }
+    ]
+  },
+  "druk-path-trek-bt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Thimphu",
+    "hashtags": [
+      "drukpath",
+      "bhutantrekking",
+      "thimphu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PBH",
+        "city": "Paro"
+      }
+    ]
+  },
+  "naadam-festival-mn": {
+    "officialSite": "https://naadamfestival.com/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/National_Sports_Stadium_(Mongolia)",
+    "hashtags": [
+      "naadam",
+      "mongolia",
+      "naadamfestival"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ULN",
+        "city": "Ulaanbaatar"
+      }
+    ]
+  },
+  "gobi-desert-mn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Khongoryn_Els",
+    "hashtags": [
+      "gobidesert",
+      "mongolia",
+      "khongorynels"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ULN",
+        "city": "Ulaanbaatar"
+      },
+      {
+        "iata": "DLZ",
+        "city": "Dalanzadgad"
+      }
+    ]
+  },
+  "terelj-ger-camps-mn": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Gorkhi-Terelj_National_Park",
+    "hashtags": [
+      "terelj",
+      "gercamp",
+      "mongolia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ULN",
+        "city": "Ulaanbaatar"
+      }
+    ]
+  },
+  "samarkand-uz": {
+    "officialSite": "https://uzbekistan.travel/en/o/registan/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Registan",
+    "hashtags": [
+      "samarkand",
+      "registan",
+      "silkroad"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SKD",
+        "city": "Samarkand"
+      }
+    ]
+  },
+  "bukhara-uz": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Po-i-Kalyan",
+    "hashtags": [
+      "bukhara",
+      "silkroad",
+      "uzbekistan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BHK",
+        "city": "Bukhara"
+      }
+    ]
+  },
+  "khiva-uz": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Itchan_Kala",
+    "hashtags": [
+      "khiva",
+      "itchankala",
+      "uzbekistan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "UGC",
+        "city": "Urgench"
+      }
+    ]
+  },
+  "australian-open-au": {
+    "officialSite": "https://ausopen.com/",
+    "tickets": "https://www.ticketmaster.com.au/ausopen",
+    "wikipedia": "https://en.wikipedia.org/wiki/Melbourne_Park",
+    "hashtags": [
+      "ausopen",
+      "melbourne",
+      "tennis"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEL",
+        "city": "Melbourne"
+      }
+    ]
+  },
+  "australian-grand-prix-au": {
+    "officialSite": "https://www.grandprix.com.au/",
+    "tickets": "https://www.grandprix.com.au/en/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Albert_Park_Circuit",
+    "hashtags": [
+      "australiangp",
+      "f1",
+      "melbourne"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEL",
+        "city": "Melbourne"
+      }
+    ]
+  },
+  "great-barrier-reef-au": {
+    "officialSite": "https://www.gbrmpa.gov.au/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Great_Barrier_Reef",
+    "hashtags": [
+      "greatbarrierreef",
+      "cairns",
+      "reef"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CNS",
+        "city": "Cairns"
+      }
+    ]
+  },
+  "melbourne-cup-au": {
+    "officialSite": "https://vrc.com.au/melbourne-cup-carnival/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Flemington_Racecourse",
+    "hashtags": [
+      "melbournecup",
+      "flemington",
+      "springracingcarnival"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEL",
+        "city": "Melbourne"
+      }
+    ]
+  },
+  "uluru-au": {
+    "officialSite": "https://uluru.gov.au/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Uluru",
+    "hashtags": [
+      "uluru",
+      "ayersrock",
+      "outback"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AYQ",
+        "city": "Ayers Rock / Yulara"
+      }
+    ],
+    "bookAheadNote": "A paid park pass booked through Parks Australia is required to enter Uluru-Kata Tjuta National Park."
+  },
+  "sydney-new-year-s-eve-au": {
+    "officialSite": "https://www.sydneynewyearseve.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+    "hashtags": [
+      "sydneynye",
+      "sydneyfireworks",
+      "nye"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SYD",
+        "city": "Sydney"
+      }
+    ],
+    "bookAheadNote": "Prime harbourside vantage points need tickets or reservations booked well ahead."
+  },
+  "queenstown-skiing-nz": {
+    "wikipedia": "https://en.wikipedia.org/wiki/The_Remarkables",
+    "hashtags": [
+      "queenstown",
+      "theremarkables",
+      "skiqueenstown"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ZQN",
+        "city": "Queenstown"
+      }
+    ]
+  },
+  "queenstown-bungy-nz": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Kawarau_Gorge_Suspension_Bridge",
+    "hashtags": [
+      "bungyjump",
+      "queenstown",
+      "kawaraugorge"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ZQN",
+        "city": "Queenstown"
+      }
+    ]
+  },
+  "milford-track-nz": {
+    "officialSite": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/milford-track/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Milford_Track",
+    "hashtags": [
+      "milfordtrack",
+      "fiordland",
+      "greatwalk"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ZQN",
+        "city": "Queenstown"
+      }
+    ],
+    "bookAheadNote": "Great Walks season (Nov-Apr) hut bookings open ahead of time and huts fill up; book through DOC in advance."
+  },
+  "mount-hutt-skiing-nz": {
+    "officialSite": "https://www.mthutt.co.nz/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mount_Hutt",
+    "hashtags": [
+      "mounthutt",
+      "methven",
+      "skinz"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CHC",
+        "city": "Christchurch"
+      }
+    ]
+  },
+  "rugby-at-eden-park-nz": {
+    "officialSite": "https://www.edenpark.co.nz/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Eden_Park",
+    "hashtags": [
+      "edenpark",
+      "allblacks",
+      "auckland"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AKL",
+        "city": "Auckland"
+      }
+    ]
+  },
+  "fiji-diving-fj": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Rainbow_Reef",
+    "hashtags": [
+      "fijidiving",
+      "rainbowreef",
+      "taveuni"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TVU",
+        "city": "Taveuni"
+      }
+    ]
+  },
+  "mamanuca-island-resorts-fj": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Mamanuca_Islands",
+    "hashtags": [
+      "mamanuca",
+      "fiji",
+      "islandresort"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "NAN",
+        "city": "Nadi"
+      }
+    ]
+  },
+  "cloudbreak-surf-fj": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Tavarua",
+    "hashtags": [
+      "cloudbreak",
+      "tavarua",
+      "fijisurfing"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "NAN",
+        "city": "Nadi"
+      }
+    ]
+  },
+  "teahupo-o-surf-pf": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Teahupo%CA%BBo",
+    "hashtags": [
+      "teahupoo",
+      "tahitisurf",
+      "frenchpolynesia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PPT",
+        "city": "Papeete"
+      }
+    ]
+  },
+  "heiva-i-tahiti-pf": {
+    "officialSite": "https://www.tahititourisme.com/en-us/heiva-i-tahiti/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Papeete",
+    "hashtags": [
+      "heivaitahiti",
+      "tahiti",
+      "heiva"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PPT",
+        "city": "Papeete"
+      }
+    ],
+    "bookAheadNote": "2027 dates for Heiva i Tahiti had not been announced as of this check; confirm with Tahiti Tourisme closer to the date."
+  },
+  "bora-bora-overwater-villas-pf": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Bora_Bora",
+    "hashtags": [
+      "borabora",
+      "overwatervilla",
+      "frenchpolynesia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BOB",
+        "city": "Bora Bora"
+      }
+    ]
+  },
+  "antarctic-peninsula-cruise-aq": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Antarctic_Peninsula",
+    "hashtags": [
+      "antarctica",
+      "antarcticpeninsula",
+      "expeditioncruise"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "USH",
+        "city": "Ushuaia, Argentina"
+      }
+    ],
+    "bookAheadNote": "Almost all voyages depart by ship from Ushuaia, Argentina; there is no direct commercial air access to the peninsula."
+  },
+  "lemaire-channel-aq": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Lemaire_Channel",
+    "hashtags": [
+      "lemairechannel",
+      "antarctica",
+      "expeditioncruise"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "USH",
+        "city": "Ushuaia, Argentina"
+      }
+    ]
+  },
+  "deception-island-aq": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Deception_Island",
+    "hashtags": [
+      "deceptionisland",
+      "antarctica",
+      "southshetland"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "USH",
+        "city": "Ushuaia, Argentina"
+      }
+    ]
+  },
+  "_notes": {
+    "paro-tsechu-bt": "Sources mostly agree on 18-22 March 2027 for Paro Tshechu, but at least one tour-operator source lists an inconsistent April 2027 range; dates are set by the lunar calendar and can shift, so the record's 'confirmed' status is optimistic (checked via littlebhutan.com, langtangtreks.com, bhutantouroperators.net).",
+    "esala-perahera-lk": "eventDates is correctly null; as of this check the Temple of the Tooth authorities had not yet announced 2027 Esala Perahera dates.",
+    "heiva-i-tahiti-pf": "eventDates is correctly null; Tahiti Tourisme's own Heiva i Tahiti page (checked directly) had no 2027 date announced yet."
+  }
+}

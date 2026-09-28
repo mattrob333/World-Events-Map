@@ -1645,3 +1645,17 @@
 .lenses button, .lenses a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 999px; color: var(--color-ink-soft); font-size: 14px; font-weight: 600; }
 .lenses [aria-pressed='true'] { background: var(--color-saffron); color: #16120a; }
 .lenses button:focus-visible, .lenses a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* A spot card is open: the calendar spotlight steps aside, so one card speaks at a time. */
+.world .worldHeading,
+.world .spotlight,
+.world .mobileHead {
+  transition: opacity 0.25s ease, visibility 0s linear 0s;
+}
+.world[data-spot] .worldHeading,
+.world[data-spot] .spotlight,
+.world[data-spot] .mobileHead {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}

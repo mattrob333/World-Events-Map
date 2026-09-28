@@ -114,6 +114,8 @@ interface DesignerState {
   vote: (slotId: string, cardId: string, participantId: string, value: 1 | -1, toggle?: boolean) => void;
   moveCard: (cardId: string, fromSlot: string, toSlot: string, toIndex?: number) => void;
   pickCard: (slotId: string, cardId: string) => void;
+  /** Change the open trip's plan (add or remove an idea card) and keep its votes, unlike setTrip. */
+  editTrip: (next: Itinerary) => void;
   clearAll: () => void;
 }
 
@@ -436,6 +438,10 @@ export const useDesignerStore = create<DesignerState>()(
           slot[cardId] = card;
           return { votes: { ...state.votes, [slotId]: slot } };
         }),
+      editTrip: (next) => {
+        if (!get().trip || get().trip?.id !== next.id) return;
+        set({ trip: next });
+      },
       moveCard: (cardId, fromSlot, toSlot, toIndex = 0) => {
         const trip = get().trip;
         if (!trip) return;

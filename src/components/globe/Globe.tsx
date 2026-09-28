@@ -63,6 +63,8 @@ export interface GlobeProps {
   viewerMarker?: ViewerMarkerInfo;
   /** Stop drawing frames (the stage is off-screen). The scene stays mounted. */
   paused?: boolean;
+  /** Extra layers drawn inside the globe's own canvas (the activity layer). */
+  layers?: ReactNode;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -75,13 +77,14 @@ interface SceneProps {
   onReady: () => void;
   initialView: GeoPoint;
   viewerMarker?: ViewerMarkerInfo;
+  layers?: ReactNode;
 }
 
 /**
  * Scene contents. Exported so a host that already owns a `<Canvas>` (a
  * storybook, a comparison harness) can drop the world into it directly.
  */
-export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMarker }: SceneProps) {
+export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMarker, layers }: SceneProps) {
   return (
     <>
       {/* The globe is lit entirely by its own shaders, so the only real light
@@ -102,6 +105,8 @@ export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMa
         initialLat={initialView.lat}
         initialLon={initialView.lon}
       />
+      {/* After the camera rig, so a layer's per-frame work sees this frame's camera. */}
+      {layers}
       <Effects />
     </>
   );
@@ -159,6 +164,7 @@ export function GlobeCanvas({
   initialView = DEFAULT_INITIAL_VIEW,
   viewerMarker,
   paused = false,
+  layers,
   onContextLost,
   onContextRestored,
 }: GlobeCanvasProps) {
@@ -236,6 +242,7 @@ export function GlobeCanvas({
         onReady={handleReady}
         initialView={initialView}
         viewerMarker={viewerMarker}
+        layers={layers}
       />
     </Canvas>
   );
@@ -291,6 +298,7 @@ function GlobeImpl({
   initialView = DEFAULT_INITIAL_VIEW,
   viewerMarker,
   paused,
+  layers,
 }: GlobeProps) {
   const [contextLost, setContextLost] = useState(false);
   const [unsupported, setUnsupported] = useState(false);
@@ -326,6 +334,7 @@ function GlobeImpl({
           initialView={initialView}
           viewerMarker={viewerMarker}
           paused={paused}
+          layers={layers}
           onContextLost={handleLost}
           onContextRestored={handleRestored}
         />

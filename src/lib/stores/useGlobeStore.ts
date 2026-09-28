@@ -35,6 +35,19 @@ interface GlobeState {
   journey: GlobeJourney | null;
   /** Kept after a flight is consumed so repeated card clicks replay. */
   flightSerial: number;
+  /**
+   * The nonce (flightSerial) of the latest flight the camera finished, by
+   * landing or by a gesture cutting it short. A caller waits for its own
+   * flight with `settledSerial >= nonce`, so an earlier flight's last frame
+   * never counts.
+   */
+  settledSerial: number;
+  /**
+   * Shift the rendered globe, in CSS pixels, so a point of interest sits in the
+   * space a card leaves open (a bottom sheet pushes it up, a side panel left).
+   * The camera eases toward it; {x: 0, y: 0} is centered.
+   */
+  viewOffset: { x: number; y: number };
   autoRotate: boolean;
   /** True once the globe has finished its opening move and geometry is up */
   ready: boolean;
@@ -49,6 +62,8 @@ interface GlobeState {
   /** Animate a route from a known location or, if null, the current globe view. */
   travelTo: (target: GeoPoint, origin?: GeoPoint | null, distance?: number) => void;
   consumeFlight: () => void;
+  settleFlight: (nonce: number) => void;
+  setViewOffset: (x: number, y: number) => void;
   setAutoRotate: (v: boolean) => void;
   setReady: (v: boolean) => void;
   setQuality: (q: GlobeQuality) => void;
@@ -62,6 +77,8 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   flight: null,
   journey: null,
   flightSerial: 0,
+  settledSerial: 0,
+  viewOffset: { x: 0, y: 0 },
   autoRotate: true,
   ready: false,
   quality: 'high',
@@ -86,6 +103,8 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
       autoRotate: false,
     })),
   consumeFlight: () => set({ flight: null }),
+  settleFlight: (nonce) => set((s) => (nonce > s.settledSerial ? { settledSerial: nonce } : s)),
+  setViewOffset: (x, y) => set((s) => (s.viewOffset.x === x && s.viewOffset.y === y ? s : { viewOffset: { x, y } })),
   setAutoRotate: (autoRotate) => set({ autoRotate }),
   setReady: (ready) => set({ ready }),
   setQuality: (quality) => set({ quality }),

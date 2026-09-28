@@ -1,0 +1,40 @@
+NOTE offshore 10 km from 1:50m coastline (island/reef, reviewed): Stockholm archipelago kayaking
+NOTE offshore 40 km from 1:50m coastline (island/reef, reviewed): Disko Bay kayaking
+NO ELEVATION: Dolomites skiing [Sellaronda]
+NOTE offshore 16 km from 1:50m coastline (island/reef, reviewed): Lake Kivu
+NOTE offshore 46 km from 1:50m coastline (island/reef, reviewed): Anse Source d'Argent
+NOTE offshore 40 km from 1:50m coastline (island/reef, reviewed): Vallée de Mai
+NOTE offshore 36 km from 1:50m coastline (island/reef, reviewed): Koh Tao diving
+NOTE offshore 29 km from 1:50m coastline (island/reef, reviewed): Phi Phi and Andaman beaches
+NOTE offshore 31 km from 1:50m coastline (island/reef, reviewed): Sipadan diving
+NOTE offshore 57 km from 1:50m coastline (island/reef, reviewed): Overwater villas
+NOTE offshore 112 km from 1:50m coastline (island/reef, reviewed): Manta diving at Hanifaru
+OUTSIDE MV by 112 km: Manta diving at Hanifaru (5.1827,73.1331) [Hanifaru Bay]
+NOTE offshore 24 km from 1:50m coastline (island/reef, reviewed): Maafushi local island
+NOTE offshore 36 km from 1:50m coastline (island/reef, reviewed): Great Barrier Reef
+NO ELEVATION: Queenstown skiing [The Remarkables]
+NOTE offshore 29 km from 1:50m coastline (island/reef, reviewed): Mamanuca island resorts
+NOTE offshore 26 km from 1:50m coastline (island/reef, reviewed): Bora Bora overwater villas
+NOTE offshore 34 km from 1:50m coastline (island/reef, reviewed): Great Blue Hole
+NOTE offshore 59 km from 1:50m coastline (island/reef, reviewed): Exumas swimming pigs
+NOTE offshore 60 km from 1:50m coastline (island/reef, reviewed): Thunderball Grotto
+# apply_fixes.py
+FIX bahrain-grand-prix-bh: 2026 race moved to new record bahrain-grand-prix-my (Sepang); bh now holds 2027-03-12..14
+FIX qatar-grand-prix-qa: status under-review
+FIX abu-dhabi-grand-prix-ae: status under-review
+FIX tour-de-france-grand-depart-gb: dates cover the UK stages only (Jul 2 to 4)
+FIX tour-de-france-finish-fr: dates cover the Paris finish only (Jul 25)
+FIX ibiza-clubs-es: place matches the coordinates (Playa d'en Bossa)
+FIX salzburg-festival-at: dates confirmed by the festival
+HEAT default 40: hemsedal-skiing-no
+HEAT default 40: wadi-shab-om
+HEAT default 40: devil-s-pool-zm
+HEAT default 40: victoria-falls-zimbabwe-side-zw
+HEAT default 40: zambezi-rafting-zw
+HEAT default 40: hakuba-skiing-jp
+HEAT default 40: cherry-blossoms-in-kyoto-jp
+HEAT default 40: overwater-villas-mv
+HEAT default 40: manta-diving-at-hanifaru-mv
+HEAT default 40: tulum-cenotes-mx
+HEAT default 40: puerto-escondido-surf-mx
+HEAT default 40: cartagena-old-town-co
