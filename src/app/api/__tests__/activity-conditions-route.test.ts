@@ -4,6 +4,8 @@ import { ACTIVITIES } from '@/lib/activity/activities';
 vi.mock('server-only', () => ({}));
 
 import { GET } from '../activity-conditions/route';
+import { resetActivityConditionsLimitsForTests } from '@/lib/activity/conditions/limits';
+import { resetNowRateLimitsForTests } from '@/lib/now/rateLimit';
 
 const fetchMock = vi.fn();
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status });
@@ -14,6 +16,8 @@ const MODEL_CACHE = 'public, max-age=0, s-maxage=21600, stale-while-revalidate=3
 const FAILED_CACHE = 'public, max-age=0, s-maxage=300';
 
 beforeEach(() => {
+  resetNowRateLimitsForTests();
+  resetActivityConditionsLimitsForTests();
   vi.stubGlobal('fetch', fetchMock);
   vi.stubEnv('OPEN_METEO_API_KEY', '');
   vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -124,5 +128,15 @@ describe('GET /api/activity-conditions', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(bodies[0].conditions.stats).toEqual(bodies[1].conditions.stats);
     expect(bodies[0].conditions.stats[2]).toEqual({ label: 'From', value: 'West' });
+  });
+
+  it('limits upstream-bound requests per client, with an uncached 429', async () => {
+    fetchMock.mockImplementation(async () => json({ current: { time: '2026-12-10T09:00', temperature_2m: 1 }, daily: { time: [], snowfall_sum: [] } }));
+    const spot = firstOf('snow').id;
+    for (let i = 0; i < 60; i++) expect((await get(`id=${spot}`)).status).not.toBe(429);
+    const r = await get(`id=${spot}`);
+    expect(r.status).toBe(429);
+    expect(r.headers.get('Cache-Control')).toBe('no-store');
+    expect(Number(r.headers.get('Retry-After'))).toBeGreaterThan(0);
   });
 });

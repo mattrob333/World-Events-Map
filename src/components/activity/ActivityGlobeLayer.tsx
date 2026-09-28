@@ -15,10 +15,10 @@ const SPOT_DISTANCE = 1.8;
 const FLIGHT_TIMEOUT_MS = 2500;
 
 /**
- * Resolves when the camera rig reports its next settle (a flight landed, a
- * reduced-motion cut, or a gesture that took over), or after a timeout.
+ * Resolves when the camera rig has finished flight `nonce` (it landed, a
+ * reduced-motion cut, or a gesture took over), or after a timeout.
  */
-function waitForSettle(from: number): Promise<void> {
+function waitForFlight(nonce: number): Promise<void> {
   return new Promise((resolve) => {
     let done = false;
     const finish = () => {
@@ -29,7 +29,7 @@ function waitForSettle(from: number): Promise<void> {
       resolve();
     };
     const unsubscribe = useGlobeStore.subscribe((s) => {
-      if (s.settledSerial !== from) finish();
+      if (s.settledSerial >= nonce) finish();
     });
     const timer = window.setTimeout(finish, FLIGHT_TIMEOUT_MS);
   });
@@ -59,10 +59,9 @@ export function ActivityGlobeLayer({ activities, maxLabels, topInset, onSelect }
     const distance = opts?.zoom === 'cluster'
       ? Math.max(MIN_DISTANCE, current * 0.62)
       : Math.max(MIN_DISTANCE, Math.min(current, SPOT_DISTANCE));
-    const store = useGlobeStore.getState();
-    const settled = waitForSettle(store.settledSerial);
-    store.flyTo({ lat, lon: lng }, distance);
-    return settled;
+    useGlobeStore.getState().flyTo({ lat, lon: lng }, distance);
+    // flyTo just took the next serial as this flight's nonce.
+    return waitForFlight(useGlobeStore.getState().flightSerial);
   }, [camera]);
 
   return (

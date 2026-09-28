@@ -7,6 +7,8 @@
  *   node scripts/activities/qa-globe.mjs /tmp/shots phone
  *   node scripts/activities/qa-globe.mjs /tmp/shots desk
  *   node scripts/activities/qa-globe.mjs /tmp/shots phone '?spot=aspen-snowmass-us'
+ *
+ * Needs the playwright package (not a project dependency).
  */
 import { chromium } from 'playwright';
 const out = process.argv[2]; const wide = process.argv[3] === 'desk';

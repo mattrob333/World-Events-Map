@@ -234,6 +234,9 @@ export default function ActivityLayer({
     }
     // At world zoom only what's in season shows; closer in, the rest comes back dimmed.
     if (cell >= 6) for (let i = 0; i < n; i++) if (!s.inSeason[i]) s.visible[i] = 0;
+    // The spot someone chose always shows, in or out of season, whatever the filters.
+    const chosen = sel ? indexById.get(sel) : undefined;
+    if (chosen !== undefined) s.visible[chosen] = 1;
     // Clusters
     s.clusters = [];
     if (cell) {
@@ -445,7 +448,11 @@ export default function ActivityLayer({
       const i = pick(p.x, p.y);
       if (i === null) return;
       // This tap is ours: keep the click that follows from also picking a beacon underneath.
-      const swallow = (ev: MouseEvent) => ev.stopPropagation();
+      // Only that click: a later one (no click came, e.g. a cancelled touch) still reaches the beacons.
+      const upAt = e.timeStamp;
+      const swallow = (ev: MouseEvent) => {
+        if (ev.timeStamp - upAt < 350) ev.stopPropagation();
+      };
       el.addEventListener("click", swallow, { once: true });
       window.setTimeout(() => el.removeEventListener("click", swallow), 500);
       select(activities[i].id);

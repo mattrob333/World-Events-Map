@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import type { Activity } from '@/lib/activity/activities';
 import { useActivityStore, type SheetSnap } from '@/lib/activity/store';
@@ -9,13 +9,20 @@ import { ActivityCard, snapHeights, tabBarHeight, PANEL_WIDTH, PANEL_GAP } from 
 import { ActivityFilters } from './ActivityFilters';
 import styles from './spot.module.css';
 
-/** Mirror the open spot in the address bar, without a navigation. */
+/**
+ * Mirror the open spot in the address bar, without a navigation. The state is
+ * null on purpose: Next syncs its router (and useSearchParams) from a
+ * replaceState it didn't make only when the state isn't its own, so the
+ * page's other URL writes keep the spot.
+ */
 export function writeSpotParam(id: string | null) {
   const url = new URL(window.location.href);
   if (id) url.searchParams.set('spot', id);
   else url.searchParams.delete('spot');
-  if (url.href !== window.location.href) window.history.replaceState(window.history.state, '', url);
+  if (url.href !== window.location.href) window.history.replaceState(null, '', url);
 }
+
+const noopSubscribe = () => () => {};
 
 /**
  * How far to shift the rendered globe so the spot sits in the middle of what
@@ -42,9 +49,8 @@ export function ActivityOverlay({ activities }: { activities: Activity[] }) {
   const root = useRef<HTMLDivElement>(null);
   const filters = useRef<HTMLDivElement>(null);
   const snap = useActivityStore((s) => s.snap);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  // The card portals to <body>, which only exists in the browser.
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   // On wide screens the page keeps columns over the globe's edges (a heading
   // on the left, a ranked list on the right, marked data-dock-avoid). The
@@ -71,6 +77,7 @@ export function ActivityOverlay({ activities }: { activities: Activity[] }) {
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(section);
+    for (const node of section.querySelectorAll('[data-dock-avoid]')) observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
@@ -87,10 +94,12 @@ export function ActivityOverlay({ activities }: { activities: Activity[] }) {
     return () => window.removeEventListener('resize', update);
   }, [snap]);
 
-  // Leaving the globe puts it back where it was.
+  // Leaving the globe puts it back where it was, and the link stops naming a spot.
   useEffect(() => () => {
     useGlobeStore.getState().setViewOffset(0, 0);
-    useActivityStore.getState().closeCard();
+    const { selectedId, pendingId, closeCard } = useActivityStore.getState();
+    if (selectedId || pendingId) writeSpotParam(null);
+    closeCard();
   }, []);
 
   return (
@@ -110,9 +119,25 @@ export function ActivityOverlay({ activities }: { activities: Activity[] }) {
 export function useSpotDeepLink(activities: Activity[], spot: string | null) {
   const ready = useGlobeStore((s) => s.ready);
   const done = useRef<string | null>(null);
+  const known = Boolean(spot && activities.some((a) => a.id === spot));
+
+  // The globe only wakes up on screen: bring it there for a link.
   useEffect(() => {
-    if (!ready || !spot || done.current === spot) return;
+    if (!known) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById('world-map')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [known]);
+
+  useEffect(() => {
+    if (!spot) {
+      done.current = null;
+      return;
+    }
+    if (!ready || !known || done.current === spot) return;
     done.current = spot;
-    if (activities.some((a) => a.id === spot)) useActivityStore.getState().requestSelect(spot);
-  }, [ready, spot, activities]);
+    // Our own address-bar write after a tap: that card is already open or on its way.
+    const { selectedId, pendingId, requestSelect } = useActivityStore.getState();
+    if (selectedId === spot || pendingId === spot) return;
+    requestSelect(spot);
+  }, [ready, spot, known]);
 }

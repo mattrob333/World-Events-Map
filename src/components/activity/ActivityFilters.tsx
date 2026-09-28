@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Sparkles } from 'lucide-react';
 import { CATEGORIES, CATEGORY_META, MONTHS_LONG, MONTHS_SHORT, type Activity, type Category } from '@/lib/activity/activities';
 import type { MonthSel } from '@/lib/activity/season';
@@ -11,24 +11,29 @@ import styles from './spot.module.css';
 
 const MONTHS: MonthSel[] = ['now', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-/** Fades the edge a row can still scroll toward, so it's clear there's more. */
-function useScrollFade() {
-  const ref = useRef<HTMLDivElement>(null);
+/** A scrolling row that fades the edge it can still scroll toward, so it's clear there's more. */
+function FadeRow({ children, ...rest }: { children: ReactNode; role: string; 'aria-label': string }) {
+  const [el, setEl] = useState<HTMLDivElement | null>(null);
   const [edges, setEdges] = useState({ start: false, end: false });
   useEffect(() => {
-    const el = ref.current;
     if (!el) return;
-    const update = () => setEdges({ start: el.scrollLeft > 4, end: el.scrollLeft + el.clientWidth < el.scrollWidth - 4 });
-    update();
-    el.addEventListener('scroll', update, { passive: true });
+    const update = () => {
+      const next = { start: el.scrollLeft > 4, end: el.scrollLeft + el.clientWidth < el.scrollWidth - 4 };
+      setEdges((prev) => (prev.start === next.start && prev.end === next.end ? prev : next));
+    };
     const resize = new ResizeObserver(update);
     resize.observe(el);
+    el.addEventListener('scroll', update, { passive: true });
     return () => {
       el.removeEventListener('scroll', update);
       resize.disconnect();
     };
-  }, []);
-  return { ref, edges };
+  }, [el]);
+  return (
+    <div ref={setEl} className={styles.row} data-fade-start={edges.start || undefined} data-fade-end={edges.end || undefined} {...rest}>
+      {children}
+    </div>
+  );
 }
 
 /**
@@ -46,13 +51,11 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
     for (const a of activities) c[a.category] += 1;
     return c;
   }, [activities]);
-  const monthRow = useScrollFade();
-  const chipRow = useScrollFade();
   const all = !forYou && categories.length === 0;
 
   return (
     <div className={styles.filters}>
-      <div ref={monthRow.ref} className={styles.row} data-fade-start={monthRow.edges.start || undefined} data-fade-end={monthRow.edges.end || undefined} role="radiogroup" aria-label="Month">
+      <FadeRow role="radiogroup" aria-label="Month">
         {MONTHS.map((m) => {
           const on = month === m;
           return (
@@ -61,8 +64,8 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
             </button>
           );
         })}
-      </div>
-      <div ref={chipRow.ref} className={styles.row} data-fade-start={chipRow.edges.start || undefined} data-fade-end={chipRow.edges.end || undefined} role="group" aria-label="What kind of trip">
+      </FadeRow>
+      <FadeRow role="group" aria-label="What kind of trip">
         {forYouCount > 0 ? (
           <button type="button" className={`${styles.chip} ${styles.chipForYou}`} data-on={forYou || undefined} aria-pressed={forYou} onClick={() => setForYou(!forYou)}>
             <span className={styles.chipDot} aria-hidden="true"><Sparkles size={12} strokeWidth={2.5} /></span>
@@ -85,7 +88,7 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
             </button>
           );
         })}
-      </div>
+      </FadeRow>
     </div>
   );
 }

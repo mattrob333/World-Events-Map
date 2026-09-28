@@ -13,12 +13,16 @@
  * - When the upstream fails, the answer is `{ conditions: null }` on a five-minute
  *   cache. Never an invented value. A partial answer (one of two upstreams failed)
  *   also gets the short cache.
+ * - Only cache misses reach this code, and those are what cost upstream calls,
+ *   so misses are limited per client and per warm instance (429, never cached).
  */
 
 import { NextResponse } from 'next/server';
 import { ACTIVITIES, byId, type Activity } from '@/lib/activity/activities';
 import { conditionsKind, fetcherFor, type Conditions, type ConditionsKindName, type Units } from '@/lib/activity/conditions';
 import { UpstreamError } from '@/lib/activity/conditions/http';
+import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';
+import { PER_CLIENT_MISSES, instanceAllows } from '@/lib/activity/conditions/limits';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -38,6 +42,13 @@ const CACHE: Record<ConditionsKindName, string> = {
 const CACHE_FAILED = 'public, max-age=0, s-maxage=300';
 
 let index: Map<string, Activity> | null = null;
+
+function limited(retryAfterSeconds: number) {
+  return NextResponse.json(
+    { error: 'Too many requests. Try again shortly.' },
+    { status: 429, headers: { 'Cache-Control': 'no-store', 'Retry-After': String(retryAfterSeconds) } },
+  );
+}
 
 function bad(error: string, status: number) {
   return NextResponse.json({ error }, { status, headers: { 'Cache-Control': 'no-store' } });
@@ -59,6 +70,13 @@ export async function GET(request: Request) {
   if (!activity) return bad('unknown activity', 404);
 
   const kind = conditionsKind(activity);
+  // Events are computed from the listing, with no upstream call; everything else is metered.
+  if (kind !== 'event') {
+    const now = Date.now();
+    const client = consumeNowClientRateLimit(request, now, { scope: 'activity-conditions', limit: PER_CLIENT_MISSES });
+    if (!client.allowed) return limited(client.retryAfterSeconds);
+    if (!instanceAllows(now)) return limited(30);
+  }
   let partial = false;
   let conditions: Conditions | null;
   try {

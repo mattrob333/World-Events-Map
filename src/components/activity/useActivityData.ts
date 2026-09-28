@@ -41,19 +41,20 @@ function useOnline() {
 export function useConditions(a: Activity | null, units: Units): ConditionsState {
   const online = useOnline();
   const [state, setState] = useState<{ key: string; value: ConditionsState } | null>(null);
-  const key = a ? `${a.id}:${units}:${online}` : '';
+  // Keyed on the id: the same spot can arrive as a new object (a heat update) and must not refetch.
+  const id = a && a.source !== 'profile' ? a.id : null;
+  const key = id ? `${id}:${units}:${online}` : '';
   useEffect(() => {
-    if (!a || a.source === 'profile') return;
-    if (!online) return;
+    if (!id || !online) return;
     const controller = new AbortController();
-    fetch(`/api/activity-conditions?id=${encodeURIComponent(a.id)}&units=${units}`, { signal: controller.signal })
+    fetch(`/api/activity-conditions?id=${encodeURIComponent(id)}&units=${units}`, { signal: controller.signal })
       .then(async (response) => (response.ok ? ((await response.json()) as { conditions: LiveConditions | null }) : { conditions: null }))
       .then((body) => setState({ key, value: body.conditions ? { status: 'ready', data: body.conditions } : { status: 'empty' } }))
       .catch(() => {
         if (!controller.signal.aborted) setState({ key, value: { status: navigator.onLine ? 'empty' : 'offline' } });
       });
     return () => controller.abort();
-  }, [a, units, online, key]);
+  }, [id, units, online, key]);
   if (!a || a.source === 'profile') return { status: 'empty' };
   if (!online) return { status: 'offline' };
   return state?.key === key ? state.value : { status: 'loading' };

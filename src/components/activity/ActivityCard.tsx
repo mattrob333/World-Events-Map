@@ -95,29 +95,34 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
 
   // A new card opens at peek, focused, with nothing "shared" yet.
   const [openedFor, setOpenedFor] = useState<string | null>(null);
+  if (!a && openedFor !== null) setOpenedFor(null);
   if (a && openedFor !== a.id) {
     setOpenedFor(a.id);
     setSnap('peek');
     setShared(false);
     setCopied(null);
   }
+  const openId = a?.id ?? null;
   useEffect(() => {
-    if (a) titleRef.current?.focus({ preventScroll: true });
-  }, [a]);
+    if (openId) titleRef.current?.focus({ preventScroll: true });
+  }, [openId]);
 
-  // The camera keeps the spot in the space the card leaves open.
+  // The camera keeps the spot in the space the card leaves open. Between one
+  // spot and the next (a flight in progress) the space stays as it was.
+  const pendingId = useActivityStore((s) => s.pendingId);
   useEffect(() => {
-    publishSnap(a ? (desktop ? 'panel' : snap) : null);
-  }, [a, snap, desktop, publishSnap]);
+    if (openId) publishSnap(desktop ? 'panel' : snap);
+    else if (!pendingId) publishSnap(null);
+  }, [openId, pendingId, snap, desktop, publishSnap]);
 
   useEffect(() => {
-    if (!a) return;
+    if (!openId) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !e.defaultPrevented) closeCard();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [a, closeCard]);
+  }, [openId, closeCard]);
 
   // ── Drag between heights (phone) ──────────────────────────────────────────
   const drag = useRef<{ y: number; t: number; start: number } | null>(null);

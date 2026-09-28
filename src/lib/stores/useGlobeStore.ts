@@ -35,7 +35,12 @@ interface GlobeState {
   journey: GlobeJourney | null;
   /** Kept after a flight is consumed so repeated card clicks replay. */
   flightSerial: number;
-  /** Bumped by the camera when a flight lands (or a gesture cuts it short), so callers can wait for it. */
+  /**
+   * The nonce (flightSerial) of the latest flight the camera finished, by
+   * landing or by a gesture cutting it short. A caller waits for its own
+   * flight with `settledSerial >= nonce`, so an earlier flight's last frame
+   * never counts.
+   */
   settledSerial: number;
   /**
    * Shift the rendered globe, in CSS pixels, so a point of interest sits in the
@@ -57,7 +62,7 @@ interface GlobeState {
   /** Animate a route from a known location or, if null, the current globe view. */
   travelTo: (target: GeoPoint, origin?: GeoPoint | null, distance?: number) => void;
   consumeFlight: () => void;
-  settleFlight: () => void;
+  settleFlight: (nonce: number) => void;
   setViewOffset: (x: number, y: number) => void;
   setAutoRotate: (v: boolean) => void;
   setReady: (v: boolean) => void;
@@ -98,7 +103,7 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
       autoRotate: false,
     })),
   consumeFlight: () => set({ flight: null }),
-  settleFlight: () => set((s) => ({ settledSerial: s.settledSerial + 1 })),
+  settleFlight: (nonce) => set((s) => (nonce > s.settledSerial ? { settledSerial: nonce } : s)),
   setViewOffset: (x, y) => set((s) => (s.viewOffset.x === x && s.viewOffset.y === y ? s : { viewOffset: { x, y } })),
   setAutoRotate: (autoRotate) => set({ autoRotate }),
   setReady: (ready) => set({ ready }),

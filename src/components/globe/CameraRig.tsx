@@ -165,8 +165,9 @@ function CameraRigImpl({
       if (useGlobeStore.getState().autoRotate) setAutoRotate(false);
       // A gesture always wins over a flight in progress; whoever was waiting on it stops waiting.
       if (state.flight) {
+        const { nonce } = state.flight;
         state.flight = null;
-        settleFlight();
+        settleFlight(nonce);
       }
     };
 
@@ -297,7 +298,7 @@ function CameraRigImpl({
       camera.lookAt(0, 0, 0);
       state.flight = null;
       consumeFlight();
-      settleFlight();
+      settleFlight(flightRequest.nonce);
       invalidate();
       return;
     }
@@ -381,8 +382,8 @@ function CameraRigImpl({
       state.current.copy(state.target);
 
       if (t >= 1) {
+        settleFlight(f.nonce);
         state.flight = null;
-        settleFlight();
       }
       return;
     }

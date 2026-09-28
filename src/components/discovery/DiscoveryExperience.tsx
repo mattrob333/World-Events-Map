@@ -243,8 +243,9 @@ export function DiscoveryExperience() {
   const hasViewerOrigin = viewer.status === 'granted' &&
     (viewer.source === 'browser' || viewer.source === 'chosen') && Boolean(viewer.coords);
   // Home needs a real location (their device's, or a city they chose), never the time-zone guess;
-  // a journey or event link always shows the globe.
-  const canHome = hasViewerOrigin && !planMode && !journeyEventId && !linkedEventId;
+  // a journey, event or spot link always shows the globe.
+  const spotParam = searchParams.get('spot');
+  const canHome = hasViewerOrigin && !planMode && !journeyEventId && !linkedEventId && !spotParam;
   const lens: Lens = canHome ? lensChoice ?? (member ? 'home' : 'world') : 'world';
   const selectedRoute = storyFocus && spotlight && hasViewerOrigin && viewer.coords
     ? estimateRoute(viewer.coords, spotlight.coords)
