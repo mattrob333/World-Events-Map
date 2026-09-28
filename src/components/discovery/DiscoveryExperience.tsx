@@ -45,10 +45,17 @@ import { SourceLogo } from '@/components/brand/SourceLogo';
 import { HomeMap } from './HomeMap';
 import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
+import { ActivityGlobeLayer } from '@/components/activity/ActivityGlobeLayer';
+import { ActivityOverlay, useSpotDeepLink, writeSpotParam } from '@/components/activity/ActivityOverlay';
+import { ACTIVITIES } from '@/lib/activity/activities';
+import { dedupeBeacons, heatKey, withHeat } from '@/lib/activity/dedupe';
+import { useActivityStore } from '@/lib/activity/store';
 
 /** Which map Pulse opens on, remembered on this device: the globe, or their own country. */
 type Lens = 'world' | 'home';
 const LENS_KEY = 'meridian.lens.v1';
+/** The one-line PULSE headline on phones. Hidden: the activity filters own the top of the globe now. */
+const SHOW_GLOBE_HEADLINE = false;
 
 // Built on the first search, not on page load.
 let searchIndex: SearchHit[] | null = null;
@@ -251,7 +258,14 @@ export function DiscoveryExperience() {
         terrain: googleMapsViewUrl(spotlight.coords, 'terrain'),
       }
     : null;
-  const visibleBeacons = beacons.filter((beacon) => visibleIds.has(beacon.eventId));
+  const visibleBeacons = useMemo(() => beacons.filter((beacon) => visibleIds.has(beacon.eventId)), [beacons, visibleIds]);
+  // Activity spots share the globe with the calendar: where both show the same event, only the spot stays, with its heat.
+  const eventRefs = useMemo(() => new Map(events.map((event) => [event.id, event])), [events]);
+  const deduped = useMemo(() => dedupeBeacons(visibleBeacons, eventRefs, ACTIVITIES), [visibleBeacons, eventRefs]);
+  const spotHeat = heatKey(deduped.heat);
+  const activities = useMemo(() => withHeat(ACTIVITIES, spotHeat), [spotHeat]);
+  const spotOpen = useActivityStore((s) => Boolean(s.selectedId || s.pendingId));
+  useSpotDeepLink(activities, searchParams.get('spot'));
 
   const travelFromCard = (event: WorldEvent) => {
     select(null);
@@ -439,18 +453,21 @@ export function DiscoveryExperience() {
           { name: 'Africa', lat: 0, lon: 23, distance: 4.2 },
         ].map((region) => <button key={region.name} type="button" className="chip" onClick={() => { setJourneyEventId(null); select(null); flyTo({ lat: region.lat, lon: region.lon }, region.distance); }}>{region.name}</button>)}
       </nav>
-      <section id="world-map" className={styles.world} data-selected={storyFocus ? 'true' : undefined} aria-label="Explore the world map" tabIndex={-1}>
+      <section id="world-map" className={styles.world} data-selected={storyFocus ? 'true' : undefined} data-spot={spotOpen || undefined} aria-label="Explore the world map" tabIndex={-1}>
         <div className={styles.globe}>
           {viewer.coords ? (
             <GlobeStage
-              beacons={visibleBeacons}
+              beacons={deduped.beacons}
+              layers={<ActivityGlobeLayer activities={activities} maxLabels={12} topInset={96} onSelect={writeSpotParam} />}
               winterMode={modeActive && tripMode.season === 'winter'}
               initialView={viewer.launchCoords ?? viewer.coords}
               viewerMarker={hasViewerOrigin && viewer.coords ? {
                 coords: viewer.coords,
                 label: viewer.source === 'chosen' ? (viewer.cityLabel?.split(',')[0].toUpperCase() ?? 'YOUR CITY') : 'NEARBY',
               } : undefined}
-            />
+            >
+              <ActivityOverlay activities={activities} />
+            </GlobeStage>
           ) : (
             <div className={styles.globeBoot}>
               <span />
@@ -459,12 +476,12 @@ export function DiscoveryExperience() {
           )}
         </div>
         {/* Phones: one quiet line on the globe instead of the headline, stats and controls. */}
-        {!planMode && !selectedStory ? (
+        {SHOW_GLOBE_HEADLINE && !planMode && !selectedStory ? (
           <p className={styles.mobileHead}>
             <i aria-hidden="true" /> PULSE{originName ? ` · ${originName}` : ''} <span>Brighter means busier</span>
           </p>
         ) : null}
-        <div className={styles.worldHeading} data-selected={storyFocus ? 'true' : undefined}>
+        <div className={styles.worldHeading} data-selected={storyFocus ? 'true' : undefined} data-dock-avoid="left">
           <span className={styles.eyebrow}>
             {selectedStory
               ? 'YOUR SELECTED JOURNEY'
@@ -504,7 +521,7 @@ export function DiscoveryExperience() {
           </p>
         </div>
 
-        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined} data-picked={selectedStory ? 'true' : undefined}>
+        <div className={styles.spotlight} data-selected={storyFocus ? 'true' : undefined} data-picked={selectedStory ? 'true' : undefined} data-dock-avoid="left">
           <div className={styles.eyebrow}>
             <span className={styles.spark}>✦</span>{' '}
             {selectedStory ? 'THIS IS YOUR DESTINATION' : modeActive ? 'FIRST ON YOUR SHORTLIST' : planMode ? 'IN YOUR TRAVEL WINDOW' : nearbyScenes.length ? 'NEAREST EVENT ON THE CALENDAR' : 'A SCENE TO EXPLORE'}
@@ -631,7 +648,7 @@ export function DiscoveryExperience() {
           </small>
         </div>
 
-        <aside className={styles.pulse} aria-label="The world pulse">
+        <aside className={styles.pulse} aria-label="The world pulse" data-dock-avoid="right">
           <div className={styles.pulseHeading}>
             <div>
               <span className={styles.eyebrow}>{modeActive ? 'YOUR TRIP SHORTLIST' : planMode ? 'THE PULSE' : 'WORLD HEAT'}</span>

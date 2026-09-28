@@ -1,7 +1,7 @@
 export const INTENT_VERBS = ['save', 'watch', 'idGo'] as const;
 export type IntentVerb = (typeof INTENT_VERBS)[number];
 
-export const INTENT_TARGETS = ['destination', 'event', 'inspiration', 'offer'] as const;
+export const INTENT_TARGETS = ['destination', 'event', 'inspiration', 'offer', 'spot'] as const;
 export type IntentTargetKind = (typeof INTENT_TARGETS)[number];
 
 export interface IntentRecord {

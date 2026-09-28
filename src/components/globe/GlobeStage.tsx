@@ -10,7 +10,7 @@
  */
 
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
 import type { Beacon, GeoPoint } from '@/lib/types';
 import { GlobeFallback } from './GlobeFallback';
@@ -28,6 +28,10 @@ export interface GlobeStageProps {
   initialView?: GeoPoint;
   viewerMarker?: ViewerMarkerInfo;
   winterMode?: boolean;
+  /** Extra layers drawn inside the globe's canvas (the activity layer). */
+  layers?: ReactNode;
+  /** Plain DOM drawn over the globe (filters, the card). */
+  children?: ReactNode;
 }
 
 export function GlobeStage({
@@ -36,6 +40,8 @@ export function GlobeStage({
   initialView,
   viewerMarker,
   winterMode = false,
+  layers,
+  children,
 }: GlobeStageProps) {
   // The WebGL globe is the single most expensive thing on the page, and it sits
   // below the fold. Mount it when the traveler gets within a screen of it (or
@@ -72,11 +78,12 @@ export function GlobeStage({
       aria-label={winterMode ? 'Interactive world globe with ski scenes' : 'Interactive world globe'}
     >
       {mounted ? (
-        <Globe beacons={beacons} initialView={initialView} viewerMarker={viewerMarker} winterMode={winterMode} paused={!onScreen} />
+        <Globe beacons={beacons} initialView={initialView} viewerMarker={viewerMarker} winterMode={winterMode} paused={!onScreen} layers={layers} />
       ) : (
         <GlobeFallback kind="loading" />
       )}
       {winterMode && <WinterGlobeLegend beacons={beacons} />}
+      {children}
     </div>
   );
 }

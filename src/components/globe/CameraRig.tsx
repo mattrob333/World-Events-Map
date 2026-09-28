@@ -131,6 +131,8 @@ function CameraRigImpl({
 
   const flightRequest = useGlobeStore((s) => s.flight);
   const consumeFlight = useGlobeStore((s) => s.consumeFlight);
+  const settleFlight = useGlobeStore((s) => s.settleFlight);
+  const size = useThree((s) => s.size);
   const autoRotate = useGlobeStore((s) => s.autoRotate);
   const setAutoRotate = useGlobeStore((s) => s.setAutoRotate);
 
@@ -146,6 +148,8 @@ function CameraRigImpl({
       pointers: new Map<number, { x: number; y: number }>(),
       pinchDistance: 0,
       flight: null as Flight | null,
+      /** The view offset in use (eases toward the store's), in CSS pixels. */
+      offset: { x: 0, y: 0 },
       scratchA: new THREE.Vector3(),
       scratchB: new THREE.Vector3(),
       scratchC: new THREE.Vector3(),
@@ -159,8 +163,11 @@ function CameraRigImpl({
 
     const stopAuto = () => {
       if (useGlobeStore.getState().autoRotate) setAutoRotate(false);
-      // A gesture always wins over a flight in progress.
-      state.flight = null;
+      // A gesture always wins over a flight in progress; whoever was waiting on it stops waiting.
+      if (state.flight) {
+        state.flight = null;
+        settleFlight();
+      }
     };
 
     const onPointerDown = (e: PointerEvent) => {
@@ -255,7 +262,7 @@ function CameraRigImpl({
       setCursor('drag', '');
       bindCursorTarget(null);
     };
-  }, [gl, invalidate, setAutoRotate, state]);
+  }, [gl, invalidate, setAutoRotate, settleFlight, state]);
 
   // ── Flight requests ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -290,6 +297,7 @@ function CameraRigImpl({
       camera.lookAt(0, 0, 0);
       state.flight = null;
       consumeFlight();
+      settleFlight();
       invalidate();
       return;
     }
@@ -311,7 +319,7 @@ function CameraRigImpl({
 
     consumeFlight();
     invalidate();
-  }, [flightRequest, camera, consumeFlight, invalidate, reducedMotion, state]);
+  }, [flightRequest, camera, consumeFlight, settleFlight, invalidate, reducedMotion, state]);
 
   // ── Per-frame ─────────────────────────────────────────────────────────────
   const scrubbing = useTimelineStore((s) => s.scrubbing);
@@ -324,6 +332,21 @@ function CameraRigImpl({
   useFrame((_, rawDelta) => {
     const dt = Math.min(rawDelta, 1 / 20);
     const { scratchA, scratchB, scratchC } = state;
+
+    // Keep a point of interest in the space a card leaves open: shift the rendered
+    // view rather than the camera, so orbiting and flights are unchanged.
+    const want = useGlobeStore.getState().viewOffset;
+    const ease = reducedMotion ? 1 : 1 - Math.exp(-8 * dt);
+    const ox = Math.abs(want.x - state.offset.x) < 0.5 ? want.x : state.offset.x + (want.x - state.offset.x) * ease;
+    const oy = Math.abs(want.y - state.offset.y) < 0.5 ? want.y : state.offset.y + (want.y - state.offset.y) * ease;
+    const cam = camera as THREE.PerspectiveCamera;
+    const resized = cam.view?.enabled && (cam.view.fullWidth !== size.width || cam.view.fullHeight !== size.height);
+    if (resized || ox !== state.offset.x || oy !== state.offset.y || Boolean(cam.view?.enabled) !== (ox !== 0 || oy !== 0)) {
+      state.offset.x = ox;
+      state.offset.y = oy;
+      if (ox === 0 && oy === 0) cam.clearViewOffset();
+      else cam.setViewOffset(size.width, size.height, ox, oy, size.width, size.height);
+    }
 
     if (state.flight) {
       const f = state.flight;
@@ -357,7 +380,10 @@ function CameraRigImpl({
       state.target.phi = THREE.MathUtils.clamp(state.target.phi, PHI_MIN, PHI_MAX);
       state.current.copy(state.target);
 
-      if (t >= 1) state.flight = null;
+      if (t >= 1) {
+        state.flight = null;
+        settleFlight();
+      }
       return;
     }
 

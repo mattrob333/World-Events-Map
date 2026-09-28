@@ -31,6 +31,8 @@ import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { SIGNAL_KEYS, assertComponentsSum, scoreEvents } from '@/lib/buzz/scoring';
 import { computeRelevance, daysUntil } from '@/lib/buzz/relevance';
 import { addDays, daysBetween, isValidISODate, todayISO } from '@/lib/buzz/dates';
+import { ACTIVITIES } from '@/lib/activity/activities';
+import { validateActivities } from '@/lib/activity/validate';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Reporting
@@ -874,6 +876,14 @@ function main(): number {
   reportCategories(EVENTS, scoreById);
   reportMonths(EVENTS);
   reportCoverage(geo, EVENTS.length);
+
+  h1('ACTIVITIES');
+  const activityCheck = validateActivities(ACTIVITIES);
+  errors.push(...activityCheck.errors);
+  warnings.push(...activityCheck.warnings);
+  console.log(
+    `  ${ACTIVITIES.length} spots and events   ${activityCheck.errors.length ? `${C.red}✗ ${activityCheck.errors.length} error(s)` : `${C.green}✓`}${C.reset}`,
+  );
 
   h1('ENGINE INVARIANTS');
   console.log(

@@ -1,0 +1,472 @@
+{
+  "wimbledon-gb": {
+    "officialSite": "https://www.wimbledon.com/",
+    "tickets": "https://www.wimbledon.com/en_GB/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Wimbledon_Championships",
+    "hashtags": ["wimbledon", "thechampionships", "wimbledon2027"],
+    "nearestAirports": [{"iata": "LHR", "city": "London"}, {"iata": "LGW", "city": "London"}],
+    "bookAheadNote": "2027 is the 150th Championships, so ballot entries and resale tickets are in exceptionally high demand."
+  },
+  "british-grand-prix-gb": {
+    "officialSite": "https://www.silverstone.co.uk/",
+    "tickets": "https://www.silverstone.co.uk/events/formula-1-british-grand-prix/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Silverstone_Circuit",
+    "hashtags": ["britishgp", "f1", "silverstone"],
+    "nearestAirports": [{"iata": "BHX", "city": "Birmingham"}, {"iata": "LTN", "city": "London Luton"}],
+    "bookAheadNote": "British GP grandstand tickets often sell out months before race weekend."
+  },
+  "edinburgh-festival-fringe-gb": {
+    "officialSite": "https://www.edfringe.com/",
+    "tickets": "https://tickets.edfringe.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Edinburgh_Festival_Fringe",
+    "hashtags": ["edfringe", "edinburghfringe", "fringe2027"],
+    "nearestAirports": [{"iata": "EDI", "city": "Edinburgh"}],
+    "bookAheadNote": "Edinburgh accommodation sells out months ahead of the August Fringe."
+  },
+  "scottish-highlands-and-whisky-gb": {
+    "officialSite": "https://maltwhiskytrail.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Speyside_single_malt",
+    "hashtags": ["speyside", "scotchwhisky", "maltwhiskytrail"],
+    "nearestAirports": [{"iata": "INV", "city": "Inverness"}]
+  },
+  "tour-de-france-grand-depart-gb": {
+    "officialSite": "https://www.letour.fr/en/",
+    "hashtags": ["tourdefrance", "granddepart", "tdf2027"],
+    "nearestAirports": [{"iata": "EDI", "city": "Edinburgh"}]
+  },
+  "links-golf-at-lahinch-ie": {
+    "officialSite": "https://lahinchgolf.com/",
+    "tickets": "https://lahinchgolf.com/booking/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Lahinch_Golf_Club",
+    "hashtags": ["lahinch", "linksgolf", "irishgolf"],
+    "nearestAirports": [{"iata": "SNN", "city": "Shannon"}]
+  },
+  "wild-atlantic-way-ie": {
+    "officialSite": "https://www.cliffsofmoher.ie/",
+    "tickets": "https://www.cliffsofmoher.ie/en/your-visit/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Cliffs_of_Moher",
+    "hashtags": ["cliffsofmoher", "wildatlanticway", "ireland"],
+    "nearestAirports": [{"iata": "SNN", "city": "Shannon", "driveTime": "1 h"}]
+  },
+  "st-patrick-s-festival-ie": {
+    "officialSite": "https://stpatricksfestival.ie/",
+    "wikipedia": "https://en.wikipedia.org/wiki/St._Patrick%27s_Festival",
+    "hashtags": ["stpatricksfestival", "dublin", "stpatricksday"],
+    "nearestAirports": [{"iata": "DUB", "city": "Dublin"}]
+  },
+  "chamonix-skiing-fr": {
+    "officialSite": "https://en.chamonix.com/",
+    "tickets": "https://www.montblancnaturalresort.com/en/ticketing",
+    "wikipedia": "https://en.wikipedia.org/wiki/Aiguille_du_Midi",
+    "hashtags": ["chamonix", "montblanc", "chamonixskiing"],
+    "nearestAirports": [{"iata": "GVA", "city": "Geneva"}]
+  },
+  "courchevel-skiing-fr": {
+    "officialSite": "https://courchevel.com/en/",
+    "tickets": "https://www.skipasscourchevel.com/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Courchevel",
+    "hashtags": ["courchevel", "les3vallees", "skifrance"],
+    "nearestAirports": [{"iata": "CMF", "city": "Chambéry"}, {"iata": "GVA", "city": "Geneva"}]
+  },
+  "cannes-film-festival-fr": {
+    "officialSite": "https://www.festival-cannes.com/en/",
+    "tickets": "https://www.festival-cannes.com/en/take-part/accreditations/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Cannes_Film_Festival",
+    "hashtags": ["cannes", "cannesfilmfestival", "festivaldecannes"],
+    "nearestAirports": [{"iata": "NCE", "city": "Nice"}],
+    "bookAheadNote": "Festival accreditation is for film-industry professionals and press, not general public tickets."
+  },
+  "tour-de-france-finish-fr": {
+    "officialSite": "https://www.letour.fr/en/",
+    "hashtags": ["tourdefrance", "tdf2027", "champselysees"],
+    "nearestAirports": [{"iata": "CDG", "city": "Paris"}, {"iata": "ORY", "city": "Paris"}]
+  },
+  "bordeaux-wine-harvest-fr": {
+    "officialSite": "https://www.saint-emilion-tourisme.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Saint-%C3%89milion",
+    "hashtags": ["saintemilion", "bordeauxwine", "vendanges"],
+    "nearestAirports": [{"iata": "BOD", "city": "Bordeaux"}]
+  },
+  "champagne-harvest-fr": {
+    "officialSite": "https://www.epernay-tourisme.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/%C3%89pernay",
+    "hashtags": ["champagne", "epernay", "avenueduchampagne"],
+    "nearestAirports": [{"iata": "CDG", "city": "Paris"}]
+  },
+  "monaco-grand-prix-mc": {
+    "officialSite": "https://acm.mc/en/epreuves/formula-1-grand-prix-de-monaco/",
+    "tickets": "https://www.formula1monaco.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Circuit_de_Monaco",
+    "hashtags": ["monacogp", "f1", "montecarlo"],
+    "nearestAirports": [{"iata": "NCE", "city": "Nice"}],
+    "bookAheadNote": "Grandstand and hospitality tickets typically sell out months ahead."
+  },
+  "casino-de-monte-carlo-mc": {
+    "officialSite": "https://www.montecarlosbm.com/en/casino-monaco/casino-monte-carlo",
+    "wikipedia": "https://en.wikipedia.org/wiki/Monte_Carlo_Casino",
+    "hashtags": ["montecarlocasino", "monaco", "casinodemontecarlo"],
+    "nearestAirports": [{"iata": "NCE", "city": "Nice"}]
+  },
+  "port-hercule-yachts-mc": {
+    "officialSite": "https://www.visitmonaco.com/en/explore/interactive-map-of-monaco/port-hercule-monaco",
+    "wikipedia": "https://en.wikipedia.org/wiki/Port_Hercules",
+    "hashtags": ["monaco", "porthercule", "superyachts"],
+    "nearestAirports": [{"iata": "NCE", "city": "Nice"}]
+  },
+  "san-sebastian-pintxos-es": {
+    "officialSite": "https://sansebastianturismoa.eus/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n",
+    "hashtags": ["pintxos", "sansebastian", "donostia"],
+    "nearestAirports": [{"iata": "EAS", "city": "San Sebastián"}, {"iata": "BIO", "city": "Bilbao"}]
+  },
+  "ibiza-clubs-es": {
+    "officialSite": "https://www.theushuaiaexperience.com/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ushua%C3%AFa_Ibiza",
+    "hashtags": ["ibiza", "ushuaiaibiza", "ibizaclubs"],
+    "nearestAirports": [{"iata": "IBZ", "city": "Ibiza"}]
+  },
+  "san-fermin-es": {
+    "officialSite": "https://www.pamplona.es/en/turismo/sanfermin",
+    "wikipedia": "https://en.wikipedia.org/wiki/Festival_of_San_Ferm%C3%ADn",
+    "hashtags": ["sanfermin", "pamplona", "runningofthebulls"],
+    "nearestAirports": [{"iata": "PNA", "city": "Pamplona"}],
+    "bookAheadNote": "Most bullring seats are held by local season-ticket holders; accommodation in Pamplona sells out months ahead."
+  },
+  "canary-islands-surf-es": {
+    "officialSite": "https://www.visitfuerteventura.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Corralejo",
+    "hashtags": ["fuerteventura", "corralejo", "canaryislands"],
+    "nearestAirports": [{"iata": "FUE", "city": "Fuerteventura"}]
+  },
+  "canary-islands-winter-sun-es": {
+    "officialSite": "https://www.webtenerife.co.uk/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Los_Cristianos",
+    "hashtags": ["tenerife", "loscristianos", "canaryislands"],
+    "nearestAirports": [{"iata": "TFS", "city": "Tenerife South"}]
+  },
+  "nazare-big-waves-pt": {
+    "officialSite": "https://www.cm-nazare.pt/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Praia_do_Norte_(Nazar%C3%A9)",
+    "hashtags": ["nazare", "bigwavesurfing", "praiadonorte"],
+    "nearestAirports": [{"iata": "LIS", "city": "Lisbon"}]
+  },
+  "douro-valley-harvest-pt": {
+    "officialSite": "https://www.visitportugal.com/en/destinos/porto-e-norte/73746",
+    "wikipedia": "https://en.wikipedia.org/wiki/Pinh%C3%A3o",
+    "hashtags": ["dourovalley", "pinhao", "portwine"],
+    "nearestAirports": [{"iata": "OPO", "city": "Porto"}]
+  },
+  "algarve-beaches-and-golf-pt": {
+    "officialSite": "https://www.visitportugal.com/en/destinos/algarve",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ponta_da_Piedade",
+    "hashtags": ["algarve", "lagos", "pontadapiedade"],
+    "nearestAirports": [{"iata": "FAO", "city": "Faro"}]
+  },
+  "santo-antonio-festival-pt": {
+    "officialSite": "https://www.visitportugal.com/en/content/festas-de-lisboa",
+    "wikipedia": "https://en.wikipedia.org/wiki/Alfama",
+    "hashtags": ["santoantonio", "festasdelisboa", "lisboa"],
+    "nearestAirports": [{"iata": "LIS", "city": "Lisbon"}]
+  },
+  "portuguese-grand-prix-pt": {
+    "tickets": "https://ticketing.formula1.com/portugal/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Algarve_International_Circuit",
+    "hashtags": ["portuguesegp", "f1", "portimao"],
+    "nearestAirports": [{"iata": "FAO", "city": "Faro"}]
+  },
+  "dolomites-skiing-it": {
+    "officialSite": "https://www.valgardena.it/en/",
+    "tickets": "https://www.valgardena.it/en/winter-holidays-dolomites/ski-passes/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sellaronda",
+    "hashtags": ["valgardena", "dolomites", "sellaronda"],
+    "nearestAirports": [{"iata": "INN", "city": "Innsbruck"}, {"iata": "VRN", "city": "Verona"}]
+  },
+  "dolomites-via-ferrata-it": {
+    "officialSite": "https://cortina.dolomiti.org/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Tofane",
+    "hashtags": ["cortina", "viaferrata", "dolomites"],
+    "nearestAirports": [{"iata": "VCE", "city": "Venice"}]
+  },
+  "venice-carnival-it": {
+    "officialSite": "https://carnevale.venezia.it/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/St._Mark%27s_Square",
+    "hashtags": ["venicecarnival", "carnevaledivenezia", "venice"],
+    "nearestAirports": [{"iata": "VCE", "city": "Venice"}],
+    "bookAheadNote": "Venice hotel prices spike and sell out for Carnival weekends."
+  },
+  "amalfi-coast-it": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Positano",
+    "hashtags": ["positano", "amalficoast", "costieraamalfitana"],
+    "nearestAirports": [{"iata": "NAP", "city": "Naples"}]
+  },
+  "tuscany-wine-and-truffles-it": {
+    "officialSite": "https://www.consorziobrunellodimontalcino.it/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Montalcino",
+    "hashtags": ["montalcino", "brunello", "tuscanywine"],
+    "nearestAirports": [{"iata": "FLR", "city": "Florence"}, {"iata": "PSA", "city": "Pisa"}]
+  },
+  "italian-grand-prix-it": {
+    "officialSite": "https://www.monzanet.it/en/",
+    "tickets": "https://www.monzanet.it/en/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Monza_Circuit",
+    "hashtags": ["italiangp", "monza", "f1"],
+    "nearestAirports": [{"iata": "LIN", "city": "Milan"}, {"iata": "BGY", "city": "Bergamo"}]
+  },
+  "zermatt-skiing-ch": {
+    "officialSite": "https://zermatt.swiss/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Klein_Matterhorn",
+    "hashtags": ["zermatt", "matterhorn", "zermattskiing"],
+    "nearestAirports": [{"iata": "GVA", "city": "Geneva"}]
+  },
+  "verbier-skiing-ch": {
+    "officialSite": "https://www.verbier.ch/en",
+    "tickets": "https://www.verbier4vallees.ch/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mont_Fort",
+    "hashtags": ["verbier", "4vallees", "verbierskiing"],
+    "nearestAirports": [{"iata": "GVA", "city": "Geneva", "driveTime": "2 h 30 min"}]
+  },
+  "jungfrau-region-hiking-ch": {
+    "officialSite": "https://www.grindelwald.swiss/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Grindelwald",
+    "hashtags": ["grindelwald", "jungfrauregion", "swissalps"],
+    "nearestAirports": [{"iata": "ZRH", "city": "Zurich"}, {"iata": "BRN", "city": "Bern"}]
+  },
+  "montreux-jazz-festival-ch": {
+    "officialSite": "https://www.montreuxjazzfestival.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Montreux_Jazz_Festival",
+    "hashtags": ["montreuxjazz", "montreuxjazzfestival", "jazz"],
+    "nearestAirports": [{"iata": "GVA", "city": "Geneva"}]
+  },
+  "art-basel-ch": {
+    "officialSite": "https://www.artbasel.com/basel",
+    "wikipedia": "https://en.wikipedia.org/wiki/Messe_Basel",
+    "hashtags": ["artbasel", "basel", "artfair"],
+    "nearestAirports": [{"iata": "BSL", "city": "Basel"}],
+    "bookAheadNote": "Art Basel is primarily an industry/collector fair; public-day tickets should be booked in advance."
+  },
+  "st-anton-skiing-at": {
+    "officialSite": "https://www.stantonamarlberg.com/en",
+    "tickets": "https://www.skiarlberg.at/en/st-anton/shop",
+    "wikipedia": "https://en.wikipedia.org/wiki/Valluga",
+    "hashtags": ["stanton", "arlberg", "skiarlberg"],
+    "nearestAirports": [{"iata": "INN", "city": "Innsbruck"}, {"iata": "ZRH", "city": "Zurich"}]
+  },
+  "salzburg-festival-at": {
+    "officialSite": "https://www.salzburgerfestspiele.at/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Salzburg_Festival",
+    "hashtags": ["salzburgfestival", "salzburgerfestspiele", "salzburg"],
+    "nearestAirports": [{"iata": "SZG", "city": "Salzburg"}]
+  },
+  "vienna-christmas-market-at": {
+    "officialSite": "https://www.christkindlmarkt.at/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Vienna_City_Hall",
+    "hashtags": ["viennachristmasmarket", "christkindlmarkt", "vienna"],
+    "nearestAirports": [{"iata": "VIE", "city": "Vienna"}]
+  },
+  "vienna-ball-season-at": {
+    "officialSite": "https://www.opernball.at/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Vienna_Opera_Ball",
+    "hashtags": ["viennaballseason", "opernball", "vienna"],
+    "nearestAirports": [{"iata": "VIE", "city": "Vienna"}]
+  },
+  "austrian-grand-prix-at": {
+    "officialSite": "https://www.redbullring.com/en/",
+    "tickets": "https://tickets.redbullring.com/en/f1/f1-grand-prix-oesterreich-2027/tickets.html",
+    "wikipedia": "https://en.wikipedia.org/wiki/Red_Bull_Ring",
+    "hashtags": ["austriangp", "redbullring", "f1"],
+    "nearestAirports": [{"iata": "GRZ", "city": "Graz"}]
+  },
+  "oktoberfest-de": {
+    "officialSite": "https://www.oktoberfest.de/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Theresienwiese",
+    "hashtags": ["oktoberfest", "munich", "wiesn"],
+    "nearestAirports": [{"iata": "MUC", "city": "Munich"}],
+    "bookAheadNote": "Tent table reservations for peak weekends should be made months ahead."
+  },
+  "munich-christmas-market-de": {
+    "officialSite": "https://www.christkindlmarkt-muenchen.de/en/home",
+    "wikipedia": "https://en.wikipedia.org/wiki/Marienplatz",
+    "hashtags": ["munichchristmasmarket", "christkindlmarkt", "munich"],
+    "nearestAirports": [{"iata": "MUC", "city": "Munich"}]
+  },
+  "berlin-techno-clubs-de": {
+    "officialSite": "https://www.berghain.berlin/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Berghain",
+    "hashtags": ["berghain", "berlintechno", "berlinnightlife"],
+    "nearestAirports": [{"iata": "BER", "city": "Berlin"}]
+  },
+  "nurburgring-track-days-de": {
+    "officialSite": "https://www.nuerburgring.de/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/N%C3%BCrburgring",
+    "hashtags": ["nurburgring", "nordschleife", "trackday"],
+    "nearestAirports": [{"iata": "CGN", "city": "Cologne"}, {"iata": "FRA", "city": "Frankfurt"}]
+  },
+  "keukenhof-tulips-nl": {
+    "officialSite": "https://keukenhof.nl/en/",
+    "tickets": "https://tickets.keukenhof.nl/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Keukenhof",
+    "hashtags": ["keukenhof", "tulips", "lisse"],
+    "nearestAirports": [{"iata": "AMS", "city": "Amsterdam"}],
+    "bookAheadNote": "Keukenhof only opens seasonally (mid-March to mid-May) and peak-week tickets sell out."
+  },
+  "king-s-day-nl": {
+    "wikipedia": "https://en.wikipedia.org/wiki/King%27s_Day",
+    "hashtags": ["kingsday", "koningsdag", "amsterdam"],
+    "nearestAirports": [{"iata": "AMS", "city": "Amsterdam"}]
+  },
+  "amsterdam-dance-event-nl": {
+    "officialSite": "https://www.amsterdam-dance-event.nl/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Amsterdam_Dance_Event",
+    "hashtags": ["ade", "amsterdamdanceevent", "adeamsterdam"],
+    "nearestAirports": [{"iata": "AMS", "city": "Amsterdam"}]
+  },
+  "tomorrowland-be": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Tomorrowland_(festival)",
+    "hashtags": ["tomorrowland", "tomorrowland2027", "edm"],
+    "nearestAirports": [{"iata": "BRU", "city": "Brussels"}, {"iata": "ANR", "city": "Antwerp"}],
+    "bookAheadNote": "Tomorrowland tickets historically sell out within hours of release."
+  },
+  "belgian-grand-prix-be": {
+    "officialSite": "https://www.spa-francorchamps.be/en",
+    "tickets": "https://www.spagrandprix.com/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Circuit_de_Spa-Francorchamps",
+    "hashtags": ["belgiangp", "spafrancorchamps", "f1"],
+    "nearestAirports": [{"iata": "BRU", "city": "Brussels"}, {"iata": "LGG", "city": "Liège"}]
+  },
+  "belgian-beer-tour-be": {
+    "officialSite": "https://www.visitbruges.be/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Bruges",
+    "hashtags": ["bruges", "belgianbeer", "brugge"],
+    "nearestAirports": [{"iata": "BRU", "city": "Brussels"}]
+  },
+  "budapest-thermal-baths-hu": {
+    "officialSite": "https://www.szechenyifurdo.hu/en/",
+    "tickets": "https://jegyek.szechenyifurdo.hu/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_thermal_bath",
+    "hashtags": ["szechenyibath", "budapestthermalbaths", "budapest"],
+    "nearestAirports": [{"iata": "BUD", "city": "Budapest"}]
+  },
+  "sziget-festival-hu": {
+    "officialSite": "https://szigetfestival.com/en/festival-info",
+    "wikipedia": "https://en.wikipedia.org/wiki/Sziget_Festival",
+    "hashtags": ["szigetfestival", "sziget2027", "budapest"],
+    "nearestAirports": [{"iata": "BUD", "city": "Budapest"}],
+    "bookAheadNote": "Early-bird Sziget passes and on-site camping sell out well before the festival."
+  },
+  "hungarian-grand-prix-hu": {
+    "officialSite": "https://www.hungaroring.hu/en",
+    "tickets": "https://www.gpticketshop.hu/Formula_1_HungarianGP/Formula_1.html",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hungaroring",
+    "hashtags": ["hungariangp", "hungaroring", "f1"],
+    "nearestAirports": [{"iata": "BUD", "city": "Budapest"}]
+  },
+  "prague-beer-and-old-town-cz": {
+    "officialSite": "https://www.prague.eu/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Old_Town_Square",
+    "hashtags": ["prague", "oldtownsquare", "praguebeer"],
+    "nearestAirports": [{"iata": "PRG", "city": "Prague"}]
+  },
+  "prague-christmas-markets-cz": {
+    "officialSite": "https://www.prague.eu/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Old_Town_Square",
+    "hashtags": ["praguechristmasmarkets", "prague", "vanocnitrhy"],
+    "nearestAirports": [{"iata": "PRG", "city": "Prague"}]
+  },
+  "cesky-krumlov-cz": {
+    "officialSite": "https://www.ckrumlov.info/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/%C4%8Cesk%C3%BD_Krumlov",
+    "hashtags": ["ceskykrumlov", "czechrepublic", "southbohemia"],
+    "nearestAirports": [{"iata": "PRG", "city": "Prague"}]
+  },
+  "lake-bled-si": {
+    "officialSite": "https://www.bled.si/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Lake_Bled",
+    "hashtags": ["lakebled", "bled", "slovenia"],
+    "nearestAirports": [{"iata": "LJU", "city": "Ljubljana"}]
+  },
+  "soca-river-rafting-si": {
+    "officialSite": "https://www.soca-valley.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/So%C4%8Da",
+    "hashtags": ["socavalley", "bovec", "rafting"],
+    "nearestAirports": [{"iata": "LJU", "city": "Ljubljana"}]
+  },
+  "postojna-cave-si": {
+    "officialSite": "https://www.postojnska-jama.eu/en/",
+    "tickets": "https://www.postojnska-jama.eu/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Postojna_Cave",
+    "hashtags": ["postojnacave", "slovenia", "postojnajama"],
+    "nearestAirports": [{"iata": "LJU", "city": "Ljubljana"}]
+  },
+  "ljubljana-old-town-si": {
+    "officialSite": "https://www.visitljubljana.com/en/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ljubljana",
+    "hashtags": ["ljubljana", "slovenia", "visitljubljana"],
+    "nearestAirports": [{"iata": "LJU", "city": "Ljubljana"}]
+  },
+  "dalmatian-coast-sailing-hr": {
+    "officialSite": "https://www.visithvar.hr/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hvar",
+    "hashtags": ["hvar", "dalmatiancoast", "sailingcroatia"],
+    "nearestAirports": [{"iata": "SPU", "city": "Split"}]
+  },
+  "ultra-europe-hr": {
+    "officialSite": "https://ultraeurope.com/",
+    "tickets": "https://ultraeurope.com/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Stadion_Poljud",
+    "hashtags": ["ultraeurope", "split", "edm"],
+    "nearestAirports": [{"iata": "SPU", "city": "Split"}],
+    "bookAheadNote": "Ultra Europe passes and Split accommodation sell out well ahead of the festival."
+  },
+  "plitvice-lakes-hr": {
+    "officialSite": "https://np-plitvicka-jezera.hr/en/",
+    "tickets": "https://ticketing.np-plitvicka-jezera.hr/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Plitvice_Lakes_National_Park",
+    "hashtags": ["plitvicelakes", "croatia", "nationalpark"],
+    "nearestAirports": [{"iata": "ZAG", "city": "Zagreb"}, {"iata": "ZAD", "city": "Zadar"}]
+  },
+  "cyclades-island-hopping-gr": {
+    "officialSite": "https://www.visitgreece.gr/islands/cyclades/santorini/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Santorini",
+    "hashtags": ["santorini", "cyclades", "greekislands"],
+    "nearestAirports": [{"iata": "JTR", "city": "Santorini"}]
+  },
+  "acropolis-gr": {
+    "officialSite": "https://www.thisisathens.org/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Acropolis_of_Athens",
+    "hashtags": ["acropolis", "athens", "greece"],
+    "nearestAirports": [{"iata": "ATH", "city": "Athens"}]
+  },
+  "orthodox-easter-on-corfu-gr": {
+    "officialSite": "https://www.visitgreece.gr/islands/ionian-islands/corfu/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Corfu_(city)",
+    "hashtags": ["corfu", "orthodoxeaster", "greekeaster"],
+    "nearestAirports": [{"iata": "CFU", "city": "Corfu"}]
+  },
+  "cappadocia-balloons-tr": {
+    "officialSite": "https://www.goreme.bel.tr/en",
+    "wikipedia": "https://en.wikipedia.org/wiki/G%C3%B6reme",
+    "hashtags": ["cappadocia", "goreme", "hotairballoon"],
+    "nearestAirports": [{"iata": "NAV", "city": "Nevşehir"}]
+  },
+  "istanbul-food-and-bazaars-tr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Grand_Bazaar,_Istanbul",
+    "hashtags": ["istanbul", "grandbazaar", "turkishfood"],
+    "nearestAirports": [{"iata": "IST", "city": "Istanbul"}]
+  },
+  "turquoise-coast-sailing-tr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/%C3%96l%C3%BCdeniz",
+    "hashtags": ["turquoisecoast", "fethiye", "oludeniz"],
+    "nearestAirports": [{"iata": "DLM", "city": "Dalaman"}]
+  },
+  "turkish-grand-prix-tr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Istanbul_Park",
+    "hashtags": ["turkishgp", "istanbulpark", "f1"],
+    "nearestAirports": [{"iata": "SAW", "city": "Istanbul"}]
+  },
+  "_notes": {
+    "salzburg-festival-at": "eventDates status is listed as 'estimated' but the official Salzburg Festival site (salzburgerfestspiele.at) confirms Summer 2027 runs July 16 - August 29, 2027, matching the record exactly, so this could be upgraded to 'confirmed'.",
+    "ibiza-clubs-es": "The place field says Sant Antoni de Portmany, but the source (Ushuaïa Ibiza) and the record's own coordinates (38.8851, 1.4052) actually correspond to Playa d'en Bossa, not Sant Antoni (which is on the opposite side of the island). Source: https://en.wikipedia.org/wiki/Ushua%C3%AFa_Ibiza",
+    "tour-de-france-grand-depart-gb": "eventDates (2027-07-02 to 2027-07-25) span the entire 2027 Tour de France, not just the Edinburgh Grand Départ, which is only the opening UK stages around July 2-4, 2027. Source: https://www.discoverfrance.com/bike-travel-guide/tour-de-france-2027-edinburgh-grand-depart and https://scottishcycling.org.uk/news/edinburgh-to-host-2027-tour-de-france-grand-depart/",
+    "tour-de-france-finish-fr": "eventDates (2027-07-02 to 2027-07-25) span the entire race, not just the Paris/Champs-Élysées finish, which is a single day around 2027-07-25. Same source as above."
+  }
+}

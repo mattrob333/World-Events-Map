@@ -71,6 +71,10 @@ export interface Activity {
   elevationFt?: number | null;
   /** At most 90 characters. */
   summary: string;
+  /** A short caveat shown on the card, e.g. a race held away from its usual venue. */
+  note?: string;
+  /** Why an event has no dates yet, with what is known. Required when `eventDates` is null. */
+  datesNote?: string;
   tags: Tag[];
   /** 0 to 100, log-scaled Wikipedia pageviews over 30 days. */
   heat: number | null;
@@ -82,6 +86,8 @@ export interface Activity {
   nearestAirports?: NearestAirport[];
   /** One plain line when booking early matters ("Permits sell out months ahead."). */
   bookAheadNote?: string;
+  /** IANA time zone, looked up offline from the coordinates. */
+  tz?: string;
   /** Profile-driven items (tour dates, games) from the For you layer; curated records have none. */
   source?: 'curated' | 'profile';
   reason?: ForYouReason;

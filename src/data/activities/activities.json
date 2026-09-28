@@ -33,7 +33,23 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Troms%C3%B8"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visittromso.no/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Troms%C3%B8"
+  },
+  "hashtags": [
+   "northernlights",
+   "tromso",
+   "auroraborealis"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TOS",
+    "city": "Tromsø"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "lofoten-aurora-and-peaks-no",
@@ -68,7 +84,27 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Lofoten"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitlofoten.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lofoten"
+  },
+  "hashtags": [
+   "lofoten",
+   "lofotenislands",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LKN",
+    "city": "Leknes"
+   },
+   {
+    "iata": "SVJ",
+    "city": "Svolvær"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "preikestolen-hike-no",
@@ -100,7 +136,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Preikestolen"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://preikestolen365.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Preikestolen"
+  },
+  "hashtags": [
+   "preikestolen",
+   "pulpitrock",
+   "lysefjord"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SVG",
+    "city": "Stavanger"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "trolltunga-hike-no",
@@ -132,7 +184,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Trolltunga"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.trolltunga.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Trolltunga"
+  },
+  "hashtags": [
+   "trolltunga"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BGO",
+    "city": "Bergen",
+    "driveTime": "3.5 hours"
+   }
+  ],
+  "bookAheadNote": "Guided hiking is recommended outside the June to September season.",
+  "tz": "Europe/Oslo"
  },
  {
   "id": "geirangerfjord-cruise-no",
@@ -164,7 +232,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Geirangerfjord"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.geirangerfjord.no/english",
+   "wikipedia": "https://en.wikipedia.org/wiki/Geirangerfjord"
+  },
+  "hashtags": [
+   "geiranger",
+   "geirangerfjord",
+   "fjordnorway"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AES",
+    "city": "Ålesund",
+    "driveTime": "2.5 hours"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "midnight-sun-at-north-cape-no",
@@ -196,7 +281,24 @@
   "sources": [
    "https://www.openstreetmap.org/node/33728378",
    "https://en.wikipedia.org/wiki/North_Cape"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://nordkapphallen.no/",
+   "wikipedia": "https://en.wikipedia.org/wiki/North_Cape"
+  },
+  "hashtags": [
+   "nordkapp",
+   "northcape",
+   "midnightsun"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HVG",
+    "city": "Honningsvåg",
+    "driveTime": "28 min"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "hemsedal-skiing-no",
@@ -226,12 +328,28 @@
    "family",
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": "snow",
   "sources": [
    "https://www.openstreetmap.org/relation/2150871",
    "https://www.j2ski.com/ski_resorts/Norway/Hemsedal.html"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://hemsedal.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hemsedal"
+  },
+  "hashtags": [
+   "hemsedal",
+   "skihemsedal"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "OSL",
+    "city": "Oslo",
+    "driveTime": "3.5 hours"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "trysil-skiing-no",
@@ -266,7 +384,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Trysil_Municipality",
    "https://www.skiresort.com/en/ski-resort/trysil/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.trysil.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Trysil_Municipality"
+  },
+  "hashtags": [
+   "trysil",
+   "skitrysil"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SCR",
+    "city": "Sälen/Scandinavian Mountains",
+    "driveTime": "40 min"
+   }
+  ],
+  "tz": "Europe/Oslo"
  },
  {
   "id": "lapland-northern-lights-fi",
@@ -299,7 +433,23 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Rovaniemi"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitrovaniemi.fi/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Rovaniemi"
+  },
+  "hashtags": [
+   "laplandfinland",
+   "rovaniemi",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RVN",
+    "city": "Rovaniemi"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "santa-claus-village-fi",
@@ -329,7 +479,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Santa_Claus_Village"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://santaclausvillage.info/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Santa_Claus_Village"
+  },
+  "hashtags": [
+   "santaclausvillage",
+   "rovaniemi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RVN",
+    "city": "Rovaniemi"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "husky-sledding-in-levi-fi",
@@ -362,7 +528,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Levi,_Finland"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.levi.fi/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Levi,_Finland"
+  },
+  "hashtags": [
+   "huskysledding",
+   "levi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTT",
+    "city": "Kittilä"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "levi-skiing-fi",
@@ -398,7 +580,23 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Levi,_Finland"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.levi.fi/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Levi,_Finland"
+  },
+  "hashtags": [
+   "levi",
+   "skilevi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTT",
+    "city": "Kittilä"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "ruka-skiing-fi",
@@ -436,7 +634,24 @@
    "https://www.openstreetmap.org/node/290414149",
    "https://en.wikipedia.org/wiki/Ruka",
    "https://www.ruka.fi/en/information-about-ruka-kuusamo"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.ruka.fi/en/skiresort",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ruka"
+  },
+  "hashtags": [
+   "ruka",
+   "rukaski",
+   "kuusamo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KAO",
+    "city": "Kuusamo",
+    "driveTime": "26 min"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "helsinki-sauna-culture-fi",
@@ -478,7 +693,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/L%C3%B6yly"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.loylyhelsinki.fi/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/L%C3%B6yly"
+  },
+  "hashtags": [
+   "helsinkisauna",
+   "loylyhelsinki",
+   "saunaculture"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HEL",
+    "city": "Helsinki"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "flow-festival-fi",
@@ -513,7 +744,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Suvilahti",
    "https://www.flowfestival.com/en/info/info-faq/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.flowfestival.com/en/",
+   "tickets": "https://www.tiketti.fi/flow-festival-2027-suvilahti-helsinki-tickets/119868",
+   "wikipedia": "https://en.wikipedia.org/wiki/Suvilahti"
+  },
+  "hashtags": [
+   "flowfestival",
+   "flowfestivalhelsinki"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HEL",
+    "city": "Helsinki"
+   }
+  ],
+  "tz": "Europe/Helsinki"
  },
  {
   "id": "icehotel-se",
@@ -546,7 +793,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Icehotel_(Jukkasj%C3%A4rvi)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.icehotel.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Icehotel_(Jukkasj%C3%A4rvi)"
+  },
+  "hashtags": [
+   "icehotel",
+   "jukkasjarvi",
+   "swedishlapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KRN",
+    "city": "Kiruna",
+    "driveTime": "15-20 min"
+   }
+  ],
+  "tz": "Europe/Stockholm"
  },
  {
   "id": "abisko-aurora-se",
@@ -581,7 +845,24 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Abisko_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitabisko.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Abisko_National_Park"
+  },
+  "hashtags": [
+   "abisko",
+   "auroraskystation",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KRN",
+    "city": "Kiruna",
+    "driveTime": "1h 17m"
+   }
+  ],
+  "tz": "Europe/Stockholm"
  },
  {
   "id": "midsummer-at-skansen-se",
@@ -616,7 +897,23 @@
    "https://en.wikipedia.org/wiki/Skansen",
    "https://www.wikidata.org/wiki/Q725108",
    "https://visitsweden.com/what-to-do/culture-history-and-art/swedish-traditions/midsummer-tradition/midsummer-sweden-something-another-world/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.skansen.se/en/see-and-do/holidays-and-traditions/midsummer/midsummer-at-skansen/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Skansen"
+  },
+  "hashtags": [
+   "midsommar",
+   "skansen",
+   "stockholm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ARN",
+    "city": "Stockholm"
+   }
+  ],
+  "tz": "Europe/Stockholm"
  },
  {
   "id": "stockholm-archipelago-kayaking-se",
@@ -646,7 +943,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Stockholm_Archipelago"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitstockholm.com/see-do/excursions/discover-stockholm-archipelago/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Stockholm_Archipelago"
+  },
+  "hashtags": [
+   "stockholmarchipelago",
+   "skargarden",
+   "stockholm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ARN",
+    "city": "Stockholm"
+   }
+  ],
+  "tz": "Europe/Stockholm"
  },
  {
   "id": "are-skiing-se",
@@ -682,7 +995,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/%C3%85re",
    "https://www.skiresort.com/en/ski-resort/aare/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://aresweden.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/%C3%85re"
+  },
+  "hashtags": [
+   "are",
+   "skiare",
+   "swedishalps"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "OSD",
+    "city": "Åre/Östersund",
+    "driveTime": "1 hour"
+   }
+  ],
+  "tz": "Europe/Stockholm"
  },
  {
   "id": "northern-lights-at-ingvellir-is",
@@ -716,7 +1046,23 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/%C3%9Eingvellir"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.thingvellir.is/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/%C3%9Eingvellir"
+  },
+  "hashtags": [
+   "thingvellir",
+   "iceland",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ],
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "vatnajokull-ice-caves-is",
@@ -748,7 +1094,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Vatnaj%C3%B6kull"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitvatnajokull.is/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Vatnaj%C3%B6kull"
+  },
+  "hashtags": [
+   "vatnajokull",
+   "icecave",
+   "jokulsarlon"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HFN",
+    "city": "Höfn"
+   }
+  ],
+  "bookAheadNote": "Ice caves can only be entered with a glacier guide; book tours in advance.",
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "ring-road-drive-is",
@@ -779,7 +1142,17 @@
   "sources": [
    "https://www.openstreetmap.org/node/2427040668",
    "https://en.wikipedia.org/wiki/Route_1_(Iceland)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.vegagerdin.is/en/home/exploring-iceland/the-ring-road",
+   "wikipedia": "https://en.wikipedia.org/wiki/Route_1_(Iceland)"
+  },
+  "hashtags": [
+   "ringroad",
+   "route1iceland",
+   "iceland"
+  ],
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "whale-watching-in-husavik-is",
@@ -809,7 +1182,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/H%C3%BAsav%C3%ADk"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.northsailing.is/",
+   "wikipedia": "https://en.wikipedia.org/wiki/H%C3%BAsav%C3%ADk"
+  },
+  "hashtags": [
+   "husavik",
+   "whalewatching",
+   "iceland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AEY",
+    "city": "Akureyri",
+    "driveTime": "1 hour"
+   }
+  ],
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "puffins-at-latrabjarg-is",
@@ -840,7 +1230,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/L%C3%A1trabjarg"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.westfjords.is/en/place/latrabjarg",
+   "wikipedia": "https://en.wikipedia.org/wiki/L%C3%A1trabjarg"
+  },
+  "hashtags": [
+   "latrabjarg",
+   "puffins",
+   "westfjords"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BIU",
+    "city": "Bíldudalur"
+   }
+  ],
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "blue-lagoon-is",
@@ -880,7 +1286,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Blue_Lagoon_(geothermal_spa)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bluelagoon.com/",
+   "tickets": "https://www.bluelagoon.com/day-visit",
+   "wikipedia": "https://en.wikipedia.org/wiki/Blue_Lagoon_(geothermal_spa)"
+  },
+  "hashtags": [
+   "bluelagoon",
+   "iceland",
+   "geothermalspa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ],
+  "bookAheadNote": "Timed-entry tickets regularly sell out weeks ahead in peak season.",
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "iceland-airwaves-is",
@@ -915,7 +1339,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Reykjav%C3%ADk",
    "https://icelandairwaves.is/lineup/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://icelandairwaves.is/",
+   "tickets": "https://icelandairwaves.is/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk"
+  },
+  "hashtags": [
+   "icelandairwaves",
+   "reykjavik"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ],
+  "tz": "Atlantic/Reykjavik"
  },
  {
   "id": "copenhagen-fine-dining-dk",
@@ -948,7 +1388,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Noma_(restaurant)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://noma.dk/",
+   "tickets": "https://noma.dk/reservations/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Noma_(restaurant)"
+  },
+  "hashtags": [
+   "noma",
+   "copenhagenfood",
+   "newnordiccuisine"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "bookAheadNote": "Noma reservations open in narrow windows and sell out almost immediately.",
+  "tz": "Europe/Copenhagen"
  },
  {
   "id": "copenhagen-by-bike-dk",
@@ -982,7 +1440,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Copenhagen"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitcopenhagen.com/copenhagen/things-to-do/biking/copenhagens-bike-culture",
+   "wikipedia": "https://en.wikipedia.org/wiki/Copenhagen"
+  },
+  "hashtags": [
+   "copenhagenbybike",
+   "cyclingcopenhagen",
+   "copenhagen"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "tz": "Europe/Copenhagen"
  },
  {
   "id": "roskilde-festival-dk",
@@ -1019,7 +1493,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Roskilde_Festival",
    "https://www.roskilde-festival.dk/en/news/thank-you-roskilde-see-you-in-2027"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.roskilde-festival.dk/en",
+   "tickets": "https://www.roskilde-festival.dk/en/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Roskilde_Festival"
+  },
+  "hashtags": [
+   "roskildefestival",
+   "roskilde"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "bookAheadNote": "Full festival passes have sold out well ahead of previous editions.",
+  "tz": "Europe/Copenhagen"
  },
  {
   "id": "christmas-in-tivoli-dk",
@@ -1054,7 +1545,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Tivoli_Gardens",
    "https://www.visitcopenhagen.com/copenhagen/planning/christmas-in-tivoli-gardens-gdk1096403"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tivoli.dk/en/",
+   "tickets": "https://www.tivoli.dk/en/opening-hours-and-seasons/christmas-in-tivoli",
+   "wikipedia": "https://en.wikipedia.org/wiki/Tivoli_Gardens"
+  },
+  "hashtags": [
+   "tivoligardens",
+   "christmasintivoli",
+   "copenhagen"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "tz": "Europe/Copenhagen"
  },
  {
   "id": "ilulissat-icefjord-gl",
@@ -1084,7 +1592,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Ilulissat_Icefjord"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitgreenland.com/activities/ilulissat-icefjord/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ilulissat_Icefjord"
+  },
+  "hashtags": [
+   "ilulissaticefjord",
+   "greenland",
+   "disko"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAV",
+    "city": "Ilulissat"
+   }
+  ],
+  "tz": "America/Nuuk"
  },
  {
   "id": "disko-bay-kayaking-gl",
@@ -1113,7 +1637,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Disko_Bay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitgreenland.com/destinations/ilulissat/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Disko_Bay"
+  },
+  "hashtags": [
+   "diskobay",
+   "ilulissat",
+   "greenland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAV",
+    "city": "Ilulissat"
+   }
+  ],
+  "tz": "America/Nuuk"
  },
  {
   "id": "kangerlussuaq-aurora-gl",
@@ -1150,7 +1690,23 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Kangerlussuaq"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitgreenland.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Kangerlussuaq"
+  },
+  "hashtags": [
+   "kangerlussuaq",
+   "greenland",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SFJ",
+    "city": "Kangerlussuaq"
+   }
+  ],
+  "tz": "America/Nuuk"
  },
  {
   "id": "wimbledon-gb",
@@ -1185,7 +1741,29 @@
   "sources": [
    "https://en.wikipedia.org/wiki/All_England_Lawn_Tennis_and_Croquet_Club",
    "https://www.wimbledon.com/en_GB/the_championships/dates"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.wimbledon.com/",
+   "tickets": "https://www.wimbledon.com/en_GB/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Wimbledon_Championships"
+  },
+  "hashtags": [
+   "wimbledon",
+   "thechampionships",
+   "wimbledon2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LHR",
+    "city": "London"
+   },
+   {
+    "iata": "LGW",
+    "city": "London"
+   }
+  ],
+  "bookAheadNote": "2027 is the 150th Championships, so ballot entries and resale tickets are in exceptionally high demand.",
+  "tz": "Europe/London"
  },
  {
   "id": "british-grand-prix-gb",
@@ -1219,7 +1797,29 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Silverstone_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.silverstone.co.uk/",
+   "tickets": "https://www.silverstone.co.uk/events/formula-1-british-grand-prix/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Silverstone_Circuit"
+  },
+  "hashtags": [
+   "britishgp",
+   "f1",
+   "silverstone"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BHX",
+    "city": "Birmingham"
+   },
+   {
+    "iata": "LTN",
+    "city": "London Luton"
+   }
+  ],
+  "bookAheadNote": "British GP grandstand tickets often sell out months before race weekend.",
+  "tz": "Europe/London"
  },
  {
   "id": "edinburgh-festival-fringe-gb",
@@ -1256,7 +1856,25 @@
    "https://www.openstreetmap.org/way/2956321",
    "https://en.wikipedia.org/wiki/Edinburgh_Festival_Fringe",
    "https://www.edfringe.com/experience/plan-your-visit/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.edfringe.com/",
+   "tickets": "https://tickets.edfringe.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Edinburgh_Festival_Fringe"
+  },
+  "hashtags": [
+   "edfringe",
+   "edinburghfringe",
+   "fringe2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EDI",
+    "city": "Edinburgh"
+   }
+  ],
+  "bookAheadNote": "Edinburgh accommodation sells out months ahead of the August Fringe.",
+  "tz": "Europe/London"
  },
  {
   "id": "scottish-highlands-and-whisky-gb",
@@ -1291,7 +1909,23 @@
   "sources": [
    "https://www.openstreetmap.org/node/861976141",
    "https://en.wikipedia.org/wiki/Speyside_single_malt"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://maltwhiskytrail.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Speyside_single_malt"
+  },
+  "hashtags": [
+   "speyside",
+   "scotchwhisky",
+   "maltwhiskytrail"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "INV",
+    "city": "Inverness"
+   }
+  ],
+  "tz": "Europe/London"
  },
  {
   "id": "tour-de-france-grand-depart-gb",
@@ -1312,8 +1946,8 @@
   ],
   "eventDates": {
    "start": "2027-07-02",
-   "end": "2027-07-25",
-   "status": "confirmed",
+   "end": "2027-07-04",
+   "status": "estimated",
    "sourceUrl": "https://fr.wikipedia.org/wiki/Tour_de_France_2027"
   },
   "summary": "The 2027 Tour starts in Edinburgh on July 2",
@@ -1325,7 +1959,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Edinburgh",
    "https://fr.wikipedia.org/wiki/Tour_de_France_2027"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.letour.fr/en/"
+  },
+  "hashtags": [
+   "tourdefrance",
+   "granddepart",
+   "tdf2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EDI",
+    "city": "Edinburgh"
+   }
+  ],
+  "tz": "Europe/London"
  },
  {
   "id": "links-golf-at-lahinch-ie",
@@ -1358,7 +2007,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Lahinch_Golf_Club"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://lahinchgolf.com/",
+   "tickets": "https://lahinchgolf.com/booking/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lahinch_Golf_Club"
+  },
+  "hashtags": [
+   "lahinch",
+   "linksgolf",
+   "irishgolf"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SNN",
+    "city": "Shannon"
+   }
+  ],
+  "tz": "Europe/Dublin"
  },
  {
   "id": "wild-atlantic-way-ie",
@@ -1392,7 +2058,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Cliffs_of_Moher"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.cliffsofmoher.ie/",
+   "tickets": "https://www.cliffsofmoher.ie/en/your-visit/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Cliffs_of_Moher"
+  },
+  "hashtags": [
+   "cliffsofmoher",
+   "wildatlanticway",
+   "ireland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SNN",
+    "city": "Shannon",
+    "driveTime": "1 h"
+   }
+  ],
+  "tz": "Europe/Dublin"
  },
  {
   "id": "st-patrick-s-festival-ie",
@@ -1427,7 +2111,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Dublin",
    "https://stpatricksfestival.ie/your-visit/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://stpatricksfestival.ie/",
+   "wikipedia": "https://en.wikipedia.org/wiki/St._Patrick%27s_Festival"
+  },
+  "hashtags": [
+   "stpatricksfestival",
+   "dublin",
+   "stpatricksday"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DUB",
+    "city": "Dublin"
+   }
+  ],
+  "tz": "Europe/Dublin"
  },
  {
   "id": "chamonix-skiing-fr",
@@ -1461,7 +2161,24 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Aiguille_du_Midi"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://en.chamonix.com/",
+   "tickets": "https://www.montblancnaturalresort.com/en/ticketing",
+   "wikipedia": "https://en.wikipedia.org/wiki/Aiguille_du_Midi"
+  },
+  "hashtags": [
+   "chamonix",
+   "montblanc",
+   "chamonixskiing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "tz": "Europe/Paris"
  },
  {
   "id": "courchevel-skiing-fr",
@@ -1496,7 +2213,28 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Courchevel"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://courchevel.com/en/",
+   "tickets": "https://www.skipasscourchevel.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Courchevel"
+  },
+  "hashtags": [
+   "courchevel",
+   "les3vallees",
+   "skifrance"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "tz": "Europe/Paris"
  },
  {
   "id": "cannes-film-festival-fr",
@@ -1530,7 +2268,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Palais_des_Festivals_et_des_Congr%C3%A8s",
    "https://en.palaisdesfestivals.com/palais-events/trade-shows-and-events/cannes-film-festival/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.festival-cannes.com/en/",
+   "tickets": "https://www.festival-cannes.com/en/take-part/accreditations/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Cannes_Film_Festival"
+  },
+  "hashtags": [
+   "cannes",
+   "cannesfilmfestival",
+   "festivaldecannes"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NCE",
+    "city": "Nice"
+   }
+  ],
+  "bookAheadNote": "Festival accreditation is for film-industry professionals and press, not general public tickets.",
+  "tz": "Europe/Paris"
  },
  {
   "id": "tour-de-france-finish-fr",
@@ -1550,9 +2306,9 @@
    7
   ],
   "eventDates": {
-   "start": "2027-07-02",
+   "start": "2027-07-25",
    "end": "2027-07-25",
-   "status": "confirmed",
+   "status": "estimated",
    "sourceUrl": "https://fr.wikipedia.org/wiki/Tour_de_France_2027"
   },
   "summary": "Three weeks of racing that finish on the Champs-Élysées",
@@ -1565,7 +2321,26 @@
    "https://en.wikipedia.org/wiki/Champs-%C3%89lys%C3%A9es",
    "https://www.wikidata.org/wiki/Q550",
    "https://fr.wikipedia.org/wiki/Tour_de_France_2027"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.letour.fr/en/"
+  },
+  "hashtags": [
+   "tourdefrance",
+   "tdf2027",
+   "champselysees"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CDG",
+    "city": "Paris"
+   },
+   {
+    "iata": "ORY",
+    "city": "Paris"
+   }
+  ],
+  "tz": "Europe/Paris"
  },
  {
   "id": "bordeaux-wine-harvest-fr",
@@ -1593,7 +2368,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Saint-%C3%89milion"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.saint-emilion-tourisme.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Saint-%C3%89milion"
+  },
+  "hashtags": [
+   "saintemilion",
+   "bordeauxwine",
+   "vendanges"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BOD",
+    "city": "Bordeaux"
+   }
+  ],
+  "tz": "Europe/Paris"
  },
  {
   "id": "champagne-harvest-fr",
@@ -1621,7 +2412,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/%C3%89pernay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.epernay-tourisme.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/%C3%89pernay"
+  },
+  "hashtags": [
+   "champagne",
+   "epernay",
+   "avenueduchampagne"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CDG",
+    "city": "Paris"
+   }
+  ],
+  "tz": "Europe/Paris"
  },
  {
   "id": "monaco-grand-prix-mc",
@@ -1655,7 +2462,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Circuit_de_Monaco",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://acm.mc/en/epreuves/formula-1-grand-prix-de-monaco/",
+   "tickets": "https://www.formula1monaco.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Circuit_de_Monaco"
+  },
+  "hashtags": [
+   "monacogp",
+   "f1",
+   "montecarlo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NCE",
+    "city": "Nice"
+   }
+  ],
+  "bookAheadNote": "Grandstand and hospitality tickets typically sell out months ahead.",
+  "tz": "Europe/Monaco"
  },
  {
   "id": "casino-de-monte-carlo-mc",
@@ -1697,7 +2522,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Monte_Carlo_Casino"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.montecarlosbm.com/en/casino-monaco/casino-monte-carlo",
+   "wikipedia": "https://en.wikipedia.org/wiki/Monte_Carlo_Casino"
+  },
+  "hashtags": [
+   "montecarlocasino",
+   "monaco",
+   "casinodemontecarlo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NCE",
+    "city": "Nice"
+   }
+  ],
+  "tz": "Europe/Monaco"
  },
  {
   "id": "port-hercule-yachts-mc",
@@ -1732,7 +2573,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Port_Hercules"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitmonaco.com/en/explore/interactive-map-of-monaco/port-hercule-monaco",
+   "wikipedia": "https://en.wikipedia.org/wiki/Port_Hercules"
+  },
+  "hashtags": [
+   "monaco",
+   "porthercule",
+   "superyachts"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NCE",
+    "city": "Nice"
+   }
+  ],
+  "tz": "Europe/Monaco"
  },
  {
   "id": "san-sebastian-pintxos-es",
@@ -1774,12 +2631,32 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://sansebastianturismoa.eus/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n"
+  },
+  "hashtags": [
+   "pintxos",
+   "sansebastian",
+   "donostia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EAS",
+    "city": "San Sebastián"
+   },
+   {
+    "iata": "BIO",
+    "city": "Bilbao"
+   }
+  ],
+  "tz": "Europe/Madrid"
  },
  {
   "id": "ibiza-clubs-es",
   "name": "Ibiza clubs",
-  "place": "Sant Antoni de Portmany",
+  "place": "Playa d'en Bossa",
   "country": "Spain",
   "countryCode": "ES",
   "region": "Western and Central Europe",
@@ -1807,7 +2684,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Ushua%C3%AFa_Ibiza",
    "https://www.wikidata.org/wiki/Q18357537"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.theushuaiaexperience.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ushua%C3%AFa_Ibiza"
+  },
+  "hashtags": [
+   "ibiza",
+   "ushuaiaibiza",
+   "ibizaclubs"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IBZ",
+    "city": "Ibiza"
+   }
+  ],
+  "tz": "Europe/Madrid"
  },
  {
   "id": "san-fermin-es",
@@ -1842,7 +2735,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Pamplona",
    "https://www.spain.info/es/agenda/fiestas-san-fermin/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.pamplona.es/en/turismo/sanfermin",
+   "wikipedia": "https://en.wikipedia.org/wiki/Festival_of_San_Ferm%C3%ADn"
+  },
+  "hashtags": [
+   "sanfermin",
+   "pamplona",
+   "runningofthebulls"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PNA",
+    "city": "Pamplona"
+   }
+  ],
+  "bookAheadNote": "Most bullring seats are held by local season-ticket holders; accommodation in Pamplona sells out months ahead.",
+  "tz": "Europe/Madrid"
  },
  {
   "id": "canary-islands-surf-es",
@@ -1876,7 +2786,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Corralejo"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitfuerteventura.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Corralejo"
+  },
+  "hashtags": [
+   "fuerteventura",
+   "corralejo",
+   "canaryislands"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FUE",
+    "city": "Fuerteventura"
+   }
+  ],
+  "tz": "Atlantic/Canary"
  },
  {
   "id": "canary-islands-winter-sun-es",
@@ -1911,7 +2837,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Los_Cristianos",
    "https://www.wikidata.org/wiki/Q2720320"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.webtenerife.co.uk/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Los_Cristianos"
+  },
+  "hashtags": [
+   "tenerife",
+   "loscristianos",
+   "canaryislands"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TFS",
+    "city": "Tenerife South"
+   }
+  ],
+  "tz": "Atlantic/Canary"
  },
  {
   "id": "nazare-big-waves-pt",
@@ -1946,7 +2888,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Praia_do_Norte"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.cm-nazare.pt/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Praia_do_Norte_(Nazar%C3%A9)"
+  },
+  "hashtags": [
+   "nazare",
+   "bigwavesurfing",
+   "praiadonorte"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LIS",
+    "city": "Lisbon"
+   }
+  ],
+  "tz": "Atlantic/Azores"
  },
  {
   "id": "douro-valley-harvest-pt",
@@ -1974,7 +2932,23 @@
   "sources": [
    "https://www.openstreetmap.org/relation/4204530",
    "https://en.wikipedia.org/wiki/Pinh%C3%A3o"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitportugal.com/en/destinos/porto-e-norte/73746",
+   "wikipedia": "https://en.wikipedia.org/wiki/Pinh%C3%A3o"
+  },
+  "hashtags": [
+   "dourovalley",
+   "pinhao",
+   "portwine"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "OPO",
+    "city": "Porto"
+   }
+  ],
+  "tz": "Europe/Lisbon"
  },
  {
   "id": "algarve-beaches-and-golf-pt",
@@ -2010,7 +2984,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Ponta_da_Piedade"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitportugal.com/en/destinos/algarve",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ponta_da_Piedade"
+  },
+  "hashtags": [
+   "algarve",
+   "lagos",
+   "pontadapiedade"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FAO",
+    "city": "Faro"
+   }
+  ],
+  "tz": "Europe/Lisbon"
  },
  {
   "id": "santo-antonio-festival-pt",
@@ -2045,7 +3035,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Alfama",
    "https://events.europa.tips/lisboa?lang=en"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitportugal.com/en/content/festas-de-lisboa",
+   "wikipedia": "https://en.wikipedia.org/wiki/Alfama"
+  },
+  "hashtags": [
+   "santoantonio",
+   "festasdelisboa",
+   "lisboa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LIS",
+    "city": "Lisbon"
+   }
+  ],
+  "tz": "Europe/Lisbon"
  },
  {
   "id": "portuguese-grand-prix-pt",
@@ -2079,7 +3085,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Algarve_International_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "tickets": "https://ticketing.formula1.com/portugal/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Algarve_International_Circuit"
+  },
+  "hashtags": [
+   "portuguesegp",
+   "f1",
+   "portimao"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FAO",
+    "city": "Faro"
+   }
+  ],
+  "tz": "Europe/Lisbon"
  },
  {
   "id": "dolomites-skiing-it",
@@ -2113,7 +3135,28 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Sellaronda"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.valgardena.it/en/",
+   "tickets": "https://www.valgardena.it/en/winter-holidays-dolomites/ski-passes/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sellaronda"
+  },
+  "hashtags": [
+   "valgardena",
+   "dolomites",
+   "sellaronda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "VRN",
+    "city": "Verona"
+   }
+  ],
+  "tz": "Europe/Rome"
  },
  {
   "id": "dolomites-via-ferrata-it",
@@ -2144,7 +3187,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Tofane"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://cortina.dolomiti.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Tofane"
+  },
+  "hashtags": [
+   "cortina",
+   "viaferrata",
+   "dolomites"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VCE",
+    "city": "Venice"
+   }
+  ],
+  "tz": "Europe/Rome"
  },
  {
   "id": "venice-carnival-it",
@@ -2180,7 +3239,24 @@
    "https://www.openstreetmap.org/way/172349507",
    "https://en.wikipedia.org/wiki/St._Mark%27s_Square",
    "https://carnevale.venezia.it/en/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://carnevale.venezia.it/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/St._Mark%27s_Square"
+  },
+  "hashtags": [
+   "venicecarnival",
+   "carnevaledivenezia",
+   "venice"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VCE",
+    "city": "Venice"
+   }
+  ],
+  "bookAheadNote": "Venice hotel prices spike and sell out for Carnival weekends.",
+  "tz": "Europe/Rome"
  },
  {
   "id": "amalfi-coast-it",
@@ -2213,7 +3289,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Positano"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Positano"
+  },
+  "hashtags": [
+   "positano",
+   "amalficoast",
+   "costieraamalfitana"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NAP",
+    "city": "Naples"
+   }
+  ],
+  "tz": "Europe/Rome"
  },
  {
   "id": "tuscany-wine-and-truffles-it",
@@ -2244,7 +3335,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Montalcino",
    "https://www.wikidata.org/wiki/Q91208"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.consorziobrunellodimontalcino.it/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Montalcino"
+  },
+  "hashtags": [
+   "montalcino",
+   "brunello",
+   "tuscanywine"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FLR",
+    "city": "Florence"
+   },
+   {
+    "iata": "PSA",
+    "city": "Pisa"
+   }
+  ],
+  "tz": "Europe/Rome"
  },
  {
   "id": "italian-grand-prix-it",
@@ -2278,7 +3389,28 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Monza_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.monzanet.it/en/",
+   "tickets": "https://www.monzanet.it/en/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Monza_Circuit"
+  },
+  "hashtags": [
+   "italiangp",
+   "monza",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LIN",
+    "city": "Milan"
+   },
+   {
+    "iata": "BGY",
+    "city": "Bergamo"
+   }
+  ],
+  "tz": "Europe/Rome"
  },
  {
   "id": "zermatt-skiing-ch",
@@ -2313,7 +3445,23 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Klein_Matterhorn"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://zermatt.swiss/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Klein_Matterhorn"
+  },
+  "hashtags": [
+   "zermatt",
+   "matterhorn",
+   "zermattskiing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "tz": "Europe/Zurich"
  },
  {
   "id": "verbier-skiing-ch",
@@ -2348,7 +3496,25 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Mont_Fort"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.verbier.ch/en",
+   "tickets": "https://www.verbier4vallees.ch/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mont_Fort"
+  },
+  "hashtags": [
+   "verbier",
+   "4vallees",
+   "verbierskiing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva",
+    "driveTime": "2 h 30 min"
+   }
+  ],
+  "tz": "Europe/Zurich"
  },
  {
   "id": "jungfrau-region-hiking-ch",
@@ -2379,7 +3545,27 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Grindelwald"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.grindelwald.swiss/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Grindelwald"
+  },
+  "hashtags": [
+   "grindelwald",
+   "jungfrauregion",
+   "swissalps"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   },
+   {
+    "iata": "BRN",
+    "city": "Bern"
+   }
+  ],
+  "tz": "Europe/Zurich"
  },
  {
   "id": "montreux-jazz-festival-ch",
@@ -2413,7 +3599,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Montreux_Jazz_Festival",
    "https://www.montreuxjazzfestival.com/en/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.montreuxjazzfestival.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Montreux_Jazz_Festival"
+  },
+  "hashtags": [
+   "montreuxjazz",
+   "montreuxjazzfestival",
+   "jazz"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "tz": "Europe/Zurich"
  },
  {
   "id": "art-basel-ch",
@@ -2448,7 +3650,24 @@
    "https://www.openstreetmap.org/way/315916510",
    "https://en.wikipedia.org/wiki/Messe_Basel",
    "https://www.artbasel.com/about/application"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.artbasel.com/basel",
+   "wikipedia": "https://en.wikipedia.org/wiki/Messe_Basel"
+  },
+  "hashtags": [
+   "artbasel",
+   "basel",
+   "artfair"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BSL",
+    "city": "Basel"
+   }
+  ],
+  "bookAheadNote": "Art Basel is primarily an industry/collector fair; public-day tickets should be booked in advance.",
+  "tz": "Europe/Zurich"
  },
  {
   "id": "st-anton-skiing-at",
@@ -2483,7 +3702,28 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Valluga"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.stantonamarlberg.com/en",
+   "tickets": "https://www.skiarlberg.at/en/st-anton/shop",
+   "wikipedia": "https://en.wikipedia.org/wiki/Valluga"
+  },
+  "hashtags": [
+   "stanton",
+   "arlberg",
+   "skiarlberg"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "tz": "Europe/Vienna"
  },
  {
   "id": "salzburg-festival-at",
@@ -2506,7 +3746,7 @@
   "eventDates": {
    "start": "2027-07-16",
    "end": "2027-08-29",
-   "status": "estimated",
+   "status": "confirmed",
    "sourceUrl": "https://www.fluege.de/travel-insights/events/"
   },
   "summary": "Opera, drama and concerts in Mozart's city each summer",
@@ -2519,7 +3759,23 @@
    "https://www.openstreetmap.org/way/64132509",
    "https://en.wikipedia.org/wiki/Salzburg_Festival",
    "https://www.fluege.de/travel-insights/events/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.salzburgerfestspiele.at/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Salzburg_Festival"
+  },
+  "hashtags": [
+   "salzburgfestival",
+   "salzburgerfestspiele",
+   "salzburg"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SZG",
+    "city": "Salzburg"
+   }
+  ],
+  "tz": "Europe/Vienna"
  },
  {
   "id": "vienna-christmas-market-at",
@@ -2554,7 +3810,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Vienna_City_Hall",
    "https://www.christkindlmarkt.at/en/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.christkindlmarkt.at/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Vienna_City_Hall"
+  },
+  "hashtags": [
+   "viennachristmasmarket",
+   "christkindlmarkt",
+   "vienna"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VIE",
+    "city": "Vienna"
+   }
+  ],
+  "tz": "Europe/Vienna"
  },
  {
   "id": "vienna-ball-season-at",
@@ -2584,7 +3856,23 @@
   "sources": [
    "https://www.openstreetmap.org/way/8097595",
    "https://en.wikipedia.org/wiki/Vienna_Opera_Ball"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.opernball.at/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Vienna_Opera_Ball"
+  },
+  "hashtags": [
+   "viennaballseason",
+   "opernball",
+   "vienna"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VIE",
+    "city": "Vienna"
+   }
+  ],
+  "tz": "Europe/Vienna"
  },
  {
   "id": "austrian-grand-prix-at",
@@ -2618,7 +3906,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Red_Bull_Ring",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.redbullring.com/en/",
+   "tickets": "https://tickets.redbullring.com/en/f1/f1-grand-prix-oesterreich-2027/tickets.html",
+   "wikipedia": "https://en.wikipedia.org/wiki/Red_Bull_Ring"
+  },
+  "hashtags": [
+   "austriangp",
+   "redbullring",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GRZ",
+    "city": "Graz"
+   }
+  ],
+  "tz": "Europe/Vienna"
  },
  {
   "id": "oktoberfest-de",
@@ -2655,7 +3960,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Theresienwiese",
    "https://www.oktoberfest.de/en"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.oktoberfest.de/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Theresienwiese"
+  },
+  "hashtags": [
+   "oktoberfest",
+   "munich",
+   "wiesn"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "bookAheadNote": "Tent table reservations for peak weekends should be made months ahead.",
+  "tz": "Europe/Berlin"
  },
  {
   "id": "munich-christmas-market-de",
@@ -2690,7 +4012,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Marienplatz",
    "https://www.christkindlmarkt-muenchen.de/en/home"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.christkindlmarkt-muenchen.de/en/home",
+   "wikipedia": "https://en.wikipedia.org/wiki/Marienplatz"
+  },
+  "hashtags": [
+   "munichchristmasmarket",
+   "christkindlmarkt",
+   "munich"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "tz": "Europe/Berlin"
  },
  {
   "id": "berlin-techno-clubs-de",
@@ -2731,7 +4069,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Berghain"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.berghain.berlin/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Berghain"
+  },
+  "hashtags": [
+   "berghain",
+   "berlintechno",
+   "berlinnightlife"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BER",
+    "city": "Berlin"
+   }
+  ],
+  "tz": "Europe/Berlin"
  },
  {
   "id": "nurburgring-track-days-de",
@@ -2767,7 +4121,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/N%C3%BCrburgring",
    "https://www.wikidata.org/wiki/Q152207"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.nuerburgring.de/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/N%C3%BCrburgring"
+  },
+  "hashtags": [
+   "nurburgring",
+   "nordschleife",
+   "trackday"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CGN",
+    "city": "Cologne"
+   },
+   {
+    "iata": "FRA",
+    "city": "Frankfurt"
+   }
+  ],
+  "tz": "Europe/Berlin"
  },
  {
   "id": "keukenhof-tulips-nl",
@@ -2796,7 +4170,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Keukenhof"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://keukenhof.nl/en/",
+   "tickets": "https://tickets.keukenhof.nl/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Keukenhof"
+  },
+  "hashtags": [
+   "keukenhof",
+   "tulips",
+   "lisse"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMS",
+    "city": "Amsterdam"
+   }
+  ],
+  "bookAheadNote": "Keukenhof only opens seasonally (mid-March to mid-May) and peak-week tickets sell out.",
+  "tz": "Europe/Amsterdam"
  },
  {
   "id": "king-s-day-nl",
@@ -2831,7 +4223,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Amsterdam",
    "https://en.wikipedia.org/wiki/King%27s_Day"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/King%27s_Day"
+  },
+  "hashtags": [
+   "kingsday",
+   "koningsdag",
+   "amsterdam"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMS",
+    "city": "Amsterdam"
+   }
+  ],
+  "tz": "Europe/Amsterdam"
  },
  {
   "id": "amsterdam-dance-event-nl",
@@ -2866,7 +4273,23 @@
    "https://www.openstreetmap.org/way/1231991755",
    "https://en.wikipedia.org/wiki/Amsterdam_Dance_Event",
    "https://www.iamsterdam.com/en/whats-on/amsterdam-dance-event-ade"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.amsterdam-dance-event.nl/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Amsterdam_Dance_Event"
+  },
+  "hashtags": [
+   "ade",
+   "amsterdamdanceevent",
+   "adeamsterdam"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMS",
+    "city": "Amsterdam"
+   }
+  ],
+  "tz": "Europe/Amsterdam"
  },
  {
   "id": "tomorrowland-be",
@@ -2900,7 +4323,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Tomorrowland_(festival)",
    "https://mainstagefm.com/festivals/tomorrowland/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Tomorrowland_(festival)"
+  },
+  "hashtags": [
+   "tomorrowland",
+   "tomorrowland2027",
+   "edm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BRU",
+    "city": "Brussels"
+   },
+   {
+    "iata": "ANR",
+    "city": "Antwerp"
+   }
+  ],
+  "bookAheadNote": "Tomorrowland tickets historically sell out within hours of release.",
+  "tz": "Europe/Brussels"
  },
  {
   "id": "belgian-grand-prix-be",
@@ -2934,7 +4377,28 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Circuit_de_Spa-Francorchamps",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.spa-francorchamps.be/en",
+   "tickets": "https://www.spagrandprix.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Circuit_de_Spa-Francorchamps"
+  },
+  "hashtags": [
+   "belgiangp",
+   "spafrancorchamps",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BRU",
+    "city": "Brussels"
+   },
+   {
+    "iata": "LGG",
+    "city": "Liège"
+   }
+  ],
+  "tz": "Europe/Brussels"
  },
  {
   "id": "belgian-beer-tour-be",
@@ -2977,7 +4441,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Bruges"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitbruges.be/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Bruges"
+  },
+  "hashtags": [
+   "bruges",
+   "belgianbeer",
+   "brugge"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BRU",
+    "city": "Brussels"
+   }
+  ],
+  "tz": "Europe/Brussels"
  },
  {
   "id": "budapest-thermal-baths-hu",
@@ -3019,7 +4499,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_thermal_bath"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.szechenyifurdo.hu/en/",
+   "tickets": "https://jegyek.szechenyifurdo.hu/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_thermal_bath"
+  },
+  "hashtags": [
+   "szechenyibath",
+   "budapestthermalbaths",
+   "budapest"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BUD",
+    "city": "Budapest"
+   }
+  ],
+  "tz": "Europe/Budapest"
  },
  {
   "id": "sziget-festival-hu",
@@ -3054,7 +4551,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Sziget_Festival",
    "https://szigetfestival.com/en/festival-info"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://szigetfestival.com/en/festival-info",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sziget_Festival"
+  },
+  "hashtags": [
+   "szigetfestival",
+   "sziget2027",
+   "budapest"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BUD",
+    "city": "Budapest"
+   }
+  ],
+  "bookAheadNote": "Early-bird Sziget passes and on-site camping sell out well before the festival.",
+  "tz": "Europe/Budapest"
  },
  {
   "id": "hungarian-grand-prix-hu",
@@ -3089,7 +4603,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Hungaroring",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.hungaroring.hu/en",
+   "tickets": "https://www.gpticketshop.hu/Formula_1_HungarianGP/Formula_1.html",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hungaroring"
+  },
+  "hashtags": [
+   "hungariangp",
+   "hungaroring",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BUD",
+    "city": "Budapest"
+   }
+  ],
+  "tz": "Europe/Budapest"
  },
  {
   "id": "prague-beer-and-old-town-cz",
@@ -3127,7 +4658,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Old_Town_Square"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.prague.eu/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Old_Town_Square"
+  },
+  "hashtags": [
+   "prague",
+   "oldtownsquare",
+   "praguebeer"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRG",
+    "city": "Prague"
+   }
+  ],
+  "tz": "Europe/Prague"
  },
  {
   "id": "prague-christmas-markets-cz",
@@ -3162,7 +4709,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Old_Town_Square",
    "https://www.pragueexperience.com/events/christmas-markets.asp"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.prague.eu/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Old_Town_Square"
+  },
+  "hashtags": [
+   "praguechristmasmarkets",
+   "prague",
+   "vanocnitrhy"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRG",
+    "city": "Prague"
+   }
+  ],
+  "tz": "Europe/Prague"
  },
  {
   "id": "cesky-krumlov-cz",
@@ -3195,7 +4758,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/%C4%8Cesk%C3%BD_Krumlov"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.ckrumlov.info/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/%C4%8Cesk%C3%BD_Krumlov"
+  },
+  "hashtags": [
+   "ceskykrumlov",
+   "czechrepublic",
+   "southbohemia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRG",
+    "city": "Prague"
+   }
+  ],
+  "tz": "Europe/Prague"
  },
  {
   "id": "lake-bled-si",
@@ -3228,7 +4807,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Lake_Bled"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bled.si/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lake_Bled"
+  },
+  "hashtags": [
+   "lakebled",
+   "bled",
+   "slovenia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LJU",
+    "city": "Ljubljana"
+   }
+  ],
+  "tz": "Europe/Ljubljana"
  },
  {
   "id": "soca-river-rafting-si",
@@ -3261,7 +4856,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/So%C4%8Da"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.soca-valley.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/So%C4%8Da"
+  },
+  "hashtags": [
+   "socavalley",
+   "bovec",
+   "rafting"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LJU",
+    "city": "Ljubljana"
+   }
+  ],
+  "tz": "Europe/Ljubljana"
  },
  {
   "id": "postojna-cave-si",
@@ -3301,7 +4912,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Postojna_Cave"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.postojnska-jama.eu/en/",
+   "tickets": "https://www.postojnska-jama.eu/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Postojna_Cave"
+  },
+  "hashtags": [
+   "postojnacave",
+   "slovenia",
+   "postojnajama"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LJU",
+    "city": "Ljubljana"
+   }
+  ],
+  "tz": "Europe/Ljubljana"
  },
  {
   "id": "ljubljana-old-town-si",
@@ -3337,7 +4965,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Ljubljana"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitljubljana.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ljubljana"
+  },
+  "hashtags": [
+   "ljubljana",
+   "slovenia",
+   "visitljubljana"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LJU",
+    "city": "Ljubljana"
+   }
+  ],
+  "tz": "Europe/Ljubljana"
  },
  {
   "id": "dalmatian-coast-sailing-hr",
@@ -3370,7 +5014,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Hvar"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visithvar.hr/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hvar"
+  },
+  "hashtags": [
+   "hvar",
+   "dalmatiancoast",
+   "sailingcroatia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SPU",
+    "city": "Split"
+   }
+  ],
+  "tz": "Europe/Zagreb"
  },
  {
   "id": "ultra-europe-hr",
@@ -3404,7 +5064,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Stadion_Poljud",
    "https://croatiaguidebook.com/entertainment/ultra-europe-split/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ultraeurope.com/",
+   "tickets": "https://ultraeurope.com/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Stadion_Poljud"
+  },
+  "hashtags": [
+   "ultraeurope",
+   "split",
+   "edm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SPU",
+    "city": "Split"
+   }
+  ],
+  "bookAheadNote": "Ultra Europe passes and Split accommodation sell out well ahead of the festival.",
+  "tz": "Europe/Zagreb"
  },
  {
   "id": "plitvice-lakes-hr",
@@ -3438,7 +5116,28 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Plitvice_Lakes_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://np-plitvicka-jezera.hr/en/",
+   "tickets": "https://ticketing.np-plitvicka-jezera.hr/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Plitvice_Lakes_National_Park"
+  },
+  "hashtags": [
+   "plitvicelakes",
+   "croatia",
+   "nationalpark"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZAG",
+    "city": "Zagreb"
+   },
+   {
+    "iata": "ZAD",
+    "city": "Zadar"
+   }
+  ],
+  "tz": "Europe/Zagreb"
  },
  {
   "id": "cyclades-island-hopping-gr",
@@ -3474,7 +5173,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Santorini"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitgreece.gr/islands/cyclades/santorini/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Santorini"
+  },
+  "hashtags": [
+   "santorini",
+   "cyclades",
+   "greekislands"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JTR",
+    "city": "Santorini"
+   }
+  ],
+  "tz": "Europe/Athens"
  },
  {
   "id": "acropolis-gr",
@@ -3506,7 +5221,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Acropolis_of_Athens"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.thisisathens.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Acropolis_of_Athens"
+  },
+  "hashtags": [
+   "acropolis",
+   "athens",
+   "greece"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ATH",
+    "city": "Athens"
+   }
+  ],
+  "tz": "Europe/Athens"
  },
  {
   "id": "orthodox-easter-on-corfu-gr",
@@ -3540,7 +5271,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Corfu_(city)",
    "https://www.timeanddate.com/holidays/us/orthodox-easter-day"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitgreece.gr/islands/ionian-islands/corfu/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Corfu_(city)"
+  },
+  "hashtags": [
+   "corfu",
+   "orthodoxeaster",
+   "greekeaster"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CFU",
+    "city": "Corfu"
+   }
+  ],
+  "tz": "Europe/Athens"
  },
  {
   "id": "cappadocia-balloons-tr",
@@ -3573,7 +5320,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/G%C3%B6reme"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.goreme.bel.tr/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/G%C3%B6reme"
+  },
+  "hashtags": [
+   "cappadocia",
+   "goreme",
+   "hotairballoon"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NAV",
+    "city": "Nevşehir"
+   }
+  ],
+  "tz": "Europe/Istanbul"
  },
  {
   "id": "istanbul-food-and-bazaars-tr",
@@ -3615,7 +5378,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Grand_Bazaar,_Istanbul"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Grand_Bazaar,_Istanbul"
+  },
+  "hashtags": [
+   "istanbul",
+   "grandbazaar",
+   "turkishfood"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IST",
+    "city": "Istanbul"
+   }
+  ],
+  "tz": "Europe/Istanbul"
  },
  {
   "id": "turquoise-coast-sailing-tr",
@@ -3651,7 +5429,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/%C3%96l%C3%BCdeniz"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/%C3%96l%C3%BCdeniz"
+  },
+  "hashtags": [
+   "turquoisecoast",
+   "fethiye",
+   "oludeniz"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DLM",
+    "city": "Dalaman"
+   }
+  ],
+  "tz": "Europe/Istanbul"
  },
  {
   "id": "turkish-grand-prix-tr",
@@ -3685,7 +5478,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Istanbul_Park",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Istanbul_Park"
+  },
+  "hashtags": [
+   "turkishgp",
+   "istanbulpark",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SAW",
+    "city": "Istanbul"
+   }
+  ],
+  "tz": "Europe/Istanbul"
  },
  {
   "id": "dubai-winter-sun-and-shopping-ae",
@@ -3719,7 +5527,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Burj_Khalifa"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitdubai.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Burj_Khalifa"
+  },
+  "hashtags": [
+   "visitdubai",
+   "dubai",
+   "burjkhalifa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DXB",
+    "city": "Dubai"
+   }
+  ],
+  "tz": "Asia/Dubai"
  },
  {
   "id": "abu-dhabi-grand-prix-ae",
@@ -3741,7 +5565,7 @@
   "eventDates": {
    "start": "2026-12-04",
    "end": "2026-12-06",
-   "status": "confirmed",
+   "status": "under-review",
    "sourceUrl": "https://www.formula1.com/en/racing/2026"
   },
   "summary": "Twilight season finale at Yas Marina",
@@ -3753,7 +5577,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Yas_Marina_Circuit",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.yasmarinacircuit.com/en/",
+   "tickets": "https://www.abudhabigp.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Yas_Marina_Circuit"
+  },
+  "hashtags": [
+   "abudhabigp",
+   "f1",
+   "yasmarina"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AUH",
+    "city": "Abu Dhabi"
+   }
+  ],
+  "tz": "Asia/Dubai"
  },
  {
   "id": "dubai-desert-safari-ae",
@@ -3789,7 +5630,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Dubai_Desert_Conservation_Reserve"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.ddcr.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Dubai_Desert_Conservation_Reserve"
+  },
+  "hashtags": [
+   "dubaidesertsafari",
+   "ddcr",
+   "dubai"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DXB",
+    "city": "Dubai"
+   }
+  ],
+  "tz": "Asia/Dubai"
  },
  {
   "id": "alula-heritage-sa",
@@ -3823,7 +5680,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Hegra"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.rcu.gov.sa/en/visiting-alula",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hegra"
+  },
+  "hashtags": [
+   "alula",
+   "hegra",
+   "saudiarabia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ULH",
+    "city": "AlUla"
+   }
+  ],
+  "tz": "Asia/Riyadh"
  },
  {
   "id": "riyadh-season-sa",
@@ -3861,7 +5734,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Riyadh",
    "https://www.spa.gov.sa/en/N2686677"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://riyadhseason.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Riyadh"
+  },
+  "hashtags": [
+   "riyadhseason",
+   "riyadh"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RUH",
+    "city": "Riyadh"
+   }
+  ],
+  "tz": "Asia/Riyadh"
  },
  {
   "id": "saudi-arabian-grand-prix-sa",
@@ -3895,7 +5783,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Jeddah_Corniche_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.jeddahcornichecircuit.com/",
+   "tickets": "https://ticketing.formula1.com/saudi-arabia/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Jeddah_Corniche_Circuit"
+  },
+  "hashtags": [
+   "saudif1",
+   "jeddahgp",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JED",
+    "city": "Jeddah"
+   }
+  ],
+  "tz": "Asia/Riyadh"
  },
  {
   "id": "qatar-grand-prix-qa",
@@ -3917,7 +5822,7 @@
   "eventDates": {
    "start": "2026-11-27",
    "end": "2026-11-29",
-   "status": "confirmed",
+   "status": "under-review",
    "sourceUrl": "https://www.formula1.com/en/racing/2026"
   },
   "summary": "Night race under floodlights at Lusail",
@@ -3929,7 +5834,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Lusail_International_Circuit",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.lusailcircuit.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lusail_International_Circuit"
+  },
+  "hashtags": [
+   "qatargp",
+   "lusail",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ],
+  "tz": "Asia/Qatar"
  },
  {
   "id": "khor-al-adaid-dunes-qa",
@@ -3962,7 +5883,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Khor_Al_Adaid"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitqatar.com/intl-en/things-to-do/adventure-sports/desert/khor-al-adaid",
+   "wikipedia": "https://en.wikipedia.org/wiki/Khor_Al_Adaid"
+  },
+  "hashtags": [
+   "khoraladaid",
+   "inlandsea",
+   "qatar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ],
+  "tz": "Asia/Qatar"
  },
  {
   "id": "museum-of-islamic-art-qa",
@@ -3996,7 +5933,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Museum_of_Islamic_Art,_Doha"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://mia.org.qa/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Museum_of_Islamic_Art,_Doha"
+  },
+  "hashtags": [
+   "museumofislamicart",
+   "doha",
+   "qatarmuseums"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ],
+  "tz": "Asia/Qatar"
  },
  {
   "id": "bahrain-grand-prix-bh",
@@ -4010,20 +5963,18 @@
   "category": "sports",
   "kind": "event",
   "bestMonths": [
-   10,
    3
   ],
   "peakMonths": [
-   10,
    3
   ],
   "eventDates": {
-   "start": "2026-10-02",
-   "end": "2026-10-04",
+   "start": "2027-03-12",
+   "end": "2027-03-14",
    "status": "confirmed",
-   "sourceUrl": "https://www.formula1.com/en/racing/2026"
+   "sourceUrl": "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
   },
-  "summary": "F1 at Sakhir: October 2026, then the 2027 opener in March",
+  "summary": "F1 under floodlights at Sakhir, March 2027",
   "tags": [
    "adrenaline"
   ],
@@ -4031,8 +5982,71 @@
   "conditions": "event",
   "sources": [
    "https://en.wikipedia.org/wiki/Bahrain_International_Circuit",
-   "https://www.formula1.com/en/racing/2026"
-  ]
+   "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
+  ],
+  "links": {
+   "officialSite": "https://www.bahraingp.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Bahrain_International_Circuit"
+  },
+  "hashtags": [
+   "bahraingp",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ],
+  "tz": "Asia/Bahrain"
+ },
+ {
+  "id": "bahrain-grand-prix-my",
+  "name": "Bahrain Grand Prix at Sepang",
+  "place": "Sepang",
+  "country": "Malaysia",
+  "countryCode": "MY",
+  "region": "Southeast Asia",
+  "lat": 2.7608,
+  "lng": 101.7382,
+  "category": "sports",
+  "kind": "event",
+  "bestMonths": [
+   10
+  ],
+  "peakMonths": [
+   10
+  ],
+  "summary": "The 2026 Bahrain Grand Prix, held in Malaysia this year only",
+  "note": "The Bahrain Grand Prix moved to Sepang for 2026. It returns to Sakhir in March 2027.",
+  "tags": [],
+  "heat": 63,
+  "conditions": "event",
+  "eventDates": {
+   "start": "2026-10-02",
+   "end": "2026-10-04",
+   "status": "confirmed",
+   "sourceUrl": "https://www.skysports.com/f1/news/13566600/malaysia-added-to-2026-f1-calendar-in-october-to-host-postponed-bahrain-gp-amid-continued-conflict-in-middle-east"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Sepang_International_Circuit",
+   "https://www.skysports.com/f1/news/13566600/malaysia-added-to-2026-f1-calendar-in-october-to-host-postponed-bahrain-gp-amid-continued-conflict-in-middle-east",
+   "https://www.espn.com/f1/story/_/id/49453371/formula-1-bahrain-grand-prix-malaysia-new-race-confirmed-f1-2026-schedule-changes"
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Sepang_International_Circuit"
+  },
+  "hashtags": [
+   "bahraingp",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KUL",
+    "city": "Kuala Lumpur"
+   }
+  ],
+  "tz": "Asia/Kuala_Lumpur"
  },
  {
   "id": "bahrain-pearling-trail-bh",
@@ -4065,7 +6079,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Bahrain_Pearling_Trail"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bahrain.com/en/the-pearling-path",
+   "wikipedia": "https://en.wikipedia.org/wiki/Bahrain_Pearling_Trail"
+  },
+  "hashtags": [
+   "pearlingtrail",
+   "bahrain",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ],
+  "tz": "Asia/Bahrain"
  },
  {
   "id": "bahrain-fort-bh",
@@ -4098,7 +6128,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Qal%27at_al-Bahrain"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://culture.gov.bh/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Qal%27at_al-Bahrain"
+  },
+  "hashtags": [
+   "bahrainfort",
+   "qalatalbahrain",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ],
+  "tz": "Asia/Bahrain"
  },
  {
   "id": "wadi-shab-om",
@@ -4130,11 +6176,27 @@
    "adrenaline",
    "family"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/way/842757268"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://experienceoman.om/"
+  },
+  "hashtags": [
+   "wadishab",
+   "oman",
+   "tiwi"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MCT",
+    "city": "Muscat",
+    "driveTime": "under 2 hours"
+   }
+  ],
+  "tz": "Asia/Muscat"
  },
  {
   "id": "musandam-diving-om",
@@ -4171,7 +6233,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Musandam_Governorate"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://experienceoman.om/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Musandam_Governorate"
+  },
+  "hashtags": [
+   "musandam",
+   "khasab",
+   "omanfjords"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KHS",
+    "city": "Khasab"
+   }
+  ],
+  "tz": "Asia/Muscat"
  },
  {
   "id": "wahiba-sands-om",
@@ -4206,7 +6284,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Sharqiya_Sands"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://experienceoman.om/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sharqiya_Sands"
+  },
+  "hashtags": [
+   "sharqiyasands",
+   "wahibasands",
+   "oman"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MCT",
+    "city": "Muscat"
+   }
+  ],
+  "tz": "Asia/Muscat"
  },
  {
   "id": "petra-jo",
@@ -4241,7 +6335,28 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Petra",
    "https://www.wikidata.org/wiki/Q5788"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitpetra.jo/",
+   "tickets": "https://petrapass.pdtra.gov.jo/Online/Index",
+   "wikipedia": "https://en.wikipedia.org/wiki/Petra"
+  },
+  "hashtags": [
+   "petra",
+   "jordan",
+   "wadimusa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMM",
+    "city": "Amman"
+   },
+   {
+    "iata": "AQJ",
+    "city": "Aqaba"
+   }
+  ],
+  "tz": "Asia/Amman"
  },
  {
   "id": "wadi-rum-jo",
@@ -4274,7 +6389,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Wadi_Rum"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitjordan.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Wadi_Rum"
+  },
+  "hashtags": [
+   "wadirum",
+   "jordan",
+   "desertcamp"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AQJ",
+    "city": "Aqaba"
+   }
+  ],
+  "tz": "Asia/Amman"
  },
  {
   "id": "dead-sea-float-jo",
@@ -4317,7 +6448,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Dead_Sea",
    "https://www.wikidata.org/wiki/Q23883"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitjordan.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Dead_Sea"
+  },
+  "hashtags": [
+   "deadsea",
+   "jordan",
+   "floatinginthedeadsea"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMM",
+    "city": "Amman"
+   }
+  ],
+  "tz": "Asia/Amman"
  },
  {
   "id": "giza-pyramids-eg",
@@ -4352,7 +6499,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Giza_pyramid_complex"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Giza_pyramid_complex"
+  },
+  "hashtags": [
+   "gizapyramids",
+   "egypt",
+   "greatpyramid"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CAI",
+    "city": "Cairo"
+   }
+  ],
+  "tz": "Africa/Cairo"
  },
  {
   "id": "nile-cruise-eg",
@@ -4388,7 +6550,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Karnak"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Karnak"
+  },
+  "hashtags": [
+   "nilecruise",
+   "luxor",
+   "karnak"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LXR",
+    "city": "Luxor"
+   }
+  ],
+  "tz": "Africa/Cairo"
  },
  {
   "id": "dahab-diving-eg",
@@ -4433,7 +6610,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Blue_Hole_(Red_Sea)",
    "https://www.wikidata.org/wiki/Q885734"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Blue_Hole_(Red_Sea)"
+  },
+  "hashtags": [
+   "dahab",
+   "bluehole",
+   "redsea"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SSH",
+    "city": "Sharm El Sheikh"
+   }
+  ],
+  "tz": "Africa/Cairo"
  },
  {
   "id": "hurghada-red-sea-eg",
@@ -4477,7 +6669,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Hurghada"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Hurghada"
+  },
+  "hashtags": [
+   "hurghada",
+   "redsea",
+   "egypt"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HRG",
+    "city": "Hurghada"
+   }
+  ],
+  "tz": "Africa/Cairo"
  },
  {
   "id": "marrakech-medina-ma",
@@ -4511,7 +6718,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Jemaa_el-Fnaa"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitmorocco.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Jemaa_el-Fnaa"
+  },
+  "hashtags": [
+   "marrakech",
+   "medina",
+   "jemaaelfna"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RAK",
+    "city": "Marrakech"
+   }
+  ],
+  "tz": "Africa/Casablanca"
  },
  {
   "id": "sahara-camps-at-merzouga-ma",
@@ -4544,7 +6767,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Erg_Chebbi"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitmorocco.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Erg_Chebbi"
+  },
+  "hashtags": [
+   "merzouga",
+   "ergchebbi",
+   "saharadesert"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ERH",
+    "city": "Errachidia"
+   }
+  ],
+  "tz": "Africa/Casablanca"
  },
  {
   "id": "taghazout-surf-ma",
@@ -4581,7 +6820,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Taghazout",
    "https://www.wikidata.org/wiki/Q621472"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitmorocco.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Taghazout"
+  },
+  "hashtags": [
+   "taghazout",
+   "surfmorocco",
+   "agadir"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AGA",
+    "city": "Agadir"
+   }
+  ],
+  "tz": "Africa/Casablanca"
  },
  {
   "id": "atlas-mountains-trekking-ma",
@@ -4616,7 +6871,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Toubkal"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitmorocco.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Toubkal"
+  },
+  "hashtags": [
+   "atlasmountains",
+   "toubkal",
+   "imlil"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RAK",
+    "city": "Marrakech"
+   }
+  ],
+  "tz": "Africa/Casablanca"
  },
  {
   "id": "masai-mara-migration-ke",
@@ -4648,7 +6919,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Maasai_Mara"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://magicalkenya.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Maasai_Mara"
+  },
+  "hashtags": [
+   "masaimara",
+   "greatmigration",
+   "kenya"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NBO",
+    "city": "Nairobi"
+   }
+  ],
+  "bookAheadNote": "Migration-season camps in the Mara sell out many months ahead (roughly July-October).",
+  "tz": "Africa/Nairobi"
  },
  {
   "id": "diani-kitesurfing-ke",
@@ -4684,7 +6972,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Diani_Beach"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://magicalkenya.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Diani_Beach"
+  },
+  "hashtags": [
+   "dianibeach",
+   "kitesurfing",
+   "kenya"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UKA",
+    "city": "Ukunda/Diani"
+   }
+  ],
+  "tz": "Africa/Nairobi"
  },
  {
   "id": "amboseli-elephants-ke",
@@ -4719,7 +7023,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Amboseli_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.kws.go.ke/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Amboseli_National_Park"
+  },
+  "hashtags": [
+   "amboseli",
+   "kenyaelephants",
+   "kilimanjaroview"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ASV",
+    "city": "Amboseli"
+   }
+  ],
+  "tz": "Africa/Nairobi"
  },
  {
   "id": "serengeti-calving-tz",
@@ -4747,7 +7067,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Serengeti_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tanzaniaparks.go.tz/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Serengeti_National_Park"
+  },
+  "hashtags": [
+   "serengeti",
+   "calvingseason",
+   "ndutu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JRO",
+    "city": "Kilimanjaro/Arusha"
+   }
+  ],
+  "bookAheadNote": "Ndutu camps for calving season (Jan-Mar) book out a year or more ahead.",
+  "tz": "Africa/Dar_es_Salaam"
  },
  {
   "id": "kilimanjaro-climb-tz",
@@ -4786,7 +7123,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
    "https://www.wikidata.org/wiki/Q7296"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tanzaniaparks.go.tz/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro"
+  },
+  "hashtags": [
+   "kilimanjaro",
+   "moshi",
+   "climbkili"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JRO",
+    "city": "Kilimanjaro/Moshi"
+   }
+  ],
+  "tz": "Africa/Dar_es_Salaam"
  },
  {
   "id": "zanzibar-beaches-tz",
@@ -4820,7 +7173,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Nungwi"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zanzibar.travel/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Nungwi"
+  },
+  "hashtags": [
+   "zanzibar",
+   "nungwi",
+   "tanzania"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZNZ",
+    "city": "Zanzibar City"
+   }
+  ],
+  "tz": "Africa/Dar_es_Salaam"
  },
  {
   "id": "gorilla-trekking-in-volcanoes-rw",
@@ -4855,7 +7224,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Volcanoes_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitrwanda.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Volcanoes_National_Park"
+  },
+  "hashtags": [
+   "gorillatrekking",
+   "volcanoesnationalpark",
+   "rwanda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "bookAheadNote": "Gorilla permits are limited and often sell out months in advance.",
+  "tz": "Africa/Kigali"
  },
  {
   "id": "nyungwe-canopy-walk-rw",
@@ -4891,7 +7277,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Nyungwe_Forest",
    "https://www.wikidata.org/wiki/Q1356828"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitrwanda.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Nyungwe_Forest"
+  },
+  "hashtags": [
+   "nyungweforest",
+   "canopywalk",
+   "rwanda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "tz": "Africa/Kigali"
  },
  {
   "id": "lake-kivu-rw",
@@ -4926,7 +7328,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Lake_Kivu"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitrwanda.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lake_Kivu"
+  },
+  "hashtags": [
+   "lakekivu",
+   "rwanda",
+   "gisenyi"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "tz": "Africa/Lubumbashi"
  },
  {
   "id": "bwindi-gorilla-trekking-ug",
@@ -4961,7 +7379,28 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Bwindi_Impenetrable_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ugandawildlife.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Bwindi_Impenetrable_National_Park"
+  },
+  "hashtags": [
+   "bwindi",
+   "gorillatrekking",
+   "uganda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   },
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "bookAheadNote": "Bwindi gorilla permits are limited and should be booked months ahead.",
+  "tz": "Africa/Kampala"
  },
  {
   "id": "murchison-falls-ug",
@@ -4995,7 +7434,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Murchison_Falls_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ugandawildlife.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Murchison_Falls_National_Park"
+  },
+  "hashtags": [
+   "murchisonfalls",
+   "uganda",
+   "nile"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   }
+  ],
+  "tz": "Africa/Kampala"
  },
  {
   "id": "jinja-rafting-on-the-nile-ug",
@@ -5029,7 +7484,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Jinja,_Uganda"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ugandawildlife.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Jinja,_Uganda"
+  },
+  "hashtags": [
+   "jinja",
+   "nilerafting",
+   "uganda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   }
+  ],
+  "tz": "Africa/Kampala"
  },
  {
   "id": "kruger-safari-za",
@@ -5063,7 +7534,27 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Kruger_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.sanparks.org/parks/kruger/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Kruger_National_Park"
+  },
+  "hashtags": [
+   "krugernationalpark",
+   "safari",
+   "southafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MQP",
+    "city": "Mpumalanga"
+   },
+   {
+    "iata": "SZK",
+    "city": "Skukuza"
+   }
+  ],
+  "tz": "Africa/Johannesburg"
  },
  {
   "id": "cape-town-and-the-winelands-za",
@@ -5096,7 +7587,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Stellenbosch"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.wosa.co.za/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Stellenbosch"
+  },
+  "hashtags": [
+   "capewinelands",
+   "stellenbosch",
+   "southafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPT",
+    "city": "Cape Town"
+   }
+  ],
+  "tz": "Africa/Johannesburg"
  },
  {
   "id": "hermanus-whale-watching-za",
@@ -5128,7 +7635,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Hermanus"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Hermanus"
+  },
+  "hashtags": [
+   "hermanus",
+   "whalewatching",
+   "southernrightwhale"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPT",
+    "city": "Cape Town"
+   }
+  ],
+  "tz": "Africa/Johannesburg"
  },
  {
   "id": "jeffreys-bay-surf-za",
@@ -5157,7 +7679,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Jeffreys_Bay"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Jeffreys_Bay"
+  },
+  "hashtags": [
+   "jeffreysbay",
+   "jbay",
+   "surfingsouthafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PLZ",
+    "city": "Gqeberha/Port Elizabeth"
+   }
+  ],
+  "tz": "Africa/Johannesburg"
  },
  {
   "id": "okavango-delta-bw",
@@ -5190,7 +7727,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Okavango_Delta"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.botswanatourism.co.bw/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Okavango_Delta"
+  },
+  "hashtags": [
+   "okavangodelta",
+   "botswana",
+   "maun"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUB",
+    "city": "Maun"
+   }
+  ],
+  "tz": "Africa/Gaborone"
  },
  {
   "id": "chobe-elephants-bw",
@@ -5223,7 +7776,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Chobe_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.botswanatourism.co.bw/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Chobe_National_Park"
+  },
+  "hashtags": [
+   "chobenationalpark",
+   "kasane",
+   "elephants"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BBK",
+    "city": "Kasane"
+   }
+  ],
+  "tz": "Africa/Gaborone"
  },
  {
   "id": "makgadikgadi-pans-bw",
@@ -5258,7 +7827,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Makgadikgadi_Pan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.botswanatourism.co.bw/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Makgadikgadi_Pan"
+  },
+  "hashtags": [
+   "makgadikgadi",
+   "saltpans",
+   "botswana"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUB",
+    "city": "Maun"
+   }
+  ],
+  "tz": "Africa/Gaborone"
  },
  {
   "id": "sossusvlei-dunes-na",
@@ -5293,7 +7878,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Sossusvlei"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Sossusvlei"
+  },
+  "hashtags": [
+   "sossusvlei",
+   "namibia",
+   "namibdesert"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WDH",
+    "city": "Windhoek"
+   }
+  ],
+  "tz": "Africa/Windhoek"
  },
  {
   "id": "etosha-wildlife-na",
@@ -5327,7 +7927,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Etosha_National_Park"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Etosha_National_Park"
+  },
+  "hashtags": [
+   "etosha",
+   "namibia",
+   "safari"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WDH",
+    "city": "Windhoek"
+   }
+  ],
+  "tz": "Africa/Windhoek"
  },
  {
   "id": "skeleton-coast-na",
@@ -5362,7 +7977,21 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Skeleton_Coast",
    "https://www.wikidata.org/wiki/Q1135237"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Skeleton_Coast"
+  },
+  "hashtags": [
+   "skeletoncoast",
+   "namibia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WVB",
+    "city": "Walvis Bay"
+   }
+  ],
+  "tz": "Africa/Windhoek"
  },
  {
   "id": "victoria-falls-zambia-side-zm",
@@ -5393,7 +8022,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Victoria_Falls"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zambia.travel/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Victoria_Falls"
+  },
+  "hashtags": [
+   "victoriafalls",
+   "livingstone",
+   "zambia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LVI",
+    "city": "Livingstone"
+   }
+  ],
+  "tz": "Africa/Lusaka"
  },
  {
   "id": "devil-s-pool-zm",
@@ -5421,11 +8066,26 @@
   "tags": [
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/way/676841771"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zambia.travel/"
+  },
+  "hashtags": [
+   "devilspool",
+   "victoriafalls",
+   "livingstoneisland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LVI",
+    "city": "Livingstone"
+   }
+  ],
+  "tz": "Africa/Lusaka"
  },
  {
   "id": "south-luangwa-walking-safari-zm",
@@ -5458,7 +8118,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/South_Luangwa_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zambia.travel/",
+   "wikipedia": "https://en.wikipedia.org/wiki/South_Luangwa_National_Park"
+  },
+  "hashtags": [
+   "southluangwa",
+   "walkingsafari",
+   "zambia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MFU",
+    "city": "Mfuwe"
+   }
+  ],
+  "tz": "Africa/Lusaka"
  },
  {
   "id": "victoria-falls-zimbabwe-side-zw",
@@ -5485,11 +8161,26 @@
   "tags": [
    "family"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/way/579843538"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zimbabwetourism.net/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Victoria_Falls"
+  },
+  "hashtags": [
+   "victoriafalls",
+   "zimbabwe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ],
+  "tz": "Africa/Harare"
  },
  {
   "id": "zambezi-rafting-zw",
@@ -5518,11 +8209,26 @@
   "tags": [
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/way/601210361"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zimbabwetourism.net/"
+  },
+  "hashtags": [
+   "zambezirafting",
+   "batokagorge",
+   "zimbabwe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ],
+  "tz": "Africa/Harare"
  },
  {
   "id": "hwange-safari-zw",
@@ -5554,7 +8260,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Hwange_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.zimbabwetourism.net/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hwange_National_Park"
+  },
+  "hashtags": [
+   "hwangenationalpark",
+   "zimbabwe",
+   "safari"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ],
+  "tz": "Africa/Harare"
  },
  {
   "id": "avenue-of-the-baobabs-mg",
@@ -5591,7 +8313,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Avenue_of_the_Baobabs"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Avenue_of_the_Baobabs"
+  },
+  "hashtags": [
+   "avenueofthebaobabs",
+   "morondava",
+   "madagascar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MOQ",
+    "city": "Morondava"
+   }
+  ],
+  "tz": "Indian/Antananarivo"
  },
  {
   "id": "andasibe-lemurs-mg",
@@ -5627,7 +8364,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Andasibe-Mantadia_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://parcs-madagascar.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Andasibe-Mantadia_National_Park"
+  },
+  "hashtags": [
+   "andasibe",
+   "lemurs",
+   "madagascar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TNR",
+    "city": "Antananarivo"
+   }
+  ],
+  "tz": "Indian/Antananarivo"
  },
  {
   "id": "nosy-be-mg",
@@ -5664,7 +8417,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Nosy_Be"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Nosy_Be"
+  },
+  "hashtags": [
+   "nosybe",
+   "madagascar",
+   "beach"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NOS",
+    "city": "Nosy Be"
+   }
+  ],
+  "tz": "Indian/Antananarivo"
  },
  {
   "id": "le-morne-beaches-mu",
@@ -5702,7 +8470,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Le_Morne_Brabant"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.mauritiusnow.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Le_Morne_Brabant"
+  },
+  "hashtags": [
+   "lemorne",
+   "mauritius",
+   "kitesurfing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ],
+  "tz": "Indian/Mauritius"
  },
  {
   "id": "blue-bay-diving-mu",
@@ -5740,7 +8524,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Blue_Bay_Marine_Park",
    "https://www.wikidata.org/wiki/Q107094318"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.mauritiusnow.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Blue_Bay_Marine_Park"
+  },
+  "hashtags": [
+   "bluebay",
+   "mauritius",
+   "diving"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ],
+  "tz": "Indian/Mauritius"
  },
  {
   "id": "black-river-gorges-mu",
@@ -5776,7 +8576,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Black_River_Gorges_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.mauritiusnow.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Black_River_Gorges_National_Park"
+  },
+  "hashtags": [
+   "blackrivergorges",
+   "chamarel",
+   "mauritius"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ],
+  "tz": "Indian/Mauritius"
  },
  {
   "id": "anse-source-d-argent-sc",
@@ -5814,7 +8630,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Anse_Source_d%27Argent"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://seychelles.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Anse_Source_d%27Argent"
+  },
+  "hashtags": [
+   "ansesourcedargent",
+   "ladigue",
+   "seychelles"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRI",
+    "city": "Praslin"
+   }
+  ],
+  "tz": "Indian/Mahe"
  },
  {
   "id": "vallee-de-mai-sc",
@@ -5852,7 +8684,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Vall%C3%A9e_de_Mai"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://seychelles.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Vall%C3%A9e_de_Mai"
+  },
+  "hashtags": [
+   "valleedemai",
+   "praslin",
+   "seychelles"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRI",
+    "city": "Praslin"
+   }
+  ],
+  "tz": "Indian/Mahe"
  },
  {
   "id": "seychelles-diving-sc",
@@ -5890,7 +8738,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Sainte_Anne_Marine_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://seychelles.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sainte_Anne_Marine_National_Park"
+  },
+  "hashtags": [
+   "seychelles",
+   "diving",
+   "mahe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SEZ",
+    "city": "Mahé"
+   }
+  ],
+  "tz": "Indian/Mahe"
  },
  {
   "id": "niseko-powder-jp",
@@ -5925,7 +8789,24 @@
    "https://www.openstreetmap.org/way/193442713",
    "https://en.wikipedia.org/wiki/Niseko",
    "https://www.ykhokkaido.com/en/resorts/niseko/guide/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.nisekotourism.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Niseko"
+  },
+  "hashtags": [
+   "niseko",
+   "nisekopowder",
+   "hokkaido"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CTS",
+    "city": "Sapporo",
+    "driveTime": "2.5 h"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "hakuba-skiing-jp",
@@ -5954,12 +8835,30 @@
    "family",
    "nightlife"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": "snow",
   "sources": [
    "https://www.openstreetmap.org/relation/4759944",
    "https://www.happo-one.jp/en/gelande/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.hakubavalley.com/en/",
+   "tickets": "https://www.hakubavalley.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hakuba"
+  },
+  "hashtags": [
+   "hakubavalley",
+   "hakuba",
+   "nagano"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MMJ",
+    "city": "Matsumoto",
+    "driveTime": "1.5 h"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "sapporo-snow-festival-jp",
@@ -5993,7 +8892,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Odori_Park",
    "https://www.sapporo.travel/en/event/event-list/sapporo_snow_festival/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.snowfes.com/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sapporo_Snow_Festival"
+  },
+  "hashtags": [
+   "snowfes",
+   "sapporosnowfestival",
+   "sapporo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CTS",
+    "city": "Sapporo"
+   }
+  ],
+  "bookAheadNote": "Sapporo hotels sell out during festival week, so book lodging months ahead.",
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "cherry-blossoms-in-kyoto-jp",
@@ -6018,11 +8934,30 @@
    "family",
    "solo"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/way/407490692"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://kyoto.travel/en/seasonal-info/cherryblossom/"
+  },
+  "hashtags": [
+   "sakura",
+   "kyoto",
+   "hanami"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KIX",
+    "city": "Osaka"
+   },
+   {
+    "iata": "ITM",
+    "city": "Osaka"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "japanese-grand-prix-jp",
@@ -6056,7 +8991,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Suzuka_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.suzukacircuit.jp/eng/",
+   "tickets": "https://ticketing.formula1.com/japan/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Suzuka_Circuit"
+  },
+  "hashtags": [
+   "f1",
+   "japanesegp",
+   "suzuka"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NGO",
+    "city": "Nagoya",
+    "driveTime": "1 h"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "gion-matsuri-jp",
@@ -6090,7 +9043,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Yasaka_Shrine",
    "https://www.hey-japan.com/event/gion-festival"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.yasaka-jinja.or.jp/en/gion_fes/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Gion_Matsuri"
+  },
+  "hashtags": [
+   "gionmatsuri",
+   "kyoto",
+   "matsuri"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KIX",
+    "city": "Osaka"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "mount-fuji-climb-jp",
@@ -6119,7 +9088,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Mount_Fuji"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.fujisan-climb.jp/en/",
+   "tickets": "https://www.fujisan-climb.jp/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mount_Fuji"
+  },
+  "hashtags": [
+   "mountfuji",
+   "fujisan",
+   "climbfuji"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HND",
+    "city": "Tokyo"
+   }
+  ],
+  "bookAheadNote": "Yoshida Trail entries are capped at 4,000 climbers a day; reserve online before you go.",
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "hakone-onsen-jp",
@@ -6157,7 +9144,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Hakone"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.hakonenavi.jp/international/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hakone"
+  },
+  "hashtags": [
+   "hakone",
+   "onsen",
+   "hotspring"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HND",
+    "city": "Tokyo"
+   }
+  ],
+  "tz": "Asia/Tokyo"
  },
  {
   "id": "seoul-cherry-blossoms-kr",
@@ -6184,7 +9187,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Yeouido"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://world.seoul.go.kr/yeouido-cherry-blossom-festival/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Yeouido"
+  },
+  "hashtags": [
+   "yeouido",
+   "seoulsakura",
+   "cherryblossom"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ICN",
+    "city": "Seoul"
+   }
+  ],
+  "tz": "Asia/Seoul"
  },
  {
   "id": "seoul-food-and-nightlife-kr",
@@ -6225,7 +9244,27 @@
   "sources": [
    "https://www.openstreetmap.org/node/6586943205",
    "https://en.wikipedia.org/wiki/Hongdae"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://english.visitseoul.net/area/Nighttime-Adventures-in-Seoul/ENP000032",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hongdae"
+  },
+  "hashtags": [
+   "hongdae",
+   "seoulnightlife",
+   "seoul"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ICN",
+    "city": "Seoul"
+   },
+   {
+    "iata": "GMP",
+    "city": "Seoul"
+   }
+  ],
+  "tz": "Asia/Seoul"
  },
  {
   "id": "k-pop-concerts-kr",
@@ -6268,7 +9307,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Gocheok_Sky_Dome"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Gocheok_Sky_Dome"
+  },
+  "hashtags": [
+   "kpop",
+   "gocheokskydome",
+   "seoul"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ICN",
+    "city": "Seoul"
+   }
+  ],
+  "tz": "Asia/Seoul"
  },
  {
   "id": "seoraksan-fall-foliage-kr",
@@ -6296,7 +9350,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Seoraksan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://english.knps.or.kr/Knp/Seoraksan/Intro/Introduction.aspx?MenuNum=1&Submenu=Npp",
+   "wikipedia": "https://en.wikipedia.org/wiki/Seoraksan_National_Park"
+  },
+  "hashtags": [
+   "seoraksan",
+   "fallfoliage",
+   "sokcho"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YNY",
+    "city": "Yangyang"
+   }
+  ],
+  "tz": "Asia/Seoul"
  },
  {
   "id": "pyeongchang-skiing-kr",
@@ -6327,7 +9397,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Mona_Yongpyong",
    "https://skiasia.com/ski-resorts/yongpyong/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.yongpyong.co.kr/eng/",
+   "tickets": "https://www.yongpyong.co.kr/eng/skiNboard/utilizationFee/liftCharge.do",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mona_Yongpyong"
+  },
+  "hashtags": [
+   "yongpyong",
+   "pyeongchang",
+   "skikorea"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YNY",
+    "city": "Yangyang"
+   }
+  ],
+  "tz": "Asia/Seoul"
  },
  {
   "id": "harbin-ice-festival-cn",
@@ -6362,7 +9449,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Harbin_International_Ice_and_Snow_Sculpture_Festival",
    "https://www.lyriktrip.com/en-GB/guides/harbin-travel-guide"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Harbin_International_Ice_and_Snow_Sculpture_Festival"
+  },
+  "hashtags": [
+   "harbinicefestival",
+   "harbin",
+   "iceandsnow"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HRB",
+    "city": "Harbin"
+   }
+  ],
+  "bookAheadNote": "Exact opening dates and ticket prices are usually only confirmed in late November, so book flights with flexibility.",
+  "tz": "Asia/Shanghai"
  },
  {
   "id": "great-wall-at-mutianyu-cn",
@@ -6392,7 +9495,29 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Mutianyu"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://en.mutianyugreatwall.com/",
+   "tickets": "https://en.mutianyugreatwall.com/reservation-center/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mutianyu"
+  },
+  "hashtags": [
+   "greatwall",
+   "mutianyu",
+   "beijing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PEK",
+    "city": "Beijing"
+   },
+   {
+    "iata": "PKX",
+    "city": "Beijing"
+   }
+  ],
+  "bookAheadNote": "Tickets need a real-name reservation and only open 15 days ahead.",
+  "tz": "Asia/Shanghai"
  },
  {
   "id": "zhangjiajie-pillars-cn",
@@ -6428,7 +9553,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Zhangjiajie_National_Forest_Park"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Zhangjiajie_National_Forest_Park"
+  },
+  "hashtags": [
+   "zhangjiajie",
+   "avatarmountains",
+   "nationalforestpark"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DYG",
+    "city": "Zhangjiajie"
+   }
+  ],
+  "tz": "Asia/Shanghai"
  },
  {
   "id": "chinese-grand-prix-cn",
@@ -6462,7 +9602,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Shanghai_International_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "tickets": "https://ticketing.formula1.com/china/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Shanghai_International_Circuit"
+  },
+  "hashtags": [
+   "f1",
+   "chinesegp",
+   "shanghai"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PVG",
+    "city": "Shanghai"
+   },
+   {
+    "iata": "SHA",
+    "city": "Shanghai"
+   }
+  ],
+  "tz": "Asia/Shanghai"
  },
  {
   "id": "hong-kong-sevens-hk",
@@ -6496,7 +9656,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Kai_Tak_Sports_Park",
    "https://www.hksevens.com/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://hksevens.com/",
+   "tickets": "https://hksevens.com/tickets/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Hong_Kong_Sevens"
+  },
+  "hashtags": [
+   "hksevens",
+   "rugby7s",
+   "hongkong"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HKG",
+    "city": "Hong Kong"
+   }
+  ],
+  "bookAheadNote": "Multi-day passes have sold out well ahead of the event in recent years.",
+  "tz": "Asia/Hong_Kong"
  },
  {
   "id": "dim-sum-hk",
@@ -6542,7 +9720,23 @@
   "sources": [
    "https://www.openstreetmap.org/node/2621314796",
    "https://en.wikipedia.org/wiki/Tim_Ho_Wan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.timhowan.com.hk/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Tim_Ho_Wan"
+  },
+  "hashtags": [
+   "dimsum",
+   "hongkongfood",
+   "timhowan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HKG",
+    "city": "Hong Kong"
+   }
+  ],
+  "tz": "Asia/Hong_Kong"
  },
  {
   "id": "dragon-s-back-hike-hk",
@@ -6578,7 +9772,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Dragon%27s_Back"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.discoverhongkong.com/eng/place-to-go/travel.guide-dragon-s-back.html",
+   "wikipedia": "https://en.wikipedia.org/wiki/Dragon%27s_Back"
+  },
+  "hashtags": [
+   "dragonsback",
+   "hongkonghiking",
+   "sheko"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HKG",
+    "city": "Hong Kong"
+   }
+  ],
+  "tz": "Asia/Hong_Kong"
  },
  {
   "id": "pingxi-sky-lanterns-tw",
@@ -6612,7 +9822,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Pingxi_District",
    "https://www.travelbeginsat40.com/event/pingxi-sky-lantern-festival-taiwan/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Pingxi_District"
+  },
+  "hashtags": [
+   "skylantern",
+   "pingxi",
+   "taiwanlanternfestival"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TPE",
+    "city": "Taipei"
+   },
+   {
+    "iata": "TSA",
+    "city": "Taipei"
+   }
+  ],
+  "bookAheadNote": "The exact date follows the lunar calendar and New Taipei City usually only confirms it in January.",
+  "tz": "Asia/Taipei"
  },
  {
   "id": "taipei-night-markets-tw",
@@ -6657,7 +9887,27 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Shilin_Night_Market"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://eng.taiwan.net.tw/m1.aspx?sNo=0002090&id=154",
+   "wikipedia": "https://en.wikipedia.org/wiki/Shilin_Night_Market"
+  },
+  "hashtags": [
+   "shilinnightmarket",
+   "taipei",
+   "nightmarket"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TPE",
+    "city": "Taipei"
+   },
+   {
+    "iata": "TSA",
+    "city": "Taipei"
+   }
+  ],
+  "tz": "Asia/Taipei"
  },
  {
   "id": "taroko-gorge-tw",
@@ -6694,7 +9944,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Taroko_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.taroko.gov.tw/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Taroko_National_Park"
+  },
+  "hashtags": [
+   "tarokogorge",
+   "hualien",
+   "taiwan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HUN",
+    "city": "Hualien"
+   }
+  ],
+  "tz": "Asia/Taipei"
  },
  {
   "id": "koh-tao-diving-th",
@@ -6728,7 +9994,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Ko_Tao"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tourismthailand.org/Destinations/Provinces/Ko-Tao/361",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ko_Tao"
+  },
+  "hashtags": [
+   "kohtao",
+   "scubadiving",
+   "thailand"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "USM",
+    "city": "Koh Samui"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "phi-phi-and-andaman-beaches-th",
@@ -6763,7 +10045,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Phi_Phi_Islands"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tourismthailand.org/Destinations/Provinces/Ko-Phi-Phi/359",
+   "wikipedia": "https://en.wikipedia.org/wiki/Phi_Phi_Islands"
+  },
+  "hashtags": [
+   "phiphi",
+   "andaman",
+   "krabi"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KBV",
+    "city": "Krabi"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "songkran-th",
@@ -6798,7 +10096,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Khaosan_Road",
    "https://www.timeanddate.com/holidays/thailand/2027"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Songkran_(Thailand)"
+  },
+  "hashtags": [
+   "songkran",
+   "thainewyear",
+   "waterfestival"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BKK",
+    "city": "Bangkok"
+   },
+   {
+    "iata": "DMK",
+    "city": "Bangkok"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "yi-peng-lanterns-th",
@@ -6832,7 +10149,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Chiang_Mai",
    "https://www.thailandhighlights.com/thailand/lantern-festivals"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://yipenglanternfestival.in.th/",
+   "tickets": "https://yipenglanternfestival.in.th/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Chiang_Mai"
+  },
+  "hashtags": [
+   "yipeng",
+   "loykrathong",
+   "chiangmai"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CNX",
+    "city": "Chiang Mai"
+   }
+  ],
+  "bookAheadNote": "Official CAD lantern-release tickets for the main event sell out weeks in advance.",
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "bangkok-street-food-and-muay-thai-th",
@@ -6875,7 +10210,28 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Rajadamnern_Stadium",
    "https://www.wikidata.org/wiki/Q2631915"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://rajadamnern.com/",
+   "tickets": "https://rajadamnern.com/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Rajadamnern_Stadium"
+  },
+  "hashtags": [
+   "muaythai",
+   "rajadamnern",
+   "bangkokstreetfood"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BKK",
+    "city": "Bangkok"
+   },
+   {
+    "iata": "DMK",
+    "city": "Bangkok"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "ha-long-bay-vn",
@@ -6909,7 +10265,27 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/H%E1%BA%A1_Long_Bay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://vietnam.travel/places-to-go/northern-vietnam/ha-long",
+   "wikipedia": "https://en.wikipedia.org/wiki/H%E1%BA%A1_Long_Bay"
+  },
+  "hashtags": [
+   "halongbay",
+   "vietnam",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HAN",
+    "city": "Hanoi"
+   },
+   {
+    "iata": "VDO",
+    "city": "Van Don"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "hoi-an-lantern-nights-vn",
@@ -6950,7 +10326,23 @@
   "sources": [
    "https://www.openstreetmap.org/node/4955662821",
    "https://en.wikipedia.org/wiki/H%E1%BB%99i_An"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/H%E1%BB%99i_An"
+  },
+  "hashtags": [
+   "hoian",
+   "lanternfestival",
+   "vietnam"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DAD",
+    "city": "Da Nang"
+   }
+  ],
+  "bookAheadNote": "The lantern night happens every full moon, not just once a year; confirm the current lunar date before visiting.",
+  "tz": "Asia/Ho_Chi_Minh"
  },
  {
   "id": "ha-giang-loop-vn",
@@ -6980,7 +10372,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/H%C3%A0_Giang_province"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/H%C3%A0_Giang_province"
+  },
+  "hashtags": [
+   "hagiangloop",
+   "vietnam",
+   "motorbiketrip"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HAN",
+    "city": "Hanoi"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "tet-in-hanoi-vn",
@@ -7014,7 +10421,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Ho%C3%A0n_Ki%E1%BA%BFm_Lake",
    "https://www.myvietnamvisa.com/vietnamese-lunar-new-year-dates-animals-of-the-zodiac.html"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Ho%C3%A0n_Ki%E1%BA%BFm_Lake"
+  },
+  "hashtags": [
+   "tet",
+   "hanoi",
+   "lunarnewyear"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HAN",
+    "city": "Hanoi"
+   }
+  ],
+  "tz": "Asia/Bangkok"
  },
  {
   "id": "angkor-wat-kh",
@@ -7047,7 +10469,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Angkor_Wat"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.apsaraauthority.gov.kh/",
+   "tickets": "https://www.angkorenterprise.gov.kh/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Angkor_Wat"
+  },
+  "hashtags": [
+   "angkorwat",
+   "siemreap",
+   "cambodia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SAI",
+    "city": "Siem Reap"
+   }
+  ],
+  "tz": "Asia/Phnom_Penh"
  },
  {
   "id": "koh-rong-beaches-kh",
@@ -7082,7 +10521,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Koh_Rong"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tourismcambodia.com/travelguides/provinces/sihanouk-ville/what-to-see/427_koh-rong-island.htm",
+   "wikipedia": "https://en.wikipedia.org/wiki/Koh_Rong"
+  },
+  "hashtags": [
+   "kohrong",
+   "cambodia",
+   "islandlife"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KOS",
+    "city": "Sihanoukville"
+   }
+  ],
+  "tz": "Asia/Phnom_Penh"
  },
  {
   "id": "phnom-penh-riverside-kh",
@@ -7114,7 +10569,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Royal_Palace_of_Cambodia"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Royal_Palace_of_Cambodia"
+  },
+  "hashtags": [
+   "phnompenh",
+   "cambodia",
+   "riverside"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PNH",
+    "city": "Phnom Penh"
+   }
+  ],
+  "tz": "Asia/Phnom_Penh"
  },
  {
   "id": "uluwatu-surf-id",
@@ -7150,7 +10620,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Uluwatu_Temple"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://uluwatutemple.id/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Uluwatu_Temple"
+  },
+  "hashtags": [
+   "uluwatu",
+   "bali",
+   "balisurf"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DPS",
+    "city": "Denpasar"
+   }
+  ],
+  "tz": "Asia/Makassar"
  },
  {
   "id": "raja-ampat-diving-id",
@@ -7188,7 +10674,24 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Raja_Ampat_Islands"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://kkprajaampat.id/en/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Raja_Ampat_Islands"
+  },
+  "hashtags": [
+   "rajaampat",
+   "diving",
+   "westpapua"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DEO",
+    "city": "Sorong"
+   }
+  ],
+  "bookAheadNote": "A Marine Park entry permit (environmental service fee) is required and best arranged before arrival.",
+  "tz": "Asia/Jayapura"
  },
  {
   "id": "komodo-dragons-id",
@@ -7224,7 +10727,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Komodo_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://komodonp.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Komodo_National_Park"
+  },
+  "hashtags": [
+   "komodonationalpark",
+   "komododragon",
+   "labuanbajo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LBJ",
+    "city": "Labuan Bajo"
+   }
+  ],
+  "bookAheadNote": "All visitors must book an entry slot in advance through the SiORA online reservation system; walk-in tickets are no longer sold.",
+  "tz": "Asia/Makassar"
  },
  {
   "id": "ubud-yoga-retreats-id",
@@ -7267,7 +10787,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Ubud",
    "https://www.wikidata.org/wiki/Q210654"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Ubud"
+  },
+  "hashtags": [
+   "ubud",
+   "bali",
+   "yogaretreat"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DPS",
+    "city": "Denpasar"
+   }
+  ],
+  "tz": "Asia/Makassar"
  },
  {
   "id": "cloud-9-surf-ph",
@@ -7298,7 +10833,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Siargao"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Siargao"
+  },
+  "hashtags": [
+   "cloud9",
+   "siargao",
+   "surfingcapital"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IAO",
+    "city": "Siargao"
+   }
+  ],
+  "tz": "Asia/Manila"
  },
  {
   "id": "el-nido-island-hopping-ph",
@@ -7334,7 +10884,27 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/El_Nido,_Palawan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.elnidoofficial.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/El_Nido,_Palawan"
+  },
+  "hashtags": [
+   "elnido",
+   "palawan",
+   "islandhopping"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PPS",
+    "city": "Puerto Princesa"
+   },
+   {
+    "iata": "ENI",
+    "city": "El Nido"
+   }
+  ],
+  "tz": "Asia/Manila"
  },
  {
   "id": "coron-wreck-diving-ph",
@@ -7370,7 +10940,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Coron,_Palawan"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Coron,_Palawan"
+  },
+  "hashtags": [
+   "coron",
+   "wreckdiving",
+   "palawan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "USU",
+    "city": "Busuanga/Coron"
+   }
+  ],
+  "tz": "Asia/Manila"
  },
  {
   "id": "borneo-orangutans-my",
@@ -7409,7 +10994,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Sepilok_Orangutan_Rehabilitation_Centre"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://sabahtourism.com/destination/sepilok-orangutan-rehabilitation-centre/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sepilok_Orangutan_Rehabilitation_Centre"
+  },
+  "hashtags": [
+   "sepilok",
+   "orangutan",
+   "sandakan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SDK",
+    "city": "Sandakan"
+   }
+  ],
+  "tz": "Asia/Kuching"
  },
  {
   "id": "mount-kinabalu-my",
@@ -7448,7 +11049,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Mount_Kinabalu"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.sabahparks.org.my/kinabalu-park/mount-kinabalu",
+   "tickets": "https://reservation.sabahparks.org.my/mountain-climbing/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mount_Kinabalu"
+  },
+  "hashtags": [
+   "mountkinabalu",
+   "sabah",
+   "climbkinabalu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BKI",
+    "city": "Kota Kinabalu"
+   }
+  ],
+  "bookAheadNote": "Climb permits are limited daily and a registered mountain guide is mandatory; slots book out months ahead.",
+  "tz": "Asia/Kuching"
  },
  {
   "id": "sipadan-diving-my",
@@ -7485,7 +11104,24 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Sipadan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.sabahparks.org.my/services/diving-sipadan",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sipadan"
+  },
+  "hashtags": [
+   "sipadan",
+   "diving",
+   "sabah"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TWU",
+    "city": "Tawau"
+   }
+  ],
+  "bookAheadNote": "Only a limited number of dive permits are issued per day and the island is closed to diving every November; book operators well ahead.",
+  "tz": "Asia/Kuching"
  },
  {
   "id": "singapore-grand-prix-sg",
@@ -7520,7 +11156,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Marina_Bay_Street_Circuit",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.singaporegp.sg/",
+   "tickets": "https://ticketing.formula1.com/singapore/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Marina_Bay_Street_Circuit"
+  },
+  "hashtags": [
+   "singaporegp",
+   "f1",
+   "marinabay"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SIN",
+    "city": "Singapore"
+   }
+  ],
+  "tz": "Asia/Singapore"
  },
  {
   "id": "hawker-food-sg",
@@ -7561,7 +11214,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Maxwell_Food_Centre"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://maxwellfoodcentre.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Maxwell_Food_Centre"
+  },
+  "hashtags": [
+   "hawkerfood",
+   "singaporefood",
+   "maxwellfoodcentre"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SIN",
+    "city": "Singapore"
+   }
+  ],
+  "tz": "Asia/Singapore"
  },
  {
   "id": "gardens-by-the-bay-sg",
@@ -7601,7 +11270,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Gardens_by_the_Bay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.gardensbythebay.com.sg/",
+   "tickets": "https://www.gardensbythebay.com.sg/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Gardens_by_the_Bay"
+  },
+  "hashtags": [
+   "gardensbythebay",
+   "singapore",
+   "supertrees"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SIN",
+    "city": "Singapore"
+   }
+  ],
+  "tz": "Asia/Singapore"
  },
  {
   "id": "overwater-villas-mv",
@@ -7631,11 +11317,26 @@
   "tags": [
    "luxury"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": "beach",
   "sources": [
    "https://www.openstreetmap.org/way/671807125"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visitmaldives.com/en"
+  },
+  "hashtags": [
+   "maldives",
+   "overwatervilla",
+   "northmale"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MLE",
+    "city": "Male"
+   }
+  ],
+  "tz": "Indian/Maldives"
  },
  {
   "id": "manta-diving-at-hanifaru-mv",
@@ -7665,11 +11366,28 @@
   "tags": [
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": "beach",
   "sources": [
    "https://www.openstreetmap.org/way/19879457"
-  ]
+  ],
+  "hashtags": [
+   "hanifaru",
+   "mantaray",
+   "baaatoll"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MLE",
+    "city": "Male"
+   },
+   {
+    "iata": "DRV",
+    "city": "Dharavandhoo"
+   }
+  ],
+  "bookAheadNote": "Hanifaru Bay has strict visitor and snorkeler caps under its marine-protected-area rules.",
+  "tz": "Indian/Maldives"
  },
  {
   "id": "maafushi-local-island-mv",
@@ -7704,7 +11422,23 @@
   "sources": [
    "https://www.openstreetmap.org/relation/9328389",
    "https://en.wikipedia.org/wiki/Maafushi"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://maafushi.gov.mv/guide",
+   "wikipedia": "https://en.wikipedia.org/wiki/Maafushi"
+  },
+  "hashtags": [
+   "maafushi",
+   "maldives",
+   "localisland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MLE",
+    "city": "Male"
+   }
+  ],
+  "tz": "Indian/Maldives"
  },
  {
   "id": "arugam-bay-surf-lk",
@@ -7739,7 +11473,26 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Arugam_Bay"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Arugam_Bay"
+  },
+  "hashtags": [
+   "arugambay",
+   "srilankasurf",
+   "surf"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BTC",
+    "city": "Batticaloa"
+   },
+   {
+    "iata": "CMB",
+    "city": "Colombo"
+   }
+  ],
+  "tz": "Asia/Colombo"
  },
  {
   "id": "yala-leopards-lk",
@@ -7772,7 +11525,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Yala_National_Park"
-  ]
+  ],
+  "links": {
+   "tickets": "https://dwc.lankagate.gov.lk/DWCEpermitApp/homeAction.action?lang=en",
+   "wikipedia": "https://en.wikipedia.org/wiki/Yala_National_Park"
+  },
+  "hashtags": [
+   "yalanationalpark",
+   "leopards",
+   "srilanka"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CMB",
+    "city": "Colombo"
+   }
+  ],
+  "bookAheadNote": "Some park blocks close for weeks at a time seasonally; check the Wildlife Department status before booking a safari.",
+  "tz": "Asia/Colombo"
  },
  {
   "id": "esala-perahera-lk",
@@ -7800,8 +11570,26 @@
   "heat": 64,
   "conditions": "event",
   "sources": [
+   "https://en.wikipedia.org/wiki/Kandy_Esala_Perahera",
    "https://en.wikipedia.org/wiki/Temple_of_the_Tooth"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Temple_of_the_Tooth"
+  },
+  "hashtags": [
+   "esalaperahera",
+   "kandy",
+   "srilanka"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CMB",
+    "city": "Colombo"
+   }
+  ],
+  "bookAheadNote": "Dates follow the lunar calendar and are announced only a few months ahead by the Temple of the Tooth authorities.",
+  "datesNote": "Dates not announced yet. Set by the lunar calendar, usually late July to August",
+  "tz": "Asia/Colombo"
  },
  {
   "id": "sigiriya-lk",
@@ -7832,7 +11620,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Sigiriya"
-  ]
+  ],
+  "links": {
+   "tickets": "https://eservices.ccf.gov.lk/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sigiriya"
+  },
+  "hashtags": [
+   "sigiriya",
+   "srilanka",
+   "lionrock"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CMB",
+    "city": "Colombo"
+   }
+  ],
+  "tz": "Asia/Colombo"
  },
  {
   "id": "holi-in-mathura-in",
@@ -7867,7 +11671,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Mathura",
    "https://www.timeanddate.com/holidays/us/hindu-holi"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Mathura"
+  },
+  "hashtags": [
+   "holi",
+   "mathura",
+   "holifestival"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AGR",
+    "city": "Agra"
+   },
+   {
+    "iata": "DEL",
+    "city": "Delhi"
+   }
+  ],
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "diwali-in-jaipur-in",
@@ -7901,7 +11724,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Jaipur",
    "https://www.timeanddate.com/holidays/us/diwali"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Jaipur"
+  },
+  "hashtags": [
+   "diwali",
+   "jaipur",
+   "festivaloflights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAI",
+    "city": "Jaipur"
+   }
+  ],
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "rajasthan-palaces-in",
@@ -7936,7 +11774,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/City_Palace,_Udaipur",
    "https://www.wikidata.org/wiki/Q2723521"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.citypalaceudaipur.com/",
+   "tickets": "https://ticket.citypalacemuseum.org/",
+   "wikipedia": "https://en.wikipedia.org/wiki/City_Palace,_Udaipur"
+  },
+  "hashtags": [
+   "udaipur",
+   "citypalace",
+   "rajasthan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UDR",
+    "city": "Udaipur"
+   }
+  ],
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "goa-beaches-in",
@@ -7970,7 +11825,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Palolem_Beach",
    "https://www.wikidata.org/wiki/Q2048357"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Palolem_Beach"
+  },
+  "hashtags": [
+   "goa",
+   "palolem",
+   "beachlife"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GOI",
+    "city": "Goa"
+   },
+   {
+    "iata": "GOX",
+    "city": "Goa"
+   }
+  ],
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "ladakh-treks-in",
@@ -8001,7 +11875,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Leh"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Leh"
+  },
+  "hashtags": [
+   "ladakh",
+   "leh",
+   "himalayatrek"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IXL",
+    "city": "Leh"
+   }
+  ],
+  "bookAheadNote": "An Inner Line Permit is required for many Ladakh routes; arrange it in Leh or online beforehand.",
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "ranthambore-tigers-in",
@@ -8038,7 +11928,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Ranthambore_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.tourism.rajasthan.gov.in/ranthambore.html",
+   "tickets": "https://booking.forestrajasthan.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ranthambore_National_Park"
+  },
+  "hashtags": [
+   "ranthambore",
+   "tigersafari",
+   "rajasthan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAI",
+    "city": "Jaipur"
+   }
+  ],
+  "bookAheadNote": "Safari zones book out; reserve jeep/canter safaris online up to 90 days ahead.",
+  "tz": "Asia/Kolkata"
  },
  {
   "id": "everest-base-camp-trek-np",
@@ -8072,7 +11980,28 @@
   "sources": [
    "https://www.openstreetmap.org/node/5225912921",
    "https://en.wikipedia.org/wiki/Everest_base_camps"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ntb.gov.np/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Everest_base_camps"
+  },
+  "hashtags": [
+   "everestbasecamp",
+   "ebctrek",
+   "khumbu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTM",
+    "city": "Kathmandu"
+   },
+   {
+    "iata": "LUA",
+    "city": "Lukla"
+   }
+  ],
+  "bookAheadNote": "Both a Sagarmatha National Park permit and a local Khumbu entry permit are required to trek to EBC.",
+  "tz": "Asia/Kathmandu"
  },
  {
   "id": "annapurna-circuit-np",
@@ -8106,7 +12035,27 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Annapurna_Circuit",
    "https://www.wikidata.org/wiki/Q381683"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Annapurna_Circuit"
+  },
+  "hashtags": [
+   "annapurnacircuit",
+   "acap",
+   "nepaltrekking"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTM",
+    "city": "Kathmandu"
+   },
+   {
+    "iata": "PKR",
+    "city": "Pokhara"
+   }
+  ],
+  "bookAheadNote": "An Annapurna Conservation Area Permit (ACAP) is required and must be collected in person in Kathmandu or Pokhara.",
+  "tz": "Asia/Kathmandu"
  },
  {
   "id": "pokhara-np",
@@ -8140,7 +12089,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Pokhara"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ntb.gov.np/pokhara",
+   "wikipedia": "https://en.wikipedia.org/wiki/Pokhara"
+  },
+  "hashtags": [
+   "pokhara",
+   "nepal",
+   "phewalake"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PKR",
+    "city": "Pokhara"
+   }
+  ],
+  "tz": "Asia/Kathmandu"
  },
  {
   "id": "paro-tsechu-bt",
@@ -8174,7 +12139,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Rinpung_Dzong",
    "https://littlebhutan.com/travel-guide/paro-tshechu/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Rinpung_Dzong"
+  },
+  "hashtags": [
+   "parotsechu",
+   "bhutan",
+   "tsechu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PBH",
+    "city": "Paro"
+   }
+  ],
+  "bookAheadNote": "Tsechu dates follow the Bhutanese lunar calendar and can still shift; confirm with a licensed Bhutan tour operator (mandatory for all visitors) before booking flights.",
+  "tz": "Asia/Thimphu"
  },
  {
   "id": "tiger-s-nest-hike-bt",
@@ -8207,7 +12188,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Paro_Taktsang"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Paro_Taktsang"
+  },
+  "hashtags": [
+   "tigersnest",
+   "parotaktsang",
+   "bhutan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PBH",
+    "city": "Paro"
+   }
+  ],
+  "tz": "Asia/Thimphu"
  },
  {
   "id": "druk-path-trek-bt",
@@ -8240,7 +12236,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Thimphu"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Thimphu"
+  },
+  "hashtags": [
+   "drukpath",
+   "bhutantrekking",
+   "thimphu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PBH",
+    "city": "Paro"
+   }
+  ],
+  "tz": "Asia/Thimphu"
  },
  {
   "id": "naadam-festival-mn",
@@ -8274,7 +12285,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/National_Sports_Stadium_(Mongolia)",
    "https://naadamfestival.com/en"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://naadamfestival.com/en",
+   "wikipedia": "https://en.wikipedia.org/wiki/National_Sports_Stadium_(Mongolia)"
+  },
+  "hashtags": [
+   "naadam",
+   "mongolia",
+   "naadamfestival"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ULN",
+    "city": "Ulaanbaatar"
+   }
+  ],
+  "tz": "Asia/Ulaanbaatar"
  },
  {
   "id": "gobi-desert-mn",
@@ -8306,7 +12333,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Khongoryn_Els",
    "https://www.wikidata.org/wiki/Q25047802"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Khongoryn_Els"
+  },
+  "hashtags": [
+   "gobidesert",
+   "mongolia",
+   "khongorynels"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ULN",
+    "city": "Ulaanbaatar"
+   },
+   {
+    "iata": "DLZ",
+    "city": "Dalanzadgad"
+   }
+  ],
+  "tz": "Asia/Ulaanbaatar"
  },
  {
   "id": "terelj-ger-camps-mn",
@@ -8337,7 +12383,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Gorkhi-Terelj_National_Park"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Gorkhi-Terelj_National_Park"
+  },
+  "hashtags": [
+   "terelj",
+   "gercamp",
+   "mongolia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ULN",
+    "city": "Ulaanbaatar"
+   }
+  ],
+  "tz": "Asia/Ulaanbaatar"
  },
  {
   "id": "samarkand-uz",
@@ -8370,7 +12431,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Registan"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://uzbekistan.travel/en/o/registan/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Registan"
+  },
+  "hashtags": [
+   "samarkand",
+   "registan",
+   "silkroad"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SKD",
+    "city": "Samarkand"
+   }
+  ],
+  "tz": "Asia/Samarkand"
  },
  {
   "id": "bukhara-uz",
@@ -8402,7 +12479,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Po-i-Kalyan"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Po-i-Kalyan"
+  },
+  "hashtags": [
+   "bukhara",
+   "silkroad",
+   "uzbekistan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BHK",
+    "city": "Bukhara"
+   }
+  ],
+  "tz": "Asia/Samarkand"
  },
  {
   "id": "khiva-uz",
@@ -8434,7 +12526,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Itchan_Kala"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Itchan_Kala"
+  },
+  "hashtags": [
+   "khiva",
+   "itchankala",
+   "uzbekistan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UGC",
+    "city": "Urgench"
+   }
+  ],
+  "tz": "Asia/Samarkand"
  },
  {
   "id": "australian-open-au",
@@ -8468,7 +12575,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Melbourne_Park",
    "https://www.melbournepark.com.au/event/australian-open-2027/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://ausopen.com/",
+   "tickets": "https://www.ticketmaster.com.au/ausopen",
+   "wikipedia": "https://en.wikipedia.org/wiki/Melbourne_Park"
+  },
+  "hashtags": [
+   "ausopen",
+   "melbourne",
+   "tennis"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEL",
+    "city": "Melbourne"
+   }
+  ],
+  "tz": "Australia/Melbourne"
  },
  {
   "id": "australian-grand-prix-au",
@@ -8502,7 +12626,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Albert_Park_Circuit",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.grandprix.com.au/",
+   "tickets": "https://www.grandprix.com.au/en/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Albert_Park_Circuit"
+  },
+  "hashtags": [
+   "australiangp",
+   "f1",
+   "melbourne"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEL",
+    "city": "Melbourne"
+   }
+  ],
+  "tz": "Australia/Melbourne"
  },
  {
   "id": "great-barrier-reef-au",
@@ -8536,7 +12677,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Great_Barrier_Reef"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.gbrmpa.gov.au/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Great_Barrier_Reef"
+  },
+  "hashtags": [
+   "greatbarrierreef",
+   "cairns",
+   "reef"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CNS",
+    "city": "Cairns"
+   }
+  ],
+  "tz": "Australia/Brisbane"
  },
  {
   "id": "melbourne-cup-au",
@@ -8570,7 +12727,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Flemington_Racecourse",
    "https://www.timeanddate.com/holidays/australia/melbourne-cup-day"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://vrc.com.au/melbourne-cup-carnival/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Flemington_Racecourse"
+  },
+  "hashtags": [
+   "melbournecup",
+   "flemington",
+   "springracingcarnival"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEL",
+    "city": "Melbourne"
+   }
+  ],
+  "tz": "Australia/Melbourne"
  },
  {
   "id": "uluru-au",
@@ -8603,7 +12776,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Uluru"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://uluru.gov.au/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Uluru"
+  },
+  "hashtags": [
+   "uluru",
+   "ayersrock",
+   "outback"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AYQ",
+    "city": "Ayers Rock / Yulara"
+   }
+  ],
+  "bookAheadNote": "A paid park pass booked through Parks Australia is required to enter Uluru-Kata Tjuta National Park.",
+  "tz": "Australia/Darwin"
  },
  {
   "id": "sydney-new-year-s-eve-au",
@@ -8638,7 +12828,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
    "https://www.northsydney.nsw.gov.au/homepage/215/new-years-eve-2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.sydneynewyearseve.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge"
+  },
+  "hashtags": [
+   "sydneynye",
+   "sydneyfireworks",
+   "nye"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SYD",
+    "city": "Sydney"
+   }
+  ],
+  "bookAheadNote": "Prime harbourside vantage points need tickets or reservations booked well ahead.",
+  "tz": "Australia/Sydney"
  },
  {
   "id": "queenstown-skiing-nz",
@@ -8671,7 +12878,22 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/The_Remarkables"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/The_Remarkables"
+  },
+  "hashtags": [
+   "queenstown",
+   "theremarkables",
+   "skiqueenstown"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZQN",
+    "city": "Queenstown"
+   }
+  ],
+  "tz": "Pacific/Auckland"
  },
  {
   "id": "queenstown-bungy-nz",
@@ -8711,7 +12933,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Kawarau_Gorge_Suspension_Bridge"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Kawarau_Gorge_Suspension_Bridge"
+  },
+  "hashtags": [
+   "bungyjump",
+   "queenstown",
+   "kawaraugorge"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZQN",
+    "city": "Queenstown"
+   }
+  ],
+  "tz": "Pacific/Auckland"
  },
  {
   "id": "milford-track-nz",
@@ -8747,7 +12984,24 @@
   "sources": [
    "https://www.openstreetmap.org/relation/10706231",
    "https://en.wikipedia.org/wiki/Milford_Track"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/milford-track/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Milford_Track"
+  },
+  "hashtags": [
+   "milfordtrack",
+   "fiordland",
+   "greatwalk"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZQN",
+    "city": "Queenstown"
+   }
+  ],
+  "bookAheadNote": "Great Walks season (Nov-Apr) hut bookings open ahead of time and huts fill up; book through DOC in advance.",
+  "tz": "Pacific/Auckland"
  },
  {
   "id": "mount-hutt-skiing-nz",
@@ -8780,7 +13034,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Mount_Hutt",
    "https://www.mthutt.co.nz/mountain-info"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.mthutt.co.nz/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mount_Hutt"
+  },
+  "hashtags": [
+   "mounthutt",
+   "methven",
+   "skinz"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CHC",
+    "city": "Christchurch"
+   }
+  ],
+  "tz": "Pacific/Auckland"
  },
  {
   "id": "rugby-at-eden-park-nz",
@@ -8816,7 +13086,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Eden_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.edenpark.co.nz/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Eden_Park"
+  },
+  "hashtags": [
+   "edenpark",
+   "allblacks",
+   "auckland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AKL",
+    "city": "Auckland"
+   }
+  ],
+  "tz": "Pacific/Auckland"
  },
  {
   "id": "fiji-diving-fj",
@@ -8850,7 +13136,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Rainbow_Reef"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Rainbow_Reef"
+  },
+  "hashtags": [
+   "fijidiving",
+   "rainbowreef",
+   "taveuni"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TVU",
+    "city": "Taveuni"
+   }
+  ],
+  "tz": "Pacific/Fiji"
  },
  {
   "id": "mamanuca-island-resorts-fj",
@@ -8885,7 +13186,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Mamanuca_Islands"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Mamanuca_Islands"
+  },
+  "hashtags": [
+   "mamanuca",
+   "fiji",
+   "islandresort"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NAN",
+    "city": "Nadi"
+   }
+  ],
+  "tz": "Pacific/Fiji"
  },
  {
   "id": "cloudbreak-surf-fj",
@@ -8918,7 +13234,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Tavarua"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Tavarua"
+  },
+  "hashtags": [
+   "cloudbreak",
+   "tavarua",
+   "fijisurfing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NAN",
+    "city": "Nadi"
+   }
+  ],
+  "tz": "Pacific/Fiji"
  },
  {
   "id": "teahupo-o-surf-pf",
@@ -8950,7 +13281,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Teahupo%CA%BBo"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Teahupo%CA%BBo"
+  },
+  "hashtags": [
+   "teahupoo",
+   "tahitisurf",
+   "frenchpolynesia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PPT",
+    "city": "Papeete"
+   }
+  ],
+  "tz": "Pacific/Tahiti"
  },
  {
   "id": "heiva-i-tahiti-pf",
@@ -8970,15 +13316,34 @@
    7
   ],
   "eventDates": null,
-  "summary": "Polynesian dance contest; no traditional Heiva in 2027",
+  "summary": "Polynesian dance, song and sport contests in Papeete",
   "tags": [
    "family"
   ],
   "heat": 72,
   "conditions": "event",
   "sources": [
-   "https://en.wikipedia.org/wiki/Papeete"
-  ]
+   "https://en.wikipedia.org/wiki/Papeete",
+   "https://en.wikipedia.org/wiki/2027_Pacific_Games"
+  ],
+  "links": {
+   "officialSite": "https://www.tahititourisme.com/en-us/heiva-i-tahiti/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Papeete"
+  },
+  "hashtags": [
+   "heivaitahiti",
+   "tahiti",
+   "heiva"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PPT",
+    "city": "Papeete"
+   }
+  ],
+  "bookAheadNote": "2027 dates for Heiva i Tahiti had not been announced as of this check; confirm with Tahiti Tourisme closer to the date.",
+  "datesNote": "2027 dates not announced yet. Tahiti hosts the Pacific Games Jul 24 to Aug 7, 2027",
+  "tz": "Pacific/Tahiti"
  },
  {
   "id": "bora-bora-overwater-villas-pf",
@@ -9013,7 +13378,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Bora_Bora"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Bora_Bora"
+  },
+  "hashtags": [
+   "borabora",
+   "overwatervilla",
+   "frenchpolynesia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BOB",
+    "city": "Bora Bora"
+   }
+  ],
+  "tz": "Pacific/Tahiti"
  },
  {
   "id": "antarctic-peninsula-cruise-aq",
@@ -9046,7 +13426,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Antarctic_Peninsula"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Antarctic_Peninsula"
+  },
+  "hashtags": [
+   "antarctica",
+   "antarcticpeninsula",
+   "expeditioncruise"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "USH",
+    "city": "Ushuaia, Argentina"
+   }
+  ],
+  "bookAheadNote": "Almost all voyages depart by ship from Ushuaia, Argentina; there is no direct commercial air access to the peninsula.",
+  "tz": "America/Argentina/Ushuaia"
  },
  {
   "id": "lemaire-channel-aq",
@@ -9078,7 +13474,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Lemaire_Channel"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Lemaire_Channel"
+  },
+  "hashtags": [
+   "lemairechannel",
+   "antarctica",
+   "expeditioncruise"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "USH",
+    "city": "Ushuaia, Argentina"
+   }
+  ],
+  "tz": "America/Argentina/Ushuaia"
  },
  {
   "id": "deception-island-aq",
@@ -9110,7 +13521,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Deception_Island"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Deception_Island"
+  },
+  "hashtags": [
+   "deceptionisland",
+   "antarctica",
+   "southshetland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "USH",
+    "city": "Ushuaia, Argentina"
+   }
+  ],
+  "tz": "America/Punta_Arenas"
  },
  {
   "id": "aspen-snowmass-us",
@@ -9144,7 +13570,29 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Snowmass_(ski_area)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.aspensnowmass.com",
+   "tickets": "https://www.aspensnowmass.com/visit/tickets-and-passes/lift-tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Snowmass_(ski_area)"
+  },
+  "hashtags": [
+   "aspensnowmass",
+   "aspen",
+   "snowmass"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ASE",
+    "city": "Aspen/Pitkin County",
+    "driveTime": "10-15 min to Snowmass Village"
+   },
+   {
+    "iata": "EGE",
+    "city": "Eagle/Vail"
+   }
+  ],
+  "tz": "America/Denver"
  },
  {
   "id": "vail-us",
@@ -9178,7 +13626,28 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Vail_Ski_Resort"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.vail.com",
+   "tickets": "https://www.vail.com/plan-your-trip/lift-access/tickets.aspx",
+   "wikipedia": "https://en.wikipedia.org/wiki/Vail_Ski_Resort"
+  },
+  "hashtags": [
+   "vail",
+   "epicpass",
+   "vailmountain"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EGE",
+    "city": "Eagle County"
+   },
+   {
+    "iata": "DEN",
+    "city": "Denver"
+   }
+  ],
+  "tz": "America/Denver"
  },
  {
   "id": "park-city-us",
@@ -9211,7 +13680,25 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.parkcitymountain.com",
+   "tickets": "https://www.parkcitymountain.com/plan-your-trip/lift-access/tickets.aspx",
+   "wikipedia": "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort"
+  },
+  "hashtags": [
+   "parkcity",
+   "parkcitymountain",
+   "utah"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City",
+    "driveTime": "35-45 min"
+   }
+  ],
+  "tz": "America/Denver"
  },
  {
   "id": "jackson-hole-us",
@@ -9244,7 +13731,25 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.jacksonhole.com",
+   "tickets": "https://www.jacksonhole.com/lift-tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort"
+  },
+  "hashtags": [
+   "jacksonhole",
+   "tetons",
+   "jhmr"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAC",
+    "city": "Jackson",
+    "driveTime": "36 min to Teton Village"
+   }
+  ],
+  "tz": "America/Denver"
  },
  {
   "id": "north-shore-surf-us",
@@ -9275,7 +13780,24 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Banzai_Pipeline"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.gohawaii.com/islands/oahu/regions/north-shore",
+   "wikipedia": "https://en.wikipedia.org/wiki/Banzai_Pipeline"
+  },
+  "hashtags": [
+   "northshoreoahu",
+   "pipeline",
+   "banzaipipeline"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HNL",
+    "city": "Honolulu",
+    "driveTime": "~45 min to Haleiwa"
+   }
+  ],
+  "tz": "Pacific/Honolulu"
  },
  {
   "id": "yellowstone-us",
@@ -9308,7 +13830,29 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Old_Faithful"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.nps.gov/yell/index.htm",
+   "tickets": "https://www.nps.gov/yell/planyourvisit/fees.htm",
+   "wikipedia": "https://en.wikipedia.org/wiki/Old_Faithful"
+  },
+  "hashtags": [
+   "yellowstone",
+   "yellowstonenationalpark",
+   "nps"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BZN",
+    "city": "Bozeman",
+    "driveTime": "~1.5 hr to North Entrance"
+   },
+   {
+    "iata": "COD",
+    "city": "Cody"
+   }
+  ],
+  "tz": "America/Denver"
  },
  {
   "id": "yosemite-us",
@@ -9341,7 +13885,29 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Yosemite_Valley"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.nps.gov/yose/index.htm",
+   "wikipedia": "https://en.wikipedia.org/wiki/Yosemite_Valley"
+  },
+  "hashtags": [
+   "yosemite",
+   "yosemitenationalpark",
+   "nps"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FAT",
+    "city": "Fresno",
+    "driveTime": "~2.5 hr to Yosemite Valley"
+   },
+   {
+    "iata": "MCE",
+    "city": "Merced"
+   }
+  ],
+  "bookAheadNote": "Yosemite dropped its timed-entry reservation system for 2026, but weekends and holidays still get very crowded.",
+  "tz": "America/Los_Angeles"
  },
  {
   "id": "alaska-glaciers-and-bears-us",
@@ -9370,7 +13936,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Brooks_Falls"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.nps.gov/katm/index.htm",
+   "wikipedia": "https://en.wikipedia.org/wiki/Brooks_Falls"
+  },
+  "hashtags": [
+   "katmai",
+   "brooksfalls",
+   "bearcam"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AKN",
+    "city": "King Salmon"
+   }
+  ],
+  "bookAheadNote": "Brooks Camp campground is limited to 60 people a night and peak bear-season dates can fill up to six months ahead.",
+  "tz": "America/Anchorage"
  },
  {
   "id": "mardi-gras-us",
@@ -9404,7 +13987,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/French_Quarter",
    "https://www.neworleans.com/events/holidays-seasonal/mardi-gras/mardi-gras-parade-schedule/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.neworleans.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/French_Quarter"
+  },
+  "hashtags": [
+   "mardigras",
+   "neworleans",
+   "fattuesday"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MSY",
+    "city": "New Orleans",
+    "driveTime": "20-40 min to French Quarter"
+   }
+  ],
+  "bookAheadNote": "French Quarter hotels sell out well ahead of Fat Tuesday weekend.",
+  "tz": "America/Chicago"
  },
  {
   "id": "sxsw-us",
@@ -9439,7 +14040,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Austin_Convention_Center",
    "https://sxsw.com/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://sxsw.com/",
+   "tickets": "https://cart.sxsw.com/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Austin_Convention_Center"
+  },
+  "hashtags": [
+   "sxsw",
+   "sxsw2027",
+   "austin"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AUS",
+    "city": "Austin"
+   }
+  ],
+  "tz": "America/Chicago"
  },
  {
   "id": "coachella-us",
@@ -9473,7 +14091,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Empire_Polo_Club",
    "https://www.sportingnews.com/us/tickets/news/coachella-2027-tickets-passes-pricing-dates-lineup-festival/e9961981411d64f65faa2a9c"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.coachella.com",
+   "tickets": "https://www.coachella.com/passes",
+   "wikipedia": "https://en.wikipedia.org/wiki/Empire_Polo_Club"
+  },
+  "hashtags": [
+   "coachella",
+   "coachella2027",
+   "indio"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PSP",
+    "city": "Palm Springs",
+    "driveTime": "~25-30 min to Empire Polo Club"
+   }
+  ],
+  "bookAheadNote": "2027 advance-sale passes for both weekends are already gone; only waitlists remain.",
+  "tz": "America/Los_Angeles"
  },
  {
   "id": "the-masters-us",
@@ -9507,7 +14144,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Augusta_National_Golf_Club",
    "https://www.skysports.com/golf/news/12176/13563739/golf-majors-in-2027-schedule-dates-venues-for-the-open-us-open-ryder-cup-and-more"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.masters.com",
+   "tickets": "https://tickets.masters.com/en_US/ticketsFAQ",
+   "wikipedia": "https://en.wikipedia.org/wiki/Augusta_National_Golf_Club"
+  },
+  "hashtags": [
+   "themasters",
+   "augustanational",
+   "mastersgolf"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AGS",
+    "city": "Augusta",
+    "driveTime": "~15-20 min"
+   }
+  ],
+  "bookAheadNote": "Tournament and practice-round tickets are allocated by lottery application (opens June 1, closes ~June 20 the year before); most applicants don't win.",
+  "tz": "America/New_York"
  },
  {
   "id": "kentucky-derby-us",
@@ -9541,7 +14197,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Churchill_Downs",
    "https://www.kentuckyderby.com/tickets/2027/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.kentuckyderby.com",
+   "tickets": "https://www.kentuckyderby.com/tickets/2027/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Churchill_Downs"
+  },
+  "hashtags": [
+   "kentuckyderby",
+   "churchilldowns",
+   "runfortheroses"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SDF",
+    "city": "Louisville",
+    "driveTime": "~10-15 min"
+   }
+  ],
+  "bookAheadNote": "Two-day ticket packages go on sale months ahead (June 2026 for the 2027 Derby) and sell out fast.",
+  "tz": "America/Kentucky/Louisville"
  },
  {
   "id": "burning-man-us",
@@ -9577,7 +14252,26 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Black_Rock_Desert",
    "https://www.rgj.com/story/life/arts/burning-man/2026/09/08/burning-man-announces-2027s-theme-see-all-since-the-first-one-in-97/91662152007/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://burningman.org",
+   "tickets": "https://burningman.org/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Black_Rock_Desert"
+  },
+  "hashtags": [
+   "burningman",
+   "blackrockcity",
+   "brc2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RNO",
+    "city": "Reno",
+    "driveTime": "~3 hr"
+   }
+  ],
+  "bookAheadNote": "Tickets are sold in staged sales (starting around February) and regularly sell out; a separate vehicle pass is required.",
+  "tz": "America/Los_Angeles"
  },
  {
   "id": "napa-harvest-us",
@@ -9606,7 +14300,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Napa_Valley_AVA"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitnapavalley.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Napa_Valley_AVA"
+  },
+  "hashtags": [
+   "napavalley",
+   "napaharvest",
+   "crushseason"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "STS",
+    "city": "Santa Rosa/Sonoma County",
+    "driveTime": "~1 hr to downtown Napa"
+   }
+  ],
+  "bookAheadNote": "Hands-on harvest tours and grape-stomping experiences often book up by Labor Day.",
+  "tz": "America/Los_Angeles"
  },
  {
   "id": "new-england-foliage-us",
@@ -9634,7 +14346,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Stowe,_Vermont"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://gostowe.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Stowe,_Vermont"
+  },
+  "hashtags": [
+   "stowevt",
+   "vermontfoliage",
+   "leafpeeping"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BTV",
+    "city": "Burlington",
+    "driveTime": "~45 min"
+   }
+  ],
+  "tz": "America/New_York"
  },
  {
   "id": "united-states-grand-prix-us",
@@ -9668,7 +14397,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Circuit_of_the_Americas",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://circuitoftheamericas.com",
+   "tickets": "https://circuitoftheamericas.com/event/f1/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Circuit_of_the_Americas"
+  },
+  "hashtags": [
+   "usgp",
+   "cota",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AUS",
+    "city": "Austin",
+    "driveTime": "~15-20 min"
+   }
+  ],
+  "tz": "America/Chicago"
  },
  {
   "id": "las-vegas-grand-prix-us",
@@ -9703,7 +14450,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Las_Vegas_Strip_Circuit",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.f1lasvegasgp.com",
+   "tickets": "https://www.f1lasvegasgp.com/tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Las_Vegas_Strip_Circuit"
+  },
+  "hashtags": [
+   "lasvegasgp",
+   "f1vegas",
+   "lvgp"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LAS",
+    "city": "Las Vegas",
+    "driveTime": "~10-15 min"
+   }
+  ],
+  "tz": "America/Los_Angeles"
  },
  {
   "id": "whistler-skiing-ca",
@@ -9739,7 +14504,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Whistler_Blackcomb",
    "https://www.whistler.com/about-whistler/stats-facts/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.whistlerblackcomb.com",
+   "tickets": "https://www.whistlerblackcomb.com/plan-your-trip/lift-access/tickets.aspx",
+   "wikipedia": "https://en.wikipedia.org/wiki/Whistler_Blackcomb"
+  },
+  "hashtags": [
+   "whistler",
+   "whistlerblackcomb",
+   "bc"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YVR",
+    "city": "Vancouver",
+    "driveTime": "~2-2.5 hr"
+   }
+  ],
+  "tz": "America/Vancouver"
  },
  {
   "id": "banff-and-lake-louise-ca",
@@ -9771,7 +14554,24 @@
   "sources": [
    "https://www.openstreetmap.org/node/2665400241",
    "https://en.wikipedia.org/wiki/Lake_Louise"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.banfflakelouise.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Lake_Louise"
+  },
+  "hashtags": [
+   "banff",
+   "lakelouise",
+   "banffnationalpark"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YYC",
+    "city": "Calgary",
+    "driveTime": "~1.5-2 hr"
+   }
+  ],
+  "tz": "America/Edmonton"
  },
  {
   "id": "quebec-winter-carnival-ca",
@@ -9805,7 +14605,25 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Plains_of_Abraham",
    "https://carnaval.qc.ca/en/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://carnaval.qc.ca/en/",
+   "tickets": "https://carnaval.qc.ca/en/shop/ticketing/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Plains_of_Abraham"
+  },
+  "hashtags": [
+   "carnavaldequebec",
+   "quebeccarnival",
+   "bonhomme"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YQB",
+    "city": "Quebec City",
+    "driveTime": "~20 min"
+   }
+  ],
+  "tz": "America/Toronto"
  },
  {
   "id": "canadian-grand-prix-ca",
@@ -9839,7 +14657,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Circuit_Gilles_Villeneuve",
    "https://www.astonmartinf1.com/en-GB/news/announcement/f1-2027-calendar-revealed"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://gpcanada.ca/en/",
+   "tickets": "https://gpcanada.ca/en/2027-tickets/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Circuit_Gilles_Villeneuve"
+  },
+  "hashtags": [
+   "canadiangp",
+   "f1montreal",
+   "gpcanada"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YUL",
+    "city": "Montreal"
+   }
+  ],
+  "tz": "America/Toronto"
  },
  {
   "id": "montreal-jazz-festival-ca",
@@ -9875,7 +14710,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Quartier_des_spectacles",
    "https://montrealjazzfest.com/en"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://montrealjazzfest.com/en",
+   "tickets": "https://montrealjazzfest.com/en/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Quartier_des_spectacles"
+  },
+  "hashtags": [
+   "montrealjazzfest",
+   "jazzfest",
+   "montreal"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YUL",
+    "city": "Montreal"
+   }
+  ],
+  "tz": "America/Toronto"
  },
  {
   "id": "calgary-stampede-ca",
@@ -9909,7 +14761,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Calgary_Stampede",
    "https://www.calgarystampede.com/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.calgarystampede.com",
+   "tickets": "https://www.calgarystampede.com/stampede/tickets",
+   "wikipedia": "https://en.wikipedia.org/wiki/Calgary_Stampede"
+  },
+  "hashtags": [
+   "calgarystampede",
+   "yyc",
+   "stampede2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "tz": "America/Edmonton"
  },
  {
   "id": "churchill-polar-bears-ca",
@@ -9937,7 +14806,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Churchill,_Manitoba"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.travelmanitoba.com/churchill/experiences/polar-bears/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Churchill,_Manitoba"
+  },
+  "hashtags": [
+   "churchillmb",
+   "polarbearcapital",
+   "churchillpolarbears"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YYQ",
+    "city": "Churchill"
+   }
+  ],
+  "bookAheadNote": "Churchill has no road access; you fly in via Winnipeg (Calm Air), and peak polar-bear-season (Oct-Nov) tours book up early.",
+  "tz": "America/Winnipeg"
  },
  {
   "id": "yellowknife-aurora-ca",
@@ -9972,7 +14858,23 @@
   "conditions": "aurora",
   "sources": [
    "https://en.wikipedia.org/wiki/Yellowknife"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.spectacularnwt.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Yellowknife"
+  },
+  "hashtags": [
+   "yellowknife",
+   "spectacularnwt",
+   "auroraborealis"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "YZF",
+    "city": "Yellowknife"
+   }
+  ],
+  "tz": "America/Edmonton"
  },
  {
   "id": "dia-de-los-muertos-mx",
@@ -10007,7 +14909,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Z%C3%B3calo",
    "https://wheretostaymexico.com/news/day-of-the-dead-in-mexico-city-2026-parade-date-ofrendas-where-to-stay/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://cdmxtravel.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Z%C3%B3calo"
+  },
+  "hashtags": [
+   "diadelosmuertos",
+   "cdmx",
+   "mexicocity"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEX",
+    "city": "Mexico City"
+   }
+  ],
+  "tz": "America/Mexico_City"
  },
  {
   "id": "mexico-city-food-mx",
@@ -10050,7 +14968,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Colonia_Roma"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Colonia_Roma"
+  },
+  "hashtags": [
+   "cdmxfood",
+   "romanorte",
+   "mexicocityfood"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEX",
+    "city": "Mexico City"
+   }
+  ],
+  "tz": "America/Mexico_City"
  },
  {
   "id": "mexico-city-grand-prix-mx",
@@ -10085,7 +15018,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.formula1.com/en/racing/2026/mexico",
+   "tickets": "https://tickets.formula1.com/en/f1-4861-mexico",
+   "wikipedia": "https://en.wikipedia.org/wiki/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez"
+  },
+  "hashtags": [
+   "mexicogp",
+   "f1mexico",
+   "autodromohermanosrodriguez"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MEX",
+    "city": "Mexico City"
+   }
+  ],
+  "tz": "America/Mexico_City"
  },
  {
   "id": "monarch-butterflies-mx",
@@ -10117,7 +15067,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Monarch_Butterfly_Biosphere_Reserve"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Monarch_Butterfly_Biosphere_Reserve"
+  },
+  "hashtags": [
+   "monarchbutterfly",
+   "reservamariposamonarca",
+   "michoacan"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MLM",
+    "city": "Morelia"
+   }
+  ],
+  "bookAheadNote": "Sanctuaries (El Rosario, Sierra Chincua) are only open roughly November to March when the colonies are present.",
+  "tz": "America/Mexico_City"
  },
  {
   "id": "baja-gray-whales-mx",
@@ -10148,7 +15114,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/San_Ignacio_Lagoon"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/San_Ignacio_Lagoon"
+  },
+  "hashtags": [
+   "graywhale",
+   "bajacaliforniasur",
+   "sanignaciolagoon"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LTO",
+    "city": "Loreto"
+   }
+  ],
+  "bookAheadNote": "Whale-watching permits inside the lagoon are limited to a handful of authorized cooperatives, and the season is short (roughly January-April).",
+  "tz": "America/Mazatlan"
  },
  {
   "id": "tulum-cenotes-mx",
@@ -10187,11 +15169,30 @@
    "family",
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/node/976101133"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Tulum,_Quintana_Roo"
+  },
+  "hashtags": [
+   "tulum",
+   "cenote",
+   "rivieramaya"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CUN",
+    "city": "Cancún"
+   },
+   {
+    "iata": "TQO",
+    "city": "Tulum"
+   }
+  ],
+  "tz": "America/Cancun"
  },
  {
   "id": "puerto-escondido-surf-mx",
@@ -10223,11 +15224,26 @@
   "tags": [
    "adrenaline"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": "marine",
   "sources": [
    "https://www.openstreetmap.org/way/192166819"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Puerto_Escondido,_Oaxaca"
+  },
+  "hashtags": [
+   "puertoescondido",
+   "zicatela",
+   "mexicanpipeline"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PXM",
+    "city": "Puerto Escondido"
+   }
+  ],
+  "tz": "America/Mexico_City"
  },
  {
   "id": "santa-teresa-surf-cr",
@@ -10261,7 +15277,23 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Santa_Teresa,_Costa_Rica"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Santa_Teresa,_Costa_Rica"
+  },
+  "hashtags": [
+   "santateresacr",
+   "nicoyapeninsula",
+   "costaricasurf"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TMU",
+    "city": "Tambor",
+    "driveTime": "~45 min"
+   }
+  ],
+  "tz": "America/Costa_Rica"
  },
  {
   "id": "monteverde-zip-lines-cr",
@@ -10295,7 +15327,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Monteverde_Cloud_Forest_Reserve"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://cloudforestmonteverde.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Monteverde_Cloud_Forest_Reserve"
+  },
+  "hashtags": [
+   "monteverde",
+   "cloudforest",
+   "costarica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SJO",
+    "city": "San José"
+   }
+  ],
+  "bookAheadNote": "The cloud forest reserve strongly recommends booking entry time slots online in advance.",
+  "tz": "America/Costa_Rica"
  },
  {
   "id": "tortuguero-turtles-cr",
@@ -10326,7 +15375,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Tortuguero_National_Park"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Tortuguero_National_Park"
+  },
+  "hashtags": [
+   "tortuguero",
+   "seaturtles",
+   "costarica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TTQ",
+    "city": "Tortuguero"
+   }
+  ],
+  "bookAheadNote": "Tortuguero has no road access (boat or small plane only), and night turtle-nesting tours require a licensed local guide.",
+  "tz": "America/Costa_Rica"
  },
  {
   "id": "great-blue-hole-bz",
@@ -10356,7 +15421,24 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Great_Blue_Hole"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://travelbelize.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Great_Blue_Hole"
+  },
+  "hashtags": [
+   "greatbluehole",
+   "belize",
+   "lighthousereef"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BZE",
+    "city": "Belize City"
+   }
+  ],
+  "bookAheadNote": "Only reachable by boat (liveaboard dive trip) or flightseeing tour from Belize City; day-trip dive slots are limited.",
+  "tz": "America/Belize"
  },
  {
   "id": "ambergris-caye-bz",
@@ -10390,7 +15472,27 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Ambergris_Caye"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://travelbelize.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ambergris_Caye"
+  },
+  "hashtags": [
+   "ambergriscaye",
+   "sanpedrobelize",
+   "belize"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BZE",
+    "city": "Belize City"
+   },
+   {
+    "iata": "SPR",
+    "city": "San Pedro"
+   }
+  ],
+  "tz": "America/Belize"
  },
  {
   "id": "caracol-ruins-bz",
@@ -10424,7 +15526,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Caracol"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Caracol"
+  },
+  "hashtags": [
+   "caracolbelize",
+   "mayaruins",
+   "cayo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BZE",
+    "city": "Belize City"
+   }
+  ],
+  "tz": "America/Belize"
  },
  {
   "id": "semana-santa-in-antigua-gt",
@@ -10458,7 +15575,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Antigua_Guatemala",
    "https://cymantravel.com/semana-santa-antigua-guatemala/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Antigua_Guatemala"
+  },
+  "hashtags": [
+   "semanasantaantigua",
+   "antiguaguatemala",
+   "alfombras"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GUA",
+    "city": "Guatemala City"
+   }
+  ],
+  "bookAheadNote": "Antigua hotel rooms for Semana Santa sell out many months in advance.",
+  "tz": "America/Guatemala"
  },
  {
   "id": "acatenango-volcano-hike-gt",
@@ -10492,7 +15625,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Acatenango"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Acatenango"
+  },
+  "hashtags": [
+   "acatenango",
+   "volcanohike",
+   "guatemala"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GUA",
+    "city": "Guatemala City"
+   }
+  ],
+  "tz": "America/Guatemala"
  },
  {
   "id": "tikal-gt",
@@ -10526,7 +15674,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Tikal"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Tikal"
+  },
+  "hashtags": [
+   "tikal",
+   "mayaruins",
+   "peten"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FRS",
+    "city": "Flores/Santa Elena"
+   }
+  ],
+  "tz": "America/Guatemala"
  },
  {
   "id": "lake-atitlan-gt",
@@ -10561,7 +15724,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Lake_Atitl%C3%A1n"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Lake_Atitl%C3%A1n"
+  },
+  "hashtags": [
+   "lakeatitlan",
+   "panajachel",
+   "guatemala"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GUA",
+    "city": "Guatemala City"
+   }
+  ],
+  "tz": "America/Guatemala"
  },
  {
   "id": "exumas-swimming-pigs-bs",
@@ -10594,7 +15772,24 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Pig_Beach"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bahamas.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Pig_Beach"
+  },
+  "hashtags": [
+   "swimmingpigs",
+   "exuma",
+   "bahamas"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GGT",
+    "city": "George Town, Great Exuma"
+   }
+  ],
+  "bookAheadNote": "Big Major Cay is only reachable by boat charter/tour from Great Exuma or Nassau.",
+  "tz": "America/Nassau"
  },
  {
   "id": "exumas-sailing-bs",
@@ -10627,7 +15822,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Exuma"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bahamas.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Exuma"
+  },
+  "hashtags": [
+   "exuma",
+   "sailing",
+   "bahamas"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GGT",
+    "city": "George Town, Great Exuma"
+   }
+  ],
+  "tz": "America/Nassau"
  },
  {
   "id": "thunderball-grotto-bs",
@@ -10661,7 +15872,24 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Staniel_Cay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.bahamas.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Staniel_Cay"
+  },
+  "hashtags": [
+   "thunderballgrotto",
+   "stanielcay",
+   "exuma"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GGT",
+    "city": "George Town, Great Exuma"
+   }
+  ],
+  "bookAheadNote": "Best entered at low/slack tide by boat/snorkel tour from Staniel Cay.",
+  "tz": "America/Nassau"
  },
  {
   "id": "samana-humpback-whales-do",
@@ -10690,7 +15918,24 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Saman%C3%A1_Bay"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://godominicanrepublic.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Saman%C3%A1_Bay"
+  },
+  "hashtags": [
+   "samana",
+   "humpbackwhales",
+   "dominicanrepublic"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AZS",
+    "city": "Samaná/El Catey"
+   }
+  ],
+  "bookAheadNote": "Whale-watching season runs roughly mid-January to late March and licensed tour slots fill up on weekends.",
+  "tz": "America/Santo_Domingo"
  },
  {
   "id": "punta-cana-beaches-do",
@@ -10723,7 +15968,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Punta_Cana"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://godominicanrepublic.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Punta_Cana"
+  },
+  "hashtags": [
+   "puntacana",
+   "dominicanrepublic",
+   "beach"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PUJ",
+    "city": "Punta Cana"
+   }
+  ],
+  "tz": "America/Santo_Domingo"
  },
  {
   "id": "santo-domingo-zona-colonial-do",
@@ -10756,7 +16017,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Ciudad_Colonial_(Santo_Domingo)"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://godominicanrepublic.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Ciudad_Colonial_(Santo_Domingo)"
+  },
+  "hashtags": [
+   "zonacolonial",
+   "santodomingo",
+   "dominicanrepublic"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SDQ",
+    "city": "Santo Domingo"
+   }
+  ],
+  "tz": "America/Santo_Domingo"
  },
  {
   "id": "trinidad-carnival-tt",
@@ -10790,7 +16067,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Queen%27s_Park_Savannah",
    "https://visittrinidad.tt/things-to-do/carnival/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visittrinidad.tt/things-to-do/carnival/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Queen%27s_Park_Savannah"
+  },
+  "hashtags": [
+   "trinidadcarnival",
+   "trinicarnival",
+   "carnival2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "POS",
+    "city": "Port of Spain"
+   }
+  ],
+  "bookAheadNote": "Costume (mas band) packages and popular fetes sell out months ahead; book bands early.",
+  "tz": "America/Port_of_Spain"
  },
  {
   "id": "tobago-buccoo-reef-tt",
@@ -10823,7 +16117,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Buccoo_Reef"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://visittrinidad.tt",
+   "wikipedia": "https://en.wikipedia.org/wiki/Buccoo_Reef"
+  },
+  "hashtags": [
+   "buccooreef",
+   "tobago",
+   "trinidadandtobago"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TAB",
+    "city": "Tobago"
+   }
+  ],
+  "tz": "America/Port_of_Spain"
  },
  {
   "id": "asa-wright-birding-tt",
@@ -10856,7 +16166,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Asa_Wright_Nature_Centre"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://asawright.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Asa_Wright_Nature_Centre"
+  },
+  "hashtags": [
+   "asawright",
+   "birdingtrinidad",
+   "trinidad"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "POS",
+    "city": "Port of Spain"
+   }
+  ],
+  "tz": "America/Port_of_Spain"
  },
  {
   "id": "crop-over-bb",
@@ -10891,7 +16217,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Bridgetown",
    "https://carnivalvibez.com/barbados-crop-over-festival/"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitbarbados.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Bridgetown"
+  },
+  "hashtags": [
+   "cropover",
+   "barbados",
+   "cropover2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BGI",
+    "city": "Bridgetown"
+   }
+  ],
+  "tz": "America/Barbados"
  },
  {
   "id": "carlisle-bay-bb",
@@ -10924,7 +16266,23 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Carlisle_Bay,_Barbados"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.visitbarbados.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Carlisle_Bay,_Barbados"
+  },
+  "hashtags": [
+   "carlislebay",
+   "barbados",
+   "bridgetown"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BGI",
+    "city": "Bridgetown"
+   }
+  ],
+  "tz": "America/Barbados"
  },
  {
   "id": "harrison-s-cave-bb",
@@ -10964,7 +16322,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Harrison%27s_Cave"
-  ]
+  ],
+  "links": {
+   "tickets": "https://chukka.com/destinations/barbados/harrisons-cave/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Harrison%27s_Cave"
+  },
+  "hashtags": [
+   "harrisonscave",
+   "barbados",
+   "stthomas"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BGI",
+    "city": "Bridgetown"
+   }
+  ],
+  "tz": "America/Barbados"
  },
  {
   "id": "rio-carnival-br",
@@ -10998,7 +16372,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Sambadrome_Marqu%C3%AAs_de_Sapuca%C3%AD",
    "https://www.riocarnaval.org/carnival-date/date"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Sambadrome_Marqu%C3%AAs_de_Sapuca%C3%AD"
+  },
+  "hashtags": [
+   "riocarnaval",
+   "riocarnival",
+   "carnaval2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GIG",
+    "city": "Rio de Janeiro"
+   }
+  ],
+  "bookAheadNote": "Sambadrome grandstand tickets and top hotels sell out well before Carnival weekend.",
+  "tz": "America/Sao_Paulo"
  },
  {
   "id": "new-year-s-eve-at-copacabana-br",
@@ -11033,7 +16423,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Copacabana,_Rio_de_Janeiro",
    "https://copacabana.com/destaques/reveillon-2026"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Copacabana,_Rio_de_Janeiro"
+  },
+  "hashtags": [
+   "reveillon",
+   "copacabana",
+   "riodejaneiro"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GIG",
+    "city": "Rio de Janeiro"
+   }
+  ],
+  "bookAheadNote": "Beachfront hotel rooms for Réveillon sell out very far in advance.",
+  "tz": "America/Sao_Paulo"
  },
  {
   "id": "sao-paulo-grand-prix-br",
@@ -11067,7 +16473,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Interlagos_Circuit",
    "https://www.formula1.com/en/racing/2026"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.formula1.com/en/racing/2026/brazil",
+   "tickets": "https://tickets.formula1.com/en/f1-3325-brazil",
+   "wikipedia": "https://en.wikipedia.org/wiki/Interlagos_Circuit"
+  },
+  "hashtags": [
+   "saopaulogp",
+   "interlagos",
+   "f1brasil"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GRU",
+    "city": "São Paulo"
+   }
+  ],
+  "tz": "America/Sao_Paulo"
  },
  {
   "id": "iguazu-falls-brazil-side-br",
@@ -11107,7 +16530,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Iguazu_Falls"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.cataratasdoiguacu.com.br",
+   "tickets": "https://tickets.cataratasdoiguacu.com.br/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Iguazu_Falls"
+  },
+  "hashtags": [
+   "iguazufalls",
+   "cataratasdoiguacu",
+   "fozdoiguacu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IGU",
+    "city": "Foz do Iguaçu"
+   }
+  ],
+  "tz": "America/Argentina/Cordoba"
  },
  {
   "id": "jericoacoara-kitesurfing-br",
@@ -11141,7 +16581,22 @@
   "conditions": "marine",
   "sources": [
    "https://en.wikipedia.org/wiki/Jijoca_de_Jericoacoara"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Jijoca_de_Jericoacoara"
+  },
+  "hashtags": [
+   "jericoacoara",
+   "jeri",
+   "kitesurfing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JJD",
+    "city": "Jericoacoara"
+   }
+  ],
+  "tz": "America/Fortaleza"
  },
  {
   "id": "el-chalten-hiking-ar",
@@ -11174,7 +16629,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/El_Chalt%C3%A9n"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.argentina.gob.ar/parquesnacionales/losglaciares",
+   "wikipedia": "https://en.wikipedia.org/wiki/El_Chalt%C3%A9n"
+  },
+  "hashtags": [
+   "elchalten",
+   "losglaciares",
+   "fitzroy"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "FTE",
+    "city": "El Calafate"
+   }
+  ],
+  "tz": "America/Argentina/Rio_Gallegos"
  },
  {
   "id": "vendimia-in-mendoza-ar",
@@ -11208,7 +16679,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Mendoza,_Argentina",
    "https://www.elsol.com.ar/mendoza/confirmaron-el-calendario-de-la-fiesta-nacional-de-la-vendimia-2027-cuando-sera-el-acto-central/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Mendoza,_Argentina"
+  },
+  "hashtags": [
+   "vendimia",
+   "fiestadelavendimia",
+   "mendoza"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MDZ",
+    "city": "Mendoza"
+   }
+  ],
+  "bookAheadNote": "The 2027 festival's Central Act (main show) is set for March 6, 2027; seats for it sell out.",
+  "tz": "America/Argentina/Mendoza"
  },
  {
   "id": "bariloche-skiing-ar",
@@ -11240,7 +16727,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Cerro_Catedral",
    "https://www.wikidata.org/wiki/Q1055804"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.catedralaltapatagonia.com",
+   "tickets": "https://tienda.catedralaltapatagonia.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Cerro_Catedral"
+  },
+  "hashtags": [
+   "barilocheski",
+   "cerrocatedral",
+   "patagonia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BRC",
+    "city": "Bariloche"
+   }
+  ],
+  "tz": "America/Argentina/Salta"
  },
  {
   "id": "buenos-aires-tango-ar",
@@ -11284,7 +16788,26 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/San_Telmo,_Buenos_Aires"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/San_Telmo,_Buenos_Aires"
+  },
+  "hashtags": [
+   "buenosairestango",
+   "santelmo",
+   "tango"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AEP",
+    "city": "Buenos Aires (Aeroparque)"
+   },
+   {
+    "iata": "EZE",
+    "city": "Buenos Aires (Ezeiza)"
+   }
+  ],
+  "tz": "America/Argentina/Buenos_Aires"
  },
  {
   "id": "iguazu-falls-argentine-side-ar",
@@ -11325,7 +16848,24 @@
   "sources": [
    "https://www.openstreetmap.org/way/551980154",
    "https://en.wikipedia.org/wiki/Devil%27s_Throat"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.iguazuargentina.com",
+   "tickets": "https://www.iguazuargentina.com/planifica-tu-visita/compra-tus-entradas",
+   "wikipedia": "https://en.wikipedia.org/wiki/Devil%27s_Throat"
+  },
+  "hashtags": [
+   "iguazuargentina",
+   "cataratasdeliguazu",
+   "puertoiguazu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IGR",
+    "city": "Puerto Iguazú"
+   }
+  ],
+  "tz": "America/Argentina/Cordoba"
  },
  {
   "id": "torres-del-paine-cl",
@@ -11358,7 +16898,25 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Torres_del_Paine_National_Park"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.conaf.cl/parques/parque-nacional-torres-del-paine/",
+   "tickets": "https://www.pasesparques.cl/",
+   "wikipedia": "https://en.wikipedia.org/wiki/Torres_del_Paine_National_Park"
+  },
+  "hashtags": [
+   "torresdelpaine",
+   "patagonia",
+   "chile"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PUQ",
+    "city": "Punta Arenas"
+   }
+  ],
+  "bookAheadNote": "Park entrance tickets and the popular W/O trek refugios/campsites must be booked ahead, especially in peak (Nov-Mar) season.",
+  "tz": "America/Punta_Arenas"
  },
  {
   "id": "tapati-rapa-nui-cl",
@@ -11393,7 +16951,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Hanga_Roa",
    "https://www.easterisland.travel/blog/tapati-rapa-nui-2027-easter-island/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Hanga_Roa"
+  },
+  "hashtags": [
+   "tapatirapanui",
+   "easterisland",
+   "rapanui"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "IPC",
+    "city": "Easter Island"
+   }
+  ],
+  "bookAheadNote": "Rapa Nui National Park requires a prepaid multi-day entrance ticket, and flights/lodging to Easter Island sell out well ahead during Tapati.",
+  "tz": "Pacific/Easter"
  },
  {
   "id": "portillo-skiing-cl",
@@ -11424,7 +16998,24 @@
   "conditions": "snow",
   "sources": [
    "https://en.wikipedia.org/wiki/Portillo,_Chile"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.skiportillo.com",
+   "tickets": "https://reservas.skiportillo.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Portillo,_Chile"
+  },
+  "hashtags": [
+   "skiportillo",
+   "portillochile",
+   "andes"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SCL",
+    "city": "Santiago"
+   }
+  ],
+  "tz": "America/Santiago"
  },
  {
   "id": "valle-nevado-skiing-cl",
@@ -11456,7 +17047,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Valle_Nevado",
    "https://www.onthesnow.com/chile/valle-nevado/ski-resort"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.vallenevado.com",
+   "tickets": "https://store.vallenevado.com",
+   "wikipedia": "https://en.wikipedia.org/wiki/Valle_Nevado"
+  },
+  "hashtags": [
+   "vallenevado",
+   "skichile",
+   "andes"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SCL",
+    "city": "Santiago"
+   }
+  ],
+  "tz": "America/Santiago"
  },
  {
   "id": "atacama-stargazing-cl",
@@ -11496,7 +17104,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/San_Pedro_de_Atacama"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/San_Pedro_de_Atacama"
+  },
+  "hashtags": [
+   "atacama",
+   "sanpedrodeatacama",
+   "stargazing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CJC",
+    "city": "Calama"
+   }
+  ],
+  "tz": "America/Santiago"
  },
  {
   "id": "machu-picchu-pe",
@@ -11530,7 +17153,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Machu_Picchu"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Machu_Picchu"
+  },
+  "hashtags": [
+   "machupicchu",
+   "peru",
+   "aguascalientes"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CUZ",
+    "city": "Cusco"
+   }
+  ],
+  "bookAheadNote": "Entry is by timed ticket with a daily visitor cap, sold through Peru's Ministry of Culture; tickets (and the Inca Trail permit, if hiking in) should be booked weeks to months ahead.",
+  "tz": "America/Lima"
  },
  {
   "id": "inti-raymi-pe",
@@ -11564,7 +17203,23 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Sacsayhuam%C3%A1n",
    "https://www.cuscoperu.com/es/festividades-y-eventos/mayo-junio/inti-raymi/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Sacsayhuam%C3%A1n"
+  },
+  "hashtags": [
+   "intiraymi",
+   "cusco",
+   "intiraymi2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CUZ",
+    "city": "Cusco"
+   }
+  ],
+  "bookAheadNote": "The Qorikancha and Plaza Mayor re-enactments are free, but grandstand tickets for the main Sacsayhuamán ceremony are paid and should be booked months ahead.",
+  "tz": "America/Lima"
  },
  {
   "id": "lima-food-pe",
@@ -11607,7 +17262,22 @@
   "sources": [
    "https://www.openstreetmap.org/relation/1944770",
    "https://en.wikipedia.org/wiki/Miraflores_District"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Miraflores_District"
+  },
+  "hashtags": [
+   "limafood",
+   "miraflores",
+   "peruvianfood"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LIM",
+    "city": "Lima"
+   }
+  ],
+  "tz": "America/Lima"
  },
  {
   "id": "galapagos-wildlife-ec",
@@ -11651,7 +17321,24 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_Islands"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.galapagos.gob.ec",
+   "wikipedia": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_Islands"
+  },
+  "hashtags": [
+   "galapagos",
+   "galapagosislands",
+   "santacruzisland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "GPS",
+    "city": "Baltra/Galápagos"
+   }
+  ],
+  "bookAheadNote": "Visitors need a Galápagos National Park entrance fee/transit control card arranged before arrival, and popular cruises book out many months ahead.",
+  "tz": "Pacific/Galapagos"
  },
  {
   "id": "quito-old-town-ec",
@@ -11682,7 +17369,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Quito"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Quito"
+  },
+  "hashtags": [
+   "quito",
+   "centrohistorico",
+   "ecuador"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UIO",
+    "city": "Quito"
+   }
+  ],
+  "tz": "America/Guayaquil"
  },
  {
   "id": "cotopaxi-ec",
@@ -11713,7 +17415,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Cotopaxi"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Cotopaxi"
+  },
+  "hashtags": [
+   "cotopaxi",
+   "cotopaxinationalpark",
+   "ecuador"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UIO",
+    "city": "Quito"
+   }
+  ],
+  "tz": "America/Guayaquil"
  },
  {
   "id": "barranquilla-carnival-co",
@@ -11747,7 +17464,24 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Barranquilla",
    "https://www.visitatlantico.com/en/carnival"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://carnavaldebarranquilla.org",
+   "wikipedia": "https://en.wikipedia.org/wiki/Barranquilla"
+  },
+  "hashtags": [
+   "carnavaldebarranquilla",
+   "barranquillacarnival",
+   "carnaval2027"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAQ",
+    "city": "Barranquilla"
+   }
+  ],
+  "bookAheadNote": "Numbered grandstand (palco) seats along Vía 40 sell out weeks ahead; buy only through the official foundation or RNT-registered operators.",
+  "tz": "America/Bogota"
  },
  {
   "id": "medellin-flower-festival-co",
@@ -11781,7 +17515,22 @@
   "sources": [
    "https://en.wikipedia.org/wiki/Medell%C3%ADn",
    "https://www.riotimesonline.com/medellin-flower-fair-2027-guide/"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Medell%C3%ADn"
+  },
+  "hashtags": [
+   "feriadelasflores",
+   "medellin",
+   "silleteros"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MDE",
+    "city": "Medellín"
+   }
+  ],
+  "tz": "America/Bogota"
  },
  {
   "id": "cartagena-old-town-co",
@@ -11809,11 +17558,26 @@
    "nightlife",
    "luxury"
   ],
-  "heat": null,
+  "heat": 40,
   "conditions": null,
   "sources": [
    "https://www.openstreetmap.org/node/4434771990"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Cartagena,_Colombia"
+  },
+  "hashtags": [
+   "cartagena",
+   "cartagenadeindias",
+   "colombia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CTG",
+    "city": "Cartagena"
+   }
+  ],
+  "tz": "America/Bogota"
  },
  {
   "id": "coffee-region-co",
@@ -11845,7 +17609,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Salento,_Quind%C3%ADo"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Salento,_Quind%C3%ADo"
+  },
+  "hashtags": [
+   "ejecafetero",
+   "salento",
+   "colombiancoffee"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MDE",
+    "city": "Medellín"
+   }
+  ],
+  "tz": "America/Bogota"
  },
  {
   "id": "salar-de-uyuni-mirror-bo",
@@ -11875,7 +17654,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Salar_de_Uyuni"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Salar_de_Uyuni"
+  },
+  "hashtags": [
+   "salardeuyuni",
+   "uyuni",
+   "bolivia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UYU",
+    "city": "Uyuni"
+   }
+  ],
+  "bookAheadNote": "The mirror effect only happens during the rainy season (roughly Dec-Apr) with a thin standing layer of water.",
+  "tz": "America/La_Paz"
  },
  {
   "id": "la-paz-cable-cars-bo",
@@ -11909,7 +17704,23 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Mi_Telef%C3%A9rico"
-  ]
+  ],
+  "links": {
+   "officialSite": "https://www.miteleferico.bo",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mi_Telef%C3%A9rico"
+  },
+  "hashtags": [
+   "miteleferico",
+   "lapaz",
+   "bolivia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LPB",
+    "city": "La Paz/El Alto"
+   }
+  ],
+  "tz": "America/La_Paz"
  },
  {
   "id": "lake-titicaca-bo",
@@ -11943,7 +17754,22 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Isla_del_Sol"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Isla_del_Sol"
+  },
+  "hashtags": [
+   "laketiticaca",
+   "copacabanabolivia",
+   "islasdelsol"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LPB",
+    "city": "La Paz/El Alto"
+   }
+  ],
+  "tz": "America/La_Paz"
  },
  {
   "id": "punta-del-este-summer-uy",
@@ -11973,7 +17799,22 @@
   "conditions": "beach",
   "sources": [
    "https://en.wikipedia.org/wiki/Punta_del_Este"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Punta_del_Este"
+  },
+  "hashtags": [
+   "puntadeleste",
+   "uruguay",
+   "summerinuruguay"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PDP",
+    "city": "Punta del Este"
+   }
+  ],
+  "tz": "America/Montevideo"
  },
  {
   "id": "jose-ignacio-uy",
@@ -12003,7 +17844,22 @@
   "sources": [
    "https://www.openstreetmap.org/relation/2453191",
    "https://en.wikipedia.org/wiki/Jos%C3%A9_Ignacio"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Jos%C3%A9_Ignacio"
+  },
+  "hashtags": [
+   "joseignacio",
+   "uruguay",
+   "puntadeleste"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PDP",
+    "city": "Punta del Este"
+   }
+  ],
+  "tz": "America/Montevideo"
  },
  {
   "id": "colonia-del-sacramento-uy",
@@ -12037,6 +17893,21 @@
   "conditions": null,
   "sources": [
    "https://en.wikipedia.org/wiki/Colonia_del_Sacramento"
-  ]
+  ],
+  "links": {
+   "wikipedia": "https://en.wikipedia.org/wiki/Colonia_del_Sacramento"
+  },
+  "hashtags": [
+   "coloniadelsacramento",
+   "uruguay",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MVD",
+    "city": "Montevideo"
+   }
+  ],
+  "tz": "America/Montevideo"
  }
 ]

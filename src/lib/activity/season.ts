@@ -126,7 +126,7 @@ export function verdict(a: Activity, sel: MonthSel, now: Date, live?: LiveGood |
 
   if (a.kind === "event") {
     const ev = a.eventDates;
-    if (!ev) return { tone: "off", text: `Dates not announced yet. Usually ${formatMonthRanges(a.bestMonths)}` };
+    if (!ev) return { tone: "off", text: a.datesNote ?? `Dates not announced yet. Usually ${formatMonthRanges(a.bestMonths)}` };
     const s = parseDay(ev.start), e = parseDay(ev.end);
     const range = formatEventRange(ev.start, ev.end) + (ev.status === "estimated" ? " (estimated)" : "");
     // The organizer has this date in doubt: say so rather than count down to it.

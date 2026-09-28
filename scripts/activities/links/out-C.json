@@ -1,0 +1,1474 @@
+{
+ "northern-lights-in-troms-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Troms%C3%B8",
+  "officialSite": "https://www.visittromso.no/",
+  "hashtags": [
+   "northernlights",
+   "tromso",
+   "auroraborealis"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TOS",
+    "city": "Tromsø"
+   }
+  ]
+ },
+ "lofoten-aurora-and-peaks-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Lofoten",
+  "officialSite": "https://visitlofoten.com/en/",
+  "hashtags": [
+   "lofoten",
+   "lofotenislands",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LKN",
+    "city": "Leknes"
+   },
+   {
+    "iata": "SVJ",
+    "city": "Svolvær"
+   }
+  ]
+ },
+ "preikestolen-hike-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Preikestolen",
+  "officialSite": "https://preikestolen365.com/",
+  "hashtags": [
+   "preikestolen",
+   "pulpitrock",
+   "lysefjord"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SVG",
+    "city": "Stavanger"
+   }
+  ]
+ },
+ "trolltunga-hike-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Trolltunga",
+  "officialSite": "https://www.trolltunga.com/en",
+  "hashtags": [
+   "trolltunga"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BGO",
+    "city": "Bergen",
+    "driveTime": "3.5 hours"
+   }
+  ],
+  "bookAheadNote": "Guided hiking is recommended outside the June to September season."
+ },
+ "geirangerfjord-cruise-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Geirangerfjord",
+  "officialSite": "https://www.geirangerfjord.no/english",
+  "hashtags": [
+   "geiranger",
+   "geirangerfjord",
+   "fjordnorway"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AES",
+    "city": "Ålesund",
+    "driveTime": "2.5 hours"
+   }
+  ]
+ },
+ "midnight-sun-at-north-cape-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/North_Cape",
+  "officialSite": "https://nordkapphallen.no/",
+  "hashtags": [
+   "nordkapp",
+   "northcape",
+   "midnightsun"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HVG",
+    "city": "Honningsvåg",
+    "driveTime": "28 min"
+   }
+  ]
+ },
+ "hemsedal-skiing-no": {
+  "officialSite": "https://hemsedal.com/en/",
+  "hashtags": [
+   "hemsedal",
+   "skihemsedal"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "OSL",
+    "city": "Oslo",
+    "driveTime": "3.5 hours"
+   }
+  ],
+  "wikipedia": "https://en.wikipedia.org/wiki/Hemsedal"
+ },
+ "trysil-skiing-no": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Trysil_Municipality",
+  "officialSite": "https://www.trysil.com/en/",
+  "hashtags": [
+   "trysil",
+   "skitrysil"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SCR",
+    "city": "Sälen/Scandinavian Mountains",
+    "driveTime": "40 min"
+   }
+  ]
+ },
+ "lapland-northern-lights-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Rovaniemi",
+  "officialSite": "https://www.visitrovaniemi.fi/",
+  "hashtags": [
+   "laplandfinland",
+   "rovaniemi",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RVN",
+    "city": "Rovaniemi"
+   }
+  ]
+ },
+ "santa-claus-village-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Santa_Claus_Village",
+  "officialSite": "https://santaclausvillage.info/",
+  "hashtags": [
+   "santaclausvillage",
+   "rovaniemi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RVN",
+    "city": "Rovaniemi"
+   }
+  ]
+ },
+ "husky-sledding-in-levi-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Levi,_Finland",
+  "officialSite": "https://www.levi.fi/en/",
+  "hashtags": [
+   "huskysledding",
+   "levi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTT",
+    "city": "Kittilä"
+   }
+  ]
+ },
+ "levi-skiing-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Levi,_Finland",
+  "officialSite": "https://www.levi.fi/en/",
+  "hashtags": [
+   "levi",
+   "skilevi",
+   "lapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KTT",
+    "city": "Kittilä"
+   }
+  ]
+ },
+ "ruka-skiing-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Ruka",
+  "officialSite": "https://www.ruka.fi/en/skiresort",
+  "hashtags": [
+   "ruka",
+   "rukaski",
+   "kuusamo"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KAO",
+    "city": "Kuusamo",
+    "driveTime": "26 min"
+   }
+  ]
+ },
+ "helsinki-sauna-culture-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/L%C3%B6yly",
+  "officialSite": "https://www.loylyhelsinki.fi/en",
+  "hashtags": [
+   "helsinkisauna",
+   "loylyhelsinki",
+   "saunaculture"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HEL",
+    "city": "Helsinki"
+   }
+  ]
+ },
+ "flow-festival-fi": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Suvilahti",
+  "officialSite": "https://www.flowfestival.com/en/",
+  "tickets": "https://www.tiketti.fi/flow-festival-2027-suvilahti-helsinki-tickets/119868",
+  "hashtags": [
+   "flowfestival",
+   "flowfestivalhelsinki"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HEL",
+    "city": "Helsinki"
+   }
+  ]
+ },
+ "icehotel-se": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Icehotel_(Jukkasj%C3%A4rvi)",
+  "officialSite": "https://www.icehotel.com/",
+  "hashtags": [
+   "icehotel",
+   "jukkasjarvi",
+   "swedishlapland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KRN",
+    "city": "Kiruna",
+    "driveTime": "15-20 min"
+   }
+  ]
+ },
+ "abisko-aurora-se": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Abisko_National_Park",
+  "officialSite": "https://visitabisko.com/",
+  "hashtags": [
+   "abisko",
+   "auroraskystation",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KRN",
+    "city": "Kiruna",
+    "driveTime": "1h 17m"
+   }
+  ]
+ },
+ "midsummer-at-skansen-se": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Skansen",
+  "officialSite": "https://www.skansen.se/en/see-and-do/holidays-and-traditions/midsummer/midsummer-at-skansen/",
+  "hashtags": [
+   "midsommar",
+   "skansen",
+   "stockholm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ARN",
+    "city": "Stockholm"
+   }
+  ]
+ },
+ "stockholm-archipelago-kayaking-se": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Stockholm_Archipelago",
+  "officialSite": "https://www.visitstockholm.com/see-do/excursions/discover-stockholm-archipelago/",
+  "hashtags": [
+   "stockholmarchipelago",
+   "skargarden",
+   "stockholm"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ARN",
+    "city": "Stockholm"
+   }
+  ]
+ },
+ "are-skiing-se": {
+  "wikipedia": "https://en.wikipedia.org/wiki/%C3%85re",
+  "officialSite": "https://aresweden.com/en/",
+  "hashtags": [
+   "are",
+   "skiare",
+   "swedishalps"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "OSD",
+    "city": "Åre/Östersund",
+    "driveTime": "1 hour"
+   }
+  ]
+ },
+ "northern-lights-at-ingvellir-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/%C3%9Eingvellir",
+  "officialSite": "https://www.thingvellir.is/en/",
+  "hashtags": [
+   "thingvellir",
+   "iceland",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ]
+ },
+ "vatnajokull-ice-caves-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Vatnaj%C3%B6kull",
+  "officialSite": "https://visitvatnajokull.is/",
+  "hashtags": [
+   "vatnajokull",
+   "icecave",
+   "jokulsarlon"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HFN",
+    "city": "Höfn"
+   }
+  ],
+  "bookAheadNote": "Ice caves can only be entered with a glacier guide; book tours in advance."
+ },
+ "ring-road-drive-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Route_1_(Iceland)",
+  "officialSite": "https://www.vegagerdin.is/en/home/exploring-iceland/the-ring-road",
+  "hashtags": [
+   "ringroad",
+   "route1iceland",
+   "iceland"
+  ]
+ },
+ "whale-watching-in-husavik-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/H%C3%BAsav%C3%ADk",
+  "officialSite": "https://www.northsailing.is/",
+  "hashtags": [
+   "husavik",
+   "whalewatching",
+   "iceland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AEY",
+    "city": "Akureyri",
+    "driveTime": "1 hour"
+   }
+  ]
+ },
+ "puffins-at-latrabjarg-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/L%C3%A1trabjarg",
+  "officialSite": "https://www.westfjords.is/en/place/latrabjarg",
+  "hashtags": [
+   "latrabjarg",
+   "puffins",
+   "westfjords"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BIU",
+    "city": "Bíldudalur"
+   }
+  ]
+ },
+ "blue-lagoon-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Blue_Lagoon_(geothermal_spa)",
+  "officialSite": "https://www.bluelagoon.com/",
+  "tickets": "https://www.bluelagoon.com/day-visit",
+  "hashtags": [
+   "bluelagoon",
+   "iceland",
+   "geothermalspa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ],
+  "bookAheadNote": "Timed-entry tickets regularly sell out weeks ahead in peak season."
+ },
+ "iceland-airwaves-is": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk",
+  "officialSite": "https://icelandairwaves.is/",
+  "tickets": "https://icelandairwaves.is/tickets/",
+  "hashtags": [
+   "icelandairwaves",
+   "reykjavik"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KEF",
+    "city": "Reykjavík/Keflavík"
+   }
+  ]
+ },
+ "copenhagen-fine-dining-dk": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Noma_(restaurant)",
+  "officialSite": "https://noma.dk/",
+  "tickets": "https://noma.dk/reservations/",
+  "hashtags": [
+   "noma",
+   "copenhagenfood",
+   "newnordiccuisine"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "bookAheadNote": "Noma reservations open in narrow windows and sell out almost immediately."
+ },
+ "copenhagen-by-bike-dk": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Copenhagen",
+  "officialSite": "https://www.visitcopenhagen.com/copenhagen/things-to-do/biking/copenhagens-bike-culture",
+  "hashtags": [
+   "copenhagenbybike",
+   "cyclingcopenhagen",
+   "copenhagen"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ]
+ },
+ "roskilde-festival-dk": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Roskilde_Festival",
+  "officialSite": "https://www.roskilde-festival.dk/en",
+  "tickets": "https://www.roskilde-festival.dk/en/tickets",
+  "hashtags": [
+   "roskildefestival",
+   "roskilde"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ],
+  "bookAheadNote": "Full festival passes have sold out well ahead of previous editions."
+ },
+ "christmas-in-tivoli-dk": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Tivoli_Gardens",
+  "officialSite": "https://www.tivoli.dk/en/",
+  "tickets": "https://www.tivoli.dk/en/opening-hours-and-seasons/christmas-in-tivoli",
+  "hashtags": [
+   "tivoligardens",
+   "christmasintivoli",
+   "copenhagen"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPH",
+    "city": "Copenhagen"
+   }
+  ]
+ },
+ "ilulissat-icefjord-gl": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Ilulissat_Icefjord",
+  "officialSite": "https://visitgreenland.com/activities/ilulissat-icefjord/",
+  "hashtags": [
+   "ilulissaticefjord",
+   "greenland",
+   "disko"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAV",
+    "city": "Ilulissat"
+   }
+  ]
+ },
+ "disko-bay-kayaking-gl": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Disko_Bay",
+  "officialSite": "https://visitgreenland.com/destinations/ilulissat/",
+  "hashtags": [
+   "diskobay",
+   "ilulissat",
+   "greenland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JAV",
+    "city": "Ilulissat"
+   }
+  ]
+ },
+ "kangerlussuaq-aurora-gl": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Kangerlussuaq",
+  "officialSite": "https://visitgreenland.com/",
+  "hashtags": [
+   "kangerlussuaq",
+   "greenland",
+   "northernlights"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SFJ",
+    "city": "Kangerlussuaq"
+   }
+  ]
+ },
+ "dubai-winter-sun-and-shopping-ae": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+  "officialSite": "https://www.visitdubai.com/en",
+  "hashtags": [
+   "visitdubai",
+   "dubai",
+   "burjkhalifa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DXB",
+    "city": "Dubai"
+   }
+  ]
+ },
+ "abu-dhabi-grand-prix-ae": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Yas_Marina_Circuit",
+  "officialSite": "https://www.yasmarinacircuit.com/en/",
+  "tickets": "https://www.abudhabigp.com/en/",
+  "hashtags": [
+   "abudhabigp",
+   "f1",
+   "yasmarina"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AUH",
+    "city": "Abu Dhabi"
+   }
+  ]
+ },
+ "dubai-desert-safari-ae": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Dubai_Desert_Conservation_Reserve",
+  "officialSite": "https://www.ddcr.org/",
+  "hashtags": [
+   "dubaidesertsafari",
+   "ddcr",
+   "dubai"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DXB",
+    "city": "Dubai"
+   }
+  ]
+ },
+ "alula-heritage-sa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Hegra",
+  "officialSite": "https://www.rcu.gov.sa/en/visiting-alula",
+  "hashtags": [
+   "alula",
+   "hegra",
+   "saudiarabia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ULH",
+    "city": "AlUla"
+   }
+  ]
+ },
+ "riyadh-season-sa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Riyadh",
+  "officialSite": "https://riyadhseason.com/",
+  "hashtags": [
+   "riyadhseason",
+   "riyadh"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RUH",
+    "city": "Riyadh"
+   }
+  ]
+ },
+ "saudi-arabian-grand-prix-sa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Jeddah_Corniche_Circuit",
+  "officialSite": "https://www.jeddahcornichecircuit.com/",
+  "tickets": "https://ticketing.formula1.com/saudi-arabia/",
+  "hashtags": [
+   "saudif1",
+   "jeddahgp",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JED",
+    "city": "Jeddah"
+   }
+  ]
+ },
+ "qatar-grand-prix-qa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Lusail_International_Circuit",
+  "officialSite": "https://www.lusailcircuit.com/",
+  "hashtags": [
+   "qatargp",
+   "lusail",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ]
+ },
+ "khor-al-adaid-dunes-qa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Khor_Al_Adaid",
+  "officialSite": "https://visitqatar.com/intl-en/things-to-do/adventure-sports/desert/khor-al-adaid",
+  "hashtags": [
+   "khoraladaid",
+   "inlandsea",
+   "qatar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ]
+ },
+ "museum-of-islamic-art-qa": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Museum_of_Islamic_Art,_Doha",
+  "officialSite": "https://mia.org.qa/en/",
+  "hashtags": [
+   "museumofislamicart",
+   "doha",
+   "qatarmuseums"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "DOH",
+    "city": "Doha"
+   }
+  ]
+ },
+ "bahrain-grand-prix-bh": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Bahrain_International_Circuit",
+  "officialSite": "https://www.bahraingp.com/",
+  "hashtags": [
+   "bahraingp",
+   "f1"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ]
+ },
+ "bahrain-pearling-trail-bh": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Bahrain_Pearling_Trail",
+  "officialSite": "https://www.bahrain.com/en/the-pearling-path",
+  "hashtags": [
+   "pearlingtrail",
+   "bahrain",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ]
+ },
+ "bahrain-fort-bh": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Qal%27at_al-Bahrain",
+  "officialSite": "https://culture.gov.bh/en/",
+  "hashtags": [
+   "bahrainfort",
+   "qalatalbahrain",
+   "unesco"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BAH",
+    "city": "Manama"
+   }
+  ]
+ },
+ "wadi-shab-om": {
+  "officialSite": "https://experienceoman.om/",
+  "hashtags": [
+   "wadishab",
+   "oman",
+   "tiwi"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MCT",
+    "city": "Muscat",
+    "driveTime": "under 2 hours"
+   }
+  ]
+ },
+ "musandam-diving-om": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Musandam_Governorate",
+  "officialSite": "https://experienceoman.om/",
+  "hashtags": [
+   "musandam",
+   "khasab",
+   "omanfjords"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KHS",
+    "city": "Khasab"
+   }
+  ]
+ },
+ "wahiba-sands-om": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Sharqiya_Sands",
+  "officialSite": "https://experienceoman.om/",
+  "hashtags": [
+   "sharqiyasands",
+   "wahibasands",
+   "oman"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MCT",
+    "city": "Muscat"
+   }
+  ]
+ },
+ "petra-jo": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Petra",
+  "officialSite": "https://visitpetra.jo/",
+  "tickets": "https://petrapass.pdtra.gov.jo/Online/Index",
+  "hashtags": [
+   "petra",
+   "jordan",
+   "wadimusa"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMM",
+    "city": "Amman"
+   },
+   {
+    "iata": "AQJ",
+    "city": "Aqaba"
+   }
+  ]
+ },
+ "wadi-rum-jo": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Wadi_Rum",
+  "officialSite": "https://visitjordan.com/",
+  "hashtags": [
+   "wadirum",
+   "jordan",
+   "desertcamp"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AQJ",
+    "city": "Aqaba"
+   }
+  ]
+ },
+ "dead-sea-float-jo": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Dead_Sea",
+  "officialSite": "https://visitjordan.com/",
+  "hashtags": [
+   "deadsea",
+   "jordan",
+   "floatinginthedeadsea"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AMM",
+    "city": "Amman"
+   }
+  ]
+ },
+ "giza-pyramids-eg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Giza_pyramid_complex",
+  "hashtags": [
+   "gizapyramids",
+   "egypt",
+   "greatpyramid"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CAI",
+    "city": "Cairo"
+   }
+  ]
+ },
+ "nile-cruise-eg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Karnak",
+  "hashtags": [
+   "nilecruise",
+   "luxor",
+   "karnak"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LXR",
+    "city": "Luxor"
+   }
+  ]
+ },
+ "dahab-diving-eg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Blue_Hole_(Red_Sea)",
+  "hashtags": [
+   "dahab",
+   "bluehole",
+   "redsea"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SSH",
+    "city": "Sharm El Sheikh"
+   }
+  ]
+ },
+ "hurghada-red-sea-eg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Hurghada",
+  "hashtags": [
+   "hurghada",
+   "redsea",
+   "egypt"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "HRG",
+    "city": "Hurghada"
+   }
+  ]
+ },
+ "marrakech-medina-ma": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Jemaa_el-Fnaa",
+  "officialSite": "https://www.visitmorocco.com/en",
+  "hashtags": [
+   "marrakech",
+   "medina",
+   "jemaaelfna"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RAK",
+    "city": "Marrakech"
+   }
+  ]
+ },
+ "sahara-camps-at-merzouga-ma": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Erg_Chebbi",
+  "officialSite": "https://www.visitmorocco.com/en",
+  "hashtags": [
+   "merzouga",
+   "ergchebbi",
+   "saharadesert"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ERH",
+    "city": "Errachidia"
+   }
+  ]
+ },
+ "taghazout-surf-ma": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Taghazout",
+  "officialSite": "https://www.visitmorocco.com/en",
+  "hashtags": [
+   "taghazout",
+   "surfmorocco",
+   "agadir"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "AGA",
+    "city": "Agadir"
+   }
+  ]
+ },
+ "atlas-mountains-trekking-ma": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Toubkal",
+  "officialSite": "https://www.visitmorocco.com/en",
+  "hashtags": [
+   "atlasmountains",
+   "toubkal",
+   "imlil"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "RAK",
+    "city": "Marrakech"
+   }
+  ]
+ },
+ "masai-mara-migration-ke": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Maasai_Mara",
+  "officialSite": "https://magicalkenya.com/",
+  "hashtags": [
+   "masaimara",
+   "greatmigration",
+   "kenya"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NBO",
+    "city": "Nairobi"
+   }
+  ],
+  "bookAheadNote": "Migration-season camps in the Mara sell out many months ahead (roughly July-October)."
+ },
+ "diani-kitesurfing-ke": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Diani_Beach",
+  "officialSite": "https://magicalkenya.com/",
+  "hashtags": [
+   "dianibeach",
+   "kitesurfing",
+   "kenya"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "UKA",
+    "city": "Ukunda/Diani"
+   }
+  ]
+ },
+ "amboseli-elephants-ke": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Amboseli_National_Park",
+  "officialSite": "https://www.kws.go.ke/",
+  "hashtags": [
+   "amboseli",
+   "kenyaelephants",
+   "kilimanjaroview"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ASV",
+    "city": "Amboseli"
+   }
+  ]
+ },
+ "serengeti-calving-tz": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Serengeti_National_Park",
+  "officialSite": "https://www.tanzaniaparks.go.tz/",
+  "hashtags": [
+   "serengeti",
+   "calvingseason",
+   "ndutu"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JRO",
+    "city": "Kilimanjaro/Arusha"
+   }
+  ],
+  "bookAheadNote": "Ndutu camps for calving season (Jan-Mar) book out a year or more ahead."
+ },
+ "kilimanjaro-climb-tz": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
+  "officialSite": "https://www.tanzaniaparks.go.tz/",
+  "hashtags": [
+   "kilimanjaro",
+   "moshi",
+   "climbkili"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "JRO",
+    "city": "Kilimanjaro/Moshi"
+   }
+  ]
+ },
+ "zanzibar-beaches-tz": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Nungwi",
+  "officialSite": "https://www.zanzibar.travel/",
+  "hashtags": [
+   "zanzibar",
+   "nungwi",
+   "tanzania"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "ZNZ",
+    "city": "Zanzibar City"
+   }
+  ]
+ },
+ "gorilla-trekking-in-volcanoes-rw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Volcanoes_National_Park",
+  "officialSite": "https://www.visitrwanda.com/",
+  "hashtags": [
+   "gorillatrekking",
+   "volcanoesnationalpark",
+   "rwanda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "bookAheadNote": "Gorilla permits are limited and often sell out months in advance."
+ },
+ "nyungwe-canopy-walk-rw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Nyungwe_Forest",
+  "officialSite": "https://www.visitrwanda.com/",
+  "hashtags": [
+   "nyungweforest",
+   "canopywalk",
+   "rwanda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ]
+ },
+ "lake-kivu-rw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Lake_Kivu",
+  "officialSite": "https://www.visitrwanda.com/",
+  "hashtags": [
+   "lakekivu",
+   "rwanda",
+   "gisenyi"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ]
+ },
+ "bwindi-gorilla-trekking-ug": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Bwindi_Impenetrable_National_Park",
+  "officialSite": "https://ugandawildlife.org/",
+  "hashtags": [
+   "bwindi",
+   "gorillatrekking",
+   "uganda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   },
+   {
+    "iata": "KGL",
+    "city": "Kigali"
+   }
+  ],
+  "bookAheadNote": "Bwindi gorilla permits are limited and should be booked months ahead."
+ },
+ "murchison-falls-ug": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Murchison_Falls_National_Park",
+  "officialSite": "https://ugandawildlife.org/",
+  "hashtags": [
+   "murchisonfalls",
+   "uganda",
+   "nile"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   }
+  ]
+ },
+ "jinja-rafting-on-the-nile-ug": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Jinja,_Uganda",
+  "officialSite": "https://ugandawildlife.org/",
+  "hashtags": [
+   "jinja",
+   "nilerafting",
+   "uganda"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "EBB",
+    "city": "Entebbe"
+   }
+  ]
+ },
+ "kruger-safari-za": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Kruger_National_Park",
+  "officialSite": "https://www.sanparks.org/parks/kruger/",
+  "hashtags": [
+   "krugernationalpark",
+   "safari",
+   "southafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MQP",
+    "city": "Mpumalanga"
+   },
+   {
+    "iata": "SZK",
+    "city": "Skukuza"
+   }
+  ]
+ },
+ "cape-town-and-the-winelands-za": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Stellenbosch",
+  "officialSite": "https://www.wosa.co.za/",
+  "hashtags": [
+   "capewinelands",
+   "stellenbosch",
+   "southafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPT",
+    "city": "Cape Town"
+   }
+  ]
+ },
+ "hermanus-whale-watching-za": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Hermanus",
+  "hashtags": [
+   "hermanus",
+   "whalewatching",
+   "southernrightwhale"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "CPT",
+    "city": "Cape Town"
+   }
+  ]
+ },
+ "jeffreys-bay-surf-za": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Jeffreys_Bay",
+  "hashtags": [
+   "jeffreysbay",
+   "jbay",
+   "surfingsouthafrica"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PLZ",
+    "city": "Gqeberha/Port Elizabeth"
+   }
+  ]
+ },
+ "okavango-delta-bw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Okavango_Delta",
+  "officialSite": "https://www.botswanatourism.co.bw/",
+  "hashtags": [
+   "okavangodelta",
+   "botswana",
+   "maun"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUB",
+    "city": "Maun"
+   }
+  ]
+ },
+ "chobe-elephants-bw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Chobe_National_Park",
+  "officialSite": "https://www.botswanatourism.co.bw/",
+  "hashtags": [
+   "chobenationalpark",
+   "kasane",
+   "elephants"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "BBK",
+    "city": "Kasane"
+   }
+  ]
+ },
+ "makgadikgadi-pans-bw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Makgadikgadi_Pan",
+  "officialSite": "https://www.botswanatourism.co.bw/",
+  "hashtags": [
+   "makgadikgadi",
+   "saltpans",
+   "botswana"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MUB",
+    "city": "Maun"
+   }
+  ]
+ },
+ "sossusvlei-dunes-na": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Sossusvlei",
+  "hashtags": [
+   "sossusvlei",
+   "namibia",
+   "namibdesert"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WDH",
+    "city": "Windhoek"
+   }
+  ]
+ },
+ "etosha-wildlife-na": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Etosha_National_Park",
+  "hashtags": [
+   "etosha",
+   "namibia",
+   "safari"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WDH",
+    "city": "Windhoek"
+   }
+  ]
+ },
+ "skeleton-coast-na": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Skeleton_Coast",
+  "hashtags": [
+   "skeletoncoast",
+   "namibia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "WVB",
+    "city": "Walvis Bay"
+   }
+  ]
+ },
+ "victoria-falls-zambia-side-zm": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Victoria_Falls",
+  "officialSite": "https://www.zambia.travel/",
+  "hashtags": [
+   "victoriafalls",
+   "livingstone",
+   "zambia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LVI",
+    "city": "Livingstone"
+   }
+  ]
+ },
+ "devil-s-pool-zm": {
+  "officialSite": "https://www.zambia.travel/",
+  "hashtags": [
+   "devilspool",
+   "victoriafalls",
+   "livingstoneisland"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "LVI",
+    "city": "Livingstone"
+   }
+  ]
+ },
+ "south-luangwa-walking-safari-zm": {
+  "wikipedia": "https://en.wikipedia.org/wiki/South_Luangwa_National_Park",
+  "officialSite": "https://www.zambia.travel/",
+  "hashtags": [
+   "southluangwa",
+   "walkingsafari",
+   "zambia"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MFU",
+    "city": "Mfuwe"
+   }
+  ]
+ },
+ "victoria-falls-zimbabwe-side-zw": {
+  "officialSite": "https://www.zimbabwetourism.net/",
+  "hashtags": [
+   "victoriafalls",
+   "zimbabwe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ],
+  "wikipedia": "https://en.wikipedia.org/wiki/Victoria_Falls"
+ },
+ "zambezi-rafting-zw": {
+  "officialSite": "https://www.zimbabwetourism.net/",
+  "hashtags": [
+   "zambezirafting",
+   "batokagorge",
+   "zimbabwe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ]
+ },
+ "hwange-safari-zw": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Hwange_National_Park",
+  "officialSite": "https://www.zimbabwetourism.net/",
+  "hashtags": [
+   "hwangenationalpark",
+   "zimbabwe",
+   "safari"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "VFA",
+    "city": "Victoria Falls"
+   }
+  ]
+ },
+ "avenue-of-the-baobabs-mg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Avenue_of_the_Baobabs",
+  "hashtags": [
+   "avenueofthebaobabs",
+   "morondava",
+   "madagascar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MOQ",
+    "city": "Morondava"
+   }
+  ]
+ },
+ "andasibe-lemurs-mg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Andasibe-Mantadia_National_Park",
+  "officialSite": "https://parcs-madagascar.com/",
+  "hashtags": [
+   "andasibe",
+   "lemurs",
+   "madagascar"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "TNR",
+    "city": "Antananarivo"
+   }
+  ]
+ },
+ "nosy-be-mg": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Nosy_Be",
+  "hashtags": [
+   "nosybe",
+   "madagascar",
+   "beach"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "NOS",
+    "city": "Nosy Be"
+   }
+  ]
+ },
+ "le-morne-beaches-mu": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Le_Morne_Brabant",
+  "officialSite": "https://www.mauritiusnow.com/",
+  "hashtags": [
+   "lemorne",
+   "mauritius",
+   "kitesurfing"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ]
+ },
+ "blue-bay-diving-mu": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Blue_Bay_Marine_Park",
+  "officialSite": "https://www.mauritiusnow.com/",
+  "hashtags": [
+   "bluebay",
+   "mauritius",
+   "diving"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ]
+ },
+ "black-river-gorges-mu": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Black_River_Gorges_National_Park",
+  "officialSite": "https://www.mauritiusnow.com/",
+  "hashtags": [
+   "blackrivergorges",
+   "chamarel",
+   "mauritius"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "MRU",
+    "city": "Plaisance"
+   }
+  ]
+ },
+ "anse-source-d-argent-sc": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Anse_Source_d%27Argent",
+  "officialSite": "https://seychelles.com/",
+  "hashtags": [
+   "ansesourcedargent",
+   "ladigue",
+   "seychelles"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRI",
+    "city": "Praslin"
+   }
+  ]
+ },
+ "vallee-de-mai-sc": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Vall%C3%A9e_de_Mai",
+  "officialSite": "https://seychelles.com/",
+  "hashtags": [
+   "valleedemai",
+   "praslin",
+   "seychelles"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "PRI",
+    "city": "Praslin"
+   }
+  ]
+ },
+ "seychelles-diving-sc": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Sainte_Anne_Marine_National_Park",
+  "officialSite": "https://seychelles.com/",
+  "hashtags": [
+   "seychelles",
+   "diving",
+   "mahe"
+  ],
+  "nearestAirports": [
+   {
+    "iata": "SEZ",
+    "city": "Mahé"
+   }
+  ]
+ },
+ "_notes": {
+  "bahrain-grand-prix-bh": "The 2026 Bahrain Grand Prix was NOT held at Sakhir/Bahrain International Circuit as the record's place/coordinates imply. After the April 2026 race was postponed due to regional conflict, it was reinstated as an away race at Sepang International Circuit in Malaysia (Oct 2-4, 2026), keeping the 'Bahrain Grand Prix' name/sponsorship but not the location. Dates in the record (2026-10-02 to 2026-10-04) match the rescheduled race, but place='Sakhir'/country='Bahrain' and the lat/lng (Bahrain International Circuit) are wrong for this edition; it should point to Sepang, Malaysia for 2026. Sources: https://www.skysports.com/f1/news/13566600/malaysia-added-to-2026-f1-calendar-in-october-to-host-postponed-bahrain-gp-amid-continued-conflict-in-middle-east , https://www.espn.com/f1/story/_/id/49453371/formula-1-bahrain-grand-prix-malaysia-new-race-confirmed-f1-2026-schedule-changes . Note the 2027 Bahrain GP (Mar 12-14) and Saudi Arabian GP (Mar 19-21, matches record) both return to their normal Gulf venues, so this is a 2026-only anomaly."
+ }
+}

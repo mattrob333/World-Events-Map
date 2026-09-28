@@ -1,0 +1,1357 @@
+{
+  "aspen-snowmass-us": {
+    "officialSite": "https://www.aspensnowmass.com",
+    "tickets": "https://www.aspensnowmass.com/visit/tickets-and-passes/lift-tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Snowmass_(ski_area)",
+    "hashtags": [
+      "aspensnowmass",
+      "aspen",
+      "snowmass"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "ASE",
+        "city": "Aspen/Pitkin County",
+        "driveTime": "10-15 min to Snowmass Village"
+      }
+    ]
+  },
+  "vail-us": {
+    "officialSite": "https://www.vail.com",
+    "tickets": "https://www.vail.com/plan-your-trip/lift-access/tickets.aspx",
+    "wikipedia": "https://en.wikipedia.org/wiki/Vail_Ski_Resort",
+    "hashtags": [
+      "vail",
+      "epicpass",
+      "vailmountain"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "EGE",
+        "city": "Eagle County"
+      },
+      {
+        "iata": "DEN",
+        "city": "Denver"
+      }
+    ]
+  },
+  "park-city-us": {
+    "officialSite": "https://www.parkcitymountain.com",
+    "tickets": "https://www.parkcitymountain.com/plan-your-trip/lift-access/tickets.aspx",
+    "wikipedia": "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort",
+    "hashtags": [
+      "parkcity",
+      "parkcitymountain",
+      "utah"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SLC",
+        "city": "Salt Lake City",
+        "driveTime": "35-45 min"
+      }
+    ]
+  },
+  "jackson-hole-us": {
+    "officialSite": "https://www.jacksonhole.com",
+    "tickets": "https://www.jacksonhole.com/lift-tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort",
+    "hashtags": [
+      "jacksonhole",
+      "tetons",
+      "jhmr"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "JAC",
+        "city": "Jackson",
+        "driveTime": "36 min to Teton Village"
+      }
+    ]
+  },
+  "north-shore-surf-us": {
+    "officialSite": "https://www.gohawaii.com/islands/oahu/regions/north-shore",
+    "wikipedia": "https://en.wikipedia.org/wiki/Banzai_Pipeline",
+    "hashtags": [
+      "northshoreoahu",
+      "pipeline",
+      "banzaipipeline"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "HNL",
+        "city": "Honolulu",
+        "driveTime": "~45 min to Haleiwa"
+      }
+    ]
+  },
+  "yellowstone-us": {
+    "officialSite": "https://www.nps.gov/yell/index.htm",
+    "tickets": "https://www.nps.gov/yell/planyourvisit/fees.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Old_Faithful",
+    "hashtags": [
+      "yellowstone",
+      "yellowstonenationalpark",
+      "nps"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BZN",
+        "city": "Bozeman",
+        "driveTime": "~1.5 hr to North Entrance"
+      },
+      {
+        "iata": "COD",
+        "city": "Cody"
+      }
+    ]
+  },
+  "yosemite-us": {
+    "officialSite": "https://www.nps.gov/yose/index.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Yosemite_Valley",
+    "hashtags": [
+      "yosemite",
+      "yosemitenationalpark",
+      "nps"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "FAT",
+        "city": "Fresno",
+        "driveTime": "~2.5 hr to Yosemite Valley"
+      },
+      {
+        "iata": "MCE",
+        "city": "Merced"
+      }
+    ],
+    "bookAheadNote": "Yosemite dropped its timed-entry reservation system for 2026, but weekends and holidays still get very crowded."
+  },
+  "alaska-glaciers-and-bears-us": {
+    "officialSite": "https://www.nps.gov/katm/index.htm",
+    "wikipedia": "https://en.wikipedia.org/wiki/Brooks_Falls",
+    "hashtags": [
+      "katmai",
+      "brooksfalls",
+      "bearcam"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AKN",
+        "city": "King Salmon"
+      }
+    ],
+    "bookAheadNote": "Brooks Camp campground is limited to 60 people a night and peak bear-season dates can fill up to six months ahead."
+  },
+  "mardi-gras-us": {
+    "officialSite": "https://www.neworleans.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/French_Quarter",
+    "hashtags": [
+      "mardigras",
+      "neworleans",
+      "fattuesday"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MSY",
+        "city": "New Orleans",
+        "driveTime": "20-40 min to French Quarter"
+      }
+    ],
+    "bookAheadNote": "French Quarter hotels sell out well ahead of Fat Tuesday weekend."
+  },
+  "sxsw-us": {
+    "officialSite": "https://sxsw.com/",
+    "tickets": "https://cart.sxsw.com/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Austin_Convention_Center",
+    "hashtags": [
+      "sxsw",
+      "sxsw2027",
+      "austin"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AUS",
+        "city": "Austin"
+      }
+    ]
+  },
+  "coachella-us": {
+    "officialSite": "https://www.coachella.com",
+    "tickets": "https://www.coachella.com/passes",
+    "wikipedia": "https://en.wikipedia.org/wiki/Empire_Polo_Club",
+    "hashtags": [
+      "coachella",
+      "coachella2027",
+      "indio"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PSP",
+        "city": "Palm Springs",
+        "driveTime": "~25-30 min to Empire Polo Club"
+      }
+    ],
+    "bookAheadNote": "2027 advance-sale passes for both weekends are already gone; only waitlists remain."
+  },
+  "the-masters-us": {
+    "officialSite": "https://www.masters.com",
+    "tickets": "https://tickets.masters.com/en_US/ticketsFAQ",
+    "wikipedia": "https://en.wikipedia.org/wiki/Augusta_National_Golf_Club",
+    "hashtags": [
+      "themasters",
+      "augustanational",
+      "mastersgolf"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AGS",
+        "city": "Augusta",
+        "driveTime": "~15-20 min"
+      }
+    ],
+    "bookAheadNote": "Tournament and practice-round tickets are allocated by lottery application (opens June 1, closes ~June 20 the year before); most applicants don't win."
+  },
+  "kentucky-derby-us": {
+    "officialSite": "https://www.kentuckyderby.com",
+    "tickets": "https://www.kentuckyderby.com/tickets/2027/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Churchill_Downs",
+    "hashtags": [
+      "kentuckyderby",
+      "churchilldowns",
+      "runfortheroses"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SDF",
+        "city": "Louisville",
+        "driveTime": "~10-15 min"
+      }
+    ],
+    "bookAheadNote": "Two-day ticket packages go on sale months ahead (June 2026 for the 2027 Derby) and sell out fast."
+  },
+  "burning-man-us": {
+    "officialSite": "https://burningman.org",
+    "tickets": "https://burningman.org/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Black_Rock_Desert",
+    "hashtags": [
+      "burningman",
+      "blackrockcity",
+      "brc2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "RNO",
+        "city": "Reno",
+        "driveTime": "~3 hr"
+      }
+    ],
+    "bookAheadNote": "Tickets are sold in staged sales (starting around February) and regularly sell out; a separate vehicle pass is required."
+  },
+  "napa-harvest-us": {
+    "officialSite": "https://www.visitnapavalley.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Napa_Valley_AVA",
+    "hashtags": [
+      "napavalley",
+      "napaharvest",
+      "crushseason"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "STS",
+        "city": "Santa Rosa/Sonoma County",
+        "driveTime": "~1 hr to downtown Napa"
+      }
+    ],
+    "bookAheadNote": "Hands-on harvest tours and grape-stomping experiences often book up by Labor Day."
+  },
+  "new-england-foliage-us": {
+    "officialSite": "https://gostowe.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Stowe,_Vermont",
+    "hashtags": [
+      "stowevt",
+      "vermontfoliage",
+      "leafpeeping"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BTV",
+        "city": "Burlington",
+        "driveTime": "~45 min"
+      }
+    ]
+  },
+  "united-states-grand-prix-us": {
+    "officialSite": "https://circuitoftheamericas.com",
+    "tickets": "https://circuitoftheamericas.com/event/f1/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Circuit_of_the_Americas",
+    "hashtags": [
+      "usgp",
+      "cota",
+      "f1"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AUS",
+        "city": "Austin",
+        "driveTime": "~15-20 min"
+      }
+    ]
+  },
+  "las-vegas-grand-prix-us": {
+    "officialSite": "https://www.f1lasvegasgp.com",
+    "tickets": "https://www.f1lasvegasgp.com/tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Las_Vegas_Strip_Circuit",
+    "hashtags": [
+      "lasvegasgp",
+      "f1vegas",
+      "lvgp"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LAS",
+        "city": "Las Vegas",
+        "driveTime": "~10-15 min"
+      }
+    ]
+  },
+  "whistler-skiing-ca": {
+    "officialSite": "https://www.whistlerblackcomb.com",
+    "tickets": "https://www.whistlerblackcomb.com/plan-your-trip/lift-access/tickets.aspx",
+    "wikipedia": "https://en.wikipedia.org/wiki/Whistler_Blackcomb",
+    "hashtags": [
+      "whistler",
+      "whistlerblackcomb",
+      "bc"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YVR",
+        "city": "Vancouver",
+        "driveTime": "~2-2.5 hr"
+      }
+    ]
+  },
+  "banff-and-lake-louise-ca": {
+    "officialSite": "https://www.banfflakelouise.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Lake_Louise",
+    "hashtags": [
+      "banff",
+      "lakelouise",
+      "banffnationalpark"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YYC",
+        "city": "Calgary",
+        "driveTime": "~1.5-2 hr"
+      }
+    ]
+  },
+  "quebec-winter-carnival-ca": {
+    "officialSite": "https://carnaval.qc.ca/en/",
+    "tickets": "https://carnaval.qc.ca/en/shop/ticketing/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Plains_of_Abraham",
+    "hashtags": [
+      "carnavaldequebec",
+      "quebeccarnival",
+      "bonhomme"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YQB",
+        "city": "Quebec City",
+        "driveTime": "~20 min"
+      }
+    ]
+  },
+  "canadian-grand-prix-ca": {
+    "officialSite": "https://gpcanada.ca/en/",
+    "tickets": "https://gpcanada.ca/en/2027-tickets/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Circuit_Gilles_Villeneuve",
+    "hashtags": [
+      "canadiangp",
+      "f1montreal",
+      "gpcanada"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YUL",
+        "city": "Montreal"
+      }
+    ]
+  },
+  "montreal-jazz-festival-ca": {
+    "officialSite": "https://montrealjazzfest.com/en",
+    "tickets": "https://montrealjazzfest.com/en/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Quartier_des_spectacles",
+    "hashtags": [
+      "montrealjazzfest",
+      "jazzfest",
+      "montreal"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YUL",
+        "city": "Montreal"
+      }
+    ]
+  },
+  "calgary-stampede-ca": {
+    "officialSite": "https://www.calgarystampede.com",
+    "tickets": "https://www.calgarystampede.com/stampede/tickets",
+    "wikipedia": "https://en.wikipedia.org/wiki/Calgary_Stampede",
+    "hashtags": [
+      "calgarystampede",
+      "yyc",
+      "stampede2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YYC",
+        "city": "Calgary"
+      }
+    ]
+  },
+  "churchill-polar-bears-ca": {
+    "officialSite": "https://www.travelmanitoba.com/churchill/experiences/polar-bears/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Churchill,_Manitoba",
+    "hashtags": [
+      "churchillmb",
+      "polarbearcapital",
+      "churchillpolarbears"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YYQ",
+        "city": "Churchill"
+      }
+    ],
+    "bookAheadNote": "Churchill has no road access; you fly in via Winnipeg (Calm Air), and peak polar-bear-season (Oct-Nov) tours book up early."
+  },
+  "yellowknife-aurora-ca": {
+    "officialSite": "https://www.spectacularnwt.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Yellowknife",
+    "hashtags": [
+      "yellowknife",
+      "spectacularnwt",
+      "auroraborealis"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "YZF",
+        "city": "Yellowknife"
+      }
+    ]
+  },
+  "dia-de-los-muertos-mx": {
+    "officialSite": "https://cdmxtravel.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Z%C3%B3calo",
+    "hashtags": [
+      "diadelosmuertos",
+      "cdmx",
+      "mexicocity"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEX",
+        "city": "Mexico City"
+      }
+    ]
+  },
+  "mexico-city-food-mx": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Colonia_Roma",
+    "hashtags": [
+      "cdmxfood",
+      "romanorte",
+      "mexicocityfood"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEX",
+        "city": "Mexico City"
+      }
+    ]
+  },
+  "mexico-city-grand-prix-mx": {
+    "officialSite": "https://www.formula1.com/en/racing/2026/mexico",
+    "tickets": "https://tickets.formula1.com/en/f1-4861-mexico",
+    "wikipedia": "https://en.wikipedia.org/wiki/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez",
+    "hashtags": [
+      "mexicogp",
+      "f1mexico",
+      "autodromohermanosrodriguez"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MEX",
+        "city": "Mexico City"
+      }
+    ]
+  },
+  "monarch-butterflies-mx": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Monarch_Butterfly_Biosphere_Reserve",
+    "hashtags": [
+      "monarchbutterfly",
+      "reservamariposamonarca",
+      "michoacan"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MLM",
+        "city": "Morelia"
+      }
+    ],
+    "bookAheadNote": "Sanctuaries (El Rosario, Sierra Chincua) are only open roughly November to March when the colonies are present."
+  },
+  "baja-gray-whales-mx": {
+    "wikipedia": "https://en.wikipedia.org/wiki/San_Ignacio_Lagoon",
+    "hashtags": [
+      "graywhale",
+      "bajacaliforniasur",
+      "sanignaciolagoon"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LTO",
+        "city": "Loreto"
+      }
+    ],
+    "bookAheadNote": "Whale-watching permits inside the lagoon are limited to a handful of authorized cooperatives, and the season is short (roughly January-April)."
+  },
+  "tulum-cenotes-mx": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Tulum,_Quintana_Roo",
+    "hashtags": [
+      "tulum",
+      "cenote",
+      "rivieramaya"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CUN",
+        "city": "Cancún"
+      },
+      {
+        "iata": "TQO",
+        "city": "Tulum"
+      }
+    ]
+  },
+  "puerto-escondido-surf-mx": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Puerto_Escondido,_Oaxaca",
+    "hashtags": [
+      "puertoescondido",
+      "zicatela",
+      "mexicanpipeline"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PXM",
+        "city": "Puerto Escondido"
+      }
+    ]
+  },
+  "santa-teresa-surf-cr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Santa_Teresa,_Costa_Rica",
+    "hashtags": [
+      "santateresacr",
+      "nicoyapeninsula",
+      "costaricasurf"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TMU",
+        "city": "Tambor",
+        "driveTime": "~45 min"
+      }
+    ]
+  },
+  "monteverde-zip-lines-cr": {
+    "officialSite": "https://cloudforestmonteverde.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Monteverde_Cloud_Forest_Reserve",
+    "hashtags": [
+      "monteverde",
+      "cloudforest",
+      "costarica"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SJO",
+        "city": "San José"
+      }
+    ],
+    "bookAheadNote": "The cloud forest reserve strongly recommends booking entry time slots online in advance."
+  },
+  "tortuguero-turtles-cr": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Tortuguero_National_Park",
+    "hashtags": [
+      "tortuguero",
+      "seaturtles",
+      "costarica"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TTQ",
+        "city": "Tortuguero"
+      }
+    ],
+    "bookAheadNote": "Tortuguero has no road access (boat or small plane only), and night turtle-nesting tours require a licensed local guide."
+  },
+  "great-blue-hole-bz": {
+    "officialSite": "https://travelbelize.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Great_Blue_Hole",
+    "hashtags": [
+      "greatbluehole",
+      "belize",
+      "lighthousereef"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BZE",
+        "city": "Belize City"
+      }
+    ],
+    "bookAheadNote": "Only reachable by boat (liveaboard dive trip) or flightseeing tour from Belize City; day-trip dive slots are limited."
+  },
+  "ambergris-caye-bz": {
+    "officialSite": "https://travelbelize.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ambergris_Caye",
+    "hashtags": [
+      "ambergriscaye",
+      "sanpedrobelize",
+      "belize"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BZE",
+        "city": "Belize City"
+      },
+      {
+        "iata": "SPR",
+        "city": "San Pedro"
+      }
+    ]
+  },
+  "caracol-ruins-bz": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Caracol",
+    "hashtags": [
+      "caracolbelize",
+      "mayaruins",
+      "cayo"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BZE",
+        "city": "Belize City"
+      }
+    ]
+  },
+  "semana-santa-in-antigua-gt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Antigua_Guatemala",
+    "hashtags": [
+      "semanasantaantigua",
+      "antiguaguatemala",
+      "alfombras"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GUA",
+        "city": "Guatemala City"
+      }
+    ],
+    "bookAheadNote": "Antigua hotel rooms for Semana Santa sell out many months in advance."
+  },
+  "acatenango-volcano-hike-gt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Acatenango",
+    "hashtags": [
+      "acatenango",
+      "volcanohike",
+      "guatemala"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GUA",
+        "city": "Guatemala City"
+      }
+    ]
+  },
+  "tikal-gt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Tikal",
+    "hashtags": [
+      "tikal",
+      "mayaruins",
+      "peten"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "FRS",
+        "city": "Flores/Santa Elena"
+      }
+    ]
+  },
+  "lake-atitlan-gt": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Lake_Atitl%C3%A1n",
+    "hashtags": [
+      "lakeatitlan",
+      "panajachel",
+      "guatemala"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GUA",
+        "city": "Guatemala City"
+      }
+    ]
+  },
+  "exumas-swimming-pigs-bs": {
+    "officialSite": "https://www.bahamas.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Pig_Beach",
+    "hashtags": [
+      "swimmingpigs",
+      "exuma",
+      "bahamas"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GGT",
+        "city": "George Town, Great Exuma"
+      }
+    ],
+    "bookAheadNote": "Big Major Cay is only reachable by boat charter/tour from Great Exuma or Nassau."
+  },
+  "exumas-sailing-bs": {
+    "officialSite": "https://www.bahamas.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Exuma",
+    "hashtags": [
+      "exuma",
+      "sailing",
+      "bahamas"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GGT",
+        "city": "George Town, Great Exuma"
+      }
+    ]
+  },
+  "thunderball-grotto-bs": {
+    "officialSite": "https://www.bahamas.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Staniel_Cay",
+    "hashtags": [
+      "thunderballgrotto",
+      "stanielcay",
+      "exuma"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GGT",
+        "city": "George Town, Great Exuma"
+      }
+    ],
+    "bookAheadNote": "Best entered at low/slack tide by boat/snorkel tour from Staniel Cay."
+  },
+  "samana-humpback-whales-do": {
+    "officialSite": "https://godominicanrepublic.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Saman%C3%A1_Bay",
+    "hashtags": [
+      "samana",
+      "humpbackwhales",
+      "dominicanrepublic"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AZS",
+        "city": "Samaná/El Catey"
+      }
+    ],
+    "bookAheadNote": "Whale-watching season runs roughly mid-January to late March and licensed tour slots fill up on weekends."
+  },
+  "punta-cana-beaches-do": {
+    "officialSite": "https://godominicanrepublic.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Punta_Cana",
+    "hashtags": [
+      "puntacana",
+      "dominicanrepublic",
+      "beach"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PUJ",
+        "city": "Punta Cana"
+      }
+    ]
+  },
+  "santo-domingo-zona-colonial-do": {
+    "officialSite": "https://godominicanrepublic.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ciudad_Colonial_(Santo_Domingo)",
+    "hashtags": [
+      "zonacolonial",
+      "santodomingo",
+      "dominicanrepublic"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SDQ",
+        "city": "Santo Domingo"
+      }
+    ]
+  },
+  "trinidad-carnival-tt": {
+    "officialSite": "https://visittrinidad.tt/things-to-do/carnival/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Queen%27s_Park_Savannah",
+    "hashtags": [
+      "trinidadcarnival",
+      "trinicarnival",
+      "carnival2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "POS",
+        "city": "Port of Spain"
+      }
+    ],
+    "bookAheadNote": "Costume (mas band) packages and popular fetes sell out months ahead; book bands early."
+  },
+  "tobago-buccoo-reef-tt": {
+    "officialSite": "https://visittrinidad.tt",
+    "wikipedia": "https://en.wikipedia.org/wiki/Buccoo_Reef",
+    "hashtags": [
+      "buccooreef",
+      "tobago",
+      "trinidadandtobago"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "TAB",
+        "city": "Tobago"
+      }
+    ]
+  },
+  "asa-wright-birding-tt": {
+    "officialSite": "https://asawright.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Asa_Wright_Nature_Centre",
+    "hashtags": [
+      "asawright",
+      "birdingtrinidad",
+      "trinidad"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "POS",
+        "city": "Port of Spain"
+      }
+    ]
+  },
+  "crop-over-bb": {
+    "officialSite": "https://www.visitbarbados.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Bridgetown",
+    "hashtags": [
+      "cropover",
+      "barbados",
+      "cropover2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BGI",
+        "city": "Bridgetown"
+      }
+    ]
+  },
+  "carlisle-bay-bb": {
+    "officialSite": "https://www.visitbarbados.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Carlisle_Bay,_Barbados",
+    "hashtags": [
+      "carlislebay",
+      "barbados",
+      "bridgetown"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BGI",
+        "city": "Bridgetown"
+      }
+    ]
+  },
+  "harrison-s-cave-bb": {
+    "tickets": "https://chukka.com/destinations/barbados/harrisons-cave/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Harrison%27s_Cave",
+    "hashtags": [
+      "harrisonscave",
+      "barbados",
+      "stthomas"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BGI",
+        "city": "Bridgetown"
+      }
+    ]
+  },
+  "rio-carnival-br": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Sambadrome_Marqu%C3%AAs_de_Sapuca%C3%AD",
+    "hashtags": [
+      "riocarnaval",
+      "riocarnival",
+      "carnaval2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GIG",
+        "city": "Rio de Janeiro"
+      }
+    ],
+    "bookAheadNote": "Sambadrome grandstand tickets and top hotels sell out well before Carnival weekend."
+  },
+  "new-year-s-eve-at-copacabana-br": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Copacabana,_Rio_de_Janeiro",
+    "hashtags": [
+      "reveillon",
+      "copacabana",
+      "riodejaneiro"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GIG",
+        "city": "Rio de Janeiro"
+      }
+    ],
+    "bookAheadNote": "Beachfront hotel rooms for Réveillon sell out very far in advance."
+  },
+  "sao-paulo-grand-prix-br": {
+    "officialSite": "https://www.formula1.com/en/racing/2026/brazil",
+    "tickets": "https://tickets.formula1.com/en/f1-3325-brazil",
+    "wikipedia": "https://en.wikipedia.org/wiki/Interlagos_Circuit",
+    "hashtags": [
+      "saopaulogp",
+      "interlagos",
+      "f1brasil"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GRU",
+        "city": "São Paulo"
+      }
+    ]
+  },
+  "iguazu-falls-brazil-side-br": {
+    "officialSite": "https://www.cataratasdoiguacu.com.br",
+    "tickets": "https://tickets.cataratasdoiguacu.com.br/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Iguazu_Falls",
+    "hashtags": [
+      "iguazufalls",
+      "cataratasdoiguacu",
+      "fozdoiguacu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "IGU",
+        "city": "Foz do Iguaçu"
+      }
+    ]
+  },
+  "jericoacoara-kitesurfing-br": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Jijoca_de_Jericoacoara",
+    "hashtags": [
+      "jericoacoara",
+      "jeri",
+      "kitesurfing"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "JJD",
+        "city": "Jericoacoara"
+      }
+    ]
+  },
+  "el-chalten-hiking-ar": {
+    "officialSite": "https://www.argentina.gob.ar/parquesnacionales/losglaciares",
+    "wikipedia": "https://en.wikipedia.org/wiki/El_Chalt%C3%A9n",
+    "hashtags": [
+      "elchalten",
+      "losglaciares",
+      "fitzroy"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "FTE",
+        "city": "El Calafate"
+      }
+    ]
+  },
+  "vendimia-in-mendoza-ar": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Mendoza,_Argentina",
+    "hashtags": [
+      "vendimia",
+      "fiestadelavendimia",
+      "mendoza"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MDZ",
+        "city": "Mendoza"
+      }
+    ],
+    "bookAheadNote": "The 2027 festival's Central Act (main show) is set for March 6, 2027; seats for it sell out."
+  },
+  "bariloche-skiing-ar": {
+    "officialSite": "https://www.catedralaltapatagonia.com",
+    "tickets": "https://tienda.catedralaltapatagonia.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Cerro_Catedral",
+    "hashtags": [
+      "barilocheski",
+      "cerrocatedral",
+      "patagonia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BRC",
+        "city": "Bariloche"
+      }
+    ]
+  },
+  "buenos-aires-tango-ar": {
+    "wikipedia": "https://en.wikipedia.org/wiki/San_Telmo,_Buenos_Aires",
+    "hashtags": [
+      "buenosairestango",
+      "santelmo",
+      "tango"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "AEP",
+        "city": "Buenos Aires (Aeroparque)"
+      },
+      {
+        "iata": "EZE",
+        "city": "Buenos Aires (Ezeiza)"
+      }
+    ]
+  },
+  "iguazu-falls-argentine-side-ar": {
+    "officialSite": "https://www.iguazuargentina.com",
+    "tickets": "https://www.iguazuargentina.com/planifica-tu-visita/compra-tus-entradas",
+    "wikipedia": "https://en.wikipedia.org/wiki/Devil%27s_Throat",
+    "hashtags": [
+      "iguazuargentina",
+      "cataratasdeliguazu",
+      "puertoiguazu"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "IGR",
+        "city": "Puerto Iguazú"
+      }
+    ]
+  },
+  "torres-del-paine-cl": {
+    "officialSite": "https://www.conaf.cl/parques/parque-nacional-torres-del-paine/",
+    "tickets": "https://www.pasesparques.cl/",
+    "wikipedia": "https://en.wikipedia.org/wiki/Torres_del_Paine_National_Park",
+    "hashtags": [
+      "torresdelpaine",
+      "patagonia",
+      "chile"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PUQ",
+        "city": "Punta Arenas"
+      }
+    ],
+    "bookAheadNote": "Park entrance tickets and the popular W/O trek refugios/campsites must be booked ahead, especially in peak (Nov-Mar) season."
+  },
+  "tapati-rapa-nui-cl": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Hanga_Roa",
+    "hashtags": [
+      "tapatirapanui",
+      "easterisland",
+      "rapanui"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "IPC",
+        "city": "Easter Island"
+      }
+    ],
+    "bookAheadNote": "Rapa Nui National Park requires a prepaid multi-day entrance ticket, and flights/lodging to Easter Island sell out well ahead during Tapati."
+  },
+  "portillo-skiing-cl": {
+    "officialSite": "https://www.skiportillo.com",
+    "tickets": "https://reservas.skiportillo.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Portillo,_Chile",
+    "hashtags": [
+      "skiportillo",
+      "portillochile",
+      "andes"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SCL",
+        "city": "Santiago"
+      }
+    ]
+  },
+  "valle-nevado-skiing-cl": {
+    "officialSite": "https://www.vallenevado.com",
+    "tickets": "https://store.vallenevado.com",
+    "wikipedia": "https://en.wikipedia.org/wiki/Valle_Nevado",
+    "hashtags": [
+      "vallenevado",
+      "skichile",
+      "andes"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "SCL",
+        "city": "Santiago"
+      }
+    ]
+  },
+  "atacama-stargazing-cl": {
+    "wikipedia": "https://en.wikipedia.org/wiki/San_Pedro_de_Atacama",
+    "hashtags": [
+      "atacama",
+      "sanpedrodeatacama",
+      "stargazing"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CJC",
+        "city": "Calama"
+      }
+    ]
+  },
+  "machu-picchu-pe": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Machu_Picchu",
+    "hashtags": [
+      "machupicchu",
+      "peru",
+      "aguascalientes"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CUZ",
+        "city": "Cusco"
+      }
+    ],
+    "bookAheadNote": "Entry is by timed ticket with a daily visitor cap, sold through Peru's Ministry of Culture; tickets (and the Inca Trail permit, if hiking in) should be booked weeks to months ahead."
+  },
+  "inti-raymi-pe": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Sacsayhuam%C3%A1n",
+    "hashtags": [
+      "intiraymi",
+      "cusco",
+      "intiraymi2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CUZ",
+        "city": "Cusco"
+      }
+    ],
+    "bookAheadNote": "The Qorikancha and Plaza Mayor re-enactments are free, but grandstand tickets for the main Sacsayhuamán ceremony are paid and should be booked months ahead."
+  },
+  "lima-food-pe": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Miraflores_District",
+    "hashtags": [
+      "limafood",
+      "miraflores",
+      "peruvianfood"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LIM",
+        "city": "Lima"
+      }
+    ]
+  },
+  "galapagos-wildlife-ec": {
+    "officialSite": "https://www.galapagos.gob.ec",
+    "wikipedia": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_Islands",
+    "hashtags": [
+      "galapagos",
+      "galapagosislands",
+      "santacruzisland"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "GPS",
+        "city": "Baltra/Galápagos"
+      }
+    ],
+    "bookAheadNote": "Visitors need a Galápagos National Park entrance fee/transit control card arranged before arrival, and popular cruises book out many months ahead."
+  },
+  "quito-old-town-ec": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Quito",
+    "hashtags": [
+      "quito",
+      "centrohistorico",
+      "ecuador"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "UIO",
+        "city": "Quito"
+      }
+    ]
+  },
+  "cotopaxi-ec": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Cotopaxi",
+    "hashtags": [
+      "cotopaxi",
+      "cotopaxinationalpark",
+      "ecuador"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "UIO",
+        "city": "Quito"
+      }
+    ]
+  },
+  "barranquilla-carnival-co": {
+    "officialSite": "https://carnavaldebarranquilla.org",
+    "wikipedia": "https://en.wikipedia.org/wiki/Barranquilla",
+    "hashtags": [
+      "carnavaldebarranquilla",
+      "barranquillacarnival",
+      "carnaval2027"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "BAQ",
+        "city": "Barranquilla"
+      }
+    ],
+    "bookAheadNote": "Numbered grandstand (palco) seats along Vía 40 sell out weeks ahead; buy only through the official foundation or RNT-registered operators."
+  },
+  "medellin-flower-festival-co": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Medell%C3%ADn",
+    "hashtags": [
+      "feriadelasflores",
+      "medellin",
+      "silleteros"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MDE",
+        "city": "Medellín"
+      }
+    ]
+  },
+  "cartagena-old-town-co": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Cartagena,_Colombia",
+    "hashtags": [
+      "cartagena",
+      "cartagenadeindias",
+      "colombia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "CTG",
+        "city": "Cartagena"
+      }
+    ]
+  },
+  "coffee-region-co": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Salento,_Quind%C3%ADo",
+    "hashtags": [
+      "ejecafetero",
+      "salento",
+      "colombiancoffee"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MDE",
+        "city": "Medellín"
+      }
+    ]
+  },
+  "salar-de-uyuni-mirror-bo": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Salar_de_Uyuni",
+    "hashtags": [
+      "salardeuyuni",
+      "uyuni",
+      "bolivia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "UYU",
+        "city": "Uyuni"
+      }
+    ],
+    "bookAheadNote": "The mirror effect only happens during the rainy season (roughly Dec-Apr) with a thin standing layer of water."
+  },
+  "la-paz-cable-cars-bo": {
+    "officialSite": "https://www.miteleferico.bo",
+    "wikipedia": "https://en.wikipedia.org/wiki/Mi_Telef%C3%A9rico",
+    "hashtags": [
+      "miteleferico",
+      "lapaz",
+      "bolivia"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LPB",
+        "city": "La Paz/El Alto"
+      }
+    ]
+  },
+  "lake-titicaca-bo": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Isla_del_Sol",
+    "hashtags": [
+      "laketiticaca",
+      "copacabanabolivia",
+      "islasdelsol"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "LPB",
+        "city": "La Paz/El Alto"
+      }
+    ]
+  },
+  "punta-del-este-summer-uy": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Punta_del_Este",
+    "hashtags": [
+      "puntadeleste",
+      "uruguay",
+      "summerinuruguay"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PDP",
+        "city": "Punta del Este"
+      }
+    ]
+  },
+  "jose-ignacio-uy": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Jos%C3%A9_Ignacio",
+    "hashtags": [
+      "joseignacio",
+      "uruguay",
+      "puntadeleste"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "PDP",
+        "city": "Punta del Este"
+      }
+    ]
+  },
+  "colonia-del-sacramento-uy": {
+    "wikipedia": "https://en.wikipedia.org/wiki/Colonia_del_Sacramento",
+    "hashtags": [
+      "coloniadelsacramento",
+      "uruguay",
+      "unesco"
+    ],
+    "nearestAirports": [
+      {
+        "iata": "MVD",
+        "city": "Montevideo"
+      }
+    ]
+  }
+}
