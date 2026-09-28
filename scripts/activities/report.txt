@@ -1,0 +1,20 @@
+NOTE offshore 10 km from 1:50m coastline (island/reef, reviewed): Stockholm archipelago kayaking
+NOTE offshore 40 km from 1:50m coastline (island/reef, reviewed): Disko Bay kayaking
+NO ELEVATION: Dolomites skiing [Sellaronda]
+NOTE offshore 16 km from 1:50m coastline (island/reef, reviewed): Lake Kivu
+NOTE offshore 46 km from 1:50m coastline (island/reef, reviewed): Anse Source d'Argent
+NOTE offshore 40 km from 1:50m coastline (island/reef, reviewed): Vallée de Mai
+NOTE offshore 36 km from 1:50m coastline (island/reef, reviewed): Koh Tao diving
+NOTE offshore 29 km from 1:50m coastline (island/reef, reviewed): Phi Phi and Andaman beaches
+NOTE offshore 31 km from 1:50m coastline (island/reef, reviewed): Sipadan diving
+NOTE offshore 57 km from 1:50m coastline (island/reef, reviewed): Overwater villas
+NOTE offshore 112 km from 1:50m coastline (island/reef, reviewed): Manta diving at Hanifaru
+OUTSIDE MV by 112 km: Manta diving at Hanifaru (5.1827,73.1331) [Hanifaru Bay]
+NOTE offshore 24 km from 1:50m coastline (island/reef, reviewed): Maafushi local island
+NOTE offshore 36 km from 1:50m coastline (island/reef, reviewed): Great Barrier Reef
+NO ELEVATION: Queenstown skiing [The Remarkables]
+NOTE offshore 29 km from 1:50m coastline (island/reef, reviewed): Mamanuca island resorts
+NOTE offshore 26 km from 1:50m coastline (island/reef, reviewed): Bora Bora overwater villas
+NOTE offshore 34 km from 1:50m coastline (island/reef, reviewed): Great Blue Hole
+NOTE offshore 59 km from 1:50m coastline (island/reef, reviewed): Exumas swimming pigs
+NOTE offshore 60 km from 1:50m coastline (island/reef, reviewed): Thunderball Grotto
