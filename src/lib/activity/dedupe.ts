@@ -10,23 +10,46 @@ export interface CalendarEventRef {
   end: string;
 }
 
-const NEAR_KM = 50;
 /** Same-named events farther apart than this are different events (two cities' carnivals). */
-const SAME_NAME_KM = 400;
+const SAME_EVENT_KM = 400;
 
-const norm = (s: string) =>
+/** Words that name a kind of event, not which one: "Bahrain Grand Prix" and "Bahrain GP" share only "bahrain". */
+const GENERIC = new Set([
+  'the', 'of', 'and', 'de', 'del', 'la', 'le', 'les', 'di', 'in', 'at', 'on', 'to', 'a',
+  'festival', 'fest', 'fete', 'feria', 'fair', 'grand', 'prix', 'gp', 'formula', 'f1',
+  'week', 'weekend', 'day', 'days', 'season', 'show', 'annual', 'international',
+]);
+
+export const normName = (s: string) =>
   s
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
-    .replace(/\bthe\b/g, ' ')
-    .replace(/\s+/g, ' ')
     .trim();
 
+const keyWords = (s: string) => new Set(normName(s).split(' ').filter((w) => w.length > 1 && !GENERIC.has(w) && !/^\d{4}$/.test(w)));
+
 /**
- * When a calendar beacon and an activity are the same event (the same name,
- * or within 50 km with overlapping dates), the globe shows only the activity
+ * Whether two event names name the same event: equal once normalized, or
+ * sharing their key words (every key word of the shorter name, and two thirds
+ * of all of them). Being nearby with overlapping dates is not enough: the
+ * Verbier Festival and Montreux Jazz overlap by a day 46 km apart. When in
+ * doubt both markers stay, which is the safe mistake.
+ */
+export function sameEventName(a: string, b: string): boolean {
+  if (normName(a) === normName(b)) return true;
+  const x = keyWords(a), y = keyWords(b);
+  if (!x.size || !y.size) return false;
+  let shared = 0;
+  for (const w of x) if (y.has(w)) shared += 1;
+  const union = x.size + y.size - shared;
+  return shared === Math.min(x.size, y.size) && shared / union >= 2 / 3;
+}
+
+/**
+ * When a calendar beacon and an activity are the same event (their names
+ * match and they are in the same place), the globe shows only the activity
  * marker, which takes the beacon's heat (see `withHeat`). Everything else
  * passes through.
  */
@@ -35,19 +58,15 @@ export function dedupeBeacons(
   events: ReadonlyMap<string, CalendarEventRef>,
   activities: readonly Activity[],
 ): { beacons: Beacon[]; heat: Map<string, number> } {
-  const eventsWithDates = activities.filter((a) => a.kind === 'event');
+  const eventActivities = activities.filter((a) => a.kind === 'event');
   const heatFor = new Map<string, number>();
   const kept: Beacon[] = [];
   for (const beacon of beacons) {
     const ev = events.get(beacon.eventId);
     const match = ev
-      ? eventsWithDates.find((a) => {
-          const km = greatCircleDistanceKm({ lat: a.lat, lon: a.lng }, beacon.coords);
-          if (norm(a.name) === norm(ev.name) && km <= SAME_NAME_KM) return true;
-          if (!a.eventDates) return false;
-          const overlap = a.eventDates.start <= ev.end && ev.start <= a.eventDates.end;
-          return overlap && km <= NEAR_KM;
-        })
+      ? eventActivities.find(
+          (a) => sameEventName(a.name, ev.name) && greatCircleDistanceKm({ lat: a.lat, lon: a.lng }, beacon.coords) <= SAME_EVENT_KM,
+        )
       : undefined;
     if (!match) {
       kept.push(beacon);

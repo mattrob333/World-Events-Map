@@ -337,7 +337,7 @@ describe('fetchers', () => {
     expect(out?.stats).toEqual([
       { label: 'Starts in', value: '12', unit: 'days' },
       { label: 'Venue', value: 'Helsinki' },
-      { label: 'Details', value: 'Official site', href: 'https://www.flowfestival.com/en/' },
+      { label: 'Dates from', value: 'flowfestival.com', href: 'https://www.flowfestival.com/en/' },
     ]);
     expect(out?.note).toMatch(/estimated/);
     expect(out?.sources).toEqual([{ name: 'flowfestival.com', url: 'https://www.flowfestival.com/en/' }]);
@@ -348,6 +348,20 @@ describe('fetchers', () => {
     );
     expect(unsafe?.stats.some((s) => s.href)).toBe(false);
     expect(unsafe?.sources).toEqual([]);
+  });
+
+  it('event: labels a link Tickets only for a real ticket page', async () => {
+    const now = { units: 'imperial' as const, now: new Date(2026, 8, 28, 12) };
+    const base = activity({
+      kind: 'event', conditions: 'event', place: 'Suzuka',
+      eventDates: { start: '2026-10-10', end: '2026-10-12', status: 'confirmed', sourceUrl: 'https://en.wikipedia.org/wiki/Race' },
+    });
+    const withTickets = await FETCHERS.event({ ...base, links: { tickets: 'https://tickets.example.com/race', officialSite: 'https://www.example.com/' } }, now);
+    expect(withTickets?.stats.at(-1)).toEqual({ label: 'Tickets', value: 'Get tickets', href: 'https://tickets.example.com/race' });
+    const withSite = await FETCHERS.event({ ...base, links: { officialSite: 'https://www.example.com/' } }, now);
+    expect(withSite?.stats.at(-1)).toEqual({ label: 'Official site', value: 'example.com', href: 'https://www.example.com/' });
+    const onlySource = await FETCHERS.event(base, now);
+    expect(onlySource?.stats.at(-1)).toEqual({ label: 'Dates from', value: 'en.wikipedia.org', href: 'https://en.wikipedia.org/wiki/Race' });
   });
 
   it('shares one upstream call between identical concurrent requests', async () => {

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { composeLocally } from '@/lib/designer/itinerary';
 import type { Beacon } from '@/lib/types';
 import { ACTIVITIES, type Activity } from '../activities';
-import { dedupeBeacons, heatKey, withHeat } from '../dedupe';
+import { dedupeBeacons, heatKey, sameEventName, withHeat } from '../dedupe';
 import { activityCard, inTrip, pinActivity, spotTripHref, unpinActivity } from '../trip';
 import { validateActivities } from '../validate';
 
@@ -18,9 +18,9 @@ const festival: Activity = {
 };
 
 describe('dedupeBeacons', () => {
-  it('drops a beacon for the same event nearby with overlapping dates, and passes its heat on', () => {
+  it('drops a beacon for the same event nearby and passes its heat on', () => {
     const events = new Map([
-      ['a', { id: 'a', name: 'Something else', start: '2027-03-12', end: '2027-03-13' }],
+      ['a', { id: 'a', name: 'Test Fest', start: '2027-03-12', end: '2027-03-13' }],
       ['b', { id: 'b', name: 'Far away', start: '2027-03-12', end: '2027-03-13' }],
     ]);
     const out = dedupeBeacons([beacon('a', 30.1, -97.1, 91), beacon('b', 40, -74)], events, [festival]);
@@ -29,7 +29,14 @@ describe('dedupeBeacons', () => {
     expect(withHeat([festival], heatKey(out.heat))[0].heat).toBe(91);
   });
 
-  it('matches the same name even when dates differ, but not across the world', () => {
+  it('keeps a different event even when it is nearby on overlapping dates', () => {
+    const events = new Map([['v', { id: 'v', name: 'Verbier Festival', start: '2027-03-12', end: '2027-03-13' }]]);
+    const out = dedupeBeacons([beacon('v', 30.2, -97.2)], events, [{ ...festival, name: 'Montreux Jazz Festival' }]);
+    expect(out.beacons).toHaveLength(1);
+    expect(out.heat.size).toBe(0);
+  });
+
+  it('matches the same name but not across the world', () => {
     const events = new Map([
       ['near', { id: 'near', name: 'The Test Fest', start: '2027-06-01', end: '2027-06-02' }],
       ['far', { id: 'far', name: 'Test Fest', start: '2027-03-12', end: '2027-03-13' }],
@@ -42,6 +49,18 @@ describe('dedupeBeacons', () => {
     const out = dedupeBeacons([beacon('z', 0, 0)], new Map(), ACTIVITIES);
     expect(out.beacons).toHaveLength(1);
     expect(withHeat(ACTIVITIES, heatKey(out.heat))).toBe(ACTIVITIES);
+  });
+});
+
+describe('sameEventName', () => {
+  it('matches names of the same event and not their neighbors', () => {
+    expect(sameEventName('Bahrain Grand Prix', 'Bahrain GP')).toBe(true);
+    expect(sameEventName('Oktoberfest', 'oktoberfest')).toBe(true);
+    expect(sameEventName('Sapporo Snow Festival', 'Sapporo Snow Festival 2027')).toBe(true);
+    expect(sameEventName('Verbier Festival', 'Montreux Jazz Festival')).toBe(false);
+    expect(sameEventName('Sydney to Hobart Yacht Race', "Sydney New Year's Eve")).toBe(false);
+    expect(sameEventName('Noma', 'Christmas in Tivoli')).toBe(false);
+    expect(sameEventName('Monaco Grand Prix', 'Monaco Yacht Show')).toBe(false);
   });
 });
 
