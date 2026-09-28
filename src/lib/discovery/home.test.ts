@@ -28,6 +28,10 @@ describe('home events', () => {
     expect(forYou(acl, [signal('music:live', 'Live music')])).toBe('Live music');
     expect(forYou(acl, [signal('music:live', 'Live music', 'avoid')])).toBeNull();
     expect(forYou(event('race', { category: 'motorsport' as WorldEvent['category'] }), [signal('culture:museums', 'Museums')])).toBeNull();
+    // A loved team is a reason for its own games, not for every sports event.
+    const xGames = event('x-games', { name: 'X Games Aspen', tagline: 'SuperPipe and Big Air at Buttermilk', category: 'ski' as WorldEvent['category'], city: 'Aspen' });
+    expect(forYou(xGames, [signal('sports:team:atlanta-braves', 'Atlanta Braves')])).toBeNull();
+    expect(forYou(event('braves', { name: 'Braves vs Mets', category: 'sports' as WorldEvent['category'] }), [signal('sports:team:braves', 'Braves')])).toBe('Braves');
   });
 });
 
