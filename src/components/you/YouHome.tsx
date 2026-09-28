@@ -7,6 +7,7 @@ import { bentoCards } from '@/lib/designer/moodboard';
 import { pickActiveGroup, useDesignerStore, type SavedProfile } from '@/lib/designer/store';
 import { decodeInvite, encodeInvite, groupTravelers, inviteFromGroup, inviteUrl, type GroupInvite, type TravelGroup } from '@/lib/travelers/groups';
 import { travelerName } from '@/lib/travelers/names';
+import { WishlistCalendar } from './WishlistCalendar';
 import styles from './you.module.css';
 
 const plural = (count: number, one: string, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
@@ -72,6 +73,8 @@ export function YouHome({ openId, onOpen, onAddTraveler }: { openId: string | nu
           </div>
         </section>
       ) : null}
+
+      <WishlistCalendar />
 
       <section aria-labelledby="travelers-title">
         <div className={styles.sectionHead}>

@@ -47,7 +47,8 @@ import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
 import { ActivityGlobeLayer } from '@/components/activity/ActivityGlobeLayer';
 import { ActivityOverlay, useSpotDeepLink, writeSpotParam } from '@/components/activity/ActivityOverlay';
-import { ACTIVITIES } from '@/lib/activity/activities';
+import type { Activity } from '@/lib/activity/activities';
+import { useActivities } from '@/lib/activity/useActivities';
 import { dedupeBeacons, heatKey, withHeat } from '@/lib/activity/dedupe';
 import { useActivityStore } from '@/lib/activity/store';
 
@@ -56,6 +57,7 @@ type Lens = 'world' | 'home';
 const LENS_KEY = 'meridian.lens.v1';
 /** The one-line PULSE headline on phones. Hidden: the activity filters own the top of the globe now. */
 const SHOW_GLOBE_HEADLINE = false;
+const NO_ACTIVITIES: Activity[] = [];
 
 // Built on the first search, not on page load.
 let searchIndex: SearchHit[] | null = null;
@@ -262,9 +264,11 @@ export function DiscoveryExperience() {
   const visibleBeacons = useMemo(() => beacons.filter((beacon) => visibleIds.has(beacon.eventId)), [beacons, visibleIds]);
   // Activity spots share the globe with the calendar: where both show the same event, only the spot stays, with its heat.
   const eventRefs = useMemo(() => new Map(events.map((event) => [event.id, event])), [events]);
-  const deduped = useMemo(() => dedupeBeacons(visibleBeacons, eventRefs, ACTIVITIES), [visibleBeacons, eventRefs]);
+  // The spot list is its own chunk, loaded once the globe is the map on screen.
+  const allActivities = useActivities(lens === 'world') ?? NO_ACTIVITIES;
+  const deduped = useMemo(() => dedupeBeacons(visibleBeacons, eventRefs, allActivities), [visibleBeacons, eventRefs, allActivities]);
   const spotHeat = heatKey(deduped.heat);
-  const activities = useMemo(() => withHeat(ACTIVITIES, spotHeat), [spotHeat]);
+  const activities = useMemo(() => withHeat(allActivities, spotHeat), [allActivities, spotHeat]);
   const spotOpen = useActivityStore((s) => Boolean(s.selectedId || s.pendingId));
   useSpotDeepLink(activities, searchParams.get('spot'));
 

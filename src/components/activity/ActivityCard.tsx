@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import Link from 'next/link';
 import {
-  Bookmark, BookmarkCheck, Check, Copy, ExternalLink, Globe2, Hotel, MapPin, Plane, Plus, Share2, Sparkles, Ticket, X, CloudSun, BookOpen, WifiOff,
+  Heart, Check, Copy, ExternalLink, Globe2, Hotel, MapPin, Plane, Plus, Share2, Sparkles, Ticket, X, CloudSun, BookOpen, WifiOff,
 } from 'lucide-react';
 import { CATEGORY_META, type Activity } from '@/lib/activity/activities';
 import { bookIt, moreInfo, seeIt } from '@/lib/activity/links';
@@ -98,7 +98,8 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
   if (!a && openedFor !== null) setOpenedFor(null);
   if (a && openedFor !== a.id) {
     setOpenedFor(a.id);
-    setSnap('peek');
+    // On a phone a spot opens as its full page; drag down to see the globe again.
+    setSnap('full');
     setShared(false);
     setCopied(null);
   }
@@ -245,8 +246,8 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
             <p>{a.venue ? `${a.venue} · ` : ''}{a.place}, {a.country}</p>
           </div>
           <div className={styles.headActions}>
-            <button type="button" className={styles.iconBtn} onClick={toggleSave} aria-pressed={saved} aria-label={saved ? 'Saved to your trips' : 'Save'} data-pop={saved || undefined}>
-              {saved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
+            <button type="button" className={`${styles.iconBtn} ${styles.heart}`} onClick={toggleSave} aria-pressed={saved} aria-label={saved ? 'On your wish list. Tap to remove' : 'Add to your wish list'} data-pop={saved || undefined}>
+              <Heart size={21} fill={saved ? 'currentColor' : 'none'} />
             </button>
             <button type="button" className={styles.iconBtn} onClick={share} aria-label={shared ? 'Link shared' : 'Share'}>
               {shared ? <Check size={20} /> : <Share2 size={20} />}
@@ -256,6 +257,13 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
             </button>
           </div>
         </header>
+
+        {saved ? (
+          <p className={styles.wished}>
+            <Heart size={13} fill="currentColor" aria-hidden="true" /> On your wish list.{' '}
+            <Link href="/vibe#wish-list">See it on your calendar</Link>
+          </p>
+        ) : null}
 
         {a.reason ? (
           <p className={styles.reason}>

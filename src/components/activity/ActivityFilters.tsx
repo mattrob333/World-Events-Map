@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Sparkles } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { ChevronDown, SlidersHorizontal, Sparkles } from 'lucide-react';
 import { CATEGORIES, CATEGORY_META, MONTHS_LONG, MONTHS_SHORT, type Activity, type Category } from '@/lib/activity/activities';
 import type { MonthSel } from '@/lib/activity/season';
 import { useActivityStore } from '@/lib/activity/store';
@@ -53,8 +53,35 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
   }, [activities]);
   const all = !forYou && categories.length === 0;
 
+  // On a phone the two rows fold into one pill that says what's showing.
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const cardOpen = useActivityStore((st) => Boolean(st.selectedId || st.pendingId));
+  // It folds away when a spot opens, or on a tap anywhere else.
+  const [lastCardOpen, setLastCardOpen] = useState(cardOpen);
+  if (cardOpen !== lastCardOpen) {
+    setLastCardOpen(cardOpen);
+    if (cardOpen) setOpen(false);
+  }
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', away);
+    return () => document.removeEventListener('pointerdown', away);
+  }, [open]);
+  const kinds = forYou ? 'For you' : categories.length === 0 ? 'Everything' : categories.length === 1 ? CATEGORY_META[categories[0]].label : `${categories.length} kinds`;
+  const when = month === 'now' ? 'Now' : MONTHS_LONG[month - 1];
+
   return (
-    <div className={styles.filters}>
+    <div ref={rootRef} className={styles.filters} data-open={open || undefined}>
+      <button type="button" className={styles.filterPill} aria-expanded={open} aria-controls="activity-filter-rows" onClick={() => setOpen(!open)}>
+        <SlidersHorizontal size={15} aria-hidden="true" />
+        <span>{when} · {kinds}</span>
+        <ChevronDown size={15} aria-hidden="true" className={styles.filterChevron} />
+      </button>
+      <div id="activity-filter-rows" className={styles.filterRows}>
       <FadeRow role="radiogroup" aria-label="Month">
         {MONTHS.map((m) => {
           const on = month === m;
@@ -89,6 +116,7 @@ export function ActivityFilters({ activities, forYouCount = 0 }: { activities: r
           );
         })}
       </FadeRow>
+      </div>
     </div>
   );
 }

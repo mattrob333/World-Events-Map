@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { composeLocally } from '@/lib/designer/itinerary';
 import type { Beacon } from '@/lib/types';
-import { ACTIVITIES, type Activity } from '../activities';
+import type { Activity } from '../activities';
+import { ACTIVITIES } from '../data';
 import { dedupeBeacons, heatKey, sameEventName, withHeat } from '../dedupe';
-import { activityCard, inTrip, pinActivity, spotTripHref, unpinActivity } from '../trip';
+import { activityCard, inTrip, pinActivity, unpinActivity } from '../trip';
+import { spotTripHref } from '../tripHref';
 import { validateActivities } from '../validate';
 
 const beacon = (eventId: string, lat: number, lon: number, score = 88): Beacon => ({

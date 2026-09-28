@@ -18,7 +18,8 @@
  */
 
 import { NextResponse } from 'next/server';
-import { ACTIVITIES, byId, type Activity } from '@/lib/activity/activities';
+import { byId, type Activity } from '@/lib/activity/activities';
+import { ACTIVITIES } from '@/lib/activity/data';
 import { conditionsKind, fetcherFor, type Conditions, type ConditionsKindName, type Units } from '@/lib/activity/conditions';
 import { UpstreamError } from '@/lib/activity/conditions/http';
 import { consumeNowClientRateLimit } from '@/lib/now/rateLimit';

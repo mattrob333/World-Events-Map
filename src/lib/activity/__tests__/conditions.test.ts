@@ -384,3 +384,13 @@ describe('fetchers', () => {
     expect(err.reason).toBe('timeout');
   });
 });
+
+describe('offSeasonLine', () => {
+  it('says when to check back out of season, and nothing in season', async () => {
+    const { offSeasonLine } = await import('../conditions/snow');
+    expect(offSeasonLine({ bestMonths: [12, 1, 2, 3] }, new Date(2026, 8, 28))).toBe('Off season. Check back in December, when the season starts.');
+    expect(offSeasonLine({ bestMonths: [12, 1, 2, 3] }, new Date(2027, 0, 5))).toBeUndefined();
+    expect(offSeasonLine({ bestMonths: [7, 8, 9] }, new Date(2026, 8, 28))).toBeUndefined();
+  });
+});
+

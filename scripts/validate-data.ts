@@ -31,7 +31,7 @@ import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { SIGNAL_KEYS, assertComponentsSum, scoreEvents } from '@/lib/buzz/scoring';
 import { computeRelevance, daysUntil } from '@/lib/buzz/relevance';
 import { addDays, daysBetween, isValidISODate, todayISO } from '@/lib/buzz/dates';
-import { ACTIVITIES } from '@/lib/activity/activities';
+import { ACTIVITIES } from '@/lib/activity/data';
 import { validateActivities } from '@/lib/activity/validate';
 
 // ─────────────────────────────────────────────────────────────────────────────

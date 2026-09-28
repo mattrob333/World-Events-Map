@@ -1,0 +1,56 @@
+/* The wish list as a year: a row per place, the months it's best in brass. */
+.shell {
+  padding: 20px 18px 16px; border-radius: 22px; background: var(--gradient-surface), var(--color-surface-1);
+  border: 1px solid rgb(244 241 234 / 0.06); box-shadow: var(--shadow-soft-2); scroll-margin-top: 80px;
+}
+.head { margin-bottom: 14px; }
+.kicker { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--color-flamingo); }
+.title { margin-top: 6px; font-family: var(--font-display); font-size: 28px; line-height: 1.1; font-weight: 600; color: var(--color-bone); }
+.summary { margin-top: 6px; font-size: 14px; color: var(--color-ink-soft); }
+
+.table { display: grid; gap: 2px; }
+.list { display: grid; gap: 2px; }
+.row {
+  display: grid; grid-template-columns: minmax(0, 38%) 1fr; align-items: center; gap: 10px;
+  min-height: 52px; padding: 4px 6px; border-radius: 12px; color: inherit;
+  transition: background 0.2s;
+}
+a.row { animation: rowIn 0.4s var(--ease-glide) both; animation-delay: calc(var(--i, 0) * 40ms); }
+a.row:hover { background: var(--color-surface-2); }
+a.row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+@keyframes rowIn { from { opacity: 0; transform: translateY(6px); } }
+.nameHead { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-ink-subtle); }
+.name { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.dot { flex: none; width: 9px; height: 9px; border-radius: 99px; background: var(--c); box-shadow: 0 0 10px -2px var(--c); }
+.nameText { display: grid; min-width: 0; }
+.nameText strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 650; color: var(--color-bone); }
+.nameText small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--color-ink-subtle); }
+
+.months { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; height: 22px; align-items: center; }
+.row[aria-hidden] .months { height: auto; }
+.month { position: relative; text-align: center; font-size: 11px; font-weight: 600; color: var(--color-ink-subtle); }
+.month[data-now] { color: var(--color-bone); }
+.month em { position: absolute; top: -13px; left: 0; right: 0; font-style: normal; font-size: 9.5px; color: var(--color-brass); }
+.cell { height: 14px; border-radius: 4px; background: #1f1e1b; }
+.cell[data-state='best'] { background: color-mix(in srgb, var(--color-brass) 55%, #1f1e1b); }
+.cell[data-state='peak'] { background: linear-gradient(180deg, var(--color-brass-bright), var(--color-brass)); box-shadow: 0 0 10px -4px var(--color-brass); }
+.span {
+  position: absolute; top: 50%; height: 14px; min-width: 6px; transform: translateY(-50%); border-radius: 4px;
+  background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 70%, white)); box-shadow: 0 0 12px -3px var(--c);
+}
+.today { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 2px; background: var(--color-bone); opacity: 0.85; }
+
+.empty {
+  display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 16px; background: var(--color-surface-2);
+  border: 1px dashed rgb(244 241 234 / 0.14); color: inherit; transition: border-color 0.2s;
+}
+.empty:hover { border-color: var(--color-brass); }
+.empty > span:last-child { display: grid; gap: 2px; }
+.empty strong { font-size: 15px; color: var(--color-bone); }
+.empty span span { font-size: 13px; color: var(--color-ink-soft); }
+.emptyGlobe {
+  flex: none; width: 44px; height: 44px; border-radius: 99px;
+  background: radial-gradient(circle at 35% 30%, #3a5f8a, #0f1e30 70%);
+  box-shadow: inset -6px -8px 14px rgb(0 0 0 / 0.5), 0 0 18px -4px #4FA3C7;
+}
+@media (prefers-reduced-motion: reduce) { a.row { animation: none; } }
