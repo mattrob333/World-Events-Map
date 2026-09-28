@@ -47,7 +47,9 @@ export function forYou(event: WorldEvent, signals: readonly Signal[]): string | 
     const entry = vocabFor(signal.key);
     if (entry?.venue?.test(text) || entry?.words.test(text)) return signal.label;
   }
-  for (const signal of liked.filter((entry) => entry.strength === 'love')) {
+  // A broad love ("sports", "live music") covers its whole scene. A named team,
+  // artist or genre doesn't: loving the Braves says nothing about the X Games.
+  for (const signal of liked.filter((entry) => entry.strength === 'love' && entry.key.split(':').length < 3)) {
     const group = signal.key.split(':')[0];
     if (GROUP_CATEGORIES[group]?.some((category) => categories.includes(category))) return signal.label;
   }
