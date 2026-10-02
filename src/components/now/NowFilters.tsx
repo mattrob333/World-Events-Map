@@ -26,13 +26,17 @@ export function NowFilters<W extends string>({
 }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
+  const pill = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     const away = (e: PointerEvent) => {
       if (!root.current?.contains(e.target as Node)) setOpen(false);
     };
     const key = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      // The chips are about to hide: keep keyboard focus on the pill, not lost to the page.
+      if (root.current?.contains(document.activeElement)) pill.current?.focus();
+      setOpen(false);
     };
     document.addEventListener('pointerdown', away);
     document.addEventListener('keydown', key);
@@ -47,7 +51,7 @@ export function NowFilters<W extends string>({
 
   return (
     <div ref={root} className={styles.controls} data-open={open || undefined}>
-      <button type="button" className={styles.filterPill} aria-expanded={open} aria-controls="now-filter-rows" onClick={() => setOpen(!open)}>
+      <button ref={pill} type="button" className={styles.filterPill} aria-expanded={open} aria-controls="now-filter-rows" onClick={() => setOpen(!open)}>
         <SlidersHorizontal size={15} aria-hidden="true" />
         <span>{miles ? `${miles} mi` : 'Nearby'} · {label}</span>
         <ChevronDown size={15} aria-hidden="true" className={styles.filterChevron} />
