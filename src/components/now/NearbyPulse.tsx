@@ -11,6 +11,7 @@ import { buildTonight, nightClock } from '@/lib/now/tonight';
 import { useActiveProfile } from '@/lib/designer/store';
 import { allSignals } from '@/lib/vibe/signals';
 import { HourBars, TonightTimeline } from './TonightTimeline';
+import { NowFilters } from './NowFilters';
 import { formatMiles } from '@/lib/units';
 import { letPageScroll } from '@/lib/geo/mapGestures';
 import styles from './nearby-pulse.module.css';
@@ -539,19 +540,7 @@ export function NearbyPulse() {
       </section>
 
       <div className={styles.below}>
-        <div className={styles.controls}>
-          <div className={styles.chips} role="group" aria-label="How far">
-            {PULSE_RADII.map((choice) => (
-              <button key={choice.miles} type="button" className={styles.chip} aria-pressed={radius === choice.meters} onClick={() => setRadius(choice.meters)}>{choice.miles} mi</button>
-            ))}
-          </div>
-          <div className={styles.chips} role="group" aria-label="What you’re after">
-            {WHATS.map((choice) => (
-              <button key={choice.value} type="button" className={styles.chip} aria-pressed={what === choice.value} onClick={() => setWhat(choice.value)}>{choice.label}</button>
-            ))}
-          </div>
-        </div>
-
+        <NowFilters radii={PULSE_RADII} radius={radius} onRadius={setRadius} whats={WHATS} what={what} onWhat={setWhat} />
 
         {tonight && tonight.rows.length > 0 && <TonightTimeline tonight={tonight} selected={selected} onPick={focus} winks={winks} />}
 
@@ -695,8 +684,8 @@ function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue:
         </>
       ) : null}
       <div className={styles.more}>
-        <a href={facts?.mapsUrl ?? venue.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name} ${venue.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer">Photos and reviews on Google Maps ↗</a>
-        {facts?.website ? <a href={facts.website} target="_blank" rel="noopener noreferrer">Website ↗</a> : null}
+        <a href={facts?.mapsUrl ?? venue.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name} ${venue.address ?? ''}`)}`} target="_blank" rel="noopener noreferrer" aria-label="Photos and reviews on Google Maps (opens in a new tab)">Google Maps <span aria-hidden="true">↗</span></a>
+        {facts?.website ? <a href={facts.website} target="_blank" rel="noopener noreferrer" aria-label="Website (opens in a new tab)">Website <span aria-hidden="true">↗</span></a> : null}
         {facts?.phone ? <a href={`tel:${facts.phone.replace(/[^0-9+]/g, '')}`}>Call</a> : null}
       </div>
       {details === 'loading' ? <p className={styles.proofSource}>Getting the details from Google…</p> : null}
