@@ -48,7 +48,30 @@
 .where { color: var(--color-bone); letter-spacing: 0.06em; }
 
 .below { max-width: 56rem; margin: 0 auto; padding: 14px 12px 0; }
-.controls { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; }
+.controls { position: relative; }
+.filterRows { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; }
+.filterPill { display: none; }
+/* Phones: one quiet pill says what's showing; the chips open under it. */
+@media (max-width: 1023px) {
+  .filterPill {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 650; color: var(--color-ink-soft); background: var(--color-surface-1);
+    border: 1px solid rgb(244 241 234 / 0.08); position: relative;
+  }
+  .filterPill::after { content: ''; position: absolute; inset: -4px 0; }
+  .filterPill:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .filterPill svg:first-child { color: var(--color-brass-bright); }
+  .filterChevron { transition: transform 0.25s var(--ease-glide); }
+  .controls[data-open] .filterChevron { transform: rotate(180deg); }
+  .filterRows { display: none; }
+  .controls[data-open] .filterRows {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding: 10px;
+    border-radius: 18px; background: var(--color-surface-1); box-shadow: var(--shadow-soft-2);
+    animation: rowsIn 0.22s var(--ease-glide);
+  }
+  @keyframes rowsIn { from { opacity: 0; transform: translateY(-4px); } }
+}
+@media (prefers-reduced-motion: reduce) { .controls[data-open] .filterRows { animation: none; } }
 .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
 .chip { flex: none; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--color-surface-2); color: var(--color-ink-soft); font-size: 13px; font-weight: 600; }
 .chip[aria-pressed='true'] { background: var(--color-saffron); color: #16120a; }
@@ -145,8 +168,15 @@
 .getThere { margin-top: 12px; color: var(--color-ink-subtle); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 .ways { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .ways a { min-height: 44px; }
-.more { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13px; }
-.more a { color: var(--color-brass-bright, var(--color-saffron)); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+/* Google Maps, Website, Call: one row of small buttons, not wrapped links with gaps. */
+.more { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-top: 12px; font-size: 13px; }
+.more a {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; padding: 0 10px;
+  border-radius: 999px; background: var(--color-surface-2); border: 1px solid rgb(244 241 234 / 0.08);
+  color: var(--color-bone); font-weight: 600; white-space: nowrap;
+}
+.more a span { color: var(--color-brass-bright, var(--color-saffron)); }
+.more a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .attribution { display: flex; align-items: center; margin-top: 6px; color: var(--color-ink-subtle); font-size: 11px; }
 
 /* Back to you, like the blue-dot button on Google Maps. Sits above the place card when one is open. */
