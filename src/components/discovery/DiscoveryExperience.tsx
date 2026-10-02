@@ -389,6 +389,14 @@ export function DiscoveryExperience() {
             Not on the calendar yet · Plan a trip to “{planOffer.label}” <span aria-hidden="true">→</span>
           </Link>
         )}
+        {/* Which map, and where: one row on a phone, the switch first. */}
+        {canHome ? (
+          <div className={styles.lenses} role="group" aria-label="Map">
+            <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
+            <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
+            <Link prefetch={false} href="/now">Now</Link>
+          </div>
+        ) : null}
         <LocationPicker viewer={viewer} />
         {planMode && (
           <button className={styles.dateButton} onClick={now}>
@@ -437,13 +445,6 @@ export function DiscoveryExperience() {
         season={tripMode.season}
         interest={tripMode.interest}
       />}
-      {canHome ? (
-        <div className={styles.lenses} role="group" aria-label="Map">
-          <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
-          <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
-          <Link prefetch={false} href="/now">Now</Link>
-        </div>
-      ) : null}
       {lens === 'home' && viewer.coords ? (
         <HomeMap events={events} signals={signals} viewer={viewer.coords} today={rangeStart} hrefFor={destinationHref} />
       ) : null}
@@ -469,6 +470,9 @@ export function DiscoveryExperience() {
               viewerMarker={hasViewerOrigin && viewer.coords ? {
                 coords: viewer.coords,
                 label: viewer.source === 'chosen' ? (viewer.cityLabel?.split(',')[0].toUpperCase() ?? 'YOUR CITY') : 'NEARBY',
+                // Just the dot: a tag here covered spot labels, and the arcs from it read as routes nobody asked for.
+                tag: false,
+                reach: false,
               } : undefined}
             >
               <ActivityOverlay activities={activities} />

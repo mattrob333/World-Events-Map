@@ -298,3 +298,14 @@
 @media (min-width: 1024px) {
   .filterRows { display: grid; gap: 6px; }
 }
+
+/* A first-visit hint over the bottom of the globe: what the dots are for. */
+.hint {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 2; margin: 0;
+  padding: 8px 14px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+  font-size: 13px; font-weight: 600; color: var(--color-bone);
+  background: rgb(15 15 15 / 0.82); border: 1px solid rgb(244 241 234 / 0.12); backdrop-filter: blur(8px);
+  animation: hintIn 0.6s var(--ease-glide) 1.2s both;
+}
+@keyframes hintIn { from { opacity: 0; transform: translate(-50%, 6px); } }
+@media (prefers-reduced-motion: reduce) { .hint { animation: none; } }

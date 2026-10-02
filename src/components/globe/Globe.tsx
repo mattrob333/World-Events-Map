@@ -98,7 +98,7 @@ export function GlobeScene({ beacons, winterMode, onReady, initialView, viewerMa
       <BeaconField beacons={beacons} winterMode={winterMode} />
       <TravelRoute />
       {viewerMarker && <ViewerMarker {...viewerMarker} />}
-      {viewerMarker && <ReachArcs beacons={beacons} origin={viewerMarker.coords} />}
+      {viewerMarker && viewerMarker.reach !== false && <ReachArcs beacons={beacons} origin={viewerMarker.coords} />}
 
       <CameraRig
         initialDistance={INITIAL_DISTANCE}
