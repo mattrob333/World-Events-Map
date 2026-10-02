@@ -469,8 +469,9 @@ export function DiscoveryExperience() {
               initialView={viewer.launchCoords ?? viewer.coords}
               viewerMarker={hasViewerOrigin && viewer.coords ? {
                 coords: viewer.coords,
+                label: viewer.source === 'chosen' ? (viewer.cityLabel?.split(',')[0].toUpperCase() ?? 'YOUR CITY') : 'NEARBY',
                 // Just the dot: a tag here covered spot labels, and the arcs from it read as routes nobody asked for.
-                label: '',
+                tag: false,
                 reach: false,
               } : undefined}
             >
