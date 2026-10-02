@@ -23,6 +23,7 @@ export function writeSpotParam(id: string | null) {
 }
 
 const noopSubscribe = () => () => {};
+const HINT_KEY = 'meridian.spotHint.v1';
 
 /**
  * How far to shift the rendered globe so the spot sits in the middle of what
@@ -102,8 +103,31 @@ export function ActivityOverlay({ activities }: { activities: Activity[] }) {
     closeCard();
   }, []);
 
+  // First visit: say what the dots are for, once. It goes away for good after the first spot opens.
+  const [hinted, setHinted] = useState(true);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        setHinted(window.localStorage.getItem(HINT_KEY) === '1');
+      } catch {
+        setHinted(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+  const opened = useActivityStore((st) => Boolean(st.selectedId));
+  useEffect(() => {
+    if (!opened) return;
+    try {
+      window.localStorage.setItem(HINT_KEY, '1');
+    } catch { /* Storage can be disabled. */ }
+    const timer = window.setTimeout(() => setHinted(true), 0);
+    return () => window.clearTimeout(timer);
+  }, [opened]);
+
   return (
     <div ref={root} className={styles.stage}>
+      {!hinted ? <p className={styles.hint}>Tap a spot to see when to go</p> : null}
       <div ref={filters} className={styles.filtersDock} style={dock ? { left: dock.left, right: dock.right } : undefined}>
         <ActivityFilters activities={activities} />
       </div>

@@ -1659,3 +1659,13 @@
   visibility: hidden;
   transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
+
+/* The map switch lives in the toolbar row now: World · Home · Now, then where you are. */
+.toolbar .lenses { margin: 0; flex: none; }
+@media (max-width: 760px) {
+  .toolbar { flex-wrap: nowrap; justify-content: space-between; gap: 8px; padding: 8px 12px 8px; }
+  .toolbar .lenses { padding: 3px; gap: 2px; box-shadow: none; }
+  .toolbar .lenses button, .toolbar .lenses a { min-height: 38px; padding: 0 13px; font-size: 13.5px; }
+  .toolbar .locationPicker { flex: 0 1 auto; min-width: 0; max-width: 46%; }
+  .toolbar .locationButton { min-height: 44px; padding-inline: 10px; font-size: 13px; }
+}

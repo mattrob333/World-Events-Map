@@ -9,8 +9,13 @@ import { latLonToVec3 } from '@/lib/geo/projection';
 export interface ViewerMarkerInfo {
   /** Must come from a chosen city or granted browser position, never a time zone. */
   coords: GeoPoint;
-  /** Short display name, such as ATLANTA or NEARBY. */
+  /** Short display name, such as ATLANTA or NEARBY. Empty: just the dot, no tag. */
   label: string;
+  /**
+   * Draw the arcs from here out to the busiest events. Off: the globe shows
+   * no lines nobody asked for (a chosen route still draws its own).
+   */
+  reach?: boolean;
 }
 
 function labelTexture(label: string): THREE.CanvasTexture {
@@ -108,9 +113,11 @@ function ViewerMarkerImpl({ coords, label }: ViewerMarkerInfo) {
           <meshBasicMaterial color="#83e2d4" transparent opacity={0.72} toneMapped={false} depthWrite={false} />
         </mesh>
       </group>
-      <sprite ref={sprite} position={pose.labelPosition} scale={[0.25, 0.05625, 1]} renderOrder={15}>
-        <spriteMaterial map={texture} transparent depthWrite={false} toneMapped={false} />
-      </sprite>
+      {label ? (
+        <sprite ref={sprite} position={pose.labelPosition} scale={[0.25, 0.05625, 1]} renderOrder={15}>
+          <spriteMaterial map={texture} transparent depthWrite={false} toneMapped={false} />
+        </sprite>
+      ) : null}
     </group>
   );
 }
