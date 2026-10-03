@@ -37,6 +37,8 @@ export function useSkiContext(): SkiContext | null {
 
 export const toneStyle = (tone: Tone) => ({ '--dot': TONE_COLOR[tone] }) as CSSProperties;
 export const cardColors = (colors: [string, string]) => ({ '--c1': colors[0], '--c2': colors[1] }) as CSSProperties;
+/** The range's map (rendered by scripts/ski/render-range-maps.mjs) behind a card, tinted with its colors. */
+export const rangeMapStyle = (id: string, colors: [string, string]) => ({ ...cardColors(colors), '--map': `url(/ski/ranges/${id}.jpg)` }) as CSSProperties;
 
 /** "resortId@2027-01-23" → "Aspen Snowmass, Jan 23 to 28". */
 export function optionLabel(data: SkiData, level: Level, key: string, nights: number): { title: string; sub: string; href: string } | null {

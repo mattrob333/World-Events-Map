@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import type { Signal } from '@/lib/vibe/signals';
 import { SKI_RANGES, SKI_RESORTS, SKI_SCENE } from '../data';
@@ -65,6 +67,12 @@ describe('ski data', () => {
   it('gives every resort a range the planner knows', () => {
     const ranges = new Set(RANGES.map((range) => range.id));
     for (const entry of SKI_RESORTS) expect(ranges.has(entry.rangeId), entry.id).toBe(true);
+  });
+
+  it('has a rendered map for every range that has resorts', () => {
+    for (const id of new Set(SKI_RESORTS.map((entry) => entry.rangeId))) {
+      expect(existsSync(join(process.cwd(), 'public', 'ski', 'ranges', `${id}.jpg`)), id).toBe(true);
+    }
   });
 
   it('links every ski spot on the globe to a resort in the planner', () => {

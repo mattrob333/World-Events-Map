@@ -6,7 +6,7 @@ import { formatTicket, PRICE_BAND_LABEL, rankResorts, toneFor, type PriceBand, t
 import { useSkiPlan } from '@/lib/ski/store';
 import { PASS_LABEL, type Pass } from '@/lib/ski/types';
 import { formatSpan } from '@/lib/ski/window';
-import { cardColors, Loading, ThumbButton, toneStyle, TripBar, useSkiContext } from './common';
+import { cardColors, Loading, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext } from './common';
 import styles from './ski.module.css';
 
 type Filter = 'all' | Pass | PriceBand;
@@ -45,10 +45,13 @@ export function RangeView({ rangeId }: { rangeId: string }) {
       <div className={styles.wrap}>
         <header className={styles.head}>
           <Link className={styles.back} href="/ski">← All ranges</Link>
-          <div className={styles.kicker}>{range.where}</div>
-          <h1>{range.name}</h1>
-          <p className={styles.lead}>{range.summary}. Sorted for {formatSpan(window.from, window.to)}, best for you first.</p>
         </header>
+        <section className={styles.rangeHero} style={rangeMapStyle(range.id, range.colors)}>
+          <span className={styles.mapCredit}>© OpenStreetMap</span>
+          <div className={styles.kicker}>{range.where}</div>
+          <h1 className={styles.rangeTitle}>{range.name}</h1>
+          <p className={styles.lead}>{range.summary}. Sorted for {formatSpan(window.from, window.to)}, best for you first.</p>
+        </section>
         <div className={styles.filterRow} role="group" aria-label="Filter resorts">
           {FILTERS.map((option) => (
             <button key={option.value} type="button" className={styles.chip} aria-pressed={filter === option.value} onClick={() => setFilter(option.value)}>{option.label}</button>
