@@ -59,8 +59,10 @@ await page.addScriptTag({ path: join(ROOT, 'node_modules', 'maplibre-gl', 'dist'
 
 for (const id of targets) {
   const inRange = resorts.filter((resort) => resort.rangeId === id);
-  const points = inRange.map((resort) => ({ name: shortName(resort.name), coordinates: [resort.lng, resort.lat] }));
   const lngs = inRange.map((resort) => resort.lng);
+  // Names point toward the middle, so none runs off the edge of the card.
+  const midLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+  const points = inRange.map((resort) => ({ name: shortName(resort.name), side: resort.lng <= midLng ? 'left' : 'right', coordinates: [resort.lng, resort.lat] }));
   const lats = inRange.map((resort) => resort.lat);
   const padLng = Math.max(0.8, (Math.max(...lngs) - Math.min(...lngs)) * 0.1);
   const padLat = Math.max(0.6, (Math.max(...lats) - Math.min(...lats)) * 0.1);
@@ -73,7 +75,7 @@ for (const id of targets) {
           container: 'map', style, bounds, attributionControl: false, interactive: false, fadeDuration: 0,
           // Keep the resorts in the clear window the card leaves between its title and its facts
           // (about 31% to 60% down; see .cardTop and .mapGap).
-          fitBoundsOptions: { padding: { top: 400, bottom: 510, left: 110, right: 110 } },
+          fitBoundsOptions: { padding: { top: 400, bottom: 510, left: 150, right: 150 } },
           preserveDrawingBuffer: true,
         });
         const timer = setTimeout(() => reject(new Error('map timed out')), 90000);
@@ -108,17 +110,21 @@ for (const id of targets) {
           ctx.fillStyle = '#ffffff'; ctx.fill();
           map.addImage('peak', ctx.getImageData(0, 0, size, size), { pixelRatio: 2 });
 
-          map.addSource('resorts', { type: 'geojson', data: { type: 'FeatureCollection', features: points.map((point) => ({ type: 'Feature', properties: { name: point.name }, geometry: { type: 'Point', coordinates: point.coordinates } })) } });
-          map.addLayer({
-            id: 'resorts', type: 'symbol', source: 'resorts',
-            layout: {
-              'icon-image': 'peak', 'icon-size': 0.9, 'icon-allow-overlap': true, 'icon-anchor': 'bottom',
-              'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 14,
-              'text-variable-anchor': ['left', 'right', 'top', 'bottom'], 'text-radial-offset': 1.1, 'text-justify': 'auto',
-              'text-optional': true,
-            },
-            paint: { 'text-color': '#F7C548', 'text-halo-color': '#0b1218', 'text-halo-width': 2 },
-          });
+          map.addSource('resorts', { type: 'geojson', data: { type: 'FeatureCollection', features: points.map((point) => ({ type: 'Feature', properties: { name: point.name, side: point.side }, geometry: { type: 'Point', coordinates: point.coordinates } })) } });
+          // Two layers so a name can sit beside, above or below its mountain but never point
+          // outward: west-side names go right, east-side names go left.
+          for (const side of ['left', 'right']) {
+            map.addLayer({
+              id: `resorts-${side}`, type: 'symbol', source: 'resorts', filter: ['==', ['get', 'side'], side],
+              layout: {
+                'icon-image': 'peak', 'icon-size': 1.5, 'icon-allow-overlap': true, 'icon-anchor': 'bottom',
+                'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 26,
+                'text-variable-anchor': [side, 'bottom', 'top'], 'text-radial-offset': 0.9, 'text-justify': 'auto',
+                'text-optional': true,
+              },
+              paint: { 'text-color': '#F7C548', 'text-halo-color': '#0b1218', 'text-halo-width': 3 },
+            });
+          }
           map.once('idle', () => {
             clearTimeout(timer);
             resolve();
