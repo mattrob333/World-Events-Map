@@ -28,5 +28,10 @@ describe('nearest city on the device', () => {
     expect(all.length).toBeGreaterThan(5000);
     expect(nearestCity({ lat: 33.8, lon: -84.4 }, all)?.name).toBe('Atlanta');
     expect(nearestCity({ lat: 48.9, lon: 2.3 }, all)?.name).toBe('Paris');
+    // Mid-size US cities are on the list too: Augusta, not "Near Columbia".
+    expect(nearestCity({ lat: 33.47, lon: -82.01 }, all)).toMatchObject({ name: 'Augusta', region: 'Georgia', label: 'Augusta' });
+    expect(nearestCity({ lat: 34.0, lon: -81.03 }, all)?.name).toBe('Columbia');
+    // Its suburbs say Augusta too, not the small place next door.
+    expect(nearestCity({ lat: 33.53, lon: -82.13 }, all)?.name).toBe('Augusta');
   });
 });

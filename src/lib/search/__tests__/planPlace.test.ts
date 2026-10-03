@@ -40,4 +40,11 @@ describe('planPlaceFromQuery: nonsense is not a place (retest N4)', () => {
     for (const junk of ['qwzxv', 'asdfgh', 'xkcdbrrrt']) expect(planPlaceFromQuery(junk)).toBeNull();
     for (const real of ['Lisbon', 'Cwm', 'Szczecin', 'São Paulo', 'Munich, Germany']) expect(planPlaceFromQuery(real)).not.toBeNull();
   });
+
+  it('carries the kind of trip, and ignores a kind it does not know', () => {
+    const href = planTripHref({ place: 'Puerto Escondido', region: 'Mexico', kind: 'beach' });
+    expect(href).toContain('kind=beach');
+    expect(planPlaceFromParams(new URL(href, 'https://x.test').searchParams)?.kind).toBe('beach');
+    expect(planPlaceFromParams(new URLSearchParams('place=Lisbon&kind=space'))?.kind).toBeUndefined();
+  });
 });
