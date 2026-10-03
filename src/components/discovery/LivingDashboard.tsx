@@ -12,7 +12,7 @@ import { indexDestinations } from '@/lib/pulse';
 import { addDays, useTimelineStore } from '@/lib/stores/useTimelineStore';
 import styles from './living-dashboard.module.css';
 
-export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) {
+export function LivingDashboard({ mode = 'feed', hot = true, home }: { mode?: 'intro' | 'feed' | 'hot'; hot?: boolean; home?: { code: string; name: string } | null }) {
   const focus = useTimelineStore((state) => state.focus);
   const destinations = useMemo(() => indexDestinations(EVENTS, focus), [focus]);
   const windowIds = new Set(EVENTS.filter((event) => event.end >= focus && event.start <= addDays(focus, 45)).map((event) => event.id));
@@ -45,7 +45,8 @@ export function LivingDashboard({ mode = 'feed' }: { mode?: 'intro' | 'feed' }) 
 
       {/* Pulse: the globe, then what's hot right now. The music map, Travel smarter and the
           activity stream are off the default view (NEXT_PUBLIC_FEATURE_HOME_EXTRAS brings them back). */}
-      {mode === 'feed' && <><HotRightNow />{FEATURES.homeExtras && <><HomeMusicMap /><TravelSmarter /><ActivityStream /></>}</>}
+      {mode === 'hot' && <HotRightNow home={home} />}
+      {mode === 'feed' && <>{hot && <HotRightNow />}{FEATURES.homeExtras && <><HomeMusicMap /><TravelSmarter /><ActivityStream /></>}</>}
     </section>
   );
 }

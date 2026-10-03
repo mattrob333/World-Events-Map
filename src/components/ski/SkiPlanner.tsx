@@ -8,6 +8,8 @@ import { formatSpan } from '@/lib/ski/window';
 import { ResortCard } from './RangeView';
 import { Loading, MapCredit, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext, WindowPicker } from './common';
 import styles from './ski.module.css';
+import { useSkiVoice } from './useSkiVoice';
+import { useGlowScroll } from '@/lib/voice/glow';
 
 /**
  * Step one: when you could go. The mountain ranges come back sorted by how
@@ -27,6 +29,7 @@ export function SkiPlanner() {
     () => (context ? rankResorts(context.data.resorts, context.data.scene, context.window, context.weights).filter((match) => match.fit > 0).slice(0, 12) : []),
     [context],
   );
+  useSkiVoice(context);
   if (!context) return <Loading />;
   const { window, hasProfile } = context;
   return (
@@ -80,8 +83,9 @@ export function SkiPlanner() {
 function RangeCard({ match, on, onToggle }: { match: RangeMatch; on: boolean; onToggle: () => void }) {
   const { range, tone, resorts, forThemCount, verdict } = match;
   const open = resorts.filter((resort) => resort.fit > 0);
+  const [ref, lit] = useGlowScroll<HTMLElement>(`ski:range:${range.id}`);
   return (
-    <article className={styles.card} style={rangeMapStyle(range.id, range.colors)} data-tone={tone} data-map="">
+    <article ref={ref} {...lit} className={styles.card} style={rangeMapStyle(range.id, range.colors)} data-tone={tone} data-map="">
       <Link href={`/ski/${range.id}`} className={styles.cardLink} aria-label={`See resorts in ${range.name}`} />
       <MapCredit />
       <div className={styles.cardBody}>

@@ -40,6 +40,12 @@ const STYLE = [
 export function liveInstructions(intent: VoiceIntent, context: string, today: string): string {
   const day = /^\d{4}-\d{2}-\d{2}$/.test(today) ? today : new Date().toISOString().slice(0, 10);
   const byIntent: Partial<Record<VoiceIntent, string>> = {
+    vibe_go: [
+      'They tapped the sun to ask for anything: a ski trip, somewhere to go right now, or any other trip. The app page that does it opens behind a small bar and fills in while you talk; they watch it change.',
+      'Delegate to the backend, without announcing it, every time they say something it can act on: dates, who is coming, a range or resort to shortlist or open, what they want right now, a place for a trip.',
+      'Ask only what the page needs next, one short question: for skiing when they could go and who is coming; for right now what they are after; for a trip where, when and who.',
+      'Do not read the page out; they can see it. One short line about what changed is enough: "Alps are on your list."',
+    ].join(' '),
     vibe_trip: [
       `They are planning one trip. Their screen lists: ${topicAgenda('trip')}. Their screen is a live canvas that fills with places and spots while they talk.`,
       'Delegate to the backend, without waiting or announcing it, every time they say something new: a place or region, dates, who is coming, the kind of trip, or the kinds of spots they want (restaurants, bars, clubs, après, things to do). Keep the conversation going while it works.',
@@ -80,6 +86,15 @@ export function backendInstructions(intent: VoiceIntent, profile: string, today:
       'Use kind "event" with its date for anything dated. Search for their dates when you know them.',
       'For a region ("the Alps"), after show_places pick the two or three best-fitting resorts for them and call focus_places with a reason from their profile, then search those.',
       'When they say they are done, call finish_trip.',
+    ].join('\n');
+  }
+  if (intent === 'vibe_go') {
+    return [...shared,
+      'Each tool opens the page it belongs to and fills it in. Pick by what they want:',
+      'Skiing or snowboarding: ski_set_window as soon as you hear when they could go (a range like "January through March" is from the 1st of the first month to the last day of the last), the stay length and who is coming (family when kids come). Then ski_shortlist the ranges or resorts they like, ski_open one to show it, ski_share when they want to send it to friends. Use the names the tools report back.',
+      'Going out now or tonight: now_filter with what they are after and how far.',
+      'Any other trip: set_trip_basics with the place and dates, add_traveler for each person named, then create_trip once they have said where.',
+      'Never pick for them: shortlist only what they asked for or agreed to.',
     ].join('\n');
   }
   if (intent === 'vibe_now') {

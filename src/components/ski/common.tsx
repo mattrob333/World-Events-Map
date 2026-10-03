@@ -11,13 +11,16 @@ import type { Level } from '@/lib/ski/share';
 import { defaultWindow, useSkiPlan } from '@/lib/ski/store';
 import { useSkiData, type SkiData } from '@/lib/ski/useSkiData';
 import { addDays, formatSpan, isIsoDate, type TripWindow } from '@/lib/ski/window';
-import { allSignals } from '@/lib/vibe/signals';
+import { allSignals, type Signal } from '@/lib/vibe/signals';
 import styles from './ski.module.css';
+import { useGlow } from '@/lib/voice/glow';
 
 export interface SkiContext {
   data: SkiData;
   window: TripWindow;
   weights: Weights;
+  /** What they like, so a change of party can re-weigh without waiting for a render. */
+  signals: readonly Signal[];
   hasProfile: boolean;
 }
 
@@ -32,7 +35,7 @@ export function useSkiContext(): SkiContext | null {
   const weights = useMemo(() => interestWeights(signals, party), [signals, party]);
   const window = useMemo(() => saved ?? defaultWindow(new Date()), [saved]);
   if (!hydrated || !data) return null;
-  return { data, window, weights, hasProfile: signals.length > 0 };
+  return { data, window, weights, signals, hasProfile: signals.length > 0 };
 }
 
 export const toneStyle = (tone: Tone) => ({ '--dot': TONE_COLOR[tone] }) as CSSProperties;
@@ -76,8 +79,9 @@ export function WindowPicker({ window }: { window: TripWindow }) {
     if (merged.to < merged.from) merged.to = merged.from;
     setWindow(merged);
   };
+  const lit = useGlow('ski:window');
   return (
-    <div className={styles.when}>
+    <div className={styles.when} {...lit}>
       <div className={styles.dates}>
         <label>
           Could leave from
@@ -107,10 +111,11 @@ export function WindowPicker({ window }: { window: TripWindow }) {
 export function TripBar() {
   const picks = useSkiPlan((state) => state.picks);
   const hydrated = useHydrated();
+  const lit = useGlow('ski:bar');
   const count = hydrated ? picks.range.length + picks.resort.length + picks.week.length + picks.scene.length : 0;
   if (!count) return null;
   return (
-    <div className={styles.bar}>
+    <div className={styles.bar} {...lit}>
       <span><strong>{count}</strong> on your shortlist</span>
       <Link href="/ski/trip" className={styles.primary}>Your trip</Link>
     </div>

@@ -15,17 +15,37 @@ const hrefFor = (eventId: string) => {
   const slug = DESTINATIONS.byEventId.get(eventId)?.slug;
   return slug ? `/destinations/${slug}?event=${encodeURIComponent(eventId)}` : `/?event=${encodeURIComponent(eventId)}`;
 };
+/** How a country reads in a sentence: "the US", not "United States". */
+const SAY: Record<string, string> = { US: 'the US', GB: 'the UK', AE: 'the UAE', NL: 'the Netherlands', PH: 'the Philippines', DO: 'the Dominican Republic', CZ: 'Czechia' };
 const regionName = typeof Intl !== 'undefined' && 'DisplayNames' in Intl ? new Intl.DisplayNames(['en'], { type: 'region' }) : null;
 
 /**
- * What's hot right now: only what made the cut on measured movement, hottest
- * first, with a country filter. Renders nothing until there's something real
- * to show.
+ * Which cards to show: home's when on National (everywhere, flagged thin, when
+ * fewer than two made the cut there; nothing while it loads), else the picked
+ * country's or everywhere's.
  */
-export function HotRightNow() {
+export function hotItems({ all, byCountry, home, country }: { all: Ticker[]; byCountry: Record<string, Ticker[]>; home: string | null; country: string | null }): { items: Ticker[]; thinAtHome: boolean } {
+  if (home) {
+    const atHome = byCountry[home];
+    if (atHome === undefined) return { items: [], thinAtHome: false };
+    return atHome.length < 2 ? { items: all, thinAtHome: true } : { items: atHome, thinAtHome: false };
+  }
+  return { items: country ? byCountry[country] ?? [] : all, thinAtHome: false };
+}
+
+/**
+ * What's hot right now: only what made the cut on measured movement, hottest
+ * first. With a home country it opens on that country (National) with a
+ * switch to Global; Global has a country filter. Renders nothing until
+ * there's something real to show.
+ */
+export function HotRightNow({ home }: { home?: { code: string; name: string } | null }) {
   const [all, setAll] = useState<Ticker[]>([]);
+  const [scope, setScope] = useState<'national' | 'global'>('national');
   const [country, setCountry] = useState<string | null>(null);
   const [byCountry, setByCountry] = useState<Record<string, Ticker[]>>({});
+  const national = Boolean(home) && scope === 'national';
+  const homeSaid = home ? SAY[home.code] ?? home.name : '';
 
   useEffect(() => {
     const controller = new AbortController();
@@ -36,18 +56,21 @@ export function HotRightNow() {
     return () => controller.abort();
   }, []);
 
+  // The country being shown: home on National, the picked chip on Global.
+  const shown = national ? home!.code : country;
   useEffect(() => {
-    if (!country || byCountry[country]) return;
+    const code = shown;
+    if (!code || byCountry[code]) return;
     const controller = new AbortController();
-    fetch(`/api/heat?country=${country}&limit=20`, { signal: controller.signal })
+    fetch(`/api/heat?country=${code}&limit=20`, { signal: controller.signal })
       .then((response) => (response.ok ? (response.json() as Promise<{ items?: Ticker[] }>) : { items: [] }))
-      .then((body) => setByCountry((prev) => ({ ...prev, [country]: Array.isArray(body.items) ? body.items : [] })))
+      .then((body) => setByCountry((prev) => ({ ...prev, [code]: Array.isArray(body.items) ? body.items : [] })))
       .catch(() => undefined);
     return () => controller.abort();
-  }, [country, byCountry]);
+  }, [shown, byCountry]);
 
   const countries = useMemo(() => [...new Set(all.map((ticker) => ticker.countryCode))], [all]);
-  const items = country ? byCountry[country] ?? [] : all;
+  const { items, thinAtHome } = hotItems({ all, byCountry, home: national ? home!.code : null, country });
   if (all.length < 2) return null;
 
   return (
@@ -55,9 +78,15 @@ export function HotRightNow() {
       <div className={styles.head}>
         <div>
           <span className={styles.kicker}>▲ HOT RIGHT NOW</span>
-          <h2 id="hot-title" className={styles.title}>What the world is into.</h2>
+          <h2 id="hot-title" className={styles.title}>{national && !thinAtHome ? `What’s hot in ${homeSaid}.` : 'What the world is into.'}</h2>
         </div>
-        {countries.length > 1 && (
+        {home && (
+          <div className={styles.countries} role="group" aria-label="National or global">
+            <button type="button" className="chip" aria-pressed={scope === 'national'} onClick={() => setScope('national')}>National</button>
+            <button type="button" className="chip" aria-pressed={scope === 'global'} onClick={() => setScope('global')}>Global</button>
+          </div>
+        )}
+        {!national && countries.length > 1 && (
           <div className={styles.countries} role="group" aria-label="Filter by country">
             <button type="button" className="chip" aria-pressed={!country} onClick={() => setCountry(null)}>Everywhere</button>
             {countries.map((code) => (
@@ -66,6 +95,7 @@ export function HotRightNow() {
           </div>
         )}
       </div>
+      {thinAtHome && <p className={styles.note}>Nothing in {homeSaid} is trending this week. Here’s everywhere.</p>}
       <div className={styles.rail} role="list">
         {items.map((ticker, index) => {
           const event = BY_ID.get(ticker.subjectId.replace(/^event:/, ''));

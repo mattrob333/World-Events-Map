@@ -5,10 +5,13 @@ import type { VoiceIntent, VoiceToolName } from './tools';
 export type VibeTarget = { intent: Exclude<VoiceIntent, 'vibe' | 'general'>; href: string };
 
 const TRIP_TOOLS = new Set<VoiceToolName>(['add_traveler', 'remove_traveler', 'create_trip']);
+const SKI_TOOLS = new Set<VoiceToolName>(['ski_set_window', 'ski_shortlist', 'ski_open', 'ski_share']);
 
 export function vibeTarget(tool: VoiceToolName, args: Record<string, unknown>): VibeTarget | null {
   if (tool === 'describe_me') return { intent: 'board', href: '/vibe' };
-  if (tool === 'set_now_city') return { intent: 'now', href: '/now' };
+  if (tool === 'set_now_city' || tool === 'now_filter') return { intent: 'now', href: '/now' };
+  // Any ski page will do (they all run the planner's tools); the planner itself opens when none is up.
+  if (SKI_TOOLS.has(tool)) return { intent: 'ski', href: '/ski' };
   if (tool === 'set_trip_basics') {
     const place = typeof args.place === 'string' ? planPlaceFromQuery(args.place) : null;
     // A place opens the designer's setup form even when a trip is in progress.
@@ -185,4 +188,33 @@ export function tripCrew(text: string): TripCrew | null {
   if (/\b(solo|by myself|just me|alone)\b/.test(lower)) return { people: 1, label: 'just you' };
   if (/\b(me and (?:my )?\w+|my (?:wife|husband|partner|girlfriend|boyfriend)|the two of us|a couple)\b/.test(lower)) return { people: 2, label: '2 people' };
   return null;
+}
+
+export type AskTarget = 'ski' | 'now' | 'trip';
+
+const SKI_WORDS = /\b(?:ski|skis|skiing|snowboard\w*|slopes|powder|apr[eè]s|lift tickets?|shortlist|alps|dolomites|rockies|wasatch|andes|lapland|niseko|hakuba|whistler)\b/i;
+const NOW_WORDS = /\b(?:tonight|right now|now|near me|nearby|around here|this evening|open late)\b/i;
+
+/** Where a typed ask goes when the voice is off: skiing to the ski planner, tonight to Now, anything else to the trip designer. */
+export function readAsk(text: string): AskTarget {
+  if (SKI_WORDS.test(text)) return 'ski';
+  if (NOW_WORDS.test(text) && !placeFromTypedTrip(text)) return 'now';
+  return 'trip';
+}
+
+/** Now's filter from typed words: drinks, food, live music, or anything. */
+export function nowWhatFrom(text: string): 'drinks' | 'food' | 'music' | 'surprise' {
+  if (/\b(?:drinks?|bars?|cocktails?|beers?|wine|pub|dive)\b/i.test(text)) return 'drinks';
+  if (/\b(?:eat|food|hungry|dinner|lunch|bite|snack|tacos?|pizza)\b/i.test(text)) return 'food';
+  if (/\b(?:music|live|band|dj|danc\w*|club)\b/i.test(text)) return 'music';
+  return 'surprise';
+}
+
+/** How far, from typed words: "within five miles", "2 mi", "walking distance". Only Now's 1, 2 and 5 miles. */
+export function nowMilesFrom(text: string): 1 | 2 | 5 | undefined {
+  if (/\bwalking distance\b|\bwalk(?:able)?\b/i.test(text)) return 1;
+  const match = /\b(1|one|a|2|two|5|five)\s*(?:mi|miles?)\b/i.exec(text);
+  if (!match) return undefined;
+  const n = { '1': 1, one: 1, a: 1, '2': 2, two: 2, '5': 5, five: 5 }[match[1]!.toLowerCase() as '1'];
+  return n as 1 | 2 | 5;
 }
