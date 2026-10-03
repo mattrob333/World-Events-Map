@@ -56,6 +56,13 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
       <div className={styles.tonightHead}>
         <h2 id="tonight-title">Tonight</h2>
         <p>Open now, when each one closes, and how busy it usually gets each hour.</p>
+        {tonight.rows.some((row) => row.venue.hourly) ? (
+          <p className={styles.key}>
+            <span><i data-k="open" />Each column is an hour, taller is busier</span>
+            <span><i data-k="now" />This hour</span>
+            <span><i data-k="shut" />Closed</span>
+          </p>
+        ) : null}
       </div>
       <div className={styles.scale} aria-hidden="true">
         {tonight.ticks.map((tick) => (
@@ -77,18 +84,23 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
                   {winks.get(venue.id) ? <em>{winks.get(venue.id)}</em> : null}
                 </span>
                 <span className={styles.lane}>
-                <span className={styles.track}>
-                  {to === null ? (
-                    <i className={styles.unknown} style={{ left: `${from * 100}%` }} />
+                  {/* With the usual busyness by hour, the columns are the chart: lit while it's open,
+                      faded after it closes. Without it, a plain bar shows the open hours. */}
+                  {venue.hourly ? (
+                    <HourBars hourly={venue.hourly} start={tonight.start} end={tonight.end} now={tonight.now} closes={venue.openAllNight ? undefined : venue.closesMinutes} />
                   ) : (
-                    <i
-                      className={styles.window}
-                      data-soon={soon || undefined}
-                      style={{ left: `${from * 100}%`, width: `${Math.max(2, (to - from) * 100)}%`, opacity: 0.45 + (venue.busyness / 100) * 0.55 }}
-                    />
+                    <span className={styles.track}>
+                      {to === null ? (
+                        <i className={styles.unknown} style={{ left: `${from * 100}%` }} />
+                      ) : (
+                        <i
+                          className={styles.window}
+                          data-soon={soon || undefined}
+                          style={{ left: `${from * 100}%`, width: `${Math.max(2, (to - from) * 100)}%`, opacity: 0.45 + (venue.busyness / 100) * 0.55 }}
+                        />
+                      )}
+                    </span>
                   )}
-                </span>
-                {venue.hourly ? <HourBars hourly={venue.hourly} start={tonight.start} end={tonight.end} now={tonight.now} closes={venue.openAllNight ? undefined : venue.closesMinutes} /> : null}
                 </span>
                 <span className={styles.rowClose} data-soon={soon || undefined}>
                   {to === null ? 'hours unknown' : soon ? `last call · ${left(minutesLeft)}` : closes?.replace('open till', 'till') ?? ''}
