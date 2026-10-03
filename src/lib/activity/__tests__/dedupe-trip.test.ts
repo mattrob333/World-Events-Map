@@ -122,6 +122,12 @@ describe('spotTripHref', () => {
     expect(url.searchParams.get('place')).toBe(ACTIVITIES.find((a) => a.id === 'aspen-snowmass-us')!.place);
     expect(url.searchParams.get('start')).toMatch(/^2027-01-/);
     expect(url.searchParams.get('nights')).toBe('7');
+    expect(url.searchParams.get('kind')).toBe('ski');
+  });
+
+  it('opens a surf spot as a beach trip', () => {
+    const url = new URL(spotTripHref('puerto-escondido-surf-mx', '10', new Date(2026, 9, 3))!, 'https://x.test');
+    expect(url.searchParams.get('kind')).toBe('beach');
   });
 
   it('is null for an unknown spot', () => {

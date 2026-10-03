@@ -74,7 +74,9 @@ function Setup({ boards, initialWith, initialGroup, initialPlace, onCreate }: { 
   // ?place=Munich&region=Germany (from a destination or search) fills "Where to?";
   // it never creates the trip or runs research on its own.
   const [placeText, setPlaceText] = useState(() => (initialPlace ? [initialPlace.place, initialPlace.region].filter(Boolean).join(', ') : ''));
-  const [placeKind, setPlaceKind] = useState<DestinationKind>('city');
+  const [placeKind, setPlaceKind] = useState<DestinationKind>(initialPlace?.kind ?? 'city');
+  // A link that names the place opens on it; "Pick somewhere else" brings back the destination cards.
+  const [browsing, setBrowsing] = useState(false);
   // Dates the traveler said ("second week of October") or an event's first day; otherwise two months out.
   const [startDate, setStartDate] = useState(() => (initialPlace?.start && initialPlace.start >= localIso(0) ? initialPlace.start : localIso(60)));
   const [nights, setNights] = useState(() => (initialPlace?.nights ? Math.min(MAX_NIGHTS, initialPlace.nights) : 7));
@@ -268,15 +270,32 @@ function Setup({ boards, initialWith, initialGroup, initialPlace, onCreate }: { 
 
   return (
     <div>
-      <p className={styles.eyebrow}>Trip designer · step 2 of 2</p>
-      <h1 className={styles.headline}>
-        Where are we going? <span className={styles.accentText}>Let’s build the hype.</span>
-      </h1>
-      <p className={styles.lede}>
-        Pick a place and dates, add the crew, and we’ll lay out the whole trip as a timeline of ideas: every slot a row of options
-        everyone can drag, swipe, and vote on.
-      </p>
+      {initialPlace && !browsing ? (
+        <>
+          <p className={styles.eyebrow}>Plan a trip</p>
+          <h1 className={styles.headline}>
+            {[initialPlace.place, initialPlace.region].filter(Boolean).join(', ')}. <span className={styles.accentText}>Let’s build the hype.</span>
+          </h1>
+          <p className={styles.lede}>
+            {initialPlace.start ? 'Dates are set for its best time. ' : ''}Check the dates, add the crew, and we’ll lay out the whole trip as a timeline of ideas
+            everyone can drag, swipe, and vote on.{' '}
+            <button type="button" className="underline underline-offset-2" onClick={() => setBrowsing(true)}>Pick somewhere else</button>
+          </p>
+        </>
+      ) : (
+        <>
+          <p className={styles.eyebrow}>Trip designer</p>
+          <h1 className={styles.headline}>
+            Where are we going? <span className={styles.accentText}>Let’s build the hype.</span>
+          </h1>
+          <p className={styles.lede}>
+            Pick a place and dates, add the crew, and we’ll lay out the whole trip as a timeline of ideas: every slot a row of options
+            everyone can drag, swipe, and vote on.
+          </p>
+        </>
+      )}
 
+      {initialPlace && !browsing ? null : (
       <div className={styles.destGrid} role="radiogroup" aria-label="Destination">
         <button
           type="button"
@@ -311,6 +330,7 @@ function Setup({ boards, initialWith, initialGroup, initialPlace, onCreate }: { 
           </button>
         ))}
       </div>
+      )}
 
       {destination === 'custom' ? (
         <div className={styles.panel}>
@@ -530,7 +550,7 @@ export function TripDesigner({ initialWith, initialGroup }: { initialWith?: stri
           />
         ) : (
           <Setup
-            key={`${withId ?? groupId ?? 'new'}|${placeParam ? `${placeParam.place}|${placeParam.start ?? ''}|${placeParam.nights ?? ''}` : ''}`}
+            key={`${withId ?? groupId ?? 'new'}|${placeParam ? `${placeParam.place}|${placeParam.start ?? ''}|${placeParam.nights ?? ''}|${placeParam.kind ?? ''}` : ''}`}
             boards={boards}
             initialWith={withId}
             initialGroup={groupId}

@@ -600,7 +600,7 @@ export function MoodboardStudio({
           </>
         ) : (
           <>
-          <p className={styles.eyebrow}>Traveler profile · step 1 of 2</p>
+          <p className={styles.eyebrow}>Traveler profile</p>
           <h1 className={styles.headline}>
             Tell us about you. <span className={styles.accentText}>We’ll learn your vibe.</span>
           </h1>

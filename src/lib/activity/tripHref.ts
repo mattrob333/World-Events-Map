@@ -15,5 +15,6 @@ export function spotTripHref(id: string, month: string | undefined, now: Date): 
   const sel: MonthSel = Number.isInteger(m) && m >= 1 && m <= 12 ? m : 'now';
   const { start, end } = travelWindow(a, sel, now);
   const nights = Math.max(1, Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86_400_000));
-  return planTripHref({ place: a.place, region: a.country, start, nights: Math.min(nights, 14) });
+  const kind = a.category === 'ski' ? 'ski' : a.category === 'surf' || a.category === 'beach' ? 'beach' : 'city';
+  return planTripHref({ place: a.place, region: a.country, start, nights: Math.min(nights, 14), kind });
 }

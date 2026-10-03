@@ -233,9 +233,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
+      {/* Above the sheets that open over the bottom of the page (z 44 to 46), so the raised sun is never covered; dialogs sit at 50 and up. */}
       <nav
         aria-label="Mobile primary"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-[47] border-t border-white/[0.06] bg-surface-0 pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         <ul className="grid grid-cols-5">
           {MOBILE_LEFT.map((item) => (
