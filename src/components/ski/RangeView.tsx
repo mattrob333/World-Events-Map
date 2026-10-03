@@ -8,6 +8,8 @@ import { PASS_LABEL, type Pass } from '@/lib/ski/types';
 import { formatSpan } from '@/lib/ski/window';
 import { cardColors, Loading, MapCredit, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext } from './common';
 import styles from './ski.module.css';
+import { useSkiVoice } from './useSkiVoice';
+import { useGlowScroll } from '@/lib/voice/glow';
 
 type Filter = 'all' | Pass | PriceBand;
 const FILTERS: { value: Filter; label: string }[] = [
@@ -30,6 +32,7 @@ export function RangeView({ rangeId }: { rangeId: string }) {
     () => (context && range ? rankResorts(context.data.resorts.filter((resort) => resort.rangeId === range.id), context.data.scene, context.window, context.weights) : []),
     [context, range],
   );
+  useSkiVoice(context, { rangeId });
   if (!context) return <Loading />;
   if (!range) {
     return (
@@ -82,8 +85,9 @@ export function ResortCard({ match, colors, on, onToggle }: { match: ResortMatch
   const { resort, tone, forThem, inWindow, band } = match;
   const ticket = formatTicket(resort);
   const highlights = (forThem.length ? forThem : inWindow).slice(0, 3);
+  const [ref, lit] = useGlowScroll<HTMLElement>(`ski:resort:${resort.id}`);
   return (
-    <article className={styles.card} style={cardColors(colors)} data-tone={toneFor(match.fit)}>
+    <article ref={ref} {...lit} className={styles.card} style={cardColors(colors)} data-tone={toneFor(match.fit)}>
       <Link href={`/ski/resort/${resort.id}`} className={styles.cardLink} aria-label={`Open ${resort.name}`} />
       <div className={styles.cardBody}>
         <div className={styles.cardKicker}>{resort.place}, {resort.region}</div>

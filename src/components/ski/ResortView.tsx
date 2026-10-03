@@ -9,6 +9,7 @@ import { PASS_LABEL, SCENE_KIND_LABEL, VIBE_LABEL, type SceneItem } from '@/lib/
 import { formatDay, formatSpan, monthsLabel, monthWeights } from '@/lib/ski/window';
 import { cardColors, Loading, ThumbButton, toneStyle, TripBar, useSkiContext } from './common';
 import styles from './ski.module.css';
+import { useSkiVoice } from './useSkiVoice';
 
 const VERDICT = { good: 'Prime snow for your dates', season: 'Open for your dates', off: 'Closed for your dates' } as const;
 const num = (value: number | null, unit: string) => (value === null ? '–' : `${value.toLocaleString('en-US')}${unit}`);
@@ -22,6 +23,7 @@ export function ResortView({ resortId }: { resortId: string }) {
   const resort = context?.data.resortById.get(resortId);
   const match = useMemo(() => (context && resort ? matchResort(resort, context.data.scene, context.window, context.weights) : null), [context, resort]);
   const weeks = useMemo(() => (context && resort ? rankWeeks(resort, context.data.scene, context.window, context.weights).slice(0, 6) : []), [context, resort]);
+  useSkiVoice(context, { rangeId: resort?.rangeId });
   if (!context) return <Loading />;
   if (!resort || !match) {
     return (

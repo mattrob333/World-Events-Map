@@ -10,8 +10,11 @@ import { BUDGETS, PACES } from '@/lib/designer/profile';
 import { FEATURES } from '@/lib/flags';
 import { TOPIC_KEYS, topicAgenda } from './topics';
 
-/** vibe_profile and vibe_trip are the header's Vibe stage; the others belong to a page. */
-export type VoiceIntent = 'vibe' | 'vibe_profile' | 'vibe_trip' | 'vibe_now' | 'trip' | 'board' | 'now' | 'general';
+/**
+ * vibe_go (Ask) and vibe_profile are the sun's stage; vibe_trip and vibe_now
+ * are its older canvases, kept off the tabs. The others belong to a page.
+ */
+export type VoiceIntent = 'vibe' | 'vibe_go' | 'vibe_profile' | 'vibe_trip' | 'vibe_now' | 'trip' | 'board' | 'now' | 'ski' | 'general';
 
 type JsonSchema = {
   type: 'object';
@@ -139,6 +142,46 @@ export const VOICE_TOOLS = {
       why: { type: 'string', description: 'Up to 12 words: "Your après crowd and the best late bars".' },
     }, ['names', 'why']),
   },
+  ski_set_window: {
+    name: 'ski_set_window',
+    description: 'Set when they could go skiing and who is coming, on the ski planner. The window is the earliest they could leave and the latest they must be back: "January through March" is the first of January to the end of March. Call as soon as they say any of it; the ranges re-sort for those dates.',
+    parameters: obj({
+      from: { type: 'string', description: 'Earliest they could leave, YYYY-MM-DD. Resolve against today; a month already past means next year.' },
+      to: { type: 'string', description: 'Latest they must be back, YYYY-MM-DD.' },
+      nights: { type: 'integer', minimum: 2, maximum: 14, description: 'How long the stay is; "a week" is 7.' },
+      party: { type: 'string', enum: ['family', 'crew'], description: 'family when kids are coming, crew for adults only.' },
+    }),
+  },
+  ski_shortlist: {
+    name: 'ski_shortlist',
+    description: 'Thumbs-up mountain ranges or resorts on their ski shortlist, by name ("the Alps", "Japan", "Aspen"). A broad name like "the Alps" shortlists every range it covers. remove takes them off.',
+    parameters: obj({
+      level: { type: 'string', enum: ['range', 'resort'] },
+      names: { type: 'array', items: { type: 'string' }, maxItems: 6 },
+      remove: { type: 'boolean' },
+    }, ['level', 'names']),
+  },
+  ski_open: {
+    name: 'ski_open',
+    description: 'Open one mountain range (to swipe its resorts) or one resort (for its best week and what is on) in the ski planner.',
+    parameters: obj({
+      range: { type: 'string', description: 'A range name, e.g. "Colorado Rockies" or "Japan".' },
+      resort: { type: 'string', description: 'A resort name, e.g. "Jackson Hole".' },
+    }),
+  },
+  ski_share: {
+    name: 'ski_share',
+    description: 'Open their ski shortlist, where the Share button sends it to friends to vote. Call when they want to send it or see the trip so far.',
+    parameters: obj({}),
+  },
+  now_filter: {
+    name: 'now_filter',
+    description: 'Open Now, the live map of what is busy around them right now, and set its filters. Call when they want to go out now or tonight.',
+    parameters: obj({
+      what: { type: 'string', enum: ['surprise', 'drinks', 'food', 'music'], description: 'Bars and cocktails are drinks; a late bite is food; live music or dancing is music; anything else is surprise.' },
+      miles: { type: 'integer', enum: [1, 2, 5], description: 'How far they will go: walking distance is 1, a short ride is 2 or 5.' },
+    }),
+  },
   set_now_city: {
     name: 'set_now_city',
     description: 'Show ideas for right now in a city.',
@@ -152,7 +195,7 @@ export const VOICE_TOOLS = {
   navigate: {
     name: 'navigate',
     description: 'Open another part of dope.travel.',
-    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'vibe profile', 'you', 'now', 'trips', 'settings', ...(FEATURES.access ? ['access'] : []), ...(FEATURES.circles ? ['circles'] : [])] } }, ['to']),
+    parameters: obj({ to: { type: 'string', enum: ['home', 'trip designer', 'ski planner', 'vibe profile', 'you', 'now', 'trips', 'settings', ...(FEATURES.access ? ['access'] : []), ...(FEATURES.circles ? ['circles'] : [])] } }, ['to']),
   },
 } satisfies Record<string, VoiceToolSpec>;
 
@@ -162,17 +205,21 @@ export const INTENT_TOOLS: Record<VoiceIntent, VoiceToolName[]> = {
   // The header's "Vibe": profile and trip start from anywhere. Tools that live
   // on another page open that page first (see lib/voice/vibe.ts).
   vibe: ['describe_me', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'set_now_city', 'switch_profile', 'navigate'],
+  // The sun's Ask tab: say anything, and it opens and fills the page that does it.
+  vibe_go: ['ski_set_window', 'ski_shortlist', 'ski_open', 'ski_share', 'now_filter', 'set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   vibe_profile: ['lock_fact', 'add_signals', 'describe_me'],
   vibe_trip: ['lock_fact', 'show_places', 'add_spots', 'focus_places', 'finish_trip'],
   vibe_now: ['lock_fact', 'find_now'],
   trip: ['set_trip_basics', 'add_traveler', 'remove_traveler', 'create_trip', 'switch_profile', 'navigate'],
   board: ['describe_me', 'navigate'],
   now: ['set_now_city', 'switch_profile', 'navigate'],
+  ski: ['ski_set_window', 'ski_shortlist', 'ski_open', 'ski_share', 'switch_profile', 'navigate'],
   general: ['switch_profile', 'navigate'],
 };
 
 export const INTENT_OPENERS: Record<VoiceIntent, string> = {
   vibe: 'If the context says there is no travel profile yet, learn where home is, who they root for, what music is on repeat, how they eat, and who they travel with; one short question at a time, then call describe_me. If they have a profile, get where, when and who for their next trip with set_trip_basics and add_traveler, then call create_trip. Some tools open another page; that is expected.',
+  vibe_go: 'They can ask for anything. Skiing goes to the ski planner (ski_set_window, ski_shortlist, ski_open, ski_share); going out now or tonight goes to Now (now_filter); any other trip goes to the trip designer (set_trip_basics, add_traveler, create_trip). Each tool opens and fills the page behind you, so act on what they say right away.',
   vibe_profile: [
     'They are setting up their travel profile: the long view of who they are as a traveler, not one trip.',
     `Their screen lists these topics: ${topicAgenda('profile')}.`,
@@ -191,15 +238,16 @@ export const INTENT_OPENERS: Record<VoiceIntent, string> = {
   trip: 'Ask where they want to go, when, and who is coming. Fill things in as they talk, then offer to build it.',
   board: 'Ask them to tell you about themselves like they would a friend: where they are from, their teams, the music they love, food, who they travel with, and the trip they still talk about. Keep it light; one question at a time. When you have enough, call describe_me.',
   now: 'Ask where they are right now and what they feel like doing. Set the city as soon as they say it.',
+  ski: 'Ask when they could go and who is coming, set it, then help them shortlist ranges and resorts.',
   general: 'Ask what they want to do and take them there.',
 };
 
 export function isVoiceIntent(value: unknown): value is VoiceIntent {
-  return value === 'vibe' || value === 'vibe_profile' || value === 'vibe_trip' || value === 'vibe_now' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
+  return value === 'vibe' || value === 'vibe_go' || value === 'ski' || value === 'vibe_profile' || value === 'vibe_trip' || value === 'vibe_now' || value === 'trip' || value === 'board' || value === 'now' || value === 'general';
 }
 
 const ROUTES: Record<string, string> = {
-  home: '/', pulse: '/', 'trip designer': '/trips/designer', 'vibe profile': '/vibe', you: '/vibe', 'traveler profile': '/vibe', now: '/now', trips: '/trips', settings: '/settings',
+  home: '/', pulse: '/', 'trip designer': '/trips/designer', 'ski planner': '/ski', ski: '/ski', 'vibe profile': '/vibe', you: '/vibe', 'traveler profile': '/vibe', now: '/now', trips: '/trips', settings: '/settings',
   ...(FEATURES.access ? { access: '/access' } : {}),
   ...(FEATURES.circles ? { circles: '/circles' } : {}),
 };

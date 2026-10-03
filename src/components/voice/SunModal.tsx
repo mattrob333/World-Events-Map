@@ -10,9 +10,10 @@ import { pickActiveGroup, pickActiveProfile, profileLabel, useDesignerStore, typ
 import { groupTravelers } from '@/lib/travelers/groups';
 import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
-import { INTENT_TOOLS, routeFor } from '@/lib/voice/tools';
+import { INTENT_TOOLS, routeFor, type VoiceToolName } from '@/lib/voice/tools';
 import { readTrip, whenLabel } from '@/lib/voice/tripBrief';
-import { vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { nowWhatFrom, readAsk, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { skiAskFromText } from '@/lib/ski/voice';
 import { checklistFor, type ChecklistItem, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { topicsFor } from '@/lib/voice/topics';
 import { useRealtime, type VoiceActivity } from '@/lib/voice/useRealtime';
@@ -32,15 +33,19 @@ import { useLiveTranscript } from './useLiveTranscript';
 
 type PageVoice = NonNullable<ReturnType<typeof useVoiceStore.getState>['page']>;
 
+/** A registered page that can run this tool (any tool, when none is named). */
+const owns = (page: PageVoice | null, intent: VibeTarget['intent'], tool?: VoiceToolName): page is PageVoice =>
+  page?.intent === intent && (!tool || Boolean(page.handlers[tool]));
+
 /** Open the page that owns a tool (if it isn't open) and wait for it to register. */
-function waitForPage(intent: VibeTarget['intent'], timeoutMs = 10_000): Promise<PageVoice | null> {
+function waitForPage(intent: VibeTarget['intent'], tool?: VoiceToolName, timeoutMs = 10_000): Promise<PageVoice | null> {
   return new Promise((resolve) => {
     const timer = window.setTimeout(() => {
       unsubscribe();
       resolve(null);
     }, timeoutMs);
     const unsubscribe = useVoiceStore.subscribe((state) => {
-      if (state.page?.intent !== intent) return;
+      if (!owns(state.page, intent, tool)) return;
       window.clearTimeout(timer);
       unsubscribe();
       resolve(state.page);
@@ -89,7 +94,8 @@ function localToday() {
 }
 
 /** The concierge's first words: short and casual, like a friend picking up the phone. */
-const OPENERS: Record<'now' | 'trip' | 'profile', string> = {
+const OPENERS: Record<StageMode, string> = {
+  go: 'Hey! What are we doing?',
   now: 'Hey! What are you in the mood for?',
   trip: 'Hey! Where are we thinking?',
   profile: 'Hey! Tell me how you like to travel.',
@@ -150,13 +156,34 @@ function profileSummary(saved: ReturnType<typeof pickActiveProfile>): string {
   ].filter(Boolean).join(' ').slice(0, 900);
 }
 
-const TABS: { value: VibeMode; label: string }[] = [
-  { value: 'profile', label: 'Profile' },
-  { value: 'now', label: 'Vibe Now' },
-  { value: 'trip', label: 'Plan a trip' },
+/**
+ * Ask is the sun: say anything and it opens the page that does it (the ski
+ * planner, Now, the trip designer) and fills it in while you talk. The older
+ * full-screen Now and trip canvases ('now', 'trip') stay in the code, off the tabs.
+ */
+type StageMode = VibeMode | 'go';
+
+const TABS: { value: StageMode; label: string }[] = [
+  { value: 'go', label: 'Ask' },
+  { value: 'profile', label: 'Profiles' },
 ];
 
-const COPY: Record<VibeMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
+/** What you can say on Ask, shown before you start. */
+const ASK_EXAMPLES = [
+  'Ski trip January through March, me and the kids',
+  'Put the Alps and Japan on my list, then send it to the crew',
+  'Somewhere for a drink near me right now',
+  'A long weekend in Lisbon in October',
+];
+
+const COPY: Record<StageMode, { kicker: string; title: string; lede: string; build: string; placeholder: string }> = {
+  go: {
+    kicker: 'Ask',
+    title: 'What are we doing?',
+    lede: 'Say anything. I’ll open the page for it and fill it in while we talk.',
+    build: 'Go',
+    placeholder: 'Ski trip January through March, me and the kids.',
+  },
   profile: {
     kicker: 'My profile',
     title: 'Tell us how you get down.',
@@ -188,7 +215,9 @@ function VibeStage() {
   const dictation = useLiveTranscript();
   const hasProfile = useDesignerStore((s) => s.profiles.length > 0);
   const auth = usePlatformAuth();
-  const [mode, setMode] = useState<VibeMode>(hasProfile ? 'trip' : 'profile');
+  const [mode, setMode] = useState<StageMode>(hasProfile ? 'go' : 'profile');
+  // The bullets and topics for the mode; Ask has none of its own.
+  const topicMode: VibeMode = mode === 'go' ? 'trip' : mode;
   const [phase, setPhase] = useState<Phase>('intro');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [note, setNote] = useState<string | null>(null);
@@ -260,16 +289,21 @@ function VibeStage() {
   const dialogRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const openedOn = useRef(pathname);
-  useModalFocus(dialogRef);
+  // Ask, while talking: the stage shrinks to a bar so the page it fills stays in view and usable.
+  // A blocked mic or dead speech service stays full screen, where the typing box is.
+  const docked = mode === 'go' && phase === 'talking' && (voiceEnabled || (dictation.status !== 'denied' && dictation.status !== 'error'));
+  const dockedRef = useRef(docked);
+  useEffect(() => { dockedRef.current = docked; }, [docked]);
+  useModalFocus(dialogRef, !docked);
   const transcriptEnd = useRef<HTMLSpanElement>(null);
   const copy = COPY[mode];
   const editingProfile = mode === 'profile' && editingId ? profiles.find((entry) => entry.id === editingId) : undefined;
 
   // ── Routing shared by the live AI conversation and the dictation path ──────
-  const reach = useCallback(async (target: VibeTarget): Promise<PageVoice | null> => {
+  const reach = useCallback(async (target: VibeTarget, tool?: VoiceToolName): Promise<PageVoice | null> => {
     const here = useVoiceStore.getState().page;
-    if (here?.intent === target.intent) return here;
-    const ready = waitForPage(target.intent);
+    if (owns(here, target.intent, tool)) return here;
+    const ready = waitForPage(target.intent, tool);
     // The concierge opened this page mid-conversation; the stage stays up until it's done talking.
     openedOn.current = target.href.split('?')[0]!;
     router.push(target.href);
@@ -316,16 +350,17 @@ function VibeStage() {
       return `Now traveling as ${profileLabel(match)}.`;
     };
     const forwarded: VoiceHandlers = {};
-    for (const name of INTENT_TOOLS.vibe) {
+    for (const name of mode === 'go' ? INTENT_TOOLS.vibe_go : INTENT_TOOLS.vibe) {
+      if (name === 'navigate' || name === 'switch_profile') continue;
       forwarded[name] = async (args) => {
         const target = vibeTarget(name, args);
         if (!target) return 'Error: nothing to do there.';
-        const owner = await reach(target);
+        const owner = await reach(target, name);
         const run = owner?.handlers[name];
         return run ? run(args) : 'Error: that page did not open in time. Ask them to try again.';
       };
     }
-    const topicKeys = new Set(topicsFor(mode).map((topic) => topic.key));
+    const topicKeys = new Set(topicsFor(topicMode).map((topic) => topic.key));
     const lockFact: VoiceHandlers['lock_fact'] = (args) => {
       const topic = typeof args.topic === 'string' ? args.topic : '';
       const fact = typeof args.fact === 'string' ? args.fact.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
@@ -397,7 +432,7 @@ function VibeStage() {
         : mode === 'trip'
         ? { lock_fact: lockFact, show_places: showPlaces, add_spots: addSpots, focus_places: focusPlaces, finish_trip: finishTrip }
         : { ...forwarded, navigate, switch_profile: switchProfile };
-  }, [reach, router, mode, rt, setOpen, whenQuiet, updateCanvas, nowFinder]);
+  }, [reach, router, mode, topicMode, rt, setOpen, whenQuiet, updateCanvas, nowFinder]);
 
   const context = useCallback(() => {
     const { profiles, activeProfileId } = useDesignerStore.getState();
@@ -413,6 +448,8 @@ function VibeStage() {
       : mode === 'now' ? 'Their phone knows where they are unless they name a place.' : '';
     // Picking up after a session cap: what's already covered, so nothing is asked twice.
     const covered = Object.entries(factsRef.current).filter(([, value]) => value).map(([key, value]) => `${key}: ${value}`).join('; ');
+    // Ask drives the page, so what's on it comes first (the context is cut to a few hundred characters).
+    if (mode === 'go') return [page?.context() ?? '', who].filter(Boolean).join(' ');
     return [who, steer, covered ? `Already covered, don't ask again: ${covered}.` : '', mode === 'trip' ? canvasSummary(canvasRef.current) : '', page?.context() ?? ''].filter(Boolean).join(' ');
   }, [page, mode, forWhom]);
 
@@ -432,25 +469,28 @@ function VibeStage() {
     };
   }, []);
 
-  // Leaving the page (Back, a link) closes the stage and stops listening.
+  // Leaving the page (Back, a link) closes the stage and stops listening. Docked, the
+  // page is theirs to use while they talk, so the bar stays.
   useEffect(() => {
-    if (pathname !== openedOn.current) setOpen(false);
+    if (pathname !== openedOn.current && !dockedRef.current) setOpen(false);
+    openedOn.current = pathname;
   }, [pathname, setOpen]);
 
   useEffect(() => {
     dialogRef.current?.focus();
+    if (docked) return;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = overflow;
     };
-  }, []);
+  }, [docked]);
 
   // ── What was said so far ────────────────────────────────────────────────────
   const aiSaid = rt.lines.filter((line) => line.who === 'you').map((line) => line.text).join(' ');
   const spoken = voiceEnabled ? aiSaid : dictation.text;
   const live = voiceEnabled ? rt.live : dictation.status === 'listening';
-  const checklist = useMemo(() => checklistFor(mode, `${spoken} ${dictation.interim}`, voiceEnabled ? facts : {}), [mode, spoken, dictation.interim, facts, voiceEnabled]);
+  const checklist = useMemo(() => checklistFor(topicMode, `${spoken} ${dictation.interim}`, voiceEnabled ? facts : {}), [topicMode, spoken, dictation.interim, facts, voiceEnabled]);
   const covered = checklist.filter((item) => item.done).length;
 
   useEffect(() => {
@@ -611,7 +651,7 @@ function VibeStage() {
     afterSpeech.current = null;
     const { profiles: all, activeProfileId: activeId } = useDesignerStore.getState();
     const result = await rt.start({
-      intent: mode === 'profile' ? 'vibe_profile' : mode === 'now' ? 'vibe_now' : 'vibe_trip',
+      intent: mode === 'go' ? 'vibe_go' : mode === 'profile' ? 'vibe_profile' : mode === 'now' ? 'vibe_now' : 'vibe_trip',
       context: context(),
       profile: mode === 'profile' ? '' : profileSummary(pickActiveProfile(all, activeId)),
       handlers: handlers(),
@@ -644,6 +684,11 @@ function VibeStage() {
       const said = aiSaid;
       rt.stop('ended');
       afterSpeech.current = null;
+      // Ask: the page behind the bar is already filled in; it's theirs now.
+      if (mode === 'go') {
+        setOpen(false);
+        return;
+      }
       if (mode === 'now') {
         dictation.setText(said);
         setPhase('recap');
@@ -708,8 +753,24 @@ function VibeStage() {
       await nowFinder.find(askFromText(text));
       return;
     }
+    if (mode === 'go') {
+      const target = readAsk(text);
+      if (target === 'ski') {
+        const ski = await reach({ intent: 'ski', href: '/ski' }, 'ski_set_window');
+        const ask = skiAskFromText(text, localToday());
+        if (ski && Object.keys(ask).length) await ski.handlers.ski_set_window!(ask);
+        setOpen(false);
+        return;
+      }
+      if (target === 'now') {
+        const now = await reach({ intent: 'now', href: '/now' }, 'now_filter');
+        await now?.handlers.now_filter?.({ what: nowWhatFrom(text) });
+        setOpen(false);
+        return;
+      }
+    }
     setPhase('building');
-    if (mode === 'trip') {
+    if (mode === 'trip' || mode === 'go') {
       // trip-router@1 decides what they asked for before anything else runs.
       type Routed = { route: 'plan' | 'recommend' | 'follow_up'; question?: string; recommendations?: Recommendation[]; place?: PlanPlace | null; month?: string | null; where?: string[]; vibe?: VibePayload; decidedBy?: 'jev' | 'rules' };
       let routed: Routed | null = null;
@@ -770,7 +831,7 @@ function VibeStage() {
     ].filter((entry): entry is [string, string] => Boolean(entry[1]));
   }, [view, mode, dictation.text]);
   const today = localToday();
-  const brief = useMemo(() => (mode === 'trip' && (view === 'recap' || view === 'building') ? readTrip(dictation.text, today) : null), [mode, view, dictation.text, today]);
+  const brief = useMemo(() => ((mode === 'trip' || mode === 'go') && (view === 'recap' || view === 'building') ? readTrip(dictation.text, today) : null), [mode, view, dictation.text, today]);
   const recapPlace = brief && !recs ? brief.place : null;
   const tripFacts: [string, string][] = brief ? ([
     ['Where', brief.place ? [brief.place.place, brief.place.region].filter(Boolean).join(', ') : brief.wheres.map((where) => where.label).join(', ')],
@@ -794,6 +855,49 @@ function VibeStage() {
 
   const orbLevels = useCallback(() => (voiceEnabled ? rt.levels() : { mic: dictation.activity(), sun: 0 }), [voiceEnabled, rt, dictation]);
   const canTalk = voiceEnabled || dictation.supported;
+
+  if (docked) {
+    const status = voiceEnabled && rt.phase === 'connecting' ? 'Connecting'
+      : micOff || !live ? 'Paused'
+      : activity.kind === 'delegated' || activity.kind === 'tool' ? 'Filling it in'
+      : voiceEnabled && rt.phase === 'speaking' ? (muted ? 'Replying' : 'Speaking')
+      : 'Listening';
+    const said = voiceEnabled ? lastLine : dictation.interim || dictation.text ? { who: 'you', text: (dictation.interim || dictation.text).slice(-140) } : null;
+    return (
+      <div
+        ref={dialogRef}
+        role="region"
+        aria-label="Talking with the sun"
+        tabIndex={-1}
+        className="fixed inset-x-0 bottom-0 z-[80] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] outline-none"
+      >
+        <div className="vibe-dock mx-auto flex max-w-[640px] items-center gap-3 rounded-[26px] p-2.5 pl-3 text-bone shadow-soft-3 ring-1 ring-white/10">
+          <button
+            type="button"
+            className="shrink-0 rounded-full focus-visible:shadow-[var(--focus-ring)]"
+            aria-label={micOff || !live ? 'Resume listening' : 'Pause listening'}
+            onClick={() => {
+              if (voiceEnabled && rt.live) {
+                rt.setMicMuted(!micOff);
+                setMicOff(!micOff);
+              } else if (live) dictation.stop();
+              else void startTalking();
+            }}
+          >
+            <SunOrb size={48} active={live && !micOff} levels={orbLevels} />
+          </button>
+          <div className="min-w-0 flex-1" aria-live="polite">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron">{status}</p>
+            <p className="line-clamp-2 text-[14px] leading-snug">
+              {said ? <span className={said.who === 'you' ? 'text-bone' : 'font-display text-saffron'}>{said.text}</span> : <span className="text-ink-muted">Say anything: a ski trip, a drink nearby, a weekend away.</span>}
+            </p>
+            {shownNote && <p className="mt-0.5 text-[12px] text-ink-soft" role="status">{shownNote}</p>}
+          </div>
+          <button type="button" onClick={done} className="btn btn-primary min-h-11 shrink-0 px-4">Done</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -896,8 +1000,24 @@ function VibeStage() {
                 <button type="button" className="font-semibold text-saffron underline underline-offset-2" onClick={() => setMode('profile')}>Set yours up first</button> (two minutes).
               </p>
             )}
-            <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Start with</p>
-            <TopicList items={checklist} />
+            {mode === 'go' ? (
+              <>
+                <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Try</p>
+                <ul className="mt-2.5 flex flex-col gap-2 sm:gap-3" aria-label="Things to ask">
+                  {ASK_EXAMPLES.map((example) => (
+                    <li key={example} className="flex items-start gap-3 text-[15.5px] leading-snug text-ink-soft sm:text-[19px]">
+                      <span aria-hidden="true" className="mt-[7px] size-2 shrink-0 rotate-45 rounded-[2px] bg-saffron" />
+                      “{example}”
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <>
+                <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:mt-7">Start with</p>
+                <TopicList items={checklist} />
+              </>
+            )}
           </div>
         ) : (
           <div className="flex flex-1 flex-col overflow-hidden pt-2">

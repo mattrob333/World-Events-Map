@@ -15,6 +15,8 @@ import { NowFilters } from './NowFilters';
 import { formatMiles } from '@/lib/units';
 import { letPageScroll } from '@/lib/geo/mapGestures';
 import styles from './nearby-pulse.module.css';
+import { glow, useGlow } from '@/lib/voice/glow';
+import { useVoicePage } from '@/lib/voice/registry';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
 /** How far the rounded search point can sit from them, so a small radius isn't lopsided (the server only searches these widths). */
@@ -123,6 +125,25 @@ export function NearbyPulse() {
   const [what, setWhat] = useState<PulseWhat>('surprise');
   const [now, setNow] = useState<Date | null>(null);
   const active = useActiveProfile();
+  // The sun sets the filters from what they say ("a bar within walking distance").
+  useVoicePage(
+    'now',
+    {
+      now_filter: (args) => {
+        const pick = WHATS.find((option) => option.value === args.what);
+        const ring = PULSE_RADII.find((option) => option.miles === args.miles);
+        if (!pick && !ring) return 'Error: say what they are after (drinks, food, live music or anything) or how far.';
+        if (pick) setWhat(pick.value);
+        if (ring) setRadius(ring.meters);
+        glow('now:filters');
+        const label = (pick ?? WHATS.find((option) => option.value === what))!.label.toLowerCase();
+        const miles = ring?.miles ?? Math.round(radius / 1609);
+        return `Showing ${label === 'anything' ? 'anything busy' : label} within ${miles} ${miles === 1 ? 'mile' : 'miles'}. The map and Tonight fill in as foot traffic comes back.`;
+      },
+    },
+    () => `Now: what's busy near them. Showing ${WHATS.find((option) => option.value === what)?.label.toLowerCase() ?? 'anything'} within ${Math.round(radius / 1609)} miles${venues ? `, ${venues.length} places` : ''}.`,
+  );
+  const filtersLit = useGlow('now:filters');
   const pointsRef = useRef<GeoJSON.FeatureCollection>(EMPTY);
   // What's drawn (and tappable) on the map, and every place the scan returned (for their signed tokens).
   const venuesRef = useRef<PulseVenue[]>([]);
@@ -540,7 +561,7 @@ export function NearbyPulse() {
       </section>
 
       <div className={styles.below}>
-        <NowFilters radii={PULSE_RADII} radius={radius} onRadius={setRadius} whats={WHATS} what={what} onWhat={setWhat} />
+        <div {...filtersLit} className="w-fit max-w-full rounded-[22px]"><NowFilters radii={PULSE_RADII} radius={radius} onRadius={setRadius} whats={WHATS} what={what} onWhat={setWhat} /></div>
 
         {tonight && tonight.rows.length > 0 && <TonightTimeline tonight={tonight} selected={selected} onPick={focus} winks={winks} />}
 

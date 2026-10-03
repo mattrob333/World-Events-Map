@@ -92,26 +92,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '/';
   const [mounted, setMounted] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [sunOpen, setSunOpen] = useState(false);
   const morePanelId = useId();
-  const sunPanelId = useId();
   const skip = useOnboardingStore((s) => s.skip);
 
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     setMoreOpen(false);
-    setSunOpen(false);
   }, [pathname]);
   useEffect(() => {
-    if (!moreOpen && !sunOpen) return;
+    if (!moreOpen) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       setMoreOpen(false);
-      setSunOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [moreOpen, sunOpen]);
+  }, [moreOpen]);
 
   const world = pathname === '/';
   // The lens invitation belongs to the front door only: on every page it pushed
@@ -182,7 +178,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-controls={morePanelId}
               aria-haspopup="menu"
               onClick={() => {
-                setSunOpen(false);
                 setMoreOpen((open) => !open);
               }}
             >
@@ -198,7 +193,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Outside the glass header: its backdrop-filter would trap the fixed sheet and invitation strip. */}
       {isDemoMode() && <SocialRoot />}
 
-      {showVibePrompt && !sunOpen && !moreOpen && (
+      {showVibePrompt && !moreOpen && (
         // A floating card, not an in-flow bar: it mounts after hydration and used to push the page down (CLS).
         // Bottom-right on desktop: bottom-left is where the hero's own call to action sits. On phones it sits above the raised sun.
         <div className="fixed inset-x-3 bottom-[calc(6.25rem+env(safe-area-inset-bottom))] z-[44] lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[26rem]">
@@ -256,17 +251,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </li>
           ))}
           <li className="relative flex justify-center">
-            {/* The sun: round, raised above the bar, the way in to vibing or planning. */}
+            {/* The sun: round, raised above the bar. It's the AI: tap and say anything. */}
             <button
               type="button"
               className="absolute -top-5 grid h-[4.25rem] w-[4.25rem] place-items-center rounded-full bg-surface-0 shadow-[0_6px_24px_rgb(242_107_42/0.35)] ring-1 ring-white/[0.08] transition-transform active:scale-95"
-              aria-label="Now: what’s busy near you, or talk it through"
-              aria-expanded={sunOpen}
-              aria-controls={sunPanelId}
-              aria-haspopup="menu"
+              aria-label="Ask the sun: say anything"
               onClick={() => {
                 setMoreOpen(false);
-                setSunOpen((open) => !open);
+                setVibeOpen(true);
               }}
             >
               <SunGlyph size={56} glow />
@@ -301,7 +293,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-haspopup="menu"
               aria-label="More"
               onClick={() => {
-                setSunOpen(false);
                 setMoreOpen((open) => !open);
               }}
             >
@@ -349,46 +340,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <span className="text-[12px] text-ink-subtle">{item.hint}</span>
               </NavLink>
             ))}
-          </div>
-        </>
-      )}
-      {sunOpen && (
-        <>
-          <button
-            type="button"
-            aria-label="Close"
-            className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-0 z-[45] bg-void/60 lg:hidden"
-            onClick={() => setSunOpen(false)}
-          />
-          <div
-            id={sunPanelId}
-            role="menu"
-            aria-label="Now"
-            className="surface-raised fixed inset-x-6 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-50 mx-auto grid max-w-sm grid-cols-2 gap-2 p-2 lg:hidden"
-          >
-            <NavLink
-              href="/now"
-              role="menuitem"
-              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
-            >
-              <SunGlyph size={26} />
-              <span className="text-[15px] font-semibold text-bone">Vibe Now</span>
-              <span className="text-[12px] text-ink-subtle">What’s busy near you, and till when</span>
-            </NavLink>
-            {/* The talking concierge: your traveler profile, tonight or a trip, by voice. */}
-            <button
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setSunOpen(false);
-                setVibeOpen(true);
-              }}
-              className="flex min-h-24 flex-col items-start justify-end gap-1 rounded-[var(--radius-control)] bg-surface-2 p-3 text-left hover:bg-surface-3"
-            >
-              <span aria-hidden className="text-[22px] leading-none text-saffron">✦</span>
-              <span className="text-[15px] font-semibold text-bone">Talk it through</span>
-              <span className="text-[12px] text-ink-subtle">Profile, tonight or a trip, by voice</span>
-            </button>
           </div>
         </>
       )}

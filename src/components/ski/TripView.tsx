@@ -8,6 +8,8 @@ import { standing, tally, useSkiPlan } from '@/lib/ski/store';
 import { formatSpan, monthsLabel } from '@/lib/ski/window';
 import { Loading, optionLabel, useShare, useSkiContext } from './common';
 import styles from './ski.module.css';
+import { useSkiVoice } from './useSkiVoice';
+import { useGlow } from '@/lib/voice/glow';
 
 const LEVELS: { level: Level; title: string; ask: string }[] = [
   { level: 'range', title: 'Mountain ranges', ask: 'Which mountains?' },
@@ -27,6 +29,8 @@ export function TripView() {
   const [from, setFrom] = useState('');
   const [paste, setPaste] = useState('');
   const [pasteNote, setPasteNote] = useState<string | null>(null);
+  const shareLit = useGlow('ski:share');
+  useSkiVoice(context);
   if (!context) return <Loading />;
   const { data, window } = context;
   const voters = Object.keys(plan.votes);
@@ -75,7 +79,7 @@ export function TripView() {
             <section key={level} className={styles.level}>
               <div className={styles.levelHead}>
                 <h2>{title}</h2>
-                <button type="button" className={styles.primary} onClick={() => shareLevel(level, ask)} disabled={keys.length < 1}>Share to vote</button>
+                <button type="button" {...shareLit} className={styles.primary} onClick={() => shareLevel(level, ask)} disabled={keys.length < 1}>Share to vote</button>
               </div>
               <div className={styles.options}>
                 {keys.map((key) => {

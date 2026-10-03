@@ -316,6 +316,13 @@
       radial-gradient(80% 50% at 85% -5%, rgb(142 77 184 / 0.22), transparent 70%),
       var(--color-void, #050505);
   }
+  /* The stage shrunk to a bar while the sun fills in the page above it. */
+  .vibe-dock {
+    background:
+      radial-gradient(120% 140% at 0% 100%, rgb(242 107 42 / 0.28), transparent 60%),
+      rgb(14 14 16 / 0.94);
+    backdrop-filter: blur(14px);
+  }
   .sun-glyph-glow {
     box-shadow: 0 0 0 4px rgb(247 197 72 / 0.12), 0 0 22px rgb(242 107 42 / 0.55);
     animation: sun-glyph-breathe 3.6s ease-in-out infinite;
@@ -326,6 +333,17 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .sun-glyph-glow { animation: none; }
+  }
+  /* What the sun just changed on a page: a warm ring that fades (see lib/voice/glow.ts). */
+  [data-voice-glow] {
+    animation: voice-glow 2.4s ease-out;
+  }
+  @keyframes voice-glow {
+    0%, 35% { box-shadow: 0 0 0 2px rgb(247 197 72 / 0.95), 0 0 28px rgb(242 107 42 / 0.6); }
+    100% { box-shadow: 0 0 0 2px rgb(247 197 72 / 0), 0 0 28px rgb(242 107 42 / 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-voice-glow] { animation: none; outline: 2px solid rgb(247 197 72 / 0.9); outline-offset: 2px; }
   }
   /* The one hero module on a page. */
   .surface-hero {
