@@ -18,9 +18,11 @@ function left(minutes: number | null): string {
 /**
  * BestTime's usual busyness hour by hour, as upright bars from `start` to `end`
  * (minutes on the closing-time clock). The hour we're in is lit; hours after
- * closing are faded. Nothing is drawn for hours BestTime didn't give.
+ * closing are faded. Nothing is drawn for hours BestTime didn't give. With
+ * `unknown`, the closing time isn't known, so the columns are outlines: a
+ * forecast, not a promise that it's open.
  */
-export function HourBars({ hourly, start, end, now, closes, labels = false }: { hourly: readonly number[]; start: number; end: number; now: number; closes?: number; labels?: boolean }) {
+export function HourBars({ hourly, start, end, now, closes, labels = false, unknown = false }: { hourly: readonly number[]; start: number; end: number; now: number; closes?: number; labels?: boolean; unknown?: boolean }) {
   const hours: { at: number; value: number }[] = [];
   for (let at = Math.floor(start / 60) * 60; at < end; at += 60) {
     const value = hourly[Math.floor(at / 60) % 24];
@@ -30,7 +32,7 @@ export function HourBars({ hourly, start, end, now, closes, labels = false }: { 
   const peak = hours.reduce((best, hour) => (hour.value > best.value ? hour : best), hours[0]);
   const span = end - start;
   return (
-    <span className={labels ? styles.hoursBig : styles.hours} role="img" aria-label={`Usually busiest around ${hourLabel(peak.at)} (${peak.value}%)`}>
+    <span className={labels ? styles.hoursBig : styles.hours} data-unknown={unknown || undefined} role="img" aria-label={`Usually busiest around ${hourLabel(peak.at)} (${peak.value}%)${unknown ? ', opening hours unknown' : ''}`}>
       {hours.map((hour) => {
         const current = now >= hour.at && now < hour.at + 60;
         const shut = closes !== undefined && hour.at >= closes;
@@ -87,7 +89,7 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
                   {/* With the usual busyness by hour, the columns are the chart: lit while it's open,
                       faded after it closes. Without it, a plain bar shows the open hours. */}
                   {venue.hourly ? (
-                    <HourBars hourly={venue.hourly} start={tonight.start} end={tonight.end} now={tonight.now} closes={venue.openAllNight ? undefined : venue.closesMinutes} />
+                    <HourBars hourly={venue.hourly} start={tonight.start} end={tonight.end} now={tonight.now} closes={venue.openAllNight ? undefined : venue.closesMinutes} unknown={to === null} />
                   ) : (
                     <span className={styles.track}>
                       {to === null ? (
