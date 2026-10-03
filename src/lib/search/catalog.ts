@@ -102,7 +102,10 @@ export function buildSearchCatalog(now?: string): SearchHit[] {
     });
   }
 
+  // Ended events aren't searchable (they stay in the calendar data).
+  const today = new Date().toISOString().slice(0, 10);
   for (const event of EVENTS) {
+    if (event.end < today) continue;
     hits.push({
       id: `event-${event.id}`,
       group: 'events',

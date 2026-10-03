@@ -240,14 +240,15 @@ function DestinationLoaded({
   // The pill is a shortcut back to planning, never a cover over the facts or the
   // panel that already holds the same actions.
   const showStickyPlan = factsPast && !momentInView;
+  const today = todayISO();
+  // Ended occasions stay in the calendar data but not on the page.
   const events = pulse.eventIds
     .map((id) => EVENT_INDEX.get(id))
-    .filter((event): event is NonNullable<typeof event> => Boolean(event));
+    .filter((event): event is NonNullable<typeof event> => Boolean(event) && event!.end >= today);
   const inspiration = listInspiration(pulse.id);
   const offers = listOpportunities(pulse.id);
   const people = listTravelersForDestination(pulse.id);
   const rooms = listTripRoomsForDestination(pulse.id);
-  const today = todayISO();
   // The occasion the traveler arrived from leads; otherwise the next one on the calendar.
   const focusEvent = events.find((event) => event.id === focusEventId && event.end >= today);
   const nextEvent = focusEvent ?? [...events]

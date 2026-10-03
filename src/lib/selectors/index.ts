@@ -249,6 +249,8 @@ export function useScoredEvents(): ScoredEvent[] {
   const minScore = useFilterStore((s) => s.minScore);
   const peerActivityOnly = useFilterStore((s) => s.peerActivityOnly);
   const query = useFilterStore((s) => s.query);
+  // Today, local: an event that has ended is off the map and the lists (it stays in the calendar data).
+  const today = useTimelineStore((s) => s.rangeStart);
 
   const needle = query.trim().toLowerCase();
 
@@ -257,6 +259,7 @@ export function useScoredEvents(): ScoredEvent[] {
     const tierSet = tiers.length ? new Set<EventTier>(tiers) : null;
 
     return all.filter((e) => {
+      if (e.end < today) return false;
       if (catSet) {
         // Secondary categories count — an event tagged music/gala should
         // surface under either lens.
@@ -271,7 +274,7 @@ export function useScoredEvents(): ScoredEvent[] {
       if (!matchesQuery(e, needle)) return false;
       return true;
     });
-  }, [all, categories, tiers, maxPriceIndex, minScore, peerActivityOnly, needle, counts]);
+  }, [all, today, categories, tiers, maxPriceIndex, minScore, peerActivityOnly, needle, counts]);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
