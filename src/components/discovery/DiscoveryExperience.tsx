@@ -694,10 +694,10 @@ export function DiscoveryExperience() {
                 <span>{event.name}</span>
                 <small>
                   {modeActive
-                    ? `${eventWhen(event)} · modeled heat ${Math.round(event.buzz.score)}/100`
+                    ? `${eventWhen(event)} · ${event.listing ? 'festival listing' : `modeled heat ${Math.round(event.buzz.score)}/100`}`
                     : planMode
                     ? `${event.category} · ${eventWhen(event)}`
-                    : `${event.category} · modeled interest ${Math.round(event.buzz.score)}/100`}
+                    : `${event.category} · ${event.listing ? 'festival listing' : `modeled interest ${Math.round(event.buzz.score)}/100`}`}
                 </small>
               </span>
               <span className={styles.arrow}>↗</span>

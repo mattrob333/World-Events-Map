@@ -30,6 +30,7 @@ import { TENNIS_EVENTS } from './tennis';
 import { NATURE_EVENTS } from './nature';
 import { CULTURAL_EVENTS } from './cultural';
 import { GALA_EVENTS } from './gala';
+import { ELECTRONIC_EVENTS } from './electronic';
 
 const ALL: WorldEvent[] = [
   ...ART_EVENTS,
@@ -49,6 +50,7 @@ const ALL: WorldEvent[] = [
   ...NATURE_EVENTS,
   ...CULTURAL_EVENTS,
   ...GALA_EVENTS,
+  ...ELECTRONIC_EVENTS,
 ];
 
 /**
