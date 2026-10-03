@@ -115,6 +115,27 @@ export interface WorldEvent {
   /** Inclusive ISO date, YYYY-MM-DD. Equal to `start` for single-day events. */
   end: string;
   recurrence: Recurrence;
+  /**
+   * 'projected': the next edition of a recurring event whose dates aren't
+   * announced yet, placed in its usual window (see rollForward). Shown as
+   * "Usually …, dates not announced", never as firm dates. Absent: the dates
+   * are the published schedule or the event's established annual window.
+   */
+  datesStatus?: 'projected';
+  /**
+   * A sourced listing (the electronic festival catalog): facts only, each
+   * from a source we opened. No modeled demand or spend is attached, so
+   * signals are zero and estimatedSpend is 0; screens show the published
+   * ticket price and the official site instead.
+   */
+  listing?: {
+    officialUrl: string;
+    sources: string[];
+    /** Published ticket prices, with currency, or null when not published. */
+    ticketFrom: string | null;
+    /** Published capacity or attendance, or null. */
+    capacity: number | null;
+  };
 
   tier: EventTier;
   /** 1 (accessible) .. 5 (ruinous) */

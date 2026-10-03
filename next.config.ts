@@ -5,6 +5,10 @@ const CIRCLE_ID = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // The day the curated calendar rolls ended series forward from (src/lib/data/events/index.ts).
+  // Fixed at build, so the server render and the browser always build the same calendar;
+  // a redeploy moves it on.
+  env: { CALENDAR_DAY: new Date().toISOString().slice(0, 10) },
   transpilePackages: ['three'],
   experimental: {
     optimizePackageImports: ['@react-three/drei', 'motion'],

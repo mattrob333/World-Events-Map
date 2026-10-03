@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { CategoryGlyph, DURATION, EASE_GLIDE, cn, formatDateRange } from '@/components/ui';
+import { CategoryGlyph, DURATION, EASE_GLIDE, cn, formatEventDates } from '@/components/ui';
 import { PlaceGallery } from '@/components/place-media/PlaceGallery';
 import { useEventById } from '@/lib/selectors';
 import { useGlobeStore } from '@/lib/stores/useGlobeStore';
@@ -125,7 +125,7 @@ export function HoverReadout({ className }: HoverReadoutProps) {
           <div className={styles.body}>
             <div className={styles.kicker}><CategoryGlyph category={event.category} size={12} className="text-brass" /> <span>{event.category.toUpperCase()} · {event.city.toUpperCase()}</span></div>
             <h3>{event.name}</h3>
-            <p>{event.city}, {event.country} <span>·</span> {formatDateRange(event.start, event.end)}</p>
+            <p>{event.city}, {event.country} <span>·</span> {formatEventDates(event)}</p>
             <button type="button" onClick={openEvent}>Explore {event.city} <span aria-hidden="true">↗</span></button>
           </div>
         </motion.div>

@@ -26,7 +26,8 @@ describe('server-only boundary', () => {
           ? resolve(process.cwd(), 'src', specifier.slice(2))
           : specifier.startsWith('.') ? resolve(dirname(file), specifier) : undefined;
         if (!target) continue;
-        const resolved = [`${target}.ts`, `${target}.tsx`, resolve(target, 'index.ts')].find(existsSync);
+        // Data files (./electronic.json) are imported by their full name and carry no imports of their own.
+        const resolved = [...(target.endsWith('.json') ? [target] : []), `${target}.ts`, `${target}.tsx`, resolve(target, 'index.ts')].find(existsSync);
         expect(resolved, `Resolve ${specifier} from ${file}`).toBeDefined();
         pending.push(resolved!);
       }

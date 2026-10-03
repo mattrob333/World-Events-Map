@@ -164,7 +164,8 @@ export function bookingAlertFor(event: WorldEvent, now: string = todayISO()): Bo
   // Malformed dates would otherwise poison every field with NaN and render as
   // "NaN days". Live adapters populate `start`; the curated set is validated,
   // adapters are not. Degrade to a coherent, obviously-inert alert instead.
-  if (!isValidISODate(event.start) || !isValidISODate(now)) {
+  // A projected edition (dates not announced) has no deadline to work back from either.
+  if (event.datesStatus === 'projected' || !isValidISODate(event.start) || !isValidISODate(now)) {
     return {
       eventId: event.id,
       urgency: 'open',
@@ -172,8 +173,8 @@ export function bookingAlertFor(event: WorldEvent, now: string = todayISO()): Bo
       daysUntil: 0,
       daysToDeadline: 0,
       deadline: event.start,
-      headline: `Dates for ${event.name} are not confirmed`,
-      detail: `No usable start date, so there is no deadline to work back from. ${LEAD_TIME_NOTES[event.category]}`,
+      headline: event.datesStatus === 'projected' ? `Dates for ${event.name} are not announced yet` : `Dates for ${event.name} are not confirmed`,
+      detail: `${event.datesStatus === 'projected' ? 'The next edition has no announced dates' : 'No usable start date'}, so there is no deadline to work back from. ${LEAD_TIME_NOTES[event.category]}`,
     };
   }
 

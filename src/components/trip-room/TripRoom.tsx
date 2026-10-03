@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { FEATURES } from '@/lib/flags';
 import { useMemo, useState } from 'react';
-import { Button, EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
+import { Button, EmptyState, Panel, cn, formatDateRange, formatEventDates } from '@/components/ui';
 import { OpportunityCardView } from '@/components/shell';
 import {
   INSPIRATION_FIXTURE_DISCLOSURE,
@@ -54,7 +54,7 @@ export function CirclesIndex({ destination, eventId }: { destination?: string; e
       {selectedEvent && <section className="surface-hero mt-8 px-6 py-6">
         <p className="eyebrow">Your selected occasion · curated calendar</p>
         <h2 className="mt-2 font-display text-3xl text-ink">{selectedEvent.name}</h2>
-        <p className="mt-2 font-mono text-[13px] text-ink-soft">{selectedEvent.city}, {selectedEvent.country} · {formatDateRange(selectedEvent.start, selectedEvent.end)}</p>
+        <p className="mt-2 font-mono text-[13px] text-ink-soft">{selectedEvent.city}, {selectedEvent.country} · {formatEventDates(selectedEvent)}</p>
         <p className="mt-3 max-w-2xl text-[13px] leading-5 text-ink-muted">This is the occasion you chose to plan around. No Circle or booking has been created. Confirm the event dates and access with the organizer before committing travel.</p>
         {membershipConfigured ? <>
           <div className="mt-5 flex flex-wrap gap-2.5">

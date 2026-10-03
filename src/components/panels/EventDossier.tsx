@@ -20,7 +20,7 @@ import {
   HEAT_LABEL,
   HEAT_NOTE,
   TIER_NOTE,
-  formatDateRange,
+  formatEventDates,
   formatDaysUntil,
   formatMoney,
   formatScore,
@@ -152,9 +152,9 @@ export function EventDossier({ className }: EventDossierProps) {
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                   <span
                     className="tabular text-[11px] leading-none text-brass"
-                    title={event.providerId ? undefined : `Rank ${event.buzz.rank} in modeled demand, not a live count`}
+                    title={event.providerId || event.listing ? undefined : `Rank ${event.buzz.rank} in modeled demand, not a live count`}
                   >
-                    {event.providerId ? 'PARTNER EVENT' : `#${event.buzz.rank} MODELED`}
+                    {event.providerId ? 'PARTNER EVENT' : event.listing ? 'FESTIVAL LISTING' : `#${event.buzz.rank} MODELED`}
                   </span>
                   <span className="h-2.5 w-px bg-ink/15" aria-hidden />
                   {!event.providerId && <TierMark tier={event.tier} withLabel size={9} />}
@@ -225,14 +225,14 @@ export function EventDossier({ className }: EventDossierProps) {
             <div className="grid grid-cols-2 gap-x-5 gap-y-4">
               <Stat
                 label="Dates"
-                value={formatDateRange(event.start, event.end)}
+                value={formatEventDates(event)}
                 note={`${event.recurrence} · ${event.timezone}`}
                 size="sm"
               />
               <Stat
                 label="Lead time"
-                value={formatDaysUntil(leadDays)}
-                note={leadDays < 0 ? 'Already under way' : 'from today'}
+                value={event.datesStatus === 'projected' ? 'Dates TBA' : formatDaysUntil(leadDays)}
+                note={event.datesStatus === 'projected' ? 'Next edition not announced yet' : leadDays < 0 ? 'Already under way' : 'from today'}
                 size="sm"
                 align="end"
               />
@@ -243,9 +243,9 @@ export function EventDossier({ className }: EventDossierProps) {
                 size="sm"
               />
               <Stat
-                label="Rough spend, per person"
-                value={event.providerId ? 'Ask the host' : `${formatMoney(event.estimatedSpend.min)} – ${formatMoney(event.estimatedSpend.max)}`}
-                note={event.providerId ? 'No estimate provided' : 'Our editorial estimate, excluding charter. Not a quote.'}
+                label={event.listing ? 'Tickets' : 'Rough spend, per person'}
+                value={event.providerId ? 'Ask the host' : event.listing ? event.listing.ticketFrom ?? 'See the official site' : `${formatMoney(event.estimatedSpend.min)} – ${formatMoney(event.estimatedSpend.max)}`}
+                note={event.providerId ? 'No estimate provided' : event.listing ? 'Published by the organizer. No trip estimate yet.' : 'Our editorial estimate, excluding charter. Not a quote.'}
                 size="sm"
                 align="end"
               />
@@ -260,6 +260,12 @@ export function EventDossier({ className }: EventDossierProps) {
                 <p className="mt-2 text-[12px] leading-5 text-ink-muted">
                   {event.providerId ? 'Approved submission · confirm access and availability with the host' : TIER_NOTE[event.tier]}
                 </p>
+                {event.listing ? (
+                  <p className="mt-2 text-[12px] leading-5 text-ink-muted">
+                    <a className="text-brass-bright underline underline-offset-4" href={event.listing.officialUrl} target="_blank" rel="noopener noreferrer">Official site ↗</a>
+                    {' · '}Facts from {event.listing.sources.length} {event.listing.sources.length === 1 ? 'source' : 'sources'}
+                  </p>
+                ) : null}
               </div>
             </Section>
 

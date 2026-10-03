@@ -387,8 +387,8 @@ export const EQUESTRIAN_EVENTS: WorldEvent[] = [
     countryCode: 'IE',
     coords: { lat: 53.2953, lon: -8.9808 },
     timezone: 'Europe/Dublin',
-    start: '2026-07-27',
-    end: '2026-08-02',
+    start: '2027-07-26', // 2027 dates: galwaytourism.ie/event/galway-races
+    end: '2027-08-01',
     recurrence: 'annual',
     tier: 'insider',
     priceIndex: 2,

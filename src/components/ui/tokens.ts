@@ -19,6 +19,7 @@
 
 import type { EventCategory, EventTier, HeatLevel } from '@/lib/types';
 import { HEAT_LEVELS } from '@/lib/types';
+import { usualWindow } from '@/lib/data/events/usualWindow';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CSS custom property access (for canvas / imperative paint)
@@ -229,6 +230,17 @@ export function formatDateRange(start: string, end: string): string {
   if (sameYear) return `${formatDayMonth(start)} – ${formatDate(end)}`;
   return `${formatDate(start)} – ${formatDate(end)}`;
 }
+
+/**
+ * An event's dates as people should read them: firm dates, or, for a
+ * projected next edition, "Usually late Jul 2027 · dates TBA".
+ */
+export function formatEventDates(event: { start: string; end: string; datesStatus?: 'projected' }): string {
+  if (event.datesStatus !== 'projected') return formatDateRange(event.start, event.end);
+  return `${usualWindow(event.start)} · dates TBA`;
+}
+
+export { usualWindow } from '@/lib/data/events/usualWindow';
 
 /** Human phrasing for `daysUntil`, which is negative once an event has begun. */
 export function formatDaysUntil(days: number): string {

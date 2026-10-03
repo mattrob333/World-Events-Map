@@ -63,9 +63,17 @@
   "lang": "en",
   "title": "Berlin International Film Festival"
  },
+ "beyond-the-valley": {
+  "lang": "en",
+  "title": "Beyond the Valley"
+ },
  "bocuse-dor-lyon-2027": {
   "lang": "en",
   "title": "Bocuse d'Or"
+ },
+ "boom-festival": {
+  "lang": "en",
+  "title": "Boom Festival"
  },
  "breeders-cup-keeneland": {
   "lang": "en",
@@ -87,9 +95,17 @@
   "lang": "en",
   "title": "Clockenflap"
  },
+ "copenhagen-distortion": {
+  "lang": "en",
+  "title": "Copenhagen Distortion"
+ },
  "cowes-week": {
   "lang": "en",
   "title": "Cowes Week"
+ },
+ "creamfields": {
+  "lang": "en",
+  "title": "Creamfields"
  },
  "cresta-run-season-st-moritz": {
   "lang": "en",
@@ -103,9 +119,17 @@
   "lang": "en",
   "title": "Dark Mofo"
  },
+ "defqon-1": {
+  "lang": "en",
+  "title": "Defqon.1"
+ },
  "design-miami-beach": {
   "lang": "en",
   "title": "Design Miami"
+ },
+ "djakarta-warehouse-project": {
+  "lang": "en",
+  "title": "Djakarta Warehouse Project"
  },
  "dubai-design-week": {
   "lang": "en",
@@ -123,9 +147,17 @@
   "lang": "en",
   "title": "Dutch Design Week"
  },
+ "electric-forest": {
+  "lang": "en",
+  "title": "Electric Forest"
+ },
  "festival-aix-en-provence": {
   "lang": "en",
   "title": "Aix-en-Provence Festival"
+ },
+ "field-day-sydney": {
+  "lang": "en",
+  "title": "Field Day (Sydney festival)"
  },
  "fiesta-vendimia-mendoza": {
   "lang": "en",
@@ -159,6 +191,10 @@
   "lang": "en",
   "title": "Goodwood Revival"
  },
+ "groove-cruise-miami": {
+  "lang": "en",
+  "title": "Groove Cruise"
+ },
  "hahnenkamm-kitzbuhel": {
   "lang": "en",
   "title": "Hahnenkamm, Kitzbühel"
@@ -166,6 +202,10 @@
  "hero-dubai-desert-classic": {
   "lang": "en",
   "title": "Dubai Desert Classic"
+ },
+ "igloofest-montreal": {
+  "lang": "en",
+  "title": "Igloofest"
  },
  "il-ballo-del-doge-venice": {
   "lang": "en",
@@ -223,6 +263,10 @@
   "lang": "en",
   "title": "London Design Festival"
  },
+ "love-saves-the-day": {
+  "lang": "en",
+  "title": "Love Saves The Day"
+ },
  "marrakech-international-film-festival": {
   "lang": "en",
   "title": "Marrakech International Film Festival"
@@ -263,6 +307,10 @@
   "lang": "en",
   "title": "Montreux Jazz Festival"
  },
+ "movement-music-festival": {
+  "lang": "en",
+  "title": "Detroit Electronic Music Festival"
+ },
  "naadam-ulaanbaatar": {
   "lang": "en",
   "title": "Naadam"
@@ -271,9 +319,17 @@
   "lang": "en",
   "title": "Newport Jazz Festival"
  },
+ "nuits-sonores": {
+  "lang": "fr",
+  "title": "Nuits sonores"
+ },
  "oktoberfest-munich": {
   "lang": "en",
   "title": "Oktoberfest"
+ },
+ "open-ear": {
+  "lang": "en",
+  "title": "Open Ear Festival"
  },
  "palio-di-siena-provenzano": {
   "lang": "en",
@@ -303,6 +359,14 @@
   "lang": "en",
   "title": "Pushkar Fair"
  },
+ "rainbow-spirit-festival": {
+  "lang": "en",
+  "title": "Rainbow Serpent Festival"
+ },
+ "rhythm-and-vines": {
+  "lang": "en",
+  "title": "Rhythm and Vines"
+ },
  "rolex-middle-sea-race": {
   "lang": "en",
   "title": "Middle Sea Race"
@@ -327,6 +391,10 @@
   "lang": "en",
   "title": "Saudi Cup"
  },
+ "shambhala-music-festival": {
+  "lang": "en",
+  "title": "Shambhala Music Festival"
+ },
  "sharjah-biennial-17": {
   "lang": "en",
   "title": "Sharjah Biennial"
@@ -339,6 +407,10 @@
   "lang": "en",
   "title": "Snow Polo World Cup St. Moritz"
  },
+ "sonar-barcelona": {
+  "lang": "en",
+  "title": "Sónar"
+ },
  "songkran-bangkok": {
   "lang": "en",
   "title": "Songkran (Thailand)"
@@ -346,6 +418,14 @@
  "st-barths-bucket-regatta": {
   "lang": "en",
   "title": "St Barths Bucket Regatta"
+ },
+ "subsonic-music-festival": {
+  "lang": "en",
+  "title": "Subsonic Music Festival"
+ },
+ "sunburn-festival": {
+  "lang": "en",
+  "title": "Sunburn Festival"
  },
  "sundance-film-festival": {
   "lang": "en",
@@ -383,9 +463,17 @@
   "lang": "en",
   "title": "Trinidad and Tobago Carnival"
  },
+ "ultra-europe": {
+  "lang": "en",
+  "title": "Ultra Europe"
+ },
  "ultra-music-festival-miami": {
   "lang": "en",
   "title": "Ultra Music Festival"
+ },
+ "untold": {
+  "lang": "en",
+  "title": "Untold Festival"
  },
  "venice-film-festival": {
   "lang": "en",
@@ -406,5 +494,9 @@
  "wimbledon": {
   "lang": "en",
   "title": "Wimbledon Championships"
+ },
+ "wonderfruit": {
+  "lang": "en",
+  "title": "Wonderfruit"
  }
 }

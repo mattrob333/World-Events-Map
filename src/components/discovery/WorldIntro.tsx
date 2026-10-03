@@ -1,5 +1,7 @@
 'use client';
 
+import { usualWindow } from '@/components/ui/tokens';
+
 import Link from 'next/link';
 import { isHappeningToday } from '@/lib/data/scene-time';
 import { useEffect, useMemo, useState } from 'react';
@@ -62,6 +64,9 @@ const dateLabel = (date: string) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
+/** An event's start for a card: its day, or its usual window when the next edition's dates aren't announced. */
+const eventWhen = (event: { start: string; datesStatus?: 'projected' }) =>
+  event.datesStatus === 'projected' ? usualWindow(event.start) : dateLabel(event.start);
 
 /** The dates of an event that's on now: "Sep 23 – Sep 26", or its last day. */
 export function liveDates(event: Pick<WorldEvent, 'start' | 'end'>, today: string): string {
@@ -73,7 +78,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
   const { event, slug } = pick;
   const why = whyNow(event, today);
   // Live means on right now where it happens (its own time zone), not on the date the timeline is set to.
-  const live = event.start <= today && event.end >= today && isHappeningToday(event, new Date());
+  const live = event.datesStatus !== 'projected' && event.start <= today && event.end >= today && isHappeningToday(event, new Date());
   const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -108,7 +113,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
       </div>
       <button type="button" className={styles.cardFlight} onClick={() => onTravel(event, imageFailed ? null : photo)} aria-label={`Fly across the globe to ${event.city} for ${event.name}`}>
         {/* On now: a live chip up top, like a stream's LIVE badge, and the dates move down under the name. */}
-        <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip} title="Happening now"><i aria-hidden="true" />Live<span className="sr-only">: happening now</span></span> : <span>{dateLabel(event.start)}</span>}</span>
+        <span className={styles.cardTop}><span>{event.category}</span>{live ? <span className={styles.liveChip} title="Happening now"><i aria-hidden="true" />Live<span className="sr-only">: happening now</span></span> : <span>{eventWhen(event)}</span>}</span>
         {/* The event leads; the place is where it happens. */}
         <span className={styles.cardCity} title={event.name}>{shortName(event.name)}</span>
         <span className={styles.cardEvent}>{event.city}</span>

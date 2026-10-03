@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-import { Button, cn, formatDateRange, Rule } from '@/components/ui';
+import { Button, cn, formatEventDates, Rule } from '@/components/ui';
 import { EVENT_INDEX } from '@/lib/data/events';
 import { buildSharePayload, buildTripLink, readTripLink } from '@/lib/social/invite';
 import { getMember } from '@/lib/social/members';
@@ -251,7 +251,7 @@ function InvitationStrip() {
           <p className="label text-brass">You were sent this</p>
           <h2 className="font-display mt-2.5 text-[19px] leading-6 text-ink">{group.name}</h2>
           <p className="label-sm mt-2 text-ink-subtle">
-            {event.name} · {event.city} · {formatDateRange(event.start, event.end)}
+            {event.name} · {event.city} · {formatEventDates(event)}
           </p>
 
           <Rule variant="ghost" className="my-3" />

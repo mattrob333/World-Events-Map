@@ -8,7 +8,7 @@
 
 import type { WorldEvent } from '@/lib/types';
 import {
-  EGKB,
+  KVNY,
   EGLF,
   KOPF,
   KTEB,
@@ -26,15 +26,15 @@ export const TENNIS_EVENTS: WorldEvent[] = [
   {
     id: 'laver-cup',
     name: 'Laver Cup',
-    tagline: 'Europe against the World over three days on a black court at The O2',
+    tagline: 'Europe against the World over three days; the tenth edition is at Intuit Dome, LA',
     category: 'tennis',
-    city: 'London',
-    country: 'United Kingdom',
-    countryCode: 'GB',
-    coords: { lat: 51.503, lon: 0.0032 },
-    timezone: 'Europe/London',
-    start: '2026-09-25',
-    end: '2026-09-27',
+    city: 'Los Angeles',
+    country: 'United States',
+    countryCode: 'US',
+    coords: { lat: 33.9451, lon: -118.3417 },
+    timezone: 'America/Los_Angeles',
+    start: '2027-09-24', // 2027 dates: lavercup.com, 17 Jun 2026 host-city announcement
+    end: '2027-09-26',
     recurrence: 'annual',
     tier: 'marquee',
     priceIndex: 3,
@@ -42,8 +42,8 @@ export const TENNIS_EVENTS: WorldEvent[] = [
     bookingLeadDays: 365,
     accessNote:
       'Three-day ticket packages go on sale roughly a year ahead and single sessions later; the courtside Laver Cup Club and the player-bench-adjacent seats are sold as hospitality through the event, and they clear first',
-    venues: ['The O2 Arena'],
-    nearestJetPort: EGKB,
+    venues: ['Intuit Dome, Inglewood'],
+    nearestJetPort: KVNY,
     description:
       'A twelve-match team competition between six European players and six from the rest of the world, with captains sitting on the bench and coaching openly — the only event where you hear top players being talked through a match in real time. Matches are worth one point on Friday, two on Saturday and three on Sunday, so the format is built to stay alive into the final day. The black court and arena lighting make it the best-looking tennis on the calendar.',
     whyGo: [
@@ -52,7 +52,7 @@ export const TENNIS_EVENTS: WorldEvent[] = [
       'Players who never share a court appear in the same doubles pair',
       'Arena staging on a black court, unlike anything on tour',
     ],
-    tags: ['team-tennis', 'exhibition', 'indoor-hard', 'london'],
+    tags: ['team-tennis', 'exhibition', 'indoor-hard', 'los-angeles'],
     signals: {
       socialMentions: 96000,
       socialVelocity: 0.5,

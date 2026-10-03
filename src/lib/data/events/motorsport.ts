@@ -84,8 +84,8 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     countryCode: 'US',
     coords: { lat: 36.5686, lon: -121.9506 },
     timezone: 'America/Los_Angeles',
-    start: '2026-08-16',
-    end: '2026-08-16',
+    start: '2027-08-15', // 2027 dates: pebblebeachconcours.net
+    end: '2027-08-15',
     recurrence: 'annual',
     tier: 'legendary',
     priceIndex: 5,
@@ -124,8 +124,8 @@ export const MOTORSPORT_EVENTS: WorldEvent[] = [
     countryCode: 'GB',
     coords: { lat: 50.8578, lon: -0.7539 },
     timezone: 'Europe/London',
-    start: '2026-09-18',
-    end: '2026-09-20',
+    start: '2027-09-17', // 2027 dates: goodwood.com "2027 Revival dates revealed"
+    end: '2027-09-19',
     recurrence: 'annual',
     tier: 'marquee',
     priceIndex: 3,

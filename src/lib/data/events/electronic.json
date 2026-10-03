@@ -1,0 +1,7077 @@
+[
+ {
+  "id": "defected-malta",
+  "name": "Defected Malta",
+  "start": "2026-10-01",
+  "end": "2026-10-04",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Malta (multiple venues)",
+  "country": "Malta",
+  "countryCode": "MT",
+  "venue": "Various venues across Malta (2024 and 2025 editions centred on UNO Malta, Ta' Qali)",
+  "coords": [
+   35.8902,
+   14.4179
+  ],
+  "timezone": "Europe/Malta",
+  "airport": {
+   "code": "LMML",
+   "name": "Malta International Airport",
+   "coords": [
+    35.8575,
+    14.4775
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "disco"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Weekend house music takeover of Malta by the Defected label, now in its fifth year.",
+  "researchNote": "The listing gives 1 to 4 October 2026 across various venues, with a Glitterbox event at Little Armier Beach; the edition is already under way at the start of the catalog window.",
+  "officialUrl": "https://ra.co/events/2368155",
+  "sources": [
+   "https://ra.co/events/2368155",
+   "https://ra.co/events/2523380",
+   "https://ra.co/events/2044533"
+  ]
+ },
+ {
+  "id": "unsound",
+  "name": "Unsound",
+  "start": "2026-10-02",
+  "end": "2026-10-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Warsaw and Kraków",
+  "country": "Poland",
+  "countryCode": "PL",
+  "venue": "Multiple venues in Warsaw and Kraków (including Jasna 1 and Dance Pavilion, Warsaw)",
+  "coords": [
+   50.0647,
+   19.945
+  ],
+  "timezone": "Europe/Warsaw",
+  "airport": {
+   "code": "EPKK",
+   "name": "Kraków John Paul II International Airport",
+   "coords": [
+    50.0777,
+    19.7848
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Festival of contemporary, experimental and leftfield music with a discourse program, shared in 2026 between Warsaw and Kraków.",
+  "researchNote": "The official site lists 2 to 11 October 2026, so the edition is already under way at the start of the catalog window.",
+  "officialUrl": "https://www.unsound.pl/",
+  "sources": [
+   "https://www.unsound.pl/",
+   "https://ra.co/events/2520693"
+  ]
+ },
+ {
+  "id": "edc-korea",
+  "name": "EDC Korea",
+  "start": "2026-10-03",
+  "end": "2026-10-04",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Incheon",
+  "country": "South Korea",
+  "countryCode": "KR",
+  "venue": "Incheon (venue name not stated on official homepage)",
+  "coords": [
+   37.4563,
+   126.7052
+  ],
+  "timezone": "Asia/Seoul",
+  "airport": {
+   "code": "RKSI",
+   "name": "Incheon International Airport",
+   "coords": [
+    37.4602,
+    126.4407
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Korean edition of Insomniac's Electric Daisy Carnival, held over two days in Incheon. The official site lists 3-4 October 2026 with 1-day and 2-day passes.",
+  "researchNote": "Coordinates are city-level because the site does not name the venue.",
+  "officialUrl": "https://korea.edc.com/",
+  "sources": [
+   "https://korea.edc.com/",
+   "https://korea.edc.com/info"
+  ]
+ },
+ {
+  "id": "no-bounds",
+  "name": "No Bounds",
+  "start": "2026-10-09",
+  "end": "2026-10-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Sheffield",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Multiple venues across Sheffield and Rotherham",
+  "coords": [
+   53.3811,
+   -1.4701
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGCC",
+   "name": "Manchester Airport",
+   "coords": [
+    53.3537,
+    -2.275
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "bass",
+   "experimental electronic",
+   "club"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Multi-venue October weekender of club music, live performance and installations across Sheffield and Rotherham, now in its ninth edition.",
+  "researchNote": "The 2026 edition runs 9 to 11 October; coordinates mark Sheffield city centre because venues are spread across the city.",
+  "officialUrl": "https://www.noboundsfestival.co.uk/",
+  "sources": [
+   "https://www.noboundsfestival.co.uk/",
+   "https://ra.co/news/85371"
+  ]
+ },
+ {
+  "id": "edc-colombia",
+  "name": "EDC Colombia",
+  "start": "2026-10-10",
+  "end": "2026-10-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Medellin",
+  "country": "Colombia",
+  "countryCode": "CO",
+  "venue": "Estadio Atanasio Girardot (Unidad Deportiva Atanasio Girardot)",
+  "coords": [
+   6.2565,
+   -75.5906
+  ],
+  "timezone": "America/Bogota",
+  "airport": {
+   "code": "SKMD",
+   "name": "Olaya Herrera Airport",
+   "coords": [
+    6.2205,
+    -75.5906
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance",
+   "bass"
+  ],
+  "ticketFrom": "600,000 COP (General, stage 1) to 1,201,000 COP (VIP, stage 2)",
+  "recurrence": "annual",
+  "description": "First Colombian edition of Electric Daisy Carnival, organized by Insomniac and Paramo Presenta, with four stages and more than 80 artists. Announced acts include Alesso, Armin van Buuren, Deadmau5 and Afrojack b2b Green Velvet. Tickets are sold through Ticketmaster.",
+  "researchNote": "",
+  "officialUrl": "https://colombia.electricdaisycarnival.com",
+  "sources": [
+   "https://www.minuto60.com/entretenimiento-cultura/edc-2026-fechas-precios-todo-festival-medellin/6378",
+   "https://canaltrece.com.co/noticias/lineup-edc-colombia-2026/",
+   "https://www.eltiempo.com/cultura/gente/electric-daisy-carnival-el-festival-de-musica-electronica-mas-grande-del-mundo-llegara-a-colombia-en-2026-3453865"
+  ]
+ },
+ {
+  "id": "amsterdam-dance-event",
+  "name": "Amsterdam Dance Event",
+  "start": "2026-10-21",
+  "end": "2026-10-25",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Citywide, 200+ clubs and venues",
+  "coords": [
+   52.3731,
+   4.8926
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": 600000,
+  "capacityNote": "Total visitors reported for the 2025 edition in ADE's official press release",
+  "genres": [
+   "house",
+   "techno",
+   "EDM",
+   "trance",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Five-day electronic music conference and club festival spread across hundreds of Amsterdam venues, with the ADE Pro industry programme by day. The 2026 edition marks the event's 30th anniversary.",
+  "researchNote": "",
+  "officialUrl": "https://www.amsterdam-dance-event.nl",
+  "sources": [
+   "https://www.amsterdam-dance-event.nl/en/news/ade25-pressrelease-5/2750267/"
+  ]
+ },
+ {
+  "id": "awakenings-ade",
+  "name": "Awakenings ADE",
+  "start": "2026-10-21",
+  "end": "2026-10-25",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Halfweg (Amsterdam area)",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "SugarFactory (former sugar refinery)",
+  "coords": [
+   52.3851,
+   4.7486
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Awakenings' techno programme during Amsterdam Dance Event, eight events over five days at the SugarFactory while the Gashouder is under renovation. Several nights are already listed as sold out on the official site.",
+  "researchNote": "",
+  "officialUrl": "https://www.awakenings.com/en/events/2026/10/awakenings-ade-2026/394611/",
+  "sources": [
+   "https://www.awakenings.com/en/events/2026/10/awakenings-ade-2026/394611/",
+   "https://909originals.com/?p=63990"
+  ]
+ },
+ {
+  "id": "amsterdam-music-festival",
+  "name": "Amsterdam Music Festival",
+  "start": "2026-10-24",
+  "end": "2026-10-25",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Johan Cruijff ArenA",
+  "coords": [
+   52.3144,
+   4.9415
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance",
+   "hardstyle"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-night stadium dance event held during ADE, running from Saturday evening into early Sunday morning. The 2026 bill is headlined by David Guetta's Monolith show with Armin van Buuren and Afrojack.",
+  "researchNote": "",
+  "officialUrl": "https://amf-festival.com",
+  "sources": [
+   "https://www.iamsterdam.com/en/whats-on/calendar/festivals/events/amf-johan-cruijf-arena-2026",
+   "https://www.edmtunes.com/2026/03/david-guettas-monolith-show-headlines-amf-2026-at-ade/"
+  ]
+ },
+ {
+  "id": "club-to-club",
+  "name": "Club To Club",
+  "start": "2026-10-29",
+  "end": "2026-11-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Turin",
+  "country": "Italy",
+  "countryCode": "IT",
+  "venue": "Lingotto Fiere",
+  "coords": [
+   45.0292,
+   7.6659
+  ],
+  "timezone": "Europe/Rome",
+  "airport": {
+   "code": "LIMF",
+   "name": "Turin Airport",
+   "coords": [
+    45.2008,
+    7.6496
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "experimental",
+   "club",
+   "avant-pop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Turin festival of electronic, experimental and avant-pop music, with main nights at Lingotto Fiere. The official site lists 29 October to 1 November 2026; the 2026 lineup includes Arca, Robyn, Kelela and Theo Parrish.",
+  "researchNote": "",
+  "officialUrl": "https://www.clubtoclub.it/",
+  "sources": [
+   "https://www.clubtoclub.it/",
+   "https://ra.co/events/2359514"
+  ]
+ },
+ {
+  "id": "dream-nation-festival",
+  "name": "Dream Nation Festival",
+  "start": "2026-10-30",
+  "end": "2026-10-31",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Villepinte (Paris)",
+  "country": "France",
+  "countryCode": "FR",
+  "venue": "Paris Nord Villepinte Exhibition Centre",
+  "coords": [
+   48.9725,
+   2.515
+  ],
+  "timezone": "Europe/Paris",
+  "airport": {
+   "code": "LFPG",
+   "name": "Paris Charles de Gaulle Airport",
+   "coords": [
+    49.0097,
+    2.5479
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "trance",
+   "hard dance",
+   "drum and bass",
+   "dubstep",
+   "psytrance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-night indoor electronic festival with a Halloween theme at the Paris Nord Villepinte exhibition centre. The 13th edition spans techno, bass, drum and bass, trance and hard styles across several stages.",
+  "researchNote": "",
+  "officialUrl": "https://www.dreamnation.fr",
+  "sources": [
+   "https://www.sortiraparis.com/en/where-to-party-in-paris/articles/74345-dream-nation-2026-in-paris-nord-the-full-lineup-by-day-and-by-stage"
+  ]
+ },
+ {
+  "id": "ekko-festival",
+  "name": "Ekko Festival",
+  "start": "2026-10-30",
+  "end": "2026-11-02",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Bergen",
+  "country": "Norway",
+  "countryCode": "NO",
+  "venue": "Østre and other venues across Bergen",
+  "coords": [
+   60.3937,
+   5.3281
+  ],
+  "timezone": "Europe/Oslo",
+  "airport": {
+   "code": "ENBR",
+   "name": "Bergen Airport Flesland",
+   "coords": [
+    60.2934,
+    5.2181
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental",
+   "electronic",
+   "club"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Festival of experimental electronic music, club culture and sound art held in venues across Bergen. The 23rd edition runs 30 October to 2 November 2026, per the festival's listing.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2513616",
+  "sources": [
+   "https://ra.co/events/2513616"
+  ]
+ },
+ {
+  "id": "escape-halloween",
+  "name": "Escape Halloween",
+  "start": "2026-10-30",
+  "end": "2026-10-31",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "San Bernardino",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "NOS Events Center",
+  "coords": [
+   34.0899,
+   -117.2918
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KONT",
+   "name": "Ontario International Airport",
+   "coords": [
+    34.056,
+    -117.6012
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "techno",
+   "bass",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's Halloween festival with more than 80 DJs across five or more themed stages at the NOS Events Center. The 2026 bill includes Zedd, Richie Hawtin and Excision.",
+  "researchNote": "",
+  "officialUrl": "https://escapehalloween.com",
+  "sources": [
+   "https://edmmaniac.com/escape-halloween-2026-lineup/"
+  ]
+ },
+ {
+  "id": "ritvales",
+  "name": "Ritvales",
+  "start": "2026-10-31",
+  "end": "2026-11-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Medellin",
+  "country": "Colombia",
+  "countryCode": "CO",
+  "venue": "Parque Norte and Estadio Cincuentenario",
+  "coords": [
+   6.2721,
+   -75.5672
+  ],
+  "timezone": "America/Bogota",
+  "airport": {
+   "code": "SKMD",
+   "name": "Olaya Herrera Airport",
+   "coords": [
+    6.2205,
+    -75.5906
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "melodic techno"
+  ],
+  "ticketFrom": "From 339,000 COP",
+  "recurrence": "annual",
+  "description": "Two-day electronic festival in Medellin founded in 2014, with five stages and more than 90 artists in 2026 under the theme 'la energia se baila'. Carl Cox curates one day of the Vortex stage. Tickets are sold only through TuBoleta.",
+  "researchNote": "",
+  "officialUrl": "https://ritvales.com",
+  "sources": [
+   "https://www.elcolombiano.com/cultura/musica/ritvales-2026-medellin-festival-electronico-octubre-noviembre-AH37303223",
+   "https://canaltrece.com.co/noticias/colombia-se-prepara-para-una-temporada-historica-de-musica-electronica/",
+   "https://kchcomunicacion.com/?p=428657"
+  ]
+ },
+ {
+  "id": "untold-dubai",
+  "name": "UNTOLD Dubai",
+  "start": "2026-11-05",
+  "end": "2026-11-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Dubai",
+  "country": "United Arab Emirates",
+  "countryCode": "AE",
+  "venue": "Dubai Parks and Resorts",
+  "coords": [
+   24.92,
+   55.005
+  ],
+  "timezone": "Asia/Dubai",
+  "airport": {
+   "code": "OMDW",
+   "name": "Al Maktoum International Airport",
+   "coords": [
+    24.8963,
+    55.1614
+   ]
+  },
+  "capacity": 190000,
+  "capacityNote": "Total attendance reported for the 2025 edition (Wikipedia)",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": "From AED 350 (early bird); standard from AED 590",
+  "recurrence": "annual",
+  "description": "Four-day Dubai spin-off of Romania's UNTOLD festival. The 2025 edition moved to Dubai Parks and Resorts after the 2024 debut at Expo City Dubai. Wikipedia reports 190,000 attendees in 2025.",
+  "researchNote": "",
+  "officialUrl": "https://untold.ae/",
+  "sources": [
+   "https://untold.ae/",
+   "https://en.wikipedia.org/wiki/Untold_Festival"
+  ]
+ },
+ {
+  "id": "edc-orlando",
+  "name": "EDC Orlando",
+  "start": "2026-11-06",
+  "end": "2026-11-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Orlando",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Tinker Field",
+  "coords": [
+   28.5394,
+   -81.4041
+  ],
+  "timezone": "America/New_York",
+  "airport": {
+   "code": "KMCO",
+   "name": "Orlando International Airport",
+   "coords": [
+    28.4312,
+    -81.3081
+   ]
+  },
+  "capacity": 300000,
+  "capacityNote": "Total attendance of the 2023 edition per Wikipedia.",
+  "genres": [
+   "EDM",
+   "house",
+   "bass",
+   "trance",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day Insomniac festival at Tinker Field with GA, GA+ and VIP tiers and single-day passes. The 2026 lineup is led by Martin Garrix, David Guetta, Kaskade and Hardwell.",
+  "researchNote": "",
+  "officialUrl": "https://orlando.edc.com",
+  "sources": [
+   "https://orlando.edc.com/",
+   "https://en.wikipedia.org/wiki/Electric_Daisy_Carnival"
+  ]
+ },
+ {
+  "id": "mira-festival",
+  "name": "Mira Festival",
+  "start": "2026-11-06",
+  "end": "2026-11-07",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Barcelona",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Fira Montjuïc",
+  "coords": [
+   41.3731,
+   2.1505
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEBL",
+   "name": "Barcelona-El Prat Josep Tarradellas Airport",
+   "coords": [
+    41.2971,
+    2.0785
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental",
+   "electronica",
+   "audiovisual"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Digital arts and contemporary music festival combining live electronic and audiovisual performances. The listing gives 6 and 7 November 2026 at Fira Montjuïc in Barcelona.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2431595",
+  "sources": [
+   "https://ra.co/events/2431595"
+  ]
+ },
+ {
+  "id": "mutek-mx",
+  "name": "MUTEK MX",
+  "start": "2026-11-06",
+  "end": "2026-11-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Mexico City",
+  "country": "Mexico",
+  "countryCode": "MX",
+  "venue": "Multiple cultural venues across Mexico City",
+  "coords": [
+   19.4326,
+   -99.1332
+  ],
+  "timezone": "America/Mexico_City",
+  "airport": {
+   "code": "MMMX",
+   "name": "Mexico City International Airport",
+   "coords": [
+    19.4363,
+    -99.0721
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental electronic",
+   "techno",
+   "audiovisual"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "The 22nd Mexico City edition of the MUTEK festival of electronic music and digital creativity, with a program of national and international artists spread across several city venues.",
+  "researchNote": "Coordinates are for central Mexico City because venues vary.",
+  "officialUrl": "https://mexico.mutek.org",
+  "sources": [
+   "https://mexico.mutek.org/en"
+  ]
+ },
+ {
+  "id": "bonusz-electronic-music-festival",
+  "name": "BÓNUSZ Electronic Music Festival",
+  "start": "2026-11-13",
+  "end": "2026-11-15",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Budapest",
+  "country": "Hungary",
+  "countryCode": "HU",
+  "venue": "Hungexpo Budapest",
+  "coords": [
+   47.493,
+   19.1225
+  ],
+  "timezone": "Europe/Budapest",
+  "airport": {
+   "code": "LHBP",
+   "name": "Budapest Ferenc Liszt International Airport",
+   "coords": [
+    47.4369,
+    19.2556
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "tech house",
+   "hard dance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Indoor electronic music festival at the Hungexpo exhibition grounds in Budapest. The listing gives 13 to 15 November 2026, including a Verknipt-hosted night on 13 November.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2317712",
+  "sources": [
+   "https://ra.co/events/2317712",
+   "https://ra.co/events/2445876"
+  ]
+ },
+ {
+  "id": "subsonic-music-festival",
+  "name": "Subsonic Music Festival",
+  "start": "2026-11-13",
+  "end": "2026-11-15",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Monkerai",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Riverwood Downs area, Monkerai NSW (official site states only that it is on Worimi land)",
+  "coords": [
+   -32.29,
+   151.86
+  ],
+  "timezone": "Australia/Sydney",
+  "airport": {
+   "code": "YWLM",
+   "name": "Newcastle Airport",
+   "coords": [
+    -32.795,
+    151.834
+   ]
+  },
+  "capacity": 5000,
+  "capacityNote": "Full capacity per Wikipedia",
+  "genres": [
+   "techno",
+   "house",
+   "psytrance",
+   "dub",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day camping festival in the NSW bush with house, techno, psytrance and dub programming. Wikipedia places it at Monkerai (Riverwood Downs) with a capacity of 5,000. The 2026 official page gives 13-15 November but not the exact site.",
+  "researchNote": "",
+  "officialUrl": "https://subsonicmusic.com.au/",
+  "sources": [
+   "https://subsonicmusic.com.au/",
+   "https://en.wikipedia.org/wiki/Subsonic_Music_Festival"
+  ]
+ },
+ {
+  "id": "creamfields-buenos-aires",
+  "name": "Creamfields Buenos Aires",
+  "start": "2026-11-14",
+  "end": "2026-11-14",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Buenos Aires",
+  "country": "Argentina",
+  "countryCode": "AR",
+  "venue": "Parque de la Ciudad",
+  "coords": [
+   -34.6731,
+   -58.4442
+  ],
+  "timezone": "America/Argentina/Buenos_Aires",
+  "airport": {
+   "code": "SABE",
+   "name": "Aeroparque Jorge Newbery",
+   "coords": [
+    -34.5592,
+    -58.4156
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "techno",
+   "house",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day edition of the Creamfields brand at Parque de la Ciudad on 14 November 2026, organized by Fenix Entertainment. Buenos Aires was the first international host of Creamfields in 2001 and this is its 18th Argentine edition, with stages including Main Stage, Cream Arena and Alternative Beats.",
+  "researchNote": "",
+  "officialUrl": "https://www.creamfields.com.ar",
+  "sources": [
+   "https://www.cronica.com.ar/elcanaldelamusica/noticias/creamfields-2026-vuelve-a-buenos-aires-cuando-sera-y-como-conseguir-entradas-para-el-megafestival-electronico-4316/",
+   "https://www.ambito.com/espectaculos/creamfields-argentina-2026-como-y-donde-comprar-las-entradas-n6284668"
+  ]
+ },
+ {
+  "id": "creamfields-chile",
+  "name": "Creamfields Chile",
+  "start": "2026-11-14",
+  "end": "2026-11-15",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Santiago",
+  "country": "Chile",
+  "countryCode": "CL",
+  "venue": "Club Hipico de Santiago",
+  "coords": [
+   -33.463,
+   -70.664
+  ],
+  "timezone": "America/Santiago",
+  "airport": {
+   "code": "SCEL",
+   "name": "Santiago Arturo Merino Benitez International Airport",
+   "coords": [
+    -33.393,
+    -70.7858
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day Creamfields edition at Club Hipico de Santiago on 14 and 15 November 2026, following the two-day format of recent years. The announced lineup is headed by Calvin Harris with Boris Brejcha, Charlotte de Witte, Fisher and Hardwell. Tickets are sold through Puntoticket.",
+  "researchNote": "",
+  "officialUrl": "https://www.creamfields.cl",
+  "sources": [
+   "https://www.cnnchile.com/cultura/creamfields-chile-2026-fecha-14-15-noviembre-club-hipico-registro-preventa_20260319/",
+   "https://www.puntoticket.com/anuncio-fecha-venta-de-entradas",
+   "https://billboard.com.br/creamfields-chile-2026-line-up/"
+  ]
+ },
+ {
+  "id": "ultra-taiwan",
+  "name": "Ultra Taiwan",
+  "start": "2026-11-14",
+  "end": "2026-11-14",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Taipei",
+  "country": "Taiwan",
+  "countryCode": "TW",
+  "venue": "Dajia Riverside Park",
+  "coords": [
+   25.077,
+   121.542
+  ],
+  "timezone": "Asia/Taipei",
+  "airport": {
+   "code": "RCSS",
+   "name": "Taipei Songshan Airport",
+   "coords": [
+    25.0694,
+    121.5525
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day Taiwanese edition of the Ultra Worldwide festival brand. The 2026 edition is set for Dajia Riverside Park in Taipei on 14 November.",
+  "researchNote": "",
+  "officialUrl": "https://ultrataiwan.com/",
+  "sources": [
+   "https://ultrataiwan.com/"
+  ]
+ },
+ {
+  "id": "dreamstate-socal",
+  "name": "Dreamstate SoCal",
+  "start": "2026-11-20",
+  "end": "2026-11-21",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Long Beach",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Queen Mary Waterfront",
+  "coords": [
+   33.7529,
+   -118.1901
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KLGB",
+   "name": "Long Beach Airport",
+   "coords": [
+    33.8177,
+    -118.1516
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "trance",
+   "psytrance",
+   "progressive"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's trance festival with more than 70 artists over four stages at the Queen Mary Waterfront. The 2026 bill includes Above & Beyond (Anjunabeats Classics set), Infected Mushroom, Vini Vici and Paul van Dyk.",
+  "researchNote": "",
+  "officialUrl": "https://socal.dreamstateusa.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/07/dreamstate-socal-2026-completes-outstanding-lineup/"
+  ]
+ },
+ {
+  "id": "harbourlife",
+  "name": "Harbourlife",
+  "start": "2026-11-21",
+  "end": "2026-11-21",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Sydney",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Yurong / Mrs Macquaries Point",
+  "coords": [
+   -33.8597,
+   151.2225
+  ],
+  "timezone": "Australia/Sydney",
+  "airport": {
+   "code": "YSSY",
+   "name": "Sydney Kingsford Smith Airport",
+   "coords": [
+    -33.9461,
+    151.1772
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house"
+  ],
+  "ticketFrom": "AUD 195.90 + fees (third release); VIP AUD 299.90 + fees",
+  "recurrence": "annual",
+  "description": "Single-day harbourside house music festival run by Fuzzy, 2pm to 10pm on a floating stage at Mrs Macquaries Point. The 2026 bill includes Honey Dijon and Max Dean b2b Luke Dean.",
+  "researchNote": "",
+  "officialUrl": "https://www.harbourlife.com.au/",
+  "sources": [
+   "https://www.harbourlife.com.au/"
+  ]
+ },
+ {
+  "id": "wonderfruit",
+  "name": "Wonderfruit",
+  "start": "2026-12-03",
+  "end": "2026-12-07",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Chonburi (Pattaya)",
+  "country": "Thailand",
+  "countryCode": "TH",
+  "venue": "The Fields at Siam Country Club",
+  "coords": [
+   12.925,
+   100.97
+  ],
+  "timezone": "Asia/Bangkok",
+  "airport": {
+   "code": "VTBU",
+   "name": "U-Tapao Rayong-Pattaya International Airport",
+   "coords": [
+    12.6799,
+    101.005
+   ]
+  },
+  "capacity": 25000,
+  "capacityNote": "Approximate annual attendance per Wikipedia",
+  "genres": [
+   "house",
+   "techno",
+   "electronic",
+   "world"
+  ],
+  "ticketFrom": "THB 11,900 5-day pass (October sale); Sunday pass THB 5,000",
+  "recurrence": "annual",
+  "description": "Five-day art, music and nature festival at The Fields at Siam Country Club near Pattaya. Programming centres on electronic music alongside art, wellness and talks. Wikipedia gives annual attendance of about 25,000.",
+  "researchNote": "",
+  "officialUrl": "https://wonderfruit.co/",
+  "sources": [
+   "https://wonderfruit.co/",
+   "https://wonderfruit.co/tickets",
+   "https://en.wikipedia.org/wiki/Wonderfruit"
+  ]
+ },
+ {
+  "id": "dalma-festival",
+  "name": "DALMA Festival",
+  "start": "2026-12-04",
+  "end": "2026-12-05",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Ta' Qali",
+  "country": "Malta",
+  "countryCode": "MT",
+  "venue": "MFCC Arena",
+  "coords": [
+   35.8855,
+   14.3734
+  ],
+  "timezone": "Europe/Malta",
+  "airport": {
+   "code": "LMML",
+   "name": "Malta International Airport",
+   "coords": [
+    35.8575,
+    14.4775
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno"
+  ],
+  "ticketFrom": "74.90 EUR (Resident Advisor listing)",
+  "recurrence": "annual",
+  "description": "Indoor techno festival at the MFCC Arena in Ta' Qali, Malta, holding its fourth edition. The listing gives 4 and 5 December 2026.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2466306",
+  "sources": [
+   "https://ra.co/events/2466306"
+  ]
+ },
+ {
+  "id": "mdlbeast-soundstorm",
+  "name": "MDLBEAST Soundstorm",
+  "start": "2026-12-10",
+  "end": "2026-12-12",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Riyadh",
+  "country": "Saudi Arabia",
+  "countryCode": "SA",
+  "venue": "Riyadh (site not stated on official page)",
+  "coords": [
+   24.7136,
+   46.6753
+  ],
+  "timezone": "Asia/Riyadh",
+  "airport": {
+   "code": "OERK",
+   "name": "King Khalid International Airport",
+   "coords": [
+    24.9576,
+    46.6988
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "hip hop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Multi-day music festival in Riyadh run by MDLBEAST.",
+  "researchNote": "Window estimated from SOUNDSTORM 25, held Thursday 11 to Saturday 13 December 2025; no 2026 dates were listed on the official events page at research time. Coordinates are city-level.",
+  "officialUrl": "https://mdlbeast.com/soundstorm",
+  "sources": [
+   "https://mdlbeast.com/soundstorm",
+   "https://mdlbeast.com/events"
+  ]
+ },
+ {
+  "id": "rave-on-snow",
+  "name": "Rave On Snow",
+  "start": "2026-12-10",
+  "end": "2026-12-13",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Saalbach",
+  "country": "Austria",
+  "countryCode": "AT",
+  "venue": "Saalbach Hinterglemm ski resort, multiple venues",
+  "coords": [
+   47.3914,
+   12.6364
+  ],
+  "timezone": "Europe/Vienna",
+  "airport": {
+   "code": "LOWS",
+   "name": "Salzburg Airport W. A. Mozart",
+   "coords": [
+    47.7933,
+    13.0043
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Early-season ski and techno festival in the village of Saalbach, combining skiing by day with DJ floors across the resort. The 2026 lineup includes Anfisa Letyago and Pan-Pot.",
+  "researchNote": "",
+  "officialUrl": "https://www.raveonsnow.com",
+  "sources": [
+   "https://www.raveonsnow.com",
+   "https://www.festivalhopper.de/festival/rave-on-snow-2026"
+  ]
+ },
+ {
+  "id": "djakarta-warehouse-project",
+  "name": "Djakarta Warehouse Project",
+  "start": "2026-12-11",
+  "end": "2026-12-13",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Jakarta",
+  "country": "Indonesia",
+  "countryCode": "ID",
+  "venue": "JIExpo Kemayoran (recent editions; 2026 site lists Jakarta only)",
+  "coords": [
+   -6.1453,
+   106.8452
+  ],
+  "timezone": "Asia/Jakarta",
+  "airport": {
+   "code": "WIHH",
+   "name": "Halim Perdanakusuma International Airport",
+   "coords": [
+    -6.2666,
+    106.891
+   ]
+  },
+  "capacity": 90000,
+  "capacityNote": "Approximate 2016 attendance; Wikipedia gives capacity of 90,000-100,000 depending on venue",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass"
+  ],
+  "ticketFrom": "3-day GA from IDR 1,900K (GA Early Entry from IDR 1,700K; VIP from IDR 3,900K)",
+  "recurrence": "annual",
+  "description": "Three-day dance music festival in Jakarta. Wikipedia lists JIExpo Kemayoran as the venue for several editions including 2024, and a venue capacity of 90,000 to 100,000.",
+  "researchNote": "",
+  "officialUrl": "https://dwpfest.com/",
+  "sources": [
+   "https://dwpfest.com/",
+   "https://en.wikipedia.org/wiki/Djakarta_Warehouse_Project"
+  ]
+ },
+ {
+  "id": "edc-thailand",
+  "name": "EDC Thailand",
+  "start": "2026-12-18",
+  "end": "2026-12-20",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Phuket",
+  "country": "Thailand",
+  "countryCode": "TH",
+  "venue": "Rhythm Park",
+  "coords": [
+   7.89,
+   98.35
+  ],
+  "timezone": "Asia/Bangkok",
+  "airport": {
+   "code": "VTSP",
+   "name": "Phuket International Airport",
+   "coords": [
+    8.1132,
+    98.3169
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Thai edition of Insomniac's Electric Daisy Carnival, held over three days at Rhythm Park in Phuket. GA, VIP and SkyDeck table tickets are offered.",
+  "researchNote": "Coordinates are approximate for Phuket.",
+  "officialUrl": "https://thailand.edc.com/",
+  "sources": [
+   "https://thailand.edc.com/"
+  ]
+ },
+ {
+  "id": "sunburn-festival",
+  "name": "Sunburn Festival",
+  "start": "2026-12-18",
+  "end": "2026-12-19",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Mumbai",
+  "country": "India",
+  "countryCode": "IN",
+  "venue": "Mahalaxmi Race Course",
+  "coords": [
+   18.9827,
+   72.8196
+  ],
+  "timezone": "Asia/Kolkata",
+  "airport": {
+   "code": "VABB",
+   "name": "Chhatrapati Shivaji Maharaj International Airport",
+   "coords": [
+    19.0887,
+    72.8679
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Long-running Indian EDM festival, held in Vagator, Goa through 2024 before moving to Mumbai. The 2026 edition is a two-day format at Mahalaxmi Race Course.",
+  "researchNote": "",
+  "officialUrl": "https://www.sunburn.in/",
+  "sources": [
+   "https://www.sunburn.in/",
+   "https://www.sunburn.in/events",
+   "https://en.wikipedia.org/wiki/Sunburn_Festival"
+  ]
+ },
+ {
+  "id": "universo-paralello",
+  "name": "Universo Paralello",
+  "start": "2026-12-27",
+  "end": "2027-01-04",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Itubera",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Praia de Pratigi, Costa do Dende",
+  "coords": [
+   -13.86,
+   -38.95
+  ],
+  "timezone": "America/Bahia",
+  "airport": {
+   "code": "SBIL",
+   "name": "Ilheus Jorge Amado Airport",
+   "coords": [
+    -14.8159,
+    -39.0332
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "psytrance",
+   "trance",
+   "techno",
+   "house",
+   "chillout"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Multi-day New Year beach festival on Pratigi beach, about 290 km south of Salvador, running from 27 December 2026 to 4 January 2027. Organizers describe a site of roughly 500,000 square metres with seven stages, five on the sand, and more than 1,000 artists, with psytrance on the main floor and house and techno on other stages. On-site camping is available.",
+  "researchNote": "",
+  "officialUrl": "https://universoparalello.org",
+  "sources": [
+   "https://www.technoairlines.com/festival/universo-paralello-festival-pratigi-beach-itubera-brazil-2026",
+   "https://billboard.com.br/festivais-musica-eletronica-brasil-2026/",
+   "https://www.360meridianos.com/universo-paralello/"
+  ]
+ },
+ {
+  "id": "beyond-the-valley",
+  "name": "Beyond The Valley",
+  "start": "2026-12-28",
+  "end": "2027-01-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Hesse (near Geelong)",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Barunah Plains",
+  "coords": [
+   -38.07,
+   143.862
+  ],
+  "timezone": "Australia/Melbourne",
+  "airport": {
+   "code": "YMAV",
+   "name": "Avalon Airport",
+   "coords": [
+    -38.0394,
+    144.4694
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "indie",
+   "hip hop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "New Year camping festival at Barunah Plains in Hesse, about 126 km west of Melbourne, held there since 2022. The 2026 edition is listed as sold out.",
+  "researchNote": "",
+  "officialUrl": "https://www.beyondthevalley.com.au/",
+  "sources": [
+   "https://www.beyondthevalley.com.au/",
+   "https://en.wikipedia.org/wiki/Beyond_the_Valley"
+  ]
+ },
+ {
+  "id": "rhythm-and-vines",
+  "name": "Rhythm and Vines",
+  "start": "2026-12-28",
+  "end": "2026-12-31",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Gisborne",
+  "country": "New Zealand",
+  "countryCode": "NZ",
+  "venue": "Waiohika Estate",
+  "coords": [
+   -38.627,
+   177.972
+  ],
+  "timezone": "Pacific/Auckland",
+  "airport": {
+   "code": "NZGS",
+   "name": "Gisborne Airport",
+   "coords": [
+    -38.6633,
+    177.9783
+   ]
+  },
+  "capacity": 25000,
+  "capacityNote": "Record capacity crowd in 2010 per Wikipedia",
+  "genres": [
+   "drum and bass",
+   "house",
+   "bass",
+   "hip hop"
+  ],
+  "ticketFrom": "NZD 359 3-day festival pass (early bird); 4-day camping from NZD 479",
+  "recurrence": "annual",
+  "description": "New Year camping festival at Waiohika Estate vineyard in Gisborne with a mainly electronic multi-stage lineup. Wikipedia records a capacity crowd of 25,000 in 2010 and 21,000 attendees in 2018.",
+  "researchNote": "",
+  "officialUrl": "https://www.rhythmandvines.co.nz/",
+  "sources": [
+   "https://www.rhythmandvines.co.nz/event-info/about",
+   "https://www.rhythmandvines.co.nz/tickets",
+   "https://en.wikipedia.org/wiki/Rhythm_and_Vines"
+  ]
+ },
+ {
+  "id": "decadence-arizona",
+  "name": "Decadence Arizona",
+  "start": "2026-12-30",
+  "end": "2026-12-31",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Avondale",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Phoenix Raceway",
+  "coords": [
+   33.3747,
+   -112.3115
+  ],
+  "timezone": "America/Phoenix",
+  "airport": {
+   "code": "KPHX",
+   "name": "Phoenix Sky Harbor International Airport",
+   "coords": [
+    33.4343,
+    -112.0116
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "bass",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Relentless Beats' two-day New Year's Eve festival at Phoenix Raceway, in its 12th edition with the theme Sands of Eternity. The phase one lineup includes Chris Lake, I Hate Models, Eli Brown, SLANDER and Levity.",
+  "researchNote": "",
+  "officialUrl": "https://decadencearizona.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/07/relentless-beats-reveals-phase-i-lineup-for-decadence-arizona-sands-of-eternity-this-nye/",
+   "https://edmidentity.com/2026/07/30/decadence-arizona-2026-phase-1-lineup/"
+  ]
+ },
+ {
+  "id": "decadence-colorado",
+  "name": "Decadence Colorado",
+  "start": "2026-12-30",
+  "end": "2026-12-31",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Denver",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Colorado Convention Center",
+  "coords": [
+   39.7428,
+   -104.9963
+  ],
+  "timezone": "America/Denver",
+  "airport": {
+   "code": "KDEN",
+   "name": "Denver International Airport",
+   "coords": [
+    39.8561,
+    -104.6737
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "bass",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-night indoor New Year's Eve festival in downtown Denver with more than a decade of history, featuring multiple stages and a dance floor described as the size of six football fields. The 2026 lineup includes Alesso, GRiZ, Zeds Dead and Marshmello.",
+  "researchNote": "",
+  "officialUrl": "https://decadencecolorado.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/08/decadence-colorado-reveals-stacked-lineup-to-close-out-2026/"
+  ]
+ },
+ {
+  "id": "lights-all-night",
+  "name": "Lights All Night",
+  "start": "2026-12-30",
+  "end": "2026-12-31",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Dallas",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Fair Park",
+  "coords": [
+   32.7792,
+   -96.7597
+  ],
+  "timezone": "America/Chicago",
+  "airport": {
+   "code": "KDAL",
+   "name": "Dallas Love Field",
+   "coords": [
+    32.8471,
+    -96.8518
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day New Year's festival founded by Disco Donnie, returning to Dallas Fair Park for the first time since 2012. The 2026 bill of 42-plus artists is led by Tiësto, Chris Lake, Subtronics and Gryffin.",
+  "researchNote": "",
+  "officialUrl": "https://lightsallnight.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/07/lights-all-night-2026-lineup-tiesto-chris-lake-subtronics-more/"
+  ]
+ },
+ {
+  "id": "northern-bass",
+  "name": "Northern Bass",
+  "start": "2026-12-30",
+  "end": "2026-12-31",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Kaiwaka",
+  "country": "New Zealand",
+  "countryCode": "NZ",
+  "venue": "Kaiwaka festival site",
+  "coords": [
+   -36.162,
+   174.444
+  ],
+  "timezone": "Pacific/Auckland",
+  "airport": {
+   "code": "NZWR",
+   "name": "Whangarei Airport",
+   "coords": [
+    -35.7683,
+    174.365
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "drum and bass",
+   "bass",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "New Year bass music camping festival in Kaiwaka, a little over an hour north of Auckland. The 15th anniversary edition runs two nights on three stages.",
+  "researchNote": "",
+  "officialUrl": "https://www.northernbass.co.nz/",
+  "sources": [
+   "https://www.northernbass.co.nz/"
+  ]
+ },
+ {
+  "id": "countdown-nye",
+  "name": "Countdown NYE",
+  "start": "2026-12-31",
+  "end": "2027-01-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "San Bernardino",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "NOS Events Center",
+  "coords": [
+   34.0899,
+   -117.2918
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KONT",
+   "name": "Ontario International Airport",
+   "coords": [
+    34.056,
+    -117.6012
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "bass",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's alien-themed New Year's festival, expanded to two days for the first time since 2023, with five covered stages and 75-plus artists. Official on-site afterparties run 2 AM to 6 AM each night.",
+  "researchNote": "",
+  "officialUrl": "https://countdownnye.com",
+  "sources": [
+   "https://press.insomniac.com/blog/countdown-nye-will-expand-to-two-days-and-return-to-nos-event-center-for-2026-festival"
+  ]
+ },
+ {
+  "id": "proper-nye",
+  "name": "Proper NYE",
+  "start": "2026-12-31",
+  "end": "2027-01-01",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "San Diego",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Petco Park",
+  "coords": [
+   32.7073,
+   -117.1566
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KSAN",
+   "name": "San Diego International Airport",
+   "coords": [
+    32.7338,
+    -117.1933
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "tech house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "FNGRS CRSSD's two-day New Year's event inside Petco Park, in its fifth edition. The lineup includes Sara Landry, I Hate Models, Lane 8, Green Velvet and a Cloonee, KETTAMA and Josh Baker B3B.",
+  "researchNote": "",
+  "officialUrl": "https://propernye.com",
+  "sources": [
+   "https://edmmaniac.com/?p=6825",
+   "https://crssdfest.com/"
+  ]
+ },
+ {
+  "id": "zamna-tulum",
+  "name": "Zamna Tulum",
+  "start": "2026-12-31",
+  "end": "2027-01-10",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Tulum",
+  "country": "Mexico",
+  "countryCode": "MX",
+  "venue": "Zamna Tulum jungle venue, Carretera Federal 307",
+  "coords": [
+   20.1873,
+   -87.5278
+  ],
+  "timezone": "America/Cancun",
+  "airport": {
+   "code": "MMTL",
+   "name": "Tulum International Airport (Felipe Carrillo Puerto)",
+   "coords": [
+    20.1722,
+    -87.6606
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "No official capacity published; a third-party venue listing (karlobag.eu) gives 15,000 for the venue, not confirmed by the organizer.",
+  "genres": [
+   "melodic techno",
+   "techno",
+   "house",
+   "afro house"
+  ],
+  "ticketFrom": "USD 90 single night; Multipass from USD 375",
+  "recurrence": "annual",
+  "description": "Ten-day 10th anniversary season of Zamna, first held in Tulum in 2017, run as a series of separately ticketed nights at the same jungle venue rather than one continuous festival. Announced nights include Renaissance NYE (Dec 31), Anyma presents AEDEN (Jan 4), Adriatique presents X (Jan 8) and Adam Port closing on Jan 10. A Multipass covers three event days of the attendee's choice.",
+  "researchNote": "",
+  "officialUrl": "https://zamnafestival.com",
+  "sources": [
+   "https://zamnafestival.com",
+   "https://www.zamnafestival.com/news",
+   "https://magneticmag.com/2026/09/zamna-tulum-2027-dates-multipass-tickets/",
+   "https://tulumtimes.com/zamna-gives-tulum-10-days",
+   "https://karlobag.eu/en/venues/park/mexico/tulum/zamna-tulum-56ziq/",
+   "https://en.wikipedia.org/wiki/Tulum_International_Airport"
+  ]
+ },
+ {
+  "id": "field-day-sydney",
+  "name": "Field Day",
+  "start": "2027-01-01",
+  "end": "2027-01-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Sydney",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "The Domain",
+  "coords": [
+   -33.87,
+   151.216
+  ],
+  "timezone": "Australia/Sydney",
+  "airport": {
+   "code": "YSSY",
+   "name": "Sydney Kingsford Smith Airport",
+   "coords": [
+    -33.9461,
+    151.1772
+   ]
+  },
+  "capacity": 28000,
+  "capacityNote": "Typical attendance 25,000-28,000 per Wikipedia",
+  "genres": [
+   "house",
+   "EDM",
+   "hip hop",
+   "indie dance"
+  ],
+  "ticketFrom": "AUD 189.90 GA (affordability tickets AUD 99.90; VIP AUD 299.90), excl. fees",
+  "recurrence": "annual",
+  "description": "New Year's Day festival in The Domain, Sydney, with electronic, hip hop and indie programming. Wikipedia gives typical attendance of 25,000 to 28,000.",
+  "researchNote": "",
+  "officialUrl": "https://fieldday.com.au/",
+  "sources": [
+   "https://fieldday.com.au/",
+   "https://en.wikipedia.org/wiki/Field_Day_(Sydney_festival)"
+  ]
+ },
+ {
+  "id": "day-zero-tulum",
+  "name": "Day Zero Tulum",
+  "start": "2027-01-09",
+  "end": "2027-01-10",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Tulum",
+  "country": "Mexico",
+  "countryCode": "MX",
+  "venue": "Jungle site near Tulum (exact location not published in advance)",
+  "coords": [
+   20.2114,
+   -87.4654
+  ],
+  "timezone": "America/Cancun",
+  "airport": {
+   "code": "MMTL",
+   "name": "Tulum International Airport (Felipe Carrillo Puerto)",
+   "coords": [
+    20.1722,
+    -87.6606
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "afro house",
+   "melodic house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Damian Lazarus's sunset-to-sunrise jungle event, founded in 2012, returns on January 9, 2027 under the title Begin Again. The lineup includes &ME, Vintage Culture, Tiga, Victor Calderone, LP Giobbi and Damian Lazarus.",
+  "researchNote": "Coordinates are for Tulum town because the site is not disclosed ahead of the event.",
+  "officialUrl": "https://www.dayzerofestival.com",
+  "sources": [
+   "https://electronicgroove.com/damian-lazarus-reveals-day-zero-tulum-2027-lineup/",
+   "https://edmidentity.com/2026/08/15/day-zero-tulum-2027-lineup/"
+  ]
+ },
+ {
+  "id": "igloofest-montreal",
+  "name": "Igloofest Montréal",
+  "start": "2027-01-14",
+  "end": "2027-02-06",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Montreal",
+  "country": "Canada",
+  "countryCode": "CA",
+  "venue": "Jacques-Cartier Pier, Old Port of Montreal",
+  "coords": [
+   45.5076,
+   -73.5497
+  ],
+  "timezone": "America/Toronto",
+  "airport": {
+   "code": "CYUL",
+   "name": "Montréal-Trudeau International Airport",
+   "coords": [
+    45.4706,
+    -73.7408
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Outdoor winter electronic music festival held since 2007 in the Old Port, running Thursday to Saturday nights over four weekends. It is co-produced by Piknic Électronik and the Old Port.",
+  "researchNote": "",
+  "officialUrl": "https://igloofest.ca",
+  "sources": [
+   "https://igloofest.ca/en/",
+   "https://en.wikipedia.org/wiki/Igloofest"
+  ]
+ },
+ {
+  "id": "groove-cruise-miami",
+  "name": "Groove Cruise Miami",
+  "start": "2027-01-21",
+  "end": "2027-01-25",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Miami",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Allure of the Seas, departing PortMiami (destination Royal Beach Club, Paradise Island, Bahamas)",
+  "coords": [
+   25.7781,
+   -80.1709
+  ],
+  "timezone": "America/New_York",
+  "airport": {
+   "code": "KMIA",
+   "name": "Miami International Airport",
+   "coords": [
+    25.7932,
+    -80.2906
+   ]
+  },
+  "capacity": 5000,
+  "capacityNote": "Roughly 5,000 attendees on the sold-out 2024 sailing per Wikipedia.",
+  "genres": [
+   "house",
+   "techno",
+   "trance",
+   "bass",
+   "drum and bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic music cruise founded in 2004, sailing from Miami on Royal Caribbean's Allure of the Seas with 100-plus artists across 13 stages and a destination day at Royal Beach Club on Paradise Island. The 2027 sailing is sold out with a waitlist.",
+  "researchNote": "",
+  "officialUrl": "https://www.groovecruise.com",
+  "sources": [
+   "https://www.groovecruise.com/",
+   "https://en.wikipedia.org/wiki/Groove_Cruise"
+  ]
+ },
+ {
+  "id": "ocaso-festival",
+  "name": "Ocaso Festival",
+  "start": "2027-01-21",
+  "end": "2027-01-24",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Garabito (Jaco)",
+  "country": "Costa Rica",
+  "countryCode": "CR",
+  "venue": "Pacific coast site south of Jaco (2026 location; site has changed between editions)",
+  "coords": [
+   9.555,
+   -84.57
+  ],
+  "timezone": "America/Costa_Rica",
+  "airport": {
+   "code": "MROC",
+   "name": "Juan Santamaria International Airport",
+   "coords": [
+    9.9939,
+    -84.2088
+   ]
+  },
+  "capacity": 5000,
+  "capacityNote": "Typical attendance of about 5,000 per Teletica (2026)",
+  "genres": [
+   "house",
+   "techno",
+   "afro house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Underground house and techno festival on Costa Rica's Pacific coast that typically draws about 5,000 people. Four-day passes in 2026 cost under 100 USD.",
+  "researchNote": "2027 dates are not announced; the window is based on the ninth edition of 22 to 25 January 2026 near Jaco and the 2025 edition in late January in Guanacaste.",
+  "officialUrl": "https://www.ocasofestival.com",
+  "sources": [
+   "https://www.teletica.com/amp/cultura-y-deporte/ocaso-festival-vuelve-al-pacifico-con-artistas-internacionales-y-show-especial-de-toledo_400502",
+   "https://festapp.io/festivals/ocaso-festival-190/2025"
+  ]
+ },
+ {
+  "id": "let-it-roll-winter",
+  "name": "Let It Roll Winter",
+  "start": "2027-01-22",
+  "end": "2027-01-23",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Prague",
+  "country": "Czech Republic",
+  "countryCode": "CZ",
+  "venue": "Křižíkovy pavilony, Výstaviště Praha",
+  "coords": [
+   50.1066,
+   14.4307
+  ],
+  "timezone": "Europe/Prague",
+  "airport": {
+   "code": "LKPR",
+   "name": "Václav Havel Airport Prague",
+   "coords": [
+    50.1008,
+    14.26
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "drum and bass"
+  ],
+  "ticketFrom": "From 1,800 CZK for 2 days (official site)",
+  "recurrence": "annual",
+  "description": "Indoor winter edition of Let It Roll in Prague, marking 25 years of the brand. The official site lists 22 and 23 January 2027 at Křižíkovy pavilony; the 2026 winter edition was held at Fortuna Hall in February.",
+  "researchNote": "",
+  "officialUrl": "https://letitroll.cz/winter/",
+  "sources": [
+   "https://letitroll.cz/winter/",
+   "https://ra.co/events/2290072"
+  ]
+ },
+ {
+  "id": "ame-laroc-festival",
+  "name": "Ame Laroc Festival",
+  "start": "2027-02-06",
+  "end": "2027-02-08",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Valinhos",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Ame Laroc complex",
+  "coords": [
+   -22.99,
+   -46.99
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBKP",
+   "name": "Viracopos International Airport",
+   "coords": [
+    -23.0074,
+    -47.1345
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "melodic techno"
+  ],
+  "ticketFrom": "From R$ 300 (2026 pricing)",
+  "recurrence": "annual",
+  "description": "Carnival weekend festival at the Ame and Laroc clubs complex in Valinhos, near Campinas.",
+  "researchNote": "2027 dates are not announced; the window assumes the Carnival weekend pattern of the 14 to 16 February 2026 edition, which featured Above and Beyond, Dom Dolla and Jamie Jones.",
+  "officialUrl": "https://www.amelaroc.com.br",
+  "sources": [
+   "https://billboard.com.br/festivais-musica-eletronica-brasil-2026/",
+   "https://direct.djmag.com/news/laroc-and-ame-clubs-lock-seth-troxler-and-dubfire-debut-festival"
+  ]
+ },
+ {
+  "id": "magnetic-fields",
+  "name": "Magnetic Fields",
+  "start": "2027-02-12",
+  "end": "2027-02-14",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Khetri",
+  "country": "India",
+  "countryCode": "IN",
+  "venue": "Khetri, Rajasthan (exact site not named)",
+  "coords": [
+   28,
+   75.79
+  ],
+  "timezone": "Asia/Kolkata",
+  "airport": {
+   "code": "VIJP",
+   "name": "Jaipur International Airport",
+   "coords": [
+    26.8242,
+    75.8122
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Boutique music and arts festival in rural Rajasthan, held for ten years at Alsisar Mahal before moving to Khetri.",
+  "researchNote": "Window estimated from the 13-15 February 2026 edition; no 2027 dates published at research time.",
+  "officialUrl": "https://magneticfields.in/",
+  "sources": [
+   "https://magneticfields.in/"
+  ]
+ },
+ {
+  "id": "edc-mexico",
+  "name": "EDC Mexico",
+  "start": "2027-02-19",
+  "end": "2027-02-21",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Mexico City",
+  "country": "Mexico",
+  "countryCode": "MX",
+  "venue": "Autódromo Hermanos Rodríguez",
+  "coords": [
+   19.4061,
+   -99.0925
+  ],
+  "timezone": "America/Mexico_City",
+  "airport": {
+   "code": "MMMX",
+   "name": "Mexico City International Airport",
+   "coords": [
+    19.4363,
+    -99.0721
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's Electric Daisy Carnival Mexico returns to the Autódromo Hermanos Rodríguez for three days under the theme Kinetic Journey. Tickets went on sale through Ticketmaster in September 2026, with general and Skydeck tiers.",
+  "researchNote": "",
+  "officialUrl": "https://mexico.edc.com",
+  "sources": [
+   "https://mexico.edc.com/",
+   "https://www.excelsior.com.mx/espectaculos/edc-mexico-2027-decimos-cuando-comienza-preventa-boletos",
+   "https://en.wikipedia.org/wiki/Autódromo_Hermanos_Rodríguez"
+  ]
+ },
+ {
+  "id": "envision-festival",
+  "name": "Envision Festival",
+  "start": "2027-02-22",
+  "end": "2027-03-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Uvita",
+  "country": "Costa Rica",
+  "countryCode": "CR",
+  "venue": "Rancho La Merced, Uvita, Osa",
+  "coords": [
+   9.143,
+   -83.755
+  ],
+  "timezone": "America/Costa_Rica",
+  "airport": {
+   "code": "MRPM",
+   "name": "Palmar Sur Airport",
+   "coords": [
+    8.951,
+    -83.4686
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "bass",
+   "downtempo",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Week-long jungle and beach festival in Uvita combining electronic music with workshops and art. 2026 was billed as its 16th anniversary.",
+  "researchNote": "2027 dates are not announced; the window is based on the 2026 edition (23 February to 2 March) and earlier editions in late February or early March.",
+  "officialUrl": "https://envisionfestival.com",
+  "sources": [
+   "https://envisionfestival.com/",
+   "https://festapp.io/festivals/envision-festival",
+   "https://www.technoairlines.com/festival/envision-festival-uvita-costa-rica-2026"
+  ]
+ },
+ {
+  "id": "reverze",
+  "name": "Reverze",
+  "start": "2027-02-26",
+  "end": "2027-02-27",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Antwerp",
+  "country": "Belgium",
+  "countryCode": "BE",
+  "venue": "AFAS Dome and Lotto Arena",
+  "coords": [
+   51.23,
+   4.441
+  ],
+  "timezone": "Europe/Brussels",
+  "airport": {
+   "code": "EBBR",
+   "name": "Brussels Airport",
+   "coords": [
+    50.901,
+    4.4844
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "hardstyle",
+   "hard dance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Indoor hard dance event in Antwerp held across two adjacent arenas. Pre-registration for the 2027 edition is open on the official site.",
+  "researchNote": "",
+  "officialUrl": "https://www.reverze.be",
+  "sources": [
+   "https://www.reverze.be"
+  ]
+ },
+ {
+  "id": "rainbow-spirit-festival",
+  "name": "Rainbow Spirit Festival",
+  "start": "2027-03-05",
+  "end": "2027-03-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Glenaroua",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Glenaroua, Victoria",
+  "coords": [
+   -37.1,
+   144.98
+  ],
+  "timezone": "Australia/Melbourne",
+  "airport": {
+   "code": "YMML",
+   "name": "Melbourne Airport",
+   "coords": [
+    -37.669,
+    144.841
+   ]
+  },
+  "capacity": 12000,
+  "capacityNote": "Approximate annual attendance at Lexton per Wikipedia",
+  "genres": [
+   "psytrance",
+   "minimal techno",
+   "chill-out"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Formerly Rainbow Serpent Festival, renamed Rainbow Spirit in 2023 and long held in Lexton, Victoria with about 12,000 attendees. The official site lists a 5-8 March 2027 edition at Glenaroua.",
+  "researchNote": "",
+  "officialUrl": "https://rainbowspirit.net/",
+  "sources": [
+   "https://rainbowspirit.net/",
+   "https://en.wikipedia.org/wiki/Rainbow_Serpent_Festival"
+  ]
+ },
+ {
+  "id": "caprices-festival",
+  "name": "Caprices Festival",
+  "start": "2027-03-12",
+  "end": "2027-03-21",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Gstaad",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "venue": "Eggli station, Gstaad",
+  "coords": [
+   46.4697,
+   7.262
+  ],
+  "timezone": "Europe/Zurich",
+  "airport": {
+   "code": "LSZB",
+   "name": "Bern Airport",
+   "coords": [
+    46.9141,
+    7.4971
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Alpine electronic music festival held over two weekends, moving in 2027 from its long-time home in Crans-Montana to the Gstaad region. Switzerland Tourism lists the 2027 edition for 12 to 21 March.",
+  "researchNote": "",
+  "officialUrl": "https://www.caprices.ch",
+  "sources": [
+   "https://www.myswitzerland.com/en/experiences/events/caprices-festival-2027/"
+  ]
+ },
+ {
+  "id": "crssd-festival-spring",
+  "name": "CRSSD Festival Spring",
+  "start": "2027-03-13",
+  "end": "2027-03-14",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "San Diego",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Waterfront Park",
+  "coords": [
+   32.7215,
+   -117.1726
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KSAN",
+   "name": "San Diego International Airport",
+   "coords": [
+    32.7338,
+    -117.1933
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "seasonal",
+  "description": "21-plus two-day festival on San Diego's downtown Waterfront Park, held each spring and fall by FNGRS CRSSD.",
+  "researchNote": "Dates are an estimate: Spring 2026 ran March 14-15 and Spring 2025 March 1-2, and the organizer site says see you in the spring.",
+  "officialUrl": "https://crssdfest.com",
+  "sources": [
+   "https://crssdfest.com/",
+   "https://electronicgroove.com/crssd-festival-reveals-spring-2026-lineup-with-cirez-d-amelie-lens-and-more/"
+  ]
+ },
+ {
+  "id": "tomorrowland-winter",
+  "name": "Tomorrowland Winter",
+  "start": "2027-03-20",
+  "end": "2027-03-27",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Alpe d'Huez",
+  "country": "France",
+  "countryCode": "FR",
+  "venue": "Alpe d'Huez ski resort",
+  "coords": [
+   45.092,
+   6.07
+  ],
+  "timezone": "Europe/Paris",
+  "airport": {
+   "code": "LFLS",
+   "name": "Grenoble Alpes-Isere Airport",
+   "coords": [
+    45.3629,
+    5.3294
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Week-long ski and electronic music festival from the Tomorrowland organisation, with stages on the mountain and in the village. The 2027 edition is the seventh; packages went on sale from 3 October 2026.",
+  "researchNote": "",
+  "officialUrl": "https://www.tomorrowland.com",
+  "sources": [
+   "https://snowstash.com/news/2026/06/tomorrowland-winter-2027-alpe-d-huez-dates",
+   "https://www.edmtunes.com/2026/06/tomorrowland-winter-announces-2027-dates-and-pre-registration/"
+  ]
+ },
+ {
+  "id": "beyond-wonderland-socal",
+  "name": "Beyond Wonderland SoCal",
+  "start": "2027-03-26",
+  "end": "2027-03-27",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "San Bernardino",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "NOS Events Center",
+  "coords": [
+   34.0899,
+   -117.2918
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KONT",
+   "name": "Ontario International Airport",
+   "coords": [
+    34.056,
+    -117.6012
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "bass",
+   "house",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's Alice in Wonderland-themed two-day festival at the NOS Events Center, following a sold-out 2026 edition. GA, GA+ and VIP passes are on sale; no lineup yet.",
+  "researchNote": "",
+  "officialUrl": "https://socal.beyondwonderland.com",
+  "sources": [
+   "https://socal.beyondwonderland.com/",
+   "https://www.edmtunes.com/2026/04/beyond-wonderland-socal-announces-2027-return-with-9-99-pre-sale/"
+  ]
+ },
+ {
+  "id": "blackworks-weekend-festival-madrid",
+  "name": "BlackWorks Weekend Festival Madrid",
+  "start": "2027-03-26",
+  "end": "2027-03-28",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Madrid",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "IFEMA Madrid",
+  "coords": [
+   40.4642,
+   -3.6131
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEMD",
+   "name": "Adolfo Suárez Madrid-Barajas Airport",
+   "coords": [
+    40.4719,
+    -3.5626
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Indoor techno weekend festival run by the BlackWorks brand at the IFEMA exhibition grounds in Madrid.",
+  "researchNote": "No 2027 dates are listed yet; the window follows the 2026 edition (27 to 29 March 2026) and the 2025 edition (14 to 16 March 2025).",
+  "officialUrl": "https://ra.co/events/2296171",
+  "sources": [
+   "https://ra.co/events/2296171",
+   "https://ra.co/events/2047944"
+  ]
+ },
+ {
+  "id": "dgtl-amsterdam",
+  "name": "DGTL Amsterdam",
+  "start": "2027-03-26",
+  "end": "2027-03-28",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "NDSM Docklands",
+  "coords": [
+   52.401,
+   4.893
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Easter-weekend techno and house festival on the NDSM shipyard grounds in Amsterdam Noord, with day and night programmes. Known for its stage design and sustainability programme.",
+  "researchNote": "",
+  "officialUrl": "https://www.dgtl.nl",
+  "sources": [
+   "https://www.dgtl.nl"
+  ]
+ },
+ {
+  "id": "ultra-buenos-aires",
+  "name": "Ultra Buenos Aires",
+  "start": "2027-04-02",
+  "end": "2027-04-03",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Buenos Aires",
+  "country": "Argentina",
+  "countryCode": "AR",
+  "venue": "To be announced (2026 edition at Parque de la Ciudad)",
+  "coords": [
+   -34.6731,
+   -58.4442
+  ],
+  "timezone": "America/Argentina/Buenos_Aires",
+  "airport": {
+   "code": "SABE",
+   "name": "Aeroparque Jorge Newbery",
+   "coords": [
+    -34.5592,
+    -58.4156
+   ]
+  },
+  "capacity": 80000,
+  "capacityNote": "2026 edition attendance of over 80,000 people (indiehoy)",
+  "genres": [
+   "EDM",
+   "techno",
+   "house",
+   "trance"
+  ],
+  "ticketFrom": "199,000 ARS (2-day general, Afterglow tier)",
+  "recurrence": "annual",
+  "description": "The 2026 edition, the sixth in Argentina, drew over 80,000 people with acts including Zedd, Above and Beyond and Deadmau5.",
+  "researchNote": "Two-day Ultra Worldwide festival whose 2027 dates were announced at the close of the 2026 edition; the venue has not been confirmed, so coordinates point to Parque de la Ciudad, the 2026 site.",
+  "officialUrl": "https://ultrabuenosaires.com",
+  "sources": [
+   "https://indiehoy.com/agenda/ultra-buenos-aires-2027/",
+   "https://www.technoairlines.com/festival/ultra-buenos-aires-argentina-2027"
+  ]
+ },
+ {
+  "id": "time-warp-germany",
+  "name": "Time Warp Germany",
+  "start": "2027-04-03",
+  "end": "2027-04-04",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Mannheim",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Maimarkthalle",
+  "coords": [
+   49.4794,
+   8.5194
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDDF",
+   "name": "Frankfurt Airport",
+   "coords": [
+    50.0379,
+    8.5622
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Indoor techno and house event running 19 hours across five floors at the Mannheim Maimarkt, held since 1994. The 2027 edition starts on Saturday 3 April.",
+  "researchNote": "",
+  "officialUrl": "https://www.time-warp.de",
+  "sources": [
+   "https://www.time-warp.de",
+   "https://www.mvp.de/mannheim/veranstaltungen/time-warp-mannheim-germany-2027-maimarkthalle/"
+  ]
+ },
+ {
+  "id": "snowbombing",
+  "name": "Snowbombing",
+  "start": "2027-04-05",
+  "end": "2027-04-10",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Mayrhofen",
+  "country": "Austria",
+  "countryCode": "AT",
+  "venue": "Mayrhofen village and Zillertal ski area",
+  "coords": [
+   47.1667,
+   11.8667
+  ],
+  "timezone": "Europe/Vienna",
+  "airport": {
+   "code": "LOWI",
+   "name": "Innsbruck Airport",
+   "coords": [
+    47.2602,
+    11.344
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "drum and bass",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Six-day ski and music festival in Mayrhofen, now in its 27th edition, with mountain stages, street parties and club nights. Packages combine festival access with accommodation.",
+  "researchNote": "",
+  "officialUrl": "https://snowbombing.com",
+  "sources": [
+   "https://snowbombing.com"
+  ]
+ },
+ {
+  "id": "ultra-australia-melbourne",
+  "name": "Ultra Australia Melbourne",
+  "start": "2027-04-10",
+  "end": "2027-04-10",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Melbourne",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Flemington Racecourse",
+  "coords": [
+   -37.789,
+   144.912
+  ],
+  "timezone": "Australia/Melbourne",
+  "airport": {
+   "code": "YMML",
+   "name": "Melbourne Airport",
+   "coords": [
+    -37.669,
+    144.841
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Australian edition of Ultra Worldwide, run as a two-city weekend.",
+  "researchNote": "Window estimated from the 11-12 April 2026 edition at Flemington Racecourse (Melbourne) and Broadwater Parklands (Gold Coast).",
+  "officialUrl": "https://ultraaustralia.com/",
+  "sources": [
+   "https://ultraaustralia.com/"
+  ]
+ },
+ {
+  "id": "ultra-australia-gold-coast",
+  "name": "Ultra Australia Gold Coast",
+  "start": "2027-04-11",
+  "end": "2027-04-11",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Gold Coast",
+  "country": "Australia",
+  "countryCode": "AU",
+  "venue": "Broadwater Parklands",
+  "coords": [
+   -27.965,
+   153.412
+  ],
+  "timezone": "Australia/Brisbane",
+  "airport": {
+   "code": "YBCG",
+   "name": "Gold Coast Airport",
+   "coords": [
+    -28.1644,
+    153.5047
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Gold Coast leg of Ultra Australia, the Australian edition of Ultra Worldwide, which runs as a two-city weekend with Melbourne.",
+  "researchNote": "Window estimated from the 11-12 April 2026 two-city weekend; which day each city gets in 2027 is not yet published.",
+  "officialUrl": "https://ultraaustralia.com/",
+  "sources": [
+   "https://ultraaustralia.com/"
+  ]
+ },
+ {
+  "id": "electric-mountain-festival",
+  "name": "Electric Mountain Festival",
+  "start": "2027-04-12",
+  "end": "2027-04-17",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Solden",
+  "country": "Austria",
+  "countryCode": "AT",
+  "venue": "Solden ski area and village venues",
+  "coords": [
+   46.9655,
+   11.0076
+  ],
+  "timezone": "Europe/Vienna",
+  "airport": {
+   "code": "LOWI",
+   "name": "Innsbruck Airport",
+   "coords": [
+    47.2602,
+    11.344
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "End-of-season ski and electronic music week in Solden with daytime open-air sets on the mountain and parties in the village. The resort's official site lists 12 to 17 April 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.soelden.com/electric-mountain-festival",
+  "sources": [
+   "https://www.soelden.com/electric-mountain-festival"
+  ]
+ },
+ {
+  "id": "s2o-songkran-music-festival",
+  "name": "S2O Songkran Music Festival",
+  "start": "2027-04-13",
+  "end": "2027-04-15",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Bangkok",
+  "country": "Thailand",
+  "countryCode": "TH",
+  "venue": "S2O Land, Ratchada Road (MRT Thailand Cultural Centre)",
+  "coords": [
+   13.766,
+   100.57
+  ],
+  "timezone": "Asia/Bangkok",
+  "airport": {
+   "code": "VTBD",
+   "name": "Don Mueang International Airport",
+   "coords": [
+    13.9126,
+    100.6067
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Water-themed EDM festival held every April in Bangkok during Songkran.",
+  "researchNote": "Window based on the April 2025 edition on Ratchada Road; the official site reports a 2026 edition took place but lists no 2027 dates.",
+  "officialUrl": "https://s2ofestival.com/",
+  "sources": [
+   "https://s2ofestival.com/"
+  ]
+ },
+ {
+  "id": "rainbow-disco-club",
+  "name": "Rainbow Disco Club",
+  "start": "2027-04-16",
+  "end": "2027-04-18",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Higashi-Izu",
+  "country": "Japan",
+  "countryCode": "JP",
+  "venue": "Higashi-Izu Cross Country Course Special Stage, Inatori",
+  "coords": [
+   34.77,
+   139.03
+  ],
+  "timezone": "Asia/Tokyo",
+  "airport": {
+   "code": "RJNS",
+   "name": "Mt. Fuji Shizuoka Airport",
+   "coords": [
+    34.7961,
+    138.1894
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "disco"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Outdoor house and techno camping festival on a cross-country course in Inatori, Higashi-Izu, Shizuoka. The official site lists 16-18 April 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.rainbowdiscoclub.com/",
+  "sources": [
+   "https://www.rainbowdiscoclub.com/"
+  ]
+ },
+ {
+  "id": "xxxperience",
+  "name": "XXXPERIENCE",
+  "start": "2027-04-24",
+  "end": "2027-04-24",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Itu",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Arena Maeda",
+  "coords": [
+   -23.27,
+   -47.26
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBKP",
+   "name": "Viracopos International Airport",
+   "coords": [
+    -23.0074,
+    -47.1345
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "psytrance",
+   "techno",
+   "house"
+  ],
+  "ticketFrom": "From R$ 175 (2026 pricing)",
+  "recurrence": "annual",
+  "description": "Long-running Brazilian psytrance and electronic festival that marked 30 years in 2026, held in Itu with multiple stages.",
+  "researchNote": "2027 date is not announced; the window is based on the 25 April 2026 edition and the April 2022 and 2024 editions, though the 2023 edition was in June.",
+  "officialUrl": "https://www.xxxperience.com.br",
+  "sources": [
+   "https://billboard.com.br/festivais-musica-eletronica-brasil-2026/",
+   "https://festapp.io/es/festivals/xxxperience",
+   "https://www.folhavitoria.com.br/cultura/festival-de-musica-eletronica-xxxperience-agita-itu-no-interior-paulista/"
+  ]
+ },
+ {
+  "id": "sunwaves-spring",
+  "name": "Sunwaves Spring",
+  "start": "2027-04-29",
+  "end": "2027-05-05",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Golden Sands (Varna)",
+  "country": "Bulgaria",
+  "countryCode": "BG",
+  "venue": "PR Beach, Golden Sands",
+  "coords": [
+   43.29,
+   28.04
+  ],
+  "timezone": "Europe/Sofia",
+  "airport": {
+   "code": "LBWN",
+   "name": "Varna Airport",
+   "coords": [
+    43.2321,
+    27.8251
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "minimal",
+   "house",
+   "techno"
+  ],
+  "ticketFrom": "89 EUR (Resident Advisor listing)",
+  "recurrence": "annual",
+  "description": "Spring edition of the Sunwaves festival, known for continuous multi-day minimal and house programming, held at PR Beach in Golden Sands. SW39 is listed for 29 April to 5 May 2027 and marks the festival's 20th anniversary.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2443713",
+  "sources": [
+   "https://ra.co/events/2443713",
+   "https://ra.co/events/2300298"
+  ]
+ },
+ {
+  "id": "empire-music-festival",
+  "name": "Empire Music Festival",
+  "start": "2027-04-30",
+  "end": "2027-05-01",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Guatemala City",
+  "country": "Guatemala",
+  "countryCode": "GT",
+  "venue": "To be announced (2026 at Finca El Jocotillo, km 37.5 Carretera a El Salvador)",
+  "coords": [
+   14.43,
+   -90.46
+  ],
+  "timezone": "America/Guatemala",
+  "airport": {
+   "code": "MGGT",
+   "name": "La Aurora International Airport",
+   "coords": [
+    14.5833,
+    -90.5275
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "bass",
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day festival near Guatemala City promoted with Insomniac, which lists the 2027 edition for 30 April to 1 May. The 2026 edition was held at Finca El Jocotillo with 41 artists including DJ Snake, Subtronics, Amelie Lens and Illenium, plus some Latin pop acts.",
+  "researchNote": "The 2027 venue and lineup are not yet announced, so coordinates are approximate for the 2026 site.",
+  "officialUrl": "https://www.insomniac.com/events/festivals/guatemala-city-guatemala/",
+  "sources": [
+   "https://www.insomniac.com/events/festivals/guatemala-city-guatemala/",
+   "https://livinginguatemala.com/events/empire-music-festival-guatemala/"
+  ]
+ },
+ {
+  "id": "mayday",
+  "name": "Mayday",
+  "start": "2027-04-30",
+  "end": "2027-05-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Dortmund",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Westfalenhallen",
+  "coords": [
+   51.496,
+   7.457
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDLW",
+   "name": "Dortmund Airport",
+   "coords": [
+    51.5183,
+    7.6122
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "hard techno",
+   "hardstyle"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Indoor rave held every 30 April night at the Westfalenhallen in Dortmund, running 19:00 to 07:00 over four floors. It is one of Germany's longest-running techno events.",
+  "researchNote": "",
+  "officialUrl": "https://www.mayday.de",
+  "sources": [
+   "https://www.mayday.de"
+  ]
+ },
+ {
+  "id": "time-warp-brasil",
+  "name": "Time Warp Brasil",
+  "start": "2027-04-30",
+  "end": "2027-05-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Sao Paulo",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Vale do Anhangabau",
+  "coords": [
+   -23.545,
+   -46.636
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBSP",
+   "name": "Sao Paulo Congonhas Airport",
+   "coords": [
+    -23.6261,
+    -46.6564
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-night techno festival from the German Time Warp brand held in downtown Sao Paulo, running 18:00 to 06:00 on two stages. The 2026 lineup included Sven Vath, Richie Hawtin and Charlotte de Witte.",
+  "researchNote": "2027 dates are not announced; the window is based on the 2025 (3 to 4 May) and 2026 (1 to 2 May) editions at Vale do Anhangabau.",
+  "officialUrl": "https://timewarp.com.br",
+  "sources": [
+   "https://billboard.com.br/time-warp-brasil-2026-line-up/",
+   "https://billboard.com.br/festivais-musica-eletronica-brasil-2026/",
+   "https://www.technoairlines.com/festival/time-warp-brazil-sao-paulo-brazil-2026",
+   "https://dancefloor.fm/en/event/76937-time-warp-brasil-2025-at-vale-do-anhangabau"
+  ]
+ },
+ {
+  "id": "tomorrowland-brasil",
+  "name": "Tomorrowland Brasil",
+  "start": "2027-04-30",
+  "end": "2027-05-02",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Itu",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Parque Maeda",
+  "coords": [
+   -23.27,
+   -47.26
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBKP",
+   "name": "Viracopos International Airport",
+   "coords": [
+    -23.0074,
+    -47.1345
+   ]
+  },
+  "capacity": 180000,
+  "capacityNote": "Total attendance of the 2025 edition over three days, per organizers (Techno Airlines)",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day Brazilian edition of Tomorrowland at Parque Maeda in Itu, about an hour from Sao Paulo, with the theme 'Consciencia'. The edition originally planned for 2026 was moved to 2027 after a fire damaged the main stage in Belgium. The 2025 edition drew 180,000 visitors across five stages according to organizers, and DreamVille camping is offered on site.",
+  "researchNote": "",
+  "officialUrl": "https://brasil.tomorrowland.com",
+  "sources": [
+   "https://www.itatiaia.com.br/cultura-e-lazer/tomorrowland-brasil-2027-veja-datas-e-como-comprar-ingressos/",
+   "https://www.technoairlines.com/festival/tomorrowland-brasil-itu-brazil-2027",
+   "https://billboard.com.br/tomorrowland-brasil-2026-e-adiado-apos-incendio-em-palco-na-belgica/"
+  ]
+ },
+ {
+  "id": "mint-festival",
+  "name": "Mint Festival",
+  "start": "2027-05-01",
+  "end": "2027-05-02",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Leeds",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Newsam Green Farm",
+  "coords": [
+   53.774,
+   -1.443
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGNM",
+   "name": "Leeds Bradford Airport",
+   "coords": [
+    53.8659,
+    -1.6606
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day electronic festival on farmland at Newsam Green in Leeds over the early May bank holiday weekend. The 2026 edition was held 2 to 3 May. The official site promotes 2027 tickets without dates; a third-party listing gives 1 to 2 May 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.mintfestival.co.uk/",
+  "sources": [
+   "https://www.mintfestival.co.uk/",
+   "https://eventslist.co.uk/leeds/events/mint-festival-2027-2027-05-01",
+   "https://www.skiddle.com/news/all/Mint-Festival-releases-phase-one-of-2026-lineup/60802/amp.html"
+  ]
+ },
+ {
+  "id": "ultra-south-africa",
+  "name": "Ultra South Africa",
+  "start": "2027-05-01",
+  "end": "2027-05-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Johannesburg",
+  "country": "South Africa",
+  "countryCode": "ZA",
+  "venue": "Expo Centre, Nasrec",
+  "coords": [
+   -26.237,
+   27.978
+  ],
+  "timezone": "Africa/Johannesburg",
+  "airport": {
+   "code": "FAOR",
+   "name": "O. R. Tambo International Airport",
+   "coords": [
+    -26.1392,
+    28.246
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "afro house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "South African edition of Ultra Worldwide, staged in two cities. Johannesburg is on 1 May 2027 at Nasrec Expo Centre; Cape Town is on 30 April 2027 at The Ostrich.",
+  "researchNote": "",
+  "officialUrl": "https://ultrasouthafrica.com/",
+  "sources": [
+   "https://ultrasouthafrica.com/"
+  ]
+ },
+ {
+  "id": "warung-day-festival",
+  "name": "Warung Day Festival",
+  "start": "2027-05-01",
+  "end": "2027-05-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Curitiba",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Pedreira Paulo Leminski and Opera de Arame",
+  "coords": [
+   -25.399,
+   -49.277
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBCT",
+   "name": "Curitiba Afonso Pena International Airport",
+   "coords": [
+    -25.5285,
+    -49.1758
+   ]
+  },
+  "capacity": 20000,
+  "capacityNote": "Attendance of over 20,000 at the May 2025 tenth edition (Bem Parana)",
+  "genres": [
+   "house",
+   "techno",
+   "melodic techno",
+   "progressive house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day festival from the Warung club brand held in a former quarry amphitheatre and the adjacent Opera de Arame, with about 12 hours of music on three stages.",
+  "researchNote": "2027 date is not announced; the window is based on the 11th edition on 2 May 2026 and the May 2025 tenth edition, which drew over 20,000 people.",
+  "officialUrl": "https://www.warungdayfestival.com",
+  "sources": [
+   "https://billboard.com.br/warung-day-festival-2026/",
+   "https://www.bemparana.com.br/cultura/warung-day-festival-vai-agitar-curitiba-em-maio-de-2026-ingressos-a-venda/"
+  ]
+ },
+ {
+  "id": "nuits-sonores",
+  "name": "Nuits Sonores",
+  "start": "2027-05-05",
+  "end": "2027-05-09",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Lyon",
+  "country": "France",
+  "countryCode": "FR",
+  "venue": "Les Grandes Locos (Oullins) and venues across Lyon",
+  "coords": [
+   45.718,
+   4.806
+  ],
+  "timezone": "Europe/Paris",
+  "airport": {
+   "code": "LFLL",
+   "name": "Lyon-Saint Exupery Airport",
+   "coords": [
+    45.7256,
+    5.0811
+   ]
+  },
+  "capacity": 98000,
+  "capacityNote": "Total attendance for the 2026 edition per French Wikipedia",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Lyon's electronic music and urban culture festival, held each May over the Ascension long weekend with day events at Les Grandes Locos and night events at La Sucriere. The official site confirms May 2027; dates here follow the Ascension pattern (Ascension Day is 6 May 2027).",
+  "researchNote": "",
+  "officialUrl": "https://www.nuits-sonores.com",
+  "sources": [
+   "https://www.nuits-sonores.com",
+   "https://fr.wikipedia.org/wiki/Nuits_sonores"
+  ]
+ },
+ {
+  "id": "edc-las-vegas",
+  "name": "EDC Las Vegas",
+  "start": "2027-05-14",
+  "end": "2027-05-23",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Las Vegas",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Las Vegas Motor Speedway",
+  "coords": [
+   36.2719,
+   -115.0106
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KLAS",
+   "name": "Harry Reid International Airport",
+   "coords": [
+    36.084,
+    -115.1537
+   ]
+  },
+  "capacity": 525000,
+  "capacityNote": "Three-day attendance of the 2023 and 2024 single-weekend editions per Wikipedia; 2027 per-weekend capacity is stated to be lower.",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass",
+   "trance"
+  ],
+  "ticketFrom": "USD 399.99 one-weekend GA all-in; USD 599.99 two-weekend GA",
+  "recurrence": "annual",
+  "description": "The flagship Electric Daisy Carnival expands to two weekends in 2027: EDC Dusk on May 14-16 and EDC Dawn on May 21-23, with a reduced per-weekend capacity. Insomniac says both weekends share the same lineup, and a two-weekend Dusk Till Dawn pass is offered.",
+  "researchNote": "",
+  "officialUrl": "https://lasvegas.edc.com",
+  "sources": [
+   "https://lasvegas.edc.com/",
+   "https://fox5vegas.com/2026/05/20/edc-las-vegas-announces-dusk-till-dawn-2027-spanning-2-weekends",
+   "https://en.wikipedia.org/wiki/Electric_Daisy_Carnival"
+  ]
+ },
+ {
+  "id": "extrema-outdoor",
+  "name": "Extrema Outdoor",
+  "start": "2027-05-14",
+  "end": "2027-05-16",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Houthalen-Helchteren",
+  "country": "Belgium",
+  "countryCode": "BE",
+  "venue": "Extrema Outdoor site, Houthalen-Helchteren",
+  "coords": [
+   51.032,
+   5.372
+  ],
+  "timezone": "Europe/Brussels",
+  "airport": {
+   "code": "EHBK",
+   "name": "Maastricht Aachen Airport",
+   "coords": [
+    50.9117,
+    5.7701
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day outdoor electronic festival in Belgian Limburg. The 2026 edition ran 22 to 24 May and the official site lists 14 to 16 May 2027.",
+  "researchNote": "Coordinates are for the town, not the exact site.",
+  "officialUrl": "https://www.extrema.be",
+  "sources": [
+   "https://www.extrema.be"
+  ]
+ },
+ {
+  "id": "awakenings-upclose",
+  "name": "Awakenings Upclose",
+  "start": "2027-05-15",
+  "end": "2027-05-16",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Spaarnwoude",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Houtrak, Spaarnwoude park",
+  "coords": [
+   52.406,
+   4.723
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day outdoor techno event from Awakenings in the Spaarnwoude recreation area between Amsterdam and Haarlem. Listed on the official Awakenings site for 15 and 16 May 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.awakenings.com/en/events/2027/05/awakenings-upclose-2027/396040/",
+  "sources": [
+   "https://www.awakenings.com/en/events/2027/05/awakenings-upclose-2027/396040/"
+  ]
+ },
+ {
+  "id": "baum-festival",
+  "name": "Baum Festival",
+  "start": "2027-05-21",
+  "end": "2027-05-22",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Bogota",
+  "country": "Colombia",
+  "countryCode": "CO",
+  "venue": "Corferias",
+  "coords": [
+   4.629,
+   -74.09
+  ],
+  "timezone": "America/Bogota",
+  "airport": {
+   "code": "SKBO",
+   "name": "El Dorado International Airport",
+   "coords": [
+    4.7016,
+    -74.1469
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "psytrance"
+  ],
+  "ticketFrom": "329,000 COP general (2026 pricing)",
+  "recurrence": "annual",
+  "description": "Two-day techno and house festival at the Corferias exhibition grounds in Bogota with more than 60 artists.",
+  "researchNote": "2027 dates are not announced; the window is based on the 22 to 23 May 2026 edition, which featured Underworld, Richie Hawtin and Nina Kraviz. Earlier edition dates were not verified, so the estimate rests mainly on 2026.",
+  "officialUrl": "https://baumfestival.com",
+  "sources": [
+   "https://canaltrece.com.co/noticias/baum-festival-2026-bogota-corferias/",
+   "https://visitbogota.co/en/events-calendar/baum-festival"
+  ]
+ },
+ {
+  "id": "fly-festival-glasgow",
+  "name": "FLY Festival Glasgow",
+  "start": "2027-05-21",
+  "end": "2027-05-23",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Glasgow",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Riverside Museum & Yard",
+  "coords": [
+   55.865,
+   -4.306
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGPF",
+   "name": "Glasgow Airport",
+   "coords": [
+    55.8719,
+    -4.4331
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "dance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day dance music festival in the grounds of the Riverside Museum on the Clyde in Glasgow, first held 22 to 24 May 2026. A What's On Glasgow listing gives 21 to 23 May 2027, with tickets via Skiddle. The organiser has not confirmed these dates on its own site.",
+  "researchNote": "",
+  "officialUrl": "https://www.whatsonglasgow.co.uk/event/166464-fly-festival-glasgow/",
+  "sources": [
+   "https://www.whatsonglasgow.co.uk/event/166464-fly-festival-glasgow/",
+   "https://eventslist.co.uk/glasgow/events/fly-festival-glasgow-2026-05-22"
+  ]
+ },
+ {
+  "id": "lightning-in-a-bottle",
+  "name": "Lightning in a Bottle",
+  "start": "2027-05-26",
+  "end": "2027-05-30",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Bakersfield",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Buena Vista Aquatic Recreational Area",
+  "coords": [
+   35.2015,
+   -119.293
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KBFL",
+   "name": "Meadows Field Airport",
+   "coords": [
+    35.4336,
+    -119.0568
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "bass",
+   "downtempo",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Five-day camping festival at Buena Vista Lake combining electronic music with art, workshops and wellness programming. 2027 presale passes have sold through and a waitlist is open; no lineup yet.",
+  "researchNote": "",
+  "officialUrl": "https://www.libfestival.org",
+  "sources": [
+   "https://www.libfestival.org/"
+  ]
+ },
+ {
+  "id": "up-to-date-festival",
+  "name": "Up To Date Festival",
+  "start": "2027-05-27",
+  "end": "2027-05-30",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Białystok",
+  "country": "Poland",
+  "countryCode": "PL",
+  "venue": "Białystok (venue not stated)",
+  "coords": [
+   53.1325,
+   23.1688
+  ],
+  "timezone": "Europe/Warsaw",
+  "airport": {
+   "code": "EPWA",
+   "name": "Warsaw Chopin Airport",
+   "coords": [
+    52.1657,
+    20.9671
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "electro",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Festival of independent electronic music in Białystok, reaching its 18th edition in 2027. The listing gives 27 to 30 May 2027, with passes on sale and the first lineup due in late autumn 2026.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2528244",
+  "sources": [
+   "https://ra.co/events/2528244"
+  ]
+ },
+ {
+  "id": "ava-festival",
+  "name": "AVA Festival",
+  "start": "2027-05-28",
+  "end": "2027-05-29",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Belfast",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Titanic Slipways",
+  "coords": [
+   54.607,
+   -5.909
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGAC",
+   "name": "George Best Belfast City Airport",
+   "coords": [
+    54.6181,
+    -5.8725
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "bass",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Audio Visual Arts festival and conference on the Titanic Slipways in Belfast's docklands. The 2026 edition was 29 to 30 May, with about 75 percent of the lineup from Ireland and the UK. The official site has an AVA Belfast 2027 sign-up with no dates.",
+  "researchNote": "",
+  "officialUrl": "https://avafestival.com/",
+  "sources": [
+   "https://avafestival.com/",
+   "https://de.ra.co/news/84705"
+  ]
+ },
+ {
+  "id": "gala",
+  "name": "GALA",
+  "start": "2027-05-28",
+  "end": "2027-05-30",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "London",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Peckham Rye Park",
+  "coords": [
+   51.456,
+   -0.062
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGLC",
+   "name": "London City Airport",
+   "coords": [
+    51.5053,
+    0.0553
+   ]
+  },
+  "capacity": 9999,
+  "capacityNote": "Up to 9,999 for the main 2026 weekend, per Time Out",
+  "genres": [
+   "house",
+   "disco",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Independent south London festival in Peckham Rye Park, held over the late May bank holiday weekend. The 2026 edition was 22 to 24 May, and Skiddle lists May 2027 with dates to be announced.",
+  "researchNote": "The window shown is the matching 2027 bank holiday weekend.",
+  "officialUrl": "https://www.skiddle.com/festivals/gala/",
+  "sources": [
+   "https://www.skiddle.com/festivals/gala/",
+   "https://www.timeout.com/london/news/one-of-londons-best-music-festivals-could-double-in-size-in-2026-111225"
+  ]
+ },
+ {
+  "id": "field-day",
+  "name": "Field Day",
+  "start": "2027-05-29",
+  "end": "2027-05-29",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "London",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Brockwell Park",
+  "coords": [
+   51.451,
+   -0.106
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGLC",
+   "name": "London City Airport",
+   "coords": [
+    51.5053,
+    0.0553
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "house",
+   "techno",
+   "drum and bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day electronic festival that moved to Brockwell Park in south London in 2025, as part of the Brockwell Live programme. The official site lists Saturday 29 May 2027.",
+  "researchNote": "",
+  "officialUrl": "https://fielddayfestivals.com/",
+  "sources": [
+   "https://fielddayfestivals.com/",
+   "https://crackmagazine.net/2026/01/field-day-2026-full-line-up/"
+  ]
+ },
+ {
+  "id": "love-saves-the-day",
+  "name": "Love Saves the Day",
+  "start": "2027-05-29",
+  "end": "2027-05-30",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Bristol",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Ashton Court",
+  "coords": [
+   51.443,
+   -2.638
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGGD",
+   "name": "Bristol Airport",
+   "coords": [
+    51.3827,
+    -2.7191
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "drum and bass",
+   "bass",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Independent Bristol weekend festival with 8 stages at Ashton Court, mixing touring artists with local crews. The official site lists 29 to 30 May 2027, with payment plans from a £20 deposit.",
+  "researchNote": "",
+  "officialUrl": "https://www.lovesavestheday.org/",
+  "sources": [
+   "https://www.lovesavestheday.org/"
+  ]
+ },
+ {
+  "id": "movement-music-festival",
+  "name": "Movement Music Festival",
+  "start": "2027-05-29",
+  "end": "2027-05-31",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Detroit",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Hart Plaza",
+  "coords": [
+   42.328,
+   -83.044
+  ],
+  "timezone": "America/Detroit",
+  "airport": {
+   "code": "KDTW",
+   "name": "Detroit Metropolitan Wayne County Airport",
+   "coords": [
+    42.2124,
+    -83.3534
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Memorial Day weekend techno and house festival in downtown Detroit, founded in 2000 as the Detroit Electronic Music Festival and produced by Paxahau since 2006. Tickets for 2027 are available with a deposit plan.",
+  "researchNote": "",
+  "officialUrl": "https://movementfestival.com",
+  "sources": [
+   "https://movementfestival.com/",
+   "https://en.wikipedia.org/wiki/Detroit_Electronic_Music_Festival"
+  ]
+ },
+ {
+  "id": "copenhagen-distortion",
+  "name": "Copenhagen Distortion",
+  "start": "2027-06-02",
+  "end": "2027-06-06",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Copenhagen",
+  "country": "Denmark",
+  "countryCode": "DK",
+  "venue": "Street parties and clubs across Copenhagen",
+  "coords": [
+   55.6761,
+   12.5683
+  ],
+  "timezone": "Europe/Copenhagen",
+  "airport": {
+   "code": "EKCH",
+   "name": "Copenhagen Airport",
+   "coords": [
+    55.618,
+    12.656
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "City-wide festival of street parties, club nights and harbour events across Copenhagen.",
+  "researchNote": "The official site still shows the 2026 edition (3 to 7 June 2026), so the 2027 window is estimated from that early-June pattern.",
+  "officialUrl": "https://cphdistortion.dk/",
+  "sources": [
+   "https://cphdistortion.dk/",
+   "https://ra.co/events/2108603"
+  ]
+ },
+ {
+  "id": "kala-festival",
+  "name": "Kala Festival",
+  "start": "2027-06-02",
+  "end": "2027-06-09",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Dhërmi",
+  "country": "Albania",
+  "countryCode": "AL",
+  "venue": "Dhërmi Beach",
+  "coords": [
+   40.1576,
+   19.6115
+  ],
+  "timezone": "Europe/Tirane",
+  "airport": {
+   "code": "LATI",
+   "name": "Tirana International Airport Nënë Tereza",
+   "coords": [
+    41.4147,
+    19.7206
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "disco",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Week-long beach festival on the Albanian Riviera at Dhërmi, with extended DJ sets into sunrise and some live bands.",
+  "researchNote": "No 2027 dates were found; the window follows the 2025 (4 to 11 June) and 2026 (3 to 10 June) editions.",
+  "officialUrl": "https://ra.co/events/2313295",
+  "sources": [
+   "https://ra.co/events/2313295",
+   "https://ra.co/events/2113272"
+  ]
+ },
+ {
+  "id": "open-ear",
+  "name": "Open Ear",
+  "start": "2027-06-03",
+  "end": "2027-06-06",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Sherkin Island, Cork",
+  "country": "Ireland",
+  "countryCode": "IE",
+  "venue": "Sherkin Island",
+  "coords": [
+   51.473,
+   -9.422
+  ],
+  "timezone": "Europe/Dublin",
+  "airport": {
+   "code": "EICK",
+   "name": "Cork Airport",
+   "coords": [
+    51.8413,
+    -8.4911
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental electronic",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Small festival of experimental and electronic music on Sherkin Island off the coast of West Cork, running since 2016. The 2026 edition was 28 to 31 May, ending on the Irish June bank holiday weekend.",
+  "researchNote": "The window shown is the matching 2027 weekend.",
+  "officialUrl": "https://openear.ie/",
+  "sources": [
+   "https://openear.ie/"
+  ]
+ },
+ {
+  "id": "tauron-nowa-muzyka-katowice",
+  "name": "Tauron Nowa Muzyka Katowice",
+  "start": "2027-06-03",
+  "end": "2027-06-06",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Katowice",
+  "country": "Poland",
+  "countryCode": "PL",
+  "venue": "Muzeum Śląskie (Silesian Museum) grounds",
+  "coords": [
+   50.264,
+   19.034
+  ],
+  "timezone": "Europe/Warsaw",
+  "airport": {
+   "code": "EPKT",
+   "name": "Katowice International Airport",
+   "coords": [
+    50.4743,
+    19.08
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "techno",
+   "electro",
+   "experimental"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic and forward-leaning music festival held on the former coal-mine grounds of the Silesian Museum in Katowice.",
+  "researchNote": "No 2027 dates were found; the window follows the 2026 edition (4 to 7 June), though 2025 ran later (19 to 22 June).",
+  "officialUrl": "https://ra.co/events/2457411",
+  "sources": [
+   "https://ra.co/events/2457411",
+   "https://ra.co/events/2357604"
+  ]
+ },
+ {
+  "id": "naturalis-festival",
+  "name": "Naturalis Festival",
+  "start": "2027-06-04",
+  "end": "2027-06-06",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Castel Volturno",
+  "country": "Italy",
+  "countryCode": "IT",
+  "venue": "Umoya",
+  "coords": [
+   41.03,
+   13.94
+  ],
+  "timezone": "Europe/Rome",
+  "airport": {
+   "code": "LIRN",
+   "name": "Naples International Airport",
+   "coords": [
+    40.886,
+    14.2908
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Small three-day electronic festival at the Umoya venue in Castel Volturno, north of Naples. The listing gives 4 to 6 June 2027 with lineup details still to be announced.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2465573",
+  "sources": [
+   "https://ra.co/events/2465573"
+  ]
+ },
+ {
+  "id": "so-track-boa",
+  "name": "So Track Boa",
+  "start": "2027-06-04",
+  "end": "2027-06-05",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Sao Paulo",
+  "country": "Brazil",
+  "countryCode": "BR",
+  "venue": "Autodromo de Interlagos",
+  "coords": [
+   -23.7036,
+   -46.6997
+  ],
+  "timezone": "America/Sao_Paulo",
+  "airport": {
+   "code": "SBSP",
+   "name": "Sao Paulo Congonhas Airport",
+   "coords": [
+    -23.6261,
+    -46.6564
+   ]
+  },
+  "capacity": 80000,
+  "capacityNote": "2026 attendance of over 80,000 people (Billboard Brasil)",
+  "genres": [
+   "house",
+   "techno",
+   "melodic house"
+  ],
+  "ticketFrom": "From R$ 410 (2026 pricing)",
+  "recurrence": "annual",
+  "description": "House and techno festival led by Vintage Culture, held at the Interlagos racetrack in 2026 with four stages and more than 40 acts. The 2025 edition was at Neo Quimica Arena.",
+  "researchNote": "2027 dates are not announced; the window is based on the 5 to 6 June 2026 edition, which drew over 80,000 people.",
+  "officialUrl": "https://www.sotrackboa.com.br",
+  "sources": [
+   "https://billboard.com.br/so-track-boa-2026-dia-2/",
+   "https://billboard.com.br/festivais-musica-eletronica-brasil-2026/",
+   "https://www.cnnbrasil.com.br/pop/musica/so-track-boa-anuncia-line-up-da-edicao-2026-em-interlagos/"
+  ]
+ },
+ {
+  "id": "terminal-v",
+  "name": "Terminal V",
+  "start": "2027-06-04",
+  "end": "2027-06-06",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Glasgow",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Clydeside Live, Glasgow docklands",
+  "coords": [
+   55.865,
+   -4.3
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGPF",
+   "name": "Glasgow Airport",
+   "coords": [
+    55.8719,
+    -4.4331
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "hard techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Techno festival that held nine editions at the Royal Highland Centre in Edinburgh before moving to Glasgow for its 10th anniversary. The 2027 edition is its first three-day, fully outdoor edition at Clydeside Live on the north bank of the River Clyde.",
+  "researchNote": "Coordinates are approximate for the docklands site.",
+  "officialUrl": "https://www.terminalv.co.uk/",
+  "sources": [
+   "https://www.skiddle.com/news/all/Terminal-V-unveils-new-location-Clydeside-Live-for-landmark-10th-anniversary/62109/amp.html",
+   "https://www.terminalv.co.uk/",
+   "https://www.timeout.com/uk/news/one-of-the-uks-best-music-festivals-has-a-new-home-for-2027-060226"
+  ]
+ },
+ {
+  "id": "world-club-dome",
+  "name": "World Club Dome",
+  "start": "2027-06-04",
+  "end": "2027-06-06",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Frankfurt",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Deutsche Bank Park",
+  "coords": [
+   50.0686,
+   8.6455
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDDF",
+   "name": "Frankfurt Airport",
+   "coords": [
+    50.0379,
+    8.5622
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "hardstyle"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day festival staged in and around Frankfurt's football stadium, billed as a stadium club event. The official site lists 4 to 6 June 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.worldclubdome.com",
+  "sources": [
+   "https://www.worldclubdome.com"
+  ]
+ },
+ {
+  "id": "amsterdam-open-air",
+  "name": "Amsterdam Open Air",
+  "start": "2027-06-05",
+  "end": "2027-06-06",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Gaasperpark",
+  "coords": [
+   52.311,
+   4.99
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day house and techno festival in Gaasperpark in southeast Amsterdam.",
+  "researchNote": "It was held 7 and 8 June 2025 and 6 and 7 June 2026; the 2027 dates are estimated from that first-weekend-of-June pattern.",
+  "officialUrl": "https://www.amsterdamopenair.nl",
+  "sources": [
+   "https://www.iamsterdam.com/en/whats-on/calendar/festivals/events/amsterdam-open-air",
+   "https://www.festivalinfo.nl/festival/34364/Amsterdam-Open-Air/2025/"
+  ]
+ },
+ {
+  "id": "forbidden-fruit",
+  "name": "Forbidden Fruit",
+  "start": "2027-06-05",
+  "end": "2027-06-06",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Dublin",
+  "country": "Ireland",
+  "countryCode": "IE",
+  "venue": "Royal Hospital Kilmainham",
+  "coords": [
+   53.3417,
+   -6.3023
+  ],
+  "timezone": "Europe/Dublin",
+  "airport": {
+   "code": "EIDW",
+   "name": "Dublin Airport",
+   "coords": [
+    53.4213,
+    -6.2701
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "house",
+   "drum and bass",
+   "hip hop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day festival in the grounds of the Royal Hospital Kilmainham in Dublin, held on the weekend of the Irish June bank holiday. It ran 31 May to 1 June 2025 and 30 to 31 May 2026.",
+  "researchNote": "The official site has an FF27 sign-up, and the window shown is the matching 2027 weekend.",
+  "officialUrl": "https://www.forbiddenfruit.ie/",
+  "sources": [
+   "https://www.forbiddenfruit.ie/",
+   "https://journalofmusic.com/listing/10-02-26/forbidden-fruit-2026"
+  ]
+ },
+ {
+  "id": "gottwood",
+  "name": "Gottwood",
+  "start": "2027-06-10",
+  "end": "2027-06-13",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Llanfaethlu, Anglesey",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Carreglwyd Estate",
+  "coords": [
+   53.355,
+   -4.53
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGGP",
+   "name": "Liverpool John Lennon Airport",
+   "coords": [
+    53.3336,
+    -2.8497
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Boutique electronic music and arts festival on a woodland and lakeside estate in Anglesey, Wales. The official site describes the 2027 edition as 10 to 13 June 2027 (page title also shows 10th to 14th June).",
+  "researchNote": "",
+  "officialUrl": "https://www.gottwood.co.uk/",
+  "sources": [
+   "https://www.gottwood.co.uk/"
+  ]
+ },
+ {
+  "id": "sonar-barcelona",
+  "name": "Sónar Barcelona",
+  "start": "2027-06-17",
+  "end": "2027-06-19",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Barcelona",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Barcelona (2027 venue not yet stated; 2026 edition held at Fira Gran Via, L'Hospitalet de Llobregat)",
+  "coords": [
+   41.3547,
+   2.1277
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEBL",
+   "name": "Barcelona-El Prat Josep Tarradellas Airport",
+   "coords": [
+    41.2971,
+    2.0785
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic",
+   "experimental"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day festival of advanced music and creativity in Barcelona, running alongside the Sónar+D conference program. The official site lists 17 to 19 June 2027; the 2026 edition gathered over 90 artists across three days at Fira Gran Via.",
+  "researchNote": "",
+  "officialUrl": "https://sonar.es/en",
+  "sources": [
+   "https://sonar.es/en",
+   "https://ra.co/events/2309886",
+   "https://en.wikipedia.org/wiki/S%C3%B3nar"
+  ]
+ },
+ {
+  "id": "a-summer-story",
+  "name": "A Summer Story",
+  "start": "2027-06-18",
+  "end": "2027-06-19",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Arganda del Rey",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Ciudad del Rock",
+  "coords": [
+   40.3064,
+   -3.4479
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEMD",
+   "name": "Adolfo Suárez Madrid-Barajas Airport",
+   "coords": [
+    40.4719,
+    -3.5626
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day electronic festival at Ciudad del Rock in Arganda del Rey, outside Madrid, marketed as the start of summer.",
+  "researchNote": "2027 dates are not yet published; the window is based on the 2026 edition (19 and 20 June) and the 2025 edition (20 to 22 June).",
+  "officialUrl": "https://asummerstory.com/",
+  "sources": [
+   "https://asummerstory.com/",
+   "https://ra.co/events/2133640"
+  ]
+ },
+ {
+  "id": "defqon-1",
+  "name": "Defqon.1",
+  "start": "2027-06-24",
+  "end": "2027-06-27",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Biddinghuizen",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Evenemententerrein Walibi Holland",
+  "coords": [
+   52.441,
+   5.766
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "hardstyle",
+   "hardcore",
+   "hard dance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Q-dance's flagship hardstyle weekend with camping in Flevoland, describing itself as the world's leading hardstyle festival. The official site lists 24 to 27 June 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.defqon1.com",
+  "sources": [
+   "https://www.defqon1.com"
+  ]
+ },
+ {
+  "id": "electric-forest",
+  "name": "Electric Forest",
+  "start": "2027-06-24",
+  "end": "2027-06-27",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Rothbury",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Double JJ Resort (Sherwood Forest)",
+  "coords": [
+   43.5386,
+   -86.3674
+  ],
+  "timezone": "America/Detroit",
+  "airport": {
+   "code": "KMKG",
+   "name": "Muskegon County Airport",
+   "coords": [
+    43.1695,
+    -86.2382
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "Wikipedia estimates 40,000 to 50,000 attendees in 2025.",
+  "genres": [
+   "EDM",
+   "bass",
+   "house",
+   "jam"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Four-day camping festival in a wooded site at the Double JJ Resort mixing electronic acts with jam bands.",
+  "researchNote": "Dates are estimated from the 2026 edition, which ran Thursday to Sunday June 25-28; 2027 dates were not yet on the official site.",
+  "officialUrl": "https://www.electricforestfestival.com",
+  "sources": [
+   "https://www.electricforestfestival.com/",
+   "https://en.wikipedia.org/wiki/Electric_Forest"
+  ]
+ },
+ {
+  "id": "ikarus-festival",
+  "name": "Ikarus Festival",
+  "start": "2027-06-25",
+  "end": "2027-06-27",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Memmingerberg",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Allgau Airport",
+  "coords": [
+   47.9888,
+   10.2395
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDJA",
+   "name": "Memmingen Airport (Allgau Airport)",
+   "coords": [
+    47.9888,
+    10.2395
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "psytrance",
+   "hard techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day camping festival on the grounds of Allgau Airport near Memmingen, with eight stages and more than 150 electronic acts listed for 2027. Stages include bunker, forest and open-air areas.",
+  "researchNote": "",
+  "officialUrl": "https://www.ikarus-festival.de",
+  "sources": [
+   "https://www.ikarus-festival.de"
+  ]
+ },
+ {
+  "id": "beyond-wonderland-at-the-gorge",
+  "name": "Beyond Wonderland at The Gorge",
+  "start": "2027-06-26",
+  "end": "2027-06-27",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "George",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Gorge Amphitheatre",
+  "coords": [
+   47.1,
+   -119.9967
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KEAT",
+   "name": "Pangborn Memorial Airport (Wenatchee)",
+   "coords": [
+    47.3989,
+    -120.2068
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "bass",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's two-day camping edition of Beyond Wonderland at the Gorge Amphitheatre in Washington.",
+  "researchNote": "Two-day GA, GA+ and 21-plus VIP passes went on sale in July 2026; lineup not yet announced.",
+  "officialUrl": "https://pnw.beyondwonderland.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/07/beyond-wonderland-at-the-gorge-returns-june-26-27-2027/"
+  ]
+ },
+ {
+  "id": "hideout-festival",
+  "name": "Hideout Festival",
+  "start": "2027-06-29",
+  "end": "2027-07-02",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Novalja",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "Zrće Beach, Pag Island",
+  "coords": [
+   44.4672,
+   14.9917
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDZD",
+   "name": "Zadar Airport",
+   "coords": [
+    44.1083,
+    15.3467
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "tech house",
+   "garage",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Beach-club festival on Zrće Beach, Pag Island, with daytime and night parties and boat parties. The official site lists 29 June to 2 July 2027, with lineup and tickets due in early November; it says the 2026 edition sold out in one hour.",
+  "researchNote": "",
+  "officialUrl": "https://www.hideoutfestival.com/",
+  "sources": [
+   "https://www.hideoutfestival.com/",
+   "https://ra.co/events/1803196"
+  ]
+ },
+ {
+  "id": "astropolis",
+  "name": "Astropolis",
+  "start": "2027-07-01",
+  "end": "2027-07-04",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Brest",
+  "country": "France",
+  "countryCode": "FR",
+  "venue": "Manoir de Keroual and venues in Brest",
+  "coords": [
+   48.399,
+   -4.533
+  ],
+  "timezone": "Europe/Paris",
+  "airport": {
+   "code": "LFRB",
+   "name": "Brest Bretagne Airport",
+   "coords": [
+    48.4479,
+    -4.4185
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": "39.50 to 55 EUR for the main Saturday night at Manoir de Keroual (2026 prices)",
+  "recurrence": "annual",
+  "description": "Brest's summer electronic festival, founded in 1995, with its main night at the Manoir de Keroual.",
+  "researchNote": "The 30th edition ran 2 to 5 July 2026; 2027 dates are estimated from that early-July pattern.",
+  "officialUrl": "https://www.astropolis.org",
+  "sources": [
+   "https://www.astropolis.org",
+   "https://www.jds.fr/brest/manifestations/festival/astropolis-1572703_A"
+  ]
+ },
+ {
+  "id": "beats-for-love",
+  "name": "Beats for Love",
+  "start": "2027-07-02",
+  "end": "2027-07-05",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Ostrava",
+  "country": "Czech Republic",
+  "countryCode": "CZ",
+  "venue": "Dolní oblast Vítkovice",
+  "coords": [
+   49.8191,
+   18.2796
+  ],
+  "timezone": "Europe/Prague",
+  "airport": {
+   "code": "LKMT",
+   "name": "Leoš Janáček Airport Ostrava",
+   "coords": [
+    49.6963,
+    18.1111
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "drum and bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Dance music festival in the former ironworks complex of Dolní Vítkovice in Ostrava, billed as the largest dance festival in central Europe. The official site lists 2 to 5 July 2027 and confirms four festival days.",
+  "researchNote": "",
+  "officialUrl": "https://beatsforlove.cz/",
+  "sources": [
+   "https://beatsforlove.cz/",
+   "https://ra.co/events/1896178"
+  ]
+ },
+ {
+  "id": "kappa-futurfestival",
+  "name": "Kappa FuturFestival",
+  "start": "2027-07-02",
+  "end": "2027-07-04",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Turin",
+  "country": "Italy",
+  "countryCode": "IT",
+  "venue": "Parco Dora",
+  "coords": [
+   45.0902,
+   7.6669
+  ],
+  "timezone": "Europe/Rome",
+  "airport": {
+   "code": "LIMF",
+   "name": "Turin Airport",
+   "coords": [
+    45.2008,
+    7.6496
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day daytime techno and house festival set in the former industrial site of Parco Dora in Turin. The official site lists 2 to 4 July 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.kappafuturfestival.it/",
+  "sources": [
+   "https://www.kappafuturfestival.it/",
+   "https://ra.co/events/2329350"
+  ]
+ },
+ {
+  "id": "paradise-city",
+  "name": "Paradise City",
+  "start": "2027-07-02",
+  "end": "2027-07-04",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Steenokkerzeel",
+  "country": "Belgium",
+  "countryCode": "BE",
+  "venue": "Kasteelhoekstraat 1 (castle grounds)",
+  "coords": [
+   50.918,
+   4.513
+  ],
+  "timezone": "Europe/Brussels",
+  "airport": {
+   "code": "EBBR",
+   "name": "Brussels Airport",
+   "coords": [
+    50.901,
+    4.4844
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Boutique house and techno festival on castle grounds in Steenokkerzeel, next to Brussels Airport. The official site lists 2 to 4 July 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.paradisecity.be",
+  "sources": [
+   "https://www.paradisecity.be"
+  ]
+ },
+ {
+  "id": "ruhr-in-love",
+  "name": "Ruhr-in-Love",
+  "start": "2027-07-03",
+  "end": "2027-07-03",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Oberhausen",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "OLGA-Park",
+  "coords": [
+   51.496,
+   6.864
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDDL",
+   "name": "Dusseldorf Airport",
+   "coords": [
+    51.2895,
+    6.7668
+   ]
+  },
+  "capacity": 45000,
+  "capacityNote": "Expected visitors per festivalhopper.de listing",
+  "genres": [
+   "techno",
+   "house",
+   "hardstyle",
+   "trance"
+  ],
+  "ticketFrom": "approx. 45 EUR plus booking fee",
+  "recurrence": "annual",
+  "description": "One-day open-air electronic festival in Oberhausen's OLGA-Park with dozens of small floors run by different crews. The 2027 date is listed on festivalhopper.de; it was not confirmed on the official site.",
+  "researchNote": "",
+  "officialUrl": "https://www.ruhr-in-love.de",
+  "sources": [
+   "https://www.festivalhopper.de/festival/ruhr-in-love-2027"
+  ]
+ },
+ {
+  "id": "airbeat-one",
+  "name": "Airbeat One",
+  "start": "2027-07-07",
+  "end": "2027-07-11",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Neustadt-Glewe",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Flugplatz Neustadt-Glewe",
+  "coords": [
+   53.3597,
+   11.6153
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDDH",
+   "name": "Hamburg Airport",
+   "coords": [
+    53.6304,
+    9.9882
+   ]
+  },
+  "capacity": 210000,
+  "capacityNote": "Total visitors over the 2026 festival days per organisers, reported by NDR",
+  "genres": [
+   "EDM",
+   "hardstyle",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Large camping festival on an airfield in Mecklenburg, themed each year after a country or region. NDR reports the 2027 edition runs 7 to 11 July with an Australia theme, marking 25 years of the festival.",
+  "researchNote": "",
+  "officialUrl": "https://www.airbeat-one.de",
+  "sources": [
+   "https://www.ndr.de/kultur/musik/pop/airbeat-one-endet-mit-besucherrekord-2027-geht-es-nach-australien,airbeat-108.html",
+   "https://www.festivalhopper.de/festival/airbeat-one-2027"
+  ]
+ },
+ {
+  "id": "bass-coast",
+  "name": "Bass Coast",
+  "start": "2027-07-08",
+  "end": "2027-07-11",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Merritt",
+  "country": "Canada",
+  "countryCode": "CA",
+  "venue": "Bass Coast festival site, Nicola Valley",
+  "coords": [
+   50.112,
+   -120.787
+  ],
+  "timezone": "America/Vancouver",
+  "airport": {
+   "code": "CYKA",
+   "name": "Kamloops Airport",
+   "coords": [
+    50.7022,
+    -120.4444
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "bass",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Independent, artist-owned camping festival near Merritt with 150-plus DJs on five stages, workshops and art installations, run without corporate sponsorship.",
+  "researchNote": "Dates are estimated from the 2026 edition, held Thursday to Sunday July 9-12.",
+  "officialUrl": "https://basscoast.ca",
+  "sources": [
+   "https://basscoast.ca/"
+  ]
+ },
+ {
+  "id": "electric-love-festival",
+  "name": "Electric Love Festival",
+  "start": "2027-07-08",
+  "end": "2027-07-10",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Plainfeld (Salzburg)",
+  "country": "Austria",
+  "countryCode": "AT",
+  "venue": "Salzburgring",
+  "coords": [
+   47.823,
+   13.169
+  ],
+  "timezone": "Europe/Vienna",
+  "airport": {
+   "code": "LOWS",
+   "name": "Salzburg Airport W. A. Mozart",
+   "coords": [
+    47.7933,
+    13.0043
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "hardstyle",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Austria's largest EDM camping festival, held at the Salzburgring race circuit east of Salzburg. The official site lists 8 to 10 July 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.electriclove.at",
+  "sources": [
+   "https://www.electriclove.at"
+  ]
+ },
+ {
+  "id": "audioriver",
+  "name": "Audioriver",
+  "start": "2027-07-09",
+  "end": "2027-07-11",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Łódź",
+  "country": "Poland",
+  "countryCode": "PL",
+  "venue": "Błonia Łódzkie",
+  "coords": [
+   51.76,
+   19.4
+  ],
+  "timezone": "Europe/Warsaw",
+  "airport": {
+   "code": "EPLL",
+   "name": "Łódź Władysław Reymont Airport",
+   "coords": [
+    51.7219,
+    19.3981
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "drum and bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic music festival that has held recent editions at Błonia Łódzkie in Łódź.",
+  "researchNote": "No 2027 dates were found; the window follows the July pattern of 2024 (12 to 14 July), 2025 (11 to 13 July) and the 20th edition in 2026 (10 to 12 July).",
+  "officialUrl": "https://audioriver.pl/",
+  "sources": [
+   "https://ra.co/events/2264774",
+   "https://ra.co/events/2039986",
+   "https://ra.co/events/1927336"
+  ]
+ },
+ {
+  "id": "awakenings-festival",
+  "name": "Awakenings Festival",
+  "start": "2027-07-09",
+  "end": "2027-07-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Hilvarenbeek",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Beekse Bergen",
+  "coords": [
+   51.53,
+   5.13
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHEH",
+   "name": "Eindhoven Airport",
+   "coords": [
+    51.4501,
+    5.3745
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day summer techno festival with camping, Awakenings' flagship event, running 15:00 to 23:00 each day. Tickets for 2027 are on sale and the lineup is still to be announced.",
+  "researchNote": "",
+  "officialUrl": "https://www.awakenings.com/en/events/2027/07/awakenings-festival-2027/399344/",
+  "sources": [
+   "https://www.awakenings.com/en/events/2027/07/awakenings-festival-2027/399344/"
+  ]
+ },
+ {
+  "id": "ultra-europe",
+  "name": "Ultra Europe",
+  "start": "2027-07-09",
+  "end": "2027-07-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Split",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "Park Mladeži",
+  "coords": [
+   43.52,
+   16.44
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDSP",
+   "name": "Split Airport",
+   "coords": [
+    43.5389,
+    16.298
+   ]
+  },
+  "capacity": 150000,
+  "capacityNote": "Total attendance reported for the 2024 edition (Wikipedia).",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "European edition of Ultra Music Festival, held at Park Mladeži in Split as part of a wider Destination Ultra week along the Croatian coast. The official site lists 9 to 11 July 2027.",
+  "researchNote": "",
+  "officialUrl": "https://ultraeurope.com/",
+  "sources": [
+   "https://ultraeurope.com/",
+   "https://en.wikipedia.org/wiki/Ultra_Europe",
+   "https://ra.co/events/2544993"
+  ]
+ },
+ {
+  "id": "parklife",
+  "name": "Parklife",
+  "start": "2027-07-10",
+  "end": "2027-07-11",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Manchester",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Heaton Park",
+  "coords": [
+   53.535,
+   -2.255
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGCC",
+   "name": "Manchester Airport",
+   "coords": [
+    53.3537,
+    -2.275
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "drum and bass",
+   "bass",
+   "dance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day weekend festival in Heaton Park, north Manchester. The official site lists 10 to 11 July 2027, a move from its usual June slot, with earlybird weekend tickets on a deposit and payment-plan basis.",
+  "researchNote": "",
+  "officialUrl": "https://parklife.uk.com/",
+  "sources": [
+   "https://parklife.uk.com/"
+  ]
+ },
+ {
+  "id": "verknipt-croatia",
+  "name": "Verknipt Croatia",
+  "start": "2027-07-10",
+  "end": "2027-07-15",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Novalja",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "Zrće Beach, Pag Island",
+  "coords": [
+   44.4672,
+   14.9917
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDZD",
+   "name": "Zadar Airport",
+   "coords": [
+    44.1083,
+    15.3467
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "hard techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Six-day holiday festival on Zrće Beach run by the Dutch techno brand Verknipt, with pool, boat and beach-club events. The listing gives 11 to 15 July 2027 with a welcome party on 10 July.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2496725",
+  "sources": [
+   "https://ra.co/events/2496725",
+   "https://ra.co/events/2303501"
+  ]
+ },
+ {
+  "id": "dirtybird-campout-x-northern-nights",
+  "name": "Dirtybird Campout x Northern Nights",
+  "start": "2027-07-16",
+  "end": "2027-07-18",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Piercy",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Cook's Valley Campground",
+  "coords": [
+   39.9653,
+   -123.7847
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KACV",
+   "name": "California Redwood Coast-Humboldt County Airport",
+   "coords": [
+    40.9781,
+    -124.1086
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "tech house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Camping festival combining Dirtybird Campout and Northern Nights among redwoods on the Eel River, with stages including the Main Stage, River Stage and a late-night Bunker.",
+  "researchNote": "Dates are estimated from the 2026 edition, held July 17-19.",
+  "officialUrl": "https://northernnights.org",
+  "sources": [
+   "https://electronicgroove.com/dirtybird-campout-x-northern-nights-returns-2026/"
+  ]
+ },
+ {
+  "id": "parookaville",
+  "name": "Parookaville",
+  "start": "2027-07-16",
+  "end": "2027-07-18",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Weeze",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Airport Weeze",
+  "coords": [
+   51.6024,
+   6.1422
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDLV",
+   "name": "Weeze Airport",
+   "coords": [
+    51.6024,
+    6.1422
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "hardstyle",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic festival staged as a themed festival city on the grounds of Weeze Airport, with camping. The official site lists 16 to 18 July 2027 and the ticket shop is open.",
+  "researchNote": "",
+  "officialUrl": "https://www.parookaville.com",
+  "sources": [
+   "https://www.parookaville.com"
+  ]
+ },
+ {
+  "id": "soundit-festival",
+  "name": "SOUNDIT Festival",
+  "start": "2027-07-16",
+  "end": "2027-07-17",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "El Prat de Llobregat",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Parc Nou, El Prat de Llobregat",
+  "coords": [
+   41.3142,
+   2.0866
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEBL",
+   "name": "Barcelona-El Prat Josep Tarradellas Airport",
+   "coords": [
+    41.2971,
+    2.0785
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day electronic music festival in Parc Nou, El Prat de Llobregat, near Barcelona. The Resident Advisor listing announces the third edition for 16 and 17 July 2027, with the program to follow.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2492073",
+  "sources": [
+   "https://ra.co/events/2492073"
+  ]
+ },
+ {
+  "id": "boom-festival",
+  "name": "Boom Festival",
+  "start": "2027-07-17",
+  "end": "2027-07-25",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Idanha-a-Nova",
+  "country": "Portugal",
+  "countryCode": "PT",
+  "venue": "Boomland, Idanha-a-Nova lake",
+  "coords": [
+   39.9233,
+   -7.2417
+  ],
+  "timezone": "Europe/Lisbon",
+  "airport": {
+   "code": "LPPT",
+   "name": "Lisbon Humberto Delgado Airport",
+   "coords": [
+    38.7813,
+    -9.1359
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "Official ticket page says capacity is intentionally limited but gives no figure.",
+  "genres": [
+   "psytrance",
+   "ambient",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "biennial",
+  "description": "Biennial psychedelic culture festival on the shores of the Idanha-a-Nova lake, combining psytrance and ambient stages with art and talks.",
+  "researchNote": "The official site confirms Boom 2027 with ticket sales opening in October 2026 but no dates yet; the window mirrors the previous edition (17 to 25 July 2025).",
+  "officialUrl": "https://www.boomfestival.org/",
+  "sources": [
+   "https://www.boomfestival.org/",
+   "https://www.boomfestival.org/tickets/tickets-info",
+   "https://en.wikipedia.org/wiki/Boom_Festival"
+  ]
+ },
+ {
+  "id": "hide-seek",
+  "name": "Hide & Seek",
+  "start": "2027-07-23",
+  "end": "2027-07-25",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Weston-under-Lizard",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Weston Park",
+  "coords": [
+   52.696,
+   -2.287
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGBB",
+   "name": "Birmingham Airport",
+   "coords": [
+    52.4539,
+    -1.748
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "disco",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic weekend camping festival that moved to Weston Park, on the Staffordshire and Shropshire border, for its 24 to 26 July 2026 edition.",
+  "researchNote": "The window shown assumes the same late July weekend in 2027.",
+  "officialUrl": "https://hideandseekfestival.co.uk/",
+  "sources": [
+   "https://hideandseekfestival.co.uk/",
+   "https://kaboodle.com/event/hide-seek-festival/"
+  ]
+ },
+ {
+  "id": "junction-2",
+  "name": "Junction 2",
+  "start": "2027-07-23",
+  "end": "2027-07-25",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "London",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Boston Manor Park, Brentford",
+  "coords": [
+   51.492,
+   -0.3155
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGLL",
+   "name": "London Heathrow Airport",
+   "coords": [
+    51.47,
+    -0.4543
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "melodic techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Techno festival under the M4 flyover in Boston Manor Park, west London, with stages including The Bridge and The Woods. It ran 25 to 27 July 2025, and its 10th edition was 25 to 26 July and 2 August 2026.",
+  "researchNote": "The organiser has signalled Summer 2027 events at the park but has not given dates; the window shown follows the late July pattern.",
+  "officialUrl": "https://junction2.london/",
+  "sources": [
+   "https://www.festivalinsights.com/2026/03/junction-2-completes-10th-anniversary-lineup/",
+   "https://junction2.london/",
+   "https://electronicgroove.com/junction-2-prepares-2025-edition-london/"
+  ]
+ },
+ {
+  "id": "shambhala-music-festival",
+  "name": "Shambhala Music Festival",
+  "start": "2027-07-23",
+  "end": "2027-07-26",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Salmo",
+  "country": "Canada",
+  "countryCode": "CA",
+  "venue": "Salmo River Ranch",
+  "coords": [
+   49.167,
+   -117.258
+  ],
+  "timezone": "America/Vancouver",
+  "airport": {
+   "code": "CYCG",
+   "name": "West Kootenay Regional Airport (Castlegar)",
+   "coords": [
+    49.2964,
+    -117.6325
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "bass",
+   "drum and bass",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Family-run electronic festival founded in 1998 on a 500-acre ranch in the West Kootenays, running four days without corporate sponsorship. Tickets for 2027 are sold out with a waitlist.",
+  "researchNote": "",
+  "officialUrl": "https://shambhalamusicfestival.com",
+  "sources": [
+   "https://shambhalamusicfestival.com/",
+   "https://en.wikipedia.org/wiki/Shambhala_Music_Festival"
+  ]
+ },
+ {
+  "id": "zevra-festival",
+  "name": "Zevra Festival",
+  "start": "2027-07-23",
+  "end": "2027-07-25",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Cullera",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Festival grounds, Cullera (Valencia coast)",
+  "coords": [
+   39.1666,
+   -0.2541
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEVC",
+   "name": "Valencia Airport",
+   "coords": [
+    39.4893,
+    -0.4816
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "electronic",
+   "techno",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic music festival in Cullera on the Valencia coast. The official site lists a preparty on 23 July and the festival on 24 and 25 July 2027, with first-phase passes already sold out.",
+  "researchNote": "",
+  "officialUrl": "https://zevrafestival.com/",
+  "sources": [
+   "https://zevrafestival.com/"
+  ]
+ },
+ {
+  "id": "monegros-desert-festival",
+  "name": "Monegros Desert Festival",
+  "start": "2027-07-24",
+  "end": "2027-07-25",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Fraga",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Monegros Desert, Fraga (Huesca)",
+  "coords": [
+   41.522,
+   0.3407
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEDA",
+   "name": "Lleida-Alguaire Airport",
+   "coords": [
+    41.7282,
+    0.5355
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Day-and-night electronic festival held in the Monegros desert near Fraga, Aragon.",
+  "researchNote": "The official site is titled for the 2027 edition but gives no dates; recent editions fell on the last Saturday of July (27 July 2024, 26 July 2025, 25 July 2026 per Resident Advisor), so the window is estimated from that pattern.",
+  "officialUrl": "https://www.monegrosfestival.com/",
+  "sources": [
+   "https://www.monegrosfestival.com/",
+   "https://ra.co/events/1841649",
+   "https://ra.co/events/2315753"
+  ]
+ },
+ {
+  "id": "dekmantel-festival",
+  "name": "Dekmantel Festival",
+  "start": "2027-07-28",
+  "end": "2027-08-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Amsterdam (Amstelveen)",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Amsterdamse Bos plus city venues",
+  "coords": [
+   52.322,
+   4.848
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Multi-day house and techno festival in the Amsterdamse Bos with club and concert events across the city.",
+  "researchNote": "The 2026 edition ran 29 July to 2 August; I amsterdam confirms a 13th edition in summer 2027, with dates estimated from the 2026 pattern.",
+  "officialUrl": "https://www.dekmantelfestival.com",
+  "sources": [
+   "https://www.iamsterdam.com/en/whats-on/calendar/festivals/events/dekmantel-festival"
+  ]
+ },
+ {
+  "id": "kune-festival",
+  "name": "KUNE Festival",
+  "start": "2027-07-28",
+  "end": "2027-08-01",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Copenhagen",
+  "country": "Denmark",
+  "countryCode": "DK",
+  "venue": "Ungdomsøen (Middelgrundsfort)",
+  "coords": [
+   55.7205,
+   12.6659
+  ],
+  "timezone": "Europe/Copenhagen",
+  "airport": {
+   "code": "EKCH",
+   "name": "Copenhagen Airport",
+   "coords": [
+    55.618,
+    12.656
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Volunteer-led boutique festival on Ungdomsøen, a former sea fort island off Copenhagen. The listing gives five days from 28 July to 1 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://ra.co/events/2496983",
+  "sources": [
+   "https://ra.co/events/2496983"
+  ]
+ },
+ {
+  "id": "nature-one",
+  "name": "Nature One",
+  "start": "2027-07-29",
+  "end": "2027-08-01",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Kastellaun",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Raketenbasis Pydna",
+  "coords": [
+   50.051,
+   7.428
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDFH",
+   "name": "Frankfurt-Hahn Airport",
+   "coords": [
+    49.9487,
+    7.2639
+   ]
+  },
+  "capacity": 65000,
+  "capacityNote": "Official site: 65,000 ravers",
+  "genres": [
+   "techno",
+   "trance",
+   "hardstyle",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Camping rave on a former missile base in the Hunsruck with about 350 DJs across 20 floors. The official site lists 29 July to 1 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.nature-one.de",
+  "sources": [
+   "https://www.nature-one.de"
+  ]
+ },
+ {
+  "id": "dreambeach",
+  "name": "Dreambeach",
+  "start": "2027-07-30",
+  "end": "2027-08-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Vélez-Málaga",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Costa del Sol, Vélez-Málaga",
+  "coords": [
+   36.78,
+   -4.1
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEMG",
+   "name": "Málaga-Costa del Sol Airport",
+   "coords": [
+    36.6749,
+    -4.4991
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "techno",
+   "drum and bass",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Large beach electronic festival that moved from Villaricos (Almería) to Vélez-Málaga on the Costa del Sol for 2026.",
+  "researchNote": "No 2027 dates are published; the window follows the 2026 edition (31 July to 2 August 2026).",
+  "officialUrl": "https://www.dreambeach.es/",
+  "sources": [
+   "https://www.dreambeach.es/",
+   "https://ra.co/events/2450513",
+   "https://ra.co/events/1963863"
+  ]
+ },
+ {
+  "id": "veld-music-festival",
+  "name": "VELD Music Festival",
+  "start": "2027-07-30",
+  "end": "2027-08-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Toronto",
+  "country": "Canada",
+  "countryCode": "CA",
+  "venue": "Downsview Park",
+  "coords": [
+   43.742,
+   -79.478
+  ],
+  "timezone": "America/Toronto",
+  "airport": {
+   "code": "CYYZ",
+   "name": "Toronto Pearson International Airport",
+   "coords": [
+    43.6777,
+    -79.6248
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "bass",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day electronic festival at Downsview Park.",
+  "researchNote": "Dates are estimated from the 2026 edition, held July 30 to August 1; the official site shows a waitlist for the next edition without dates.",
+  "officialUrl": "https://veldmusicfestival.com",
+  "sources": [
+   "https://veldmusicfestival.com/"
+  ]
+ },
+ {
+  "id": "family-piknik",
+  "name": "Family Piknik",
+  "start": "2027-07-31",
+  "end": "2027-08-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Perols (Montpellier)",
+  "country": "France",
+  "countryCode": "FR",
+  "venue": "Parc des Expositions de Montpellier",
+  "coords": [
+   43.57,
+   3.939
+  ],
+  "timezone": "Europe/Paris",
+  "airport": {
+   "code": "LFMT",
+   "name": "Montpellier-Mediterranee Airport",
+   "coords": [
+    43.5762,
+    3.963
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Open-air electronic festival near Montpellier, held since 2015.",
+  "researchNote": "The 2026 edition took place on 1 and 2 August; 2027 dates are estimated from that early-August weekend pattern.",
+  "officialUrl": "https://www.familypiknik.fr",
+  "sources": [
+   "https://www.festivalenfrance.com/festival/family-piknik"
+  ]
+ },
+ {
+  "id": "hard-summer",
+  "name": "HARD Summer",
+  "start": "2027-07-31",
+  "end": "2027-08-01",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Inglewood",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Hollywood Park",
+  "coords": [
+   33.9535,
+   -118.3392
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KLAX",
+   "name": "Los Angeles International Airport",
+   "coords": [
+    33.9416,
+    -118.4085
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "bass",
+   "EDM",
+   "hip-hop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day festival on the 300-acre Hollywood Park grounds next to SoFi Stadium, its home since 2024.",
+  "researchNote": "Dates are estimated from the 2026 edition, held August 1-2.",
+  "officialUrl": "https://hardsummer.com",
+  "sources": [
+   "https://www.sofistadium.com/news/detail/hard-summer-music-festival-announces-lineup-for-2026-edition"
+  ]
+ },
+ {
+  "id": "o-z-o-r-a",
+  "name": "O.Z.O.R.A.",
+  "start": "2027-08-01",
+  "end": "2027-08-07",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Ozora / Igar",
+  "country": "Hungary",
+  "countryCode": "HU",
+  "venue": "Dádpuszta estate",
+  "coords": [
+   46.77,
+   18.44
+  ],
+  "timezone": "Europe/Budapest",
+  "airport": {
+   "code": "LHBP",
+   "name": "Budapest Ferenc Liszt International Airport",
+   "coords": [
+    47.4369,
+    19.2556
+   ]
+  },
+  "capacity": 30000,
+  "capacityNote": "Official capacity per Wikipedia; it notes de facto attendance of 60,000 to 70,000.",
+  "genres": [
+   "psytrance",
+   "ambient",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Week-long psychedelic trance and arts gathering on the Dádpuszta estate near Ozora, held every year since 2004 except 2020 and 2021.",
+  "researchNote": "The official site could not be opened; Hungarian Wikipedia says it generally runs for seven days in the first week of August, so these dates are an estimate only.",
+  "officialUrl": "https://ozorafestival.eu/",
+  "sources": [
+   "https://hu.wikipedia.org/wiki/O.Z.O.R.A._Fesztiv%C3%A1l",
+   "https://en.wikipedia.org/wiki/Ozora_Festival"
+  ]
+ },
+ {
+  "id": "mo-dem-festival",
+  "name": "Mo:Dem Festival",
+  "start": "2027-08-02",
+  "end": "2027-08-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Primišlje (near Slunj)",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "Mo:Dem festival site, Primišlje",
+  "coords": [
+   45.1667,
+   15.6
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDZA",
+   "name": "Zagreb Franjo Tuđman Airport",
+   "coords": [
+    45.7429,
+    16.0688
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "psytrance",
+   "techno",
+   "ambient"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Week-long psychedelic and underground electronic festival in rural central Croatia, with a shuttle service from Zagreb. The official FAQ states Mo:Dem 2027 runs 2 to 8 August, with gates open from 31 July to 9 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://modemfestival.com/",
+  "sources": [
+   "https://modemfestival.com/faq/",
+   "https://modemfestival.com/"
+  ]
+ },
+ {
+  "id": "houghton",
+  "name": "Houghton",
+  "start": "2027-08-05",
+  "end": "2027-08-08",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "King's Lynn",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Houghton Hall, Norfolk",
+  "coords": [
+   52.827,
+   0.656
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGSH",
+   "name": "Norwich Airport",
+   "coords": [
+    52.6758,
+    1.2828
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic",
+   "experimental"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Four-day festival curated by Craig Richards in the grounds of Houghton Hall, Norfolk, known for long sets. The 2026 edition ran 6 to 9 August with more than 200 acts.",
+  "researchNote": "The window shown is the equivalent Thursday to Sunday in early August 2027.",
+  "officialUrl": "https://www.houghtonfestival.co.uk/",
+  "sources": [
+   "https://www.houghtonfestival.co.uk/",
+   "https://edmislife.com/latest/houghton-festival-announces-full-line-up-for-2026-edition/"
+  ]
+ },
+ {
+  "id": "let-it-roll",
+  "name": "Let It Roll",
+  "start": "2027-08-05",
+  "end": "2027-08-07",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Most",
+  "country": "Czech Republic",
+  "countryCode": "CZ",
+  "venue": "Jezero Most (Lake Most)",
+  "coords": [
+   50.54,
+   13.65
+  ],
+  "timezone": "Europe/Prague",
+  "airport": {
+   "code": "LKPR",
+   "name": "Václav Havel Airport Prague",
+   "coords": [
+    50.1008,
+    14.26
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "drum and bass"
+  ],
+  "ticketFrom": "From 4,700 CZK for 3 days (official site)",
+  "recurrence": "annual",
+  "description": "Large drum and bass festival, held since 2025 at Lake Most in northern Bohemia after earlier editions at Milovice airfield. The official site lists 5 to 7 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://letitroll.cz/",
+  "sources": [
+   "https://letitroll.cz/",
+   "https://ra.co/events/2204329"
+  ]
+ },
+ {
+  "id": "neopop",
+  "name": "Neopop",
+  "start": "2027-08-05",
+  "end": "2027-08-07",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Viana do Castelo",
+  "country": "Portugal",
+  "countryCode": "PT",
+  "venue": "Forte de Santiago da Barra",
+  "coords": [
+   41.6889,
+   -8.8382
+  ],
+  "timezone": "Europe/Lisbon",
+  "airport": {
+   "code": "LPPR",
+   "name": "Porto Francisco Sá Carneiro Airport",
+   "coords": [
+    41.2481,
+    -8.6814
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Techno festival held at the Forte de Santiago da Barra in Viana do Castelo, northern Portugal.",
+  "researchNote": "For its 20th anniversary in 2026 it ran once as ANTIPOP (6 to 8 August 2026); the 2027 window follows the early-August pattern of 2025 (7 to 9 August) and 2026.",
+  "officialUrl": "https://antipopmusicfestival.com/",
+  "sources": [
+   "https://antipopmusicfestival.com/",
+   "https://ra.co/events/2398051",
+   "https://ra.co/events/2014377"
+  ]
+ },
+ {
+  "id": "untold",
+  "name": "UNTOLD",
+  "start": "2027-08-05",
+  "end": "2027-08-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Cluj-Napoca",
+  "country": "Romania",
+  "countryCode": "RO",
+  "venue": "Cluj Arena and Central Park",
+  "coords": [
+   46.7686,
+   23.5722
+  ],
+  "timezone": "Europe/Bucharest",
+  "airport": {
+   "code": "LRCL",
+   "name": "Cluj International Airport",
+   "coords": [
+    46.7852,
+    23.6862
+   ]
+  },
+  "capacity": 500000,
+  "capacityNote": "Total attendance over four days for the 2026 edition (Wikipedia).",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "pop"
+  ],
+  "ticketFrom": "From 522.79 RON (official site)",
+  "recurrence": "annual",
+  "description": "Romania's largest electronic music festival, centred on Cluj Arena in Cluj-Napoca. The official site lists 5 to 8 August 2027; Wikipedia reports 500,000 attendees for the 2026 edition (6 to 9 August).",
+  "researchNote": "",
+  "officialUrl": "https://untold.com/",
+  "sources": [
+   "https://untold.com/",
+   "https://en.wikipedia.org/wiki/Untold_Festival"
+  ]
+ },
+ {
+  "id": "elements-music-arts-festival",
+  "name": "Elements Music & Arts Festival",
+  "start": "2027-08-06",
+  "end": "2027-08-08",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Long Pond",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Pocono Raceway grounds, 1 Hulman Dr",
+  "coords": [
+   41.0549,
+   -75.5113
+  ],
+  "timezone": "America/New_York",
+  "airport": {
+   "code": "KAVP",
+   "name": "Wilkes-Barre/Scranton International Airport",
+   "coords": [
+    41.3385,
+    -75.7234
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "bass",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Three-day camping festival in the Pocono Mountains with four element-themed stages and more than 70 art installations.",
+  "researchNote": "Dates are estimated from the 2026 edition, held August 7-9.",
+  "officialUrl": "https://elementsfest.us",
+  "sources": [
+   "https://www.phillyvoice.com/elements-music-arts-festival-long-pond-pa-2026/"
+  ]
+ },
+ {
+  "id": "lovefest",
+  "name": "Lovefest",
+  "start": "2027-08-06",
+  "end": "2027-08-15",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Vrnjačka Banja",
+  "country": "Serbia",
+  "countryCode": "RS",
+  "venue": "City Park Lake",
+  "coords": [
+   43.6138,
+   20.8911
+  ],
+  "timezone": "Europe/Belgrade",
+  "airport": {
+   "code": "LYKV",
+   "name": "Morava Airport (Kraljevo)",
+   "coords": [
+    43.8183,
+    20.5872
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic music festival by the lake in the spa town of Vrnjačka Banja.",
+  "researchNote": "No 2027 dates were found; 2025 ran 7 to 10 August and 2026 ran over two weekends (7 and 8, then 14 and 15 August), so the window spans both early-August weekends.",
+  "officialUrl": "https://www.lovefest.rs/",
+  "sources": [
+   "https://www.lovefest.rs/",
+   "https://ra.co/events/2093979",
+   "https://ra.co/events/2422590"
+  ]
+ },
+ {
+  "id": "splash-house",
+  "name": "Splash House",
+  "start": "2027-08-06",
+  "end": "2027-08-15",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Palm Springs",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Renaissance, Saguaro and Hilton Palm Springs hotels; Palm Springs Air Museum after-hours",
+  "coords": [
+   33.8303,
+   -116.5453
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KPSP",
+   "name": "Palm Springs International Airport",
+   "coords": [
+    33.8297,
+    -116.5067
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "tech house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Boutique hotel pool-party festival over two August weekends, with after-hours events at the Palm Springs Air Museum.",
+  "researchNote": "Dates are estimated from 2026, which ran August 7-9 and 14-16.",
+  "officialUrl": "https://splashhouse.com",
+  "sources": [
+   "https://www.edmtunes.com/2026/02/splash-house-sets-dates-for-2026/"
+  ]
+ },
+ {
+  "id": "loveland-festival",
+  "name": "Loveland Festival",
+  "start": "2027-08-07",
+  "end": "2027-08-08",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Sloterpark",
+  "coords": [
+   52.364,
+   4.8
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day house and techno festival in Sloterpark in Amsterdam Nieuw-West. The official site lists 7 and 8 August 2027 with pre-registration open.",
+  "researchNote": "",
+  "officialUrl": "https://www.lovelandfestival.nl",
+  "sources": [
+   "https://www.lovelandfestival.nl"
+  ]
+ },
+ {
+  "id": "sonnemondsterne",
+  "name": "SonneMondSterne",
+  "start": "2027-08-07",
+  "end": "2027-08-09",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Saalburg-Ebersdorf",
+  "country": "Germany",
+  "countryCode": "DE",
+  "venue": "Bleilochtalsperre peninsula",
+  "coords": [
+   50.505,
+   11.733
+  ],
+  "timezone": "Europe/Berlin",
+  "airport": {
+   "code": "EDDE",
+   "name": "Erfurt-Weimar Airport",
+   "coords": [
+    50.9798,
+    10.9581
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Lakeside camping festival at the Bleiloch reservoir in Thuringia, one of Germany's longest-running electronic festivals. The 2026 edition ran 7 to 9 August, and festivalhopper.de lists 7 to 9 August 2027 for the 29th edition, which the official site did not confirm.",
+  "researchNote": "",
+  "officialUrl": "https://www.sonnemondsterne.de",
+  "sources": [
+   "https://www.festivalhopper.de/festival/sonne-mond-sterne-2027"
+  ]
+ },
+ {
+  "id": "glitch-festival",
+  "name": "Glitch Festival",
+  "start": "2027-08-11",
+  "end": "2027-08-14",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Rabat",
+  "country": "Malta",
+  "countryCode": "MT",
+  "venue": "Gianpula Village",
+  "coords": [
+   35.8757,
+   14.4182
+  ],
+  "timezone": "Europe/Malta",
+  "airport": {
+   "code": "LMML",
+   "name": "Malta International Airport",
+   "coords": [
+    35.8575,
+    14.4775
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Techno and house festival held at the Gianpula Village open-air complex near Rabat, Malta. The official site lists 11 to 14 August 2027, with presale tickets sold out and Tier 1 on sale.",
+  "researchNote": "",
+  "officialUrl": "https://glitchfestival.com/",
+  "sources": [
+   "https://glitchfestival.com/",
+   "https://ra.co/events/2329592"
+  ]
+ },
+ {
+  "id": "aquasella",
+  "name": "Aquasella",
+  "start": "2027-08-12",
+  "end": "2027-08-15",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Arriondas",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Aquasella festival site, Arriondas / Cangas de Onís (Asturias)",
+  "coords": [
+   43.39,
+   -5.19
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEAS",
+   "name": "Asturias Airport",
+   "coords": [
+    43.5636,
+    -6.0346
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Long-running techno festival on the banks of the Sella river in Arriondas, Asturias.",
+  "researchNote": "The official site is titled for 2027 without dates; the window is based on the 28th edition, held 14 to 17 August 2025.",
+  "officialUrl": "https://aquasella.com/",
+  "sources": [
+   "https://aquasella.com/",
+   "https://ra.co/events/2134535",
+   "https://ra.co/events/1973781"
+  ]
+ },
+ {
+  "id": "medusa-festival",
+  "name": "Medusa Festival",
+  "start": "2027-08-12",
+  "end": "2027-08-16",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Cullera",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Playa de Cullera (Medusa Beach)",
+  "coords": [
+   39.1645,
+   -0.2526
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEVC",
+   "name": "Valencia Airport",
+   "coords": [
+    39.4893,
+    -0.4816
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "hardstyle"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Beach festival on the Playa de Cullera south of Valencia with large themed stage productions. The official site lists 12 to 16 August 2027 and states the first 2027 passes are already sold out; the 2026 edition ran 13 to 17 August.",
+  "researchNote": "",
+  "officialUrl": "https://www.medusasunbeach.com/",
+  "sources": [
+   "https://www.medusasunbeach.com/",
+   "https://ra.co/events/2451997"
+  ]
+ },
+ {
+  "id": "bass-canyon",
+  "name": "Bass Canyon",
+  "start": "2027-08-13",
+  "end": "2027-08-15",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "George",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Gorge Amphitheatre",
+  "coords": [
+   47.1,
+   -119.9967
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KEAT",
+   "name": "Pangborn Memorial Airport (Wenatchee)",
+   "coords": [
+    47.3989,
+    -120.2068
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "bass",
+   "dubstep"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Excision's bass music camping festival at the Gorge Amphitheatre.",
+  "researchNote": "The official site confirms a 2027 edition without dates, so the window is based on 2026, held August 14-16.",
+  "officialUrl": "https://www.basscanyon.com",
+  "sources": [
+   "https://www.basscanyon.com/"
+  ]
+ },
+ {
+  "id": "dance-valley",
+  "name": "Dance Valley",
+  "start": "2027-08-14",
+  "end": "2027-08-14",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Spaarnwoude",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Recreatiegebied Spaarnwoude",
+  "coords": [
+   52.417,
+   4.696
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day Dutch dance festival in the Spaarnwoude recreation area, first held in 1995. The official site lists 14 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://www.dancevalley.nl",
+  "sources": [
+   "https://www.dancevalley.nl",
+   "https://www.festivalinfo.nl/news/50291/Qlimax-komt-met-line-up-van-uitverkochte-editie-in-november-o-a-Zany-en-the-Qreator/"
+  ]
+ },
+ {
+  "id": "street-parade",
+  "name": "Street Parade",
+  "start": "2027-08-14",
+  "end": "2027-08-14",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Zurich",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "venue": "Lake Zurich lakeside route",
+  "coords": [
+   47.366,
+   8.545
+  ],
+  "timezone": "Europe/Zurich",
+  "airport": {
+   "code": "LSZH",
+   "name": "Zurich Airport",
+   "coords": [
+    47.4582,
+    8.5555
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house",
+   "trance",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Free techno parade with Love Mobiles and stages along the Zurich lakeside basin. The 34th Street Parade is set for 14 August 2027 on the official site.",
+  "researchNote": "",
+  "officialUrl": "https://www.streetparade.com",
+  "sources": [
+   "https://www.streetparade.com"
+  ]
+ },
+ {
+  "id": "sonus-festival",
+  "name": "Sonus Festival",
+  "start": "2027-08-15",
+  "end": "2027-08-19",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Novalja",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "Zrće Beach, Pag Island",
+  "coords": [
+   44.4672,
+   14.9917
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDZD",
+   "name": "Zadar Airport",
+   "coords": [
+    44.1083,
+    15.3467
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Techno and house festival using the clubs of Zrće Beach on Pag Island.",
+  "researchNote": "The official site invites sign-ups for Sonus Croatia 2027 but gives no dates; the window follows the 2025 edition (17 to 21 August 2025) and the 2024 edition (18 to 23 August).",
+  "officialUrl": "https://www.sonuscroatia.com/",
+  "sources": [
+   "https://www.sonuscroatia.com/",
+   "https://ra.co/events/1990681",
+   "https://ra.co/events/1768253"
+  ]
+ },
+ {
+  "id": "mutek-montreal",
+  "name": "MUTEK Montréal",
+  "start": "2027-08-24",
+  "end": "2027-08-29",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Montreal",
+  "country": "Canada",
+  "countryCode": "CA",
+  "venue": "Quartier des Spectacles and other Montreal venues",
+  "coords": [
+   45.5088,
+   -73.566
+  ],
+  "timezone": "America/Toronto",
+  "airport": {
+   "code": "CYUL",
+   "name": "Montréal-Trudeau International Airport",
+   "coords": [
+    45.4706,
+    -73.7408
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "experimental electronic",
+   "techno",
+   "audiovisual"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Festival of electronic music and digital creativity; the official site announces a 28th edition in 2027 under the theme Sensitive Waves.",
+  "researchNote": "Dates are estimated from the 2026 edition, held August 25-30.",
+  "officialUrl": "https://montreal.mutek.org",
+  "sources": [
+   "https://montreal.mutek.org/en",
+   "https://montreal.mutek.org/en/news/mutek-montreal-announces-full-2026-lineup"
+  ]
+ },
+ {
+  "id": "creamfields",
+  "name": "Creamfields",
+  "start": "2027-08-26",
+  "end": "2027-08-29",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Daresbury, Warrington",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Daresbury Estate, Cheshire",
+  "coords": [
+   53.3345,
+   -2.6352
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGGP",
+   "name": "Liverpool John Lennon Airport",
+   "coords": [
+    53.3336,
+    -2.8497
+   ]
+  },
+  "capacity": 70000,
+  "capacityNote": "70,000 per day according to Wikipedia",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance",
+   "drum and bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Four-day camping festival on the Daresbury Estate in Cheshire over the August Bank Holiday weekend, founded in 1998 by the Liverpool club Cream. The 2027 edition runs Thursday 26 to Sunday 29 August, as listed on the official site.",
+  "researchNote": "",
+  "officialUrl": "https://www.creamfields.com/",
+  "sources": [
+   "https://www.creamfields.com/",
+   "https://www.creamfields.com/tickets",
+   "https://en.wikipedia.org/wiki/Creamfields"
+  ]
+ },
+ {
+  "id": "dimensions-festival",
+  "name": "Dimensions Festival",
+  "start": "2027-08-26",
+  "end": "2027-08-31",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "Tisno",
+  "country": "Croatia",
+  "countryCode": "HR",
+  "venue": "The Garden Tisno",
+  "coords": [
+   43.8018,
+   15.653
+  ],
+  "timezone": "Europe/Zagreb",
+  "airport": {
+   "code": "LDZD",
+   "name": "Zadar Airport",
+   "coords": [
+    44.1083,
+    15.3467
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Electronic festival at The Garden Tisno on the Dalmatian coast, with boat parties and after-parties nearby in Pirovac. The official site lists 26 to 31 August 2027 for the next edition.",
+  "researchNote": "",
+  "officialUrl": "https://dimensionsfestival.com/",
+  "sources": [
+   "https://dimensionsfestival.com/",
+   "https://ra.co/events/2527188",
+   "https://ra.co/events/2001142"
+  ]
+ },
+ {
+  "id": "lost-village",
+  "name": "Lost Village",
+  "start": "2027-08-26",
+  "end": "2027-08-29",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Norton Disney, Lincoln",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Lost Village woodland site, Norton Disney",
+  "coords": [
+   53.13,
+   -0.67
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGNX",
+   "name": "East Midlands Airport",
+   "coords": [
+    52.8311,
+    -1.3281
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Woodland festival at Norton Disney in Lincolnshire, held over the August Bank Holiday weekend with electronic acts, comedy and food. The 2026 edition ran 27 to 30 August and sold out.",
+  "researchNote": "The window shown is the equivalent 2027 bank holiday weekend.",
+  "officialUrl": "https://www.lostvillagefestival.com/",
+  "sources": [
+   "https://kaboodle.com/event/lost-village",
+   "https://www.festivalinsights.com/?p=24826"
+  ]
+ },
+ {
+  "id": "decibel-outdoor",
+  "name": "Decibel Outdoor",
+  "start": "2027-08-27",
+  "end": "2027-08-29",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Hilvarenbeek",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Beekse Bergen",
+  "coords": [
+   51.53,
+   5.13
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHEH",
+   "name": "Eindhoven Airport",
+   "coords": [
+    51.4501,
+    5.3745
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "hardstyle",
+   "hardcore",
+   "EDM",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Hard dance and dance festival with camping at Beekse Bergen in North Brabant.",
+  "researchNote": "The 2026 edition ran 28 to 30 August; 2027 dates are estimated from that last-weekend-of-August pattern.",
+  "officialUrl": "https://www.decibel.nl",
+  "sources": [
+   "https://www.technoairlines.com/festival/decibel-outdoor-hilvarenbeek-netherlands-2026",
+   "https://followthebeat.nl/festivals/decibel-outdoor/"
+  ]
+ },
+ {
+  "id": "mysteryland",
+  "name": "Mysteryland",
+  "start": "2027-08-27",
+  "end": "2027-08-29",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Haarlemmermeer",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "Former Floriade grounds, Haarlemmermeerse Bos",
+  "coords": [
+   52.296,
+   4.699
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHAM",
+   "name": "Amsterdam Airport Schiphol",
+   "coords": [
+    52.3086,
+    4.7639
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "hardstyle"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Long-running Dutch electronic festival that paused in 2026 and returns in 2027 in Haarlemmermeer with a new concept.",
+  "researchNote": "The last edition ran 22 to 24 August 2025; 2027 dates are estimated from that late-August pattern and are not announced.",
+  "officialUrl": "https://www.mysteryland.nl",
+  "sources": [
+   "https://www.mysteryland.nl",
+   "https://www.nhnieuws.nl/nieuws/350718/mysteryland-slaat-in-2026-een-jaartje-over-maar-blijft-wel-in-haarlemmermeer",
+   "https://www.technoairlines.com/festival/mysteryland-haarlemmermeer-netherlands-2025"
+  ]
+ },
+ {
+  "id": "body-movements",
+  "name": "Body Movements",
+  "start": "2027-08-29",
+  "end": "2027-08-29",
+  "datesStatus": "announced",
+  "confidence": "high",
+  "city": "London",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Southwark Park",
+  "coords": [
+   51.495,
+   -0.056
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGLC",
+   "name": "London City Airport",
+   "coords": [
+    51.5053,
+    0.0553
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "ballroom",
+   "breaks",
+   "experimental club"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day festival of queer electronic music in Southwark Park, south east London, held on the Sunday of the August Bank Holiday weekend. The 2026 edition ran five stages; the official site lists Sunday 29 August 2027.",
+  "researchNote": "",
+  "officialUrl": "https://bodymovements.co.uk/",
+  "sources": [
+   "https://bodymovements.co.uk/",
+   "https://djmag.com/news/body-movements-announces-first-names-2026-line"
+  ]
+ },
+ {
+  "id": "sunwaves-spain",
+  "name": "Sunwaves Spain",
+  "start": "2027-09-02",
+  "end": "2027-09-06",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Roquetas de Mar",
+  "country": "Spain",
+  "countryCode": "ES",
+  "venue": "Sunwaves Almería, Roquetas de Mar",
+  "coords": [
+   36.77,
+   -2.61
+  ],
+  "timezone": "Europe/Madrid",
+  "airport": {
+   "code": "LEAM",
+   "name": "Almería Airport",
+   "coords": [
+    36.8439,
+    -2.3701
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "minimal",
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Spanish edition of the Romanian-born Sunwaves festival, known for non-stop multi-day minimal and house programming.",
+  "researchNote": "No 2027 dates are listed; the window follows recent September editions (SW36, 4 to 8 September 2025; SW38, 3 to 7 September 2026).",
+  "officialUrl": "https://ra.co/events/2272393",
+  "sources": [
+   "https://ra.co/events/2272393",
+   "https://ra.co/events/2061310",
+   "https://ra.co/events/1944409"
+  ]
+ },
+ {
+  "id": "arc-music-festival",
+  "name": "ARC Music Festival",
+  "start": "2027-09-03",
+  "end": "2027-09-06",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Chicago",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Union Park",
+  "coords": [
+   41.8846,
+   -87.6658
+  ],
+  "timezone": "America/Chicago",
+  "airport": {
+   "code": "KMDW",
+   "name": "Chicago Midway International Airport",
+   "coords": [
+    41.7868,
+    -87.7522
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Labor Day weekend house and techno festival in Union Park, which expanded to four days in 2026 (September 4-7).",
+  "researchNote": "The official site says see you in 2027; dates are estimated from the Labor Day pattern.",
+  "officialUrl": "https://www.arcmusicfestival.com",
+  "sources": [
+   "https://www.arcmusicfestival.com/",
+   "https://mixmag.net/read/chicagos-arc-festival-shares-2026-line-up-with-extended-four-day-programme-news"
+  ]
+ },
+ {
+  "id": "draaimolen-festival",
+  "name": "Draaimolen Festival",
+  "start": "2027-09-03",
+  "end": "2027-09-04",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Tilburg",
+  "country": "Netherlands",
+  "countryCode": "NL",
+  "venue": "MOB Complex",
+  "coords": [
+   51.566,
+   5.06
+  ],
+  "timezone": "Europe/Amsterdam",
+  "airport": {
+   "code": "EHEH",
+   "name": "Eindhoven Airport",
+   "coords": [
+    51.4501,
+    5.3745
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "techno",
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Two-day techno and house festival at the MOB Complex in Tilburg; the 2026 edition, held 4 and 5 September, sold out.",
+  "researchNote": "The province allowed the festival to stay at the site for up to three more years, and 2027 dates are estimated from the early-September pattern.",
+  "officialUrl": "https://www.draaimolenfestival.nl",
+  "sources": [
+   "https://www.festivalinfo.nl/news/59128/Volledige-line-up-van-uitverkochte-Draaimolen-Festival-2026-is-bekend/",
+   "https://www.omroepbrabant.nl/nieuws/4792834/dancefestival-draaimolen-kan-toch-langer-door-op-huidige-plek"
+  ]
+ },
+ {
+  "id": "love-to-be-festival",
+  "name": "Love to be... Festival",
+  "start": "2027-09-04",
+  "end": "2027-09-04",
+  "datesStatus": "announced",
+  "confidence": "medium",
+  "city": "Harrogate",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "The Stray",
+  "coords": [
+   53.989,
+   -1.534
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGNM",
+   "name": "Leeds Bradford Airport",
+   "coords": [
+    53.8659,
+    -1.6606
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "One-day, non-camping house music festival with three stages on The Stray in Harrogate, run by the Love to be... party brand. Skiddle lists Saturday 4 September 2027; the 2026 edition was 5 September.",
+  "researchNote": "",
+  "officialUrl": "https://www.skiddle.com/e/42504153",
+  "sources": [
+   "https://www.skiddle.com/e/42504153",
+   "https://909originals.com/2026/01/01/top-dance-and-electronic-music-festivals-in-september-and-october/"
+  ]
+ },
+ {
+  "id": "district-x",
+  "name": "District X",
+  "start": "2027-09-11",
+  "end": "2027-09-11",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "Johnstown, Naas",
+  "country": "Ireland",
+  "countryCode": "IE",
+  "venue": "Palmerstown House Estate, Co. Kildare",
+  "coords": [
+   53.239,
+   -6.625
+  ],
+  "timezone": "Europe/Dublin",
+  "airport": {
+   "code": "EIDW",
+   "name": "Dublin Airport",
+   "coords": [
+    53.4213,
+    -6.2701
+   ]
+  },
+  "capacity": 25000,
+  "capacityNote": "25,000 for the 2025 edition, per Resident Advisor",
+  "genres": [
+   "house",
+   "techno",
+   "UK garage",
+   "bass"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Open-air dance festival from Index and District 8 on the Palmerstown House Estate near Dublin, first held on 21 September 2024. It ran 19 to 20 September 2025, and the 2026 edition was 12 September.",
+  "researchNote": "The window shown assumes a mid September 2027 date.",
+  "officialUrl": "https://ra.co/news/83251",
+  "sources": [
+   "https://ra.co/news/83251",
+   "https://nialler9.com/district-x-is-a-new-20000-dance-festival-from-index-and-district-8",
+   "https://909originals.com/2026/01/01/top-dance-and-electronic-music-festivals-in-september-and-october/"
+  ]
+ },
+ {
+  "id": "waterworks",
+  "name": "Waterworks",
+  "start": "2027-09-11",
+  "end": "2027-09-12",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "London",
+  "country": "United Kingdom",
+  "countryCode": "GB",
+  "venue": "Gunnersbury Park (planned)",
+  "coords": [
+   51.496,
+   -0.293
+  ],
+  "timezone": "Europe/London",
+  "airport": {
+   "code": "EGLL",
+   "name": "London Heathrow Airport",
+   "coords": [
+    51.47,
+    -0.4543
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "West London electronic festival held in mid September, on 13 September 2025 at Gunnersbury Park. The 2026 edition moved to The Cause as a 36-hour event after planning delays, and organisers said they hope to return to Gunnersbury Park in 2027. Dates and venue for 2027 are not confirmed.",
+  "researchNote": "",
+  "officialUrl": "https://www.waterworksfestival.com/",
+  "sources": [
+   "https://ra.co/news/85156",
+   "https://mixmag.net/read/waterworks-festival-reveals-2025-line-up-eris-drew-two-shell-dvs1-news"
+  ]
+ },
+ {
+  "id": "lost-lands",
+  "name": "Lost Lands",
+  "start": "2027-09-17",
+  "end": "2027-09-19",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Thornville",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Legend Valley",
+  "coords": [
+   39.9393,
+   -82.4029
+  ],
+  "timezone": "America/New_York",
+  "airport": {
+   "code": "KCMH",
+   "name": "John Glenn Columbus International Airport",
+   "coords": [
+    39.998,
+    -82.8919
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "bass",
+   "dubstep"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Excision's dinosaur-themed bass music camping festival at Legend Valley in Ohio.",
+  "researchNote": "Dates are estimated from the 2026 edition, held September 18-20; the site says see you next year.",
+  "officialUrl": "https://www.lostlandsfestival.com",
+  "sources": [
+   "https://www.lostlandsfestival.com/"
+  ]
+ },
+ {
+  "id": "nocturnal-wonderland",
+  "name": "Nocturnal Wonderland",
+  "start": "2027-09-18",
+  "end": "2027-09-19",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "San Bernardino",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Glen Helen Regional Park",
+  "coords": [
+   34.2254,
+   -117.4086
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KONT",
+   "name": "Ontario International Airport",
+   "coords": [
+    34.056,
+    -117.6012
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "bass",
+   "EDM"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Insomniac's two-day camping festival, described as the longest-running dance music festival in the US, held for the 31st time in 2026 at Glen Helen.",
+  "researchNote": "Dates are estimated from the 2026 edition, held September 19-20.",
+  "officialUrl": "https://nocturnalwonderland.com",
+  "sources": [
+   "https://press.insomniac.com/blog/nocturnal-wonderland-announces-over-80-artists-for-2026-lineup"
+  ]
+ },
+ {
+  "id": "ultra-japan",
+  "name": "Ultra Japan",
+  "start": "2027-09-18",
+  "end": "2027-09-19",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "Tokyo",
+  "country": "Japan",
+  "countryCode": "JP",
+  "venue": "Odaiba Ultra Park (Aomi 1-1, Koto)",
+  "coords": [
+   35.623,
+   139.776
+  ],
+  "timezone": "Asia/Tokyo",
+  "airport": {
+   "code": "RJTT",
+   "name": "Tokyo Haneda Airport",
+   "coords": [
+    35.5494,
+    139.7798
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "EDM",
+   "house",
+   "techno",
+   "trance"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "Japanese edition of Ultra Worldwide, held over a weekend at a temporary site in Odaiba, Tokyo.",
+  "researchNote": "Window estimated from the 19-20 September 2026 edition; 2027 dates are not yet published.",
+  "officialUrl": "https://ultrajapan.com/",
+  "sources": [
+   "https://ultrajapan.com/"
+  ]
+ },
+ {
+  "id": "crssd-festival-fall",
+  "name": "CRSSD Festival Fall",
+  "start": "2027-09-25",
+  "end": "2027-09-26",
+  "datesStatus": "usual_window",
+  "confidence": "low",
+  "city": "San Diego",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Waterfront Park",
+  "coords": [
+   32.7215,
+   -117.1726
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KSAN",
+   "name": "San Diego International Airport",
+   "coords": [
+    32.7338,
+    -117.1933
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "electronic"
+  ],
+  "ticketFrom": null,
+  "recurrence": "seasonal",
+  "description": "21-plus fall edition of CRSSD on San Diego's Waterfront Park.",
+  "researchNote": "Dates are estimated from Fall 2026, held September 26-27.",
+  "officialUrl": "https://crssdfest.com",
+  "sources": [
+   "https://crssdfest.com/"
+  ]
+ },
+ {
+  "id": "portola-music-festival",
+  "name": "Portola Music Festival",
+  "start": "2027-09-25",
+  "end": "2027-09-26",
+  "datesStatus": "usual_window",
+  "confidence": "medium",
+  "city": "San Francisco",
+  "country": "United States",
+  "countryCode": "US",
+  "venue": "Pier 80",
+  "coords": [
+   37.751,
+   -122.381
+  ],
+  "timezone": "America/Los_Angeles",
+  "airport": {
+   "code": "KSFO",
+   "name": "San Francisco International Airport",
+   "coords": [
+    37.6213,
+    -122.379
+   ]
+  },
+  "capacity": null,
+  "capacityNote": "",
+  "genres": [
+   "house",
+   "techno",
+   "EDM",
+   "electronic pop"
+  ],
+  "ticketFrom": null,
+  "recurrence": "annual",
+  "description": "21-plus two-day electronic festival on the San Francisco waterfront at Pier 80.",
+  "researchNote": "Dates are estimated from the 2026 edition (its fifth), held September 26-27 with two-day passes at USD 380.",
+  "officialUrl": "https://www.portolamusicfestival.com",
+  "sources": [
+   "https://www.abc7news.com/post/portola-2026-lineup-dates-ticket-details-released-san-francisco-music-festival-pier-80/19189548/",
+   "https://www.portolamusicfestival.com/"
+  ]
+ }
+]
