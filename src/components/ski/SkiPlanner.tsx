@@ -6,7 +6,7 @@ import { rankRanges, rankResorts, type RangeMatch } from '@/lib/ski/match';
 import { useSkiPlan } from '@/lib/ski/store';
 import { formatSpan } from '@/lib/ski/window';
 import { ResortCard } from './RangeView';
-import { cardColors, Loading, ThumbButton, toneStyle, TripBar, useSkiContext, WindowPicker } from './common';
+import { Loading, MapCredit, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext, WindowPicker } from './common';
 import styles from './ski.module.css';
 
 /**
@@ -81,12 +81,16 @@ function RangeCard({ match, on, onToggle }: { match: RangeMatch; on: boolean; on
   const { range, tone, resorts, forThemCount, verdict } = match;
   const open = resorts.filter((resort) => resort.fit > 0);
   return (
-    <article className={styles.card} style={cardColors(range.colors)} data-tone={tone}>
+    <article className={styles.card} style={rangeMapStyle(range.id, range.colors)} data-tone={tone} data-map="">
       <Link href={`/ski/${range.id}`} className={styles.cardLink} aria-label={`See resorts in ${range.name}`} />
+      <MapCredit />
       <div className={styles.cardBody}>
-        <div className={styles.cardKicker}>{range.where}</div>
-        <h3>{range.name}</h3>
-        <span className={styles.verdict} style={toneStyle(tone)}><i />{verdict}</span>
+        <div className={styles.cardTop}>
+          <div className={styles.cardKicker}>{range.where}</div>
+          <h3>{range.name}</h3>
+          <span className={styles.verdict} style={toneStyle(tone)}><i />{verdict}</span>
+        </div>
+        <div className={styles.mapGap} aria-hidden="true" />
         <p className={styles.cardSummary}>{range.summary}</p>
         <div className={styles.facts}>
           <span><strong>{resorts.length}</strong> resorts{open.length && open.length < resorts.length ? `, ${open.length} open for your dates` : ''}</span>

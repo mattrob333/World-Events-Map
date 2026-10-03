@@ -40,6 +40,24 @@
   border-radius: 24px; overflow: hidden; color: #fff; text-decoration: none;
   background: linear-gradient(160deg, var(--c1), var(--c2)); box-shadow: var(--shadow-soft-2);
 }
+.card[data-map] {
+  /* A dark relief map: dark fades at the top and bottom for the text, clear in the middle where the resorts are. */
+  min-height: 600px; color: #fff;
+  background:
+    linear-gradient(180deg, rgb(5 9 13 / 0.92) 0%, rgb(5 9 13 / 0.55) 24%, rgb(5 9 13 / 0) 31%, rgb(5 9 13 / 0) 61%, rgb(5 9 13 / 0.88) 68%, rgb(5 9 13 / 0.96) 100%),
+    var(--map) top center / cover no-repeat,
+    #0b1218;
+}
+.card[data-map] .cardKicker { color: rgb(255 255 255 / 0.8); opacity: 1; }
+.card[data-map] .things li::before { color: var(--color-saffron); opacity: 1; }
+.card[data-map][data-tone='off'] { filter: grayscale(0.7) brightness(0.8); }
+.cardTop { display: flex; flex-direction: column; gap: 8px; min-height: 152px; }
+/* The window onto the map. Fixed, so the resorts (rendered 30% to 61% down) sit in it on every card. */
+.mapGap { flex: none; height: 200px; }
+.card[data-map] .facts { margin-top: 0; }
+.mapCredit { position: absolute; left: 18px; right: 18px; bottom: 3px; z-index: 2; font-size: 9px; line-height: 1.6; color: rgb(255 255 255 / 0.5); }
+.mapCredit a { color: inherit; text-decoration: none; }
+.mapCredit a:hover, .mapCredit a:focus-visible { color: #fff; text-decoration: underline; }
 .card[data-tone='off'] { filter: saturate(0.35) brightness(0.8); }
 .cardLink { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
 .cardBody { position: relative; display: flex; flex: 1; flex-direction: column; gap: 8px; padding: 18px 18px 16px; pointer-events: none; }
@@ -144,3 +162,8 @@
   .sectionHead { margin-top: 16px; }
 }
 .tally strong { color: var(--color-saffron); }
+
+/* A range page opens on its map: the resorts sit 31% to 60% down the image. */
+.rangeHero { position: relative; margin: 0 -16px; height: 280px; background: var(--map) center 45% / cover no-repeat, #0b1218; }
+@media (min-width: 900px) { .rangeHero { margin: 0; height: 360px; border-radius: 24px; overflow: hidden; } }
+.filterRow { margin-top: 14px; }
