@@ -9214,5 +9214,3544 @@
   "sources": [
    "https://snowcarbon.co.uk/ski-resorts/crans-montana/restaurants-apres-ski-nightlife"
   ]
+ },
+ {
+  "id": "st-anton--mooserwirt",
+  "resortId": "st-anton",
+  "kind": "apres",
+  "name": "MooserWirt",
+  "summary": "Giant slopeside après hut, packed to the rafters by 4pm",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowtrex.co.uk/magazine/apres-ski/st-anton/"
+  ]
+ },
+ {
+  "id": "st-anton--krazy-kanguruh",
+  "resortId": "st-anton",
+  "kind": "apres",
+  "name": "Krazy Kanguruh",
+  "summary": "Legendary piste-side après bar, one of the originals in the Alps",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowtrex.co.uk/magazine/apres-ski/st-anton/"
+  ]
+ },
+ {
+  "id": "st-anton--der-weisse-rausch",
+  "resortId": "st-anton",
+  "kind": "event",
+  "name": "Der Weisse Rausch",
+  "summary": "Wild mass-start race with hundreds of skiers plunging down the Valluga",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-17",
+   "end": "2027-04-17",
+   "sourceUrl": "https://www.tirol.at/aktivitaeten/events/alle-events/der-weisse-rausch"
+  },
+  "links": {},
+  "sources": [
+   "https://www.tirol.at/aktivitaeten/events/alle-events/der-weisse-rausch"
+  ]
+ },
+ {
+  "id": "st-anton--hospiz-alm",
+  "resortId": "st-anton",
+  "kind": "restaurant",
+  "name": "Hospiz Alm",
+  "summary": "Piste-side fine dining over a cellar of 3,000 giant Bordeaux bottles",
+  "wow": 3,
+  "interests": [
+   "food",
+   "fine-dining",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://wineanorak.com/2023/12/13/the-remarkable-big-bottle-cellars-at-the-hospiz-alm-in-st-christoph-am-arlberg-austria/"
+  ]
+ },
+ {
+  "id": "st-anton--stanton-ski-open",
+  "resortId": "st-anton",
+  "kind": "event",
+  "name": "Stanton Ski Open",
+  "summary": "Opening weekend festival that kicks off the winter in the village",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "apres"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-04",
+   "end": "2026-12-06",
+   "sourceUrl": "https://www.stantonamarlberg.com/en/winter/apres-ski"
+  },
+  "links": {},
+  "sources": [
+   "https://www.stantonamarlberg.com/en/winter/apres-ski"
+  ]
+ },
+ {
+  "id": "st-anton--sennhuette",
+  "resortId": "st-anton",
+  "kind": "apres",
+  "name": "Sennhütte",
+  "summary": "Rustic hut with a big sun terrace on the run home",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowtrex.co.uk/magazine/apres-ski/st-anton/"
+  ]
+ },
+ {
+  "id": "st-anton--piccadilly",
+  "resortId": "st-anton",
+  "kind": "live-music",
+  "name": "Piccadilly",
+  "summary": "Basement bar under Hotel Post with live music every day",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowtrex.co.uk/magazine/apres-ski/st-anton/"
+  ]
+ },
+ {
+  "id": "st-anton--postkeller",
+  "resortId": "st-anton",
+  "kind": "club",
+  "name": "Postkeller",
+  "summary": "Village nightclub that keeps going into the early hours",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowtrex.co.uk/magazine/apres-ski/st-anton/"
+  ]
+ },
+ {
+  "id": "lech-zuers--der-weisse-ring",
+  "resortId": "lech-zuers",
+  "kind": "event",
+  "name": "Der Weisse Ring",
+  "summary": "Cult 22 km race around the ski circuit linking Lech, Zürs and Zug",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-16",
+   "end": "2027-01-16",
+   "sourceUrl": "https://www.derweissering.ski/en/the-race"
+  },
+  "links": {},
+  "sources": [
+   "https://www.derweissering.ski/en/the-race"
+  ]
+ },
+ {
+  "id": "lech-zuers--skyspace-lech",
+  "resortId": "lech-zuers",
+  "kind": "activity",
+  "name": "Skyspace Lech",
+  "summary": "James Turrell light chamber dug into a mountain above Oberlech",
+  "wow": 3,
+  "interests": [
+   "culture",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lechzuers.com/en/culture-and-lifestyle/culture/skyspace-lech"
+  ]
+ },
+ {
+  "id": "lech-zuers--balmalp",
+  "resortId": "lech-zuers",
+  "kind": "apres",
+  "name": "Balmalp",
+  "summary": "Mountaintop après above Zug with champagne and dancing",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "lech-zuers--schlegelkopf",
+  "resortId": "lech-zuers",
+  "kind": "apres",
+  "name": "Schlegelkopf",
+  "summary": "On-mountain spot with sushi, steak, DJs and live bands",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "live-music",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "lech-zuers--eisbar-no-1",
+  "resortId": "lech-zuers",
+  "kind": "apres",
+  "name": "Eisbar at the Burg Hotel",
+  "summary": "Glam après bar with a DJ from 3pm, oysters and dancing",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "lech-zuers--schneggarei",
+  "resortId": "lech-zuers",
+  "kind": "apres",
+  "name": "Schneggarei",
+  "summary": "Timber après bar in central Lech with cocktails, pizza and fondue",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "lech-zuers--heli-skiing",
+  "resortId": "lech-zuers",
+  "kind": "activity",
+  "name": "Heli-skiing",
+  "summary": "Helicopter access to untracked powder above Lech",
+  "wow": 2,
+  "interests": [
+   "adventure"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "lech-zuers--k-club",
+  "resortId": "lech-zuers",
+  "kind": "club",
+  "name": "K-Club",
+  "summary": "Late-night basement club with VIP booths from 10pm",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.yahoo.com/lifestyle/articles/best-apr-ski-activities-lech-160000597.html"
+  ]
+ },
+ {
+  "id": "ischgl--top-of-the-mountain-opening-concert",
+  "resortId": "ischgl",
+  "kind": "event",
+  "name": "Top of the Mountain Opening Concert",
+  "summary": "Westlife open the season with a big open-air show in Ischgl",
+  "wow": 3,
+  "interests": [
+   "concert",
+   "festival",
+   "live-music"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-28",
+   "end": "2026-11-28",
+   "sourceUrl": "https://www.ischgl.com/nl/top-of-the-mountain-opening-concert_event_133217311"
+  },
+  "links": {},
+  "sources": [
+   "https://www.ischgl.com/nl/top-of-the-mountain-opening-concert_event_133217311"
+  ]
+ },
+ {
+  "id": "ischgl--top-of-the-mountain-spring-concert",
+  "resortId": "ischgl",
+  "kind": "event",
+  "name": "Top of the Mountain Spring Concert",
+  "summary": "Star concert on the Idalp at 2,300 m, the Alps' biggest open-air arena",
+  "wow": 3,
+  "interests": [
+   "concert",
+   "festival",
+   "live-music"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-17",
+   "end": "2027-04-17",
+   "sourceUrl": "https://www.ischgl.com/da/top-of-the-mountain-spring-concert_event_132896447"
+  },
+  "links": {},
+  "sources": [
+   "https://www.ischgl.com/da/top-of-the-mountain-spring-concert_event_132896447"
+  ]
+ },
+ {
+  "id": "ischgl--trofana-alm",
+  "resortId": "ischgl",
+  "kind": "apres",
+  "name": "Trofana Alm",
+  "summary": "Upmarket après barn that turns into a full nightclub after 10:30pm",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sno.co.uk/blog/?p=7353"
+  ]
+ },
+ {
+  "id": "ischgl--pacha-ischgl",
+  "resortId": "ischgl",
+  "kind": "club",
+  "name": "Pacha Ischgl",
+  "summary": "Big-name club in Hotel Madlein, open until 6am",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sno.co.uk/blog/?p=7353"
+  ]
+ },
+ {
+  "id": "ischgl--stueva",
+  "resortId": "ischgl",
+  "kind": "restaurant",
+  "name": "Stüva",
+  "summary": "Benjamin Parth's five-toque gourmet room in Hotel Yscla",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ischgl.com/da/stueva-hotel-yscla_infra_100006778"
+  ]
+ },
+ {
+  "id": "ischgl--kitzloch",
+  "resortId": "ischgl",
+  "kind": "apres",
+  "name": "Kitzloch",
+  "summary": "Packed slopeside après with a resident DJ from 3pm to 7pm",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sno.co.uk/blog/?p=7353"
+  ]
+ },
+ {
+  "id": "ischgl--nikis-stadl",
+  "resortId": "ischgl",
+  "kind": "apres",
+  "name": "Niki's Stadl",
+  "summary": "Classic Tyrolean après hut with Schlager singalongs",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sno.co.uk/blog/?p=7353"
+  ]
+ },
+ {
+  "id": "ischgl--paznauner-taja",
+  "resortId": "ischgl",
+  "kind": "apres",
+  "name": "Paznauner Taja",
+  "summary": "On-mountain EDM après with DJs until the last lift",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sno.co.uk/blog/?p=7353"
+  ]
+ },
+ {
+  "id": "ischgl--silvretta-therme",
+  "resortId": "ischgl",
+  "kind": "activity",
+  "name": "Silvretta Therme",
+  "summary": "Modern spa with a heated rooftop pool and Alpine views",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://service.ischgl.com/en/plan-your-trip/ischgl-a-z/silvretta-therme_infra_100002132"
+  ]
+ },
+ {
+  "id": "kitzbuehel--hahnenkamm-race",
+  "resortId": "kitzbuehel",
+  "kind": "event",
+  "name": "Hahnenkamm Race",
+  "summary": "Legendary World Cup races on the Streif, with a party mood all over town",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival",
+   "nightlife"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-22",
+   "end": "2027-01-24",
+   "sourceUrl": "https://www.tirol.at/aktivitaeten/events/alle-events/hahnenkammrennen-2027"
+  },
+  "links": {},
+  "sources": [
+   "https://www.tirol.at/aktivitaeten/events/alle-events/hahnenkammrennen-2027"
+  ]
+ },
+ {
+  "id": "kitzbuehel--the-londoner",
+  "resortId": "kitzbuehel",
+  "kind": "apres",
+  "name": "The Londoner",
+  "summary": "Rowdy British pub, still the liveliest après spot in town",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://alpineanswers.co.uk/ski-resorts/austria/resort-guide-kitzbuhel"
+  ]
+ },
+ {
+  "id": "kitzbuehel--snow-polo-world-cup",
+  "resortId": "kitzbuehel",
+  "kind": "event",
+  "name": "Snow Polo World Cup",
+  "summary": "International teams play polo on snow, with glamour off the field",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "luxury"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-15",
+   "end": "2027-01-17",
+   "sourceUrl": "https://www.tirol.at/aktivitaeten/events/alle-events/24-bendura-bank-snow-polo-world-cup"
+  },
+  "links": {},
+  "sources": [
+   "https://www.tirol.at/aktivitaeten/events/alle-events/24-bendura-bank-snow-polo-world-cup"
+  ]
+ },
+ {
+  "id": "kitzbuehel--take-five",
+  "resortId": "kitzbuehel",
+  "kind": "club",
+  "name": "Take Five",
+  "summary": "The town's main late-night club",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.kitzbuehel.com/en/lifestyle/nightlife/",
+   "https://alpineanswers.co.uk/ski-resorts/austria/resort-guide-kitzbuhel"
+  ]
+ },
+ {
+  "id": "kitzbuehel--streifalm",
+  "resortId": "kitzbuehel",
+  "kind": "apres",
+  "name": "Streifalm",
+  "summary": "Sunny terrace for a late lunch that rolls into full après",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://alpineanswers.co.uk/ski-resorts/austria/resort-guide-kitzbuhel"
+  ]
+ },
+ {
+  "id": "kitzbuehel--neuwirt",
+  "resortId": "kitzbuehel",
+  "kind": "restaurant",
+  "name": "Neuwirt",
+  "summary": "Hotel Schwarzer Adler restaurant, one of the best in town",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://alpineanswers.co.uk/ski-resorts/austria/resort-guide-kitzbuhel"
+  ]
+ },
+ {
+  "id": "soelden--electric-mountain-festival",
+  "resortId": "soelden",
+  "kind": "event",
+  "name": "Electric Mountain Festival",
+  "summary": "Six days of DJs on 11 stages across the slopes, up to 3,000 m",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "apres"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-12",
+   "end": "2027-04-17",
+   "sourceUrl": "https://presse.tirol.at/en/?p=285605"
+  },
+  "links": {},
+  "sources": [
+   "https://presse.tirol.at/en/?p=285605"
+  ]
+ },
+ {
+  "id": "soelden--world-cup-opening",
+  "resortId": "soelden",
+  "kind": "event",
+  "name": "Audi FIS Ski World Cup Opening",
+  "summary": "Giant slalom season opener on the Rettenbach glacier",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   10
+  ],
+  "dates": {
+   "start": "2026-10-24",
+   "end": "2026-10-25",
+   "sourceUrl": "https://www.soelden.com/winter/events/skiworldcup.html"
+  },
+  "links": {},
+  "sources": [
+   "https://www.soelden.com/winter/events/skiworldcup.html"
+  ]
+ },
+ {
+  "id": "soelden--ice-q",
+  "resortId": "soelden",
+  "kind": "restaurant",
+  "name": "ice Q",
+  "summary": "Gourmet restaurant at 3,048 m and a set for the Bond film Spectre",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://iceq.at/en"
+  ]
+ },
+ {
+  "id": "soelden--007-elements",
+  "resortId": "soelden",
+  "kind": "activity",
+  "name": "007 Elements",
+  "summary": "James Bond installation built into the Gaislachkogl summit",
+  "wow": 3,
+  "interests": [
+   "culture",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://iceq.at/en"
+  ]
+ },
+ {
+  "id": "soelden--aqua-dome",
+  "resortId": "soelden",
+  "kind": "activity",
+  "name": "Aqua Dome",
+  "summary": "Thermal spa in Längenfeld with three floating outdoor bowl pools",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Aqua_Dome_(L%C3%A4ngenfeld)"
+  ]
+ },
+ {
+  "id": "soelden--philipp",
+  "resortId": "soelden",
+  "kind": "apres",
+  "name": "Philipp",
+  "summary": "Iconic après bar known for live music and a heaving crowd",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://blog.maisonsport.com/blog/the-ultimate-guide-to-solden/"
+  ]
+ },
+ {
+  "id": "soelden--fire-and-ice",
+  "resortId": "soelden",
+  "kind": "apres",
+  "name": "Fire & Ice",
+  "summary": "Cosy cocktail bar that gets lively as the night goes on",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://blog.maisonsport.com/blog/the-ultimate-guide-to-solden/"
+  ]
+ },
+ {
+  "id": "soelden--katapult",
+  "resortId": "soelden",
+  "kind": "club",
+  "name": "Katapult",
+  "summary": "Club with a busy music scene and regular theme nights",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://blog.maisonsport.com/blog/the-ultimate-guide-to-solden/"
+  ]
+ },
+ {
+  "id": "mayrhofen--snowbombing",
+  "resortId": "mayrhofen",
+  "kind": "event",
+  "name": "Snowbombing",
+  "summary": "Week-long DJ festival in the snow; 2027 has Bicep and Fatboy Slim",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-05",
+   "end": "2027-04-10",
+   "sourceUrl": "https://www.clashmusic.com/?p=457967"
+  },
+  "links": {},
+  "sources": [
+   "https://www.clashmusic.com/?p=457967",
+   "https://en.wikipedia.org/wiki/Mayrhofen"
+  ]
+ },
+ {
+  "id": "mayrhofen--brueckn-stadl",
+  "resortId": "mayrhofen",
+  "kind": "apres",
+  "name": "Brück'n Stadl",
+  "summary": "Mayrhofen's top après barn, DJ parties daily with free entry",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.gasthof-bruecke.com/en/event-fun/the-brueckn-stadl/",
+   "https://mietski.com/en/mayrhofen/apres/"
+  ]
+ },
+ {
+  "id": "mayrhofen--harakiri",
+  "resortId": "mayrhofen",
+  "kind": "activity",
+  "name": "Harakiri",
+  "summary": "Austria's steepest groomed piste, a bucket-list run on the Penken",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "sports"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Mayrhofen"
+  ]
+ },
+ {
+  "id": "mayrhofen--ice-bar",
+  "resortId": "mayrhofen",
+  "kind": "apres",
+  "name": "Ice Bar",
+  "summary": "Dance-heavy après next to the Penken lift",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://mietski.com/en/mayrhofen/apres/"
+  ]
+ },
+ {
+  "id": "mayrhofen--arena",
+  "resortId": "mayrhofen",
+  "kind": "club",
+  "name": "Arena",
+  "summary": "Long-running club with pro DJs, billed as the Zillertal's hottest",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://mietski.com/en/mayrhofen/apres/"
+  ]
+ },
+ {
+  "id": "mayrhofen--scotland-yard",
+  "resortId": "mayrhofen",
+  "kind": "live-music",
+  "name": "Scotland Yard Pub",
+  "summary": "British pub with live music and football on the screens",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://mietski.com/en/mayrhofen/apres/"
+  ]
+ },
+ {
+  "id": "saalbach--rave-on-snow",
+  "resortId": "saalbach",
+  "kind": "event",
+  "name": "Rave on Snow",
+  "summary": "Billed as the biggest winter festival of the club scene",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-10",
+   "end": "2026-12-13",
+   "sourceUrl": "https://www.saalbach.com/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saalbach.com/en/events"
+  ]
+ },
+ {
+  "id": "saalbach--bauers-schialm",
+  "resortId": "saalbach",
+  "kind": "apres",
+  "name": "Bauer's Schialm",
+  "summary": "Huge ski-in après hut with live bands from around 3pm",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.worldtravelguide.net/guides/europe/austria/saalbach-hinterglemm/apres-ski/"
+  ]
+ },
+ {
+  "id": "saalbach--goasstall",
+  "resortId": "saalbach",
+  "kind": "apres",
+  "name": "Goasstall",
+  "summary": "Slopeside hut above Hinterglemm with live music and drink deals",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.worldtravelguide.net/guides/europe/austria/saalbach-hinterglemm/apres-ski/"
+  ]
+ },
+ {
+  "id": "saalbach--hinterhagalm",
+  "resortId": "saalbach",
+  "kind": "apres",
+  "name": "Hinterhagalm",
+  "summary": "Bustling après hut in Hinterglemm",
+  "wow": 2,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.worldtravelguide.net/guides/europe/austria/saalbach-hinterglemm/apres-ski/"
+  ]
+ },
+ {
+  "id": "saalbach--world-cup",
+  "resortId": "saalbach",
+  "kind": "event",
+  "name": "Audi FIS Alpine Ski World Cup",
+  "summary": "Alpine World Cup races on the Saalbach slopes",
+  "wow": 2,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-27",
+   "end": "2027-02-28",
+   "sourceUrl": "https://www.saalbach.com/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saalbach.com/en/events"
+  ]
+ },
+ {
+  "id": "saalbach--freeride-world-tour",
+  "resortId": "saalbach",
+  "kind": "event",
+  "name": "Freeride World Tour",
+  "summary": "Top freeriders take on steep big-mountain faces",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-03",
+   "end": "2027-03-09",
+   "sourceUrl": "https://www.saalbach.com/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saalbach.com/en/events"
+  ]
+ },
+ {
+  "id": "saalbach--bergfestival",
+  "resortId": "saalbach",
+  "kind": "event",
+  "name": "BERGFESTival",
+  "summary": "Opening festival weekend with electronic music and winter parties",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "dj"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-03",
+   "end": "2026-12-06",
+   "sourceUrl": "https://www.saalbach.com/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saalbach.com/en/events"
+  ]
+ },
+ {
+  "id": "saalbach--mountain-attack",
+  "resortId": "saalbach",
+  "kind": "event",
+  "name": "Mountain Attack",
+  "summary": "Skiing marathon with over 1,000 international racers",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-15",
+   "end": "2027-01-15",
+   "sourceUrl": "https://www.saalbach.com/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saalbach.com/en/events"
+  ]
+ },
+ {
+  "id": "saalbach--pfefferalm",
+  "resortId": "saalbach",
+  "kind": "restaurant",
+  "name": "Pfefferalm",
+  "summary": "Traditional mountain cooking on piste 32A",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.worldtravelguide.net/guides/europe/austria/saalbach-hinterglemm/apres-ski/"
+  ]
+ },
+ {
+  "id": "cortina--world-cup-women",
+  "resortId": "cortina",
+  "kind": "event",
+  "name": "Audi FIS Ski World Cup Women's Speed Races",
+  "summary": "Women's downhill and super-G on the Olimpia delle Tofane",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-15",
+   "end": "2027-01-17",
+   "sourceUrl": "https://en.wikipedia.org/wiki/2026%E2%80%9327_FIS_Alpine_Ski_World_Cup"
+  },
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/2026%E2%80%9327_FIS_Alpine_Ski_World_Cup"
+  ]
+ },
+ {
+  "id": "cortina--super-g",
+  "resortId": "cortina",
+  "kind": "apres",
+  "name": "Super G Cortina",
+  "summary": "Mountain club on Faloria with DJ sets, live acts and effects from 3pm",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://lovesuperg.com/en/cortina/",
+   "instagram": "https://www.instagram.com/lovesuperg/"
+  },
+  "sources": [
+   "https://lovesuperg.com/en/cortina/"
+  ]
+ },
+ {
+  "id": "cortina--bar-de-la-poste",
+  "resortId": "cortina",
+  "kind": "apres",
+  "name": "Bar de la Poste",
+  "summary": "Historic hotel bar where the glamorous crowd has drunk for decades",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "luxury",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cortina-apres-ski-and-nightlife",
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "cortina--belvedere",
+  "resortId": "cortina",
+  "kind": "club",
+  "name": "Belvedere",
+  "summary": "Two-floor disco running since the 1970s, with live DJs",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cortina-apres-ski-and-nightlife"
+  ]
+ },
+ {
+  "id": "cortina--enoteca",
+  "resortId": "cortina",
+  "kind": "apres",
+  "name": "Enoteca",
+  "summary": "Atmospheric 1950s wine bar with cheese boards",
+  "wow": 2,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cortina-apres-ski-and-nightlife",
+   "https://www.cortina-tourism.com/en/apres-ski-cortina-d-ampezzo.html"
+  ]
+ },
+ {
+  "id": "cortina--al-camin",
+  "resortId": "cortina",
+  "kind": "restaurant",
+  "name": "Ristorante Al Camin",
+  "summary": "Michelin-starred modern Italian on the road to Lago di Misurina",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cortina-apres-ski-and-nightlife"
+  ]
+ },
+ {
+  "id": "cortina--vip-club",
+  "resortId": "cortina",
+  "kind": "club",
+  "name": "VIP Club",
+  "summary": "Late-night disco on Corso Italia",
+  "wow": 1,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.cortina-tourism.com/en/apres-ski-cortina-d-ampezzo.html"
+  ]
+ },
+ {
+  "id": "val-gardena--saslong-classic",
+  "resortId": "val-gardena",
+  "kind": "event",
+  "name": "Saslong Classic World Cup",
+  "summary": "Men's super-G and downhill on the famous Saslong run",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-18",
+   "end": "2026-12-19",
+   "sourceUrl": "https://www.saslong.org/en/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.saslong.org/en/",
+   "https://en.wikipedia.org/wiki/2026%E2%80%9327_FIS_Alpine_Ski_World_Cup"
+  ]
+ },
+ {
+  "id": "val-gardena--la-stua",
+  "resortId": "val-gardena",
+  "kind": "apres",
+  "name": "La Stua",
+  "summary": "Sellaronda après spot in Selva with live concerts and a big Champagne list",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.val-gardena.com/en/insider-tips/detail/val-gardena-best-apres-ski-locations/",
+   "https://www.valgardena-groeden.com/en/leisure-activities/winter-sports/apres-ski-in-the-val-gardena/"
+  ]
+ },
+ {
+  "id": "val-gardena--luislkeller",
+  "resortId": "val-gardena",
+  "kind": "club",
+  "name": "Luislkeller",
+  "summary": "Decades-old basement disco in Selva, open until 1:30am",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.val-gardena.com/en/insider-tips/detail/val-gardena-best-apres-ski-locations/",
+   "https://www.valgardena-groeden.com/en/leisure-activities/winter-sports/apres-ski-in-the-val-gardena/"
+  ]
+ },
+ {
+  "id": "val-gardena--anna-stuben",
+  "resortId": "val-gardena",
+  "kind": "restaurant",
+  "name": "Anna Stuben",
+  "summary": "Michelin-starred regional tasting menus in Ortisei",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.leotrippi.com/magazine/resort-guides/best-restaurants-in-val-gardena/"
+  ]
+ },
+ {
+  "id": "val-gardena--alpenroyal-gourmet",
+  "resortId": "val-gardena",
+  "kind": "restaurant",
+  "name": "Alpenroyal Gourmet",
+  "summary": "Michelin-starred cooking blending Puglia and the Dolomites in Selva",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.leotrippi.com/magazine/resort-guides/best-restaurants-in-val-gardena/"
+  ]
+ },
+ {
+  "id": "val-gardena--chalet-gerard",
+  "resortId": "val-gardena",
+  "kind": "restaurant",
+  "name": "Chalet Gérard",
+  "summary": "Long mountain lunch on a sunny terrace with big views at Plan de Gralba",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.leotrippi.com/magazine/resort-guides/best-restaurants-in-val-gardena/"
+  ]
+ },
+ {
+  "id": "val-gardena--saltos",
+  "resortId": "val-gardena",
+  "kind": "apres",
+  "name": "Après Ski & Bike Bar Saltos",
+  "summary": "Après bar in Selva by the Dantercëpies lift",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.valgardena-groeden.com/en/leisure-activities/winter-sports/apres-ski-in-the-val-gardena/"
+  ]
+ },
+ {
+  "id": "alta-badia--gran-risa-world-cup",
+  "resortId": "alta-badia",
+  "kind": "event",
+  "name": "Audi FIS Ski World Cup Alta Badia",
+  "summary": "Men's giant slalom and slalom on the Gran Risa, plus an opening party",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-19",
+   "end": "2026-12-21",
+   "sourceUrl": "https://www.skiworldcup.it/en/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.skiworldcup.it/en/",
+   "https://en.wikipedia.org/wiki/2026%E2%80%9327_FIS_Alpine_Ski_World_Cup"
+  ]
+ },
+ {
+  "id": "alta-badia--club-moritzino",
+  "resortId": "alta-badia",
+  "kind": "apres",
+  "name": "Club Moritzino",
+  "summary": "Terrace party at 2,100 m with a resident DJ from 2pm and an ice bar",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://clubmoritzino.it/en/",
+   "instagram": "https://www.instagram.com/clubmoritzino/"
+  },
+  "sources": [
+   "https://clubmoritzino.it/en/apres-ski/"
+  ]
+ },
+ {
+  "id": "alta-badia--gourmet-skisafari",
+  "resortId": "alta-badia",
+  "kind": "event",
+  "name": "Gourmet Skisafari",
+  "summary": "Ski hut to hut tasting dishes by Michelin-starred chefs",
+  "wow": 3,
+  "interests": [
+   "food",
+   "fine-dining",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-13",
+   "end": "2026-12-13",
+   "sourceUrl": "https://www.altabadia.org/en/alta-badia-events/detail/event/gourmet-skisafari"
+  },
+  "links": {},
+  "sources": [
+   "https://www.altabadia.org/en/alta-badia-events/detail/event/gourmet-skisafari"
+  ]
+ },
+ {
+  "id": "alta-badia--cocktail-week",
+  "resortId": "alta-badia",
+  "kind": "event",
+  "name": "Alta Badia Cocktail Week",
+  "summary": "Guest bartenders pop up in eight bars across the valley",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "food"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-10",
+   "end": "2027-01-17",
+   "sourceUrl": "https://www.altabadia.org/en/culinary/events/alta-badia-cocktail-week"
+  },
+  "links": {},
+  "sources": [
+   "https://www.altabadia.org/en/culinary/events/alta-badia-cocktail-week"
+  ]
+ },
+ {
+  "id": "alta-badia--la-stua-de-michil",
+  "resortId": "alta-badia",
+  "kind": "restaurant",
+  "name": "La Stüa de Michil",
+  "summary": "Simone Cantafio's Michelin-starred restaurant in Corvara",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.altabadia.org/en/alta-badia-events/detail/event/gourmet-skisafari"
+  ]
+ },
+ {
+  "id": "alta-badia--l-murin",
+  "resortId": "alta-badia",
+  "kind": "apres",
+  "name": "L'Murin",
+  "summary": "Converted barn in Corvara for dancing in ski boots",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "cervinia--super-g",
+  "resortId": "cervinia",
+  "kind": "apres",
+  "name": "Super G Cervinia",
+  "summary": "House music and champagne at 2,500 m below the Matterhorn",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://lovesuperg.com/en/cervinia/",
+   "instagram": "https://www.instagram.com/superg_cervinia/"
+  },
+  "sources": [
+   "https://lovesuperg.com/en/cervinia/"
+  ]
+ },
+ {
+  "id": "cervinia--champagnerie-du-cervin",
+  "resortId": "cervinia",
+  "kind": "apres",
+  "name": "La Champagnerie du Cervin",
+  "summary": "Champagne bar in Hotel Punta Maquignaz with Matterhorn views",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cervinia-apres-ski-and-nightlife",
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "cervinia--principe-delle-nevi-apres",
+  "resortId": "cervinia",
+  "kind": "apres",
+  "name": "Après Ski Bar at Principe delle Nevi",
+  "summary": "Hotel après bar with DJ sets, live gigs and ski films",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cervinia-apres-ski-and-nightlife"
+  ]
+ },
+ {
+  "id": "cervinia--umbrella-bar",
+  "resortId": "cervinia",
+  "kind": "apres",
+  "name": "Umbrella Bar",
+  "summary": "Slope-foot bar with live music on Wednesdays",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cervinia-apres-ski-and-nightlife"
+  ]
+ },
+ {
+  "id": "cervinia--linos-bar",
+  "resortId": "cervinia",
+  "kind": "live-music",
+  "name": "Lino's Bar",
+  "summary": "Friendly family-run bar with live music Sundays and karaoke",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cervinia-apres-ski-and-nightlife",
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "cervinia--thistles-pub",
+  "resortId": "cervinia",
+  "kind": "live-music",
+  "name": "Thistles Pub",
+  "summary": "English-style pub at The Dragon Hotel with live music",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-cervinia-apres-ski-and-nightlife"
+  ]
+ },
+ {
+  "id": "courmayeur--skyway-monte-bianco",
+  "resortId": "courmayeur",
+  "kind": "activity",
+  "name": "Skyway Monte Bianco",
+  "summary": "Rotating cable car up to Punta Helbronner at 3,466 m",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Skyway_Monte_Bianco"
+  ]
+ },
+ {
+  "id": "courmayeur--super-g",
+  "resortId": "courmayeur",
+  "kind": "apres",
+  "name": "Super G Courmayeur",
+  "summary": "DJ-driven club après at 1,700 m on Plan Checrouit",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://lovesuperg.com/en/courmayeur/",
+   "instagram": "https://www.instagram.com/superg_courmayeur/"
+  },
+  "sources": [
+   "https://lovesuperg.com/en/courmayeur/",
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "courmayeur--vallee-blanche",
+  "resortId": "courmayeur",
+  "kind": "activity",
+  "name": "Vallée Blanche",
+  "summary": "Legendary glacier descent shared with Chamonix",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Courmayeur"
+  ]
+ },
+ {
+  "id": "courmayeur--pre-saint-didier-baths",
+  "resortId": "courmayeur",
+  "kind": "activity",
+  "name": "Pré-Saint-Didier thermal baths",
+  "summary": "Thermal spa town just down the valley below Mont Blanc",
+  "wow": 2,
+  "interests": [
+   "spa"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Pr%C3%A9-Saint-Didier"
+  ]
+ },
+ {
+  "id": "courmayeur--bar-roma",
+  "resortId": "courmayeur",
+  "kind": "apres",
+  "name": "Bar Roma",
+  "summary": "Trendy bar with big vintage sofas",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "courmayeur--prive",
+  "resortId": "courmayeur",
+  "kind": "apres",
+  "name": "Privé",
+  "summary": "Tapas and cocktails once the lifts close",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "livigno--snowland-music-festival",
+  "resortId": "livigno",
+  "kind": "event",
+  "name": "Snowland Music Festival",
+  "summary": "Music festival in the snow at Centrale Alm to start the winter",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "concert"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-20",
+   "end": "2026-11-21",
+   "sourceUrl": "https://www.livigno.eu/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.livigno.eu/en/events"
+  ]
+ },
+ {
+  "id": "livigno--aquagranda",
+  "resortId": "livigno",
+  "kind": "activity",
+  "name": "Aquagranda",
+  "summary": "Huge wellness centre with saunas, slides and heated outdoor tubs",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.livigno.eu/en/aquagranda"
+  ]
+ },
+ {
+  "id": "livigno--bivio-club",
+  "resortId": "livigno",
+  "kind": "club",
+  "name": "Bivio Club",
+  "summary": "DJ sets that go on until the early hours",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skisolutions.com/blog/best-apres-ski-in-italy"
+  ]
+ },
+ {
+  "id": "livigno--duty-free-shopping",
+  "resortId": "livigno",
+  "kind": "activity",
+  "name": "Duty-free shopping",
+  "summary": "Tax-free town where Italian VAT is not charged",
+  "wow": 2,
+  "interests": [
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Livigno"
+  ]
+ },
+ {
+  "id": "livigno--christmas-in-the-village",
+  "resortId": "livigno",
+  "kind": "event",
+  "name": "Christmas in the Village",
+  "summary": "Wooden huts and festive lights fill the town centre",
+  "wow": 1,
+  "interests": [
+   "family",
+   "culture"
+  ],
+  "months": [
+   11,
+   12,
+   1
+  ],
+  "dates": {
+   "start": "2026-11-27",
+   "end": "2027-01-06",
+   "sourceUrl": "https://www.livigno.eu/en/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.livigno.eu/en/events"
+  ]
+ },
+ {
+  "id": "niseko--bar-gyu",
+  "resortId": "niseko",
+  "kind": "apres",
+  "name": "Bar Gyu+",
+  "summary": "Hidden whisky and cocktail bar entered through a fridge door",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.gyubar.com/",
+   "instagram": "https://www.instagram.com/bar_gyu/"
+  },
+  "sources": [
+   "https://www.gyubar.com/",
+   "https://hikariski.com/en/blog/niseko-nightlife-guide",
+   "https://voyera.com/guides/niseko-apres-ski-restaurants-nightlife"
+  ]
+ },
+ {
+  "id": "niseko--sushi-shin",
+  "resortId": "niseko",
+  "kind": "restaurant",
+  "name": "Sushi Shin by Miyakawa",
+  "summary": "Michelin-starred edomae sushi in Niseko",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://voyera.com/guides/niseko-apres-ski-restaurants-nightlife"
+  ]
+ },
+ {
+  "id": "niseko--powder-room",
+  "resortId": "niseko",
+  "kind": "club",
+  "name": "Powder Room",
+  "summary": "High-end club with champagne service and international DJs",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://voyera.com/guides/niseko-apres-ski-restaurants-nightlife"
+  ]
+ },
+ {
+  "id": "niseko--mina-mina",
+  "resortId": "niseko",
+  "kind": "live-music",
+  "name": "Music Bar Mina Mina",
+  "summary": "Intimate bar with live jazz, funk and Hokkaido bands",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hikariski.com/en/blog/niseko-nightlife-guide"
+  ]
+ },
+ {
+  "id": "niseko--tamashii",
+  "resortId": "niseko",
+  "kind": "apres",
+  "name": "Tamashii",
+  "summary": "Burgers and ribs that turn into DJ sets and dancing",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hikariski.com/en/blog/niseko-nightlife-guide",
+   "https://voyera.com/guides/niseko-apres-ski-restaurants-nightlife"
+  ]
+ },
+ {
+  "id": "niseko--onsen",
+  "resortId": "niseko",
+  "kind": "activity",
+  "name": "Niseko hot springs",
+  "summary": "Natural onsen around the Niseko range for a post-powder soak",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Niseko"
+  ]
+ },
+ {
+  "id": "niseko--freddies",
+  "resortId": "niseko",
+  "kind": "club",
+  "name": "Freddies",
+  "summary": "Rowdy Aussie-run club with packed dance floors",
+  "wow": 1,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hikariski.com/en/blog/niseko-nightlife-guide"
+  ]
+ },
+ {
+  "id": "rusutsu--christmas-eve-fireworks",
+  "resortId": "rusutsu",
+  "kind": "event",
+  "name": "Christmas Eve Fireworks & Torchlight Descent",
+  "summary": "1,200 fireworks set to music plus a torchlight ski descent",
+  "wow": 2,
+  "interests": [
+   "family",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-24",
+   "end": "2026-12-24",
+   "sourceUrl": "https://rusutsu.com/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://rusutsu.com/events/"
+  ]
+ },
+ {
+  "id": "rusutsu--new-years-eve-fireworks",
+  "resortId": "rusutsu",
+  "kind": "event",
+  "name": "New Year's Eve Fireworks & Torchlight Descent",
+  "summary": "Year-end fireworks over the slopes with a torchlight descent",
+  "wow": 2,
+  "interests": [
+   "family",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-31",
+   "end": "2026-12-31",
+   "sourceUrl": "https://rusutsu.com/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://rusutsu.com/events/"
+  ]
+ },
+ {
+  "id": "rusutsu--mt-isola-first-track",
+  "resortId": "rusutsu",
+  "kind": "activity",
+  "name": "Mt. Isola First Track",
+  "summary": "Limited-spot first runs on fresh powder before the crowds",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "sports"
+  ],
+  "months": [
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://rusutsu.com/events/"
+  ]
+ },
+ {
+  "id": "rusutsu--shiki",
+  "resortId": "rusutsu",
+  "kind": "restaurant",
+  "name": "Shiki",
+  "summary": "Hokkaido wagyu sukiyaki at the Rusutsu Resort Hotel",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://rusutsu.com/dining/"
+  ]
+ },
+ {
+  "id": "furano--ningle-terrace",
+  "resortId": "furano",
+  "kind": "activity",
+  "name": "Ningle Terrace",
+  "summary": "Year-round shopping village next to the New Furano Prince Hotel",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Furano,_Hokkaido"
+  ]
+ },
+ {
+  "id": "furano--wine-factory",
+  "resortId": "furano",
+  "kind": "activity",
+  "name": "Furano Wine Factory",
+  "summary": "Taste locally made Furano wines",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Furano,_Hokkaido"
+  ]
+ },
+ {
+  "id": "furano--cheese-factory",
+  "resortId": "furano",
+  "kind": "activity",
+  "name": "Furano Cheese Factory",
+  "summary": "Local dairy products straight from the source",
+  "wow": 1,
+  "interests": [
+   "food",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Furano,_Hokkaido"
+  ]
+ },
+ {
+  "id": "hakuba--the-pub",
+  "resortId": "hakuba",
+  "kind": "live-music",
+  "name": "The Pub",
+  "summary": "Echoland pub with a big deck, live music and craft beer",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hakubahub.com/blog/hakuba-nightlife-bars-and-apres-ski-guide"
+  ]
+ },
+ {
+  "id": "hakuba--rabbit-hole",
+  "resortId": "hakuba",
+  "kind": "live-music",
+  "name": "Rabbit Hole",
+  "summary": "Upscale Wadano bar with live music nights, piano and pool",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://rhythmjapan.com/our-stories/hakuba-best-nightlife-spots"
+  ]
+ },
+ {
+  "id": "hakuba--sake-bar-gaku",
+  "resortId": "hakuba",
+  "kind": "apres",
+  "name": "Sake Bar Gaku",
+  "summary": "Premium sake flights and sake cocktails in Echoland",
+  "wow": 2,
+  "interests": [
+   "food",
+   "nightlife",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hakubahub.com/blog/hakuba-nightlife-bars-and-apres-ski-guide"
+  ]
+ },
+ {
+  "id": "hakuba--ski-jumping-stadium",
+  "resortId": "hakuba",
+  "kind": "activity",
+  "name": "Hakuba Ski Jumping Stadium",
+  "summary": "The 1998 Olympic ski jumps, with 90 m and 120 m hills",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Hakuba_Ski_Jumping_Stadium",
+   "https://en.wikipedia.org/wiki/Hakuba,_Nagano"
+  ]
+ },
+ {
+  "id": "hakuba--studio-902",
+  "resortId": "hakuba",
+  "kind": "live-music",
+  "name": "Studio 902",
+  "summary": "Echoland music bar with regular music events",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.samuraisnow.com/hakuba-echoland/bars"
+  ]
+ },
+ {
+  "id": "hakuba--bar-grappa",
+  "resortId": "hakuba",
+  "kind": "apres",
+  "name": "Bar Grappa",
+  "summary": "Twelve-seat craft cocktail bar in Happo-One",
+  "wow": 1,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hakubahub.com/blog/hakuba-nightlife-bars-and-apres-ski-guide"
+  ]
+ },
+ {
+  "id": "nozawa-onsen--dosojin-fire-festival",
+  "resortId": "nozawa-onsen",
+  "kind": "event",
+  "name": "Dosojin Fire Festival",
+  "summary": "Villagers set a wooden shrine ablaze in a nationally protected folk rite",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "culture"
+  ],
+  "months": [
+   1
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://nozawakanko.jp/en/",
+   "https://en.wikipedia.org/wiki/Nozawa_Onsen,_Nagano"
+  ],
+  "datesNote": "Held on January 15 every year; confirm 2027 timings with the village"
+ },
+ {
+  "id": "nozawa-onsen--soto-yu",
+  "resortId": "nozawa-onsen",
+  "kind": "activity",
+  "name": "Soto-yu public baths",
+  "summary": "13 free public hot spring baths to hop between on foot",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://nozawakanko.jp/en/"
+  ]
+ },
+ {
+  "id": "nozawa-onsen--onsen-tamago",
+  "resortId": "nozawa-onsen",
+  "kind": "activity",
+  "name": "Onsen tamago",
+  "summary": "Cook eggs in the village's hot spring water",
+  "wow": 2,
+  "interests": [
+   "food",
+   "family",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://nozawakanko.jp/en/"
+  ]
+ },
+ {
+  "id": "shiga-kogen--jigokudani-monkey-park",
+  "resortId": "shiga-kogen",
+  "kind": "activity",
+  "name": "Jigokudani Monkey Park",
+  "summary": "Snow monkeys soaking in steaming hot springs",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "family",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Jigokudani_Monkey_Park"
+  ]
+ },
+ {
+  "id": "shiga-kogen--18-linked-areas",
+  "resortId": "shiga-kogen",
+  "kind": "activity",
+  "name": "Shiga Kogen's 18 ski fields",
+  "summary": "Arguably Japan's largest ski area, 18 linked areas and 48 lifts",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Shiga_Kogen"
+  ]
+ },
+ {
+  "id": "shiga-kogen--olympic-memorial-hall",
+  "resortId": "shiga-kogen",
+  "kind": "activity",
+  "name": "Olympic memorial hall",
+  "summary": "Medals and memorabilia from the 1998 Nagano Games",
+  "wow": 1,
+  "interests": [
+   "culture",
+   "sports"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Shiga_Kogen"
+  ]
+ },
+ {
+  "id": "hemsedal--stavkroa",
+  "resortId": "hemsedal",
+  "kind": "apres",
+  "name": "Stavkroa",
+  "summary": "Scandinavia's largest après venue, with big-name concerts",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "concert",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/dine-and-nightlife/"
+  ]
+ },
+ {
+  "id": "hemsedal--skistua",
+  "resortId": "hemsedal",
+  "kind": "apres",
+  "name": "Skistua",
+  "summary": "Hemsedal's biggest après at the lifts, with live bands and DJs",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://hemsedal.com/en/skistua-restaurant-afterski",
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/dine-and-nightlife/"
+  ]
+ },
+ {
+  "id": "hemsedal--lynx",
+  "resortId": "hemsedal",
+  "kind": "restaurant",
+  "name": "Lynx Restaurant",
+  "summary": "Nordic and Italian cooking with valley views at Skarsnuten",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/dine-and-nightlife/"
+  ]
+ },
+ {
+  "id": "hemsedal--winter-games",
+  "resortId": "hemsedal",
+  "kind": "event",
+  "name": "SkiStar Winter Games Hemsedal",
+  "summary": "Top-level competitions plus activities on and off the slope",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-22",
+   "end": "2027-04-25",
+   "sourceUrl": "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/events/"
+  ]
+ },
+ {
+  "id": "hemsedal--hollvin",
+  "resortId": "hemsedal",
+  "kind": "live-music",
+  "name": "Hollvin Restaurant & Bar",
+  "summary": "Pizza, pasta and live music Monday to Saturday from New Year",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/dine-and-nightlife/"
+  ]
+ },
+ {
+  "id": "hemsedal--up-n-down",
+  "resortId": "hemsedal",
+  "kind": "event",
+  "name": "Hemsedal Up N' Down",
+  "summary": "Team ski race all about speed, team spirit and good vibes",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-10",
+   "end": "2027-04-10",
+   "sourceUrl": "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/events/"
+  ]
+ },
+ {
+  "id": "trysil--laaven",
+  "resortId": "trysil",
+  "kind": "apres",
+  "name": "Restaurant Laaven",
+  "summary": "Trysil's biggest après, with table dancing, DJs and live artists",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/food-and-entertainment/"
+  ]
+ },
+ {
+  "id": "trysil--skihytta",
+  "resortId": "trysil",
+  "kind": "apres",
+  "name": "Restaurant Skihytta",
+  "summary": "On-mountain après at 819 m with live music Fridays and Saturdays",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/food-and-entertainment/"
+  ]
+ },
+ {
+  "id": "trysil--flyyt",
+  "resortId": "trysil",
+  "kind": "apres",
+  "name": "FLYYT Fageråsen",
+  "summary": "Billed as the world's smallest après-ski",
+  "wow": 2,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/food-and-entertainment/"
+  ]
+ },
+ {
+  "id": "trysil--taste-dinner",
+  "resortId": "trysil",
+  "kind": "restaurant",
+  "name": "TASTE DINNER",
+  "summary": "French gastronomy and Trysil's largest wine cellar",
+  "wow": 1,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/food-and-entertainment/"
+  ]
+ },
+ {
+  "id": "trysil--evening-skiing",
+  "resortId": "trysil",
+  "kind": "activity",
+  "name": "Evening skiing",
+  "summary": "Floodlit slopes three nights a week, included in the lift pass",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/activities/evening-skiing/"
+  ]
+ },
+ {
+  "id": "are--world-cup",
+  "resortId": "are",
+  "kind": "event",
+  "name": "Audi FIS Ski World Cup Åre",
+  "summary": "The world's best men race slalom and giant slalom",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-11",
+   "end": "2027-03-14",
+   "sourceUrl": "https://www.skistar.com/en/ski-destinations/are/winter-in-are/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/are/winter-in-are/events/",
+   "https://en.wikipedia.org/wiki/2026%E2%80%9327_FIS_Alpine_Ski_World_Cup"
+  ]
+ },
+ {
+  "id": "are--verandan",
+  "resortId": "are",
+  "kind": "apres",
+  "name": "Verandan",
+  "summary": "Åre's most popular après, with top bands for 600 people",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://bygget.se/after-ski/",
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "are--bygget",
+  "resortId": "are",
+  "kind": "club",
+  "name": "Bygget",
+  "summary": "Huge party house with a legendary live stage and four dance floors",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "live-music",
+   "concert"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://bygget.se/after-ski/",
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "are--fjallgarden",
+  "resortId": "are",
+  "kind": "apres",
+  "name": "Hotell Fjällgården",
+  "summary": "Ski-in après with live bands Monday to Saturday",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/are/winter-in-are/mat-och-noje/",
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "are--arehyddan",
+  "resortId": "are",
+  "kind": "apres",
+  "name": "Årehyddan",
+  "summary": "Slopeside spot with live music Monday to Saturday",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/are/winter-in-are/mat-och-noje/",
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "are--timmerstugan",
+  "resortId": "are",
+  "kind": "apres",
+  "name": "Timmerstugan",
+  "summary": "Sunday après club with smoke cannons and singalongs",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/are/winter-in-are/mat-och-noje/",
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "are--copperhill",
+  "resortId": "are",
+  "kind": "activity",
+  "name": "Copperhill Mountain Lodge",
+  "summary": "Highest hotel in Åre, with fireside bar and spa",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://thatsup.co.uk/are/guide/the-guide-to-ares-best-apres-ski"
+  ]
+ },
+ {
+  "id": "levi--world-cup-slalom",
+  "resortId": "levi",
+  "kind": "event",
+  "name": "FIS Alpine Ski World Cup Levi",
+  "summary": "Early-season slaloms; the women's winner gets a reindeer",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-14",
+   "end": "2026-11-15",
+   "sourceUrl": "https://www.levi.fi/en/events/fis-ski-alpine-world-cup-levi/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.levi.fi/en/events/fis-ski-alpine-world-cup-levi/",
+   "https://en.wikipedia.org/wiki/Levi,_Finland"
+  ]
+ },
+ {
+  "id": "levi--northern-lights",
+  "resortId": "levi",
+  "kind": "activity",
+  "name": "Northern lights",
+  "summary": "170 km north of the Arctic Circle, with excellent aurora odds",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Levi,_Finland",
+   "https://www.levi.fi/en/"
+  ]
+ },
+ {
+  "id": "levi--hullu-poro-areena",
+  "resortId": "levi",
+  "kind": "live-music",
+  "name": "Hullu Poro Areena",
+  "summary": "Live music arena with bands and DJs, doors at 9pm",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife",
+   "concert"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.hulluporo.fi/en/"
+  ]
+ },
+ {
+  "id": "levi--snow-village",
+  "resortId": "levi",
+  "kind": "activity",
+  "name": "Snow Village Lainio",
+  "summary": "Ice hotel near Levi built from snow and ice",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Levi,_Finland"
+  ]
+ },
+ {
+  "id": "levi--snowmobile-safaris",
+  "resortId": "levi",
+  "kind": "activity",
+  "name": "Snowmobile safaris",
+  "summary": "Guided snowmobile rides into the Lapland forest",
+  "wow": 2,
+  "interests": [
+   "adventure"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.levi.fi/en/activities/speed-and-action/"
+  ]
+ },
+ {
+  "id": "levi--night-skiing",
+  "resortId": "levi",
+  "kind": "activity",
+  "name": "Floodlit skiing",
+  "summary": "17 slopes lit up for skiing through the polar night",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "scenery"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Levi,_Finland"
+  ]
+ },
+ {
+  "id": "ruka--ruka-nordic",
+  "resortId": "ruka",
+  "kind": "event",
+  "name": "FIS Ruka Nordic",
+  "summary": "World Cup season opener for ski jumping, cross-country and Nordic combined",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-27",
+   "end": "2026-11-29",
+   "sourceUrl": "https://www.ruka.fi/en/events/rukanordic"
+  },
+  "links": {},
+  "sources": [
+   "https://www.ruka.fi/en/events/rukanordic"
+  ]
+ },
+ {
+  "id": "ruka--freestyle-world-cup",
+  "resortId": "ruka",
+  "kind": "event",
+  "name": "FIS Freestyle Ski World Cup Opening",
+  "summary": "Moguls and aerials on the famous Moguls Run, free to watch",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "family"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-11",
+   "end": "2026-12-12",
+   "sourceUrl": "https://www.ruka.fi/en/events/freestyle-opening"
+  },
+  "links": {},
+  "sources": [
+   "https://www.ruka.fi/en/events/freestyle-opening"
+  ]
+ },
+ {
+  "id": "ruka--restaurant-zone",
+  "resortId": "ruka",
+  "kind": "live-music",
+  "name": "Restaurant Zone",
+  "summary": "Bar and club hosting over 100 live shows a year",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ruka.fi/en/travelling-to-kuusamo/food-and-entertainment/after-ski-and-bars"
+  ]
+ },
+ {
+  "id": "ruka--rukan-salonki-ice-bar",
+  "resortId": "ruka",
+  "kind": "apres",
+  "name": "Rukan Salonki Ice Bar",
+  "summary": "Drinks in a bar made of ice",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ruka.fi/en/travelling-to-kuusamo/food-and-entertainment/after-ski-and-bars"
+  ]
+ },
+ {
+  "id": "ruka--husky-safaris",
+  "resortId": "ruka",
+  "kind": "activity",
+  "name": "Husky safaris and northern lights tours",
+  "summary": "Husky rides, reindeer and aurora hunts in Kuusamo",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ruka.fi/en",
+   "https://en.wikipedia.org/wiki/Ruka,_Finland"
+  ]
  }
 ]

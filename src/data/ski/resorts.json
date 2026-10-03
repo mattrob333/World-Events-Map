@@ -4145,7 +4145,15 @@
   "passes": [
    "epic"
   ],
-  "liftTicket": null,
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 79,
+   "high": 94,
+   "season": "2026/27",
+   "sourceUrl": "https://www.crans-montana.ch/en/?idcmt=Partenaire_news_47f7300bb9fdfc841926030553e98639",
+   "checkedOn": "2026-10-03",
+   "note": "New fixed pricing: CHF 79 online by midnight the day before, CHF 89 online same day, CHF 94 at ticket office."
+  },
   "vibe": [
    "scenery",
    "family",
@@ -4208,7 +4216,15 @@
   "skiableAcres": null,
   "trails": null,
   "passes": [],
-  "liftTicket": null,
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 81,
+   "high": 94,
+   "season": "2026/27",
+   "sourceUrl": "https://www.davosklostersmountains.ch/en/mountains/winter/rates-tickets/ski-regional-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Official 2026/27 PDFs: Parsenn/Jakobshorn day pass CHF 81 low season, CHF 87 main season; regional pass (all areas) CHF 94 main season."
+  },
   "vibe": [
    "expert",
    "family",
