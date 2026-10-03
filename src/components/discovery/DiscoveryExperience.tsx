@@ -42,9 +42,7 @@ import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search'
 import { planTripOffer } from '@/lib/search/planPlace';
 import { formatMiles } from '@/lib/units';
 import { SourceLogo } from '@/components/brand/SourceLogo';
-import { HomeMap } from './HomeMap';
-import { useActiveProfile } from '@/lib/designer/store';
-import { allSignals } from '@/lib/vibe/signals';
+import { countryAt, countryFromCalendar } from '@/lib/geo/homeCountry';
 import { ActivityGlobeLayer } from '@/components/activity/ActivityGlobeLayer';
 import { ActivityOverlay, useSpotDeepLink, writeSpotParam } from '@/components/activity/ActivityOverlay';
 import type { Activity } from '@/lib/activity/activities';
@@ -81,7 +79,8 @@ export function DiscoveryExperience() {
   const searchParams = useSearchParams();
   const router = useRouter();
   // Members skip the invitation hero: Pulse opens on the globe (a shared journey link still shows its pass).
-  const member = Boolean(usePlatformAuth().user);
+  const auth = usePlatformAuth();
+  const member = Boolean(auth.user);
   const linkedEventId = searchParams.get('event');
   useLiveCalendarSync();
   const signalStatus = useLiveCalendar((s) => s.status);
@@ -125,8 +124,6 @@ export function DiscoveryExperience() {
   const routeTimer = useRef<number | null>(null);
   const calendar = useLiveCalendar((s) => s.events);
   const viewer = useViewerLocation();
-  const active = useActiveProfile();
-  const signals = useMemo(() => (active?.profile ? allSignals(active.profile) : []), [active]);
   // Returning members open on Home (their country on one screen); first visits and shared links open on the globe.
   const [lensChoice, setLensChoice] = useState<Lens | null>(null);
   useEffect(() => {
@@ -247,8 +244,16 @@ export function DiscoveryExperience() {
   // Home needs a real location (their device's, or a city they chose), never the time-zone guess;
   // a journey, event or spot link always shows the globe.
   const spotParam = searchParams.get('spot');
-  const canHome = hasViewerOrigin && !planMode && !journeyEventId && !linkedEventId && !spotParam;
-  const lens: Lens = canHome ? lensChoice ?? (member ? 'home' : 'world') : 'world';
+  // Home is what's hot in their country and what's coming up; a journey, event or spot link shows the globe.
+  const canHome = !planMode && !journeyEventId && !linkedEventId && !spotParam;
+  const lens: Lens = canHome ? lensChoice ?? 'home' : 'world';
+  // Their country for Home: where they are (or the time-zone guess, which is enough to name a country).
+  const homeCountry = useMemo(() => {
+    if (!viewer.coords) return null;
+    const zone = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : undefined;
+    const found = countryAt(viewer.coords, zone) ?? countryFromCalendar(viewer.coords, events);
+    return found ? { code: found.code, name: found.name } : null;
+  }, [viewer.coords, events]);
   const selectedRoute = storyFocus && spotlight && hasViewerOrigin && viewer.coords
     ? estimateRoute(viewer.coords, spotlight.coords)
     : null;
@@ -392,8 +397,8 @@ export function DiscoveryExperience() {
         {/* Which map, and where: one row on a phone, the switch first. */}
         {canHome ? (
           <div className={styles.lenses} role="group" aria-label="Map">
-            <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
             <button type="button" aria-pressed={lens === 'home'} onClick={() => chooseLens('home')}>Home</button>
+            <button type="button" aria-pressed={lens === 'world'} onClick={() => chooseLens('world')}>World</button>
             <Link prefetch={false} href="/now">Now</Link>
           </div>
         ) : null}
@@ -437,7 +442,8 @@ export function DiscoveryExperience() {
         </section>
       )}
 
-      {!planMode && !query && (!member || Boolean(journeyEventId ?? linkedEventId)) && <WorldIntro
+      {/* Visitors get the invitation; members don't. Nothing until sign-in is known, so a member never sees it flash. */}
+      {!planMode && !query && !auth.loading && (!member || Boolean(journeyEventId ?? linkedEventId)) && <WorldIntro
         journeyId={journeyEventId ?? linkedEventId ?? null}
         origin={hasViewerOrigin ? viewer.coords : null}
         originName={originName}
@@ -445,9 +451,8 @@ export function DiscoveryExperience() {
         season={tripMode.season}
         interest={tripMode.interest}
       />}
-      {lens === 'home' && viewer.coords ? (
-        <HomeMap events={events} signals={signals} viewer={viewer.coords} today={rangeStart} hrefFor={destinationHref} />
-      ) : null}
+      {/* Home: no map, just what's hot (their country first) and, below, what's coming up. */}
+      {lens === 'home' && !query ? <LivingDashboard mode="hot" home={homeCountry} /> : null}
       {lens === 'world' ? <>
       <nav className={styles.regions} aria-label="Explore map regions">
         <span>YOUR WORLD</span>
@@ -746,7 +751,7 @@ export function DiscoveryExperience() {
       ) : null}
 
       {/* Pulse: straight after the globe, what's hot right now; then what's coming up. */}
-      {!planMode && !query && <LivingDashboard mode="feed" />}
+      {!planMode && !query && <LivingDashboard mode="feed" hot={lens !== 'home'} />}
       {!planMode && !query && (
         <ComingUp today={rangeStart} events={modeActive ? modeEvents : EVENTS} onOpen={travelFromCard} />
       )}
