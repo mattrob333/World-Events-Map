@@ -33,5 +33,9 @@ describe('nearest city on the device', () => {
     expect(nearestCity({ lat: 34.0, lon: -81.03 }, all)?.name).toBe('Columbia');
     // Its suburbs say Augusta too, not the small place next door.
     expect(nearestCity({ lat: 33.53, lon: -82.13 }, all)?.name).toBe('Augusta');
+    // A small country next to a big city stays itself.
+    for (const place of all.filter((city) => city.name === 'Monaco' || city.name === 'San Marino')) {
+      expect(nearestCity({ lat: place.lat, lon: place.lon }, all)?.name).toBe(place.name);
+    }
   });
 });

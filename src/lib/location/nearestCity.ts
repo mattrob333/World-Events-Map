@@ -28,8 +28,9 @@ function km(a: GeoPoint, b: { lat: number; lon: number }): number {
  * middle of Paris is Paris, not a suburb whose center happens to be closer);
  * failing that the biggest within 40 km (a suburb of Atlanta says Atlanta);
  * else the nearest, prefixed "Near" when it's more than 25 km off. A small
- * place (under 60k) with a city at least three times its size within 25 km
- * says that city: Martinez, next to Augusta, says Augusta.
+ * place (under 60k) with a city at least three times its size within 25 km,
+ * in the same state or country, says that city when you're away from the
+ * small place's own center: Martinez, next to Augusta, says Augusta.
  * Nothing leaves the device: the list is a static file and this runs locally.
  */
 export function nearestCity(point: GeoPoint, cities: readonly City[]): NamedPlace | null {
@@ -44,7 +45,9 @@ export function nearestCity(point: GeoPoint, cities: readonly City[]): NamedPlac
   const biggest = (list: { city: City; km: number }[]) => [...list].sort((a, b) => b.city.popK - a.city.popK)[0];
   let pick = biggest(around.filter((entry) => entry.km <= 10)) ?? biggest(around) ?? nearest;
   const metro = biggest(around.filter((entry) => entry.km <= 25));
-  if (metro && pick.city.popK < 60 && metro.city.popK >= pick.city.popK * 3) pick = metro;
+  // Only a suburb gives way: same state or country (Monaco never says Nice), and not
+  // when you're standing at the small city's own center.
+  if (metro && pick.city.popK < 60 && metro.city.popK >= pick.city.popK * 3 && metro.city.region === pick.city.region && pick.km > 2) pick = metro;
   const name = pick.city.name;
   return { name, region: pick.city.region, km: Math.round(pick.km), label: pick.km > 25 ? `Near ${name}` : name };
 }
