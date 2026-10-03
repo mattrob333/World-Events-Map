@@ -73,7 +73,8 @@ export function HotRightNow({ home }: { home?: { code: string; name: string } | 
 
   const countries = useMemo(() => [...new Set(all.map((ticker) => ticker.countryCode))], [all]);
   const { items, thinAtHome } = hotItems({ all, byCountry, home: national ? home!.code : null, country });
-  if (all.length < 2) return null;
+  // Nothing to show yet (or too little to call a list): no section, rather than one lonely card.
+  if (items.length < (national && !thinAtHome ? 1 : 2)) return null;
 
   return (
     <section className={styles.hot} aria-labelledby="hot-title">
@@ -109,7 +110,7 @@ export function HotRightNow({ home }: { home?: { code: string; name: string } | 
               {/* Rank and the ticker ride along the top edge, clear of the photo's subject. */}
               <span className={styles.top}>
                 <span className={styles.rank}>{index + 1}</span>
-                <HeatTicker ticker={ticker} />
+                {ticker.headline ? <HeatTicker ticker={ticker} /> : <span className={styles.unmeasured}>Not measured yet</span>}
               </span>
               <span className={styles.name}>{event.name}</span>
               <span className={styles.where}>{event.city}, {event.country} · {formatDateRange(event.start, event.end)}</span>
@@ -117,7 +118,11 @@ export function HotRightNow({ home }: { home?: { code: string; name: string } | 
           );
         })}
       </div>
-      <p className={styles.note}>Heat is measured: Wikipedia views and news mentions this week against the three before. Each number names its source.</p>
+      <p className={styles.note}>
+        {national && !thinAtHome
+          ? `Heat is measured: Wikipedia views and news mentions this week against the three before. What’s climbing comes first, then the rest of ${homeSaid}’s calendar by that interest; “Not measured yet” means neither source has a reading.`
+          : 'Heat is measured: Wikipedia views and news mentions this week against the three before. Each number names its source.'}
+      </p>
     </section>
   );
 }

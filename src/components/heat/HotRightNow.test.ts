@@ -14,6 +14,10 @@ describe('Hot right now: national or global', () => {
     expect(hotItems({ all, byCountry: {}, home: 'US', country: null })).toEqual({ items: [], thinAtHome: false });
   });
 
+  it('shows national even when everywhere has too little to list', () => {
+    expect(hotItems({ all: [t('a')], byCountry: { US: [t('x')] }, home: 'US', country: null })).toEqual({ items: [t('x')], thinAtHome: false });
+  });
+
   it('shows everywhere or the picked country on Global', () => {
     expect(hotItems({ all, byCountry: {}, home: null, country: null }).items).toBe(all);
     expect(hotItems({ all, byCountry: { FR: [t('f')] }, home: null, country: 'FR' }).items).toEqual([t('f')]);

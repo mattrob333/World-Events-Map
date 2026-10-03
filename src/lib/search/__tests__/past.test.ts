@@ -15,4 +15,11 @@ describe('search and ended events', () => {
     expect(ended.some((event) => ids.has(`event-${event.id}`))).toBe(false);
     expect(coming.every((event) => ids.has(`event-${event.id}`))).toBe(true);
   });
+
+  it('judges ended against the date it is given, not the clock', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2027-12-31T12:00:00Z'));
+    const ids = new Set(buildSearchCatalog('2026-10-03').filter((hit) => hit.group === 'events').map((hit) => hit.id));
+    expect(EVENTS.filter((event) => event.end >= '2026-10-03').every((event) => ids.has(`event-${event.id}`))).toBe(true);
+  });
 });
