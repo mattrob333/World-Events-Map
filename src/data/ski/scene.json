@@ -12753,5 +12753,262 @@
    "https://www.ruka.fi/en",
    "https://en.wikipedia.org/wiki/Ruka,_Finland"
   ]
+ },
+ {
+  "id": "keystone--night-skiing",
+  "resortId": "keystone",
+  "kind": "activity",
+  "name": "Night skiing at Keystone",
+  "summary": "Keep skiing after dark under the lights on 15 trails",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "sports",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Keystone_Resort"
+  ]
+ },
+ {
+  "id": "keystone--the-ranch",
+  "resortId": "keystone",
+  "kind": "restaurant",
+  "name": "The Ranch",
+  "summary": "AAA 4-Diamond steakhouse dinners in the historic Keystone Ranch homestead",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/keystone-ranch.aspx"
+  },
+  "sources": [
+   "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/keystone-ranch.aspx"
+  ]
+ },
+ {
+  "id": "keystone--ski-tip-lodge",
+  "resortId": "keystone",
+  "kind": "restaurant",
+  "name": "Ski Tip Lodge",
+  "summary": "Four-course prix fixe in an 1800s stagecoach stop by stone fireplaces",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/ski-tip-lodge.aspx"
+  },
+  "sources": [
+   "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/ski-tip-lodge.aspx"
+  ]
+ },
+ {
+  "id": "keystone--keystone-lake-skating",
+  "resortId": "keystone",
+  "kind": "activity",
+  "name": "Ice skating on Keystone Lake",
+  "summary": "Skate laps on a five-acre resurfaced lake in the village",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Keystone_Resort"
+  ]
+ },
+ {
+  "id": "keystone--last-lift-bar",
+  "resortId": "keystone",
+  "kind": "apres",
+  "name": "Last Lift Bar",
+  "summary": "Retro apres bar upstairs in Mountain House for craft beers and cocktails",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/last-lift-bar.aspx"
+  },
+  "sources": [
+   "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/last-lift-bar.aspx"
+  ]
+ },
+ {
+  "id": "keystone--summit-house",
+  "resortId": "keystone",
+  "kind": "restaurant",
+  "name": "Summit House",
+  "summary": "Lunch and specialty hot chocolate at the top of Dercum Mountain",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/summit-house.aspx"
+  },
+  "sources": [
+   "https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/summit-house.aspx"
+  ]
+ },
+ {
+  "id": "kirkwood--the-cornice",
+  "resortId": "kirkwood",
+  "kind": "apres",
+  "name": "The Cornice",
+  "summary": "Billed as the place for apres: pizza, wings and a full bar in the village",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/cornice-grill.aspx"
+  },
+  "sources": [
+   "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/cornice-grill.aspx"
+  ]
+ },
+ {
+  "id": "kirkwood--k-bar",
+  "resortId": "kirkwood",
+  "kind": "apres",
+  "name": "K-Bar",
+  "summary": "Kirkwood's signature umbrella bar for all-day apres with big views",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/kbar.aspx"
+  },
+  "sources": [
+   "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/kbar.aspx"
+  ]
+ },
+ {
+  "id": "kirkwood--the-wall-bar",
+  "resortId": "kirkwood",
+  "kind": "restaurant",
+  "name": "The Wall Bar & Grill",
+  "summary": "Upscale pub lunch in the village: cheesesteaks, nachos and local drinks",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/off-the-wall-bar.aspx"
+  },
+  "sources": [
+   "https://www.kirkwood.com/explore-the-resort/during-your-stay/dining-pages/off-the-wall-bar.aspx"
+  ]
+ },
+ {
+  "id": "kirkwood--cross-country-center",
+  "resortId": "kirkwood",
+  "kind": "activity",
+  "name": "Kirkwood Cross Country Center",
+  "summary": "Nordic skiing and snowshoeing on 15 km of meadow trails at the base",
+  "wow": 1,
+  "interests": [
+   "adventure",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.kirkwood.com/"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Kirkwood_Mountain_Resort"
+  ]
  }
 ]
