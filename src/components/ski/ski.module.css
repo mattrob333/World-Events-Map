@@ -41,17 +41,24 @@
   background: linear-gradient(160deg, var(--c1), var(--c2)); box-shadow: var(--shadow-soft-2);
 }
 .card[data-map] {
-  /* Dark at the top and bottom for the text, clear in the middle where the resorts glow, tinted with the range's color. */
+  /* A bright snowy map: white fades at the top and bottom for the text, clear in the middle where the resorts are. */
+  min-height: 600px; color: #10202e;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.6) 0%, rgb(0 0 0 / 0.05) 32%, rgb(0 0 0 / 0.05) 56%, rgb(0 0 0 / 0.9) 72%, rgb(0 0 0 / 0.92) 100%),
-    linear-gradient(160deg, color-mix(in srgb, var(--c2) 38%, transparent), color-mix(in srgb, var(--c1) 30%, transparent)),
-    var(--map) center / cover no-repeat,
-    var(--c1);
+    linear-gradient(180deg, rgb(244 248 251 / 0.94) 0%, rgb(244 248 251 / 0.6) 24%, rgb(244 248 251 / 0) 31%, rgb(244 248 251 / 0) 61%, rgb(244 248 251 / 0.9) 68%, rgb(244 248 251 / 0.97) 100%),
+    var(--map) top center / cover no-repeat,
+    #f4f8fb;
 }
-.card[data-map] h3, .card[data-map] .cardSummary, .card[data-map] .facts { text-shadow: 0 1px 10px rgb(0 0 0 / 0.85); }
-.mapGap { flex: none; height: 120px; }
+.card[data-map] .cardKicker { color: #3c5a72; opacity: 1; }
+.card[data-map] .verdict { background: rgb(16 32 46 / 0.88); color: #fff; }
+.card[data-map] .thumb { background: #10202e; color: #fff; }
+.card[data-map] .thumb[aria-pressed='true'] { background: var(--c1); color: #fff; }
+.card[data-map] .things li::before { color: var(--c1); opacity: 1; }
+.card[data-map][data-tone='off'] { filter: grayscale(0.6) brightness(0.92); }
+.cardTop { display: flex; flex-direction: column; gap: 8px; min-height: 152px; }
+/* The window onto the map. Fixed, so the resorts (rendered 30% to 61% down) sit in it on every card. */
+.mapGap { flex: none; height: 200px; }
 .card[data-map] .facts { margin-top: 0; }
-.mapCredit { position: absolute; left: 18px; bottom: 3px; z-index: 0; font-size: 9px; color: rgb(255 255 255 / 0.5); pointer-events: none; }
+.mapCredit { position: absolute; left: 18px; bottom: 3px; z-index: 0; font-size: 9px; color: rgb(16 32 46 / 0.5); pointer-events: none; }
 .card[data-tone='off'] { filter: saturate(0.35) brightness(0.8); }
 .cardLink { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
 .cardBody { position: relative; display: flex; flex: 1; flex-direction: column; gap: 8px; padding: 18px 18px 16px; pointer-events: none; }
@@ -157,13 +164,7 @@
 }
 .tally strong { color: var(--color-saffron); }
 
-/* A range page opens on its map. */
-.rangeHero { margin: 0 -16px; padding: 16px 16px 22px; min-height: 260px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; color: #fff;
-  background:
-    linear-gradient(180deg, rgb(5 5 5 / 0.35) 0%, rgb(5 5 5 / 0.1) 40%, rgb(5 5 5 / 0.92) 100%),
-    var(--map) center 40% / cover no-repeat, var(--c1); }
-@media (min-width: 900px) { .rangeHero { margin: 0; border-radius: 24px; padding: 24px; } }
-.rangeHero h1, .rangeHero .lead { text-shadow: 0 1px 10px rgb(0 0 0 / 0.85); }
-.rangeHero .lead { color: rgb(255 255 255 / 0.85); }
-.rangeTitle { margin-top: 4px; font-family: var(--font-display); font-size: clamp(30px, 7vw, 44px); line-height: 1.02; }
+/* A range page opens on its map: the resorts sit 31% to 60% down the image. */
+.rangeHero { position: relative; margin: 0 -16px; height: 280px; background: var(--map) center 45% / cover no-repeat, #f4f8fb; }
+@media (min-width: 900px) { .rangeHero { margin: 0; height: 360px; border-radius: 24px; overflow: hidden; } }
 .filterRow { margin-top: 14px; }

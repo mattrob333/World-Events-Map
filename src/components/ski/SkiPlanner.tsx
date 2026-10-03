@@ -85,9 +85,11 @@ function RangeCard({ match, on, onToggle }: { match: RangeMatch; on: boolean; on
       <Link href={`/ski/${range.id}`} className={styles.cardLink} aria-label={`See resorts in ${range.name}`} />
       <span className={styles.mapCredit}>© OpenStreetMap</span>
       <div className={styles.cardBody}>
-        <div className={styles.cardKicker}>{range.where}</div>
-        <h3>{range.name}</h3>
-        <span className={styles.verdict} style={toneStyle(tone)}><i />{verdict}</span>
+        <div className={styles.cardTop}>
+          <div className={styles.cardKicker}>{range.where}</div>
+          <h3>{range.name}</h3>
+          <span className={styles.verdict} style={toneStyle(tone)}><i />{verdict}</span>
+        </div>
         <div className={styles.mapGap} aria-hidden="true" />
         <p className={styles.cardSummary}>{range.summary}</p>
         <div className={styles.facts}>

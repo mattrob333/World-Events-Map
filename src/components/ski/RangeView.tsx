@@ -46,12 +46,14 @@ export function RangeView({ rangeId }: { rangeId: string }) {
         <header className={styles.head}>
           <Link className={styles.back} href="/ski">← All ranges</Link>
         </header>
-        <section className={styles.rangeHero} style={rangeMapStyle(range.id, range.colors)}>
+        <div className={styles.rangeHero} style={rangeMapStyle(range.id, range.colors)} role="img" aria-label={`Map of ${range.name} with its resorts`}>
           <span className={styles.mapCredit}>© OpenStreetMap</span>
+        </div>
+        <header className={styles.head}>
           <div className={styles.kicker}>{range.where}</div>
-          <h1 className={styles.rangeTitle}>{range.name}</h1>
+          <h1>{range.name}</h1>
           <p className={styles.lead}>{range.summary}. Sorted for {formatSpan(window.from, window.to)}, best for you first.</p>
-        </section>
+        </header>
         <div className={styles.filterRow} role="group" aria-label="Filter resorts">
           {FILTERS.map((option) => (
             <button key={option.value} type="button" className={styles.chip} aria-pressed={filter === option.value} onClick={() => setFilter(option.value)}>{option.label}</button>
