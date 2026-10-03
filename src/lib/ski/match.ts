@@ -1,6 +1,6 @@
 import type { Signal } from '@/lib/vibe/signals';
 import { INTERESTS, type Currency, type Interest, type SceneItem, type SkiRange, type SkiResort } from './types';
-import { candidateWeeks, crowdWeeks, formatSpan, monthWeights, overlaps, type TripWindow, type Week } from './window';
+import { addDays, candidateWeeks, crowdWeeks, formatSpan, monthWeights, overlaps, type TripWindow, type Week } from './window';
 
 /**
  * The ski matcher: given when someone can go and what they like, which range,
@@ -102,6 +102,36 @@ export function snowFit(months: Map<number, number>, best: readonly number[], op
   return total ? score / total : 0;
 }
 
+/**
+ * Is the resort open on this day? Announced dates decide it for the season
+ * they were announced for (July to June in the north, the calendar year in
+ * the south); any other season falls back to the usual months.
+ */
+export function openOn(resort: SkiResort, day: string): boolean {
+  const month = Number(day.slice(5, 7));
+  const announced = resort.season.dates;
+  if (announced) {
+    const openYear = Number(announced.open.slice(0, 4));
+    const north = Number(announced.open.slice(5, 7)) >= 7;
+    const seasonStart = north ? `${openYear}-07-01` : `${openYear}-01-01`;
+    const seasonEnd = north ? `${openYear + 1}-06-30` : `${openYear}-12-31`;
+    if (day >= seasonStart && day <= seasonEnd) return day >= announced.open && (!announced.close || day <= announced.close);
+  }
+  return inSeason(month, resort.season.opensMonth, resort.season.closesMonth);
+}
+
+/** 0 to 1: how good the snow usually is at a resort across a span of days. */
+export function resortFit(resort: SkiResort, from: string, to: string): number {
+  let total = 0;
+  let score = 0;
+  for (let day = from; day <= to; day = addDays(day, 1)) {
+    total += 1;
+    if (!openOn(resort, day)) continue;
+    score += resort.bestMonths.includes(Number(day.slice(5, 7))) ? 1 : 0.55;
+  }
+  return total ? score / total : 0;
+}
+
 export const toneFor = (fit: number): Tone => (fit >= 0.75 ? 'good' : fit > 0.2 ? 'season' : 'off');
 
 // ── Things to do ────────────────────────────────────────────────────────────
@@ -190,7 +220,7 @@ const VIBE_INTEREST: Partial<Record<string, Interest>> = { apres: 'apres', night
 
 export function matchResort(resort: SkiResort, scene: readonly SceneItem[], window: TripWindow, weights: Weights): ResortMatch {
   const months = monthWeights(window.from, window.to);
-  const fit = snowFit(months, resort.bestMonths, (month) => inSeason(month, resort.season.opensMonth, resort.season.closesMonth));
+  const fit = resortFit(resort, window.from, window.to);
   const inWindow = scene
     .filter((item) => item.resortId === resort.id && itemInWindow(item, window, months))
     .sort((a, b) => itemPoints(b, weights) - itemPoints(a, weights) || a.name.localeCompare(b.name));
@@ -271,14 +301,10 @@ export interface WeekMatch extends Week {
 /** Every possible week in the window for one resort, best first. */
 export function rankWeeks(resort: SkiResort, scene: readonly SceneItem[], window: TripWindow, weights: Weights): WeekMatch[] {
   const items = scene.filter((item) => item.resortId === resort.id);
-  const open = (month: number) => inSeason(month, resort.season.opensMonth, resort.season.closesMonth);
-  const announced = resort.season.dates;
   return candidateWeeks(window)
     .map((week) => {
       const months = monthWeights(week.start, week.end);
-      let fit = snowFit(months, resort.bestMonths, open);
-      // Outside the announced season, the lifts are shut whatever the month.
-      if (announced && (week.end < announced.open || (announced.close && week.start > announced.close))) fit = 0;
+      const fit = resortFit(resort, week.start, week.end);
       const events = items
         .filter((item) => item.dates && overlaps(item.dates.start, item.dates.end, week.start, week.end))
         .sort((a, b) => itemPoints(b, weights) - itemPoints(a, weights));

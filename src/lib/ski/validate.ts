@@ -1,7 +1,7 @@
+import { isIsoDate } from './window';
 import { CURRENCIES, INTERESTS, PASSES, SCENE_KINDS, VIBES, type SceneItem, type SkiRange, type SkiResort } from './types';
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 const isHttps = (url: unknown) => {
   if (typeof url !== 'string') return false;
@@ -11,7 +11,7 @@ const isHttps = (url: unknown) => {
     return false;
   }
 };
-const validDay = (value: unknown) => typeof value === 'string' && ISO_DAY.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
+const validDay = (value: unknown) => isIsoDate(value);
 const validMonths = (list: unknown) => Array.isArray(list) && list.length > 0 && list.every((month) => Number.isInteger(month) && month >= 1 && month <= 12);
 const badCopy = (text: string) => /—|\bdope\b/i.test(text);
 

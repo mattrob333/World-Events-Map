@@ -106,6 +106,8 @@ export function standing(votes: SkiPlanState['votes'], key: string): number {
 
 /** The default window: the heart of the coming northern season. */
 export function defaultWindow(now: Date): TripWindow {
-  const year = now.getMonth() >= 3 ? now.getFullYear() + 1 : now.getFullYear();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  // This year's window once it has passed is no use: roll to next season.
+  const year = `${now.getFullYear()}-03-20` < today ? now.getFullYear() + 1 : now.getFullYear();
   return { from: `${year}-01-09`, to: `${year}-03-20`, nights: 5 };
 }

@@ -42,7 +42,8 @@ export function monthWeights(from: string, to: string): Map<number, number> {
 
 /**
  * The weeks someone could actually go: every Saturday arrival whose stay fits
- * inside the window. A window too short for a Saturday start gives the window itself.
+ * inside the window. A window with room for the stay but no Saturday start
+ * gives one stay from its first day; one shorter than the stay gives none.
  */
 export function candidateWeeks(window: TripWindow): Week[] {
   const nights = Math.max(1, Math.min(21, Math.round(window.nights)));
@@ -53,7 +54,7 @@ export function candidateWeeks(window: TripWindow): Week[] {
   for (let start = saturday; start + nights * DAY <= last; start += 7 * DAY) {
     weeks.push({ start: isoDay(start), end: isoDay(start + nights * DAY) });
   }
-  if (!weeks.length) weeks.push({ start: window.from, end: isoDay(Math.min(last, first + nights * DAY)) });
+  if (!weeks.length && first + nights * DAY <= last) weeks.push({ start: window.from, end: isoDay(first + nights * DAY) });
   return weeks;
 }
 

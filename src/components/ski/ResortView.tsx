@@ -93,6 +93,7 @@ export function ResortView({ resortId }: { resortId: string }) {
 
         <section className={styles.block}>
           <h2>Your best weeks</h2>
+          {!weeks.length && <div className={styles.empty}>Your dates are shorter than {window.nights} nights. Widen them or pick fewer nights to see weeks.</div>}
           <div className={styles.weeks}>
             {weeks.map((week) => {
               const key = `${resort.id}@${week.start}`;

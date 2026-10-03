@@ -7,7 +7,7 @@ import { decodePlan, decodeReply, encodePlan, encodeReply, newTripId, optionVali
 import type { SceneItem, SkiResort } from '../types';
 import { validateSki } from '../validate';
 import { candidateWeeks, crowdWeeks, monthsLabel, monthWeights } from '../window';
-import { standing } from '../store';
+import { defaultWindow, standing } from '../store';
 import { SPOT_RESORT } from '../spots';
 
 const resort = (over: Partial<SkiResort> = {}): SkiResort => ({
@@ -79,6 +79,11 @@ describe('ski data', () => {
     expect(errors.some((error) => error.includes('summary'))).toBe(true);
   });
 
+  it('rejects calendar days that do not exist', () => {
+    const bad = resort({ season: { opensMonth: 11, closesMonth: 4, dates: { open: '2027-02-30', close: null, sourceUrl: 'https://example.com' } } });
+    expect(validateSki(RANGES, [bad], []).errors.some((error) => error.includes('season dates'))).toBe(true);
+  });
+
   it('requires an event without dates to say what is known', () => {
     const { errors } = validateSki(RANGES, [resort()], [item({ kind: 'event', dates: null })]);
     expect(errors.some((error) => error.includes('datesNote'))).toBe(true);
@@ -99,8 +104,18 @@ describe('window', () => {
     expect(weeks.every((week) => new Date(`${week.start}T00:00:00Z`).getUTCDay() === 6)).toBe(true);
   });
 
-  it('falls back to the window itself when no Saturday fits', () => {
+  it('falls back to one stay from the first day when no Saturday fits', () => {
     expect(candidateWeeks({ from: '2027-01-11', to: '2027-01-14', nights: 3 })).toEqual([{ start: '2027-01-11', end: '2027-01-14' }]);
+  });
+
+  it('offers no week when the window is shorter than the stay', () => {
+    expect(candidateWeeks({ from: '2027-01-11', to: '2027-01-12', nights: 5 })).toEqual([]);
+  });
+
+  it('defaults to the coming season, never one already over', () => {
+    expect(defaultWindow(new Date(2026, 9, 3)).from).toBe('2027-01-09');
+    expect(defaultWindow(new Date(2027, 0, 5)).from).toBe('2027-01-09');
+    expect(defaultWindow(new Date(2027, 2, 25)).from).toBe('2028-01-09');
   });
 
   it('labels months as a span, wrapping the new year', () => {
@@ -184,6 +199,19 @@ describe('matcher', () => {
     const early = { from: '2026-11-01', to: '2026-12-31', nights: 5 };
     const weeks = rankWeeks(resort({ season: { opensMonth: 11, closesMonth: 4, dates: { open: '2026-11-26', close: null, sourceUrl: 'https://example.com' } } }), [], early, interestWeights([]));
     expect(weeks.find((week) => week.start === '2026-11-07')?.reasons).toContain('Lifts closed');
+  });
+
+  it('counts a resort closed before its announced opening, even inside its usual months', () => {
+    const announced = resort({ season: { opensMonth: 11, closesMonth: 4, dates: { open: '2026-11-26', close: '2027-04-18', sourceUrl: 'https://example.com' } } });
+    const early = matchResort(announced, [], { from: '2026-11-01', to: '2026-11-15', nights: 5 }, interestWeights([]));
+    expect(early.fit).toBe(0);
+    expect(early.tone).toBe('off');
+  });
+
+  it('uses announced dates only for their own season', () => {
+    const announced = resort({ season: { opensMonth: 11, closesMonth: 4, dates: { open: '2026-11-26', close: '2027-04-18', sourceUrl: 'https://example.com' } } });
+    const nextSeason = rankWeeks(announced, [], { from: '2028-01-08', to: '2028-01-31', nights: 5 }, interestWeights([]));
+    expect(nextSeason.every((week) => !week.reasons.includes('Lifts closed'))).toBe(true);
   });
 
   it('sorts ranges by snow for the dates: the Andes sink in January', () => {
