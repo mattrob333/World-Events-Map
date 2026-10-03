@@ -56,4 +56,15 @@ describe('GET /api/heat', () => {
     expect(jp.items.every((item: { countryCode: string }) => item.countryCode === 'JP')).toBe(true);
     expect((await GET(new Request('http://localhost/api/heat?country=Japan'))).status).toBe(400);
   });
+
+  it('lists the rest of a country\'s events in more, so National is never empty while it has events coming', async () => {
+    const us = await (await GET(new Request('http://localhost/api/heat?country=US&limit=12'))).json();
+    expect(us.more.length).toBeGreaterThan(0);
+    expect([...us.items, ...us.more].every((item: { countryCode: string }) => item.countryCode === 'US')).toBe(true);
+    expect(us.more.every((item: { madeCut: boolean }) => !item.madeCut)).toBe(true);
+    const heats = us.more.map((item: { heat: number }) => item.heat);
+    expect(heats).toEqual([...heats].sort((a, b) => b - a));
+    // Everywhere stays what made the cut only.
+    expect((await (await GET(new Request('http://localhost/api/heat'))).json()).more).toEqual([]);
+  });
 });

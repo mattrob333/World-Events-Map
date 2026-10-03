@@ -51,3 +51,15 @@
 .name { margin-top: auto; font-family: var(--font-display); font-size: 1.4rem; line-height: 1.1; }
 .where { color: rgb(244 241 234 / 0.8); font-size: 0.8125rem; }
 .note { margin-top: 6px; color: var(--color-ink-subtle); font-size: 0.6875rem; }
+/* A national card with no reading from either source: said plainly, never a fake zero. */
+.unmeasured {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: var(--radius-chip);
+  background: rgb(5 5 5 / 0.66);
+  color: var(--color-ink-soft);
+  font: 600 12px/1 var(--font-sans);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}

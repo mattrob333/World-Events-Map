@@ -3,8 +3,11 @@
  *
  * What's hot right now: calendar events that are on or coming up, scored by
  * measured movement (Wikipedia views of their article, mentions in our news
- * intake). Only what made the cut is returned, hottest first. Read-only, no
- * paid calls, cached at the edge for an hour.
+ * intake). Only what made the cut is in `items`, hottest first. A country
+ * looks further ahead (a country has far fewer events than the world) and
+ * also lists the rest of its events in `more`, ordered by their measured
+ * interest, so National is never empty while the country has events coming.
+ * Read-only, no paid calls, cached at the edge for an hour.
  */
 
 import { NextResponse } from 'next/server';
@@ -22,6 +25,7 @@ export const runtime = 'nodejs';
 
 const TITLES = titles as Record<string, { lang: string; title: string }>;
 const HORIZON_DAYS = 60;
+const COUNTRY_HORIZON_DAYS = 180;
 let places: Place[] | null = null;
 
 const iso = (t: number) => new Date(t).toISOString().slice(0, 10);
@@ -37,7 +41,8 @@ export async function GET(request: Request) {
   // Pageviews land a day late; the window ends yesterday and covers four weeks.
   const to = iso(now - 86_400_000);
   const from = iso(now - 28 * 86_400_000);
-  const horizon = iso(now + HORIZON_DAYS * 86_400_000);
+  const days = country ? COUNTRY_HORIZON_DAYS : HORIZON_DAYS;
+  const horizon = iso(now + days * 86_400_000);
 
   const subjects = EVENTS.filter((event) => event.end >= today && event.start <= horizon && (!country || event.countryCode === country));
   places ??= placeIndex(EVENTS);
@@ -59,14 +64,17 @@ export async function GET(request: Request) {
     }
     // On now counts in full; the further out, the cooler, down to 40%.
     const until = Math.max(0, (Date.parse(`${event.start}T00:00:00Z`) - now) / 86_400_000);
-    const proximity = 1 - 0.6 * Math.min(1, until / HORIZON_DAYS);
+    const proximity = 1 - 0.6 * Math.min(1, until / days);
     return heatTicker({ id: `event:${event.id}`, name: event.name, countryCode: event.countryCode, kind: 'event', proximity }, series, expected);
   });
 
-  const items = tickers.filter((ticker) => ticker.madeCut).sort((a, b) => b.heat - a.heat).slice(0, limit);
+  const ranked = [...tickers].sort((a, b) => b.heat - a.heat);
+  const items = ranked.filter((ticker) => ticker.madeCut).slice(0, limit);
+  const more = country ? ranked.filter((ticker) => !ticker.madeCut).slice(0, Math.max(0, limit - items.length)) : [];
   return NextResponse.json(
     {
       items,
+      more,
       considered: subjects.length,
       sources: { wikipedia: Object.keys(TITLES).length ? 'ok' : 'unmapped', news: news.status.state },
       note: 'Heat is measured movement: Wikipedia views of the event’s article and mentions in the dope.travel news intake, last 7 days against the 3 weeks before.',
