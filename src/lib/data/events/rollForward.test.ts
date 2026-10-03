@@ -3,6 +3,9 @@ import type { WorldEvent } from '@/lib/types';
 import { EVENTS } from './index';
 import { rollForward, sameWindow } from './rollForward';
 import { formatEventDates } from '@/components/ui/tokens';
+import { whyNow } from '@/lib/discovery/whyNow';
+import { isHappeningToday } from '@/lib/data/scene-time';
+import { bookingAlertFor } from '@/lib/alerts/engine';
 
 const base = EVENTS[0]!;
 const ev = (over: Partial<WorldEvent>): WorldEvent => ({ ...base, datesStatus: undefined, ...over });
@@ -31,6 +34,23 @@ describe('rolling recurring events forward', () => {
     expect(rollForward(once, '2026-10-03')).toBe(once);
     const season = ev({ id: 'milan-fashion-week-ss27', start: '2026-09-22', end: '2026-09-28', recurrence: 'seasonal' });
     expect(rollForward(season, '2026-10-03')).toBe(season);
+  });
+
+  it('never clones a rotating host or an edition-named event', () => {
+    const cup = ev({ id: 'presidents-cup', start: '2026-09-22', end: '2026-09-27', recurrence: 'biennial' });
+    expect(rollForward(cup, '2026-10-03')).toBe(cup);
+    const numbered = ev({ id: 'z', name: 'Sharjah Biennial 17', start: '2026-02-01', end: '2026-06-01', recurrence: 'biennial' });
+    expect(rollForward(numbered, '2026-10-03')).toBe(numbered);
+    const dated = ev({ id: 'w', name: "The World's 50 Best Restaurants 2026", start: '2026-06-01', end: '2026-06-01', recurrence: 'annual' });
+    expect(rollForward(dated, '2026-10-03')).toBe(dated);
+    expect(rollForward(ev({ id: 'd', name: 'Defqon.1', start: '2026-06-25', end: '2026-06-28', recurrence: 'annual' }), '2026-10-03').datesStatus).toBe('projected');
+  });
+
+  it('gives a projected edition no countdown, plan-by or live state', () => {
+    const projected = rollForward(ev({ id: 'x', start: '2026-08-07', end: '2026-08-16', recurrence: 'annual' }), '2026-10-03');
+    expect(whyNow(projected, '2027-07-01')).toEqual({ tone: 'later', when: 'Usually early Aug 2027 · dates TBA', reason: projected.whyGo[0] });
+    expect(isHappeningToday(projected, new Date(`${projected.start}T12:00:00Z`))).toBe(false);
+    expect(bookingAlertFor(projected, '2027-07-01').headline).toMatch(/not announced yet/);
   });
 
   it('says plainly when dates are not announced', () => {

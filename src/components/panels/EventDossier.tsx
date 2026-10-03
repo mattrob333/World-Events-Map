@@ -231,8 +231,8 @@ export function EventDossier({ className }: EventDossierProps) {
               />
               <Stat
                 label="Lead time"
-                value={formatDaysUntil(leadDays)}
-                note={leadDays < 0 ? 'Already under way' : 'from today'}
+                value={event.datesStatus === 'projected' ? 'Dates TBA' : formatDaysUntil(leadDays)}
+                note={event.datesStatus === 'projected' ? 'Next edition not announced yet' : leadDays < 0 ? 'Already under way' : 'from today'}
                 size="sm"
                 align="end"
               />

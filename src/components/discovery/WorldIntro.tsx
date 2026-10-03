@@ -78,7 +78,7 @@ function RadarCard({ pick, index, today, onTravel }: { pick: RadarPick; index: n
   const { event, slug } = pick;
   const why = whyNow(event, today);
   // Live means on right now where it happens (its own time zone), not on the date the timeline is set to.
-  const live = event.start <= today && event.end >= today && isHappeningToday(event, new Date());
+  const live = event.datesStatus !== 'projected' && event.start <= today && event.end >= today && isHappeningToday(event, new Date());
   const [photo, setPhoto] = useState<PlacePhoto | null>(() => curatedPhotoForEvent(event.id));
   const [imageFailed, setImageFailed] = useState(false);
 

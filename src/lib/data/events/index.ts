@@ -64,12 +64,20 @@ function byDate(a: WorldEvent, b: WorldEvent): number {
 }
 
 /**
+ * The day ended series are rolled forward from: the build's day (next.config
+ * env CALENDAR_DAY), so the server render and every browser agree on the
+ * calendar. Outside a Next build (tests, scripts) it's the current UTC day.
+ * Between deploys an event that ends is hidden by the lists' own date checks
+ * and rolls forward at the next deploy.
+ */
+export const CALENDAR_DAY = process.env.CALENDAR_DAY || new Date().toISOString().slice(0, 10);
+
+/**
  * Every curated event, ascending by start date. A recurring event that has
  * ended is rolled to its next edition (projected dates, see rollForward), so
- * the calendar never loses the series. "Today" is the UTC day this module
- * loads, the same on the server and in the browser.
+ * the calendar never loses the series.
  */
-export const EVENTS: WorldEvent[] = ALL.map((event) => rollForward(event, new Date().toISOString().slice(0, 10))).sort(byDate);
+export const EVENTS: WorldEvent[] = ALL.map((event) => rollForward(event, CALENDAR_DAY)).sort(byDate);
 
 /** O(1) lookup by event id. */
 export const EVENT_INDEX: Map<string, WorldEvent> = new Map(

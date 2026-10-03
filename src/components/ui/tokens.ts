@@ -19,6 +19,7 @@
 
 import type { EventCategory, EventTier, HeatLevel } from '@/lib/types';
 import { HEAT_LEVELS } from '@/lib/types';
+import { usualWindow } from '@/lib/data/events/usualWindow';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CSS custom property access (for canvas / imperative paint)
@@ -239,12 +240,7 @@ export function formatEventDates(event: { start: string; end: string; datesStatu
   return `${usualWindow(event.start)} · dates TBA`;
 }
 
-/** "late Jul 2027": the third of the month an event usually starts in. */
-export function usualWindow(start: string): string {
-  const d = parse(start);
-  const part = d.getUTCDate() <= 10 ? 'early' : d.getUTCDate() <= 20 ? 'mid' : 'late';
-  return `Usually ${part} ${MONTHS_SHORT[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
-}
+export { usualWindow } from '@/lib/data/events/usualWindow';
 
 /** Human phrasing for `daysUntil`, which is negative once an event has begun. */
 export function formatDaysUntil(days: number): string {

@@ -1,6 +1,7 @@
 import { bookingAlertFor, type BookingUrgency } from '@/lib/alerts/engine';
 import { daysBetween } from '@/lib/buzz/dates';
 import type { WorldEvent } from '@/lib/types';
+import { usualWindow } from '@/lib/data/events/usualWindow';
 
 export type WhyNowTone = 'now' | 'soon' | 'plan' | 'later';
 
@@ -62,6 +63,8 @@ function planByLine(event: WorldEvent, today: string): PlanBy | undefined {
  * the event's own first reason. Pure; `today` is passed in.
  */
 export function whyNow(event: WorldEvent, today: string): WhyNow {
+  // Dates not announced: no countdown, no plan-by, just the usual window.
+  if (event.datesStatus === 'projected') return { tone: 'later', when: `${usualWindow(event.start)} · dates TBA`, reason: event.whyGo[0] };
   const { tone, when } = whenLine(event, today);
   return { tone, when, planBy: tone === 'now' ? undefined : planByLine(event, today), reason: event.whyGo[0] };
 }

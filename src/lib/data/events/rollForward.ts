@@ -8,6 +8,19 @@ const iso = (t: number) => new Date(t).toISOString().slice(0, 10);
 const SEASON_EDITION = /-(?:ss|aw|fw|resort|pre-fall)\d{2}$/;
 
 /**
+ * Series whose host moves each edition (a different course, city or track):
+ * cloning the last host's place would be wrong, so they never roll. Their
+ * next edition is added when its host and dates are announced.
+ */
+export const HOST_ROTATES = new Set([
+  'presidents-cup', 'ryder-cup', 'laver-cup', 'pga-championship', 'us-open-golf', 'the-open-championship',
+  'breeders-cup-keeneland', 'worlds-50-best-restaurants-lima',
+]);
+
+/** A name that belongs to one edition ("…2026", "99th…", "Biennial 17") can't be reused for the next. */
+const EDITION_NAME = /\b(?:19|20)\d{2}\b|\b\d+(?:st|nd|rd|th)\b|\s\d{1,3}$/;
+
+/**
  * The same date `years` later, kept on the same weekday when the event starts
  * Thursday to Sunday (festivals, races and regattas hold their weekend), else
  * the same calendar day (a gala on the 22nd stays on the 22nd).
@@ -29,12 +42,13 @@ export function sameWindow(start: string, years: number): string {
 /**
  * A recurring event that has ended comes back as its next edition, in its
  * usual window and marked projected, until someone records the announced
- * dates (by updating the event itself). One-off events and a season's own
- * edition stay as they are; the lists hide them once they've ended. The id is
+ * dates (by updating the event itself). One-off events, a season's own
+ * edition, series whose host rotates and edition-named events stay as they
+ * are; the lists hide them once they've ended. The id is
  * kept, so links, saves and Wikipedia mapping follow the series.
  */
 export function rollForward(event: WorldEvent, today: string): WorldEvent {
-  if (event.end >= today || event.recurrence === 'one-off' || SEASON_EDITION.test(event.id)) return event;
+  if (event.end >= today || event.recurrence === 'one-off' || SEASON_EDITION.test(event.id) || HOST_ROTATES.has(event.id) || EDITION_NAME.test(event.name)) return event;
   const step = event.recurrence === 'biennial' ? 2 : 1;
   const length = Math.round((ms(event.end) - ms(event.start)) / DAY);
   let years = step;
