@@ -6,7 +6,7 @@ import { rankRanges, rankResorts, type RangeMatch } from '@/lib/ski/match';
 import { useSkiPlan } from '@/lib/ski/store';
 import { formatSpan } from '@/lib/ski/window';
 import { ResortCard } from './RangeView';
-import { Loading, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext, WindowPicker } from './common';
+import { Loading, MapCredit, rangeMapStyle, ThumbButton, toneStyle, TripBar, useSkiContext, WindowPicker } from './common';
 import styles from './ski.module.css';
 
 /**
@@ -83,7 +83,7 @@ function RangeCard({ match, on, onToggle }: { match: RangeMatch; on: boolean; on
   return (
     <article className={styles.card} style={rangeMapStyle(range.id, range.colors)} data-tone={tone} data-map="">
       <Link href={`/ski/${range.id}`} className={styles.cardLink} aria-label={`See resorts in ${range.name}`} />
-      <span className={styles.mapCredit}>© OpenStreetMap</span>
+      <MapCredit />
       <div className={styles.cardBody}>
         <div className={styles.cardTop}>
           <div className={styles.cardKicker}>{range.where}</div>

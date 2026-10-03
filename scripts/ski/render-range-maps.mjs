@@ -7,7 +7,9 @@
  *
  *   NODE_USE_ENV_PROXY=1 node scripts/ski/render-range-maps.mjs            # all ranges
  *   NODE_USE_ENV_PROXY=1 node scripts/ski/render-range-maps.mjs colorado   # one range
+ *   CHROMIUM_PATH=/path/to/chromium …                                       # a specific browser build
  *
+ * NODE_USE_ENV_PROXY is only needed behind an HTTPS proxy.
  * Writes public/ski/ranges/<id>.jpg. Needs Playwright and network access to
  * tiles.openfreemap.org and the elevation tiles. Map data © OpenStreetMap
  * contributors; terrain from Mapzen Terrain Tiles (AWS Open Data). Credited on the card.
@@ -34,7 +36,8 @@ const targets = only.length ? rangeIds.filter((id) => only.includes(id)) : range
 const shortName = (name) => name.split(':')[0].replace(/\s+(Mountain Resort|Alpine Resort|Ski Resort|Resort|Mountain)$/i, '').trim();
 
 mkdirSync(OUT, { recursive: true });
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH ?? '/opt/pw-browsers/chromium', args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] });
+// Playwright's own Chromium by default; CHROMIUM_PATH points at another build (e.g. a preinstalled one).
+const browser = await chromium.launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader'] });
 const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
 // Fetch tiles and fonts from Node, which trusts the machine's certificate setup
 // (some sandboxes re-sign TLS with their own CA that the bundled browser doesn't know).

@@ -161,3 +161,16 @@ export function useHashParam(name: string): string | null {
     () => null,
   );
 }
+
+/** Credit for the range maps: the basemap, its data and the terrain, each linked. Sits above the card's link. */
+export function MapCredit() {
+  return (
+    <span className={styles.mapCredit}>
+      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>
+      {' · '}
+      <a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer">OpenFreeMap</a>
+      {' · '}
+      <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener noreferrer">Terrain: Mapzen</a>
+    </span>
+  );
+}
