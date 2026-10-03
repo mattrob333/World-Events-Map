@@ -1,8 +1,8 @@
 /**
- * Renders the map behind each mountain range card in the ski planner: a
- * bright, snowy map of the range (OpenFreeMap's light basemap with roads
- * taken off, hillshaded relief from the open Terrarium elevation tiles) and a
- * mountain marker with the name of every resort in it. Static files, so the
+ * Renders the map behind each mountain range card in the ski planner: a dark
+ * relief map of the range (OpenFreeMap's basemap recolored dark with roads
+ * taken off, strong hillshade from the open Terrarium elevation tiles so the
+ * ridges read) and a mountain marker with the name of every resort in it. Static files, so the
  * planner never opens 14 live maps on a phone.
  *
  *   NODE_USE_ENV_PROXY=1 node scripts/ski/render-range-maps.mjs            # all ranges
@@ -50,7 +50,7 @@ await page.route(/^https:\/\//, async (route) => {
     await route.abort();
   }
 });
-await page.setContent(`<!doctype html><html><head><style>html,body,#map{margin:0;width:${WIDTH}px;height:${HEIGHT}px;background:#f2f6f9}</style></head><body><div id="map"></div></body></html>`);
+await page.setContent(`<!doctype html><html><head><style>html,body,#map{margin:0;width:${WIDTH}px;height:${HEIGHT}px;background:#0b1218}</style></head><body><div id="map"></div></body></html>`);
 await page.addStyleTag({ path: join(ROOT, 'node_modules', 'maplibre-gl', 'dist', 'maplibre-gl.css') });
 await page.addScriptTag({ path: join(ROOT, 'node_modules', 'maplibre-gl', 'dist', 'maplibre-gl.js') });
 
@@ -75,15 +75,21 @@ for (const id of targets) {
         });
         const timer = setTimeout(() => reject(new Error('map timed out')), 90000);
         map.on('load', () => {
-          // Snow: drop roads, rail, airports, buildings and small places; keep water, borders and big names.
+          // Dark relief: drop roads, rail, airports, buildings and small places; keep water, borders and big names.
           for (const layer of map.getStyle().layers) {
-            if (/^(highway|road|railway|tunnel|aeroway|building|airport|label_other|label_village|waterway_line|water_name_line)/.test(layer.id)) map.setLayoutProperty(layer.id, 'visibility', 'none');
+            if (/^(highway|road|railway|tunnel|aeroway|building|airport|label_other|label_village|waterway_line|water_name_line|park|landuse|landcover_wood)/.test(layer.id)) map.setLayoutProperty(layer.id, 'visibility', 'none');
+            else if (layer.type === 'symbol') {
+              map.setPaintProperty(layer.id, 'text-color', '#9fb0bf');
+              map.setPaintProperty(layer.id, 'text-halo-color', '#0b1218');
+            } else if (layer.type === 'line' && layer.id.startsWith('boundary')) map.setPaintProperty(layer.id, 'line-color', '#3b4c5c');
+            else if (layer.id === 'waterway') map.setPaintProperty(layer.id, 'line-color', '#1d4560');
           }
-          map.setPaintProperty('background', 'background-color', '#f4f8fb');
-          map.setPaintProperty('water', 'fill-color', '#c9e2f2');
+          map.setPaintProperty('background', 'background-color', '#0f1820');
+          map.setPaintProperty('water', 'fill-color', '#0a2233');
+          for (const id of ['landcover_ice_shelf', 'landcover_glacier']) if (map.getLayer(id)) map.setPaintProperty(id, 'fill-color', '#2a3a48');
           const firstSymbol = map.getStyle().layers.find((layer) => layer.type === 'symbol')?.id;
           map.addSource('dem', { type: 'raster-dem', tiles: [terrain], encoding: 'terrarium', tileSize: 256, maxzoom: 12 });
-          map.addLayer({ id: 'relief', type: 'hillshade', source: 'dem', paint: { 'hillshade-exaggeration': 0.75, 'hillshade-shadow-color': '#5f7f9e', 'hillshade-highlight-color': '#ffffff', 'hillshade-accent-color': '#8fa9c2', 'hillshade-illumination-direction': 315 } }, firstSymbol);
+          map.addLayer({ id: 'relief', type: 'hillshade', source: 'dem', paint: { 'hillshade-exaggeration': 1, 'hillshade-shadow-color': '#000000', 'hillshade-highlight-color': '#c6d6e4', 'hillshade-accent-color': '#2e4356', 'hillshade-illumination-direction': 315 } }, firstSymbol);
 
           // A little mountain for each resort, like a ski-area poster.
           const size = 64;
@@ -93,8 +99,8 @@ for (const id of targets) {
           const ctx = canvas.getContext('2d');
           ctx.lineJoin = 'round';
           ctx.beginPath(); ctx.moveTo(32, 8); ctx.lineTo(60, 56); ctx.lineTo(4, 56); ctx.closePath();
-          ctx.fillStyle = '#a9d2ea'; ctx.fill();
-          ctx.lineWidth = 5; ctx.strokeStyle = '#1f4258'; ctx.stroke();
+          ctx.fillStyle = '#7fb6d9'; ctx.fill();
+          ctx.lineWidth = 5; ctx.strokeStyle = '#ffffff'; ctx.stroke();
           ctx.beginPath(); ctx.moveTo(32, 12); ctx.lineTo(42, 29); ctx.lineTo(36, 26); ctx.lineTo(32, 31); ctx.lineTo(27, 26); ctx.lineTo(22, 29); ctx.closePath();
           ctx.fillStyle = '#ffffff'; ctx.fill();
           map.addImage('peak', ctx.getImageData(0, 0, size, size), { pixelRatio: 2 });
@@ -108,7 +114,7 @@ for (const id of targets) {
               'text-variable-anchor': ['left', 'right', 'top', 'bottom'], 'text-radial-offset': 1.1, 'text-justify': 'auto',
               'text-optional': true,
             },
-            paint: { 'text-color': '#b8333b', 'text-halo-color': '#ffffff', 'text-halo-width': 2 },
+            paint: { 'text-color': '#F7C548', 'text-halo-color': '#0b1218', 'text-halo-width': 2 },
           });
           map.once('idle', () => {
             clearTimeout(timer);
