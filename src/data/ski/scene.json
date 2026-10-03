@@ -1,0 +1,9218 @@
+[
+ {
+  "id": "aspen-snowmass--cloud-nine",
+  "resortId": "aspen-snowmass",
+  "kind": "apres",
+  "name": "Cloud Nine Alpine Bistro",
+  "summary": "Champagne-spraying DJ apres party in a cabin on Aspen Highlands, Maroon Bells views",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.aspensnowmass.com/visit/dining/aspen-highlands/cloud-nine-alpine-bistro"
+  },
+  "sources": [
+   "https://www.aspensnowmass.com/visit/dining/aspen-highlands/cloud-nine-alpine-bistro",
+   "https://www.aspensnowmass.com/discover/experiences/guides/restaurant-guide"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--x-games-aspen",
+  "resortId": "aspen-snowmass",
+  "kind": "event",
+  "name": "X Games Aspen",
+  "summary": "Big air, slopestyle and superpipe action at Buttermilk, now in its 26th year there",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-29",
+   "end": "2027-01-31",
+   "sourceUrl": "https://www.aspensnowmass.com/visit/events/x-games-aspen"
+  },
+  "links": {
+   "officialSite": "https://www.aspensnowmass.com/visit/events/x-games-aspen"
+  },
+  "sources": [
+   "https://www.aspensnowmass.com/visit/events/x-games-aspen"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--belly-up",
+  "resortId": "aspen-snowmass",
+  "kind": "live-music",
+  "name": "Belly Up Aspen",
+  "summary": "Intimate club near Aspen Mountain that books huge touring acts and DJs",
+  "wow": 3,
+  "interests": [
+   "live-music",
+   "concert",
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://bellyupaspen.com/",
+   "instagram": "https://www.instagram.com/bellyupaspen/"
+  },
+  "sources": [
+   "https://bellyupaspen.com/",
+   "https://www.denverlifemagazine.com/belly-up-an-aspen-music-venue/"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--aspen-gay-ski-week",
+  "resortId": "aspen-snowmass",
+  "kind": "event",
+  "name": "Aspen Gay Ski Week",
+  "summary": "Week of parties, apres and events; the 2027 edition marks the 50th anniversary",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "nightlife",
+   "apres"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-17",
+   "end": "2027-01-24",
+   "sourceUrl": "https://www.gayskiweek.com/"
+  },
+  "links": {
+   "officialSite": "https://www.gayskiweek.com/",
+   "instagram": "https://www.instagram.com/aspenskiweek/"
+  },
+  "sources": [
+   "https://www.gayskiweek.com/",
+   "https://outxout.com/blog/aspen-gay-ski-week-2027"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--winterskol",
+  "resortId": "aspen-snowmass",
+  "kind": "event",
+  "name": "Winterskol",
+  "summary": "Aspen's toast to winter since 1951: torchlight descent, fireworks, bonfire, live music",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "culture",
+   "family",
+   "live-music"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-10",
+   "end": "2026-12-13",
+   "sourceUrl": "https://aspensnowmass.com/visit/events/winterskol"
+  },
+  "links": {
+   "officialSite": "https://aspensnowmass.com/visit/events/winterskol"
+  },
+  "sources": [
+   "https://aspensnowmass.com/visit/events/winterskol"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--ajax-tavern",
+  "resortId": "aspen-snowmass",
+  "kind": "apres",
+  "name": "Ajax Tavern",
+  "summary": "Sunny patio apres by the Silver Queen Gondola, famed for truffle fries",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.thelittlenell.com/dining/ajax-tavern"
+  },
+  "sources": [
+   "https://www.thelittlenell.com/dining/ajax-tavern",
+   "https://www.aspensnowmass.com/discover/experiences/guides/restaurant-guide"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--cloud-nine-snowcat-dinner",
+  "resortId": "aspen-snowmass",
+  "kind": "activity",
+  "name": "Snowcat Dinner at Cloud Nine",
+  "summary": "Ride a snowcat up Aspen Highlands for a fireside Swiss dinner in the cabin",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://aspensnowmass.com/visit/dining/aspen-highlands/snowcat-dinners-at-cloud-nine"
+  },
+  "sources": [
+   "https://aspensnowmass.com/visit/dining/aspen-highlands/snowcat-dinners-at-cloud-nine"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--bonnies",
+  "resortId": "aspen-snowmass",
+  "kind": "restaurant",
+  "name": "Bonnie's",
+  "summary": "Mid-mountain Aspen institution known for apple strudel and stacks of pancakes",
+  "wow": 2,
+  "interests": [
+   "food",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.aspensnowmass.com/visit/dining/aspen-mountain/bonnies"
+  },
+  "sources": [
+   "https://www.aspensnowmass.com/visit/dining/aspen-mountain/bonnies"
+  ]
+ },
+ {
+  "id": "aspen-snowmass--buttermilk-freeski-world-cup",
+  "resortId": "aspen-snowmass",
+  "kind": "event",
+  "name": "Freeski and Snowboard World Cup at Buttermilk",
+  "summary": "Slopestyle and halfpipe World Cup stop at Buttermilk",
+  "wow": 2,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-27",
+   "end": "2027-02-28",
+   "sourceUrl": "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  },
+  "links": {},
+  "sources": [
+   "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  ]
+ },
+ {
+  "id": "vail--pepis",
+  "resortId": "vail",
+  "kind": "apres",
+  "name": "Pepi's",
+  "summary": "One of Vail Village's most iconic apres decks, under big orange umbrellas",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/apres-ski-spots/"
+  ]
+ },
+ {
+  "id": "vail--red-lion",
+  "resortId": "vail",
+  "kind": "apres",
+  "name": "The Red Lion",
+  "summary": "Bridge Street institution since 1963 with live music afternoons and evenings",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/apres-ski-spots/",
+   "https://discovervail.com/blog/nightlife-scene-winter/what-is-apres-ski"
+  ]
+ },
+ {
+  "id": "vail--shakedown-bar",
+  "resortId": "vail",
+  "kind": "live-music",
+  "name": "Shakedown Bar",
+  "summary": "Small Bridge Street room known for rock shows, apres and late nights",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/nightlife-in-vail/"
+  ]
+ },
+ {
+  "id": "vail--bridge-street-bar",
+  "resortId": "vail",
+  "kind": "club",
+  "name": "Bridge Street Bar",
+  "summary": "Separate rooms of live music and DJs for singing along or dancing",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/nightlife-in-vail/"
+  ]
+ },
+ {
+  "id": "vail--express-lift",
+  "resortId": "vail",
+  "kind": "apres",
+  "name": "Express Lift",
+  "summary": "Lively bar at the base of Gondola One with DJs and comfort food",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/apres-ski-spots/"
+  ]
+ },
+ {
+  "id": "vail--garfinkels",
+  "resortId": "vail",
+  "kind": "apres",
+  "name": "Garfinkel's",
+  "summary": "Big Lionshead deck with mountain views; the late-night scene moves inside",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://discovervail.com/apres-ski-spots/",
+   "https://discovervail.com/nightlife-in-vail/"
+  ]
+ },
+ {
+  "id": "vail--taste-of-vail",
+  "resortId": "vail",
+  "kind": "event",
+  "name": "Taste of Vail",
+  "summary": "Four-day food and wine festival with a mountaintop tasting and grand gala",
+  "wow": 2,
+  "interests": [
+   "food",
+   "festival",
+   "fine-dining"
+  ],
+  "months": [
+   3,
+   4
+  ],
+  "dates": {
+   "start": "2027-03-31",
+   "end": "2027-04-03",
+   "sourceUrl": "https://discovervail.com/event/taste-of-vail/"
+  },
+  "links": {},
+  "sources": [
+   "https://discovervail.com/event/taste-of-vail/"
+  ]
+ },
+ {
+  "id": "vail--sweet-basil",
+  "resortId": "vail",
+  "kind": "restaurant",
+  "name": "Sweet Basil",
+  "summary": "Vail's enduring dining room since 1977, a Michelin Guide pick on Gore Creek",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://guide.michelin.com/us/en/colorado/vail_1261554/restaurant/sweet-basil-1206042",
+   "https://guide.michelin.com/us/en/article/features/michelin-guide-colorado-vail-sweet-basil"
+  ]
+ },
+ {
+  "id": "beaver-creek--birds-of-prey",
+  "resortId": "beaver-creek",
+  "kind": "event",
+  "name": "Birds of Prey World Cup",
+  "summary": "Seven men's and women's World Cup races over two weekends, the biggest edition yet",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-03",
+   "end": "2026-12-13",
+   "sourceUrl": "https://bcworldcup.com/second-womens-downhill-added-2026/"
+  },
+  "links": {
+   "officialSite": "https://bcworldcup.com/"
+  },
+  "sources": [
+   "https://bcworldcup.com/second-womens-downhill-added-2026/",
+   "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  ]
+ },
+ {
+  "id": "beaver-creek--cookie-time",
+  "resortId": "beaver-creek",
+  "kind": "activity",
+  "name": "Cookie Time",
+  "summary": "Free warm chocolate chip cookies handed out in the village every day at 3 PM",
+  "wow": 2,
+  "interests": [
+   "family",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.beavercreek.com/travel-guide/top-reasons-to-visit-beaver-creek-itinerary.aspx",
+   "https://www.westword.com/?p=40609392"
+  ]
+ },
+ {
+  "id": "beaver-creek--beanos-cabin",
+  "resortId": "beaver-creek",
+  "kind": "restaurant",
+  "name": "Beano's Cabin",
+  "summary": "Five-course dinner in an on-mountain log cabin meadow, reached by shuttle",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.beavercreek.com/the-mountain/on-mountain-dining/beanos-cabin"
+  },
+  "sources": [
+   "https://www.beavercreek.com/the-mountain/on-mountain-dining/beanos-cabin",
+   "https://www.vailmag.com/eat-and-drink/beaver-creek-dining-cabins"
+  ]
+ },
+ {
+  "id": "beaver-creek--village-ice-rink",
+  "resortId": "beaver-creek",
+  "kind": "activity",
+  "name": "Beaver Creek Village Ice Rink",
+  "summary": "Twinkle-lit rink at the heart of the village, ringed by cafes and fire pits",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.beavercreek.com/travel-guide/top-reasons-to-visit-beaver-creek-itinerary.aspx"
+  ]
+ },
+ {
+  "id": "beaver-creek--mirabelle",
+  "resortId": "beaver-creek",
+  "kind": "restaurant",
+  "name": "Mirabelle",
+  "summary": "Elegant European-inspired fine dining with refined alpine cuisine",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.beavercreek.com/travel-guide/top-reasons-to-visit-beaver-creek-itinerary.aspx"
+  ]
+ },
+ {
+  "id": "breckenridge--ullr-fest",
+  "resortId": "breckenridge",
+  "kind": "event",
+  "name": "Ullr Fest",
+  "summary": "Viking-themed snow party: record Shotski attempt, Main Street parade, bonfire",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "apres",
+   "culture",
+   "family"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-17",
+   "end": "2026-12-19",
+   "sourceUrl": "https://www.gobreck.com/event/ullr-fest/"
+  },
+  "links": {
+   "officialSite": "https://www.gobreck.com/event/ullr-fest/"
+  },
+  "sources": [
+   "https://www.gobreck.com/event/ullr-fest/"
+  ]
+ },
+ {
+  "id": "breckenridge--snow-sculpture-championships",
+  "resortId": "breckenridge",
+  "kind": "event",
+  "name": "International Snow Sculpture Championships",
+  "summary": "Teams carve giant snow blocks by hand; sculptures glow at night for a week",
+  "wow": 3,
+  "interests": [
+   "culture",
+   "family",
+   "festival"
+  ],
+  "months": [
+   1,
+   2
+  ],
+  "dates": {
+   "start": "2027-01-23",
+   "end": "2027-02-02",
+   "sourceUrl": "https://gobreck.com/event/international-snow-sculpture-championships"
+  },
+  "links": {
+   "officialSite": "https://gobreck.com/event/international-snow-sculpture-championships"
+  },
+  "sources": [
+   "https://gobreck.com/event/international-snow-sculpture-championships"
+  ]
+ },
+ {
+  "id": "breckenridge--gold-pan-saloon",
+  "resortId": "breckenridge",
+  "kind": "club",
+  "name": "Gold Pan Saloon",
+  "summary": "Historic 1879 saloon with a small, rowdy dance floor",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "culture"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://gobreck.com/experience-breckenridge/the-town/breckenridge-nightlife-guide/"
+  ]
+ },
+ {
+  "id": "breckenridge--cecilias",
+  "resortId": "breckenridge",
+  "kind": "club",
+  "name": "Cecilia's Martini Bar and Nightclub",
+  "summary": "Three bars, DJs and Breckenridge's largest dance floor",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://gobreck.com/experience-breckenridge/the-town/breckenridge-nightlife-guide/"
+  ]
+ },
+ {
+  "id": "breckenridge--the-maggie",
+  "resortId": "breckenridge",
+  "kind": "apres",
+  "name": "The Maggie",
+  "summary": "Classic high-energy apres hub at the base of Peak 9 with live music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.breckenridge.com/travel-guide/breckenridge-apres-ski-guide.aspx"
+  ]
+ },
+ {
+  "id": "breckenridge--breckenridge-distillery",
+  "resortId": "breckenridge",
+  "kind": "restaurant",
+  "name": "Breckenridge Distillery",
+  "summary": "Award-winning bourbon, a tasting room and a chef-driven restaurant",
+  "wow": 2,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://gobreck.com/experience-breckenridge/the-town/breckenridge-nightlife-guide/",
+   "https://www.breckenridge.com/travel-guide/breckenridge-apres-ski-guide.aspx"
+  ]
+ },
+ {
+  "id": "breckenridge--riverwalk-center",
+  "resortId": "breckenridge",
+  "kind": "live-music",
+  "name": "Breckenridge Riverwalk Center",
+  "summary": "750-seat venue hosting national touring acts in town",
+  "wow": 1,
+  "interests": [
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://gobreck.com/experience-breckenridge/the-town/breckenridge-nightlife-guide/"
+  ]
+ },
+ {
+  "id": "telluride--alpino-vino",
+  "resortId": "telluride",
+  "kind": "restaurant",
+  "name": "Alpino Vino",
+  "summary": "Italian alpine hut at 11,966 feet for long lunches and snowcoach dinners",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://tellurideskiresort.com/dine/"
+  },
+  "sources": [
+   "https://tellurideskiresort.com/dine/"
+  ]
+ },
+ {
+  "id": "telluride--comedy-festival",
+  "resortId": "telluride",
+  "kind": "event",
+  "name": "Telluride Comedy Festival",
+  "summary": "26th annual comedy weekend at the historic Sheridan Opera House",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "nightlife",
+   "festival"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-11",
+   "end": "2027-02-14",
+   "sourceUrl": "https://www.telluride.com/event/telluride-comedy-festival/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.telluride.com/event/telluride-comedy-festival/",
+   "https://www.telluride.com/festivals-events/festivals/"
+  ]
+ },
+ {
+  "id": "telluride--gay-ski-week",
+  "resortId": "telluride",
+  "kind": "event",
+  "name": "Telluride Gay Ski Week",
+  "summary": "Daily apres, pool parties, late-night lounges and the signature White Party",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "nightlife",
+   "apres"
+  ],
+  "months": [
+   2,
+   3
+  ],
+  "dates": {
+   "start": "2027-02-27",
+   "end": "2027-03-06",
+   "sourceUrl": "https://www.telluride.com/event/telluride-gay-ski-week/"
+  },
+  "links": {
+   "officialSite": "https://www.telluridegayski.com/"
+  },
+  "sources": [
+   "https://www.telluride.com/event/telluride-gay-ski-week/"
+  ]
+ },
+ {
+  "id": "telluride--gorrono-ranch",
+  "resortId": "telluride",
+  "kind": "apres",
+  "name": "Gorrono Ranch",
+  "summary": "Historic ranch on the slopes with a snow beach, BBQ and live music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://tellurideskiresort.com/dine/"
+  ]
+ },
+ {
+  "id": "telluride--allreds",
+  "resortId": "telluride",
+  "kind": "restaurant",
+  "name": "Allred's",
+  "summary": "Prix fixe dinners at the top of the gondola behind floor-to-ceiling windows",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://tellurideskiresort.com/dine/"
+  ]
+ },
+ {
+  "id": "telluride--bon-vivant",
+  "resortId": "telluride",
+  "kind": "restaurant",
+  "name": "Bon Vivant",
+  "summary": "French country-style on-mountain lunch spot, reopening December 2026",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://tellurideskiresort.com/dine/"
+  ]
+ },
+ {
+  "id": "telluride--helitrax",
+  "resortId": "telluride",
+  "kind": "activity",
+  "name": "Telluride Helitrax",
+  "summary": "Heli-skiing across 200 square miles of untracked San Juan terrain",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://tellurideskiresort.com/winter-activities"
+  ]
+ },
+ {
+  "id": "steamboat--winter-carnival",
+  "resortId": "steamboat",
+  "kind": "event",
+  "name": "Steamboat Winter Carnival",
+  "summary": "Lighted Man skis Howelsen Hill shooting fireworks; horse-pulled skiers on Main Street",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "family",
+   "culture"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-02",
+   "end": "2027-02-07",
+   "sourceUrl": "https://sswsc.org/winter-carnival/"
+  },
+  "links": {
+   "officialSite": "https://sswsc.org/winter-carnival/"
+  },
+  "sources": [
+   "https://sswsc.org/winter-carnival/",
+   "https://en.wikipedia.org/wiki/Steamboat_Springs,_Colorado"
+  ]
+ },
+ {
+  "id": "steamboat--strawberry-park-hot-springs",
+  "resortId": "steamboat",
+  "kind": "activity",
+  "name": "Strawberry Park Hot Springs",
+  "summary": "Rustic mountain hot springs; clothing optional and adults only after dark",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.strawberryhotsprings.com/"
+  },
+  "sources": [
+   "https://www.strawberryhotsprings.com/"
+  ]
+ },
+ {
+  "id": "steamboat--winterwondergrass",
+  "resortId": "steamboat",
+  "kind": "event",
+  "name": "WinterWonderGrass Steamboat",
+  "summary": "Bluegrass, brews and mountains; the 10th Steamboat edition",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "live-music",
+   "concert"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-05",
+   "end": "2027-03-07",
+   "sourceUrl": "https://winterwondergrass.com/steamboat"
+  },
+  "links": {
+   "officialSite": "https://winterwondergrass.com/steamboat",
+   "instagram": "https://www.instagram.com/winterwondergrass/"
+  },
+  "sources": [
+   "https://winterwondergrass.com/steamboat"
+  ]
+ },
+ {
+  "id": "steamboat--old-town-hot-springs",
+  "resortId": "steamboat",
+  "kind": "activity",
+  "name": "Old Town Hot Springs",
+  "summary": "Downtown mineral pools, water slides and a 37-foot climbing wall",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "family"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.oldtownhotsprings.org/"
+  },
+  "sources": [
+   "https://www.oldtownhotsprings.org/"
+  ]
+ },
+ {
+  "id": "steamboat--howelsen-hill",
+  "resortId": "steamboat",
+  "kind": "activity",
+  "name": "Howelsen Hill",
+  "summary": "North America's oldest continuously operating ski area, with big ski jumps",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "sports",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Howelsen_Hill_Ski_Area"
+  ]
+ },
+ {
+  "id": "crested-butte--alley-loop",
+  "resortId": "crested-butte",
+  "kind": "event",
+  "name": "Alley Loop",
+  "summary": "Nordic marathon through town alleys that doubles as a costume party",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "sports",
+   "culture"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-30",
+   "end": "2027-01-30",
+   "sourceUrl": "https://www.cbnordic.org/alley-loop"
+  },
+  "links": {
+   "officialSite": "https://www.cbnordic.org/alley-loop"
+  },
+  "sources": [
+   "https://www.cbnordic.org/alley-loop",
+   "https://www.gunnisoncrestedbutte.com/events/"
+  ]
+ },
+ {
+  "id": "crested-butte--secret-stash",
+  "resortId": "crested-butte",
+  "kind": "restaurant",
+  "name": "The Secret Stash",
+  "summary": "Elk Avenue pizza spot whose Notorious F.I.G. won a world pizza title",
+  "wow": 2,
+  "interests": [
+   "food",
+   "family"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.secretstash.com/",
+   "instagram": "https://www.instagram.com/secretstashcb/"
+  },
+  "sources": [
+   "https://www.secretstash.com/"
+  ]
+ },
+ {
+  "id": "crested-butte--flauschink",
+  "resortId": "crested-butte",
+  "kind": "event",
+  "name": "Flauschink",
+  "summary": "Crested Butte's quirky spring festival",
+  "wow": 1,
+  "interests": [
+   "festival",
+   "culture"
+  ],
+  "months": [
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Crested_Butte,_Colorado"
+  ],
+  "datesNote": "Usually in spring near the end of the ski season; 2027 dates not announced yet"
+ },
+ {
+  "id": "crested-butte--montanya-distillers",
+  "resortId": "crested-butte",
+  "kind": "apres",
+  "name": "Montanya Distillers",
+  "summary": "B Corp rum distillery and tasting room with bingo, trivia and karaoke nights",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.montanyarum.com/"
+  },
+  "sources": [
+   "https://www.montanyarum.com/",
+   "https://www.gunnisoncrestedbutte.com/events/"
+  ]
+ },
+ {
+  "id": "copper-mountain--copper-cup",
+  "resortId": "copper-mountain",
+  "kind": "event",
+  "name": "Copper Cup World Cup",
+  "summary": "Men's super-G and GS kick off the US World Cup, 50 years after Copper's first",
+  "wow": 2,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-28",
+   "end": "2026-11-29",
+   "sourceUrl": "https://snowbrains.com/100-days-until-the-fis-alpine-world-cup-returns-to-copper-mountain-co/"
+  },
+  "links": {},
+  "sources": [
+   "https://snowbrains.com/100-days-until-the-fis-alpine-world-cup-returns-to-copper-mountain-co/",
+   "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  ]
+ },
+ {
+  "id": "copper-mountain--halfpipe-world-cup",
+  "resortId": "copper-mountain",
+  "kind": "event",
+  "name": "Copper Mountain halfpipe World Cup",
+  "summary": "Freeski and snowboard halfpipe World Cup stop before Christmas",
+  "wow": 2,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-19",
+   "end": "2026-12-20",
+   "sourceUrl": "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  },
+  "links": {},
+  "sources": [
+   "https://snowbrains.com/us-ski-world-cup-schedule-2026-27/"
+  ]
+ },
+ {
+  "id": "winter-park--torchlight-parade",
+  "resortId": "winter-park",
+  "kind": "event",
+  "name": "Christmas Eve Torchlight Parade",
+  "summary": "100-plus skiers carry flares down the mountain, followed by fireworks",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery",
+   "culture"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-24",
+   "end": "2026-12-24",
+   "sourceUrl": "https://www.winterparkresort.com/things-to-do/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.winterparkresort.com/things-to-do/events"
+  ]
+ },
+ {
+  "id": "winter-park--sunspot-apres",
+  "resortId": "winter-park",
+  "kind": "apres",
+  "name": "Sunspot Mountaintop Apres",
+  "summary": "Evening drinks and dinner at 10,700 feet, reached by gondola",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "scenery",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.winterparkresort.com/things-to-do/dining",
+   "https://www.winterparkresort.com/"
+  ]
+ },
+ {
+  "id": "winter-park--lunch-rock",
+  "resortId": "winter-park",
+  "kind": "restaurant",
+  "name": "Lunch Rock",
+  "summary": "Breakfast and lunch on top of Mary Jane with slope views",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.winterparkresort.com/things-to-do/dining"
+  ]
+ },
+ {
+  "id": "winter-park--derailer-bar",
+  "resortId": "winter-park",
+  "kind": "apres",
+  "name": "Derailer Bar",
+  "summary": "Slopeside base bar with happy hour and craft drinks",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.winterparkresort.com/things-to-do/dining"
+  ]
+ },
+ {
+  "id": "winter-park--coca-cola-tube-park",
+  "resortId": "winter-park",
+  "kind": "activity",
+  "name": "Coca-Cola Tube Park",
+  "summary": "Snow tubing hill at the resort, good for families",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.winterparkresort.com/"
+  ]
+ },
+ {
+  "id": "arapahoe-basin--il-rifugio",
+  "resortId": "arapahoe-basin",
+  "kind": "restaurant",
+  "name": "Il Rifugio",
+  "summary": "Wine and charcuterie bistro at 12,456 feet near the summit",
+  "wow": 3,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.arapahoebasin.com/restaurants/",
+   "https://en.wikipedia.org/wiki/Arapahoe_Basin"
+  ]
+ },
+ {
+  "id": "arapahoe-basin--6th-alley-bar",
+  "resortId": "arapahoe-basin",
+  "kind": "apres",
+  "name": "6th Alley Bar and Grill",
+  "summary": "A-Basin's signature base apres with live bands, locals and staff",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.arapahoebasin.com/restaurants/"
+  ]
+ },
+ {
+  "id": "arapahoe-basin--black-mountain-lodge",
+  "resortId": "arapahoe-basin",
+  "kind": "restaurant",
+  "name": "Black Mountain Lodge",
+  "summary": "Mid-mountain BBQ and award-winning Bloody Marys facing the East Wall",
+  "wow": 1,
+  "interests": [
+   "food",
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.arapahoebasin.com/restaurants/"
+  ]
+ },
+ {
+  "id": "arapahoe-basin--80th-anniversary",
+  "resortId": "arapahoe-basin",
+  "kind": "event",
+  "name": "Arapahoe Basin 80th Anniversary Weekend",
+  "summary": "Celebrating 80 years of the Legend since 1946",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-04",
+   "end": "2026-12-06",
+   "sourceUrl": "https://www.arapahoebasin.com/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.arapahoebasin.com/events/",
+   "https://www.arapahoebasin.com/"
+  ]
+ },
+ {
+  "id": "arapahoe-basin--enduro",
+  "resortId": "arapahoe-basin",
+  "kind": "event",
+  "name": "Enduro and Apres Party",
+  "summary": "38th annual spring Enduro race followed by an apres party",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "apres"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-14",
+   "end": "2027-04-14",
+   "sourceUrl": "https://www.arapahoebasin.com/events/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.arapahoebasin.com/events/"
+  ]
+ },
+ {
+  "id": "taos--the-bavarian",
+  "resortId": "taos",
+  "kind": "restaurant",
+  "name": "The Bavarian",
+  "summary": "Authentic alpine restaurant in Kachina Basin serving German beer and lunch",
+  "wow": 3,
+  "interests": [
+   "food",
+   "apres",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skitaos.com/dining",
+   "https://www.skitaos.com/winter-activities"
+  ]
+ },
+ {
+  "id": "taos--192-at-the-blake",
+  "resortId": "taos",
+  "kind": "restaurant",
+  "name": "192 at The Blake",
+  "summary": "Intimate fireside dining room mixing alpine and New Mexican design",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skitaos.com/dining"
+  ]
+ },
+ {
+  "id": "taos--torchlight-fireworks",
+  "resortId": "taos",
+  "kind": "event",
+  "name": "New Year's Eve Torchlight Parade and Fireworks",
+  "summary": "Torchlit descent and fireworks to ring in the new year",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-31",
+   "end": "2026-12-31",
+   "sourceUrl": "https://www.skitaos.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.skitaos.com/events"
+  ]
+ },
+ {
+  "id": "taos--eis-haus-silent-disco",
+  "resortId": "taos",
+  "kind": "activity",
+  "name": "Eis Haus Ice Rink and Silent Disco",
+  "summary": "Village ice rink with ice bocce and weekend silent disco sessions",
+  "wow": 2,
+  "interests": [
+   "family",
+   "nightlife"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skitaos.com/winter-activities"
+  ]
+ },
+ {
+  "id": "taos--taos-pueblo",
+  "resortId": "taos",
+  "kind": "activity",
+  "name": "Taos Pueblo",
+  "summary": "UNESCO-listed living pueblo with buildings about a thousand years old",
+  "wow": 3,
+  "interests": [
+   "culture"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Taos_Pueblo"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--tahoe-live",
+  "resortId": "palisades-tahoe",
+  "kind": "event",
+  "name": "Tahoe Live",
+  "summary": "Three-day music festival in the Village with its biggest lineup yet",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-11",
+   "end": "2026-12-13",
+   "sourceUrl": "https://www.palisadestahoe.com/events-and-activities/events-calendar/tahoe-live"
+  },
+  "links": {
+   "officialSite": "https://www.palisadestahoe.com/events-and-activities/events-calendar/tahoe-live"
+  },
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/events-calendar/tahoe-live",
+   "https://www.palisadestahoe.com/events-and-activities/events-calendar"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--le-chamois-loft-bar",
+  "resortId": "palisades-tahoe",
+  "kind": "apres",
+  "name": "Le Chamois and Loft Bar",
+  "summary": "The classic local skier hangout in the Village for pizza and beer",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/dining-and-apres"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--rocker",
+  "resortId": "palisades-tahoe",
+  "kind": "apres",
+  "name": "Rocker",
+  "summary": "Village spot celebrating outdoor culture with drinks, food and apres",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/dining-and-apres"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--last-chair-bar",
+  "resortId": "palisades-tahoe",
+  "kind": "apres",
+  "name": "Last Chair Bar and Restaurant",
+  "summary": "Apres favorite at the Alpine base with signature drinks",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/dining-and-apres"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--chalet-snowshoe-dinner",
+  "resortId": "palisades-tahoe",
+  "kind": "activity",
+  "name": "Snowshoe Dinner at the Chalet",
+  "summary": "Guided snowshoe walk to a four-course Bavarian-inspired dinner at Alpine",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/activity-finder"
+  ]
+ },
+ {
+  "id": "palisades-tahoe--aerial-tram",
+  "resortId": "palisades-tahoe",
+  "kind": "activity",
+  "name": "Aerial Tram sightseeing",
+  "summary": "Ride the enclosed Aerial Tram, Funitel and Gondola for big Sierra views",
+  "wow": 1,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.palisadestahoe.com/events-and-activities/activity-finder"
+  ]
+ },
+ {
+  "id": "heavenly--heavenly-gondola",
+  "resortId": "heavenly",
+  "kind": "activity",
+  "name": "Heavenly Mountain Gondola",
+  "summary": "Gondola from Heavenly Village with some of the best Lake Tahoe views in skiing",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitlaketahoe.com/ski-and-snowboard/",
+   "https://en.wikipedia.org/wiki/Heavenly_Mountain_Resort"
+  ]
+ },
+ {
+  "id": "heavenly--tahoe-blue-event-center",
+  "resortId": "heavenly",
+  "kind": "live-music",
+  "name": "Tahoe Blue Event Center",
+  "summary": "5,200-capacity arena at Stateline for headline concerts",
+  "wow": 2,
+  "interests": [
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitlaketahoe.com/events/tahoe-blue-event-center/"
+  ]
+ },
+ {
+  "id": "heavenly--stateline-casinos",
+  "resortId": "heavenly",
+  "kind": "club",
+  "name": "Stateline casinos",
+  "summary": "Harrah's, Caesars Republic, Bally's and Golden Nugget with live music and DJs",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "live-music",
+   "dj"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitlaketahoe.com/gaming/"
+  ]
+ },
+ {
+  "id": "heavenly--hells-kitchen",
+  "resortId": "heavenly",
+  "kind": "restaurant",
+  "name": "Hell's Kitchen Lake Tahoe",
+  "summary": "Gordon Ramsay's restaurant at Caesars Republic, Beef Wellington included",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitlaketahoe.com/food-and-wine/best-restaurants-and-bars-in-south-lake-tahoe/",
+   "https://visitlaketahoe.com/gaming/"
+  ]
+ },
+ {
+  "id": "heavenly--the-loft",
+  "resortId": "heavenly",
+  "kind": "club",
+  "name": "The Loft",
+  "summary": "Intimate cocktail bar with magic shows in South Lake Tahoe",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "culture"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitlaketahoe.com/food-and-wine/best-restaurants-and-bars-in-south-lake-tahoe/"
+  ]
+ },
+ {
+  "id": "northstar--village-ice-rink",
+  "resortId": "northstar",
+  "kind": "activity",
+  "name": "Northstar Village Ice Rink",
+  "summary": "Skating rink in the center of the Village square, ringed by shops and dining",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Northstar_California",
+   "https://laketahoetravel.com/lake-tahoe-activities/winter/"
+  ]
+ },
+ {
+  "id": "northstar--terrain-parks",
+  "resortId": "northstar",
+  "kind": "activity",
+  "name": "Northstar terrain parks",
+  "summary": "Consistently rated among the top 10 terrain parks in North America",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Northstar_California"
+  ]
+ },
+ {
+  "id": "mammoth--night-of-lights",
+  "resortId": "mammoth",
+  "kind": "event",
+  "name": "Night of Lights",
+  "summary": "Free holiday night at Canyon Lodge with fireworks and live music",
+  "wow": 2,
+  "interests": [
+   "family",
+   "live-music",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-12",
+   "end": "2026-12-12",
+   "sourceUrl": "https://www.mammothmountain.com/things-to-do/events/night-of-lights"
+  },
+  "links": {
+   "officialSite": "https://www.mammothmountain.com/things-to-do/events/night-of-lights"
+  },
+  "sources": [
+   "https://www.mammothmountain.com/things-to-do/events/night-of-lights",
+   "https://www.mammothmountain.com/things-to-do/events"
+  ]
+ },
+ {
+  "id": "mammoth--yodler",
+  "resortId": "mammoth",
+  "kind": "apres",
+  "name": "The Yodler",
+  "summary": "Legendary slopeside bar with a big sundeck, fondue and Das Boot beer mugs",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.mammothmountain.com/things-to-do/restaurants/yodler-restaurant"
+  },
+  "sources": [
+   "https://www.mammothmountain.com/things-to-do/restaurants/yodler-restaurant"
+  ]
+ },
+ {
+  "id": "mammoth--vulcania",
+  "resortId": "mammoth",
+  "kind": "restaurant",
+  "name": "Vulcania",
+  "summary": "Italian American spot in the Village from chefs Bryan and Michael Voltaggio",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.mammothmountain.com/things-to-do/restaurants/vulcania"
+  },
+  "sources": [
+   "https://www.mammothmountain.com/things-to-do/restaurants/vulcania"
+  ]
+ },
+ {
+  "id": "mammoth--lakefront-restaurant",
+  "resortId": "mammoth",
+  "kind": "restaurant",
+  "name": "Lakefront Restaurant",
+  "summary": "Fine dining at Tamarack Lodge on Twin Lakes, named best dinner in the Eastern Sierra",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.mammothmountain.com/things-to-do/restaurants/lakefront-restaurant"
+  },
+  "sources": [
+   "https://www.mammothmountain.com/things-to-do/restaurants/lakefront-restaurant"
+  ]
+ },
+ {
+  "id": "mammoth--mammoth-brewing",
+  "resortId": "mammoth",
+  "kind": "apres",
+  "name": "Mammoth Brewing Company",
+  "summary": "Brewing since 1995, with The EATery, a beer garden and live music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food",
+   "live-music"
+  ],
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://mammothbrewingco.com/",
+   "instagram": "https://www.instagram.com/mammothbrewing/"
+  },
+  "sources": [
+   "https://mammothbrewingco.com/"
+  ]
+ },
+ {
+  "id": "mammoth--woollys-adventure-summit",
+  "resortId": "mammoth",
+  "kind": "activity",
+  "name": "Woolly's Adventure Summit",
+  "summary": "Family tubing and snow play area at Mammoth",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.visitmammoth.com/things-to-do/winter-activities/",
+   "https://www.mammothmountain.com/things-to-do/restaurants"
+  ]
+ },
+ {
+  "id": "park-city--high-west-saloon",
+  "resortId": "park-city",
+  "kind": "apres",
+  "name": "High West Saloon",
+  "summary": "Ski-in whiskey distillery saloon in an old livery stable off Main Street",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "food",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "park-city--no-name-saloon",
+  "resortId": "park-city",
+  "kind": "apres",
+  "name": "No Name Saloon",
+  "summary": "Busiest bar on Main Street, 21+, with a heated rooftop patio and buffalo burgers",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "park-city--the-spur",
+  "resortId": "park-city",
+  "kind": "live-music",
+  "name": "The Spur Bar & Grill",
+  "summary": "Main Street local favorite with live music every night and dancing",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "park-city--umbrella-bar",
+  "resortId": "park-city",
+  "kind": "apres",
+  "name": "Umbrella Bar (Canyons Village)",
+  "summary": "Glass-walled mountain bar with 360-degree views, fire pits and live music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.visitutah.com/articles/apres-ski-local",
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "park-city--pond-skim",
+  "resortId": "park-city",
+  "kind": "event",
+  "name": "Park City Mountain Pond Skim",
+  "summary": "Costumed skiers try to cross a 50-foot pond, with live local music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "festival",
+   "live-music"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.parkcitymag.com/travel-and-outdoors/2026/03/park-city-pond-skim"
+  ],
+  "datesNote": "Usually a week or two before Park City Mountain closes in April; 2027 date not announced yet"
+ },
+ {
+  "id": "park-city--corner-store",
+  "resortId": "park-city",
+  "kind": "apres",
+  "name": "The Corner Store",
+  "summary": "Classic Mountain Village base après with live music and pub food",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "park-city--egyptian-theatre",
+  "resortId": "park-city",
+  "kind": "live-music",
+  "name": "Egyptian Theatre",
+  "summary": "1926 Egyptian Revival theatre on Main Street hosting concerts and shows",
+  "wow": 1,
+  "interests": [
+   "concert",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Egyptian_Theatre,_Park_City"
+  ]
+ },
+ {
+  "id": "deer-valley--freestyle-international",
+  "resortId": "deer-valley",
+  "kind": "event",
+  "name": "Freestyle International (FIS Freestyle World Cup)",
+  "summary": "World Cup moguls, dual moguls and aerials on the 2002 Olympic courses",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-28",
+   "end": "2027-01-30",
+   "sourceUrl": "https://townlift.com/2026/06/2027-freestyle-international-presented-by-stifel-returns-to-deer-valley/"
+  },
+  "links": {},
+  "sources": [
+   "https://townlift.com/2026/06/2027-freestyle-international-presented-by-stifel-returns-to-deer-valley/"
+  ]
+ },
+ {
+  "id": "deer-valley--st-regis-vintage-room",
+  "resortId": "deer-valley",
+  "kind": "apres",
+  "name": "Vintage Room at the St. Regis",
+  "summary": "High-energy après with 360-degree mountain views and DJ sets",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "deer-valley--st-regis-champagne-sabering",
+  "resortId": "deer-valley",
+  "kind": "apres",
+  "name": "Champagne sabering at the St. Regis",
+  "summary": "Daily 5:30 PM champagne sabering by the outdoor fire pits",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "deer-valley--fireside-dining",
+  "resortId": "deer-valley",
+  "kind": "restaurant",
+  "name": "Fireside Dining",
+  "summary": "Reservation-only winter dinner up in Empire Canyon",
+  "wow": 2,
+  "interests": [
+   "food",
+   "fine-dining"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.deervalley.com/things-to-do/restaurants"
+  ]
+ },
+ {
+  "id": "deer-valley--sticky-wicket",
+  "resortId": "deer-valley",
+  "kind": "apres",
+  "name": "The Sticky Wicket",
+  "summary": "21+ mid-mountain bar at Silver Lake with golden-era ski vibes",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.deervalley.com/things-to-do/restaurants",
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "deer-valley--troll-hallen-lounge",
+  "resortId": "deer-valley",
+  "kind": "apres",
+  "name": "Troll Hallen Lounge",
+  "summary": "Classic lodge lounge at Stein Eriksen Lodge with burgers and fireside drinks",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.allseasonsresortlodging.com/blog/best-apres-ski-park-city/"
+  ]
+ },
+ {
+  "id": "snowbird--tram-club",
+  "resortId": "snowbird",
+  "kind": "apres",
+  "name": "The Tram Club",
+  "summary": "21+ bar beside the Aerial Tram bullwheel, famous for spicy fries",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skiutah.com/the-tram-club"
+  ]
+ },
+ {
+  "id": "snowbird--aerie-lounge",
+  "resortId": "snowbird",
+  "kind": "live-music",
+  "name": "The Aerie Lounge",
+  "summary": "10th-floor Cliff Lodge lounge with big windows and live music nightly",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skiutah.com/members/the-aerie-restaurant"
+  ]
+ },
+ {
+  "id": "snowbird--cliff-spa",
+  "resortId": "snowbird",
+  "kind": "activity",
+  "name": "The Cliff Spa",
+  "summary": "Spa at the Cliff Lodge with a rooftop pool high in Little Cottonwood",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowbird.com/"
+  ]
+ },
+ {
+  "id": "alta--sitzmark-club",
+  "resortId": "alta",
+  "kind": "apres",
+  "name": "Sitzmark Club at Alta Lodge",
+  "summary": "Fireside après bar at Alta Lodge since 1939; lodge guests and members only",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.visitutah.com/articles/apres-ski-local",
+   "https://www.altalodge.com/lodging/dining-at-the-lodge/"
+  ]
+ },
+ {
+  "id": "brighton--molly-greens",
+  "resortId": "brighton",
+  "kind": "apres",
+  "name": "Molly Green's",
+  "summary": "Slopeside A-frame with a restaurant and adults-only bar upstairs",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.visitutah.com/articles/apres-ski-local"
+  ]
+ },
+ {
+  "id": "brighton--night-skiing",
+  "resortId": "brighton",
+  "kind": "activity",
+  "name": "Night skiing at Brighton",
+  "summary": "Ski or ride under the lights on about 30 night trails",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.brightonresort.com/"
+  ]
+ },
+ {
+  "id": "brighton--bomb-hole-cup",
+  "resortId": "brighton",
+  "kind": "event",
+  "name": "The Bomb Hole Cup",
+  "summary": "Style-focused snowboard event that welcomes groms to legends",
+  "wow": 1,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-03",
+   "end": "2027-04-04",
+   "sourceUrl": "https://www.brightonresort.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.brightonresort.com/events"
+  ]
+ },
+ {
+  "id": "solitude--the-yurt",
+  "resortId": "solitude",
+  "kind": "restaurant",
+  "name": "The Yurt",
+  "summary": "Intimate on-mountain dining in a yurt, lunch and dinner",
+  "wow": 2,
+  "interests": [
+   "food",
+   "fine-dining"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.solitudemountain.com/mountain-and-village/dining"
+  ]
+ },
+ {
+  "id": "solitude--thirsty-squirrel",
+  "resortId": "solitude",
+  "kind": "apres",
+  "name": "The Thirsty Squirrel",
+  "summary": "Laid-back village pub for nachos and après drinks",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.solitudemountain.com/mountain-and-village/dining",
+   "https://www.visitutah.com/articles/apres-ski-local"
+  ]
+ },
+ {
+  "id": "solitude--roundhouse",
+  "resortId": "solitude",
+  "kind": "restaurant",
+  "name": "Roundhouse",
+  "summary": "On-mountain Himalayan-inspired cafe for lunch",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.solitudemountain.com/mountain-and-village/dining"
+  ]
+ },
+ {
+  "id": "snowbasin--needles-lodge",
+  "resortId": "snowbasin",
+  "kind": "restaurant",
+  "name": "Needles Lodge",
+  "summary": "Grand lodge at 8,700 feet atop the Needles Gondola with valley views",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowbasin.com/dining/",
+   "https://www.snowbasin.com/activities/mountain-top-dining/"
+  ]
+ },
+ {
+  "id": "snowbasin--john-paul-lodge",
+  "resortId": "snowbasin",
+  "kind": "restaurant",
+  "name": "John Paul Lodge",
+  "summary": "Circular summit lodge serving Bavarian-style food around a central fire",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowbasin.com/dining/"
+  ]
+ },
+ {
+  "id": "snowbasin--the-cinnabar",
+  "resortId": "snowbasin",
+  "kind": "apres",
+  "name": "The Cinnabar",
+  "summary": "Lively base bar with shared plates and handcrafted cocktails",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowbasin.com/dining/"
+  ]
+ },
+ {
+  "id": "powder-mountain--powder-keg",
+  "resortId": "powder-mountain",
+  "kind": "live-music",
+  "name": "Powder Keg",
+  "summary": "Wings, beer, darts and weekly live music from 3 to 6 PM",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.powdermountain.com/events",
+   "https://www.visitutah.com/articles/apres-ski-local"
+  ]
+ },
+ {
+  "id": "powder-mountain--backyard-apres",
+  "resortId": "powder-mountain",
+  "kind": "apres",
+  "name": "Backyard Après",
+  "summary": "Saturday afternoon music, brews and bites behind Timberline lodge",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.powdermountain.com/events"
+  ]
+ },
+ {
+  "id": "powder-mountain--nye-torchlight-parade",
+  "resortId": "powder-mountain",
+  "kind": "event",
+  "name": "New Year's Eve Torchlight Parade",
+  "summary": "Glowing torches light up the slopes on New Year's Eve",
+  "wow": 1,
+  "interests": [
+   "family",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.powdermountain.com/events"
+  ],
+  "datesNote": "Held on New Year's Eve; 2026 schedule not posted yet"
+ },
+ {
+  "id": "jackson-hole--mangy-moose",
+  "resortId": "jackson-hole",
+  "kind": "apres",
+  "name": "Mangy Moose Saloon",
+  "summary": "Teton Village saloon that has hosted live music for 50 years",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "concert"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonholechamber.com/blog/post/jackson-holes-winter-live-music-lineup-where-to-hear-great-music-this-season/",
+   "https://www.outsideonline.com/adventure-travel/destinations/best-apres-ski-jackson-hole-wyoming/"
+  ]
+ },
+ {
+  "id": "jackson-hole--million-dollar-cowboy-bar",
+  "resortId": "jackson-hole",
+  "kind": "live-music",
+  "name": "Million Dollar Cowboy Bar",
+  "summary": "Saddle bar stools, neon sign and country dancing downtown",
+  "wow": 3,
+  "interests": [
+   "live-music",
+   "nightlife",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonholechamber.com/blog/post/jackson-holes-winter-live-music-lineup-where-to-hear-great-music-this-season/",
+   "https://www.indagare.com/restaurant/million-dollar-cowboy-bar"
+  ]
+ },
+ {
+  "id": "jackson-hole--corbets-cabin",
+  "resortId": "jackson-hole",
+  "kind": "restaurant",
+  "name": "Corbet's Cabin",
+  "summary": "Made-to-order waffles at 10,450 feet after a 12-minute Aerial Tram ride",
+  "wow": 3,
+  "interests": [
+   "food",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonhole.com/waffles",
+   "https://www.jacksonhole.com/blog/non-skier-guide"
+  ]
+ },
+ {
+  "id": "jackson-hole--kings-and-queens-of-corbets",
+  "resortId": "jackson-hole",
+  "kind": "event",
+  "name": "Kings and Queens of Corbet's",
+  "summary": "Pro freeride showdown dropping into the famous Corbet's Couloir",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.theinertia.com/mountain/kings-and-queens-of-corbets-gets-green-light-for-friday-february-13/"
+  ],
+  "datesNote": "Usually mid-February, called on a powder day; 2027 date not announced yet"
+ },
+ {
+  "id": "jackson-hole--elk-refuge-sleigh-rides",
+  "resortId": "jackson-hole",
+  "kind": "activity",
+  "name": "National Elk Refuge sleigh rides",
+  "summary": "Horse-drawn sleigh among thousands of wintering elk",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "family",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonhole.com/things-to-do/sleigh-rides"
+  ]
+ },
+ {
+  "id": "jackson-hole--piste-mountain-bistro",
+  "resortId": "jackson-hole",
+  "kind": "restaurant",
+  "name": "Piste Mountain Bistro",
+  "summary": "Fixed-price dinner at 9,095 feet atop the Bridger Gondola",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonhole.com/dining/piste-mountain-bistro"
+  ]
+ },
+ {
+  "id": "jackson-hole--silver-dollar-bar",
+  "resortId": "jackson-hole",
+  "kind": "live-music",
+  "name": "Silver Dollar Bar at the Wort Hotel",
+  "summary": "Historic Western bar with Bluegrass Tuesdays and jazz nights",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonholechamber.com/blog/post/jackson-holes-winter-live-music-lineup-where-to-hear-great-music-this-season/"
+  ]
+ },
+ {
+  "id": "jackson-hole--pink-garter",
+  "resortId": "jackson-hole",
+  "kind": "club",
+  "name": "Pink Garter Theatre",
+  "summary": "Downtown complex of bars with dancing, vinyl nights and a shot ski",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.outsideonline.com/adventure-travel/destinations/best-apres-ski-jackson-hole-wyoming/",
+   "https://www.jacksonholechamber.com/blog/post/unforgettable-nights-jackson-holes-premier-music-scene/"
+  ]
+ },
+ {
+  "id": "jackson-hole--center-for-the-arts",
+  "resortId": "jackson-hole",
+  "kind": "live-music",
+  "name": "Center for the Arts",
+  "summary": "Theater stage drawing national touring acts through the winter",
+  "wow": 2,
+  "interests": [
+   "concert",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonholechamber.com/blog/post/jackson-holes-winter-live-music-lineup-where-to-hear-great-music-this-season/"
+  ]
+ },
+ {
+  "id": "jackson-hole--dog-sledding",
+  "resortId": "jackson-hole",
+  "kind": "activity",
+  "name": "Call of the WYld dog sledding",
+  "summary": "Private dogsled tours with Teton mountain views",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.jacksonhole.com/blog/non-skier-guide"
+  ]
+ },
+ {
+  "id": "big-sky--spring-series",
+  "resortId": "big-sky",
+  "kind": "event",
+  "name": "Spring Series at The Bowl",
+  "summary": "Headline concerts at 9,000 feet every April weekend",
+  "wow": 3,
+  "interests": [
+   "concert",
+   "festival",
+   "apres",
+   "dj"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://bigskyresort.com/events/spring-series"
+  ],
+  "datesNote": "Every weekend in April; 2027 lineup and dates not announced yet"
+ },
+ {
+  "id": "big-sky--pond-skim",
+  "resortId": "big-sky",
+  "kind": "event",
+  "name": "Big Sky Pond Skim",
+  "summary": "Big Sky's biggest party of the year, costumes and splashes",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://bigskyresort.com/events/spring-series"
+  ],
+  "datesNote": "Usually the second weekend of April during Spring Series; 2027 date not announced yet"
+ },
+ {
+  "id": "big-sky--lone-peak-tram",
+  "resortId": "big-sky",
+  "kind": "activity",
+  "name": "Lone Peak Tram",
+  "summary": "75-person cabins with glass floor panels to an 11,166-foot summit",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Big_Sky_Resort"
+  ]
+ },
+ {
+  "id": "big-sky--lone-mountain-ranch-sleigh-dinner",
+  "resortId": "big-sky",
+  "kind": "activity",
+  "name": "Sleigh Ride Dinner at Lone Mountain Ranch",
+  "summary": "Sleigh to a lamplit cabin for prime rib and cowboy music",
+  "wow": 3,
+  "interests": [
+   "food",
+   "family",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://lonemountainranch.com/?p=40663"
+  ]
+ },
+ {
+  "id": "big-sky--everetts-8800",
+  "resortId": "big-sky",
+  "kind": "restaurant",
+  "name": "Everett's 8800",
+  "summary": "Alpine-inspired cooking at 8,800 feet on Andesite Mountain",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigskyresort.com/blog/best-places-to-eat-during-the-ski-day"
+  ]
+ },
+ {
+  "id": "big-sky--iglu",
+  "resortId": "big-sky",
+  "kind": "apres",
+  "name": "Iglu",
+  "summary": "Snow and ice après bar pouring champagne at the Lone Peak Tram base",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigskyresort.com/blog/best-places-to-eat-during-the-ski-day"
+  ]
+ },
+ {
+  "id": "big-sky--carabiner-lounge",
+  "resortId": "big-sky",
+  "kind": "apres",
+  "name": "Carabiner Lounge",
+  "summary": "Fireside lounge in the Summit Hotel with live après music",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visityellowstonecountry.com/listing/peaks-restaurant-carabiner-lounge"
+  ]
+ },
+ {
+  "id": "big-sky--lone-peak-brewery",
+  "resortId": "big-sky",
+  "kind": "live-music",
+  "name": "Lone Peak Brewery",
+  "summary": "Meadow Village brewpub with house beers and regular live music",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://outsidebozeman.com/places/cities-towns/ob-hit-list-live-music-big-sky"
+  ]
+ },
+ {
+  "id": "sun-valley--roundhouse",
+  "resortId": "sun-valley",
+  "kind": "restaurant",
+  "name": "The Roundhouse",
+  "summary": "1939 octagonal lodge on Baldy, gondola up for fondue and dinner",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.thetakeout.com/1808818/idaho-roundhouse-mountain-restaurant-gondola-access/"
+  ]
+ },
+ {
+  "id": "sun-valley--trail-creek-sleigh-dinner",
+  "resortId": "sun-valley",
+  "kind": "activity",
+  "name": "Trail Creek Cabin sleigh ride dinner",
+  "summary": "Horse-drawn sleigh to a historic log cabin for a four-course dinner",
+  "wow": 3,
+  "interests": [
+   "food",
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitsunvalley.com/to-do/sleigh-rides/",
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "sun-valley--sun-valley-ice-rink",
+  "resortId": "sun-valley",
+  "kind": "activity",
+  "name": "Sun Valley Lodge outdoor ice rink",
+  "summary": "Year-round outdoor rink where Olympic skaters train, facing Baldy",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sunvalley.com/things-to-do/Ice-Skating"
+  ]
+ },
+ {
+  "id": "sun-valley--sun-valley-film-festival",
+  "resortId": "sun-valley",
+  "kind": "event",
+  "name": "Sun Valley Film Festival",
+  "summary": "Premieres, filmmaker Q&As and parties on the awards circuit",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "festival",
+   "nightlife"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-02",
+   "end": "2026-12-06",
+   "sourceUrl": "https://visitsunvalley.com/events/sun-valley-film-festival/"
+  },
+  "links": {},
+  "sources": [
+   "https://visitsunvalley.com/events/sun-valley-film-festival/"
+  ]
+ },
+ {
+  "id": "sun-valley--duchin-lounge",
+  "resortId": "sun-valley",
+  "kind": "apres",
+  "name": "Duchin Lounge",
+  "summary": "Cozy cocktail lounge at the Sun Valley Lodge",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "sun-valley--pioneer-saloon",
+  "resortId": "sun-valley",
+  "kind": "restaurant",
+  "name": "Pioneer Saloon",
+  "summary": "Wild West Ketchum saloon known for stiff drinks and aged steaks",
+  "wow": 2,
+  "interests": [
+   "food",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "sun-valley--limelight-lounge",
+  "resortId": "sun-valley",
+  "kind": "live-music",
+  "name": "Limelight Lounge",
+  "summary": "Ketchum hotel lounge with a live band daily",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "sun-valley--river-run-lodge",
+  "resortId": "sun-valley",
+  "kind": "apres",
+  "name": "River Run Lodge",
+  "summary": "Base lodge with live music and entertainment on weekends",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "sun-valley--frenchmans-bend-hot-springs",
+  "resortId": "sun-valley",
+  "kind": "activity",
+  "name": "Frenchman's Bend Hot Springs",
+  "summary": "Natural hot spring soaking along Warm Springs Road",
+  "wow": 1,
+  "interests": [
+   "spa",
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://visitidaho.org/travel-tips/spend-a-3-day-winter-weekend-in-sun-valley/"
+  ]
+ },
+ {
+  "id": "stowe--matterhorn",
+  "resortId": "stowe",
+  "kind": "apres",
+  "name": "The Matterhorn",
+  "summary": "Legendary Mountain Road bar with live bands, sushi and a big dance floor",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.stowe.com/blog/apres-bars.aspx",
+   "https://www.larkhotels.com/blog/stowe-live-music"
+  ]
+ },
+ {
+  "id": "stowe--stowe-derby",
+  "resortId": "stowe",
+  "kind": "event",
+  "name": "Stowe Derby",
+  "summary": "Since 1945, a ski race from Mt. Mansfield's summit down to the village",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "culture"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-21",
+   "end": "2027-02-21",
+   "sourceUrl": "https://runsignup.com/Race/VT/Stowe/stowederby"
+  },
+  "links": {},
+  "sources": [
+   "https://runsignup.com/Race/VT/Stowe/stowederby"
+  ]
+ },
+ {
+  "id": "stowe--stowe-winter-carnival",
+  "resortId": "stowe",
+  "kind": "event",
+  "name": "Stowe Winter Carnival",
+  "summary": "Ice carving, snow volleyball and winter fun for all ages",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "family"
+  ],
+  "months": [
+   1
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://gostowe.com/signature_event/stowe-winter-carnival/",
+   "https://www.greenmountaininn.com/stowe-experience/annual-events"
+  ],
+  "datesNote": "Usually mid to late January; 2027 dates not confirmed on an official page yet"
+ },
+ {
+  "id": "stowe--rusty-nail",
+  "resortId": "stowe",
+  "kind": "live-music",
+  "name": "The Rusty Nail",
+  "summary": "Mountain Road music bar run with Nectar's Presents, 24 drafts",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.larkhotels.com/blog/stowe-live-music"
+  ]
+ },
+ {
+  "id": "stowe--whistlepig-pavilion",
+  "resortId": "stowe",
+  "kind": "apres",
+  "name": "WhistlePig Pavilion",
+  "summary": "Heated pergolas, fireside raclette and whiskey tastings at Spruce Peak",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.stowe.com/blog/apres-bars.aspx"
+  ]
+ },
+ {
+  "id": "stowe--cliff-house",
+  "resortId": "stowe",
+  "kind": "restaurant",
+  "name": "Cliff House",
+  "summary": "Lunch with panoramic views at the top of the Mansfield Gondola",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.stowe.com/explore-the-resort/during-your-stay/dining.aspx"
+  ]
+ },
+ {
+  "id": "stowe--von-trapp-family-lodge",
+  "resortId": "stowe",
+  "kind": "restaurant",
+  "name": "Von Trapp Family Lodge",
+  "summary": "Hillside resort with its own brewery and farm-to-table restaurants",
+  "wow": 2,
+  "interests": [
+   "food",
+   "culture",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.vontrappresort.com/",
+   "instagram": "https://www.instagram.com/vontrappresort/"
+  },
+  "sources": [
+   "https://www.vontrappresort.com/"
+  ]
+ },
+ {
+  "id": "stowe--doc-ponds",
+  "resortId": "stowe",
+  "kind": "restaurant",
+  "name": "Doc Ponds",
+  "summary": "Craft beer, elevated pub food and 1,000-plus vinyl records",
+  "wow": 1,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.stowe.com/blog/apres-bars.aspx"
+  ]
+ },
+ {
+  "id": "stowe--spruce-peak-arts-center",
+  "resortId": "stowe",
+  "kind": "live-music",
+  "name": "Spruce Peak Arts Center",
+  "summary": "Resort performing arts stage for concerts, film and dance",
+  "wow": 1,
+  "interests": [
+   "concert",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.larkhotels.com/blog/stowe-live-music"
+  ]
+ },
+ {
+  "id": "killington--killington-cup",
+  "resortId": "killington",
+  "kind": "event",
+  "name": "Stifel Killington Cup",
+  "summary": "Women's World Cup slalom and GS on Superstar, with free concerts",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "concert",
+   "festival"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-27",
+   "end": "2026-11-29",
+   "sourceUrl": "https://killington.com/the-killington-cup"
+  },
+  "links": {},
+  "sources": [
+   "https://killington.com/the-killington-cup"
+  ]
+ },
+ {
+  "id": "killington--pickle-barrel",
+  "resortId": "killington",
+  "kind": "club",
+  "name": "Pickle Barrel",
+  "summary": "Three-level, 21+ nightclub with two stages, rocking since the 1960s",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "live-music",
+   "concert"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.picklebarrelnightclub.com/"
+  ]
+ },
+ {
+  "id": "killington--wobbly-barn",
+  "resortId": "killington",
+  "kind": "club",
+  "name": "Wobbly Barn",
+  "summary": "Killington Road tradition: steakhouse plus nightclub and dancing",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.wobblybarn.com/"
+  ]
+ },
+ {
+  "id": "killington--k1-apres-music",
+  "resortId": "killington",
+  "kind": "apres",
+  "name": "K-1 Base Lodge après music",
+  "summary": "Live bands at the K-1 base most afternoons into early evening",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://killington.com/apres-music"
+  ]
+ },
+ {
+  "id": "killington--peak-lodge",
+  "resortId": "killington",
+  "kind": "restaurant",
+  "name": "Peak Lodge",
+  "summary": "Summit dining with big views at 4,241 feet",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://killington.com/resort-dining"
+  ]
+ },
+ {
+  "id": "killington--ledgewood-yurt",
+  "resortId": "killington",
+  "kind": "restaurant",
+  "name": "Ledgewood Yurt",
+  "summary": "Cozy slopeside yurt for a one-of-a-kind winter meal",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://killington.com/resort-dining"
+  ]
+ },
+ {
+  "id": "killington--bear-mountain-lodge",
+  "resortId": "killington",
+  "kind": "apres",
+  "name": "Bear Mountain Lodge",
+  "summary": "Afternoon live music at the base of Bear Mountain",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://killington.com/apres-music"
+  ]
+ },
+ {
+  "id": "sugarbush--alpine-aurora",
+  "resortId": "sugarbush",
+  "kind": "event",
+  "name": "Alpine Aurora",
+  "summary": "DJ and laser light show in the Lincoln Peak Courtyard",
+  "wow": 2,
+  "interests": [
+   "dj",
+   "festival",
+   "nightlife"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-20",
+   "end": "2027-02-20",
+   "sourceUrl": "https://www.sugarbush.com/things-to-do/events-calendar"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarbush.com/things-to-do/events-calendar"
+  ]
+ },
+ {
+  "id": "sugarbush--nye-torchlight-parade",
+  "resortId": "sugarbush",
+  "kind": "event",
+  "name": "New Year's Eve Fireworks and Torchlight Parade",
+  "summary": "Fireworks, torchlit descent and a live-music NYE party",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "family",
+   "live-music"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-31",
+   "end": "2026-12-31",
+   "sourceUrl": "https://www.sugarbush.com/things-to-do/events-calendar"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarbush.com/things-to-do/events-calendar"
+  ]
+ },
+ {
+  "id": "sugarbush--torching-of-the-tannenbaums",
+  "resortId": "sugarbush",
+  "kind": "event",
+  "name": "Torching of the Tannenbaums",
+  "summary": "Holiday tree bonfire party at the mountain",
+  "wow": 1,
+  "interests": [
+   "festival",
+   "apres"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-23",
+   "end": "2027-01-23",
+   "sourceUrl": "https://www.sugarbush.com/things-to-do/events-calendar"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarbush.com/things-to-do/events-calendar"
+  ]
+ },
+ {
+  "id": "sugarbush--pond-skim",
+  "resortId": "sugarbush",
+  "kind": "event",
+  "name": "Sugarbush Pond Skim",
+  "summary": "Spring pond skim at Lincoln Peak",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-03",
+   "end": "2027-04-03",
+   "sourceUrl": "https://www.sugarbush.com/things-to-do/events-calendar"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarbush.com/things-to-do/events-calendar"
+  ]
+ },
+ {
+  "id": "sugarbush--castlerock-pub",
+  "resortId": "sugarbush",
+  "kind": "apres",
+  "name": "Castlerock Pub",
+  "summary": "Lincoln Peak pub for après-ski classics",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sugarbush.com/things-to-do/resort-dining"
+  ]
+ },
+ {
+  "id": "jay-peak--pump-house",
+  "resortId": "jay-peak",
+  "kind": "activity",
+  "name": "Pump House Indoor Waterpark",
+  "summary": "Indoor waterpark with a FlowRider and a 45 mph looping slide",
+  "wow": 3,
+  "interests": [
+   "family",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://jaypeakresort.com/waterpark"
+  ]
+ },
+ {
+  "id": "jay-peak--winter-music-series",
+  "resortId": "jay-peak",
+  "kind": "live-music",
+  "name": "Winter Music Series",
+  "summary": "Ticketed winter concerts in the Foeger Ballroom",
+  "wow": 1,
+  "interests": [
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://jaypeakresort.com/things-to-do/winter-music-series"
+  ]
+ },
+ {
+  "id": "jay-peak--alices-table",
+  "resortId": "jay-peak",
+  "kind": "restaurant",
+  "name": "Alice's Table",
+  "summary": "Slightly fancier resort restaurant named for a 1950s Jay Peak staffer",
+  "wow": 1,
+  "interests": [
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://jaypeakresort.com/things-to-do/restaurants-dining"
+  ]
+ },
+ {
+  "id": "sunday-river--pond-a-palooza",
+  "resortId": "sunday-river",
+  "kind": "event",
+  "name": "Pond-A-Palooza",
+  "summary": "Sunday River's signature spring pond skim",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sundayriver.com/events"
+  ],
+  "datesNote": "Held in April; 2027 date to be announced"
+ },
+ {
+  "id": "sunday-river--spring-fest",
+  "resortId": "sunday-river",
+  "kind": "event",
+  "name": "Spring Fest Weekend",
+  "summary": "Spring skiing weekend with free music",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-27",
+   "end": "2027-03-28",
+   "sourceUrl": "https://www.sundayriver.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sundayriver.com/events"
+  ]
+ },
+ {
+  "id": "sunday-river--bust-n-burn",
+  "resortId": "sunday-river",
+  "kind": "event",
+  "name": "Bust 'N' Burn",
+  "summary": "Freestyle bump competition on the Monday Mourning trail",
+  "wow": 1,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-02",
+   "end": "2027-04-04",
+   "sourceUrl": "https://www.sundayriver.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sundayriver.com/events"
+  ]
+ },
+ {
+  "id": "sunday-river--pride-weekend",
+  "resortId": "sunday-river",
+  "kind": "event",
+  "name": "Pride Weekend",
+  "summary": "Sunday River's winter Pride celebration",
+  "wow": 1,
+  "interests": [
+   "festival",
+   "nightlife"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-05",
+   "end": "2027-02-07",
+   "sourceUrl": "https://www.sundayriver.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sundayriver.com/events"
+  ]
+ },
+ {
+  "id": "sunday-river--foggy-goggle",
+  "resortId": "sunday-river",
+  "kind": "apres",
+  "name": "Foggy Goggle",
+  "summary": "South Ridge spot for Maine craft beer after skiing",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sundayriver.com/resort-dining"
+  ]
+ },
+ {
+  "id": "sugarloaf--reggae-fest",
+  "resortId": "sugarloaf",
+  "kind": "event",
+  "name": "Sugarloaf Reggae Festival",
+  "summary": "39th edition of the 'biggest party on the East Coast'",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-09",
+   "end": "2027-04-11",
+   "sourceUrl": "https://www.sugarloaf.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarloaf.com/events"
+  ]
+ },
+ {
+  "id": "sugarloaf--widowmaker",
+  "resortId": "sugarloaf",
+  "kind": "apres",
+  "name": "Widowmaker",
+  "summary": "40-plus-year après bar and heartbeat of Sugarloaf's live music scene",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sugarloaf.com/dining"
+  ]
+ },
+ {
+  "id": "sugarloaf--fire-on-the-mountain",
+  "resortId": "sugarloaf",
+  "kind": "event",
+  "name": "Fire On The Mountain",
+  "summary": "Weekend festival celebrating music and mountain culture",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "live-music"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-29",
+   "end": "2027-01-31",
+   "sourceUrl": "https://www.sugarloaf.com/events"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sugarloaf.com/events"
+  ]
+ },
+ {
+  "id": "sugarloaf--bag-and-kettle",
+  "resortId": "sugarloaf",
+  "kind": "apres",
+  "name": "The Bag & Kettle",
+  "summary": "Burgers and beer at the base since 1969",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sugarloaf.com/dining"
+  ]
+ },
+ {
+  "id": "mont-tremblant--le-ptit-caribou",
+  "resortId": "mont-tremblant",
+  "kind": "apres",
+  "name": "Le P'tit Caribou",
+  "summary": "Tremblant's legendary après bar and nightlife, with VIP tables",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ptitcaribou.com/",
+   "https://en.wikivoyage.org/wiki/Mont-Tremblant"
+  ]
+ },
+ {
+  "id": "mont-tremblant--caribou-cup",
+  "resortId": "mont-tremblant",
+  "kind": "event",
+  "name": "Caribou Cup",
+  "summary": "Costumed skiers try to skim a 100-foot pool at the base of the Flying Mile",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "festival"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.ptitcaribou.com/caribou-cup"
+  ],
+  "datesNote": "Held each April; 2027 date not announced yet"
+ },
+ {
+  "id": "mont-tremblant--scandinave-spa",
+  "resortId": "mont-tremblant",
+  "kind": "activity",
+  "name": "Scandinave Spa Mont-Tremblant",
+  "summary": "Silent outdoor Nordic baths in the forest beside the Diable River",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.scandinave.com/en/tremblant"
+  ]
+ },
+ {
+  "id": "mont-tremblant--casino-de-mont-tremblant",
+  "resortId": "mont-tremblant",
+  "kind": "activity",
+  "name": "Casino de Mont-Tremblant",
+  "summary": "Casino at the base of the Soleil side of the mountain",
+  "wow": 1,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Mont_Tremblant_Resort",
+   "https://en.wikivoyage.org/wiki/Mont-Tremblant"
+  ]
+ },
+ {
+  "id": "mont-tremblant--le-shack",
+  "resortId": "mont-tremblant",
+  "kind": "apres",
+  "name": "Le Shack",
+  "summary": "Popular après spot at the lift base in the village",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikivoyage.org/wiki/Mont-Tremblant"
+  ]
+ },
+ {
+  "id": "grand-targhee--trap-bar",
+  "resortId": "grand-targhee",
+  "kind": "apres",
+  "name": "The Trap Bar & Grill",
+  "summary": "The hub of après at the Ghee, famous for its Bloody Marys",
+  "wow": 2,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.grandtarghee.com/plan-your-trip/dining/the-trap-bar-grill"
+  ]
+ },
+ {
+  "id": "grand-targhee--high-mountain-heli",
+  "resortId": "grand-targhee",
+  "kind": "activity",
+  "name": "High Mountain Heli trips",
+  "summary": "Six guided heli runs in the Teton backcountry",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.grandtarghee.com/activities-events/activities/winter-activity-finder"
+  ]
+ },
+ {
+  "id": "grand-targhee--avalanche-dog-demos",
+  "resortId": "grand-targhee",
+  "kind": "activity",
+  "name": "Avalanche Dog Demo Days",
+  "summary": "Ski patrol shows off its avalanche rescue dogs every Sunday",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.grandtarghee.com/activities-events/activities/winter-activity-finder"
+  ]
+ },
+ {
+  "id": "whitefish--whitefish-winter-carnival",
+  "resortId": "whitefish",
+  "kind": "event",
+  "name": "Whitefish Winter Carnival",
+  "summary": "Yetis, vikings, a Grand Parade, skijoring and a Penguin Plunge",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "family",
+   "culture"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-05",
+   "end": "2027-02-07",
+   "sourceUrl": "https://whitefishwintercarnival.com/"
+  },
+  "links": {},
+  "sources": [
+   "https://whitefishwintercarnival.com/"
+  ]
+ },
+ {
+  "id": "whitefish--bierstube",
+  "resortId": "whitefish",
+  "kind": "apres",
+  "name": "The Bierstube",
+  "summary": "Long-running après bar full of mountain memorabilia",
+  "wow": 2,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiwhitefish.com/dining-and-apres/"
+  ]
+ },
+ {
+  "id": "whitefish--hellroaring-saloon",
+  "resortId": "whitefish",
+  "kind": "apres",
+  "name": "Hellroaring Saloon & Eatery",
+  "summary": "Ski-in chalet saloon famous for heaping plates of nachos",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiwhitefish.com/dining-and-apres/"
+  ]
+ },
+ {
+  "id": "whitefish--summit-house",
+  "resortId": "whitefish",
+  "kind": "restaurant",
+  "name": "Summit House",
+  "summary": "Mountaintop restaurant at 6,817 feet with sweeping views and a deck",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiwhitefish.com/dining-and-apres/"
+  ]
+ },
+ {
+  "id": "whitefish--buchanans-chop-house",
+  "resortId": "whitefish",
+  "kind": "restaurant",
+  "name": "Buchanan's Chop House & Whisky Bar",
+  "summary": "Upscale chophouse with a big whisky list and the Snug Bar",
+  "wow": 1,
+  "interests": [
+   "fine-dining"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiwhitefish.com/dining-and-apres/"
+  ]
+ },
+ {
+  "id": "whiteface--mt-van-hoevenberg-bobsled",
+  "resortId": "whiteface",
+  "kind": "activity",
+  "name": "Bobsled rides at Mt Van Hoevenberg",
+  "summary": "Ride a real bobsled, luge or skeleton on the Olympic track",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "sports"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lakeplacid.com/do/activities/olympic-sites"
+  ]
+ },
+ {
+  "id": "whiteface--olympic-center-museum",
+  "resortId": "whiteface",
+  "kind": "activity",
+  "name": "Lake Placid Olympic Center and Museum",
+  "summary": "Skate and tour the 1980 Miracle on Ice rink and Olympic Museum",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "sports",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lakeplacid.com/do/activities/olympic-sites"
+  ]
+ },
+ {
+  "id": "whiteface--olympic-oval-skating",
+  "resortId": "whiteface",
+  "kind": "activity",
+  "name": "Olympic Oval skating",
+  "summary": "Skate the outdoor oval where Olympians raced, with warming huts",
+  "wow": 2,
+  "interests": [
+   "family",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lakeplacid.com/do/activities/ice-skating"
+  ]
+ },
+ {
+  "id": "whiteface--olympic-jumping-complex",
+  "resortId": "whiteface",
+  "kind": "activity",
+  "name": "Olympic Jumping Complex",
+  "summary": "Elevator up the ski jump for views, then zipline back down",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lakeplacid.com/do/activities/olympic-sites"
+  ]
+ },
+ {
+  "id": "whiteface--empire-state-winter-games",
+  "resortId": "whiteface",
+  "kind": "event",
+  "name": "Empire State Winter Games",
+  "summary": "Olympic-style games across the Adirondacks, opened by a torch relay",
+  "wow": 1,
+  "interests": [
+   "sports",
+   "family"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-04",
+   "end": "2027-02-07",
+   "sourceUrl": "https://www.lakeplacid.com/events/empire-state-winter-games"
+  },
+  "links": {},
+  "sources": [
+   "https://www.lakeplacid.com/events/empire-state-winter-games"
+  ]
+ },
+ {
+  "id": "whiteface--lake-placid-loppet",
+  "resortId": "whiteface",
+  "kind": "event",
+  "name": "Lake Placid Loppet",
+  "summary": "50 km and 25 km ski marathon on Olympic cross-country trails",
+  "wow": 1,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Lake_Placid_Olympic_Sports_Complex_Cross_Country_Biathlon_Center"
+  ],
+  "datesNote": "Usually early February; 2027 date not announced yet"
+ },
+ {
+  "id": "whistler-blackcomb--garibaldi-lift-co",
+  "resortId": "whistler-blackcomb",
+  "kind": "apres",
+  "name": "Garibaldi Lift Co. (GLC)",
+  "summary": "Whistler's signature après bar at the gondola base, patios over the slopes and live acts",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.whistlerblackcomb.com/the-village/dining/glc"
+  },
+  "sources": [
+   "https://www.whistlerblackcomb.com/the-village/dining/glc",
+   "https://www.canadianaffair.com/blog/best-apres-bars-whistler"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--longhorn-saloon",
+  "resortId": "whistler-blackcomb",
+  "kind": "apres",
+  "name": "The Longhorn Saloon",
+  "summary": "Huge slopeside patio party with DJs, champagne moments and shot skis",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://gibbonswhistler.com/longhorn-saloon-grill"
+  },
+  "sources": [
+   "https://gibbonswhistler.com/longhorn-saloon-grill"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--pride-and-ski-festival",
+  "resortId": "whistler-blackcomb",
+  "kind": "event",
+  "name": "Whistler Pride & Ski Festival",
+  "summary": "Week of queer après, nightly parties, ski groups and a parade",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-24",
+   "end": "2027-01-31",
+   "sourceUrl": "https://www.whistlerpride.com/"
+  },
+  "links": {
+   "officialSite": "https://www.whistlerpride.com/",
+   "instagram": "https://www.instagram.com/whistlerpride/"
+  },
+  "sources": [
+   "https://www.whistlerpride.com/"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--world-ski-snowboard-festival",
+  "resortId": "whistler-blackcomb",
+  "kind": "event",
+  "name": "World Ski & Snowboard Festival",
+  "summary": "Week-long spring blowout of snow sports, concerts, art and film",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "concert",
+   "sports"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://wssf.com/",
+   "instagram": "https://www.instagram.com/wssf/"
+  },
+  "sources": [
+   "https://wssf.com/"
+  ],
+  "datesNote": "Usually a week in early to mid April (2026 ran April 6 to 12); 2027 dates not announced yet"
+ },
+ {
+  "id": "whistler-blackcomb--fire-and-ice-show",
+  "resortId": "whistler-blackcomb",
+  "kind": "event",
+  "name": "Fire & Ice Show",
+  "summary": "Free Sunday night show: skiers fly through a ring of fire, then fireworks",
+  "wow": 3,
+  "interests": [
+   "family",
+   "sports",
+   "scenery"
+  ],
+  "months": [
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.whistler.ca/events/fire-ice-show/"
+  },
+  "sources": [
+   "https://www.whistler.ca/events/fire-ice-show/"
+  ],
+  "datesNote": "Every Sunday at 7:30 p.m. from early January to early March in 2026; 2027 schedule not announced yet"
+ },
+ {
+  "id": "whistler-blackcomb--bearfoot-bistro",
+  "resortId": "whistler-blackcomb",
+  "kind": "restaurant",
+  "name": "Bearfoot Bistro",
+  "summary": "Fine dining with champagne sabering and a minus 32C vodka Ice Room",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "luxury",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.bearfootbistro.com/"
+  },
+  "sources": [
+   "https://www.bearfootbistro.com/",
+   "https://www.canadianaffair.com/blog/best-apres-bars-whistler"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--dustys-bar-bbq",
+  "resortId": "whistler-blackcomb",
+  "kind": "apres",
+  "name": "Dusty's Bar & BBQ",
+  "summary": "Creekside classic at the foot of the Olympic downhill, ski right up to the patio",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.canadianaffair.com/blog/best-apres-bars-whistler"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--moe-joes",
+  "resortId": "whistler-blackcomb",
+  "kind": "club",
+  "name": "Moe Joe's",
+  "summary": "Village nightclub with DJs and themed party nights until 2 a.m.",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://gibbonswhistler.com/moe-joes"
+  },
+  "sources": [
+   "https://gibbonswhistler.com/moe-joes"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--scandinave-spa",
+  "resortId": "whistler-blackcomb",
+  "kind": "activity",
+  "name": "Scandinave Spa Whistler",
+  "summary": "Silent Nordic hot and cold pools in the rainforest by Lost Lake",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.scandinave.com/en/whistler"
+  },
+  "sources": [
+   "https://www.scandinave.com/en/whistler"
+  ]
+ },
+ {
+  "id": "whistler-blackcomb--peak-2-peak-gondola",
+  "resortId": "whistler-blackcomb",
+  "kind": "activity",
+  "name": "PEAK 2 PEAK Gondola",
+  "summary": "Record-setting gondola 436 m above the valley, glass-floor cabins",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Peak_2_Peak_Gondola"
+  ]
+ },
+ {
+  "id": "banff-sunshine--mad-trappers-saloon",
+  "resortId": "banff-sunshine",
+  "kind": "apres",
+  "name": "Mad Trapper's Saloon",
+  "summary": "1928 log cabin at Sunshine with a slopeside patio for afternoon bubbly",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.snowseekers.ca/story/apres-ski-anyone-top-five-spots-banff"
+  ]
+ },
+ {
+  "id": "banff-sunshine--untracked-concert-series",
+  "resortId": "banff-sunshine",
+  "kind": "event",
+  "name": "Untracked Concert Series",
+  "summary": "Free spring weekend concerts and DJs in the Mad Trapper's beer garden",
+  "wow": 3,
+  "interests": [
+   "live-music",
+   "apres",
+   "concert"
+  ],
+  "months": [
+   4,
+   5
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skibig3.com/blog/6-must-try-unique-apres-experiences-in-banff-and-lake-louise",
+   "https://www.skibig3.com/blog/spring-skiing-event-guide-to-banff-and-lake-louise"
+  ],
+  "datesNote": "Weekends from early April to the May long weekend in past seasons; 2027 lineup and dates not announced yet"
+ },
+ {
+  "id": "banff-sunshine--snowdays",
+  "resortId": "banff-sunshine",
+  "kind": "event",
+  "name": "SnowDays Festival",
+  "summary": "Giant snow sculptures across downtown Banff, ice carving and live music",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "family",
+   "culture"
+  ],
+  "months": [
+   1,
+   2
+  ],
+  "dates": {
+   "start": "2027-01-21",
+   "end": "2027-02-07",
+   "sourceUrl": "https://www.banfflakelouise.com/snowdays"
+  },
+  "links": {
+   "officialSite": "https://www.banfflakelouise.com/snowdays"
+  },
+  "sources": [
+   "https://www.banfflakelouise.com/snowdays"
+  ]
+ },
+ {
+  "id": "banff-sunshine--slush-cup",
+  "resortId": "banff-sunshine",
+  "kind": "event",
+  "name": "Sunshine Slush Cup",
+  "summary": "Closing-day classic: costumed skiers try to cross an icy pond",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "apres",
+   "festival"
+  ],
+  "months": [
+   5
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skibig3.com/blog/spring-skiing-event-guide-to-banff-and-lake-louise"
+  ],
+  "datesNote": "Usually on closing day over the Victoria Day long weekend in May; 2027 date not announced yet"
+ },
+ {
+  "id": "banff-sunshine--banff-upper-hot-springs",
+  "resortId": "banff-sunshine",
+  "kind": "activity",
+  "name": "Banff Upper Hot Springs",
+  "summary": "Steaming 37 to 40C pools on Sulphur Mountain, reopened in 2026 after upgrades",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://parks.canada.ca/hotsprings/"
+  },
+  "sources": [
+   "https://curiocity.com/banff-upper-hot-springs-reopening-2026/",
+   "https://parks.canada.ca/hotsprings/"
+  ]
+ },
+ {
+  "id": "banff-sunshine--sky-bistro",
+  "resortId": "banff-sunshine",
+  "kind": "restaurant",
+  "name": "Sky Bistro",
+  "summary": "Summit dining room atop the Banff Gondola with six-range views",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.banffjaspercollection.com/dining/sky-bistro/"
+  },
+  "sources": [
+   "https://www.banffjaspercollection.com/dining/sky-bistro/"
+  ]
+ },
+ {
+  "id": "banff-sunshine--grizzly-house",
+  "resortId": "banff-sunshine",
+  "kind": "restaurant",
+  "name": "The Grizzly House",
+  "summary": "Retro fondue and hot rock spot since 1967, with game meats",
+  "wow": 2,
+  "interests": [
+   "food",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.banffgrizzlyhouse.com/"
+  },
+  "sources": [
+   "https://www.banfflakelouise.com/business/banff-grizzly-house-restaurant"
+  ]
+ },
+ {
+  "id": "banff-sunshine--wild-bills-saloon",
+  "resortId": "banff-sunshine",
+  "kind": "live-music",
+  "name": "Wild Bill's Legendary Saloon",
+  "summary": "Banff Ave saloon with live country bands, line dancing and a mechanical bull",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.avenuecalgary.com/things-to-do/out-of-town/mountains/banff-bars/"
+  ]
+ },
+ {
+  "id": "banff-sunshine--dancing-sasquatch",
+  "resortId": "banff-sunshine",
+  "kind": "club",
+  "name": "Dancing Sasquatch",
+  "summary": "Late-night club with DJs, a packed dance floor and a sasquatch mascot",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.avenuecalgary.com/things-to-do/out-of-town/mountains/banff-bars/"
+  ]
+ },
+ {
+  "id": "banff-sunshine--park-distillery",
+  "resortId": "banff-sunshine",
+  "kind": "restaurant",
+  "name": "Park Distillery",
+  "summary": "Rustic restaurant and bar pouring its own spirits, with daily distillery tours",
+  "wow": 2,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.avenuecalgary.com/things-to-do/out-of-town/mountains/banff-bars/",
+   "https://www.skibig3.com/blog/6-must-try-unique-apres-experiences-in-banff-and-lake-louise"
+  ]
+ },
+ {
+  "id": "lake-louise--ice-magic",
+  "resortId": "lake-louise",
+  "kind": "event",
+  "name": "Ice Magic",
+  "summary": "Ice sculptures on the lake with the Fairmont Chateau Lake Louise behind",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "culture",
+   "scenery"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-03",
+   "end": "2027-02-07",
+   "sourceUrl": "https://www.banfflakelouise.com/ice-magic"
+  },
+  "links": {},
+  "sources": [
+   "https://www.banfflakelouise.com/ice-magic"
+  ]
+ },
+ {
+  "id": "lake-louise--skating-on-lake-louise",
+  "resortId": "lake-louise",
+  "kind": "activity",
+  "name": "Skating on Lake Louise",
+  "summary": "Skate the frozen lake beneath Victoria Glacier",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.banfflakelouise.com/blog/things-to-do-winter-banff-lake-louise"
+  ]
+ },
+ {
+  "id": "lake-louise--kingmik-dog-sled",
+  "resortId": "lake-louise",
+  "kind": "activity",
+  "name": "Kingmik Dogsled Tours",
+  "summary": "The only dog sled outfit operating inside Banff National Park",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.banfflakelouise.com/blog/your-guide-dog-sledding-banff-and-lake-louise"
+  ]
+ },
+ {
+  "id": "lake-louise--banded-peak-base-camp-djs",
+  "resortId": "lake-louise",
+  "kind": "apres",
+  "name": "Banded Peak Base Camp",
+  "summary": "Spring deck DJs and a Mt. Slushmore party at the ski resort base",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   4,
+   5
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skibig3.com/blog/spring-skiing-event-guide-to-banff-and-lake-louise"
+  ]
+ },
+ {
+  "id": "lake-louise--sleigh-rides",
+  "resortId": "lake-louise",
+  "kind": "activity",
+  "name": "Lakeshore sleigh rides",
+  "summary": "Horse-drawn sleigh rides along the Lake Louise shoreline",
+  "wow": 2,
+  "interests": [
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.banfflakelouise.com/blog/things-to-do-winter-banff-lake-louise"
+  ]
+ },
+ {
+  "id": "revelstoke--selkirk-tangiers-heli",
+  "resortId": "revelstoke",
+  "kind": "activity",
+  "name": "Selkirk Tangiers Heli Skiing",
+  "summary": "Heli-skiing straight from the resort in the self-styled heli capital",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.revelstokemountainresort.com/winter-activities/heli-skiing/"
+  },
+  "sources": [
+   "https://www.revelstokemountainresort.com/winter-activities/heli-skiing/"
+  ]
+ },
+ {
+  "id": "revelstoke--winter-welcome",
+  "resortId": "revelstoke",
+  "kind": "event",
+  "name": "Winter Welcome",
+  "summary": "Pre-season base party with a light show, dancers, fire pits and fireworks",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "family",
+   "apres"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-04",
+   "end": "2026-12-04",
+   "sourceUrl": "https://www.revelstokemountainresort.com/whats-happening/events/winter-welcome/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.revelstokemountainresort.com/whats-happening/events/winter-welcome/"
+  ]
+ },
+ {
+  "id": "revelstoke--mackenzie-common-tavern",
+  "resortId": "revelstoke",
+  "kind": "apres",
+  "name": "The Mackenzie Common Tavern",
+  "summary": "Mid-mountain après with street food and rotating BC craft beers",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.revelstokemountainresort.com/discover/more/dining"
+  ]
+ },
+ {
+  "id": "revelstoke--rockford",
+  "resortId": "revelstoke",
+  "kind": "restaurant",
+  "name": "Rockford Bar & Grill",
+  "summary": "Base-area grill for cocktails and dinner after the gondola ride down",
+  "wow": 1,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.revelstokemountainresort.com/discover/more/dining"
+  ]
+ },
+ {
+  "id": "revelstoke--the-outpost",
+  "resortId": "revelstoke",
+  "kind": "restaurant",
+  "name": "The Outpost",
+  "summary": "Mid-mountain burgers with a patio facing the Monashees",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.revelstokemountainresort.com/discover/more/dining"
+  ]
+ },
+ {
+  "id": "kicking-horse--eagles-eye",
+  "resortId": "kicking-horse",
+  "kind": "restaurant",
+  "name": "Eagle's Eye Restaurant",
+  "summary": "Canada's highest restaurant, 2,300 m up by gondola, dinners on weekends",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://kickinghorseresort.com/blog/the-true-unique-ski-resort-experience-canadas-highest-elevated-dining-experience/",
+   "https://kickinghorseresort.com/discover-kickinghorse/restaurants/"
+  ]
+ },
+ {
+  "id": "kicking-horse--whitetooth-grill",
+  "resortId": "kicking-horse",
+  "kind": "live-music",
+  "name": "Whitetooth Grill",
+  "summary": "Day lodge spot with Friday open mic and Saturday afternoon live music",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://kickinghorseresort.com/discover-kickinghorse/restaurants/"
+  ]
+ },
+ {
+  "id": "kicking-horse--peaks-grill",
+  "resortId": "kicking-horse",
+  "kind": "apres",
+  "name": "Peaks Grill",
+  "summary": "Village patio for cold beers, live music and ski films",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://kickinghorseresort.com/discover-kickinghorse/restaurants/"
+  ]
+ },
+ {
+  "id": "fernie--griz-days",
+  "resortId": "fernie",
+  "kind": "event",
+  "name": "Griz Days",
+  "summary": "Town festival honouring the Griz legend with competitions and a parade",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "culture",
+   "family"
+  ],
+  "months": [
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skifernie.com/discover-fernie/history-and-griz-legend/"
+  ],
+  "datesNote": "Held annually in February; 2027 dates not announced yet"
+ },
+ {
+  "id": "fernie--griz-bar",
+  "resortId": "fernie",
+  "kind": "apres",
+  "name": "Griz Bar",
+  "summary": "Resort plaza bar with live music on weekend afternoons and Saturday nights",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skifernie.com/discover-fernie/nightlife/"
+  ]
+ },
+ {
+  "id": "fernie--northern-bar-and-stage",
+  "resortId": "fernie",
+  "kind": "live-music",
+  "name": "The Northern Bar & Stage",
+  "summary": "Downtown bar with live acts through the week",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skifernie.com/discover-fernie/nightlife/"
+  ]
+ },
+ {
+  "id": "fernie--fernie-hotel",
+  "resortId": "fernie",
+  "kind": "club",
+  "name": "Fernie Hotel & Pub",
+  "summary": "Refurbished 1909 hotel pub with 20 taps and a dance floor",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skifernie.com/discover-fernie/nightlife/"
+  ]
+ },
+ {
+  "id": "big-white--night-skiing",
+  "resortId": "big-white",
+  "kind": "activity",
+  "name": "Night skiing",
+  "summary": "Western Canada's largest night skiing area, Tuesday to Saturday",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigwhite.com/events-activities/winter-activities/night-skiing"
+  ]
+ },
+ {
+  "id": "big-white--snowshoe-sams",
+  "resortId": "big-white",
+  "kind": "apres",
+  "name": "Snowshoe Sam's",
+  "summary": "The mountain's longest running pub, voted top ski bar in North America",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigwhite.com/explore/food-dining/restaurants-food-trucks-market"
+  ]
+ },
+ {
+  "id": "big-white--sleigh-dining",
+  "resortId": "big-white",
+  "kind": "activity",
+  "name": "Horse-drawn sleigh dining tours",
+  "summary": "Sleigh through the forest to a cabin for a family-style gourmet dinner",
+  "wow": 3,
+  "interests": [
+   "food",
+   "family",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigwhite.com/events-activities/tours/horse-drawn-sleigh-dining-tours"
+  ]
+ },
+ {
+  "id": "big-white--dog-sled-tours",
+  "resortId": "big-white",
+  "kind": "activity",
+  "name": "Dog sled tours",
+  "summary": "Mush through Big White's backcountry with Candle Creek Kennels",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bigwhite.com/events-activities/tours/dog-sled-tours"
+  ]
+ },
+ {
+  "id": "sun-peaks--bottoms-bar",
+  "resortId": "sun-peaks",
+  "kind": "apres",
+  "name": "Bottoms Bar & Grill",
+  "summary": "One of the liveliest après bars on the mountain",
+  "wow": 2,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sunpeaksresort.com/events-things-to-do/dining-apres"
+  ]
+ },
+ {
+  "id": "sun-peaks--apres-and-ales",
+  "resortId": "sun-peaks",
+  "kind": "event",
+  "name": "Après and Ales Winter Kick-off",
+  "summary": "Season-opening patio party with a DJ at Masa's",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-21",
+   "end": "2026-11-21",
+   "sourceUrl": "https://www.sunpeaksresort.com/events-things-to-do/events/apres-and-ales-winter-kick-off"
+  },
+  "links": {},
+  "sources": [
+   "https://www.sunpeaksresort.com/events-things-to-do/events/apres-and-ales-winter-kick-off"
+  ]
+ },
+ {
+  "id": "sun-peaks--ice-rink",
+  "resortId": "sun-peaks",
+  "kind": "activity",
+  "name": "Village ice rink",
+  "summary": "Covered open-air NHL-size rink with mountain views",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sunpeaksresort.com/events-things-to-do/activities?season=winter"
+  ]
+ },
+ {
+  "id": "sun-peaks--dog-sled-and-snowmobile",
+  "resortId": "sun-peaks",
+  "kind": "activity",
+  "name": "Dog sled and snowmobile tours",
+  "summary": "Guided dog sledding and snowmobile rides into the backcountry",
+  "wow": 2,
+  "interests": [
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.sunpeaksresort.com/events-things-to-do/activities?season=winter"
+  ]
+ },
+ {
+  "id": "portillo--hotel-portillo-pool",
+  "resortId": "portillo",
+  "kind": "activity",
+  "name": "Heated outdoor pool and jacuzzi",
+  "summary": "Soak in steaming water beside the frozen Laguna del Inca",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.skiportillo.com/",
+   "instagram": "https://www.instagram.com/skiportillo/"
+  },
+  "sources": [
+   "https://skiportillo.com/explora/actividades-y-eventos/"
+  ]
+ },
+ {
+  "id": "portillo--wine-weeks",
+  "resortId": "portillo",
+  "kind": "event",
+  "name": "Wine Week and Wine Fest",
+  "summary": "Chilean wineries pour tastings and pairings at the hotel",
+  "wow": 2,
+  "interests": [
+   "food",
+   "festival"
+  ],
+  "months": [
+   8
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiportillo.com/explora/actividades-y-eventos/"
+  ],
+  "datesNote": "Held in August in recent seasons; 2027 dates not announced yet"
+ },
+ {
+  "id": "portillo--discotheque",
+  "resortId": "portillo",
+  "kind": "club",
+  "name": "Portillo Discotheque",
+  "summary": "The hotel's own disco bar for drinks and dancing",
+  "wow": 2,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiportillo.com/explora/actividades-y-eventos/"
+  ]
+ },
+ {
+  "id": "portillo--laguna-del-inca-snowshoe",
+  "resortId": "portillo",
+  "kind": "activity",
+  "name": "Laguna del Inca snowshoe",
+  "summary": "Snowshoe outings to the lake with cheese and wine for adults",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "food"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://skiportillo.com/explora/actividades-y-eventos/"
+  ]
+ },
+ {
+  "id": "valle-nevado--apres-ski-events",
+  "resortId": "valle-nevado",
+  "kind": "apres",
+  "name": "Après-ski sessions",
+  "summary": "DJs and live music to close ski days, from the season opener on",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "live-music"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.vallenevado.com/",
+   "instagram": "https://www.instagram.com/valle_nevado/"
+  },
+  "sources": [
+   "https://www.vallenevado.com/es/actividades-y-eventos/"
+  ]
+ },
+ {
+  "id": "valle-nevado--pub-tres-puntas",
+  "resortId": "valle-nevado",
+  "kind": "live-music",
+  "name": "Pub Tres Puntas",
+  "summary": "Lively hotel pub with live music and pool tables",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.vallenevado.com/es/bares/"
+  ]
+ },
+ {
+  "id": "valle-nevado--if3-film-festival",
+  "resortId": "valle-nevado",
+  "kind": "event",
+  "name": "IF3 Mountain Film Festival",
+  "summary": "Freeride film night at Pub Tres Puntas",
+  "wow": 1,
+  "interests": [
+   "culture",
+   "festival"
+  ],
+  "months": [
+   8
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.vallenevado.com/es/actividades-y-eventos/"
+  ],
+  "datesNote": "Held in late August in 2026; 2027 date not announced yet"
+ },
+ {
+  "id": "valle-nevado--heliski",
+  "resortId": "valle-nevado",
+  "kind": "activity",
+  "name": "Heliski and snowcat",
+  "summary": "Heli and snowcat skiing in the Andes above Santiago",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "luxury"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.vallenevado.com/es/actividades-y-eventos/"
+  ]
+ },
+ {
+  "id": "cerro-catedral--fiesta-nacional-de-la-nieve",
+  "resortId": "cerro-catedral",
+  "kind": "event",
+  "name": "Fiesta Nacional de la Nieve",
+  "summary": "Argentina's national snow festival: torchlight descent, parade, fireworks",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "culture",
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://es.wikipedia.org/wiki/Fiesta_Nacional_de_la_Nieve"
+  ],
+  "datesNote": "A week at the start of the ski season, usually winter (June to August); 2027 dates not announced yet"
+ },
+ {
+  "id": "cerro-catedral--cerro-otto-revolving-confiteria",
+  "resortId": "cerro-catedral",
+  "kind": "restaurant",
+  "name": "Confitería Giratoria, Cerro Otto",
+  "summary": "Revolving cafe at 1,405 m, reached by cable car, over lakes and Andes",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "food",
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Cerro_Otto"
+  ]
+ },
+ {
+  "id": "cerro-catedral--llao-llao",
+  "resortId": "cerro-catedral",
+  "kind": "activity",
+  "name": "Llao Llao Hotel & Resort",
+  "summary": "Iconic 1940s lakeside resort with a spa and its famous afternoon tea",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "luxury",
+   "scenery"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.llaollao.com/"
+  },
+  "sources": [
+   "https://www.llaollao.com/",
+   "https://en.wikipedia.org/wiki/Llao_Llao_Hotel"
+  ]
+ },
+ {
+  "id": "cerro-catedral--cerveza-patagonia",
+  "resortId": "cerro-catedral",
+  "kind": "restaurant",
+  "name": "Cerveza Patagonia brewery",
+  "summary": "Bariloche brewery with tours and a restaurant hall",
+  "wow": 2,
+  "interests": [
+   "food",
+   "apres"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.cervezapatagonia.com.ar/"
+  },
+  "sources": [
+   "https://www.cervezapatagonia.com.ar/"
+  ]
+ },
+ {
+  "id": "cerro-catedral--rapanui-chocolate",
+  "resortId": "cerro-catedral",
+  "kind": "restaurant",
+  "name": "Rapanui",
+  "summary": "Artisanal Patagonian chocolate and ice cream on Mitre street",
+  "wow": 2,
+  "interests": [
+   "food",
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.rapanui.com.ar/"
+  },
+  "sources": [
+   "https://www.rapanui.com.ar/",
+   "https://en.wikipedia.org/wiki/San_Carlos_de_Bariloche"
+  ]
+ },
+ {
+  "id": "cerro-catedral--summit-dining-and-snowshoe",
+  "resortId": "cerro-catedral",
+  "kind": "activity",
+  "name": "Catedral summit views and snowshoeing",
+  "summary": "Gondola and chair to 1,927 m for views, high dining and guided snowshoeing",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family",
+   "food"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://catedralaltapatagonia.com/",
+   "instagram": "https://www.instagram.com/cerrocatedralok/"
+  },
+  "sources": [
+   "https://catedralaltapatagonia.com/actividades-peatones/"
+  ]
+ },
+ {
+  "id": "las-lenas--off-piste-terrain",
+  "resortId": "las-lenas",
+  "kind": "activity",
+  "name": "Las Leñas off-piste",
+  "summary": "Huge, famous off-piste terrain at South America's largest ski area",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "sports"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Las_Le%C3%B1as"
+  ]
+ },
+ {
+  "id": "las-lenas--piscis-casino",
+  "resortId": "las-lenas",
+  "kind": "club",
+  "name": "Casino at Hotel Piscis",
+  "summary": "Casino inside the Piscis Hotel, billed as the world's highest",
+  "wow": 2,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Las_Le%C3%B1as"
+  ]
+ },
+ {
+  "id": "queenstown--winter-pride",
+  "resortId": "queenstown",
+  "kind": "event",
+  "name": "Winter Pride",
+  "summary": "Southern Hemisphere's biggest LGBTQ+ winter festival, ten days of parties",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "nightlife",
+   "apres"
+  ],
+  "months": [
+   9
+  ],
+  "dates": {
+   "start": "2027-09-03",
+   "end": "2027-09-12",
+   "sourceUrl": "https://www.winterpride.co.nz/"
+  },
+  "links": {
+   "officialSite": "https://www.winterpride.co.nz/",
+   "instagram": "https://www.instagram.com/winterpridenz/"
+  },
+  "sources": [
+   "https://www.winterpride.co.nz/"
+  ]
+ },
+ {
+  "id": "queenstown--coronet-peak-night-ski",
+  "resortId": "queenstown",
+  "kind": "activity",
+  "name": "Coronet Peak Night Ski",
+  "summary": "Floodlit runs with a DJ and mulled wine at the base",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "dj",
+   "apres"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://experiencequeenstown.com/info/places/mountains/coronet-peak"
+  ]
+ },
+ {
+  "id": "queenstown--onsen-hot-pools",
+  "resortId": "queenstown",
+  "kind": "activity",
+  "name": "Onsen Hot Pools",
+  "summary": "Private cedar hot tubs on cliffs above the Shotover River",
+  "wow": 3,
+  "interests": [
+   "spa",
+   "scenery",
+   "luxury"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.onsen.co.nz/"
+  },
+  "sources": [
+   "https://www.onsen.co.nz/"
+  ]
+ },
+ {
+  "id": "queenstown--fergburger",
+  "resortId": "queenstown",
+  "kind": "restaurant",
+  "name": "Fergburger",
+  "summary": "The legendary Queenstown burger, open until 2:30 a.m.",
+  "wow": 3,
+  "interests": [
+   "food",
+   "nightlife"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.fergburger.com/"
+  },
+  "sources": [
+   "https://www.fergburger.com/"
+  ]
+ },
+ {
+  "id": "queenstown--shotover-jet",
+  "resortId": "queenstown",
+  "kind": "activity",
+  "name": "Shotover Jet",
+  "summary": "High-speed jet boat blasts through the Shotover canyons since 1965",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.shotoverjet.com/"
+  },
+  "sources": [
+   "https://www.shotoverjet.com/"
+  ]
+ },
+ {
+  "id": "queenstown--skyline-gondola-luge",
+  "resortId": "queenstown",
+  "kind": "activity",
+  "name": "Skyline Gondola and Luge",
+  "summary": "Gondola up Bob's Peak for lake views, luge tracks and a restaurant",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family",
+   "food"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Skyline_Queenstown"
+  ]
+ },
+ {
+  "id": "queenstown--the-world-bar",
+  "resortId": "queenstown",
+  "kind": "club",
+  "name": "The World Bar",
+  "summary": "Church Street institution with DJs, live music and teapot cocktails",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj",
+   "live-music"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.theworldbar.co.nz/"
+  },
+  "sources": [
+   "https://www.theworldbar.co.nz/"
+  ]
+ },
+ {
+  "id": "queenstown--snow-fest",
+  "resortId": "queenstown",
+  "kind": "event",
+  "name": "Snow Fest",
+  "summary": "NZSki's two-day season kick-off with a suitcase race and CBD rail jam",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "sports"
+  ],
+  "months": [
+   5,
+   6
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.odt.co.nz/regions/queenstown/resort-swapping-one-party-another"
+  ],
+  "datesNote": "Launched over King's Birthday weekend in 2026; 2027 dates not announced yet"
+ },
+ {
+  "id": "cardrona--cardrona-hotel",
+  "resortId": "cardrona",
+  "kind": "apres",
+  "name": "Cardrona Hotel",
+  "summary": "Historic hotel on the Crown Range with a famous garden bar",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "food",
+   "culture"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.cardronahotel.co.nz/"
+  },
+  "sources": [
+   "https://www.cardronahotel.co.nz/"
+  ]
+ },
+ {
+  "id": "cardrona--terrain-parks",
+  "resortId": "cardrona",
+  "kind": "activity",
+  "name": "Cardrona terrain parks",
+  "summary": "NZ's biggest ski area, with halfpipes and multiple parks",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {
+   "instagram": "https://www.instagram.com/cardronanz/"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Cardrona_Alpine_Resort"
+  ]
+ },
+ {
+  "id": "mount-hutt--opuke-thermal-pools",
+  "resortId": "mount-hutt",
+  "kind": "activity",
+  "name": "Ōpuke Thermal Pools",
+  "summary": "Methven hot pools with family and adults-only areas",
+  "wow": 2,
+  "interests": [
+   "spa",
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Methven,_New_Zealand"
+  ]
+ },
+ {
+  "id": "mount-hutt--blue-pub",
+  "resortId": "mount-hutt",
+  "kind": "apres",
+  "name": "The Blue Pub",
+  "summary": "Historic Methven pub at the heart of the ski town's social life",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "culture"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Methven,_New_Zealand"
+  ]
+ },
+ {
+  "id": "thredbo--flare-run-fireworks",
+  "resortId": "thredbo",
+  "kind": "event",
+  "name": "Flare Run and fireworks",
+  "summary": "Saturday night: experts ski the Supertrail with flares, then fireworks",
+  "wow": 3,
+  "interests": [
+   "family",
+   "scenery",
+   "sports"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.thredbo.com.au/activities/flare-run/",
+   "instagram": "https://www.instagram.com/thredboresort/"
+  },
+  "sources": [
+   "https://www.thredbo.com.au/activities/flare-run/"
+  ],
+  "datesNote": "Every Saturday night in winter; 2027 season dates not announced yet"
+ },
+ {
+  "id": "thredbo--kareela-snowcat-dinner",
+  "resortId": "thredbo",
+  "kind": "restaurant",
+  "name": "Kareela Snowcat Dinners",
+  "summary": "Snowcat after dark to Kareela Hutte for a four-course dinner, adults only",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "luxury",
+   "adventure"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.thredbo.com.au/activities/alpine-experiences/"
+  ]
+ },
+ {
+  "id": "thredbo--kareela-supper-club",
+  "resortId": "thredbo",
+  "kind": "event",
+  "name": "Kareela Supper Club",
+  "summary": "Champagne and canapes above the flare run and fireworks",
+  "wow": 2,
+  "interests": [
+   "luxury",
+   "scenery"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.thredbo.com.au/activities/alpine-experiences/"
+  ],
+  "datesNote": "Runs on winter nights alongside the flare run; 2027 dates not announced yet"
+ },
+ {
+  "id": "thredbo--family-flare-run",
+  "resortId": "thredbo",
+  "kind": "event",
+  "name": "Family Flare Run",
+  "summary": "Thursday dusk run down Friday Flat with LED flares and s'mores",
+  "wow": 2,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.thredbo.com.au/activities/flare-run/"
+  ],
+  "datesNote": "Thursday nights in winter; 2027 season dates not announced yet"
+ },
+ {
+  "id": "perisher--night-skiing",
+  "resortId": "perisher",
+  "kind": "activity",
+  "name": "Night skiing",
+  "summary": "Floodlit Front Valley on Tuesdays and Saturdays, bands or DJs after",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "live-music",
+   "dj"
+  ],
+  "months": [
+   7,
+   8,
+   9
+  ],
+  "dates": null,
+  "links": {
+   "instagram": "https://www.instagram.com/perisher_resort/"
+  },
+  "sources": [
+   "https://www.perisher.com.au/plan-your-trip/activities/night-skiing"
+  ]
+ },
+ {
+  "id": "perisher--sunrise-sessions",
+  "resortId": "perisher",
+  "kind": "activity",
+  "name": "Sunrise Sessions at Blue Cow",
+  "summary": "Hot breakfast then first tracks on fresh corduroy before opening",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "food"
+  ],
+  "months": [
+   7,
+   8
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.perisher.com.au/plan-your-trip/activities/sunrise-sessions-at-blue-cow"
+  ]
+ },
+ {
+  "id": "chamonix--aiguille-du-midi",
+  "resortId": "chamonix",
+  "kind": "activity",
+  "name": "Aiguille du Midi cable car",
+  "summary": "Ride to 3,842 m and stand in the glass Step into the Void box above a 1,000 m drop",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Aiguille_du_Midi"
+  ]
+ },
+ {
+  "id": "chamonix--montenvers-mer-de-glace",
+  "resortId": "chamonix",
+  "kind": "activity",
+  "name": "Montenvers railway to the Mer de Glace",
+  "summary": "Historic rack train from town up to the Mer de Glace glacier and its ice cave",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Montenvers_Railway"
+  ]
+ },
+ {
+  "id": "chamonix--chambre-neuf",
+  "resortId": "chamonix",
+  "kind": "apres",
+  "name": "Chambre Neuf",
+  "summary": "Chamonix's classic town après bar, often with a live band",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/chamonix/chamonix-eat-drink-party"
+  ]
+ },
+ {
+  "id": "chamonix--cafe-la-terrasse",
+  "resortId": "chamonix",
+  "kind": "live-music",
+  "name": "Café La Terrasse",
+  "summary": "Town bar and kitchen with live music seven nights a week",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "nightlife",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/chamonix/chamonix-eat-drink-party"
+  ]
+ },
+ {
+  "id": "chamonix--le-hameau-albert-1er",
+  "resortId": "chamonix",
+  "kind": "restaurant",
+  "name": "Le Hameau Albert 1er",
+  "summary": "Michelin-starred fine dining in a historic Chamonix hotel",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "food",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/chamonix/chamonix-eat-drink-party"
+  ]
+ },
+ {
+  "id": "courchevel--les-caves",
+  "resortId": "courchevel",
+  "kind": "club",
+  "name": "Les Caves de Courchevel",
+  "summary": "Iconic 1850 nightclub with international DJs and VIP tables until 5am",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "dj",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://les3vallees.com/en/experiences/where-to-go-out-in-courchevel",
+   "https://scottdunn.com/france/guides/courchevel-insiders-guide/bars-and-nightclubs"
+  ]
+ },
+ {
+  "id": "courchevel--le-1947-cheval-blanc",
+  "resortId": "courchevel",
+  "kind": "restaurant",
+  "name": "Le 1947 à Cheval Blanc",
+  "summary": "Yannick Alléno's three-Michelin-star table, Courchevel's only one",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "luxury",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://courchevel.com/en/a/le-1947-a-cheval-blanc-185096/"
+  ]
+ },
+ {
+  "id": "courchevel--la-mangeoire",
+  "resortId": "courchevel",
+  "kind": "apres",
+  "name": "La Mangeoire",
+  "summary": "1850 restaurant that turns into a piano bar with dancing on tables",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "live-music",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://scottdunn.com/france/guides/courchevel-insiders-guide/bars-and-nightclubs"
+  ]
+ },
+ {
+  "id": "courchevel--la-ferme-saint-amour",
+  "resortId": "courchevel",
+  "kind": "club",
+  "name": "La Ferme Saint-Amour",
+  "summary": "Fine dining that rolls into live shows and DJ sets in an Alpine farmhouse",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj",
+   "fine-dining"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://les3vallees.com/en/experiences/where-to-go-out-in-courchevel"
+  ]
+ },
+ {
+  "id": "courchevel--pyrotechnic-festival",
+  "resortId": "courchevel",
+  "kind": "event",
+  "name": "Courchevel Pyrotechnic Art Festival",
+  "summary": "International fireworks competition lighting up the mountains each winter",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "family",
+   "culture"
+  ],
+  "months": [
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://courchevel.com/en/festival-pyrotechnique-de-courchevel/",
+   "https://chaletline.co.uk/blog/2022/02/its-fireworks-fortnight-in-courchevel/"
+  ],
+  "datesNote": "Usually mid-February to mid-March; 2027 dates not announced yet"
+ },
+ {
+  "id": "courchevel--aquamotion",
+  "resortId": "courchevel",
+  "kind": "activity",
+  "name": "Aquamotion",
+  "summary": "Huge aquatic centre with a looping wild-water slide, surf pool and spa",
+  "wow": 2,
+  "interests": [
+   "family",
+   "spa"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.archilovers.com/projects/190840/aquamotion-courchevel.html"
+  ]
+ },
+ {
+  "id": "courchevel--funky-fox",
+  "resortId": "courchevel",
+  "kind": "live-music",
+  "name": "Funky Fox",
+  "summary": "Lively 1650 pub with live concerts and DJ sets",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://les3vallees.com/en/experiences/where-to-go-out-in-courchevel"
+  ]
+ },
+ {
+  "id": "meribel--la-folie-douce",
+  "resortId": "meribel",
+  "kind": "apres",
+  "name": "La Folie Douce Méribel-Courchevel",
+  "summary": "Cabaret, DJs and champagne on the slopes at the Saulire Express mid-station",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/meribel-courchevel.html"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/meribel-courchevel.html",
+   "https://www.seemeribel.com/nightlife/apres/apres-ski-in-meribel"
+  ]
+ },
+ {
+  "id": "meribel--le-rond-point",
+  "resortId": "meribel",
+  "kind": "apres",
+  "name": "Le Rond Point (The Ronnie)",
+  "summary": "Méribel's legendary slopeside après terrace above La Chaudanne",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/meribel/restaurants-apres-ski-nightlife",
+   "https://www.seemeribel.com/nightlife/apres/apres-ski-in-meribel"
+  ]
+ },
+ {
+  "id": "meribel--lodge-du-village",
+  "resortId": "meribel",
+  "kind": "apres",
+  "name": "Lodge du Village (LDV)",
+  "summary": "Méribel's most iconic après and late-night venue",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.seemeribel.com/nightlife/apres/apres-ski-in-meribel"
+  ]
+ },
+ {
+  "id": "meribel--sullys",
+  "resortId": "meribel",
+  "kind": "club",
+  "name": "O'Sullivan's / Sully's",
+  "summary": "Underground pub and nightclub with big-name DJs until 4am",
+  "wow": 2,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.seemeribel.com/nightlife/apres/apres-ski-in-meribel",
+   "https://snowcarbon.co.uk/ski-resorts/meribel/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "meribel--jacks-bar",
+  "resortId": "meribel",
+  "kind": "live-music",
+  "name": "Jack's Bar",
+  "summary": "All-day hangout with live music and the famous Bad Boy burger",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.seemeribel.com/nightlife/apres/apres-ski-in-meribel"
+  ]
+ },
+ {
+  "id": "meribel--lekrin",
+  "resortId": "meribel",
+  "kind": "restaurant",
+  "name": "L'Ekrin",
+  "summary": "Michelin-starred fine dining in Méribel",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/meribel/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "val-thorens--la-folie-douce",
+  "resortId": "val-thorens",
+  "kind": "apres",
+  "name": "La Folie Douce Val Thorens",
+  "summary": "High-altitude cabaret and DJ party on the slopes at Plein Sud",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/home-folie-douce-val-thorens.html",
+   "instagram": "https://www.instagram.com/lafoliedouce.vt/"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/home-folie-douce-val-thorens.html",
+   "https://www.skiclub.co.uk/best-ski-resorts-in-europe-for-nightlife/"
+  ]
+ },
+ {
+  "id": "val-thorens--malaysia",
+  "resortId": "val-thorens",
+  "kind": "club",
+  "name": "Malaysia",
+  "summary": "Huge underground club for dancing until dawn",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.skiclub.co.uk/best-ski-resorts-in-europe-for-nightlife/",
+   "https://festivalthovalthorens.com/"
+  ]
+ },
+ {
+  "id": "val-thorens--bar-360",
+  "resortId": "val-thorens",
+  "kind": "apres",
+  "name": "360° Bar",
+  "summary": "Panoramic mountain terrace party with DJs and a young crowd",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "scenery"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://festivalthovalthorens.com/"
+  ]
+ },
+ {
+  "id": "val-thorens--belgian-week",
+  "resortId": "val-thorens",
+  "kind": "event",
+  "name": "Belgian Week",
+  "summary": "Week-long ski and music festival with open-air stages at 2,400 m",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://entrytickets.be/belgian-week/belgian-week-2027"
+  ],
+  "datesNote": "2027 edition runs from late January to 6 February; check the official site for the exact start"
+ },
+ {
+  "id": "val-thorens--european-gay-ski-week",
+  "resortId": "val-thorens",
+  "kind": "event",
+  "name": "European Gay Ski Week",
+  "summary": "Europe's largest LGBTQIA+ ski and music festival: DJs, cabaret, club nights",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-13",
+   "end": "2027-03-20",
+   "sourceUrl": "https://www.eglsf.info/event/european-gay-ski-week-52"
+  },
+  "links": {
+   "officialSite": "https://www.europeangayskiweek.com/"
+  },
+  "sources": [
+   "https://www.eglsf.info/event/european-gay-ski-week-52"
+  ]
+ },
+ {
+  "id": "val-thorens--festivaltho",
+  "resortId": "val-thorens",
+  "kind": "event",
+  "name": "Festivaltho",
+  "summary": "Electronic festival since 2008: ski by day, bass by night",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "dj",
+   "apres"
+  ],
+  "months": [
+   3
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://festivalthovalthorens.com/"
+  },
+  "sources": [
+   "https://festivalthovalthorens.com/",
+   "https://www.festivalenfrance.com/festival/festivaltho"
+  ],
+  "datesNote": "Usually mid-March; 2027 dates not announced yet"
+ },
+ {
+  "id": "val-thorens--la-tyrolienne",
+  "resortId": "val-thorens",
+  "kind": "activity",
+  "name": "La Tyrolienne zip line",
+  "summary": "1.3 km zip line from 3,230 m, 250 m above the glacier",
+  "wow": 2,
+  "interests": [
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.inthesnow.com/highest-zip-wire-in-europe-opening-at-val-thorens/"
+  ]
+ },
+ {
+  "id": "val-thorens--toboggan-run",
+  "resortId": "val-thorens",
+  "kind": "activity",
+  "name": "6 km toboggan run",
+  "summary": "One of the Alps' longest sledge runs, starting at 3,000 m",
+  "wow": 2,
+  "interests": [
+   "family",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.alpineanswers.co.uk/blog/best-toboggan-runs-in-the-alps",
+   "https://www.inthesnow.com/highest-zip-wire-in-europe-opening-at-val-thorens/"
+  ]
+ },
+ {
+  "id": "val-disere--la-folie-douce",
+  "resortId": "val-disere",
+  "kind": "apres",
+  "name": "La Folie Douce Val d'Isère",
+  "summary": "The original Folie Douce: cabaret, DJs and dancing on tables at La Daille",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   11,
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/val-isere.html",
+   "instagram": "https://www.instagram.com/foliedoucevaldisere/"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/val-isere.html",
+   "https://snowcarbon.co.uk/ski-resorts/val-disere/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "val-disere--cocorico",
+  "resortId": "val-disere",
+  "kind": "apres",
+  "name": "Cocorico",
+  "summary": "Legendary piste-side après with live music and a giant terrace",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://scottdunn.com/france/guides/val-disere-insiders-guide/bars-and-nightclubs",
+   "https://snowcarbon.co.uk/ski-resorts/val-disere/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "val-disere--dicks-tea-bar",
+  "resortId": "val-disere",
+  "kind": "club",
+  "name": "Dick's Tea Bar",
+  "summary": "Famous nightclub with live music until 5am",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "live-music",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://scottdunn.com/france/guides/val-disere-insiders-guide/bars-and-nightclubs"
+  ]
+ },
+ {
+  "id": "val-disere--criterium-premiere-neige",
+  "resortId": "val-disere",
+  "kind": "event",
+  "name": "Critérium de la Première Neige",
+  "summary": "Alpine Ski World Cup races on the Face de Bellevarde",
+  "wow": 2,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-12",
+   "end": "2026-12-13",
+   "sourceUrl": "https://www.valsport.org/en/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.valsport.org/en/"
+  ]
+ },
+ {
+  "id": "val-disere--latelier-dedmond",
+  "resortId": "val-disere",
+  "kind": "restaurant",
+  "name": "L'Atelier d'Edmond",
+  "summary": "Two-Michelin-star chalet restaurant in Le Fornet",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/val-disere/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "val-disere--la-baraque",
+  "resortId": "val-disere",
+  "kind": "restaurant",
+  "name": "La Baraque",
+  "summary": "Welcoming main-street favourite with live folk music",
+  "wow": 1,
+  "interests": [
+   "food",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/val-disere/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "val-disere--victors",
+  "resortId": "val-disere",
+  "kind": "live-music",
+  "name": "Victor's",
+  "summary": "Chic cocktail lounge with regular live jazz",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://scottdunn.com/france/guides/val-disere-insiders-guide/bars-and-nightclubs"
+  ]
+ },
+ {
+  "id": "tignes--mountain-shaker",
+  "resortId": "tignes",
+  "kind": "event",
+  "name": "Mountain Shaker",
+  "summary": "Tignes' big freestyle week: Big Air World Cup plus free concerts",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "sports",
+   "concert"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-17",
+   "end": "2027-01-22",
+   "sourceUrl": "https://en.tignes.net/events/highlights/mountain-shaker"
+  },
+  "links": {
+   "officialSite": "https://tignesmountainshaker.net/"
+  },
+  "sources": [
+   "https://en.tignes.net/events/highlights/mountain-shaker"
+  ]
+ },
+ {
+  "id": "tignes--spring-break",
+  "resortId": "tignes",
+  "kind": "event",
+  "name": "Tignes Spring Break",
+  "summary": "Two-week season finale with mountain-stage concerts and DJ sets",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "dj",
+   "concert"
+  ],
+  "months": [
+   4,
+   5
+  ],
+  "dates": {
+   "start": "2027-04-17",
+   "end": "2027-05-02",
+   "sourceUrl": "https://en.tignes.net/events/highlights/spring-break"
+  },
+  "links": {},
+  "sources": [
+   "https://en.tignes.net/events/highlights/spring-break"
+  ]
+ },
+ {
+  "id": "tignes--ice-diving",
+  "resortId": "tignes",
+  "kind": "activity",
+  "name": "Ice diving in Lac de Tignes",
+  "summary": "Dive or freedive beneath the frozen lake's ice",
+  "wow": 3,
+  "interests": [
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.tignes.net/activities/winter/ice-diving"
+  ]
+ },
+ {
+  "id": "tignes--cocorico-val-claret",
+  "resortId": "tignes",
+  "kind": "apres",
+  "name": "Cocorico Val Claret",
+  "summary": "Table-dancing straight off the slopes with live music",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "live-music"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/tignes/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "tignes--loop-bar",
+  "resortId": "tignes",
+  "kind": "apres",
+  "name": "Loop Bar",
+  "summary": "Ski-in, ski-out après spot at the foot of the Trolles slope",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.seetignes.com/nightlife/",
+   "https://www.skiclub.co.uk/best-ski-resorts-in-europe-for-nightlife/"
+  ]
+ },
+ {
+  "id": "tignes--le-brasero",
+  "resortId": "tignes",
+  "kind": "live-music",
+  "name": "Le Brasero",
+  "summary": "Ski-in Le Lavachet bar with live music and burgers",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/tignes/restaurants-apres-ski-nightlife",
+   "https://www.seetignes.com/nightlife/"
+  ]
+ },
+ {
+  "id": "tignes--lo-soli",
+  "resortId": "tignes",
+  "kind": "restaurant",
+  "name": "Lo Soli",
+  "summary": "Smart Italian at the top of the Chaudannes chair",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/tignes/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "tignes--le-lagon",
+  "resortId": "tignes",
+  "kind": "activity",
+  "name": "Le Lagon",
+  "summary": "Pool, fitness and wellness centre in Tignes",
+  "wow": 1,
+  "interests": [
+   "spa",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.tignes.net/"
+  ]
+ },
+ {
+  "id": "megeve--flocons-de-sel",
+  "resortId": "megeve",
+  "kind": "restaurant",
+  "name": "Flocons de Sel",
+  "summary": "Emmanuel Renaut's three-Michelin-star table and spa above the village",
+  "wow": 3,
+  "interests": [
+   "fine-dining",
+   "luxury",
+   "spa"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.floconsdesel.com/en/"
+  },
+  "sources": [
+   "https://www.floconsdesel.com/en/"
+  ]
+ },
+ {
+  "id": "megeve--polo-masters",
+  "resortId": "megeve",
+  "kind": "event",
+  "name": "Polo Masters",
+  "summary": "International polo tournament played on snow",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "luxury"
+  ],
+  "months": [
+   1
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Meg%C3%A8ve"
+  ],
+  "datesNote": "Usually in January; 2027 dates not announced yet"
+ },
+ {
+  "id": "megeve--la-folie-douce-saint-gervais",
+  "resortId": "megeve",
+  "kind": "apres",
+  "name": "La Folie Douce Saint-Gervais Megève",
+  "summary": "Folie Douce party at the top of the Mont-Joux chair, skiers only",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/saint-gervais-home.html"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/saint-gervais-home.html"
+  ]
+ },
+ {
+  "id": "megeve--cocoon-club",
+  "resortId": "megeve",
+  "kind": "club",
+  "name": "Cocoon Club",
+  "summary": "One of Megève's late-night clubs",
+  "wow": 1,
+  "interests": [
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.megeve-tourisme.fr/en/activites/restaurants-et-vie-nocturne/"
+  ]
+ },
+ {
+  "id": "megeve--edmonds",
+  "resortId": "megeve",
+  "kind": "club",
+  "name": "Edmond's",
+  "summary": "Megève nightclub for dancing after dinner",
+  "wow": 1,
+  "interests": [
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.megeve-tourisme.fr/en/activites/restaurants-et-vie-nocturne/"
+  ]
+ },
+ {
+  "id": "megeve--christmas-tree-lighting",
+  "resortId": "megeve",
+  "kind": "event",
+  "name": "Christmas tree lighting",
+  "summary": "Village square lights up with music to open the festive season",
+  "wow": 1,
+  "interests": [
+   "family",
+   "culture"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-05",
+   "end": "2026-12-05",
+   "sourceUrl": "https://www.megeve-tourisme.fr/en/temps-fort/illumination-du-sapin/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.megeve-tourisme.fr/en/temps-fort/illumination-du-sapin/"
+  ]
+ },
+ {
+  "id": "les-arcs--la-folie-douce",
+  "resortId": "les-arcs",
+  "kind": "apres",
+  "name": "La Folie Douce Les Arcs",
+  "summary": "Daily themed parties, cabaret and DJs at Arc 1800's Espace Mille8",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/les-arcs.html"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/les-arcs.html"
+  ]
+ },
+ {
+  "id": "les-arcs--film-festival",
+  "resortId": "les-arcs",
+  "kind": "event",
+  "name": "Les Arcs Film Festival",
+  "summary": "European cinema festival in the snow, with screenings and industry events",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "festival"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-12",
+   "end": "2026-12-19",
+   "sourceUrl": "https://www.lesarcs-filmfest.com/en"
+  },
+  "links": {
+   "officialSite": "https://www.lesarcs-filmfest.com/en"
+  },
+  "sources": [
+   "https://www.lesarcs-filmfest.com/en",
+   "https://www.lesarcs.com/en/"
+  ]
+ },
+ {
+  "id": "les-arcs--winter-festislack",
+  "resortId": "les-arcs",
+  "kind": "event",
+  "name": "Les Arcs Winter Festislack",
+  "summary": "International highline festival above the valley at Arc 1600",
+  "wow": 1,
+  "interests": [
+   "festival",
+   "adventure"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lesarcs.com/en/what-do-les-arcs/all-events/les-arcs-winter-festislack"
+  ],
+  "datesNote": "Usually early to mid April; check the official site for 2027 dates"
+ },
+ {
+  "id": "les-arcs--luge-1800",
+  "resortId": "les-arcs",
+  "kind": "activity",
+  "name": "Luge 1800 sledge run",
+  "summary": "Family sledge run with a rainbow-lit tunnel, open late on Thursdays",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.lesarcs.com/en/what-there-do-les-arcs/winter-activities-les-arcs/sledding-les-arcs"
+  ]
+ },
+ {
+  "id": "les-arcs--wool-socks-pub",
+  "resortId": "les-arcs",
+  "kind": "apres",
+  "name": "The Wool Sock's Pub",
+  "summary": "Irish bar on the snow at Arc 1950",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/les-arcs/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "alpe-dhuez--tomorrowland-winter",
+  "resortId": "alpe-dhuez",
+  "kind": "event",
+  "name": "Tomorrowland Winter",
+  "summary": "Week-long Tomorrowland with seven stages across the ski area",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   3
+  ],
+  "dates": {
+   "start": "2027-03-20",
+   "end": "2027-03-27",
+   "sourceUrl": "https://www.alpedhuez.com/fr/agenda/tomorrowland-winter/"
+  },
+  "links": {},
+  "sources": [
+   "https://www.alpedhuez.com/fr/agenda/tomorrowland-winter/",
+   "https://snowstash.com/news/2026/06/tomorrowland-winter-2027-alpe-d-huez-dates"
+  ]
+ },
+ {
+  "id": "alpe-dhuez--la-folie-douce",
+  "resortId": "alpe-dhuez",
+  "kind": "apres",
+  "name": "La Folie Douce Alpe d'Huez",
+  "summary": "Folie Douce slope party at the Marmottes chair",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.lafoliedouce.com/en/alpe-huez.html"
+  },
+  "sources": [
+   "https://www.lafoliedouce.com/en/alpe-huez.html"
+  ]
+ },
+ {
+  "id": "alpe-dhuez--comedy-film-festival",
+  "resortId": "alpe-dhuez",
+  "kind": "event",
+  "name": "International Comedy Film Festival",
+  "summary": "30th edition with free screenings of new French comedies",
+  "wow": 2,
+  "interests": [
+   "culture",
+   "festival",
+   "family"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-18",
+   "end": "2027-01-24",
+   "sourceUrl": "https://www.alpedhuez.com/fr/agenda/festival-du-film-de-comedie/"
+  },
+  "links": {
+   "officialSite": "https://www.festival-alpedhuez.com/"
+  },
+  "sources": [
+   "https://www.alpedhuez.com/fr/agenda/festival-du-film-de-comedie/"
+  ]
+ },
+ {
+  "id": "alpe-dhuez--sporting",
+  "resortId": "alpe-dhuez",
+  "kind": "live-music",
+  "name": "Sporting",
+  "summary": "Bar known for good live bands",
+  "wow": 1,
+  "interests": [
+   "live-music",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/alpe-dhuez/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "alpe-dhuez--chalet-du-lac-besson",
+  "resortId": "alpe-dhuez",
+  "kind": "restaurant",
+  "name": "Chalet du Lac Besson",
+  "summary": "Open-fire grills on the edge of a frozen lake",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/alpe-dhuez/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "zermatt--zermatt-unplugged",
+  "resortId": "zermatt",
+  "kind": "event",
+  "name": "Zermatt Unplugged",
+  "summary": "Intimate spring music festival under the Matterhorn",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "concert",
+   "live-music"
+  ],
+  "months": [
+   4
+  ],
+  "dates": {
+   "start": "2027-04-06",
+   "end": "2027-04-10",
+   "sourceUrl": "https://zermatt-unplugged.ch/en/"
+  },
+  "links": {
+   "officialSite": "https://zermatt-unplugged.ch/en/",
+   "instagram": "https://www.instagram.com/zermattunplugged/"
+  },
+  "sources": [
+   "https://zermatt-unplugged.ch/en/"
+  ]
+ },
+ {
+  "id": "zermatt--hennu-stall",
+  "resortId": "zermatt",
+  "kind": "apres",
+  "name": "Hennu Stall",
+  "summary": "Slopeside DJ après on the Furi run, dance until your legs give out",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.hennustall.ch/"
+  },
+  "sources": [
+   "https://www.hennustall.ch/"
+  ]
+ },
+ {
+  "id": "zermatt--chez-vrony",
+  "resortId": "zermatt",
+  "kind": "restaurant",
+  "name": "Chez Vrony",
+  "summary": "Century-old family hut in Findeln with organic Alpine food and Matterhorn views",
+  "wow": 3,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://www.chezvrony.ch/"
+  },
+  "sources": [
+   "https://www.chezvrony.ch/"
+  ]
+ },
+ {
+  "id": "zermatt--gornergrat",
+  "resortId": "zermatt",
+  "kind": "activity",
+  "name": "Gornergrat Railway",
+  "summary": "Rack railway since 1898 to 3,089 m facing the Matterhorn",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Gornergrat_Railway"
+  ]
+ },
+ {
+  "id": "zermatt--matterhorn-glacier-paradise",
+  "resortId": "zermatt",
+  "kind": "activity",
+  "name": "Matterhorn Glacier Paradise",
+  "summary": "Europe's highest mountain station at 3,883 m with a glacier ice palace",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://zermatt.swiss/en/p/matterhorn-glacier-paradise-01tVj000004sMjCIAU"
+  ]
+ },
+ {
+  "id": "verbier--xtreme-verbier",
+  "resortId": "verbier",
+  "kind": "event",
+  "name": "Xtreme Verbier",
+  "summary": "Freeride World Tour final on the 50-degree face of the Bec des Rosses",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://seeverbier.com/events/calendar/freeride-world-tour-xtreme-verbier"
+  ],
+  "datesNote": "Usually late March; 2027 dates not announced yet"
+ },
+ {
+  "id": "verbier--polaris-festival",
+  "resortId": "verbier",
+  "kind": "event",
+  "name": "Polaris Festival",
+  "summary": "Two-weekend electronic festival at an Alpine venue reached by gondola",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   11
+  ],
+  "dates": {
+   "start": "2026-11-20",
+   "end": "2026-11-28",
+   "sourceUrl": "https://www.polarisfestival.ch/"
+  },
+  "links": {
+   "officialSite": "https://www.polarisfestival.ch/",
+   "instagram": "https://www.instagram.com/polarisfestival/"
+  },
+  "sources": [
+   "https://www.polarisfestival.ch/"
+  ]
+ },
+ {
+  "id": "verbier--farinet",
+  "resortId": "verbier",
+  "kind": "apres",
+  "name": "Farinet",
+  "summary": "Early live bands on a rocking sun terrace, then a DJ lounge",
+  "wow": 3,
+  "interests": [
+   "apres",
+   "live-music",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/verbier/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "verbier--le-rouge",
+  "resortId": "verbier",
+  "kind": "apres",
+  "name": "Le Rouge",
+  "summary": "Restaurant and club with live DJs and a big sunny terrace",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "dj",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/verbier/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "verbier--la-marmotte",
+  "resortId": "verbier",
+  "kind": "restaurant",
+  "name": "La Marmotte",
+  "summary": "Dinner reached by skidoo, then a torch-lit sledge ride down",
+  "wow": 2,
+  "interests": [
+   "food",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/verbier/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "verbier--pub-mont-fort",
+  "resortId": "verbier",
+  "kind": "apres",
+  "name": "Pub Mont Fort",
+  "summary": "Verbier's oldest pub, busy with a younger crowd",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/verbier/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "st-moritz--white-turf",
+  "resortId": "st-moritz",
+  "kind": "event",
+  "name": "White Turf",
+  "summary": "Horse racing on frozen Lake St. Moritz since 1907; race Sundays 7, 14 and 21 February",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "luxury",
+   "culture"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-07",
+   "end": "2027-02-21",
+   "sourceUrl": "https://www.whiteturf.ch/en/"
+  },
+  "links": {
+   "officialSite": "https://www.whiteturf.ch/en/",
+   "instagram": "https://www.instagram.com/white_turf/"
+  },
+  "sources": [
+   "https://www.whiteturf.ch/en/"
+  ]
+ },
+ {
+  "id": "st-moritz--snow-polo-world-cup",
+  "resortId": "st-moritz",
+  "kind": "event",
+  "name": "Snow Polo World Cup St. Moritz",
+  "summary": "The world's only high-goal polo tournament on snow, on the frozen lake",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "luxury"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-22",
+   "end": "2027-01-24",
+   "sourceUrl": "https://www.snowpolo-stmoritz.com/"
+  },
+  "links": {
+   "officialSite": "https://www.snowpolo-stmoritz.com/"
+  },
+  "sources": [
+   "https://www.snowpolo-stmoritz.com/"
+  ]
+ },
+ {
+  "id": "st-moritz--cresta-run",
+  "resortId": "st-moritz",
+  "kind": "activity",
+  "name": "Cresta Run",
+  "summary": "Historic head-first natural ice toboggan run",
+  "wow": 3,
+  "interests": [
+   "adventure",
+   "sports",
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Cresta_Run"
+  ]
+ },
+ {
+  "id": "st-moritz--olympia-bob-run",
+  "resortId": "st-moritz",
+  "kind": "activity",
+  "name": "Olympia Bob Run",
+  "summary": "The world's last natural-ice bob run, rebuilt from snow every winter",
+  "wow": 2,
+  "interests": [
+   "sports",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/St._Moritz"
+  ]
+ },
+ {
+  "id": "st-moritz--preda-bergun-sled-run",
+  "resortId": "st-moritz",
+  "kind": "activity",
+  "name": "Preda to Bergün sled run",
+  "summary": "Floodlit 6 km sledge run reached by scenic train",
+  "wow": 2,
+  "interests": [
+   "family",
+   "adventure",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.alpineanswers.co.uk/blog/best-toboggan-runs-in-the-alps"
+  ]
+ },
+ {
+  "id": "davos-klosters--spengler-cup",
+  "resortId": "davos-klosters",
+  "kind": "event",
+  "name": "Spengler Cup",
+  "summary": "The world's oldest club ice hockey tournament, held over Christmas week",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-26",
+   "end": "2026-12-31",
+   "sourceUrl": "https://www.spenglercup.ch/en/"
+  },
+  "links": {
+   "officialSite": "https://www.spenglercup.ch/en/"
+  },
+  "sources": [
+   "https://www.spenglercup.ch/en/"
+  ]
+ },
+ {
+  "id": "davos-klosters--songbird-festival",
+  "resortId": "davos-klosters",
+  "kind": "event",
+  "name": "Songbird Festival",
+  "summary": "Switzerland's largest singer-songwriter festival in mountain huts and chalets",
+  "wow": 2,
+  "interests": [
+   "festival",
+   "live-music",
+   "concert"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-04",
+   "end": "2026-12-19",
+   "sourceUrl": "https://www.songbirdfestival.ch/"
+  },
+  "links": {
+   "officialSite": "https://www.songbirdfestival.ch/"
+  },
+  "sources": [
+   "https://www.songbirdfestival.ch/",
+   "https://www.davos.ch/en/"
+  ]
+ },
+ {
+  "id": "davos-klosters--natural-ice-rink",
+  "resortId": "davos-klosters",
+  "kind": "activity",
+  "name": "Davos natural ice rink",
+  "summary": "Skate on Europe's largest natural ice rink",
+  "wow": 2,
+  "interests": [
+   "family",
+   "sports"
+  ],
+  "months": [
+   12,
+   1,
+   2
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Davos"
+  ]
+ },
+ {
+  "id": "davos-klosters--kirchner-museum",
+  "resortId": "davos-klosters",
+  "kind": "activity",
+  "name": "Kirchner Museum",
+  "summary": "Museum for expressionist Ernst Ludwig Kirchner, who painted Davos",
+  "wow": 1,
+  "interests": [
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Davos"
+  ]
+ },
+ {
+  "id": "davos-klosters--schatzalp",
+  "resortId": "davos-klosters",
+  "kind": "activity",
+  "name": "Schatzalp",
+  "summary": "Slow-paced private ski hill above Davos owned by the Schatzalp Hotel",
+  "wow": 1,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Davos"
+  ]
+ },
+ {
+  "id": "laax--laax-open",
+  "resortId": "laax",
+  "kind": "event",
+  "name": "LAAX OPEN",
+  "summary": "Freestyle World Cup in the world's largest halfpipe, with live concerts",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival",
+   "concert"
+  ],
+  "months": [
+   1
+  ],
+  "dates": {
+   "start": "2027-01-13",
+   "end": "2027-01-16",
+   "sourceUrl": "https://laaxopen.com/"
+  },
+  "links": {
+   "officialSite": "https://laaxopen.com/"
+  },
+  "sources": [
+   "https://laaxopen.com/",
+   "https://www.graubuenden.ch/en/events/laax-open-2027"
+  ]
+ },
+ {
+  "id": "laax--indy-bar",
+  "resortId": "laax",
+  "kind": "live-music",
+  "name": "Indy Bar",
+  "summary": "Urban bar with weekend DJ sets and bands, plus a skate miniramp",
+  "wow": 2,
+  "interests": [
+   "live-music",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.laax.com/en/restaurant/indy"
+  ]
+ },
+ {
+  "id": "laax--legna-bar",
+  "resortId": "laax",
+  "kind": "apres",
+  "name": "Legna Bar",
+  "summary": "Après with a big sun terrace at the Flims valley station",
+  "wow": 1,
+  "interests": [
+   "apres"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.laax.com/en/restaurant/legna"
+  ]
+ },
+ {
+  "id": "laax--stalla-alp-nagens",
+  "resortId": "laax",
+  "kind": "restaurant",
+  "name": "Stalla Alp Nagens",
+  "summary": "Rustic cowshed restaurant at 1,980 m with house cheese and fondue",
+  "wow": 2,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.laax.com/en/restaurant/stalla-alp-nagens"
+  ]
+ },
+ {
+  "id": "laax--vorab-restaurant",
+  "resortId": "laax",
+  "kind": "restaurant",
+  "name": "Vorab Restaurant",
+  "summary": "LAAX's highest restaurant at 2,570 m",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.laax.com/en/food-drinks"
+  ]
+ },
+ {
+  "id": "saas-fee--revolving-restaurant",
+  "resortId": "saas-fee",
+  "kind": "restaurant",
+  "name": "Allalin revolving restaurant",
+  "summary": "The world's highest revolving restaurant at 3,500 m",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Saas-Fee",
+   "https://snowcarbon.co.uk/ski-resorts/saas-fee/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "saas-fee--metro-alpin",
+  "resortId": "saas-fee",
+  "kind": "activity",
+  "name": "Metro Alpin",
+  "summary": "The world's highest underground funicular",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Saas-Fee"
+  ]
+ },
+ {
+  "id": "saas-fee--popcorn",
+  "resortId": "saas-fee",
+  "kind": "apres",
+  "name": "Popcorn",
+  "summary": "Lively late après hangout loved by snowboarders, later a disco",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "nightlife",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/saas-fee/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "saas-fee--last-christmas-monument",
+  "resortId": "saas-fee",
+  "kind": "activity",
+  "name": "Last Christmas monument",
+  "summary": "Monument to Wham!'s 1984 Last Christmas video, shot in Saas-Fee",
+  "wow": 1,
+  "interests": [
+   "culture"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Saas-Fee"
+  ]
+ },
+ {
+  "id": "engelberg--ski-jumping-world-cup",
+  "resortId": "engelberg",
+  "kind": "event",
+  "name": "FIS Ski Jumping World Cup Engelberg",
+  "summary": "Pre-Christmas World Cup ski jumping on the Titlis hill",
+  "wow": 3,
+  "interests": [
+   "sports"
+  ],
+  "months": [
+   12
+  ],
+  "dates": {
+   "start": "2026-12-18",
+   "end": "2026-12-20",
+   "sourceUrl": "https://www.weltcup-engelberg.ch/"
+  },
+  "links": {
+   "officialSite": "https://www.weltcup-engelberg.ch/"
+  },
+  "sources": [
+   "https://www.weltcup-engelberg.ch/"
+  ]
+ },
+ {
+  "id": "engelberg--titlis-rotair",
+  "resortId": "engelberg",
+  "kind": "activity",
+  "name": "Titlis Rotair and Cliff Walk",
+  "summary": "World's first rotating cable car, then Europe's highest suspension bridge",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Titlis"
+  ]
+ },
+ {
+  "id": "engelberg--titlis-glacier-cave",
+  "resortId": "engelberg",
+  "kind": "activity",
+  "name": "Titlis Glacier Cave",
+  "summary": "Illuminated ice cave inside the Klein Titlis station",
+  "wow": 2,
+  "interests": [
+   "scenery",
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Titlis"
+  ]
+ },
+ {
+  "id": "engelberg--yucatan",
+  "resortId": "engelberg",
+  "kind": "apres",
+  "name": "Yucatan",
+  "summary": "Busy bar where locals and visitors share tables over local beer",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "nightlife",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.bellevue-terminus.ch/de/restaurant-und-bar"
+  ]
+ },
+ {
+  "id": "engelberg--gerschnialp-sled-run",
+  "resortId": "engelberg",
+  "kind": "activity",
+  "name": "Gerschnialp sled run",
+  "summary": "Family sledging down the old bob run to the valley",
+  "wow": 1,
+  "interests": [
+   "family"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.engelberg.ch/en/winter/sledding/"
+  ]
+ },
+ {
+  "id": "gstaad--sommets-musicaux",
+  "resortId": "gstaad",
+  "kind": "event",
+  "name": "Sommets Musicaux de Gstaad",
+  "summary": "Classical festival led by Renaud Capuçon in Gstaad, Saanen and Rougemont",
+  "wow": 2,
+  "interests": [
+   "concert",
+   "culture",
+   "festival"
+  ],
+  "months": [
+   1,
+   2
+  ],
+  "dates": {
+   "start": "2027-01-29",
+   "end": "2027-02-06",
+   "sourceUrl": "https://www.gstaad.ch/en/winter/discover-explore/quintessentially-gstaad/top-events"
+  },
+  "links": {
+   "officialSite": "https://www.sommets-musicaux.com/?lang=en"
+  },
+  "sources": [
+   "https://www.gstaad.ch/en/winter/discover-explore/quintessentially-gstaad/top-events"
+  ]
+ },
+ {
+  "id": "gstaad--greengo",
+  "resortId": "gstaad",
+  "kind": "club",
+  "name": "GreenGo Club",
+  "summary": "Glamorous nightclub inside the Gstaad Palace",
+  "wow": 3,
+  "interests": [
+   "nightlife",
+   "luxury",
+   "dj"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.gstaad.ch/en/winter/plan-book/gastronomy/bars-clubs"
+  ]
+ },
+ {
+  "id": "gstaad--glacier-3000",
+  "resortId": "gstaad",
+  "kind": "activity",
+  "name": "Glacier 3000 Peak Walk",
+  "summary": "Suspension bridge linking two peaks at nearly 3,000 m",
+  "wow": 3,
+  "interests": [
+   "scenery",
+   "adventure"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://en.wikipedia.org/wiki/Glacier_3000",
+   "https://en.wikipedia.org/wiki/Gstaad"
+  ]
+ },
+ {
+  "id": "gstaad--eggli-lounge",
+  "resortId": "gstaad",
+  "kind": "apres",
+  "name": "Eggli Lounge",
+  "summary": "Cosy slope bar with a sunny terrace above Gstaad",
+  "wow": 2,
+  "interests": [
+   "apres",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.gstaad.ch/en/winter/plan-book/gastronomy/snow-bars"
+  ]
+ },
+ {
+  "id": "gstaad--why-knot",
+  "resortId": "gstaad",
+  "kind": "apres",
+  "name": "WHY KNOT Après-Ski Bar",
+  "summary": "Après bar and kitchen in Saanenmöser",
+  "wow": 1,
+  "interests": [
+   "apres",
+   "food"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://www.gstaad.ch/en/winter/plan-book/gastronomy/snow-bars"
+  ]
+ },
+ {
+  "id": "crans-montana--world-ski-championships-2027",
+  "resortId": "crans-montana",
+  "kind": "event",
+  "name": "FIS Alpine World Ski Championships 2027",
+  "summary": "World Championships return 40 years after 1987, with festival and Music Hall",
+  "wow": 3,
+  "interests": [
+   "sports",
+   "festival"
+  ],
+  "months": [
+   2
+  ],
+  "dates": {
+   "start": "2027-02-01",
+   "end": "2027-02-14",
+   "sourceUrl": "https://www.cransmontana2027.ch/en/home/"
+  },
+  "links": {
+   "officialSite": "https://www.cransmontana2027.ch/en/home/"
+  },
+  "sources": [
+   "https://www.cransmontana2027.ch/en/home/",
+   "https://en.wikipedia.org/wiki/FIS_Alpine_World_Ski_Championships_2027"
+  ]
+ },
+ {
+  "id": "crans-montana--caprices-festival",
+  "resortId": "crans-montana",
+  "kind": "event",
+  "name": "Caprices Festival",
+  "summary": "Electronic music in extraordinary mountain locations",
+  "wow": 3,
+  "interests": [
+   "festival",
+   "dj",
+   "nightlife"
+  ],
+  "months": [
+   4
+  ],
+  "dates": null,
+  "links": {
+   "officialSite": "https://capricesfestival.com/"
+  },
+  "sources": [
+   "https://en.wikipedia.org/wiki/Crans-Montana",
+   "https://capricesfestival.com/"
+  ],
+  "datesNote": "Spring festival, usually in April; 2027 dates not announced yet"
+ },
+ {
+  "id": "crans-montana--pas-de-lours",
+  "resortId": "crans-montana",
+  "kind": "restaurant",
+  "name": "Pas de l'Ours",
+  "summary": "Michelin-starred gourmet dining in a chalet hotel",
+  "wow": 2,
+  "interests": [
+   "fine-dining",
+   "luxury"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/crans-montana/restaurants-apres-ski-nightlife"
+  ]
+ },
+ {
+  "id": "crans-montana--cabane-des-taules",
+  "resortId": "crans-montana",
+  "kind": "restaurant",
+  "name": "Cabane des Taules",
+  "summary": "Mountain restaurant in a converted cowshed",
+  "wow": 1,
+  "interests": [
+   "food",
+   "scenery"
+  ],
+  "months": [
+   12,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dates": null,
+  "links": {},
+  "sources": [
+   "https://snowcarbon.co.uk/ski-resorts/crans-montana/restaurants-apres-ski-nightlife"
+  ]
+ }
+]

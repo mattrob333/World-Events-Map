@@ -33,6 +33,8 @@ import { computeRelevance, daysUntil } from '@/lib/buzz/relevance';
 import { addDays, daysBetween, isValidISODate, todayISO } from '@/lib/buzz/dates';
 import { ACTIVITIES } from '@/lib/activity/data';
 import { validateActivities } from '@/lib/activity/validate';
+import { SKI_RANGES, SKI_RESORTS, SKI_SCENE } from '@/lib/ski/data';
+import { validateSki } from '@/lib/ski/validate';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Reporting
@@ -883,6 +885,12 @@ function main(): number {
   warnings.push(...activityCheck.warnings);
   console.log(
     `  ${ACTIVITIES.length} spots and events   ${activityCheck.errors.length ? `${C.red}✗ ${activityCheck.errors.length} error(s)` : `${C.green}✓`}${C.reset}`,
+  );
+  const skiCheck = validateSki(SKI_RANGES, SKI_RESORTS, SKI_SCENE);
+  errors.push(...skiCheck.errors);
+  warnings.push(...skiCheck.warnings);
+  console.log(
+    `  ${SKI_RESORTS.length} ski resorts, ${SKI_SCENE.length} things to do   ${skiCheck.errors.length ? `${C.red}✗ ${skiCheck.errors.length} error(s)` : `${C.green}✓`}${C.reset}`,
   );
 
   h1('ENGINE INVARIANTS');

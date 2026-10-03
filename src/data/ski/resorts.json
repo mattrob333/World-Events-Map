@@ -1,0 +1,7090 @@
+[
+ {
+  "id": "arapahoe-basin",
+  "name": "Arapahoe Basin",
+  "rangeId": "colorado",
+  "place": "Keystone",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.6417,
+  "lng": -105.8717,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 6,
+   "dates": null
+  },
+  "bestMonths": [
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   2,
+   3
+  ],
+  "topFt": 13050,
+  "verticalFt": 2530,
+  "skiableAcres": 1428,
+  "trails": 147,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 119,
+   "high": 140,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/colorado/arapahoe-basin-ski-area/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "OnTheSnow December sample, weekday to weekend; dynamic pricing"
+  },
+  "vibe": [
+   "expert",
+   "budget",
+   "backcountry"
+  ],
+  "summary": "High-alpine steeps and tailgating at the Beach, often open into June",
+  "why": "A no-frills, high-altitude area with steep terrain like Pallavicini and one of the longest seasons in North America. Suits experts and spring-skiing fans.",
+  "links": {
+   "officialSite": "https://www.arapahoebasin.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "1.5 to 2 hr"
+   }
+  ],
+  "sources": [
+   "https://www.arapahoebasin.com",
+   "https://www.arapahoebasin.com/lessons/",
+   "https://en.wikipedia.org/wiki/Arapahoe_Basin",
+   "https://www.onthesnow.com/colorado/arapahoe-basin-ski-area/ski-resort",
+   "https://www.onthesnow.com/colorado/arapahoe-basin-ski-area/lift-tickets.html",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.arapahoebasin.com/lessons/"
+  }
+ },
+ {
+  "id": "aspen-snowmass",
+  "name": "Aspen Snowmass",
+  "rangeId": "colorado",
+  "place": "Aspen",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.1956,
+  "lng": -106.9513,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-26",
+    "close": "2027-04-18",
+    "sourceUrl": "https://aspen.com/articles/winter-season-dates-pass-deadlines/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12510,
+  "verticalFt": 4406,
+  "skiableAcres": 5700,
+  "trails": 366,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 279,
+   "high": 279,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/colorado/aspen-snowmass/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "OnTheSnow sample rate, dynamic pricing. For 2026/27, Dec 12 to 13 early-season tickets are $80"
+  },
+  "vibe": [
+   "apres",
+   "luxury",
+   "expert",
+   "nightlife",
+   "family"
+  ],
+  "summary": "Four mountains on one ticket, from Buttermilk's gentle slopes to Highland Bowl",
+  "why": "Aspen Mountain, Highlands, Buttermilk and Snowmass share one lift ticket, with a lively, upscale town nearby. Suits everyone from first-timers to bowl-hiking experts.",
+  "links": {
+   "officialSite": "https://www.aspensnowmass.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ASE",
+    "city": "Aspen"
+   },
+   {
+    "iata": "DEN",
+    "city": "Denver"
+   }
+  ],
+  "sources": [
+   "https://www.aspensnowmass.com",
+   "https://aspen.com/articles/winter-season-dates-pass-deadlines/",
+   "https://www.onthesnow.com/colorado/aspen-snowmass/ski-resort",
+   "https://en.wikipedia.org/wiki/Snowmass_(ski_area)",
+   "https://www.onthesnow.com/colorado/aspen-snowmass/lift-tickets.html",
+   "https://www.denvergazette.com/2026/09/09/aspen-lift-tickets-priced-at-3-75-for-early-season-date-but-why/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/?p=3775"
+  ]
+ },
+ {
+  "id": "beaver-creek",
+  "name": "Beaver Creek",
+  "rangeId": "colorado",
+  "place": "Avon",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.6314,
+  "lng": -106.5217,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-25",
+    "close": null,
+    "sourceUrl": "https://www.vaildaily.com/news/vail-mountain-beaver-creek-announce-opening-day-dates-for-2026-2027-season/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 11440,
+  "verticalFt": 3340,
+  "skiableAcres": 2082,
+  "trails": 173,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 307,
+   "high": 356,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow Dec 22 weekday sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "luxury",
+   "family",
+   "village",
+   "expert"
+  ],
+  "summary": "Escalators to the slopes, fresh cookies at 3pm, and the Birds of Prey downhill",
+  "why": "A polished, family-friendly resort with uncrowded groomers and the steep Birds of Prey World Cup course. Suits families and skiers who want comfort and short lift lines.",
+  "links": {
+   "officialSite": "https://www.beavercreek.com",
+   "tickets": "https://www.beavercreek.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "EGE",
+    "city": "Eagle/Vail",
+    "driveTime": "30 min"
+   },
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "2 hr 15 min"
+   }
+  ],
+  "sources": [
+   "https://www.beavercreek.com",
+   "https://en.wikipedia.org/wiki/Beaver_Creek_Resort",
+   "https://www.onthesnow.com/colorado/beaver-creek/ski-resort",
+   "https://www.onthesnow.com/colorado/beaver-creek/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.vaildaily.com/news/vail-mountain-beaver-creek-announce-opening-day-dates-for-2026-2027-season/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.beavercreek.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "breckenridge",
+  "name": "Breckenridge",
+  "rangeId": "colorado",
+  "place": "Breckenridge",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.48,
+  "lng": -106.0669,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-06",
+    "close": null,
+    "sourceUrl": "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12998,
+  "verticalFt": 3398,
+  "skiableAcres": 2908,
+  "trails": 188,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 234,
+   "high": 321,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow weekday sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "terrain-park",
+   "expert",
+   "village"
+  ],
+  "summary": "Five peaks above a Victorian mining town with a real Main Street",
+  "why": "Five linked peaks with high alpine bowls and strong terrain parks, next to a historic town full of bars and restaurants. Suits groups, park riders and all-round skiers.",
+  "links": {
+   "officialSite": "https://www.breckenridge.com",
+   "tickets": "https://www.breckenridge.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "2 hr"
+   }
+  ],
+  "sources": [
+   "https://www.breckenridge.com",
+   "https://en.wikipedia.org/wiki/Breckenridge_Ski_Resort",
+   "https://www.onthesnow.com/colorado/breckenridge/ski-resort",
+   "https://www.onthesnow.com/colorado/breckenridge/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.breckenridge.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "copper-mountain",
+  "name": "Copper Mountain",
+  "rangeId": "colorado",
+  "place": "Copper Mountain",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.5017,
+  "lng": -106.1564,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-06",
+    "close": null,
+    "sourceUrl": "https://www.cpr.org/2026/10/02/colorado-ski-resorts-opening-dates-2026-2027/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12441,
+  "verticalFt": 2738,
+  "skiableAcres": 2507,
+  "trails": 150,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 264,
+   "high": 274,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/colorado/copper-mountain-resort/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "OnTheSnow Dec 16 to 21 sample, weekday to weekend; dynamic pricing"
+  },
+  "vibe": [
+   "terrain-park",
+   "family",
+   "expert"
+  ],
+  "summary": "Terrain sorted by difficulty, so every level gets its own side of the mountain",
+  "why": "A naturally divided mountain with beginner, intermediate and expert zones, strong terrain parks and back bowls. Suits mixed-ability groups on Ikon.",
+  "links": {
+   "officialSite": "https://www.coppercolorado.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "DEN",
+    "city": "Denver"
+   }
+  ],
+  "sources": [
+   "https://www.coppercolorado.com",
+   "https://en.wikipedia.org/wiki/Copper_Mountain_(Colorado)",
+   "https://www.onthesnow.com/colorado/copper-mountain-resort/ski-resort",
+   "https://www.onthesnow.com/colorado/copper-mountain-resort/lift-tickets.html",
+   "https://www.cpr.org/2026/10/02/colorado-ski-resorts-opening-dates-2026-2027/",
+   "https://www.ikonpass.com/en/destinations"
+  ]
+ },
+ {
+  "id": "crested-butte",
+  "name": "Crested Butte",
+  "rangeId": "colorado",
+  "place": "Mt. Crested Butte",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 38.8997,
+  "lng": -106.965,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-25",
+    "close": null,
+    "sourceUrl": "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12162,
+  "verticalFt": 2787,
+  "skiableAcres": 1547,
+  "trails": 165,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 164,
+   "high": 239,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow Dec 18 to 20 online sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "expert",
+   "scenery"
+  ],
+  "summary": "Colorado's steepest lift-served extreme terrain next to a colorful old mining town",
+  "why": "Known for steep, rocky extreme terrain and a laid-back, remote feel, with a historic town a short shuttle away. Suits experts and skiers avoiding I-70 crowds.",
+  "links": {
+   "officialSite": "https://www.skicb.com",
+   "tickets": "https://www.skicb.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GUC",
+    "city": "Gunnison",
+    "driveTime": "30 min"
+   },
+   {
+    "iata": "MTJ",
+    "city": "Montrose",
+    "driveTime": "2.5 hr"
+   }
+  ],
+  "sources": [
+   "https://www.skicb.com",
+   "https://en.wikipedia.org/wiki/Crested_Butte_Mountain_Resort",
+   "https://www.onthesnow.com/colorado/crested-butte-mountain-resort/ski-resort",
+   "https://www.onthesnow.com/colorado/crested-butte-mountain-resort/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.skicb.com/plan-your-trip/ski-and-ride-lessons.aspx"
+  }
+ },
+ {
+  "id": "keystone",
+  "name": "Keystone",
+  "rangeId": "colorado",
+  "place": "Keystone",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.605,
+  "lng": -105.9542,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12411,
+  "verticalFt": 3138,
+  "skiableAcres": 3148,
+  "trails": 140,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 206,
+   "high": 292,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow weekday sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "family",
+   "terrain-park",
+   "beginner"
+  ],
+  "summary": "Night skiing, a big terrain park and three mountains 90 minutes from Denver",
+  "why": "A family-focused resort with long groomers, night skiing and an early-season opening, plus bowls and tree skiing on the back side. Suits families and Front Range day-trippers.",
+  "links": {
+   "officialSite": "https://www.keystoneresort.com",
+   "tickets": "https://www.keystoneresort.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "90 min"
+   }
+  ],
+  "sources": [
+   "https://www.keystoneresort.com",
+   "https://en.wikipedia.org/wiki/Keystone_Resort",
+   "https://www.onthesnow.com/colorado/keystone/ski-resort",
+   "https://www.onthesnow.com/colorado/keystone/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.keystoneresort.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "steamboat",
+  "name": "Steamboat",
+  "rangeId": "colorado",
+  "place": "Steamboat Springs",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.4589,
+  "lng": -106.8031,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-21",
+    "close": null,
+    "sourceUrl": "https://www.cpr.org/2026/10/02/colorado-ski-resorts-opening-dates-2026-2027/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 10566,
+  "verticalFt": 3666,
+  "skiableAcres": 3741,
+  "trails": 184,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 258,
+   "high": 344,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Prices for Dec 26, 2026: $258 online, $344 at the window; dynamic pricing, cheaper on quieter dates"
+  },
+  "vibe": [
+   "powder",
+   "family",
+   "apres"
+  ],
+  "summary": "Champagne Powder tree skiing in a working Western ranch town",
+  "why": "Famous for light 'Champagne Powder' and aspen tree glades, with a real cowboy town at the base. Suits families and tree-skiing fans.",
+  "links": {
+   "officialSite": "https://www.steamboat.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "HDN",
+    "city": "Hayden"
+   },
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "3.5 hr"
+   }
+  ],
+  "sources": [
+   "https://www.steamboat.com",
+   "https://www.steamboat.com/lessons",
+   "https://en.wikipedia.org/wiki/Steamboat_Ski_Resort",
+   "https://www.onthesnow.com/colorado/steamboat/ski-resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.cpr.org/2026/10/02/colorado-ski-resorts-opening-dates-2026-2027/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.steamboat.com/lessons"
+  }
+ },
+ {
+  "id": "taos",
+  "name": "Taos Ski Valley",
+  "rangeId": "colorado",
+  "place": "Taos Ski Valley",
+  "region": "New Mexico",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 36.59,
+  "lng": -105.4369,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   3
+  ],
+  "topFt": 12481,
+  "verticalFt": 3131,
+  "skiableAcres": 1294,
+  "trails": 113,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 75,
+   "high": 185,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "$75 early season through Dec 10 (resort press release); $185 for Dec 26, 2026. Buy 72+ hours ahead for discounts"
+  },
+  "vibe": [
+   "expert",
+   "scenery",
+   "family"
+  ],
+  "summary": "Steep hike-to chutes, a renowned ski school and a high-desert adobe town",
+  "why": "Steep, technical terrain including hike-to Kachina Peak, a highly rated ski school and a distinct New Mexico culture. Suits experts and families keen on lessons.",
+  "links": {
+   "officialSite": "https://www.skitaos.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "TSM",
+    "city": "Taos"
+   },
+   {
+    "iata": "SAF",
+    "city": "Santa Fe"
+   },
+   {
+    "iata": "ABQ",
+    "city": "Albuquerque"
+   }
+  ],
+  "sources": [
+   "https://www.skitaos.com",
+   "https://www.skitaos.com/lessons",
+   "https://digital-release.wowktv.com/business/press-releases/cision/20260909LA44155/taos-ski-valley-announces-2027-opening-date-and-winter-season-updates",
+   "https://en.wikipedia.org/wiki/Taos_Ski_Valley",
+   "https://www.onthesnow.com/new-mexico/taos-ski-valley/ski-resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/?p=3775"
+  ],
+  "family": {
+   "skiSchool": "https://www.skitaos.com/lessons",
+   "childcare": true
+  }
+ },
+ {
+  "id": "telluride",
+  "name": "Telluride",
+  "rangeId": "colorado",
+  "place": "Telluride",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 37.9364,
+  "lng": -107.8203,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 13150,
+  "verticalFt": 4425,
+  "skiableAcres": 2000,
+  "trails": 149,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 245,
+   "high": 245,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/colorado/telluride/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "OnTheSnow sample rate; dynamic pricing applies"
+  },
+  "vibe": [
+   "scenery",
+   "expert",
+   "luxury",
+   "backcountry"
+  ],
+  "summary": "Box-canyon views, hike-to steeps and a free gondola into a historic town",
+  "why": "Dramatic San Juan scenery, steep hike-to terrain and an uncrowded, remote feel, linked by free gondola to a Victorian mining town. Suits experts and scenery seekers.",
+  "links": {
+   "officialSite": "https://www.tellurideskiresort.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "TEX",
+    "city": "Telluride",
+    "driveTime": "10 min"
+   },
+   {
+    "iata": "MTJ",
+    "city": "Montrose"
+   }
+  ],
+  "sources": [
+   "https://www.tellurideskiresort.com",
+   "https://www.tellurideskiresort.com/ski-school/",
+   "https://en.wikipedia.org/wiki/Telluride_Ski_Resort",
+   "https://www.onthesnow.com/colorado/telluride/ski-resort",
+   "https://www.onthesnow.com/colorado/telluride/lift-tickets.html",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.tellurideskiresort.com/ski-school/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "vail",
+  "name": "Vail",
+  "rangeId": "colorado",
+  "place": "Vail",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.6389,
+  "lng": -106.3739,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-13",
+    "close": null,
+    "sourceUrl": "https://www.vaildaily.com/news/vail-mountain-beaver-creek-announce-opening-day-dates-for-2026-2027-season/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 11570,
+  "verticalFt": 3450,
+  "skiableAcres": 5317,
+  "trails": 277,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 307,
+   "high": 356,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow Dec 22 weekday sample, high is the reported peak-day rate. 2026/27 top rate reported at $374"
+  },
+  "vibe": [
+   "apres",
+   "luxury",
+   "village",
+   "expert"
+  ],
+  "summary": "Seven legendary Back Bowls and a Tyrolean-style village at the foot of the lifts",
+  "why": "One of the largest ski areas in the US, known for the Back Bowls, Blue Sky Basin and a polished pedestrian village. Suits intermediates and experts with a big budget.",
+  "links": {
+   "officialSite": "https://www.vail.com",
+   "tickets": "https://www.vail.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "EGE",
+    "city": "Eagle/Vail",
+    "driveTime": "30 min"
+   },
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "2 hr"
+   }
+  ],
+  "sources": [
+   "https://www.vail.com",
+   "https://en.wikipedia.org/wiki/Vail_Ski_Resort",
+   "https://www.onthesnow.com/colorado/vail/ski-resort",
+   "https://www.onthesnow.com/colorado/vail/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.stormskiing.com/p/as-steamboat-vail-lift-tickets-hit",
+   "https://www.vaildaily.com/news/vail-mountain-beaver-creek-announce-opening-day-dates-for-2026-2027-season/",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.vail.com/plan-your-trip/ski-and-ride-lessons.aspx"
+  }
+ },
+ {
+  "id": "winter-park",
+  "name": "Winter Park",
+  "rangeId": "colorado",
+  "place": "Winter Park",
+  "region": "Colorado",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.8869,
+  "lng": -105.7625,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 12060,
+  "verticalFt": 3060,
+  "skiableAcres": 3081,
+  "trails": 171,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 207,
+   "high": 267,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Prices for Dec 26, 2026: $207 online, $267 at the window; dynamic pricing"
+  },
+  "vibe": [
+   "expert",
+   "family"
+  ],
+  "summary": "Mary Jane's bumps and a ski train from Denver",
+  "why": "Long a Denver favorite, with famous moguls on Mary Jane, open bowls and a weekend ski train from Union Station. Suits Front Range skiers and bump lovers.",
+  "links": {
+   "officialSite": "https://www.winterparkresort.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "DEN",
+    "city": "Denver",
+    "driveTime": "90 min"
+   }
+  ],
+  "sources": [
+   "https://www.winterparkresort.com",
+   "https://www.winterparkresort.com/lessons",
+   "https://en.wikipedia.org/wiki/Winter_Park_Resort",
+   "https://www.onthesnow.com/colorado/winter-park-resort/ski-resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.winterparkresort.com/lessons"
+  }
+ },
+ {
+  "id": "alta",
+  "name": "Alta",
+  "rangeId": "utah",
+  "place": "Alta",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.5808,
+  "lng": -111.6372,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 11068,
+  "verticalFt": 2538,
+  "skiableAcres": 2614,
+  "trails": 116,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 199,
+   "high": 209,
+   "season": "2025/26",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Window rates. 2026/27 prices go on sale in early November; advance online is cheaper"
+  },
+  "vibe": [
+   "powder",
+   "expert",
+   "scenery"
+  ],
+  "summary": "Skiers only, legendary light powder and old-school soul since 1939",
+  "why": "A skiers-only mountain with over 500 inches of snow a year and a loyal, no-frills culture. Suits powder hunters and advanced skiers. No snowboarding.",
+  "links": {
+   "officialSite": "https://www.alta.com/",
+   "tickets": "https://www.alta.com/tickets-and-passes",
+   "instagram": "https://www.instagram.com/altaskiarea/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.alta.com/",
+   "https://en.wikipedia.org/wiki/Alta_Ski_Area",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.onthesnow.com/utah/alta-ski-area/lift-tickets",
+   "https://shop.alta.com/lift-tickets-offseason",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/",
+   "https://www.skiutah.com/blog/authors/jodi/childcare-on-the-slopes"
+  ],
+  "family": {
+   "skiSchool": "https://www.alta.com/ski-school",
+   "childcare": true
+  }
+ },
+ {
+  "id": "brighton",
+  "name": "Brighton",
+  "rangeId": "utah",
+  "place": "Brighton",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.6,
+  "lng": -111.5833,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10750,
+  "verticalFt": 1875,
+  "skiableAcres": 1050,
+  "trails": 66,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 149,
+   "high": 195,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "High is the 2026/27 window rate; low is a 2025/26 weekday rate from OnTheSnow"
+  },
+  "vibe": [
+   "terrain-park",
+   "budget",
+   "powder"
+  ],
+  "summary": "Laid-back locals' hill with night skiing and a big snowboard culture",
+  "why": "A relaxed Big Cottonwood Canyon favorite with parks, night riding and deep snow. Suits snowboarders, park riders and budget-minded locals.",
+  "links": {
+   "officialSite": "https://www.brightonresort.com/",
+   "tickets": "https://www.brightonresort.com/lift-tickets",
+   "instagram": "https://www.instagram.com/brightonresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.brightonresort.com/",
+   "https://www.brightonresort.com/mountain-stats",
+   "https://en.wikipedia.org/wiki/Brighton_Ski_Resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.onthesnow.com/utah/brighton-resort/lift-tickets",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.brightonresort.com/lessons#winter"
+  }
+ },
+ {
+  "id": "deer-valley",
+  "name": "Deer Valley",
+  "rangeId": "utah",
+  "place": "Park City",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.6228,
+  "lng": -111.4894,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9570,
+  "verticalFt": 3040,
+  "skiableAcres": 4300,
+  "trails": 202,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 219,
+   "high": 329,
+   "season": "2025/26",
+   "sourceUrl": "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "checkedOn": "2026-10-03",
+   "note": "High is the 2025/26 peak walk-up rate (TownLift); low is an OnTheSnow sample. 2026/27 peak is $349"
+  },
+  "vibe": [
+   "luxury",
+   "family",
+   "village",
+   "scenery"
+  ],
+  "summary": "Skiers-only luxury, groomed to perfection, now more than double its old size",
+  "why": "Known for service, grooming and food, and for its big Expanded Excellence terrain growth. Suits families and skiers who want comfort over crowds. No snowboarding.",
+  "links": {
+   "officialSite": "https://www.deervalley.com/",
+   "tickets": "https://www.deervalley.com/plan-your-trip/tickets-and-passes/lift-tickets",
+   "instagram": "https://www.instagram.com/deervalleyresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.deervalley.com/",
+   "https://en.wikipedia.org/wiki/Deer_Valley",
+   "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.onthesnow.com/utah/deer-valley-resort/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://www.skiutah.com/blog/authors/jodi/childcare-on-the-slopes",
+   "https://www.deervalley.com/things-to-do/activities/childrens-center"
+  ],
+  "family": {
+   "skiSchool": "https://www.deervalley.com/plan-your-trip/ski-school",
+   "childcare": true
+  }
+ },
+ {
+  "id": "park-city",
+  "name": "Park City Mountain",
+  "rangeId": "utah",
+  "place": "Park City",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.6508,
+  "lng": -111.5075,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10026,
+  "verticalFt": 3200,
+  "skiableAcres": 6700,
+  "trails": 324,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 202,
+   "high": 369,
+   "season": "2026/27",
+   "sourceUrl": "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing. High is the peak walk-up rate before fees; low is an advance online sample reported by SnowStash"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "village",
+   "family",
+   "terrain-park"
+  ],
+  "summary": "The biggest ski area in the US, with a real mining town at the bottom",
+  "why": "About 6,700 acres across two linked base areas and a lively Main Street. Suits groups with mixed abilities who want lots of cruising terrain and nightlife.",
+  "links": {
+   "officialSite": "https://www.parkcitymountain.com/",
+   "tickets": "https://www.parkcitymountain.com/plan-your-trip/lift-access/tickets.aspx",
+   "instagram": "https://www.instagram.com/pcski/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.parkcitymountain.com/",
+   "https://en.wikipedia.org/wiki/Park_City_Mountain_Resort",
+   "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "https://snowstash.com/usa/utah/park-city/lift-tickets",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass",
+   "https://www.skiutah.com/blog/authors/jodi/childcare-on-the-slopes"
+  ],
+  "family": {
+   "skiSchool": "https://www.parkcitymountain.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "powder-mountain",
+  "name": "Powder Mountain",
+  "rangeId": "utah",
+  "place": "Eden",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 41.38,
+  "lng": -111.7803,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": null,
+  "verticalFt": null,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 63,
+   "high": 229,
+   "season": "2026/27",
+   "sourceUrl": "https://powdermountain.com/tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Official range; cheaper when booked early. Season not labeled on the page"
+  },
+  "vibe": [
+   "powder",
+   "backcountry",
+   "family"
+  ],
+  "summary": "Huge, uncrowded powder playground above Eden, now with a new expert lift",
+  "why": "An independent resort with vast terrain, few people and a new DMI lift adding 1,000+ acres of advanced terrain. Kids 12 and under ski free.",
+  "links": {
+   "officialSite": "https://powdermountain.com/",
+   "tickets": "https://store.powdermountain.com/en/p/TT-1-12",
+   "instagram": "https://www.instagram.com/powdermountain/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://powdermountain.com/",
+   "https://powdermountain.com/tickets",
+   "https://en.wikipedia.org/wiki/Powder_Mountain",
+   "https://www.indyskipass.com/our-resorts",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://store.powdermountain.com/en/p/PA-3-150"
+  }
+ },
+ {
+  "id": "snowbasin",
+  "name": "Snowbasin",
+  "rangeId": "utah",
+  "place": "Huntsville",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 41.2161,
+  "lng": -111.8569,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9350,
+  "verticalFt": 2959,
+  "skiableAcres": 3000,
+  "trails": 104,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 169,
+   "high": 219,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/utah/snowbasin/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Weekday and weekend rates. 2026/27 day tickets not yet on sale"
+  },
+  "vibe": [
+   "scenery",
+   "expert",
+   "luxury"
+  ],
+  "summary": "2002 Olympic downhill venue with grand lodges and surprisingly short lines",
+  "why": "Hosted the 2002 Olympic speed events and pairs big vertical with plush day lodges. Suits strong skiers who want space and an upscale feel near Ogden.",
+  "links": {
+   "officialSite": "https://www.snowbasin.com/",
+   "tickets": "https://www.snowbasin.com/tickets-passes/lift-tickets/",
+   "instagram": "https://www.instagram.com/snowbasinresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.snowbasin.com/",
+   "https://en.wikipedia.org/wiki/Snowbasin",
+   "https://www.snowbasin.com/tickets-passes/lift-tickets/",
+   "https://www.onthesnow.com/utah/snowbasin/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.snowbasin.com/lessons/"
+  }
+ },
+ {
+  "id": "snowbird",
+  "name": "Snowbird",
+  "rangeId": "utah",
+  "place": "Snowbird",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.5811,
+  "lng": -111.6564,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 11000,
+  "verticalFt": 3240,
+  "skiableAcres": 2500,
+  "trails": 169,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 174,
+   "high": 238,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing. High is the window rate (SnowBrains); low is the advance rate reported by SnowStash"
+  },
+  "vibe": [
+   "expert",
+   "powder",
+   "scenery"
+  ],
+  "summary": "Steep, deep Little Cottonwood terrain with a tram and a season into May",
+  "why": "Famous for steep chutes, heavy snowfall and the aerial tram, with one of Utah's longest seasons. Best for strong skiers and riders chasing powder.",
+  "links": {
+   "officialSite": "https://www.snowbird.com/",
+   "tickets": "https://www.snowbird.com/tickets-passes/tickets/",
+   "instagram": "https://www.instagram.com/snowbird/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.snowbird.com/",
+   "https://en.wikipedia.org/wiki/Snowbird,_Utah",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "https://snowstash.com/usa/utah/snowbird/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/",
+   "https://www.skiutah.com/blog/authors/jodi/childcare-on-the-slopes"
+  ],
+  "family": {
+   "skiSchool": "https://www.snowbird.com/guiding-lessons/programs/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "solitude",
+  "name": "Solitude",
+  "rangeId": "utah",
+  "place": "Solitude",
+  "region": "Utah",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 40.6151,
+  "lng": -111.5889,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10488,
+  "verticalFt": 2494,
+  "skiableAcres": 1200,
+  "trails": 80,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 139,
+   "high": 199,
+   "season": "2025/26",
+   "sourceUrl": "https://snowstash.com/usa/utah/solitude/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing. TownLift reports the 2026/27 peak ticket is also $199"
+  },
+  "vibe": [
+   "powder",
+   "expert",
+   "village"
+  ],
+  "summary": "Quiet Big Cottonwood powder with a small European-style village",
+  "why": "Lives up to its name with shorter lines, steep Honeycomb Canyon terrain and plenty of snow. Suits skiers who want Utah powder without the crowds.",
+  "links": {
+   "officialSite": "https://www.solitudemountain.com/",
+   "tickets": "https://www.solitudemountain.com/plan-your-trip/tickets-and-passes",
+   "instagram": "https://www.instagram.com/solitudemountain/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLC",
+    "city": "Salt Lake City"
+   }
+  ],
+  "sources": [
+   "https://www.solitudemountain.com/",
+   "https://en.wikipedia.org/wiki/Solitude_Mountain_Resort",
+   "https://snowstash.com/usa/utah/solitude/lift-tickets",
+   "https://townlift.com/2026/09/park-city-deer-valley-among-the-countrys-priciest-ski-days-as-2026-27-tickets-climb-again/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.solitudemountain.com/plan-your-trip/lessons"
+  }
+ },
+ {
+  "id": "heavenly",
+  "name": "Heavenly",
+  "rangeId": "sierra",
+  "place": "South Lake Tahoe",
+  "region": "California",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 38.9353,
+  "lng": -119.94,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-20",
+    "close": null,
+    "sourceUrl": "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10067,
+  "verticalFt": 3500,
+  "skiableAcres": 4800,
+  "trails": 111,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 265,
+   "high": 305,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow sample rate, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "scenery",
+   "nightlife",
+   "apres"
+  ],
+  "summary": "Lake Tahoe views from the runs and casinos at the bottom of the gondola",
+  "why": "Straddles California and Nevada with big lake views, long cruisers and South Lake Tahoe nightlife at the base. Suits intermediates and groups who want evenings out.",
+  "links": {
+   "officialSite": "https://www.skiheavenly.com",
+   "tickets": "https://www.skiheavenly.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "RNO",
+    "city": "Reno"
+   }
+  ],
+  "sources": [
+   "https://www.skiheavenly.com",
+   "https://www.skiheavenly.com/plan-your-trip/childcare.aspx",
+   "https://en.wikipedia.org/wiki/Heavenly_Mountain_Resort",
+   "https://www.onthesnow.com/california/heavenly-mountain-resort/ski-resort",
+   "https://www.onthesnow.com/california/heavenly-mountain-resort/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.skiheavenly.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "kirkwood",
+  "name": "Kirkwood",
+  "rangeId": "sierra",
+  "place": "Kirkwood",
+  "region": "California",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 38.6839,
+  "lng": -120.0681,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-04",
+    "close": null,
+    "sourceUrl": "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9800,
+  "verticalFt": 2000,
+  "skiableAcres": 2300,
+  "trails": 84,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 163,
+   "high": 222,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow weekday sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "powder",
+   "expert",
+   "backcountry"
+  ],
+  "summary": "Remote, deep-snow steeps with no town and barely any crowds",
+  "why": "A remote high-Sierra area known for heavy snowfall, cliffs and chutes, and a quiet base village. Suits powder hunters and experts.",
+  "links": {
+   "officialSite": "https://www.kirkwood.com",
+   "tickets": "https://www.kirkwood.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "RNO",
+    "city": "Reno",
+    "driveTime": "1.5 hr"
+   },
+   {
+    "iata": "SMF",
+    "city": "Sacramento",
+    "driveTime": "2 hr"
+   }
+  ],
+  "sources": [
+   "https://www.kirkwood.com",
+   "https://en.wikipedia.org/wiki/Kirkwood_Mountain_Resort",
+   "https://www.onthesnow.com/california/kirkwood/ski-resort",
+   "https://www.onthesnow.com/california/kirkwood/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.kirkwood.com/plan-your-trip/ski-and-ride-lessons.aspx"
+  }
+ },
+ {
+  "id": "mammoth",
+  "name": "Mammoth Mountain",
+  "rangeId": "sierra",
+  "place": "Mammoth Lakes",
+  "region": "California",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 37.6306,
+  "lng": -119.0325,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 6,
+   "dates": {
+    "open": "2026-11-13",
+    "close": null,
+    "sourceUrl": "https://snowbrains.com/mammoth-mountain-ca-announces-november-13-opening-day-for-2026-27-winter/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 11053,
+  "verticalFt": 3100,
+  "skiableAcres": 3500,
+  "trails": 180,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 209,
+   "high": 269,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Prices for Dec 26, 2026: $209 online, $269 at the window; dynamic pricing"
+  },
+  "vibe": [
+   "terrain-park",
+   "expert",
+   "family",
+   "apres"
+  ],
+  "summary": "A volcano with one of the longest seasons in California, often into June",
+  "why": "Big, high-altitude terrain with top-tier terrain parks and a season that often runs into early summer. Suits Southern California skiers, park riders and spring skiers.",
+  "links": {
+   "officialSite": "https://www.mammothmountain.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "MMH",
+    "city": "Mammoth Lakes",
+    "driveTime": "15 min"
+   },
+   {
+    "iata": "BIH",
+    "city": "Bishop",
+    "driveTime": "45 min"
+   }
+  ],
+  "sources": [
+   "https://www.mammothmountain.com",
+   "https://www.mammothmountain.com/lessons",
+   "https://en.wikipedia.org/wiki/Mammoth_Mountain_Ski_Area",
+   "https://www.onthesnow.com/california/mammoth-mountain-ski-area/ski-resort",
+   "https://snowbrains.com/mammoth-mountain-ca-announces-november-13-opening-day-for-2026-27-winter/",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.mammothmountain.com/lessons",
+   "childcare": true
+  }
+ },
+ {
+  "id": "northstar",
+  "name": "Northstar California",
+  "rangeId": "sierra",
+  "place": "Truckee",
+  "region": "California",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.2639,
+  "lng": -120.125,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-20",
+    "close": null,
+    "sourceUrl": "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 8610,
+  "verticalFt": 2280,
+  "skiableAcres": 3170,
+  "trails": 100,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 237,
+   "high": 328,
+   "season": "2025/26",
+   "sourceUrl": "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; low is an OnTheSnow Dec 16 to 21 weekday sample, high is the reported peak-day rate"
+  },
+  "vibe": [
+   "family",
+   "luxury",
+   "village",
+   "terrain-park"
+  ],
+  "summary": "Groomed cruisers and an upscale village with an ice rink",
+  "why": "A polished, family-oriented resort with mostly intermediate terrain, strong parks and a slopeside village. Suits families and cruisers wanting comfort.",
+  "links": {
+   "officialSite": "https://www.northstarcalifornia.com",
+   "tickets": "https://www.northstarcalifornia.com/plan-your-trip/lift-access/tickets.aspx"
+  },
+  "nearestAirports": [
+   {
+    "iata": "RNO",
+    "city": "Reno"
+   }
+  ],
+  "sources": [
+   "https://www.northstarcalifornia.com",
+   "https://en.wikipedia.org/wiki/Northstar_California",
+   "https://www.onthesnow.com/california/northstar-california/ski-resort",
+   "https://www.onthesnow.com/california/northstar-california/lift-tickets.html",
+   "https://www.stormskiing.com/p/i-promise-this-post-is-not-only-about",
+   "https://www.snowsportsnews.com/newsrepository/2026/august/vail-resorts-announces-202627-opening-dates/",
+   "https://www.onthesnow.com/news/?p=167"
+  ],
+  "family": {
+   "skiSchool": "https://www.northstarcalifornia.com/plan-your-trip/ski-and-ride-lessons.aspx"
+  }
+ },
+ {
+  "id": "palisades-tahoe",
+  "name": "Palisades Tahoe",
+  "rangeId": "sierra",
+  "place": "Olympic Valley",
+  "region": "California",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 39.1961,
+  "lng": -120.235,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9050,
+  "verticalFt": 2850,
+  "skiableAcres": 6000,
+  "trails": 296,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 246,
+   "high": 289,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "Prices for Dec 26, 2026: $246 online, $289 at the window; dynamic pricing"
+  },
+  "vibe": [
+   "expert",
+   "apres",
+   "village",
+   "powder"
+  ],
+  "summary": "Two linked mountains and the steeps of KT-22, home of the 1960 Olympics",
+  "why": "Big, steep terrain across the Palisades and Alpine sides, a lively village and huge Sierra storms. Suits experts and Bay Area weekenders.",
+  "links": {
+   "officialSite": "https://www.palisadestahoe.com"
+  },
+  "nearestAirports": [
+   {
+    "iata": "RNO",
+    "city": "Reno",
+    "driveTime": "45 min"
+   },
+   {
+    "iata": "SMF",
+    "city": "Sacramento",
+    "driveTime": "2 hr"
+   },
+   {
+    "iata": "SFO",
+    "city": "San Francisco",
+    "driveTime": "3 hr"
+   }
+  ],
+  "sources": [
+   "https://www.palisadestahoe.com",
+   "https://www.palisadestahoe.com/lessons",
+   "https://en.wikipedia.org/wiki/Palisades_Tahoe",
+   "https://www.onthesnow.com/california/palisades-tahoe/ski-resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://abc7news.com/post/list-tahoe-ski-resorts-2026-27-opening-dates/19704870/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.palisadestahoe.com/lessons"
+  }
+ },
+ {
+  "id": "big-sky",
+  "name": "Big Sky",
+  "rangeId": "northern-rockies",
+  "place": "Big Sky",
+  "region": "Montana",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 45.275,
+  "lng": -111.4319,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 11166,
+  "verticalFt": 4350,
+  "skiableAcres": 5850,
+  "trails": 320,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 84,
+   "high": 289,
+   "season": "2026/27",
+   "sourceUrl": "https://www.bigskyresort.com/winter-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Tickets from $84 when bought early; $289 is the 2026/27 window rate (SnowBrains)"
+  },
+  "vibe": [
+   "expert",
+   "scenery",
+   "family",
+   "luxury"
+  ],
+  "summary": "5,850 acres under Lone Peak, with a summit tram and very short lift lines",
+  "why": "One of the largest ski areas in the US, with huge open terrain and the Lone Peak Tram. Suits families and experts who want space near Yellowstone.",
+  "links": {
+   "officialSite": "https://www.bigskyresort.com/",
+   "tickets": "https://www.bigskyresort.com/winter-tickets",
+   "instagram": "https://www.instagram.com/bigskyresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BZN",
+    "city": "Bozeman"
+   }
+  ],
+  "sources": [
+   "https://www.bigskyresort.com/",
+   "https://www.bigskyresort.com/winter-tickets",
+   "https://en.wikipedia.org/wiki/Big_Sky_Resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.bigskyresort.com/lessons"
+  }
+ },
+ {
+  "id": "grand-targhee",
+  "name": "Grand Targhee",
+  "rangeId": "northern-rockies",
+  "place": "Alta",
+  "region": "Wyoming",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 43.789,
+  "lng": -110.957,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-20",
+    "close": "2027-04-18",
+    "sourceUrl": "https://www.grandtarghee.com/the-mountain/mountain-information/mountain-stats"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9862,
+  "verticalFt": 2270,
+  "skiableAcres": 2602,
+  "trails": 93,
+  "passes": [
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 125,
+   "high": 190,
+   "season": "2026/27",
+   "sourceUrl": "https://www.grandtarghee.com/tickets-passes/lift-tickets/winter-lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Online $125 to $180 by date; window adds $10. Season not labeled on the page"
+  },
+  "vibe": [
+   "powder",
+   "family",
+   "scenery",
+   "budget"
+  ],
+  "summary": "500+ inches of snow on the quiet side of the Tetons",
+  "why": "A low-key resort reached through Driggs, Idaho, known for deep snow and uncrowded slopes. Suits families and powder skiers who skip the glitz.",
+  "links": {
+   "officialSite": "https://www.grandtarghee.com/",
+   "tickets": "https://www.grandtarghee.com/tickets-passes/lift-tickets/winter-lift-tickets",
+   "instagram": "https://www.instagram.com/grandtargheeresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "JAC",
+    "city": "Jackson"
+   }
+  ],
+  "sources": [
+   "https://www.grandtarghee.com/",
+   "https://www.grandtarghee.com/the-mountain/mountain-information/mountain-stats",
+   "https://www.grandtarghee.com/tickets-passes/lift-tickets/winter-lift-tickets",
+   "https://en.wikipedia.org/wiki/Grand_Targhee_Resort",
+   "https://mountaincollective.com/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.grandtarghee.com/lessons-rentals/mountain-sports-school/winter-lesson-finder",
+   "childcare": true
+  }
+ },
+ {
+  "id": "jackson-hole",
+  "name": "Jackson Hole Mountain Resort",
+  "rangeId": "northern-rockies",
+  "place": "Teton Village",
+  "region": "Wyoming",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 43.5876,
+  "lng": -110.827,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10450,
+  "verticalFt": 4139,
+  "skiableAcres": 2500,
+  "trails": 116,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 85,
+   "high": 339,
+   "season": "2026/27",
+   "sourceUrl": "https://www.jacksonhole.com/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Single-day tickets from $85 when bought early; $339 is the 2026/27 window rate (SnowBrains)"
+  },
+  "vibe": [
+   "expert",
+   "powder",
+   "backcountry",
+   "apres",
+   "scenery"
+  ],
+  "summary": "Corbet's Couloir, 4,139 feet of vertical and the Tetons as a backdrop",
+  "why": "One of North America's steepest big mountains, with a famous tram and easy backcountry access. Best for advanced skiers who want a challenge.",
+  "links": {
+   "officialSite": "https://www.jacksonhole.com/",
+   "tickets": "https://www.jacksonhole.com/lift-tickets",
+   "instagram": "https://www.instagram.com/jacksonhole/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "JAC",
+    "city": "Jackson"
+   }
+  ],
+  "sources": [
+   "https://www.jacksonhole.com/",
+   "https://www.jacksonhole.com/lift-tickets",
+   "https://en.wikipedia.org/wiki/Jackson_Hole_Mountain_Resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/",
+   "https://nominatim.openstreetmap.org/search?q=Teton+Village+Wyoming&format=json"
+  ],
+  "family": {
+   "skiSchool": "https://www.jacksonhole.com/mountain-sports-school"
+  }
+ },
+ {
+  "id": "sun-valley",
+  "name": "Sun Valley",
+  "rangeId": "northern-rockies",
+  "place": "Ketchum",
+  "region": "Idaho",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 43.655,
+  "lng": -114.4092,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9150,
+  "verticalFt": 3400,
+  "skiableAcres": 2829,
+  "trails": 121,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 253,
+   "high": 253,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/idaho/sun-valley/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Single published rate on OnTheSnow; 2026/27 prices not yet listed"
+  },
+  "vibe": [
+   "luxury",
+   "scenery",
+   "village",
+   "apres"
+  ],
+  "summary": "America's first destination ski resort, with steady fall-line runs on Baldy",
+  "why": "Classic glamour, long consistent pitches on Bald Mountain and a beginner hill at Dollar. Suits intermediates and experts who like an old-school luxury feel.",
+  "links": {
+   "officialSite": "https://www.sunvalley.com/",
+   "tickets": "https://www.sunvalley.com/tickets-passes/lift-tickets",
+   "instagram": "https://www.instagram.com/sunvalley/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SUN",
+    "city": "Hailey"
+   }
+  ],
+  "sources": [
+   "https://www.sunvalley.com/",
+   "https://en.wikipedia.org/wiki/Sun_Valley,_Idaho",
+   "https://www.onthesnow.com/idaho/sun-valley/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.sunvalley.com/lessons"
+  }
+ },
+ {
+  "id": "whitefish",
+  "name": "Whitefish Mountain Resort",
+  "rangeId": "northern-rockies",
+  "place": "Whitefish",
+  "region": "Montana",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 48.4842,
+  "lng": -114.3557,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 6817,
+  "verticalFt": 2353,
+  "skiableAcres": 3020,
+  "trails": 93,
+  "passes": [],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 115,
+   "high": 115,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/montana/whitefish-mountain-resort/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Single rate on OnTheSnow; 2026/27 prices TBD. Buying online 48+ hours ahead saves 10%"
+  },
+  "vibe": [
+   "budget",
+   "family",
+   "scenery",
+   "apres"
+  ],
+  "summary": "Snow ghosts, Glacier Park views and a real ski town at fair prices",
+  "why": "A friendly Montana mountain above the town of Whitefish with tree skiing and big views. Suits families and value-minded skiers. Kids 6 and under ski free.",
+  "links": {
+   "officialSite": "https://skiwhitefish.com/",
+   "tickets": "https://skiwhitefish.com/tickets/",
+   "instagram": "https://www.instagram.com/skiwhitefish/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "FCA",
+    "city": "Kalispell"
+   }
+  ],
+  "sources": [
+   "https://skiwhitefish.com/",
+   "https://skiwhitefish.com/tickets/",
+   "https://skiwhitefish.com/kids-center/",
+   "https://en.wikipedia.org/wiki/Whitefish_Mountain_Resort",
+   "https://www.onthesnow.com/montana/whitefish-mountain-resort/lift-tickets",
+   "https://nominatim.openstreetmap.org/search?q=Whitefish+Mountain+Resort&format=json",
+   "https://www.indyskipass.com/our-resorts",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://skiwhitefish.com/skiride-school/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "jay-peak",
+  "name": "Jay Peak",
+  "rangeId": "northeast",
+  "place": "Jay",
+  "region": "Vermont",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 44.9294,
+  "lng": -72.5322,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 3862,
+  "verticalFt": 2153,
+  "skiableAcres": 385,
+  "trails": 81,
+  "passes": [
+   "indy"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 119,
+   "high": 135,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/vermont/jay-peak/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Weekday and weekend rates"
+  },
+  "vibe": [
+   "powder",
+   "family",
+   "backcountry",
+   "budget"
+  ],
+  "summary": "The most snow in the Northeast, plus glades and an indoor waterpark",
+  "why": "Near the Canadian border, Jay gets the region's deepest snow and is known for tree skiing. Families like the indoor waterpark and ice rink.",
+  "links": {
+   "officialSite": "https://jaypeakresort.com/",
+   "tickets": "https://book.jaypeakresort.com/ecomm/shop/calendar/8101337/en-US/?productcategoryid=117",
+   "instagram": "https://www.instagram.com/jaypeakresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BTV",
+    "city": "Burlington"
+   },
+   {
+    "iata": "YUL",
+    "city": "Montreal"
+   }
+  ],
+  "sources": [
+   "https://jaypeakresort.com/",
+   "https://jaypeakresort.com/trip-planning/childcare",
+   "https://en.wikipedia.org/wiki/Jay_Peak_Resort",
+   "https://www.onthesnow.com/vermont/jay-peak/lift-tickets",
+   "https://www.indyskipass.com/our-resorts"
+  ],
+  "family": {
+   "skiSchool": "https://jaypeakresort.com/skiing-riding/ski-and-ride-school/lessons",
+   "childcare": true
+  }
+ },
+ {
+  "id": "killington",
+  "name": "Killington",
+  "rangeId": "northeast",
+  "place": "Killington",
+  "region": "Vermont",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 43.626,
+  "lng": -72.798,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 4241,
+  "verticalFt": 3050,
+  "skiableAcres": 1509,
+  "trails": 155,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 205,
+   "high": 225,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "High is the 2026/27 window rate; low is a 2025/26 online sample from OnTheSnow. Earlier booking is cheaper"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "expert",
+   "terrain-park"
+  ],
+  "summary": "The Beast of the East: biggest ski area in the eastern US and a long season",
+  "why": "Six peaks, New England's biggest vertical and a season that often runs October to May, plus a famous apres scene. Suits groups and keen skiers.",
+  "links": {
+   "officialSite": "https://www.killington.com/",
+   "tickets": "https://killington.com/lift-tickets",
+   "instagram": "https://www.instagram.com/killingtonmtn/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BTV",
+    "city": "Burlington"
+   }
+  ],
+  "sources": [
+   "https://www.killington.com/",
+   "https://killington.com/lift-tickets",
+   "https://en.wikipedia.org/wiki/Killington_Ski_Resort",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.onthesnow.com/vermont/killington-resort/lift-tickets",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://killington.com/about-ski-snowboard-lessons",
+   "childcare": true
+  }
+ },
+ {
+  "id": "mont-tremblant",
+  "name": "Mont Tremblant",
+  "rangeId": "northeast",
+  "place": "Mont-Tremblant",
+  "region": "Quebec",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 46.2139,
+  "lng": -74.585,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 2871,
+  "verticalFt": 2116,
+  "skiableAcres": null,
+  "trails": 102,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 155,
+   "high": 185,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/quebec/tremblant/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Weekday and weekend rates"
+  },
+  "vibe": [
+   "village",
+   "apres",
+   "nightlife",
+   "family"
+  ],
+  "summary": "A car-free, colorful pedestrian village at the foot of the Laurentians",
+  "why": "A famous ski village with French-Canadian charm and four mountain faces. Suits couples and families who value the village life.",
+  "links": {
+   "officialSite": "https://www.tremblant.ca/",
+   "tickets": "https://www.tremblant.ca/plan/tickets-and-passes/lift-tickets"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YUL",
+    "city": "Montreal",
+    "driveTime": "1 hr 30 min"
+   }
+  ],
+  "sources": [
+   "https://www.tremblant.ca/",
+   "https://en.wikipedia.org/wiki/Mont_Tremblant_Resort",
+   "https://www.onthesnow.com/quebec/tremblant/lift-tickets",
+   "https://www.onthesnow.com/quebec/tremblant/ski-resort",
+   "https://www.ikonpass.com/en/destinations"
+  ]
+ },
+ {
+  "id": "stowe",
+  "name": "Stowe",
+  "rangeId": "northeast",
+  "place": "Stowe",
+  "region": "Vermont",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 44.5319,
+  "lng": -72.7875,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 3719,
+  "verticalFt": 2360,
+  "skiableAcres": 485,
+  "trails": 116,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 207,
+   "high": 207,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/vermont/stowe-mountain-resort/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Only a single Dec 23 online sample was published; dynamic pricing, peak days cost more"
+  },
+  "vibe": [
+   "apres",
+   "village",
+   "luxury",
+   "scenery",
+   "expert"
+  ],
+  "summary": "Vermont's classic: Mount Mansfield's Front Four and a storybook village",
+  "why": "Historic New England skiing on Vermont's highest peak, with steep trails and an upscale Spruce Peak village. Suits couples and strong skiers.",
+  "links": {
+   "officialSite": "https://www.stowe.com/",
+   "tickets": "https://www.stowe.com/plan-your-trip/lift-access/tickets.aspx",
+   "instagram": "https://www.instagram.com/stowemt/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BTV",
+    "city": "Burlington"
+   }
+  ],
+  "sources": [
+   "https://www.stowe.com/",
+   "https://en.wikipedia.org/wiki/Stowe_Mountain_Resort",
+   "https://www.onthesnow.com/vermont/stowe-mountain-resort/lift-tickets",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass"
+  ],
+  "family": {
+   "skiSchool": "https://www.stowe.com/plan-your-trip/ski-and-ride-lessons.aspx",
+   "childcare": true
+  }
+ },
+ {
+  "id": "sugarbush",
+  "name": "Sugarbush",
+  "rangeId": "northeast",
+  "place": "Warren",
+  "region": "Vermont",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 44.1372,
+  "lng": -72.9067,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 4083,
+  "verticalFt": 2600,
+  "skiableAcres": 508,
+  "trails": 111,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 99,
+   "high": 199,
+   "season": "2026/27",
+   "sourceUrl": "https://www.sugarbush.com/plan-your-trip/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "$99 Best Deal ticket for any 26/27 day bought in advance; high is a 2025/26 weekend rate from OnTheSnow"
+  },
+  "vibe": [
+   "expert",
+   "scenery",
+   "family"
+  ],
+  "summary": "Two mountains in the Mad River Valley with classic narrow Vermont trails",
+  "why": "Lincoln Peak and Mount Ellen offer glades, steeps and old-school New England character in a scenic valley. Suits families and tree skiers.",
+  "links": {
+   "officialSite": "https://www.sugarbush.com/",
+   "tickets": "https://www.sugarbush.com/plan-your-trip/lift-tickets",
+   "instagram": "https://www.instagram.com/sugarbush_vt/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BTV",
+    "city": "Burlington"
+   }
+  ],
+  "sources": [
+   "https://www.sugarbush.com/",
+   "https://www.sugarbush.com/plan-your-trip/lift-tickets",
+   "https://en.wikipedia.org/wiki/Sugarbush_Resort",
+   "https://www.onthesnow.com/vermont/sugarbush/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.sugarbush.com/plan-your-trip/ski-and-ride",
+   "childcare": true
+  }
+ },
+ {
+  "id": "sugarloaf",
+  "name": "Sugarloaf",
+  "rangeId": "northeast",
+  "place": "Carrabassett Valley",
+  "region": "Maine",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 45.0314,
+  "lng": -70.3131,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 4237,
+  "verticalFt": 2820,
+  "skiableAcres": 1360,
+  "trails": 176,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 65,
+   "high": 150,
+   "season": "2026/27",
+   "sourceUrl": "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "checkedOn": "2026-10-03",
+   "note": "High is the 2026/27 window rate; low is a 2025/26 online sample from OnTheSnow"
+  },
+  "vibe": [
+   "expert",
+   "scenery",
+   "family",
+   "village"
+  ],
+  "summary": "The only lift-served above-treeline skiing in the Northeast",
+  "why": "A remote Maine giant with a ski-in, ski-out village and open snowfields up top. Suits families and adventurous skiers willing to drive.",
+  "links": {
+   "officialSite": "https://www.sugarloaf.com/",
+   "tickets": "https://www.sugarloaf.com/lift-tickets",
+   "instagram": "https://www.instagram.com/sugarloafmountain/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "PWM",
+    "city": "Portland"
+   }
+  ],
+  "sources": [
+   "https://www.sugarloaf.com/",
+   "https://www.sugarloaf.com/lift-tickets",
+   "https://en.wikipedia.org/wiki/Sugarloaf_(ski_resort)",
+   "https://snowbrains.com/2026-27-lift-ticket-prices/",
+   "https://www.onthesnow.com/maine/sugarloaf/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.sugarloaf.com/lessons"
+  }
+ },
+ {
+  "id": "sunday-river",
+  "name": "Sunday River",
+  "rangeId": "northeast",
+  "place": "Newry",
+  "region": "Maine",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 44.4733,
+  "lng": -70.8569,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 3140,
+  "verticalFt": 2340,
+  "skiableAcres": 870,
+  "trails": 135,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 69,
+   "high": 117,
+   "season": "2026/27",
+   "sourceUrl": "https://www.sundayriver.com/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "From $69 online for 2026/27; high is a 2025/26 weekend sample from OnTheSnow. Tickets sold online only"
+  },
+  "vibe": [
+   "family",
+   "terrain-park",
+   "apres"
+  ],
+  "summary": "Eight linked peaks and reliable snowmaking in western Maine",
+  "why": "A big, family-friendly resort with eight interconnected peaks, strong snowmaking and night skiing. Suits families and groups of mixed ability.",
+  "links": {
+   "officialSite": "https://www.sundayriver.com/",
+   "tickets": "https://www.sundayriver.com/lift-tickets",
+   "instagram": "https://www.instagram.com/sundayriver/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "PWM",
+    "city": "Portland"
+   }
+  ],
+  "sources": [
+   "https://www.sundayriver.com/",
+   "https://www.sundayriver.com/lift-tickets",
+   "https://en.wikipedia.org/wiki/Sunday_River_(ski_resort)",
+   "https://www.onthesnow.com/maine/sunday-river/lift-tickets",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.sundayriver.com/lessons"
+  }
+ },
+ {
+  "id": "whiteface",
+  "name": "Whiteface",
+  "rangeId": "northeast",
+  "place": "Wilmington",
+  "region": "New York",
+  "country": "United States",
+  "countryCode": "US",
+  "lat": 44.3536,
+  "lng": -73.8614,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 4386,
+  "verticalFt": 3166,
+  "skiableAcres": 299,
+  "trails": 94,
+  "passes": [
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "USD",
+   "low": 134,
+   "high": 134,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/new-york/whiteface-mountain-resort/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Single rate on OnTheSnow; dynamic pricing applies"
+  },
+  "vibe": [
+   "expert",
+   "scenery"
+  ],
+  "summary": "1980 Olympic mountain with the biggest lift-served vertical in the East",
+  "why": "Hosted the 1980 Olympic alpine events and offers steep, often icy terrain near Lake Placid. Suits strong skiers and Olympic history fans.",
+  "links": {
+   "officialSite": "https://www.whiteface.com/",
+   "tickets": "https://www.whiteface.com/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SLK",
+    "city": "Saranac Lake"
+   },
+   {
+    "iata": "BTV",
+    "city": "Burlington"
+   }
+  ],
+  "sources": [
+   "https://www.whiteface.com/",
+   "https://en.wikipedia.org/wiki/Whiteface_Mountain",
+   "https://www.onthesnow.com/new-york/whiteface-mountain-resort/lift-tickets",
+   "https://www.skiresort.com/en/ski-resort/whiteface-lake-placid/",
+   "https://nominatim.openstreetmap.org/search?q=Whiteface+Mountain+Ski+Center+Wilmington&format=json",
+   "https://mountaincollective.com/"
+  ]
+ },
+ {
+  "id": "banff-sunshine",
+  "name": "Banff Sunshine Village",
+  "rangeId": "western-canada",
+  "place": "Banff",
+  "region": "Alberta",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 51.1135,
+  "lng": -115.7685,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 8957,
+  "verticalFt": 3514,
+  "skiableAcres": 3358,
+  "trails": 137,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 184,
+   "high": 189,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/banff-sunshine/",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; figures from OnTheSnow and Skiresort.info, check SkiBig3 calendar"
+  },
+  "vibe": [
+   "scenery",
+   "powder",
+   "family",
+   "expert"
+  ],
+  "summary": "High-alpine skiing on the Continental Divide with one of Canada's longest seasons",
+  "why": "Three mountains above the treeline straddling Alberta and BC, known for dry snow, a season into late spring and steep Delirium Dive. Suits everyone from cruisers to experts.",
+  "links": {
+   "officialSite": "https://www.skibanff.com/",
+   "tickets": "https://www.skibig3.com/lift-tickets/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "sources": [
+   "https://www.skibanff.com/",
+   "https://en.wikipedia.org/wiki/Banff_Sunshine",
+   "https://www.skiresort.com/en/ski-resort/banff-sunshine/",
+   "https://www.onthesnow.com/alberta/sunshine-village/lift-tickets.html",
+   "https://mountaincollective.com/",
+   "https://www.skibig3.com/ikon-promo/"
+  ]
+ },
+ {
+  "id": "big-white",
+  "name": "Big White",
+  "rangeId": "western-canada",
+  "place": "Kelowna",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 49.7379,
+  "lng": -118.9459,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-26",
+    "close": "2027-04-04",
+    "sourceUrl": "https://www.bigwhite.com/tickets-passes/lift-tickets"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2,
+   3
+  ],
+  "topFt": 7608,
+  "verticalFt": 2550,
+  "skiableAcres": 2834,
+  "trails": 119,
+  "passes": [
+   "indy"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 124,
+   "high": 239,
+   "season": "2026/27",
+   "sourceUrl": "https://www.bigwhite.com/tickets-passes/lift-tickets",
+   "checkedOn": "2026-10-03",
+   "note": "CA$124 online Mon to Fri; CA$239 at the window in peak weeks"
+  },
+  "vibe": [
+   "family",
+   "village",
+   "powder",
+   "beginner"
+  ],
+  "summary": "Ski-in, ski-out village living and dry Okanagan powder near Kelowna",
+  "why": "Big White is a family favourite with a car-free ski-in, ski-out village, lots of intermediate terrain and Western Canada's largest night skiing area.",
+  "links": {
+   "officialSite": "https://www.bigwhite.com/",
+   "tickets": "https://www.bigwhite.com/tickets-passes/lift-tickets",
+   "instagram": "https://www.instagram.com/skibigwhite/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YLW",
+    "city": "Kelowna"
+   }
+  ],
+  "sources": [
+   "https://www.bigwhite.com/",
+   "https://www.bigwhite.com/tickets-passes/lift-tickets",
+   "https://www.bigwhite.com/explore/mountain-info/mountain-statistics",
+   "https://www.bigwhite.com/explore-big-white/mountain-services/tot-town-daycare",
+   "https://www.indyskipass.com/our-resorts/big-white-ski-resort"
+  ],
+  "family": {
+   "skiSchool": "https://www.bigwhite.com/ski-school",
+   "childcare": true
+  }
+ },
+ {
+  "id": "fernie",
+  "name": "Fernie Alpine Resort",
+  "rangeId": "western-canada",
+  "place": "Fernie",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 49.4632,
+  "lng": -115.0862,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 7000,
+  "verticalFt": 3550,
+  "skiableAcres": 2500,
+  "trails": 145,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 185,
+   "high": 189,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/british-columbia/fernie-alpine/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Date-specific pricing; sample online rate CA$185, main-season CA$189 per Skiresort.info"
+  },
+  "vibe": [
+   "powder",
+   "expert",
+   "apres",
+   "family"
+  ],
+  "summary": "Five big bowls of Rockies powder above a friendly old mining town",
+  "why": "Fernie's bowls catch heavy snowfall, with Polar Peak for steeps and plenty of groomers below. The historic town adds a relaxed apres scene. Suits powder lovers and families.",
+  "links": {
+   "officialSite": "https://skifernie.com/",
+   "tickets": "https://skifernie.com/purchase/lift-tickets/",
+   "instagram": "https://www.instagram.com/ferniealpineresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YXC",
+    "city": "Cranbrook"
+   },
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "sources": [
+   "https://skifernie.com/",
+   "https://skifernie.com/discover-fernie/mountain-stats/",
+   "https://www.onthesnow.com/british-columbia/fernie-alpine/lift-tickets.html",
+   "https://www.skiresort.com/en/ski-resort/fernie/",
+   "https://www.epicpass.com/"
+  ],
+  "family": {
+   "skiSchool": "https://skifernie.com/purchase/telus-winter-snow-school/"
+  }
+ },
+ {
+  "id": "kicking-horse",
+  "name": "Kicking Horse",
+  "rangeId": "western-canada",
+  "place": "Golden",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 51.2982,
+  "lng": -117.0499,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 8218,
+  "verticalFt": 4314,
+  "skiableAcres": 3400,
+  "trails": 120,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 185,
+   "high": 189,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/british-columbia/kicking-horse/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Date-specific pricing; sample online rate CA$185, main-season CA$189 per Skiresort.info"
+  },
+  "vibe": [
+   "expert",
+   "powder",
+   "backcountry"
+  ],
+  "summary": "A single gondola to steep chutes and bowls in Canada's Champagne Powder country",
+  "why": "Kicking Horse is known for steep, rugged in-bounds terrain reached by one long gondola, with light snow and short lines. Best for advanced skiers.",
+  "links": {
+   "officialSite": "https://kickinghorseresort.com/",
+   "tickets": "https://kickinghorseresort.com/purchase/lift-tickets/",
+   "instagram": "https://www.instagram.com/kickinghorsemtn/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "sources": [
+   "https://kickinghorseresort.com/",
+   "https://kickinghorseresort.com/discover-kickinghorse/mountain-stats/",
+   "https://kickinghorseresort.com/purchase/telus-winter-snow-school/",
+   "https://www.onthesnow.com/british-columbia/kicking-horse/lift-tickets.html",
+   "https://www.skiresort.com/en/ski-resort/kicking-horse-golden/",
+   "https://www.epicpass.com/"
+  ],
+  "family": {
+   "skiSchool": "https://kickinghorseresort.com/purchase/telus-winter-snow-school/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "lake-louise",
+  "name": "Lake Louise",
+  "rangeId": "western-canada",
+  "place": "Lake Louise",
+  "region": "Alberta",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 51.4419,
+  "lng": -116.1606,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-06",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.skilouise.com/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 8650,
+  "verticalFt": 3250,
+  "skiableAcres": 4200,
+  "trails": 170,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 160,
+   "high": 185,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skilouise.com/tickets-passes/winter-tickets/single-day-lift-tickets/",
+   "checkedOn": "2026-10-03",
+   "note": "Adult full day, varies by date; early-season discounts up to 50%"
+  },
+  "vibe": [
+   "scenery",
+   "family",
+   "expert",
+   "powder"
+  ],
+  "summary": "The Canadian Rockies' biggest ski area, facing a wall of glaciated peaks",
+  "why": "Three mountains and five faces with runs for every level off most chairs, plus huge back bowls and famous views. A strong pick for families and mixed-ability groups.",
+  "links": {
+   "officialSite": "https://www.skilouise.com/",
+   "tickets": "https://www.skilouise.com/tickets-passes/winter-tickets/single-day-lift-tickets/",
+   "instagram": "https://www.instagram.com/skilouise/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "sources": [
+   "https://www.skilouise.com/",
+   "https://www.skilouise.com/explore-winter/winter-ski-ride/mountain-stats/",
+   "https://www.skilouise.com/tickets-passes/winter-tickets/single-day-lift-tickets/",
+   "https://www.skilouise.com/tickets-passes/other-products/daycare-centre/",
+   "https://mountaincollective.com/",
+   "https://www.skibig3.com/ikon-promo/"
+  ],
+  "family": {
+   "skiSchool": "https://www.skilouise.com/explore-winter/winter-ski-ride/ski-snowboard-lessons/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "revelstoke",
+  "name": "Revelstoke Mountain Resort",
+  "rangeId": "western-canada",
+  "place": "Revelstoke",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 50.9693,
+  "lng": -118.1092,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-05",
+    "close": null,
+    "sourceUrl": "https://www.revelstokemountainresort.com/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 7300,
+  "verticalFt": 5620,
+  "skiableAcres": 3121,
+  "trails": 75,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 129,
+   "high": 199,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/british-columbia/revelstoke-mountain/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "CA$199 window; CA$129 to CA$159 when bought 7+ days ahead (SnowStash)"
+  },
+  "vibe": [
+   "expert",
+   "powder",
+   "backcountry"
+  ],
+  "summary": "The longest lift-served vertical in North America, buried in Selkirk powder",
+  "why": "Revelstoke pairs North America's biggest vertical with deep Interior BC snow and steep tree skiing. Best for strong skiers chasing powder and long, leg-burning runs.",
+  "links": {
+   "officialSite": "https://www.revelstokemountainresort.com/",
+   "tickets": "https://shop.revelstokemountainresort.com/l/winter-lift-tickets/p/winter-lift-tickets-fall",
+   "instagram": "https://www.instagram.com/revelstokemtnresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YLW",
+    "city": "Kelowna"
+   },
+   {
+    "iata": "YYC",
+    "city": "Calgary"
+   }
+  ],
+  "sources": [
+   "https://www.revelstokemountainresort.com/",
+   "https://www.revelstokemountainresort.com/mountain/mountain-stats/",
+   "https://www.revelstokemountainresort.com/mountain-sports-school/childcare/",
+   "https://www.skiresort.com/en/ski-resort/revelstoke-mountain-resort/",
+   "https://www.onthesnow.com/british-columbia/revelstoke-mountain/lift-tickets.html",
+   "https://snowstash.com/canada/british-columbia/revelstoke/lift-tickets",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.revelstokemountainresort.com/mountain-sports-school/mountain-snow-school/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "sun-peaks",
+  "name": "Sun Peaks",
+  "rangeId": "western-canada",
+  "place": "Sun Peaks",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 50.8781,
+  "lng": -119.8798,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-21",
+    "close": "2027-04-04",
+    "sourceUrl": "https://www.sunpeaksresort.com/ski-ride/the-mountain/trail-maps-stats"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 6824,
+  "verticalFt": 2940,
+  "skiableAcres": 4400,
+  "trails": 144,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 199,
+   "high": 199,
+   "season": "2025/26",
+   "sourceUrl": "https://www.onthesnow.com/british-columbia/sun-peaks/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Full-price day rate; resort says buying online in advance saves up to 40%"
+  },
+  "vibe": [
+   "family",
+   "village",
+   "beginner"
+  ],
+  "summary": "Canada's second-largest ski area, sunny and uncrowded, with a walkable village",
+  "why": "Three mountains and 4,400 acres spread around a compact ski-in, ski-out village, with lots of gentle cruising. Great for families and intermediates who hate lift lines.",
+  "links": {
+   "officialSite": "https://www.sunpeaksresort.com/",
+   "tickets": "https://www.sunpeaksresort.com/ski-ride/tickets-passes/day-tickets",
+   "instagram": "https://www.instagram.com/sunpeaksresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YKA",
+    "city": "Kamloops"
+   }
+  ],
+  "sources": [
+   "https://www.sunpeaksresort.com/",
+   "https://www.sunpeaksresort.com/ski-ride/the-mountain/trail-maps-stats",
+   "https://www.sunpeaksresort.com/ski-ride/tickets-passes/day-tickets",
+   "https://www.sunpeaksresort.com/ski-ride/sports-school-rentals/sundance-kids-centre",
+   "https://www.onthesnow.com/british-columbia/sun-peaks/lift-tickets.html",
+   "https://mountaincollective.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.sunpeaksresort.com/ski-ride/sports-school-rentals/explore-sports-school",
+   "childcare": true
+  }
+ },
+ {
+  "id": "whistler-blackcomb",
+  "name": "Whistler Blackcomb",
+  "rangeId": "western-canada",
+  "place": "Whistler",
+  "region": "British Columbia",
+  "country": "Canada",
+  "countryCode": "CA",
+  "lat": 50.1147,
+  "lng": -122.956,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-20",
+    "close": null,
+    "sourceUrl": "https://www.placera.se/pressmeddelanden/vail-resorts-whistler-blackcomb-kicks-off-the-countdown-to-winter-with-november-20-opening-date-20260818"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 7494,
+  "verticalFt": 5280,
+  "skiableAcres": 8171,
+  "trails": 200,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "CAD",
+   "low": 156,
+   "high": 183,
+   "season": "2026/27",
+   "sourceUrl": "https://www.whistler.com/skiing/lift-tickets/",
+   "checkedOn": "2026-10-03",
+   "note": "Pre-purchased 1-day Day Pass with lodging (restricted to unrestricted); window rates run much higher"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "village",
+   "expert",
+   "terrain-park"
+  ],
+  "summary": "North America's biggest ski area, two giant mountains linked by the Peak 2 Peak",
+  "why": "Two huge mountains above a lively pedestrian village, with alpine bowls, glaciers and serious apres. Suits mixed groups who want endless terrain and a big night scene.",
+  "links": {
+   "officialSite": "https://www.whistlerblackcomb.com/",
+   "tickets": "https://www.whistlerblackcomb.com/plan-your-trip/lift-access/tickets.aspx",
+   "instagram": "https://www.instagram.com/whistlerblackcomb/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "YVR",
+    "city": "Vancouver"
+   }
+  ],
+  "sources": [
+   "https://www.whistlerblackcomb.com/",
+   "https://www.whistler.com/skiing/lift-tickets/",
+   "https://www.placera.se/pressmeddelanden/vail-resorts-whistler-blackcomb-kicks-off-the-countdown-to-winter-with-november-20-opening-date-20260818",
+   "https://www.skiresort.com/en/ski-resort/whistler-blackcomb/",
+   "https://www.onthesnow.com/british-columbia/whistler-blackcomb/lift-tickets.html",
+   "https://www.epicpass.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.whistlerblackcomb.com/plan-your-trip/ski-and-ride-lessons.aspx"
+  }
+ },
+ {
+  "id": "alpe-dhuez",
+  "name": "Alpe d'Huez",
+  "rangeId": "french-alps",
+  "place": "Huez",
+  "region": "Isère",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.0919,
+  "lng": 6.0681,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-05",
+    "close": "2027-04-25",
+    "sourceUrl": "https://skipass.alpedhuez.com/hiver/en/home-2/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10926,
+  "verticalFt": 6824,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 68,
+   "high": 68,
+   "season": "2026/27",
+   "sourceUrl": "https://skipass.alpedhuez.com/hiver/en/all-skipasses/daily-skipasses-promo-saturday/",
+   "checkedOn": "2026-10-03",
+   "note": "Alpe d'Huez Grand Domaine pass, adult 1-day for 19 Dec 2026 to 9 Apr 2027. Saturday promo deals can be cheaper"
+  },
+  "vibe": [
+   "family",
+   "expert",
+   "apres",
+   "scenery"
+  ],
+  "summary": "Sunny slopes and the 16 km Sarenne, the world's longest black run",
+  "why": "Alpe d'Huez links five villages across 250 km of sunny terrain, from wide beginner zones to the Pic Blanc and the Sarenne. Suits families and mixed groups chasing sunshine.",
+  "links": {
+   "officialSite": "https://www.alpedhuez.com/en/",
+   "tickets": "https://skipass.alpedhuez.com/hiver/en/home-2/",
+   "instagram": "https://www.instagram.com/alpedhuez/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GNB",
+    "city": "Grenoble"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://www.alpedhuez.com/en/",
+   "https://skipass.alpedhuez.com/hiver/en/home-2/",
+   "https://skipass.alpedhuez.com/hiver/en/all-skipasses/daily-skipasses-promo-saturday/",
+   "https://www.alti-mag.com/domaines-skiables/alpe-dhuez-grand-domaine",
+   "https://www.alpedhuez.com/en/your-stay/day-nursery/"
+  ],
+  "family": {
+   "childcare": true
+  }
+ },
+ {
+  "id": "chamonix",
+  "name": "Chamonix Mont-Blanc",
+  "rangeId": "french-alps",
+  "place": "Chamonix",
+  "region": "Haute-Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.9231,
+  "lng": 6.8697,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-28",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.seechamonix.com/lifts/dates/season-dates-for-chamonix-valley-lifts"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 12606,
+  "verticalFt": 9210,
+  "skiableAcres": null,
+  "trails": 119,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 76,
+   "high": 76,
+   "season": "2026/27",
+   "sourceUrl": "https://www.seechamonix.com/ski-passes/about-chamonix-ski-pass-prices-39960",
+   "checkedOn": "2026-10-03",
+   "note": "Chamonix Le Pass, which covers the valley's ski areas. High-season reference price; dynamic pricing, cheaper online in advance"
+  },
+  "vibe": [
+   "expert",
+   "backcountry",
+   "scenery",
+   "apres",
+   "nightlife"
+  ],
+  "summary": "Big-mountain freeride under Mont Blanc, home of the Vallée Blanche",
+  "why": "Chamonix is a real mountain town with steep, glaciated terrain, the Aiguille du Midi and serious off-piste. Best for strong skiers and freeriders; beginners have fewer options.",
+  "links": {
+   "officialSite": "https://www.chamonix.com/",
+   "tickets": "https://www.montblancnaturalresort.com/",
+   "instagram": "https://www.instagram.com/chamonixmontblanc/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "sources": [
+   "https://www.chamonix.com/",
+   "https://www.seechamonix.com/ski-passes/about-chamonix-ski-pass-prices-39960",
+   "https://www.seechamonix.com/lifts/dates/season-dates-for-chamonix-valley-lifts",
+   "https://www.ikonpass.com/en/destinations/chamonix-mont-blanc-valley",
+   "https://www.freeride.com/ski-resorts/compare.php?ids=130",
+   "https://en.wikipedia.org/wiki/Chamonix",
+   "https://www.ikonpass.com/en/destinations"
+  ]
+ },
+ {
+  "id": "courchevel",
+  "name": "Courchevel",
+  "rangeId": "french-alps",
+  "place": "Courchevel",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.415,
+  "lng": 6.6339,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-04",
+    "close": "2027-04-18",
+    "sourceUrl": "https://www.les3vallees.com/en/live/slopes-opening-courchevel"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10598,
+  "verticalFt": 6332,
+  "skiableAcres": 25950,
+  "trails": 337,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 67,
+   "high": 84,
+   "season": "2026/27",
+   "sourceUrl": "https://www.les3vallees.com/en/skipass",
+   "checkedOn": "2026-10-03",
+   "note": "Les 3 Vallées full-area pass (stats are for the whole 3 Vallées). Low is the Saturday special rate; high is the standard 1-day adult price"
+  },
+  "vibe": [
+   "luxury",
+   "apres",
+   "family",
+   "village"
+  ],
+  "summary": "Michelin stars, altiport glamour and a door into the world's biggest linked ski area",
+  "why": "Courchevel pairs some of the Alps' most polished hotels and restaurants with direct lift access to all 600 km of Les 3 Vallées. Suits luxury seekers and mixed-ability groups.",
+  "links": {
+   "officialSite": "https://courchevel.com/en/",
+   "tickets": "https://www.les3vallees.com/en/skipass",
+   "instagram": "https://www.instagram.com/courchevel_officiel/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://courchevel.com/en/",
+   "https://www.les3vallees.com/en/live/slopes-opening-courchevel",
+   "https://www.les3vallees.com/en/skipass",
+   "https://press.les3vallees.com/en/guide/in-figures",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass",
+   "https://www.epicpass.com/info/europe-is-epic"
+  ]
+ },
+ {
+  "id": "les-arcs",
+  "name": "Les Arcs",
+  "rangeId": "french-alps",
+  "place": "Bourg-Saint-Maurice",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.5722,
+  "lng": 6.8018,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-12",
+    "close": "2027-04-24",
+    "sourceUrl": "https://www.lesarcs.com/en/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10585,
+  "verticalFt": 6647,
+  "skiableAcres": null,
+  "trails": 264,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 78,
+   "high": 78,
+   "season": "2026/27",
+   "sourceUrl": "https://www.alti-mag.com/domaines-skiables/paradiski",
+   "checkedOn": "2026-10-03",
+   "note": "Paradiski full-area pass (Les Arcs plus La Plagne; stats and run count are Paradiski). Price reported by Alti Mag, not confirmed on the official site; 15% off in opening and closing weeks"
+  },
+  "vibe": [
+   "family",
+   "expert",
+   "village",
+   "scenery"
+  ],
+  "summary": "Ski-in ski-out villages linked to La Plagne by the Vanoise Express",
+  "why": "Les Arcs has four car-free resort villages, long descents from the Aiguille Rouge and access to 425 km of Paradiski. Good for families wanting convenience and for strong skiers.",
+  "links": {
+   "officialSite": "https://www.lesarcs.com/en/",
+   "tickets": "https://www.lesarcs-peiseyvallandry.com/en/forfaits_offre",
+   "instagram": "https://www.instagram.com/lesarcs/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://www.lesarcs.com/en/",
+   "https://www.lesarcs.com/en/ski-passes.html",
+   "https://www.paradiski.com/en/",
+   "https://www.alti-mag.com/domaines-skiables/paradiski",
+   "https://www.skiresort.com/en/ski-resort/les-arcs-peisey-vallandry-paradiski/",
+   "https://en.wikipedia.org/wiki/Paradiski"
+  ],
+  "family": {
+   "skiSchool": "https://www.lesarcs.com/en/stay/all-services/ski-school",
+   "childcare": true
+  }
+ },
+ {
+  "id": "megeve",
+  "name": "Megève",
+  "rangeId": "french-alps",
+  "place": "Megève",
+  "region": "Haute-Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.8578,
+  "lng": 6.6181,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 7720,
+  "verticalFt": 4265,
+  "skiableAcres": 1975,
+  "trails": 227,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 65,
+   "high": 65,
+   "season": "2026/27",
+   "sourceUrl": "https://forfait.megeve.com/hiver/wp-content/uploads/sites/7/2026/09/H2627_tarifs-EMB-MBU_GB.pdf",
+   "checkedOn": "2026-10-03",
+   "note": "Evasion Mont Blanc full-area pass, 1-day adult public price. Early online booking can be cheaper"
+  },
+  "vibe": [
+   "luxury",
+   "village",
+   "family",
+   "scenery"
+  ],
+  "summary": "Medieval village chic with tree-lined cruising and Mont Blanc views",
+  "why": "Megève is a car-free medieval center with smart hotels and gentle, scenic slopes linked across the Evasion Mont Blanc area. Ideal for relaxed intermediates, families and foodies.",
+  "links": {
+   "officialSite": "https://www.megeve-tourisme.fr/en/",
+   "tickets": "https://forfait.megeve.com/hiver/en/",
+   "instagram": "https://www.instagram.com/megeve_officiel/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva",
+    "driveTime": "1.5 hours"
+   }
+  ],
+  "sources": [
+   "https://www.megeve-tourisme.fr/en/",
+   "https://forfait.megeve.com/hiver/en/",
+   "https://forfait.megeve.com/hiver/wp-content/uploads/sites/7/2026/09/H2627_tarifs-EMB-MBU_GB.pdf",
+   "https://www.ikonpass.com/en/destinations/megeve-ski-area",
+   "https://www.skiresort.com/en/ski-resort/megeve-saint-gervais/",
+   "https://www.snowindustrynews.com/articles/megève-joins-ikon-pass-for-winter-2526-pass-goes-off-sale-on-december-11"
+  ],
+  "family": {
+   "skiSchool": "https://www.megeve-tourisme.fr/en/skier-a-megeve/ecoles-de-ski/"
+  }
+ },
+ {
+  "id": "meribel",
+  "name": "Méribel",
+  "rangeId": "french-alps",
+  "place": "Méribel",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.3967,
+  "lng": 6.5663,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-05",
+    "close": "2027-04-18",
+    "sourceUrl": "https://www.meribel.net/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10598,
+  "verticalFt": 6332,
+  "skiableAcres": 25950,
+  "trails": 337,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 67,
+   "high": 84,
+   "season": "2026/27",
+   "sourceUrl": "https://www.les3vallees.com/en/skipass",
+   "checkedOn": "2026-10-03",
+   "note": "Les 3 Vallées full-area pass (stats are for the whole 3 Vallées). Low is the Saturday special rate; high is the standard 1-day adult price"
+  },
+  "vibe": [
+   "apres",
+   "family",
+   "village",
+   "scenery"
+  ],
+  "summary": "Chalet-style village in the dead center of Les 3 Vallées",
+  "why": "Méribel sits in the middle of Les 3 Vallées, so every corner of the 600 km area is in reach. Known for its wooden chalet village and lively après, it suits families and intermediates.",
+  "links": {
+   "officialSite": "https://www.meribel.net/",
+   "tickets": "https://www.les3vallees.com/en/skipass",
+   "instagram": "https://www.instagram.com/meribel3vallees/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://www.meribel.net/",
+   "https://courchevel.com/en/a/alpine-ski-area-meribel-valley-77773/",
+   "https://www.les3vallees.com/en/skipass",
+   "https://press.les3vallees.com/en/guide/in-figures",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass"
+  ],
+  "family": {
+   "skiSchool": "https://www.meribel.net/en/book-ski-snowboards-lessons/"
+  }
+ },
+ {
+  "id": "tignes",
+  "name": "Tignes",
+  "rangeId": "french-alps",
+  "place": "Tignes",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.4683,
+  "lng": 6.9056,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-21",
+    "close": "2027-05-02",
+    "sourceUrl": "https://en.tignes.net/skiing/ski-pass-you-need"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 11339,
+  "verticalFt": 6254,
+  "skiableAcres": null,
+  "trails": 158,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 67,
+   "high": 78,
+   "season": "2026/27",
+   "sourceUrl": "https://public.tignes.net/TIGNES.NET/TARIFS/TARIFS_FORFAITS_HIVER.pdf",
+   "checkedOn": "2026-10-03",
+   "note": "Tignes-Val d'Isère full-area pass (stats are for the whole linked area). 67 in early and late season, 78 from 12 Dec 2026 to 23 Apr 2027. Opening week (21 to 27 Nov) is Tignes only"
+  },
+  "vibe": [
+   "family",
+   "terrain-park",
+   "powder",
+   "expert"
+  ],
+  "summary": "Glacier-backed, high-altitude skiing from November to May",
+  "why": "Tignes sits above 2,000 m with the Grande Motte glacier, so snow is reliable across a long season. Purpose-built and practical, it suits families, park riders and keen skiers.",
+  "links": {
+   "officialSite": "https://en.tignes.net/",
+   "tickets": "https://en.tignes.net/skiing/ski-pass-you-need"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://en.tignes.net/",
+   "https://en.tignes.net/skiing/ski-pass-you-need",
+   "https://public.tignes.net/TIGNES.NET/TARIFS/TARIFS_FORFAITS_HIVER.pdf",
+   "https://public.tignes.net/TIGNES.NET/TARIFS/TARIFS_FORFAITS_CLOSING.pdf",
+   "https://www.skiresort.com/en/ski-resort/tignes-val-disere/",
+   "https://www.alti-mag.com/domaines-skiables/tignes-val-disere",
+   "https://en.wikipedia.org/wiki/Tignes"
+  ]
+ },
+ {
+  "id": "val-thorens",
+  "name": "Val Thorens",
+  "rangeId": "french-alps",
+  "place": "Val Thorens",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.2981,
+  "lng": 6.58,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-21",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.les3vallees.com/en/live/slopes-opening-val-thorens"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10598,
+  "verticalFt": 6332,
+  "skiableAcres": 25950,
+  "trails": 337,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 67,
+   "high": 84,
+   "season": "2026/27",
+   "sourceUrl": "https://www.les3vallees.com/en/skipass",
+   "checkedOn": "2026-10-03",
+   "note": "Les 3 Vallées full-area pass (stats are for the whole 3 Vallées). Low is the Saturday special rate; high is the standard 1-day adult price"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "family",
+   "expert"
+  ],
+  "summary": "Europe's highest ski resort: long season, snow-sure slopes, loud nights",
+  "why": "At 2,300 m, Val Thorens opens early and closes late, with ski-in ski-out almost everywhere and the 3 Vallées on its doorstep. Great for groups who want reliable snow and big après.",
+  "links": {
+   "officialSite": "https://www.valthorens.com/en/",
+   "tickets": "https://www.les3vallees.com/en/skipass"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://www.valthorens.com/en/activities-and-entertainment/events/details/la-grande-premiere.372.e8.html",
+   "https://www.les3vallees.com/en/live/slopes-opening-val-thorens",
+   "https://www.les3vallees.com/en/skipass",
+   "https://press.les3vallees.com/en/guide/in-figures",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass"
+  ]
+ },
+ {
+  "id": "val-disere",
+  "name": "Val d'Isère",
+  "rangeId": "french-alps",
+  "place": "Val-d'Isère",
+  "region": "Savoie",
+  "country": "France",
+  "countryCode": "FR",
+  "lat": 45.4506,
+  "lng": 6.9781,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-28",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.valdisere.com/en/prepare-for-your-stay/buy-my-skipass/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 11339,
+  "verticalFt": 6254,
+  "skiableAcres": null,
+  "trails": 158,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 67,
+   "high": 78,
+   "season": "2026/27",
+   "sourceUrl": "https://www.valdisere.com/en/prepare-for-your-stay/buy-my-skipass/",
+   "checkedOn": "2026-10-03",
+   "note": "Tignes-Val d'Isère full-area pass (stats are for the whole linked area). 67 in early and late season, 78 from 12 Dec 2026 to 23 Apr 2027"
+  },
+  "vibe": [
+   "expert",
+   "apres",
+   "village",
+   "backcountry"
+  ],
+  "summary": "High, snow-sure and steep, with legendary après at La Folie Douce",
+  "why": "Val d'Isère shares 300 km of high slopes with Tignes, including the Olympic Face de Bellevarde. Strong skiers and après fans love it; the old village keeps real character.",
+  "links": {
+   "officialSite": "https://www.valdisere.com/en/",
+   "tickets": "https://www.valdisere.com/en/prepare-for-your-stay/buy-my-skipass/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "CMF",
+    "city": "Chambéry"
+   },
+   {
+    "iata": "LYS",
+    "city": "Lyon"
+   }
+  ],
+  "sources": [
+   "https://www.valdisere.com/en/prepare-for-your-stay/buy-my-skipass/",
+   "https://public.tignes.net/TIGNES.NET/TARIFS/TARIFS_FORFAITS_HIVER.pdf",
+   "https://www.skiresort.com/en/ski-resort/tignes-val-disere/",
+   "https://www.alti-mag.com/domaines-skiables/tignes-val-disere",
+   "https://en.wikipedia.org/wiki/Val-d%27Is%C3%A8re"
+  ]
+ },
+ {
+  "id": "crans-montana",
+  "name": "Crans-Montana",
+  "rangeId": "swiss-alps",
+  "place": "Crans-Montana",
+  "region": "Valais",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.3122,
+  "lng": 7.4806,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-19",
+    "close": "2027-04-04",
+    "sourceUrl": "https://www.mycma.ch/en-US/winter-prices/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9603,
+  "verticalFt": 4649,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": null,
+  "vibe": [
+   "scenery",
+   "family",
+   "luxury",
+   "village"
+  ],
+  "summary": "Sunny plateau with a sea of Alpine views, host of the 2027 Worlds",
+  "why": "Crans-Montana sits on a sunny balcony above the Rhône valley, with cruisy slopes, golf-course town life and the 2027 Alpine World Championships. Suits families and intermediates.",
+  "links": {
+   "officialSite": "https://www.crans-montana.ch/en/",
+   "tickets": "https://www.mycma.ch/en-US/winter-prices/",
+   "instagram": "https://www.instagram.com/cransmontana/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "SIR",
+    "city": "Sion"
+   }
+  ],
+  "sources": [
+   "https://www.crans-montana.ch/en/",
+   "https://www.mycma.ch/en-US/winter-prices/",
+   "https://www.crans-montana.ch/en/activities/kids",
+   "https://www.skiresort.com/en/ski-resort/crans-montana/",
+   "https://www.epicpass.com/info/europe-is-epic"
+  ],
+  "family": {
+   "childcare": true
+  }
+ },
+ {
+  "id": "davos-klosters",
+  "name": "Davos Klosters",
+  "rangeId": "swiss-alps",
+  "place": "Davos",
+  "region": "Graubünden",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.8,
+  "lng": 9.8333,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9331,
+  "verticalFt": 6674,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": null,
+  "vibe": [
+   "expert",
+   "family",
+   "terrain-park",
+   "backcountry"
+  ],
+  "summary": "Five ski mountains, a real town and long Parsenn runs down to Küblis",
+  "why": "Davos Klosters spreads across Parsenn, Jakobshorn, Rinerhorn, Pischa and Madrisa, with long descents and freeride. Suits keen skiers who prefer a working town to a purpose-built resort.",
+  "links": {
+   "officialSite": "https://www.davos.ch/en/",
+   "tickets": "https://www.davosklostersmountains.ch/en",
+   "instagram": "https://www.instagram.com/davosklosters/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.davos.ch/en/",
+   "https://www.davosklostersmountains.ch/en",
+   "https://www.skiresort.com/en/ski-resort/parsenn-davos-klosters/",
+   "https://www.skiresort.com/en/ski-resort/jakobshorn-davos-klosters/"
+  ]
+ },
+ {
+  "id": "engelberg",
+  "name": "Engelberg-Titlis",
+  "rangeId": "swiss-alps",
+  "place": "Engelberg",
+  "region": "Obwalden",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.821,
+  "lng": 8.409,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9909,
+  "verticalFt": 6618,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": null,
+  "vibe": [
+   "expert",
+   "backcountry",
+   "powder",
+   "scenery"
+  ],
+  "summary": "Big off-piste vertical on the Titlis, an hour from Zurich",
+  "why": "Engelberg is a freeride favorite, with long glacier descents off the Titlis and a monastery village in the valley. Best for advanced skiers; Brunni suits families.",
+  "links": {
+   "officialSite": "https://www.engelberg.ch/en/",
+   "tickets": "https://www.engelberg.ch/en/cable-cars/prices-winter/",
+   "instagram": "https://www.instagram.com/engelberg.titlis/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.engelberg.ch/en/",
+   "https://www.engelberg.ch/en/cable-cars/prices-winter/",
+   "https://www.skiresort.com/en/ski-resort/titlis-engelberg/"
+  ]
+ },
+ {
+  "id": "gstaad",
+  "name": "Gstaad",
+  "rangeId": "swiss-alps",
+  "place": "Gstaad",
+  "region": "Bern",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.4667,
+  "lng": 7.2833,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 3,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 9843,
+  "verticalFt": null,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": null,
+  "vibe": [
+   "luxury",
+   "village",
+   "family",
+   "scenery"
+  ],
+  "summary": "Chalet chic and 200 km of quiet slopes spread across the Saanenland",
+  "why": "Gstaad is about the village: luxury hotels, boutiques and chalets, with many small ski areas plus Glacier 3000. Suits relaxed skiers, families and luxury travelers.",
+  "links": {
+   "officialSite": "https://www.gstaad.ch/en/",
+   "tickets": "https://bergbahnen-gstaad.ch/en/winter/tariffs-shop/winter-tariff-overview"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "BRN",
+    "city": "Bern"
+   }
+  ],
+  "sources": [
+   "https://www.gstaad.ch/en/winter/experience-enjoy/skiing-snowboarding",
+   "https://bergbahnen-gstaad.ch/en/winter/tariffs-shop/winter-tariff-overview",
+   "https://www.gstaad.ch/en/winter/experience-enjoy/family-experiences/childcare"
+  ],
+  "family": {
+   "skiSchool": "https://www.gstaad.ch/en/winter/experience-enjoy/skiing-snowboarding/snowsports-schools",
+   "childcare": true
+  }
+ },
+ {
+  "id": "laax",
+  "name": "Laax",
+  "rangeId": "swiss-alps",
+  "place": "Laax",
+  "region": "Graubünden",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.8094,
+  "lng": 9.2575,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9902,
+  "verticalFt": 6293,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": null,
+  "vibe": [
+   "terrain-park",
+   "family",
+   "apres",
+   "scenery"
+  ],
+  "summary": "Freestyle mecca with huge parks across the Flims Laax Falera area",
+  "why": "Laax is famous for its snowparks and halfpipe, plus wide slopes linking Flims, Laax and Falera. Ideal for park riders, snowboarders and families who want variety.",
+  "links": {
+   "officialSite": "https://www.laax.com/en",
+   "tickets": "https://www.laax.com/en/tickets",
+   "instagram": "https://www.instagram.com/laax/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.laax.com/en",
+   "https://www.laax.com/en/tickets",
+   "https://www.skiresort.com/en/ski-resort/laax-flims-falera/"
+  ]
+ },
+ {
+  "id": "saas-fee",
+  "name": "Saas-Fee",
+  "rangeId": "swiss-alps",
+  "place": "Saas-Fee",
+  "region": "Valais",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.1097,
+  "lng": 7.9292,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 11723,
+  "verticalFt": 5817,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 84,
+   "high": 84,
+   "season": "2026/27",
+   "sourceUrl": "https://www.saas-fee.ch/en/winter-in-the-saas-valley/ski-pass-prices/saas-fee",
+   "checkedOn": "2026-10-03",
+   "note": "Saas-Fee area 1-day adult (20+) public price"
+  },
+  "vibe": [
+   "village",
+   "scenery",
+   "family",
+   "terrain-park"
+  ],
+  "summary": "Car-free glacier village ringed by thirteen 4,000 m peaks",
+  "why": "Saas-Fee is a quiet car-free village with high glacier skiing up to the Allalin, so snow is dependable. Good for families, scenery lovers and early or late season trips.",
+  "links": {
+   "officialSite": "https://www.saas-fee.ch/en",
+   "tickets": "https://www.saas-fee.ch/en/winter-in-the-saas-valley/ski-pass-prices",
+   "instagram": "https://www.instagram.com/saasfee/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.saas-fee.ch/en",
+   "https://www.saas-fee.ch/en/winter-in-the-saas-valley/ski-pass-prices/saas-fee",
+   "https://www.skiresort.com/en/ski-resort/saas-fee/"
+  ]
+ },
+ {
+  "id": "st-moritz",
+  "name": "St. Moritz (Engadin)",
+  "rangeId": "swiss-alps",
+  "place": "St. Moritz",
+  "region": "Graubünden",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.4972,
+  "lng": 9.8378,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 10827,
+  "verticalFt": null,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 55,
+   "high": 55,
+   "season": "2026/27",
+   "sourceUrl": "https://www.engadin.ch/en/snow-deal/",
+   "checkedOn": "2026-10-03",
+   "note": "Engadin regional pass (Corviglia, Corvatsch, Diavolezza and more). Dynamic Snow-Deal pricing from CHF 55; top price not published",
+   "fromOnly": true
+  },
+  "vibe": [
+   "luxury",
+   "scenery",
+   "apres",
+   "family"
+  ],
+  "summary": "Champagne climate, sunshine and old-school glamour in the Engadin",
+  "why": "St. Moritz combines high, sunny slopes across several Engadin mountains with grand hotels and two Winter Olympics of history. Suits intermediates and luxury travelers.",
+  "links": {
+   "officialSite": "https://www.engadin.ch/en/",
+   "tickets": "https://booking.engadin.ch/en/ski-tickets",
+   "instagram": "https://www.instagram.com/engadin.stmoritz/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.engadin.ch/en/",
+   "https://www.engadin.ch/en/snow-deal/",
+   "https://www.mountains.ch/en/tickets",
+   "https://en.wikipedia.org/wiki/St._Moritz",
+   "https://www.ikonpass.com/en/destinations",
+   "https://www.skiresort.com/en/ski-resort/st-moritz-corviglia/"
+  ]
+ },
+ {
+  "id": "verbier",
+  "name": "Verbier",
+  "rangeId": "swiss-alps",
+  "place": "Verbier",
+  "region": "Valais",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.0964,
+  "lng": 7.2283,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-05",
+    "close": "2027-04-25",
+    "sourceUrl": "https://www.verbier4vallees.ch/en/useful-information/prices-winter"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10926,
+  "verticalFt": 6496,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 94,
+   "high": 94,
+   "season": "2026/27",
+   "sourceUrl": "https://www.verbier4vallees.ch/en/useful-information/prices-winter",
+   "checkedOn": "2026-10-03",
+   "note": "Full 4 Vallées pass, window price; booking online is cheaper"
+  },
+  "vibe": [
+   "expert",
+   "backcountry",
+   "apres",
+   "nightlife",
+   "luxury"
+  ],
+  "summary": "Freeride capital of the Alps with a party to match",
+  "why": "Verbier is famous for steep off-piste around Mont Fort and lively bars, with 410 km across the 4 Vallées. Best for advanced skiers and freeriders who like nightlife.",
+  "links": {
+   "officialSite": "https://www.verbier4vallees.ch/en/",
+   "tickets": "https://www.verbier4vallees.ch/en/online-shop"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "SIR",
+    "city": "Sion"
+   }
+  ],
+  "sources": [
+   "https://www.verbier4vallees.ch/en/",
+   "https://www.verbier4vallees.ch/en/useful-information/prices-winter",
+   "https://www.skiresort.com/en/ski-resort/4-vallees-verbier-la-tzoumaz-nendaz-veysonnaz-thyon/",
+   "https://www.epicpass.com/info/europe-is-epic",
+   "https://www.onthesnow.com/news/a/619177/buyer-s-guide-to-the-epic-pass"
+  ]
+ },
+ {
+  "id": "zermatt",
+  "name": "Zermatt",
+  "rangeId": "swiss-alps",
+  "place": "Zermatt",
+  "region": "Valais",
+  "country": "Switzerland",
+  "countryCode": "CH",
+  "lat": 46.0167,
+  "lng": 7.75,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   12,
+   2
+  ],
+  "topFt": 12793,
+  "verticalFt": 7477,
+  "skiableAcres": 3500,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "CHF",
+   "low": 92,
+   "high": 92,
+   "season": "2026/27",
+   "sourceUrl": "https://matterhornparadise.ch/en/book/tickets",
+   "checkedOn": "2026-10-03",
+   "note": "Dynamic pricing; official 'from' price for 2026/27 day passes. The International pass (with Cervinia, used for the stats) costs more; its price and the top price were not verified",
+   "fromOnly": true
+  },
+  "vibe": [
+   "luxury",
+   "scenery",
+   "expert",
+   "village",
+   "apres"
+  ],
+  "summary": "Car-free village under the Matterhorn, skiing into Italy",
+  "why": "Zermatt offers high, glacier-backed skiing with the Matterhorn in view and runs across the border to Cervinia. Suits confident skiers who want scenery, food and a classic village.",
+  "links": {
+   "officialSite": "https://zermatt.swiss/en/",
+   "tickets": "https://matterhornparadise.ch/en/book/tickets/ski-pass-winter"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "MXP",
+    "city": "Milan"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://matterhornparadise.ch/en",
+   "https://matterhornparadise.ch/en/book/tickets",
+   "https://matterhornparadise.ch/en/book/tickets/ski-pass-winter",
+   "https://www.ikonpass.com/en/destinations/zermatt-matterhorn",
+   "https://www.skiresort.com/en/ski-resort/zermatt-breuil-cervinia-valtournenche-matterhorn/"
+  ]
+ },
+ {
+  "id": "ischgl",
+  "name": "Ischgl",
+  "rangeId": "austrian-alps",
+  "place": "Ischgl",
+  "region": "Tyrol",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.0131,
+  "lng": 10.2881,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-26",
+    "close": "2027-05-02",
+    "sourceUrl": "https://service.ischgl.com/en/winter/operating-times-prices/skipass-prices-silvretta"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9423,
+  "verticalFt": 4961,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 83,
+   "high": 83,
+   "season": "2026/27",
+   "sourceUrl": "https://service.ischgl.com/en/winter/operating-times-prices/skipass-prices-silvretta",
+   "checkedOn": "2026-10-03",
+   "note": "VIP ski pass for Ischgl/Samnaun Silvretta Arena; operator reserves right to change prices daily"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "expert",
+   "village"
+  ],
+  "summary": "High, snow-sure slopes linked to duty-free Samnaun, plus wild après",
+  "why": "A big cross-border area with Switzerland, high slopes, a long season and famous party nights. Suits intermediates and groups who want après.",
+  "links": {
+   "officialSite": "https://www.ischgl.com/en",
+   "tickets": "https://tickets.ischgl.com/en/winter/support/prices",
+   "instagram": "https://www.instagram.com/ischgl_com/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   }
+  ],
+  "sources": [
+   "https://www.ischgl.com/en",
+   "https://service.ischgl.com/en/winter/operating-times-prices/skipass-prices-silvretta",
+   "https://www.skiresort.com/en/ski-resort/ischgl-samnaun-silvretta-arena/",
+   "https://www.ischgl.com/en/winter/family-winter",
+   "https://www.ikonpass.com/en/destinations",
+   "https://en.wikipedia.org/wiki/Ischgl"
+  ],
+  "family": {
+   "skiSchool": "https://www.ischgl.com/en/winter/ski-schools-guides",
+   "childcare": true
+  }
+ },
+ {
+  "id": "kitzbuehel",
+  "name": "Kitzbühel",
+  "rangeId": "austrian-alps",
+  "place": "Kitzbühel",
+  "region": "Tyrol",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.4464,
+  "lng": 12.3919,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 6562,
+  "verticalFt": 3937,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 66,
+   "high": 80,
+   "season": "2025/26",
+   "sourceUrl": "https://www.kitzski.at/media/preise-rb-25-26-de.pdf",
+   "checkedOn": "2026-10-03",
+   "note": "Three price seasons (Spar, Vorteils, Premium); 2026/27 prices not yet published"
+  },
+  "vibe": [
+   "apres",
+   "luxury",
+   "village",
+   "nightlife",
+   "scenery"
+  ],
+  "summary": "Medieval town, the Streif downhill, and glamour on and off the slopes",
+  "why": "A real medieval town with chic shopping and the Hahnenkamm race course, on a broad, mostly intermediate ski area. Suits stylish cruisers.",
+  "links": {
+   "officialSite": "https://www.kitzski.at/en/",
+   "tickets": "https://www.kitzski.at/en/ticket-shop-kitzski.html",
+   "instagram": "https://www.instagram.com/kitzski/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SZG",
+    "city": "Salzburg"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "sources": [
+   "https://www.kitzski.at/en/",
+   "https://www.kitzski.at/media/preise-rb-25-26-de.pdf",
+   "https://www.kitzbueheler-alpen.com/de/bri/wi/ski/kitzski-preise.html",
+   "https://www.skiresort.com/en/ski-resort/kitzski-kitzbuehel-kirchberg/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://en.wikipedia.org/wiki/Kitzb%C3%BChel"
+  ],
+  "family": {
+   "skiSchool": "https://www.kitzbuehel.com/en/activities/ski-resort/ski-schools/"
+  }
+ },
+ {
+  "id": "lech-zuers",
+  "name": "Lech Zürs",
+  "rangeId": "austrian-alps",
+  "place": "Lech",
+  "region": "Vorarlberg",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.2,
+  "lng": 10.15,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-02",
+    "close": "2027-04-18",
+    "sourceUrl": "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9223,
+  "verticalFt": 4944,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 80,
+   "high": 85,
+   "season": "2026/27",
+   "sourceUrl": "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562",
+   "checkedOn": "2026-10-03",
+   "note": "Ski Arlberg area pass (St. Anton, Lech Zürs, Stuben, Warth-Schröcken); provisional Aug 2026 prices, lower in early Dec and April"
+  },
+  "vibe": [
+   "luxury",
+   "powder",
+   "village",
+   "family",
+   "backcountry"
+  ],
+  "summary": "Upscale Arlberg villages with deep snow and a capped number of skiers",
+  "why": "Refined, snow-sure villages on the Ski Arlberg circuit, linked to St. Anton. Suits families and skiers who want quiet luxury over rowdy après.",
+  "links": {
+   "officialSite": "https://www.lechzuers.com/en",
+   "tickets": "https://www.skiarlberg.at/en",
+   "instagram": "https://www.instagram.com/lechzuers/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   },
+   {
+    "iata": "FDH",
+    "city": "Friedrichshafen"
+   }
+  ],
+  "sources": [
+   "https://www.lechzuers.com/en",
+   "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562",
+   "https://www.skiresort.com/en/ski-resort/st-anton-st-christoph-stuben-lech-zuers-warth-schroecken-ski-arlberg/",
+   "https://www.epicaustraliapass.com.au/pass-access/europe",
+   "https://www.epicpass.com/region/europe/austria.aspx",
+   "https://en.wikipedia.org/wiki/Lech_(Vorarlberg)"
+  ],
+  "family": {
+   "skiSchool": "https://www.skischule-lech.com/en"
+  }
+ },
+ {
+  "id": "mayrhofen",
+  "name": "Mayrhofen",
+  "rangeId": "austrian-alps",
+  "place": "Mayrhofen",
+  "region": "Tyrol",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.1667,
+  "lng": 11.8667,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-04",
+    "close": "2027-04-11",
+    "sourceUrl": "https://www.mayrhofen.at/en/stories/prices-and-opening-hours-winter"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 8202,
+  "verticalFt": 6135,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 82,
+   "high": 82,
+   "season": "2026/27",
+   "sourceUrl": "https://www.mayrhofen.at/en/stories/prices-and-opening-hours-winter",
+   "checkedOn": "2026-10-03",
+   "note": "Mayrhofner Bergbahnen full-day pass (Penken, Ahorn, Rastkogel, Eggalm)"
+  },
+  "vibe": [
+   "apres",
+   "terrain-park",
+   "nightlife",
+   "family"
+  ],
+  "summary": "Zillertal party town with a top terrain park and the steep Harakiri run",
+  "why": "Lively Zillertal base with Penken's park, the Harakiri, gentle Ahorn for beginners and easy access to the Hintertux glacier. Suits young groups.",
+  "links": {
+   "officialSite": "https://www.mayrhofen.at/en",
+   "tickets": "https://www.mayrhofen.at/en/stories/prices-and-opening-hours-winter"
+  },
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "SZG",
+    "city": "Salzburg"
+   },
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "sources": [
+   "https://www.mayrhofen.at/en",
+   "https://www.mayrhofen.at/en/stories/prices-and-opening-hours-winter",
+   "https://www.skiresort.com/en/ski-resort/mayrhofen-penken-ahorn-rastkogel-eggalm-mountopolis/",
+   "https://www.epicaustraliapass.com.au/pass-access/europe",
+   "https://snowbrains.com/epic-pass-expands-access-zillertal/",
+   "https://en.wikipedia.org/wiki/Mayrhofen"
+  ]
+ },
+ {
+  "id": "saalbach",
+  "name": "Saalbach Hinterglemm",
+  "rangeId": "austrian-alps",
+  "place": "Saalbach",
+  "region": "Salzburg",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.3904,
+  "lng": 12.637,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-11-27",
+    "close": "2027-04-04",
+    "sourceUrl": "https://www.saalbach.com/en/winter/skitickets"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 6877,
+  "verticalFt": 4154,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 74,
+   "high": 82,
+   "season": "2026/27",
+   "sourceUrl": "https://www.saalbach.com/en/winter/skitickets/peak-season",
+   "checkedOn": "2026-10-03",
+   "note": "Ski ALPIN CARD, also valid at Zell am See and Kaprun; 74 in early and late season, 82 peak"
+  },
+  "vibe": [
+   "apres",
+   "family",
+   "nightlife",
+   "village"
+  ],
+  "summary": "A huge ski circuit loop with some of Austria's busiest après huts",
+  "why": "The Skicircus links Saalbach, Hinterglemm, Leogang and Fieberbrunn into a big cruising loop with lively huts. Suits intermediates and groups.",
+  "links": {
+   "officialSite": "https://www.saalbach.com/en",
+   "tickets": "https://tickets.saalbach.com",
+   "instagram": "https://www.instagram.com/saalbach_com/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SZG",
+    "city": "Salzburg"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "sources": [
+   "https://www.saalbach.com/en",
+   "https://www.saalbach.com/en/winter/skitickets/peak-season",
+   "https://www.saalbach.com/en/winter/skitickets/winter-start",
+   "https://www.skiresort.com/en/ski-resort/saalbach-hinterglemm-leogang-fieberbrunn-skicircus/",
+   "https://www.epicaustraliapass.com.au/pass-access/europe",
+   "https://en.wikipedia.org/wiki/Saalbach-Hinterglemm"
+  ],
+  "family": {
+   "skiSchool": "https://www.saalbach.com/en/service/infrastructure/ski-schools"
+  }
+ },
+ {
+  "id": "st-anton",
+  "name": "St. Anton am Arlberg",
+  "rangeId": "austrian-alps",
+  "place": "St. Anton am Arlberg",
+  "region": "Tyrol",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 47.1167,
+  "lng": 10.2667,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": {
+    "open": "2026-12-02",
+    "close": "2027-04-18",
+    "sourceUrl": "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9223,
+  "verticalFt": 4944,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 80,
+   "high": 85,
+   "season": "2026/27",
+   "sourceUrl": "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562",
+   "checkedOn": "2026-10-03",
+   "note": "Ski Arlberg area pass (St. Anton, Lech Zürs, Stuben, Warth-Schröcken); provisional Aug 2026 prices, lower in early Dec and April"
+  },
+  "vibe": [
+   "apres",
+   "expert",
+   "backcountry",
+   "nightlife",
+   "powder"
+  ],
+  "summary": "Austria's biggest linked ski area and the Alps' most famous après scene",
+  "why": "Steep, snowy terrain and huge off-piste on the Ski Arlberg pass, with legendary après bars. Best for strong skiers who like to party.",
+  "links": {
+   "officialSite": "https://www.stantonamarlberg.com/en",
+   "tickets": "https://www.skiarlberg.at/en",
+   "instagram": "https://www.instagram.com/stantonamarlberg/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   },
+   {
+    "iata": "FDH",
+    "city": "Friedrichshafen"
+   }
+  ],
+  "sources": [
+   "https://www.stantonamarlberg.com/en",
+   "https://www.skiarlberg.at/api/backend/download/en/asset?id=73562",
+   "https://www.skiresort.com/en/ski-resort/st-anton-st-christoph-stuben-lech-zuers-warth-schroecken-ski-arlberg/",
+   "https://www.epicaustraliapass.com.au/pass-access/europe",
+   "https://www.epicpass.com/region/europe/austria.aspx",
+   "https://en.wikipedia.org/wiki/St._Anton_am_Arlberg"
+  ],
+  "family": {
+   "skiSchool": "https://www.stantonamarlberg.com/en/winter/ski-resort/ski-and-snowboard-schools"
+  }
+ },
+ {
+  "id": "soelden",
+  "name": "Sölden",
+  "rangeId": "austrian-alps",
+  "place": "Sölden",
+  "region": "Tyrol",
+  "country": "Austria",
+  "countryCode": "AT",
+  "lat": 46.9667,
+  "lng": 11.0,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-09-25",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.soelden.com/ski-pass-prices"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 10959,
+  "verticalFt": 6529,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 86,
+   "high": 86,
+   "season": "2026/27",
+   "sourceUrl": "https://www.schneehoehen.de/skigebiete/preise/oetztal-arena-soelden",
+   "checkedOn": "2026-10-03",
+   "note": "Top-season window price; dynamic pricing online is cheaper the earlier you book. Glacier-only in autumn and spring"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "expert",
+   "scenery"
+  ],
+  "summary": "Two glaciers, ski from autumn to May, and lively après in the Ötztal",
+  "why": "Long glacier season above 3,000 m, big vertical and a busy après scene. Suits snow-sure early or late trips and confident intermediates.",
+  "links": {
+   "officialSite": "https://www.soelden.com/en",
+   "tickets": "https://soelden.com/skiticket",
+   "instagram": "https://www.instagram.com/soelden.official/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "MUC",
+    "city": "Munich"
+   }
+  ],
+  "sources": [
+   "https://www.soelden.com/en",
+   "https://www.soelden.com/ski-pass-prices",
+   "https://www.schneehoehen.de/skigebiete/preise/oetztal-arena-soelden",
+   "https://www.soelden.com/en/search-book/ski-mountain-lift-tickets/ticket-overview/3-days-otztal.lt-209052",
+   "https://www.skiresort.com/en/ski-resort/soelden/",
+   "https://www.epicaustraliapass.com.au/pass-access/europe",
+   "https://en.wikipedia.org/wiki/S%C3%B6lden"
+  ],
+  "family": {
+   "skiSchool": "https://www.soelden.com/en/activities/winter/skiing-snowboarding/ski-schools-courses"
+  }
+ },
+ {
+  "id": "alta-badia",
+  "name": "Alta Badia",
+  "rangeId": "dolomites",
+  "place": "Corvara",
+  "region": "South Tyrol",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 46.5496,
+  "lng": 11.874,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9115,
+  "verticalFt": 4771,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 80,
+   "high": 89,
+   "season": "2026/27",
+   "sourceUrl": "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "checkedOn": "2026-10-03",
+   "note": "Dolomiti Superski pass (all 12 areas); 80 low and regular season, 89 high season. Stats are for the local area"
+  },
+  "vibe": [
+   "family",
+   "beginner",
+   "scenery",
+   "luxury"
+  ],
+  "summary": "Gentle Dolomite cruising, Michelin-starred food, and the Sellaronda",
+  "why": "Mellow, well-groomed slopes on the Sellaronda, Gran Risa World Cup run, and standout food. Suits families, beginners and gourmet skiers.",
+  "links": {
+   "officialSite": "https://www.altabadia.org/en/",
+   "tickets": "https://www.dolomitisuperski.com/en",
+   "instagram": "https://www.instagram.com/alta_badia_official/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BZO",
+    "city": "Bolzano"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "VCE",
+    "city": "Venice"
+   }
+  ],
+  "sources": [
+   "https://www.altabadia.org/en/",
+   "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "https://www.dolomitisuperski.com/en",
+   "https://www.skiresort.com/en/ski-resort/alta-badia/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://it.wikipedia.org/wiki/Corvara_in_Badia"
+  ],
+  "family": {
+   "skiSchool": "https://www.altabadia.org/en/ski-school-alta-badia-dolomites"
+  }
+ },
+ {
+  "id": "cervinia",
+  "name": "Breuil-Cervinia",
+  "rangeId": "dolomites",
+  "place": "Breuil-Cervinia",
+  "region": "Aosta Valley",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 45.9344,
+  "lng": 7.6311,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-10-24",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.cervinia.it/en"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2,
+   3
+  ],
+  "topFt": 12793,
+  "verticalFt": 7668,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 64,
+   "high": 88,
+   "season": "2026/27",
+   "sourceUrl": "https://en.neveitalia.it/ski/valtournenche/skipass/1019",
+   "checkedOn": "2026-10-03",
+   "note": "64 for Cervinia-Valtournenche (Italy only), 88 for the international pass with Zermatt; stats are for the shared Matterhorn ski area"
+  },
+  "vibe": [
+   "scenery",
+   "beginner",
+   "family",
+   "village"
+  ],
+  "summary": "High, sunny cruising under the Matterhorn, with skiing over to Zermatt",
+  "why": "One of Italy's highest resorts with long, easy runs and a long season, linked to Zermatt. Suits intermediates and skiers wanting snow-sure terrain.",
+  "links": {
+   "officialSite": "https://www.cervinia.it/en",
+   "tickets": "https://www.cervinia.it/en",
+   "instagram": "https://www.instagram.com/cervinoskiparadise/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "TRN",
+    "city": "Turin"
+   },
+   {
+    "iata": "MXP",
+    "city": "Milan"
+   },
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   }
+  ],
+  "sources": [
+   "https://www.cervinia.it/en",
+   "https://en.neveitalia.it/ski/valtournenche/skipass/1020",
+   "https://en.neveitalia.it/ski/valtournenche/skipass/1019",
+   "https://www.skiresort.com/en/ski-resort/zermatt-breuil-cervinia-valtournenche-matterhorn/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://it.wikipedia.org/wiki/Breuil-Cervinia"
+  ],
+  "family": {
+   "skiSchool": "https://scuoladiscibreuil.com/"
+  }
+ },
+ {
+  "id": "cortina",
+  "name": "Cortina d'Ampezzo",
+  "rangeId": "dolomites",
+  "place": "Cortina d'Ampezzo",
+  "region": "Veneto",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 46.5403,
+  "lng": 12.1361,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9279,
+  "verticalFt": 5286,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 80,
+   "high": 89,
+   "season": "2026/27",
+   "sourceUrl": "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "checkedOn": "2026-10-03",
+   "note": "Dolomiti Superski pass (all 12 areas); 80 low and regular season, 89 high season. Stats are for the local area"
+  },
+  "vibe": [
+   "luxury",
+   "scenery",
+   "village",
+   "expert"
+  ],
+  "summary": "Olympic glamour under the Dolomite towers, with long lunches built in",
+  "why": "A chic Olympic town ringed by dramatic peaks, with scattered ski areas and great mountain huts. Suits scenery lovers and style over mileage.",
+  "links": {
+   "officialSite": "https://www.dolomiti.org/en/cortina/",
+   "tickets": "https://www.dolomitisuperski.com/en"
+  },
+  "nearestAirports": [
+   {
+    "iata": "VCE",
+    "city": "Venice"
+   },
+   {
+    "iata": "TSF",
+    "city": "Treviso"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   }
+  ],
+  "sources": [
+   "https://www.dolomiti.org/en/cortina/",
+   "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "https://www.dolomitisuperski.com/en",
+   "https://www.skiresort.com/en/ski-resort/cortina-dampezzo/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://en.wikipedia.org/wiki/Cortina_d%27Ampezzo"
+  ],
+  "family": {
+   "skiSchool": "https://www.scuolascicortina.com/"
+  }
+ },
+ {
+  "id": "courmayeur",
+  "name": "Courmayeur",
+  "rangeId": "dolomites",
+  "place": "Courmayeur",
+  "region": "Aosta Valley",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 45.7833,
+  "lng": 6.9667,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9039,
+  "verticalFt": 5086,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 75,
+   "high": 75,
+   "season": "2025/26",
+   "sourceUrl": "https://www.courmayeur-montblanc.com/skipass-e-tariffe/tariffe-giornaliere/",
+   "checkedOn": "2026-10-03",
+   "note": "Courmayeur-only day pass; 90 with Skyway Monte Bianco. 2026/27 prices not yet published"
+  },
+  "vibe": [
+   "scenery",
+   "backcountry",
+   "village",
+   "expert"
+  ],
+  "summary": "Mont Blanc's Italian side: off-piste, Skyway views and long lunches",
+  "why": "A charming old village under Mont Blanc with a compact ski area, the Skyway cable car and serious off-piste. Suits foodies and freeriders.",
+  "links": {
+   "officialSite": "https://www.courmayeur-montblanc.com/en/",
+   "tickets": "https://www.courmayeur-montblanc.com/skipass-e-tariffe/",
+   "instagram": "https://www.instagram.com/courmayeur/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "GVA",
+    "city": "Geneva"
+   },
+   {
+    "iata": "TRN",
+    "city": "Turin"
+   }
+  ],
+  "sources": [
+   "https://www.courmayeur-montblanc.com/en/",
+   "https://www.courmayeur-montblanc.com/skipass-e-tariffe/tariffe-giornaliere/",
+   "https://www.skiresort.com/en/ski-resort/courmayeur-checrouit-val-veny/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://secure.businesswire.com/news/home/20250826157740/en/Find-Even-More-Joy-in-Europe-This-Season-Ikon-Pass-Welcomes-Five-Mountains-of-Valle-dAosta-in-Italy-for-Winter-2526",
+   "https://en.wikipedia.org/wiki/Courmayeur"
+  ],
+  "family": {
+   "skiSchool": "https://www.courmayeur-montblanc.com/en/services/ski-schools/"
+  }
+ },
+ {
+  "id": "livigno",
+  "name": "Livigno",
+  "rangeId": "dolomites",
+  "place": "Livigno",
+  "region": "Lombardy",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 46.5333,
+  "lng": 10.1333,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-28",
+    "close": "2027-05-02",
+    "sourceUrl": "https://en.neveitalia.it/ski/livigno/skipass"
+   }
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 9180,
+  "verticalFt": 3222,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 52,
+   "high": 74,
+   "season": "2026/27",
+   "sourceUrl": "https://en.neveitalia.it/ski/livigno/skipass",
+   "checkedOn": "2026-10-03",
+   "note": "51.50 in promo periods (Nov to Dec, Apr to May), 74.50 high season"
+  },
+  "vibe": [
+   "budget",
+   "terrain-park",
+   "apres",
+   "family"
+  ],
+  "summary": "High, snowy and duty-free, with one of Europe's best terrain parks",
+  "why": "A high, snow-sure valley with a long season, duty-free shopping, good-value passes and a top park. Suits budget trips and freestyle riders.",
+  "links": {
+   "officialSite": "https://www.livigno.eu/en",
+   "tickets": "https://www.livigno.eu/en/skipass-online",
+   "instagram": "https://www.instagram.com/livigno/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BGY",
+    "city": "Bergamo"
+   },
+   {
+    "iata": "ZRH",
+    "city": "Zurich"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   }
+  ],
+  "sources": [
+   "https://www.livigno.eu/en",
+   "https://en.neveitalia.it/ski/livigno/skipass",
+   "https://www.skiresort.com/en/ski-resort/livigno/",
+   "https://en.wikipedia.org/wiki/Livigno"
+  ],
+  "family": {
+   "skiSchool": "https://www.centralelivigno.com/"
+  }
+ },
+ {
+  "id": "val-gardena",
+  "name": "Val Gardena",
+  "rangeId": "dolomites",
+  "place": "Selva di Val Gardena",
+  "region": "South Tyrol",
+  "country": "Italy",
+  "countryCode": "IT",
+  "lat": 46.55,
+  "lng": 11.7667,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 8262,
+  "verticalFt": 4206,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 80,
+   "high": 89,
+   "season": "2026/27",
+   "sourceUrl": "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "checkedOn": "2026-10-03",
+   "note": "Dolomiti Superski pass (all 12 areas); 80 low and regular season, 89 high season. Stats are for the local area"
+  },
+  "vibe": [
+   "scenery",
+   "village",
+   "family",
+   "expert"
+  ],
+  "summary": "Sellaronda access, World Cup Saslong, and Ladin villages under the Sella",
+  "why": "Three Ladin villages on the Sellaronda circuit with huge cruising, the Saslong downhill and superb huts. Suits intermediates and families.",
+  "links": {
+   "officialSite": "https://www.valgardena.it/en/",
+   "tickets": "https://www.dolomitisuperski.com/en",
+   "instagram": "https://www.instagram.com/dolomitesvalgardena/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BZO",
+    "city": "Bolzano"
+   },
+   {
+    "iata": "INN",
+    "city": "Innsbruck"
+   },
+   {
+    "iata": "VRN",
+    "city": "Verona"
+   }
+  ],
+  "sources": [
+   "https://www.valgardena.it/en/",
+   "https://en.neveitalia.it/ski/arabba/skipass/1001",
+   "https://www.dolomitisuperski.com/en",
+   "https://www.skiresort.com/en/ski-resort/val-gardena-groeden/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://en.wikipedia.org/wiki/S%C3%ABlva"
+  ],
+  "family": {
+   "skiSchool": "https://www.valgardena.it/en/winter-holidays-dolomites/ski-schools-alpine-guides-val-gardena/"
+  }
+ },
+ {
+  "id": "hemsedal",
+  "name": "Hemsedal",
+  "rangeId": "scandinavia",
+  "place": "Hemsedal",
+  "region": "Buskerud",
+  "country": "Norway",
+  "countryCode": "NO",
+  "lat": 60.9058,
+  "lng": 8.5147,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 4757,
+  "verticalFt": 2658,
+  "skiableAcres": null,
+  "trails": 47,
+  "passes": [],
+  "liftTicket": {
+   "currency": "NOK",
+   "low": 697,
+   "high": 697,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/hemsedal/",
+   "checkedOn": "2026-10-03",
+   "note": "Main season price per Skiresort; SkiStar prices vary by date and are cheapest online"
+  },
+  "vibe": [
+   "apres",
+   "expert",
+   "terrain-park",
+   "family"
+  ],
+  "summary": "The Scandinavian Alps: three peaks, real vertical and lively apres",
+  "why": "Norway's most alpine big resort, with skiing from three peaks, good off-piste and a strong apres scene. Suits mixed groups and families wanting steeper terrain than most of Scandinavia.",
+  "links": {
+   "officialSite": "https://www.skistar.com/en/ski-destinations/hemsedal/",
+   "tickets": "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-hemsedal/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "OSL",
+    "city": "Oslo"
+   }
+  ],
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/hemsedal/",
+   "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-hemsedal/",
+   "https://www.skiresort.com/en/ski-resort/hemsedal/",
+   "https://en.wikipedia.org/wiki/Hemsedal"
+  ],
+  "family": {
+   "skiSchool": "https://www.skistar.com/en/ski-destinations/hemsedal/winter-in-hemsedal/activities/ski-school/"
+  }
+ },
+ {
+  "id": "levi",
+  "name": "Levi",
+  "rangeId": "scandinavia",
+  "place": "Sirkka",
+  "region": "Lapland",
+  "country": "Finland",
+  "countryCode": "FI",
+  "lat": 67.805,
+  "lng": 24.802,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   3
+  ],
+  "topFt": 1742,
+  "verticalFt": 1066,
+  "skiableAcres": null,
+  "trails": 43,
+  "passes": [
+   "indy"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 57,
+   "high": 60,
+   "season": "2026/27",
+   "sourceUrl": "https://www.levi.fi/en/ski/levi-ski-resort-services/skipasses/",
+   "checkedOn": "2026-10-03",
+   "note": "60 at the ticket office; 57 online 14+ days ahead"
+  },
+  "vibe": [
+   "family",
+   "beginner",
+   "nightlife"
+  ],
+  "summary": "Finland's biggest ski resort, 170 km above the Arctic Circle",
+  "why": "Finland's largest resort, with a seven-month season, gentle runs, northern lights and a compact village with bars and restaurants. Suits families and beginners.",
+  "links": {
+   "officialSite": "https://www.levi.fi/en/",
+   "tickets": "https://www.levi.fi/en/ski/levi-ski-resort-services/skipasses/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "KTT",
+    "city": "Kittilä"
+   }
+  ],
+  "sources": [
+   "https://www.levi.fi/en/ski/",
+   "https://www.levi.fi/en/ski/levi-ski-resort-services/skipasses/",
+   "https://skiresort.levi.fi/en/season-opening",
+   "https://www.indyskipass.com/this-is-indy/news/indy-pass-will-add-over-50-new-resorts-surpassing-300-total-for-the-first-time-in-its-history",
+   "https://www.skiresort.com/en/ski-resort/levi/",
+   "https://en.wikipedia.org/wiki/Levi,_Finland"
+  ],
+  "family": {
+   "skiSchool": "https://www.levi.fi/en/ski/ski-school/"
+  }
+ },
+ {
+  "id": "ruka",
+  "name": "Ruka",
+  "rangeId": "scandinavia",
+  "place": "Ruka",
+  "region": "North Ostrobothnia",
+  "country": "Finland",
+  "countryCode": "FI",
+  "lat": 66.1961,
+  "lng": 29.1125,
+  "season": {
+   "opensMonth": 10,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-10-02",
+    "close": "2027-05-02",
+    "sourceUrl": "https://www.ruka.fi/en/skiresort"
+   }
+  },
+  "bestMonths": [
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   3
+  ],
+  "topFt": 1614,
+  "verticalFt": 659,
+  "skiableAcres": null,
+  "trails": 41,
+  "passes": [
+   "indy"
+  ],
+  "liftTicket": {
+   "currency": "EUR",
+   "low": 55,
+   "high": 58,
+   "season": "2026/27",
+   "sourceUrl": "https://www.ruka.fi/fi/hiihtokeskus/hissiliput",
+   "checkedOn": "2026-10-03",
+   "note": "58 at the office; 5% off online from Dec 1, 20% off online in early season"
+  },
+  "vibe": [
+   "family",
+   "beginner",
+   "terrain-park"
+  ],
+  "summary": "Some 200 ski days a year on a Lapland-edge fell, from October to May",
+  "why": "One of the longest seasons in northern Europe, with family parks, a strong freestyle park and night skiing. Suits families and early or late season trips.",
+  "links": {
+   "officialSite": "https://www.ruka.fi/en/",
+   "tickets": "https://www.ruka.fi/fi/hiihtokeskus/hissiliput",
+   "instagram": "https://www.instagram.com/rukakuusamo/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "KAO",
+    "city": "Kuusamo"
+   }
+  ],
+  "sources": [
+   "https://www.ruka.fi/en/skiresort",
+   "https://www.ruka.fi/en/skiresort/slopes",
+   "https://www.ruka.fi/fi/hiihtokeskus/hissiliput",
+   "https://www.ruka.fi/en/skiresort/families",
+   "https://www.indyskipass.com/this-is-indy/news/indy-pass-will-add-over-50-new-resorts-surpassing-300-total-for-the-first-time-in-its-history",
+   "https://www.skiresort.com/en/ski-resort/ruka/",
+   "https://en.wikipedia.org/wiki/Rukatunturi"
+  ],
+  "family": {
+   "skiSchool": "https://www.ruka.fi/en/skiresort/skischool"
+  }
+ },
+ {
+  "id": "trysil",
+  "name": "Trysil",
+  "rangeId": "scandinavia",
+  "place": "Trysil",
+  "region": "Innlandet",
+  "country": "Norway",
+  "countryCode": "NO",
+  "lat": 61.31,
+  "lng": 12.315,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 4,
+   "dates": null
+  },
+  "bestMonths": [
+   2,
+   3
+  ],
+  "peakMonths": [
+   2
+  ],
+  "topFt": 3609,
+  "verticalFt": 2247,
+  "skiableAcres": null,
+  "trails": 71,
+  "passes": [],
+  "liftTicket": {
+   "currency": "NOK",
+   "low": 808,
+   "high": 808,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/trysil/",
+   "checkedOn": "2026-10-03",
+   "note": "Main season price per Skiresort; SkiStar prices vary by date and are cheapest online"
+  },
+  "vibe": [
+   "family",
+   "beginner",
+   "terrain-park"
+  ],
+  "summary": "Norway's largest ski resort, with ski-in stays on every side of the mountain",
+  "why": "Four connected areas around one fell, wide forest runs, big children's areas and evening skiing included in the pass. Suits families and beginners.",
+  "links": {
+   "officialSite": "https://www.skistar.com/en/ski-destinations/trysil/",
+   "tickets": "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-trysil/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SCR",
+    "city": "Salen/Trysil (Scandinavian Mountains)"
+   },
+   {
+    "iata": "OSL",
+    "city": "Oslo"
+   }
+  ],
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/trysil/",
+   "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-trysil/",
+   "https://www.skiresort.com/en/ski-resort/trysil/",
+   "https://en.wikipedia.org/wiki/Trysil"
+  ],
+  "family": {
+   "skiSchool": "https://www.skistar.com/en/ski-destinations/trysil/winter-in-trysil/activities/ski-school/"
+  }
+ },
+ {
+  "id": "are",
+  "name": "Åre",
+  "rangeId": "scandinavia",
+  "place": "Åre",
+  "region": "Jämtland",
+  "country": "Sweden",
+  "countryCode": "SE",
+  "lat": 63.415,
+  "lng": 13.0619,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   2,
+   3,
+   4
+  ],
+  "peakMonths": [
+   2,
+   3
+  ],
+  "topFt": 4134,
+  "verticalFt": 2920,
+  "skiableAcres": 1080,
+  "trails": 91,
+  "passes": [],
+  "liftTicket": {
+   "currency": "SEK",
+   "low": 801,
+   "high": 801,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/aare/",
+   "checkedOn": "2026-10-03",
+   "note": "Main season price per Skiresort; SkiStar prices vary by date and are cheapest online"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "scenery",
+   "expert"
+  ],
+  "summary": "Scandinavia's biggest ski town, famous for apres and World Cup slopes",
+  "why": "Sweden's largest resort, with three linked areas over a lake-side village and the liveliest apres in the Nordics. Suits groups and good skiers who want a real town.",
+  "links": {
+   "officialSite": "https://www.skistar.com/en/ski-destinations/are/",
+   "tickets": "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-are/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "OSD",
+    "city": "Östersund"
+   }
+  ],
+  "sources": [
+   "https://www.skistar.com/en/ski-destinations/are/",
+   "https://www.skistar.com/en/winter/skipass/buy-skipass/lift-pass-are/",
+   "https://www.skiresort.com/en/ski-resort/aare/",
+   "https://en.wikipedia.org/wiki/Åre_ski_resort"
+  ],
+  "family": {
+   "skiSchool": "https://www.skistar.com/en/ski-destinations/are/winter-in-are/activities/ski-school/"
+  }
+ },
+ {
+  "id": "furano",
+  "name": "Furano",
+  "rangeId": "japan",
+  "place": "Furano",
+  "region": "Hokkaido",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 43.3239,
+  "lng": 142.3519,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-28",
+    "close": "2027-05-05",
+    "sourceUrl": "https://www.princehotels.co.jp/ski/furano/winter/lift/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 3524,
+  "verticalFt": 2753,
+  "skiableAcres": 470,
+  "trails": 23,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 7500,
+   "high": 9000,
+   "season": "2026/27",
+   "sourceUrl": "https://www.princehotels.co.jp/ski/furano/winter/lift/",
+   "checkedOn": "2026-10-03",
+   "note": "Same price window or online; 9,000 from Dec 5 to Mar 22"
+  },
+  "vibe": [
+   "powder",
+   "scenery",
+   "family"
+  ],
+  "summary": "Dry central Hokkaido powder and long groomers above a real farming town",
+  "why": "Cold inland snow, long cruising runs and views over the Furano valley, with a genuine town for food and stays. Suits intermediates and families who want powder without Niseko crowds.",
+  "links": {
+   "officialSite": "https://www.princehotels.com/en/ski/furano/",
+   "tickets": "https://www.princehotels.co.jp/ski/furano/winter/lift/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "AKJ",
+    "city": "Asahikawa",
+    "driveTime": "70 min"
+   },
+   {
+    "iata": "CTS",
+    "city": "Sapporo (New Chitose)"
+   }
+  ],
+  "sources": [
+   "https://www.princehotels.com/en/ski/furano/",
+   "https://www.princehotels.co.jp/ski/furano/winter/lift/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://www.skiresort.com/en/ski-resort/furano/",
+   "https://en.wikipedia.org/wiki/Furano_Ski_Resort"
+  ]
+ },
+ {
+  "id": "hakuba",
+  "name": "Hakuba Valley",
+  "rangeId": "japan",
+  "place": "Hakuba",
+  "region": "Nagano",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 36.6981,
+  "lng": 137.8619,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 6007,
+  "verticalFt": 3514,
+  "skiableAcres": 2305,
+  "trails": 116,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 11100,
+   "high": 11100,
+   "season": "2026/27",
+   "sourceUrl": "https://www.hakubavalley.com/en/ticket_en/",
+   "checkedOn": "2026-10-03",
+   "note": "Hakuba Valley All-Mountain Day Pass; single-resort tickets cost less"
+  },
+  "vibe": [
+   "expert",
+   "powder",
+   "scenery",
+   "apres"
+  ],
+  "summary": "Ten resorts under the Northern Alps, with the steepest terrain in Japan",
+  "why": "Ten ski areas along one valley, led by Happo-one's 1,071 m vertical, with big alpine scenery and a busy international village. Suits strong skiers and groups who like variety.",
+  "links": {
+   "officialSite": "https://www.hakubavalley.com/en/",
+   "tickets": "https://www.hakubavalley.com/en/ticket_en/",
+   "instagram": "https://www.instagram.com/hakubavalley/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "HND",
+    "city": "Tokyo Haneda"
+   },
+   {
+    "iata": "NRT",
+    "city": "Tokyo Narita"
+   }
+  ],
+  "sources": [
+   "https://www.hakubavalley.com/en/",
+   "https://www.hakubavalley.com/en/ticket_en/",
+   "https://hakubavalley.com/en/ski_resort_info_en",
+   "https://www.hakubavalley.com/en/access_en/",
+   "https://www.epicpass.com/region/partners",
+   "https://en.wikipedia.org/wiki/Hakuba",
+   "https://www.skiresort.com/en/ski-resort/happo-one-hakuba/"
+  ],
+  "family": {
+   "skiSchool": "https://www.hakubavalley.com/en/ski_school_en/"
+  }
+ },
+ {
+  "id": "niseko",
+  "name": "Niseko United",
+  "rangeId": "japan",
+  "place": "Kutchan",
+  "region": "Hokkaido",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 42.8689,
+  "lng": 140.665,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": {
+    "open": "2026-11-28",
+    "close": "2027-05-05",
+    "sourceUrl": "https://www.niseko.ne.jp/en/lift/"
+   }
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 3898,
+  "verticalFt": 3061,
+  "skiableAcres": null,
+  "trails": 73,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 6300,
+   "high": 13500,
+   "season": "2026/27",
+   "sourceUrl": "https://www.niseko.ne.jp/en/lift/",
+   "checkedOn": "2026-10-03",
+   "note": "All Mountain Pass; peak Dec 24 to Feb 28, cheapest in the final spring weeks"
+  },
+  "vibe": [
+   "powder",
+   "apres",
+   "nightlife",
+   "backcountry"
+  ],
+  "summary": "Four linked resorts on one volcano, buried in Hokkaido's famous dry powder",
+  "why": "Japan's best-known powder destination, with four interconnected areas, gated backcountry and a lively international village in Hirafu. Suits powder hunters and groups wanting nightlife.",
+  "links": {
+   "officialSite": "https://www.niseko.ne.jp/en/",
+   "tickets": "https://www.niseko.ne.jp/en/lift/",
+   "instagram": "https://www.instagram.com/nisekounited/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "CTS",
+    "city": "Sapporo (New Chitose)"
+   }
+  ],
+  "sources": [
+   "https://www.niseko.ne.jp/en/lift/",
+   "https://www.niseko.ne.jp/en/niseko-ski-school/",
+   "https://www.ikonpass.com/en/destinations",
+   "https://mountaincollective.com/",
+   "https://www.skiresort.com/en/ski-resort/niseko-united-annupuri-grand-hirafu-hanazono-niseko-village/",
+   "https://en.wikipedia.org/wiki/Niseko_United",
+   "https://www.niseko-village.com/?p=8497"
+  ],
+  "family": {
+   "skiSchool": "https://www.niseko.ne.jp/en/niseko-ski-school/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "nozawa-onsen",
+  "name": "Nozawa Onsen",
+  "rangeId": "japan",
+  "place": "Nozawaonsen",
+  "region": "Nagano",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 36.92,
+  "lng": 138.4519,
+  "season": {
+   "opensMonth": 12,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 5414,
+  "verticalFt": 3560,
+  "skiableAcres": 734,
+  "trails": 36,
+  "passes": [],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 7500,
+   "high": 7500,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/nozawa-onsen/",
+   "checkedOn": "2026-10-03",
+   "note": "Adult 1-day; IC card needs a refundable 500 yen deposit"
+  },
+  "vibe": [
+   "village",
+   "powder",
+   "scenery"
+  ],
+  "summary": "A traditional hot spring village with 1,000 m of vertical above the bathhouses",
+  "why": "Skiing straight from a historic onsen town with free public baths and narrow lanes, plus long runs and deep Nagano snow. Suits travellers who want culture with their skiing.",
+  "links": {
+   "officialSite": "https://nozawaski.com/en/",
+   "instagram": "https://www.instagram.com/nozawaski/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "HND",
+    "city": "Tokyo Haneda"
+   },
+   {
+    "iata": "NRT",
+    "city": "Tokyo Narita"
+   }
+  ],
+  "sources": [
+   "https://nozawaski.com/en/",
+   "https://www.skiresort.com/en/ski-resort/nozawa-onsen/",
+   "https://en.wikipedia.org/wiki/Nozawa_Onsen_Ski_Resort",
+   "https://www.nozawaholidays.com/lift-pass-prices-nozawa-japan/",
+   "https://powderhounds.com/Japan/Honshu/Nozawa-Onsen/Facilities-Services.aspx"
+  ],
+  "family": {
+   "childcare": true
+  }
+ },
+ {
+  "id": "rusutsu",
+  "name": "Rusutsu",
+  "rangeId": "japan",
+  "place": "Rusutsu",
+  "region": "Hokkaido",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 42.7497,
+  "lng": 140.9033,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 3,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 3261,
+  "verticalFt": 1949,
+  "skiableAcres": 524,
+  "trails": 37,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 7900,
+   "high": 16700,
+   "season": "2026/27",
+   "sourceUrl": "https://rusutsu.com/winter-lift-tickets/",
+   "checkedOn": "2026-10-03",
+   "note": "Regular season window price; online 13,200. Early season from 7,900"
+  },
+  "vibe": [
+   "powder",
+   "family",
+   "terrain-park"
+  ],
+  "summary": "Three mountains of tree-lined Hokkaido powder, often quieter than Niseko",
+  "why": "A big self-contained resort across three peaks, known for deep snow, tree skiing and wide groomers. Good for families and powder skiers who want fewer crowds.",
+  "links": {
+   "officialSite": "https://rusutsu.com/",
+   "tickets": "https://rusutsu.com/winter-lift-tickets/",
+   "instagram": "https://www.instagram.com/rusutsuresort_official/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "CTS",
+    "city": "Sapporo (New Chitose)",
+    "driveTime": "2 hr"
+   }
+  ],
+  "sources": [
+   "https://rusutsu.com/",
+   "https://rusutsu.com/winter-lift-tickets/",
+   "https://rusutsu.com/access-shuttle-bus-new-chitose-airport/",
+   "https://www.epicpass.com/regions/japan/rusutsu-resort.aspx",
+   "https://www.skiresort.com/en/ski-resort/rusutsu/",
+   "https://en.wikipedia.org/wiki/Rusutsu_Resort"
+  ],
+  "family": {
+   "skiSchool": "https://rusutsu.com/ski-lessons/",
+   "childcare": true
+  }
+ },
+ {
+  "id": "shiga-kogen",
+  "name": "Shiga Kogen",
+  "rangeId": "japan",
+  "place": "Yamanouchi",
+  "region": "Nagano",
+  "country": "Japan",
+  "countryCode": "JP",
+  "lat": 36.7058,
+  "lng": 138.5078,
+  "season": {
+   "opensMonth": 11,
+   "closesMonth": 5,
+   "dates": null
+  },
+  "bestMonths": [
+   1,
+   2,
+   3
+  ],
+  "peakMonths": [
+   1,
+   2
+  ],
+  "topFt": 7569,
+  "verticalFt": 3173,
+  "skiableAcres": 988,
+  "trails": 76,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "JPY",
+   "low": 9000,
+   "high": 9000,
+   "season": "2025/26",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/shigakogen-mountain-resort/",
+   "checkedOn": "2026-10-03",
+   "note": "Main season adult day ticket as listed by Skiresort; official site not reachable"
+  },
+  "vibe": [
+   "scenery",
+   "family",
+   "beginner"
+  ],
+  "summary": "Japan's largest and highest ski area, 18 linked fields in a UNESCO biosphere",
+  "why": "High altitude gives dry snow and one of Japan's longest seasons across 18 interconnected areas. Suits intermediates and families who want mileage over nightlife.",
+  "links": {
+   "officialSite": "https://www.shigakogen-ski.or.jp/en/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "HND",
+    "city": "Tokyo Haneda"
+   },
+   {
+    "iata": "NRT",
+    "city": "Tokyo Narita"
+   }
+  ],
+  "sources": [
+   "https://www.shigakogen-ski.or.jp/en/",
+   "https://www.ikonpass.com/en/destinations/shiga-kogen-mountain-resort",
+   "https://www.skiresort.com/en/ski-resort/shigakogen-mountain-resort/",
+   "https://en.wikipedia.org/wiki/Shiga_Kogen"
+  ]
+ },
+ {
+  "id": "cerro-catedral",
+  "name": "Cerro Catedral",
+  "rangeId": "andes",
+  "place": "San Carlos de Bariloche",
+  "region": "Rio Negro",
+  "country": "Argentina",
+  "countryCode": "AR",
+  "lat": -41.1652,
+  "lng": -71.4395,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6890,
+  "verticalFt": 3511,
+  "skiableAcres": 1483,
+  "trails": null,
+  "passes": [],
+  "liftTicket": {
+   "currency": "ARS",
+   "low": 160000,
+   "high": 160000,
+   "season": "2026",
+   "sourceUrl": "https://catedralaltapatagonia.com/tarifas/",
+   "checkedOn": "2026-10-03",
+   "note": "Single published 2026 adult day rate; premium Exclusive day pass ARS 250,000"
+  },
+  "vibe": [
+   "scenery",
+   "family",
+   "nightlife",
+   "village"
+  ],
+  "summary": "Patagonian lake views and dozens of lifts, a short drive from Bariloche",
+  "why": "Catedral overlooks Lake Nahuel Huapi with dozens of lifts and varied terrain, a short drive from lively Bariloche. Suits families and groups who want town life too.",
+  "links": {
+   "officialSite": "https://catedralaltapatagonia.com/",
+   "tickets": "https://catedralaltapatagonia.com/tarifas/",
+   "instagram": "https://www.instagram.com/cerrocatedralok/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "BRC",
+    "city": "San Carlos de Bariloche"
+   }
+  ],
+  "sources": [
+   "https://catedralaltapatagonia.com/",
+   "https://catedralaltapatagonia.com/tarifas/",
+   "https://catedralaltapatagonia.com/kids-club-catedral/",
+   "https://en.wikipedia.org/wiki/Cerro_Catedral"
+  ],
+  "family": {
+   "childcare": true
+  }
+ },
+ {
+  "id": "las-lenas",
+  "name": "Las Leñas",
+  "rangeId": "andes",
+  "place": "Malargue",
+  "region": "Mendoza",
+  "country": "Argentina",
+  "countryCode": "AR",
+  "lat": -35.1455,
+  "lng": -70.0821,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 9,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 11254,
+  "verticalFt": 3937,
+  "skiableAcres": null,
+  "trails": 30,
+  "passes": [],
+  "liftTicket": {
+   "currency": "ARS",
+   "low": 122400,
+   "high": 180000,
+   "season": "2026",
+   "sourceUrl": "https://laslenas.com/pases/",
+   "checkedOn": "2026-10-03",
+   "note": "Adult day pass, low to high season rates for June and July weeks"
+  },
+  "vibe": [
+   "expert",
+   "backcountry",
+   "scenery"
+  ],
+  "summary": "Huge off-piste and steep chutes in a remote high-Andes valley",
+  "why": "Las Leñas is famed for its Marte lift and vast lift-accessed freeride terrain, plus a self-contained resort village. Best for advanced skiers chasing big lines.",
+  "links": {
+   "officialSite": "https://laslenas.com/",
+   "tickets": "https://laslenas.com/pases/",
+   "instagram": "https://www.instagram.com/laslenasresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "AFA",
+    "city": "San Rafael"
+   },
+   {
+    "iata": "MDZ",
+    "city": "Mendoza"
+   }
+  ],
+  "sources": [
+   "https://laslenas.com/",
+   "https://laslenas.com/pases/",
+   "https://laslenas.com/sobre-nosotros/",
+   "https://www.skiresort.com/en/ski-resort/las-lenas/"
+  ],
+  "family": {
+   "skiSchool": "https://laslenas.com/escuela/"
+  }
+ },
+ {
+  "id": "portillo",
+  "name": "Portillo",
+  "rangeId": "andes",
+  "place": "Portillo",
+  "region": "Valparaiso",
+  "country": "Chile",
+  "countryCode": "CL",
+  "lat": -32.8364,
+  "lng": -70.1291,
+  "season": {
+   "opensMonth": 7,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 10860,
+  "verticalFt": 2395,
+  "skiableAcres": 1236,
+  "trails": 35,
+  "passes": [],
+  "liftTicket": {
+   "currency": "CLP",
+   "low": 50000,
+   "high": 70000,
+   "season": "2026",
+   "sourceUrl": "https://skiportillo.com/portillo-por-el-dia/",
+   "checkedOn": "2026-10-03",
+   "note": "CLP 50,000 online in low season; CLP 70,000 at the window in high season"
+  },
+  "vibe": [
+   "expert",
+   "scenery",
+   "luxury"
+  ],
+  "summary": "A legendary yellow hotel on a frozen Andean lake, with steep, empty runs",
+  "why": "Portillo is a storied, low-key resort built around one hotel above Laguna del Inca, with short lift lines and famous steeps like Roca Jack. Suits experts and nostalgia seekers.",
+  "links": {
+   "officialSite": "https://skiportillo.com/",
+   "tickets": "https://skiportillo.com/portillo-por-el-dia/",
+   "instagram": "https://www.instagram.com/skiportillo/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SCL",
+    "city": "Santiago"
+   }
+  ],
+  "sources": [
+   "https://skiportillo.com/",
+   "https://skiportillo.com/portillo-por-el-dia/",
+   "https://skiportillo.com/montana/terreno-esquiable/",
+   "https://www.skiresort.com/en/ski-resort/portillo/"
+  ],
+  "family": {
+   "skiSchool": "https://skiportillo.com/escuela-de-ski-y-snowboard/"
+  }
+ },
+ {
+  "id": "valle-nevado",
+  "name": "Valle Nevado",
+  "rangeId": "andes",
+  "place": "Lo Barnechea",
+  "region": "Santiago Metropolitan",
+  "country": "Chile",
+  "countryCode": "CL",
+  "lat": -33.3567,
+  "lng": -70.2495,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 12041,
+  "verticalFt": 2658,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "CLP",
+   "low": 93000,
+   "high": 93000,
+   "season": "2026",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/valle-nevado/",
+   "checkedOn": "2026-10-03",
+   "note": "Main-season adult day price per Skiresort.info; kids to 12 ski free with Power Kids pass"
+  },
+  "vibe": [
+   "scenery",
+   "family",
+   "luxury"
+  ],
+  "summary": "High-altitude, ski-in ski-out Andes resort within day-trip range of Santiago",
+  "why": "Valle Nevado is South America's best-known ski-in, ski-out resort, with big wide-open terrain, slopeside hotels and views of the high Andes. Good for families and holiday trips.",
+  "links": {
+   "officialSite": "https://www.vallenevado.com/",
+   "tickets": "https://www.vallenevado.com/es/montana/ski/tickets-y-cuponeras/",
+   "instagram": "https://www.instagram.com/valle_nevado/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "SCL",
+    "city": "Santiago"
+   }
+  ],
+  "sources": [
+   "https://www.vallenevado.com/",
+   "https://www.vallenevado.com/es/montana/ski/tickets-y-cuponeras/",
+   "https://www.skiresort.com/en/ski-resort/valle-nevado/",
+   "https://mountaincollective.com/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.vallenevado.com/es/montana/servicios-invierno/escuela-de-ski-y-snowboard/"
+  }
+ },
+ {
+  "id": "cardrona",
+  "name": "Cardrona",
+  "rangeId": "oceania",
+  "place": "Wanaka",
+  "region": "Otago",
+  "country": "New Zealand",
+  "countryCode": "NZ",
+  "lat": -44.8657,
+  "lng": 168.9498,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8,
+   9
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6103,
+  "verticalFt": 1969,
+  "skiableAcres": 1520,
+  "trails": 47,
+  "passes": [],
+  "liftTicket": {
+   "currency": "NZD",
+   "low": 184,
+   "high": 209,
+   "season": "2026",
+   "sourceUrl": "https://www.cardrona.com/passes/lift-passes",
+   "checkedOn": "2026-10-03",
+   "note": "Single day from NZ$184 online; main-season NZ$209 per Skiresort.info"
+  },
+  "vibe": [
+   "family",
+   "terrain-park",
+   "beginner"
+  ],
+  "summary": "New Zealand's largest ski area, with sunny basins and world-class parks",
+  "why": "Cardrona has a high base, reliable snow and the Southern Hemisphere's biggest park and pipe setup, with gentle terrain for learners. Great for families and freestylers.",
+  "links": {
+   "officialSite": "https://www.cardrona.com/",
+   "tickets": "https://www.cardrona.com/passes/lift-passes"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZQN",
+    "city": "Queenstown"
+   }
+  ],
+  "sources": [
+   "https://www.cardrona.com/",
+   "https://www.cardrona.com/mountains",
+   "https://www.cardrona.com/passes/lift-passes",
+   "https://www.cardrona.com/mountains/childcare",
+   "https://www.skiresort.com/en/ski-resort/cardrona/"
+  ],
+  "family": {
+   "skiSchool": "https://www.cardrona.com/lessons",
+   "childcare": true
+  }
+ },
+ {
+  "id": "mount-hutt",
+  "name": "Mt Hutt",
+  "rangeId": "oceania",
+  "place": "Methven",
+  "region": "Canterbury",
+  "country": "New Zealand",
+  "countryCode": "NZ",
+  "lat": -43.4915,
+  "lng": 171.5367,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8,
+   9
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6844,
+  "verticalFt": 2126,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "NZD",
+   "low": 180,
+   "high": 180,
+   "season": "2026",
+   "sourceUrl": "https://www.skiresort.com/en/ski-resort/mt-hutt/",
+   "checkedOn": "2026-10-03",
+   "note": "Main-season adult day price per Skiresort.info"
+  },
+  "vibe": [
+   "powder",
+   "scenery",
+   "expert"
+  ],
+  "summary": "Big open bowls above the Canterbury Plains, with views to the Pacific",
+  "why": "Mt Hutt is a big, treeless Canterbury ski field known for wide-open bowl skiing and views across the plains, an easy drive from Christchurch. Suits keen intermediates and up.",
+  "links": {
+   "officialSite": "https://www.nzski.com/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "CHC",
+    "city": "Christchurch"
+   }
+  ],
+  "sources": [
+   "https://www.nzski.com/",
+   "https://www.skiresort.com/en/ski-resort/mt-hutt/",
+   "https://www.ikonpass.com/en/destinations"
+  ]
+ },
+ {
+  "id": "perisher",
+  "name": "Perisher",
+  "rangeId": "oceania",
+  "place": "Perisher Valley",
+  "region": "New South Wales",
+  "country": "Australia",
+  "countryCode": "AU",
+  "lat": -36.4056,
+  "lng": 148.4107,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6699,
+  "verticalFt": 1165,
+  "skiableAcres": 3076,
+  "trails": null,
+  "passes": [
+   "epic"
+  ],
+  "liftTicket": {
+   "currency": "AUD",
+   "low": 270,
+   "high": 278,
+   "season": "2026",
+   "sourceUrl": "https://www.onthesnow.com/new-south-wales/perisher/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Weekday to weekend adult rate; Vail dynamic pricing"
+  },
+  "vibe": [
+   "family",
+   "beginner",
+   "terrain-park"
+  ],
+  "summary": "Australia's biggest ski area, four linked zones reached by lift and train",
+  "why": "Perisher spreads across four connected areas with lots of gentle and intermediate terrain, reached by the Skitube train. Good for families and Epic Pass holders.",
+  "links": {
+   "officialSite": "https://www.perisher.com.au/",
+   "tickets": "https://www.perisher.com.au/tickets-passes",
+   "instagram": "https://www.instagram.com/perisher_resort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "CBR",
+    "city": "Canberra"
+   },
+   {
+    "iata": "OOM",
+    "city": "Cooma"
+   }
+  ],
+  "sources": [
+   "https://www.perisher.com.au/",
+   "https://www.perisher.com.au/resort-info/mountain-operations/resort-stats",
+   "https://www.onthesnow.com/new-south-wales/perisher/lift-tickets.html",
+   "https://www.epicpass.com/"
+  ],
+  "family": {
+   "skiSchool": "https://www.perisher.com.au/tickets-passes/snowsports-school"
+  }
+ },
+ {
+  "id": "queenstown",
+  "name": "Queenstown: Coronet Peak and The Remarkables",
+  "rangeId": "oceania",
+  "place": "Queenstown",
+  "region": "Otago",
+  "country": "New Zealand",
+  "countryCode": "NZ",
+  "lat": -44.927,
+  "lng": 168.7365,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 10,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6375,
+  "verticalFt": 1516,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon",
+   "mountain-collective"
+  ],
+  "liftTicket": {
+   "currency": "NZD",
+   "low": 180,
+   "high": 180,
+   "season": "2026",
+   "sourceUrl": "https://www.onthesnow.com/new-zealand/coronet-peak/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Adult day at Coronet Peak, same rate listed for The Remarkables (Skiresort.info)"
+  },
+  "vibe": [
+   "apres",
+   "nightlife",
+   "scenery",
+   "terrain-park"
+  ],
+  "summary": "Two ski fields above New Zealand's adventure capital, with night skiing at Coronet",
+  "why": "Coronet Peak offers groomers and night skiing close to town, while The Remarkables brings alpine bowls and parks. Queenstown's bars make it the liveliest ski base in the south.",
+  "links": {
+   "officialSite": "https://www.nzski.com/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "ZQN",
+    "city": "Queenstown"
+   }
+  ],
+  "sources": [
+   "https://www.nzski.com/",
+   "https://www.onthesnow.com/new-zealand/coronet-peak/lift-tickets.html",
+   "https://www.skiresort.com/en/ski-resort/coronet-peak/",
+   "https://www.skiresort.com/en/ski-resort/the-remarkables/",
+   "https://mountaincollective.com/",
+   "https://www.ikonpass.com/en/destinations"
+  ]
+ },
+ {
+  "id": "thredbo",
+  "name": "Thredbo",
+  "rangeId": "oceania",
+  "place": "Thredbo",
+  "region": "New South Wales",
+  "country": "Australia",
+  "countryCode": "AU",
+  "lat": -36.5047,
+  "lng": 148.3056,
+  "season": {
+   "opensMonth": 6,
+   "closesMonth": 9,
+   "dates": null
+  },
+  "bestMonths": [
+   7,
+   8
+  ],
+  "peakMonths": [
+   7
+  ],
+  "topFt": 6683,
+  "verticalFt": 2205,
+  "skiableAcres": null,
+  "trails": null,
+  "passes": [
+   "ikon"
+  ],
+  "liftTicket": {
+   "currency": "AUD",
+   "low": 239,
+   "high": 259,
+   "season": "2026",
+   "sourceUrl": "https://www.onthesnow.com/new-south-wales/thredbo-alpine-resort/lift-tickets.html",
+   "checkedOn": "2026-10-03",
+   "note": "Online standard-season day, weekday to weekend; peak days may cost more"
+  },
+  "vibe": [
+   "village",
+   "apres",
+   "family",
+   "nightlife"
+  ],
+  "summary": "Australia's longest runs, with a real alpine village at the lifts",
+  "why": "Thredbo has Australia's longest runs and a lively village with bars and lodges right at the lifts. Suits families and groups who want apres as much as skiing.",
+  "links": {
+   "officialSite": "https://www.thredbo.com.au/",
+   "tickets": "https://www.thredbo.com.au/passes-rentals/",
+   "instagram": "https://www.instagram.com/thredboresort/"
+  },
+  "nearestAirports": [
+   {
+    "iata": "CBR",
+    "city": "Canberra"
+   },
+   {
+    "iata": "OOM",
+    "city": "Cooma"
+   }
+  ],
+  "sources": [
+   "https://www.thredbo.com.au/",
+   "https://www.thredbo.com.au/about-thredbo/",
+   "https://www.onthesnow.com/new-south-wales/thredbo-alpine-resort/lift-tickets.html",
+   "https://www.skiresort.com/en/ski-resort/thredbo/",
+   "https://www.ikonpass.com/en/destinations"
+  ],
+  "family": {
+   "skiSchool": "https://www.thredbo.com.au/ski-snowboard-lessons/"
+  }
+ }
+]
