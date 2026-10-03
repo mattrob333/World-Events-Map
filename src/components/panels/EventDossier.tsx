@@ -20,7 +20,7 @@ import {
   HEAT_LABEL,
   HEAT_NOTE,
   TIER_NOTE,
-  formatDateRange,
+  formatEventDates,
   formatDaysUntil,
   formatMoney,
   formatScore,
@@ -225,7 +225,7 @@ export function EventDossier({ className }: EventDossierProps) {
             <div className="grid grid-cols-2 gap-x-5 gap-y-4">
               <Stat
                 label="Dates"
-                value={formatDateRange(event.start, event.end)}
+                value={formatEventDates(event)}
                 note={`${event.recurrence} · ${event.timezone}`}
                 size="sm"
               />

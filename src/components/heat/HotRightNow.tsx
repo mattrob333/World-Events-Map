@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { EventPhoto } from '@/components/discovery/EventPhoto';
 import { EVENTS } from '@/lib/data/events';
-import { formatDateRange } from '@/components/ui/tokens';
+import { formatEventDates } from '@/components/ui/tokens';
 import { indexDestinations } from '@/lib/pulse';
 import type { HeatTicker as Ticker } from '@/lib/heat/types';
 import { HeatTicker } from './HeatTicker';
@@ -113,7 +113,7 @@ export function HotRightNow({ home }: { home?: { code: string; name: string } | 
                 {ticker.headline ? <HeatTicker ticker={ticker} /> : <span className={styles.unmeasured}>Not measured yet</span>}
               </span>
               <span className={styles.name}>{event.name}</span>
-              <span className={styles.where}>{event.city}, {event.country} · {formatDateRange(event.start, event.end)}</span>
+              <span className={styles.where}>{event.city}, {event.country} · {formatEventDates(event)}</span>
             </Link>
           );
         })}

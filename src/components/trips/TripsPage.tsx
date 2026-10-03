@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FEATURES } from '@/lib/flags';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { SignInCard } from '@/components/community/PlatformShell';
-import { formatDateRange } from '@/components/ui/tokens';
+import { formatDateRange, formatEventDates } from '@/components/ui/tokens';
 import { useIntentStore, type IntentRecord } from '@/lib/intent';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { circleInviteUrl } from '@/lib/trips/circleInvite';
@@ -428,7 +428,7 @@ const TRAIL_STATUS: Record<IntentRecord['verb'], string> = { save: 'Saved', watc
 export function trailRow(item: Pick<IntentRecord, 'verb' | 'kind' | 'id' | 'label'>): { line: string; detail?: string } {
   const status = TRAIL_STATUS[item.verb];
   const event = item.kind === 'event' ? EVENT_INDEX.get(item.id) : undefined;
-  if (event) return { line: `${event.city} · ${formatDateRange(event.start, event.end)} · ${status}`, detail: event.name };
+  if (event) return { line: `${event.city} · ${formatEventDates(event)} · ${status}`, detail: event.name };
   return { line: `${item.label} · ${status}` };
 }
 

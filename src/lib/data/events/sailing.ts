@@ -31,15 +31,15 @@ export const SAILING_EVENTS: WorldEvent[] = [
   {
     id: 'cowes-week',
     name: 'Cowes Week',
-    tagline: 'The bicentenary regatta — a thousand boats on the Solent and a town that stays up',
+    tagline: 'Racing since 1826 — a thousand boats on the Solent and a town that stays up',
     category: 'sailing',
     city: 'Cowes',
     country: 'United Kingdom',
     countryCode: 'GB',
     coords: { lat: 50.7606, lon: -1.2974 },
     timezone: 'Europe/London',
-    start: '2026-08-01',
-    end: '2026-08-07',
+    start: '2027-07-31', // 2027 dates: cowesweek.co.uk
+    end: '2027-08-06',
     recurrence: 'annual',
     tier: 'marquee',
     priceIndex: 3,
@@ -49,14 +49,14 @@ export const SAILING_EVENTS: WorldEvent[] = [
     venues: ['The Solent', 'Royal Yacht Squadron', 'Cowes Yacht Haven'],
     nearestJetPort: EGHI,
     description:
-      'Two hundred years old in 2026, and still the largest regatta of its kind anywhere — roughly a thousand boats across forty classes racing the Solent daily on tides that decide most results before the wind does. The Royal Yacht Squadron fires the starting cannons from its lawn, which remains the hardest ground in British sailing to stand on. Ashore, Cowes turns into a week-long town party that has very little to do with the racing.',
+      'Racing since 1826, and still the largest regatta of its kind anywhere — roughly a thousand boats across forty classes racing the Solent daily on tides that decide most results before the wind does. The Royal Yacht Squadron fires the starting cannons from its lawn, which remains the hardest ground in British sailing to stand on. Ashore, Cowes turns into a week-long town party that has very little to do with the racing.',
     whyGo: [
-      'Bicentenary edition — two hundred years of continuous racing',
+      'Two hundred years of racing on the same water',
       'Forty classes, from Dragons to maxis, on the same water',
       'Royal Yacht Squadron fires the starts from its own lawn',
       'The Solent’s tides make local knowledge worth more than speed',
     ],
-    tags: ['regatta', 'solent', 'england', 'bicentenary'],
+    tags: ['regatta', 'solent', 'england', 'heritage'],
     signals: {
       socialMentions: 42000,
       socialVelocity: 0.55,
@@ -158,8 +158,8 @@ export const SAILING_EVENTS: WorldEvent[] = [
     countryCode: 'MC',
     coords: { lat: 43.735, lon: 7.427 },
     timezone: 'Europe/Monaco',
-    start: '2026-09-23',
-    end: '2026-09-26',
+    start: '2027-09-22', // 2027 dates: monacoyachtshow.com
+    end: '2027-09-25',
     recurrence: 'annual',
     tier: 'legendary',
     priceIndex: 5,

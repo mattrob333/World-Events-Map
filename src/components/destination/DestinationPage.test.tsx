@@ -1,13 +1,19 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+// The calendar rolls ended events forward when it loads, so the clock is set before it does.
+vi.hoisted(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2027-09-20T12:00:00Z'));
+});
 import { CirclesIndex } from '@/components/trip-room/TripRoom';
 import { DestinationPage, calendarTheme } from './DestinationPage';
 
 describe('destination to Circle planning handoff', () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-09-22T12:00:00Z'));
+    vi.setSystemTime(new Date('2027-09-20T12:00:00Z'));
   });
   afterEach(() => vi.useRealTimers());
 
@@ -43,7 +49,7 @@ describe('destination to Circle planning handoff', () => {
     }));
     expect(html).toContain('Your selected occasion');
     expect(html).toContain('Monaco Yacht Show');
-    expect(html).toContain('23 – 26 Sep 2026');
+    expect(html).toContain('22 – 25 Sep 2027');
     // Membership is not configured in tests: no glowing primary into Community (UFR2-J03).
     expect(html).not.toContain('/community?event=monaco-yacht-show');
     expect(html).not.toContain('btn btn-primary');

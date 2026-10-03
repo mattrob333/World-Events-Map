@@ -1,5 +1,7 @@
 'use client';
 
+import { usualWindow } from '@/components/ui/tokens';
+
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -36,7 +38,7 @@ import { EventPhoto } from './EventPhoto';
 import { editorialEventForMode, resolveGlobeStory, spotlightNearestDistance } from './globe-story';
 import { discoveryQuery, readDiscoveryState, type DiscoveryState } from './journey-url';
 import { estimateRoute } from '@/lib/travel/route-estimate';
-import { formatDateRange } from '@/components/ui/tokens';
+import { formatEventDates } from '@/components/ui/tokens';
 import { selectSeasonalEvents, type TripInterest, type TripSeason } from '@/lib/discovery/seasonal';
 import { buildSearchCatalog, searchCatalog, type SearchHit } from '@/lib/search';
 import { planTripOffer } from '@/lib/search/planPlace';
@@ -66,6 +68,9 @@ const dateLabel = (date: string) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
+/** An event's start for a card: its day, or its usual window when the next edition's dates aren't announced. */
+const eventWhen = (event: { start: string; datesStatus?: 'projected' }) =>
+  event.datesStatus === 'projected' ? usualWindow(event.start) : dateLabel(event.start);
 
 const SEASON_LABEL: Record<TripSeason, string> = {
   all: 'Any season', winter: 'Winter', spring: 'Spring', summer: 'Summer', fall: 'Fall',
@@ -528,7 +533,7 @@ export function DiscoveryExperience() {
           </h2>
           <p>
             {storyFocus && spotlight
-              ? `${spotlight.name} · ${formatDateRange(spotlight.start, spotlight.end)}`
+              ? `${spotlight.name} · ${formatEventDates(spotlight)}`
               : planMode
               ? 'Follow the season, find your scene, and make it a trip.'
               : 'Brighter means busier. Spin the globe to explore.'}
@@ -560,7 +565,7 @@ export function DiscoveryExperience() {
               <p className={storyFocus ? styles.storyTagline : undefined}>{spotlight.tagline}</p>
               <div className={styles.sceneDates}>
                 {storyFocus
-                  ? formatDateRange(spotlight.start, spotlight.end)
+                  ? formatEventDates(spotlight)
                   : `${dateLabel(spotlight.start)} — ${dateLabel(spotlight.end)}`}
                 <span>
                   {storyFocus
@@ -689,9 +694,9 @@ export function DiscoveryExperience() {
                 <span>{event.name}</span>
                 <small>
                   {modeActive
-                    ? `${dateLabel(event.start)} · modeled heat ${Math.round(event.buzz.score)}/100`
+                    ? `${eventWhen(event)} · modeled heat ${Math.round(event.buzz.score)}/100`
                     : planMode
-                    ? `${event.category} · ${dateLabel(event.start)}`
+                    ? `${event.category} · ${eventWhen(event)}`
                     : `${event.category} · modeled interest ${Math.round(event.buzz.score)}/100`}
                 </small>
               </span>
@@ -775,7 +780,7 @@ export function DiscoveryExperience() {
               <EventPhoto eventId={event.id} className={styles.cardPhoto} />
               <div className={styles.cardTop}>
                 <span>{event.category}</span>
-                <span>{dateLabel(event.start)}</span>
+                <span>{eventWhen(event)}</span>
               </div>
               <div className={styles.cardBottom}>
                 <span>
@@ -809,7 +814,7 @@ export function DiscoveryExperience() {
               <Link prefetch={false} key={event.id} href={destinationHref(event.id)}>
                 <strong>{event.name}</strong>
                 <span>
-                  {event.city} · {dateLabel(event.start)} ↗
+                  {event.city} · {eventWhen(event)} ↗
                 </span>
               </Link>
             ))}

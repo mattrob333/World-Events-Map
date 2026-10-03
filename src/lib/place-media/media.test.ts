@@ -41,7 +41,8 @@ describe('Wikimedia photo selection', () => {
   });
 
   it('requires a scene cue as well as the right city, and keeps winter ski photos in season', () => {
-    const london = EVENT_INDEX.get('laver-cup')!;
+    // A London tennis event (the Laver Cup's 2026 host city; it moves each year).
+    const london = { ...EVENT_INDEX.get('laver-cup')!, city: 'London', country: 'United Kingdom', countryCode: 'GB', venues: ['The O2 Arena'] };
     expect(isPlacePhotoTitle('File:British Museum Great Court, London.jpg', london)).toBe(false);
     expect(isPlacePhotoTitle('File:London Wimbledon tennis court.jpg', london)).toBe(false);
     expect(isPlacePhotoTitle('File:London O2 Arena tennis court.jpg', london)).toBe(true);
@@ -82,7 +83,8 @@ describe('Wikimedia photo selection', () => {
   });
 
   it('does not duplicate the same Commons file within a gallery', () => {
-    const london = EVENT_INDEX.get('laver-cup')!;
+    // A London tennis event (the Laver Cup's 2026 host city; it moves each year).
+    const london = { ...EVENT_INDEX.get('laver-cup')!, city: 'London', country: 'United Kingdom', countryCode: 'GB', venues: ['The O2 Arena'] };
     const info = { mime: 'image/jpeg', thumburl: 'https://upload.wikimedia.org/wikipedia/commons/a/tennis.jpg',
       descriptionurl: 'https://commons.wikimedia.org/wiki/File:London_Tennis_Court.jpg',
       extmetadata: { LicenseShortName: { value: 'CC BY 4.0' } } };

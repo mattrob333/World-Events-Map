@@ -11,6 +11,7 @@
  */
 
 import type { WorldEvent } from '@/lib/types';
+import { rollForward } from './rollForward';
 
 import { ART_EVENTS } from './art';
 import { MUSIC_EVENTS } from './music';
@@ -60,8 +61,13 @@ function byDate(a: WorldEvent, b: WorldEvent): number {
   return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
 }
 
-/** Every curated event, ascending by start date. */
-export const EVENTS: WorldEvent[] = [...ALL].sort(byDate);
+/**
+ * Every curated event, ascending by start date. A recurring event that has
+ * ended is rolled to its next edition (projected dates, see rollForward), so
+ * the calendar never loses the series. "Today" is the UTC day this module
+ * loads, the same on the server and in the browser.
+ */
+export const EVENTS: WorldEvent[] = ALL.map((event) => rollForward(event, new Date().toISOString().slice(0, 10))).sort(byDate);
 
 /** O(1) lookup by event id. */
 export const EVENT_INDEX: Map<string, WorldEvent> = new Map(

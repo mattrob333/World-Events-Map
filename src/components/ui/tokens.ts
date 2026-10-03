@@ -230,6 +230,22 @@ export function formatDateRange(start: string, end: string): string {
   return `${formatDate(start)} – ${formatDate(end)}`;
 }
 
+/**
+ * An event's dates as people should read them: firm dates, or, for a
+ * projected next edition, "Usually late Jul 2027 · dates TBA".
+ */
+export function formatEventDates(event: { start: string; end: string; datesStatus?: 'projected' }): string {
+  if (event.datesStatus !== 'projected') return formatDateRange(event.start, event.end);
+  return `${usualWindow(event.start)} · dates TBA`;
+}
+
+/** "late Jul 2027": the third of the month an event usually starts in. */
+export function usualWindow(start: string): string {
+  const d = parse(start);
+  const part = d.getUTCDate() <= 10 ? 'early' : d.getUTCDate() <= 20 ? 'mid' : 'late';
+  return `Usually ${part} ${MONTHS_SHORT[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
 /** Human phrasing for `daysUntil`, which is negative once an event has begun. */
 export function formatDaysUntil(days: number): string {
   if (days === 0) return 'Today';

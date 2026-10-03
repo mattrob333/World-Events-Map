@@ -720,18 +720,18 @@ export const MUSIC_EVENTS: WorldEvent[] = [
     countryCode: 'US',
     coords: { lat: 41.4772, lon: -71.34 },
     timezone: 'America/New_York',
-    start: '2026-07-31',
-    end: '2026-08-02',
+    start: '2027-07-30', // 2027 dates: newportjazz.org
+    end: '2027-08-01',
     recurrence: 'annual',
     tier: 'insider',
     priceIndex: 2,
     estimatedSpend: { min: 4000, max: 15000, currency: 'USD' },
     accessNote:
-      'The 2026 edition is already sold out and moving only through the official DICE fan-to-fan exchange; for future years the three-day pass goes on sale in spring, and Newport\'s small hotel stock — Castle Hill, Vanderbilt, Gurney\'s — must be held at the same time',
+      'The three-day pass goes on sale in spring and recent editions have sold out, after which tickets move only through the official DICE fan-to-fan exchange; Newport\'s small hotel stock — Castle Hill, Vanderbilt, Gurney\'s — must be held at the same time',
     venues: ['Fort Adams State Park', 'Fort Stage', 'Quad Stage', 'Harbor Stage'],
     nearestJetPort: KACK,
     description:
-      'Founded in 1954, Newport is the festival every other jazz festival was modelled on, and it still runs on the grounds of Fort Adams at the mouth of Newport Harbour with four stages and boats moored offshore. The 2026 edition on 31 July–2 August is sold out. Programming has widened well past straight-ahead jazz into soul, hip-hop and improvised music, which is what keeps the bookings interesting.',
+      'Founded in 1954, Newport is the festival every other jazz festival was modelled on, and it still runs on the grounds of Fort Adams at the mouth of Newport Harbour with four stages and boats moored offshore. The 2027 festival runs 30 July to 1 August. Programming has widened well past straight-ahead jazz into soul, hip-hop and improvised music, which is what keeps the bookings interesting.',
     whyGo: [
       'The festival every other jazz festival was copied from, since 1954',
       'Four stages inside a granite fort at the mouth of Newport Harbour',

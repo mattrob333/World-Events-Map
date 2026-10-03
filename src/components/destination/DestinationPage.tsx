@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FEATURES } from '@/lib/flags';
 import { usePlatformAuth } from '@/lib/platform/usePlatformAuth';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { EmptyState, Panel, cn, formatDateRange } from '@/components/ui';
+import { EmptyState, Panel, cn, formatEventDates } from '@/components/ui';
 import { FixtureBanner, OpportunityCardView, ProvenanceNote } from '@/components/shell';
 import { EVENTS, EVENT_INDEX } from '@/lib/data/events';
 import { getDestinationBySlug, type DestinationPulse } from '@/lib/pulse';
@@ -324,7 +324,7 @@ function DestinationLoaded({
 
       <div ref={factBarRef} className={`surface-well ${styles.factBar}`}>
         <div><span className={`eyebrow ${styles.factLabel}`}>Next occasion</span><strong>{nextEvent ? nextEvent.name : 'Explore the calendar'}</strong></div>
-        <div><span className={`eyebrow ${styles.factLabel}`}>When to go</span><strong>{nextEvent ? formatDateRange(nextEvent.start, nextEvent.end) : 'Dates to be announced'}</strong></div>
+        <div><span className={`eyebrow ${styles.factLabel}`}>When to go</span><strong>{nextEvent ? formatEventDates(nextEvent) : 'Dates to be announced'}</strong></div>
         <div><span className={`eyebrow ${styles.factLabel}`}>The edit</span><strong>{events.length} curated {events.length === 1 ? 'occasion' : 'occasions'} · {pulse.archetypes[0] ?? 'travel'}</strong></div>
         <DistanceFromCity target={pulse.coords} labelClassName={`eyebrow ${styles.factLabel}`} linkClassName={styles.distanceLink} />
         <a href="#destination-map" className="btn btn-ghost btn-sm">Explore the map <span aria-hidden="true">↗</span></a>
@@ -364,7 +364,7 @@ function DestinationLoaded({
           <p className={`eyebrow ${styles.momentKicker}`}>Next on the calendar</p>
           {nextEvent ? <>
             <h2>{nextEvent.name}</h2>
-            <p className={styles.momentDate}>{formatDateRange(nextEvent.start, nextEvent.end)}</p>
+            <p className={styles.momentDate}>{formatEventDates(nextEvent)}</p>
             <p className={styles.momentSummary}>{nextEvent.tagline}</p>
             <DestinationActions event={nextEvent} planningHref={planningHref} destination={pulse.name} circlesHref={platformConnected ? undefined : circlesHref} />
           </> : <p className={styles.momentSummary}>No future occasion is listed for this destination yet.</p>}
@@ -444,7 +444,7 @@ function DestinationLoaded({
                   <p className="text-[13px] text-ink-muted">{event.tagline}</p>
                 </div>
                 <div className="flex flex-col items-start gap-2 sm:items-end">
-                  <p className="tabular text-[12px] text-ink-muted">{formatDateRange(event.start, event.end)}</p>
+                  <p className="tabular text-[12px] text-ink-muted">{formatEventDates(event)}</p>
                   <Link href={eventPlanningHref(event)} className="btn btn-ghost btn-sm">Plan around this event ↗</Link>
                 </div>
               </div>

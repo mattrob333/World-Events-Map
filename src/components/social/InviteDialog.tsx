@@ -6,7 +6,7 @@ import {
   Button,
   cn,
   EmptyState,
-  formatDateRange,
+  formatEventDates,
   Rule,
   ScrollArea,
   SearchField,
@@ -206,7 +206,7 @@ function InviteBody({ eventId, groupId, preselectedMemberIds, onClose }: InviteB
         <p className="label text-ink-muted">Invitation</p>
         <h2 className="font-display mt-2.5 text-[22px] leading-7 text-ink">{event.name}</h2>
         <p className="label-sm mt-2 text-ink-faint">
-          {event.city} · {formatDateRange(event.start, event.end)}
+          {event.city} · {formatEventDates(event)}
           {group ? ` · ${group.name}` : ''}
         </p>
       </header>

@@ -20,8 +20,8 @@ export const DESIGN_EVENTS: WorldEvent[] = [
     countryCode: 'GB',
     coords: { lat: 51.4966, lon: -0.1722 },
     timezone: 'Europe/London',
-    start: '2026-09-12',
-    end: '2026-09-20',
+    start: '2027-09-18', // 2027 dates: londondesignfestival.com
+    end: '2027-09-26',
     recurrence: 'annual',
     tier: 'marquee',
     priceIndex: 2,

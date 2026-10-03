@@ -8,7 +8,7 @@ import {
   CATEGORY_LABEL,
   cn,
   EmptyState,
-  formatDateRange,
+  formatEventDates,
   formatDaysUntil,
   Rule,
   ScrollArea,
@@ -365,7 +365,7 @@ function ProfileBody({ member, onClose }: ProfileBodyProps) {
                         {row.event.name}
                       </span>
                       <span className="label-sm mt-1.5 block text-ink-ghost">
-                        {row.event.city} · {formatDateRange(row.event.start, row.event.end)}
+                        {row.event.city} · {formatEventDates(row.event)}
                       </span>
                     </span>
                     <span
@@ -788,7 +788,7 @@ function TripRowButton({ row, onOpen }: { row: TripRow; onOpen: (e: WorldEvent) 
           {row.event.name}
         </span>
         <span className="label-sm mt-1.5 block truncate text-ink-ghost">
-          {row.event.city} · {formatDateRange(row.event.start, row.event.end)}
+          {row.event.city} · {formatEventDates(row.event)}
           {row.group ? ` · ${row.group.name}` : ''}
         </span>
       </span>
