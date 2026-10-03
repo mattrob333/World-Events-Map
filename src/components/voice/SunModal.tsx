@@ -12,8 +12,9 @@ import { planTripHref, type PlanPlace } from '@/lib/search/planPlace';
 import { useVoiceStore, type VoiceHandlers } from '@/lib/voice/registry';
 import { INTENT_TOOLS, routeFor, type VoiceToolName } from '@/lib/voice/tools';
 import { readTrip, whenLabel } from '@/lib/voice/tripBrief';
-import { nowWhatFrom, readAsk, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
-import { skiAskFromText } from '@/lib/ski/voice';
+import { nowMilesFrom, nowWhatFrom, readAsk, vibeTarget, type VibeTarget } from '@/lib/voice/vibe';
+import { skiAskFromText, skiPicksFromText } from '@/lib/ski/voice';
+import { loadSkiData } from '@/lib/ski/useSkiData';
 import { checklistFor, type ChecklistItem, type VibeMode } from '@/lib/voice/vibeChecklist';
 import { topicsFor } from '@/lib/voice/topics';
 import { useRealtime, type VoiceActivity } from '@/lib/voice/useRealtime';
@@ -759,12 +760,18 @@ function VibeStage() {
         const ski = await reach({ intent: 'ski', href: '/ski' }, 'ski_set_window');
         const ask = skiAskFromText(text, localToday());
         if (ski && Object.keys(ask).length) await ski.handlers.ski_set_window!(ask);
+        // Ranges and resorts it names go on the shortlist; "send it" opens the trip to share.
+        const data = await loadSkiData();
+        const picks = skiPicksFromText(text, data.ranges, data.resorts);
+        if (ski && picks.ranges.length) await ski.handlers.ski_shortlist!({ level: 'range', names: picks.ranges.map((range) => range.name) });
+        if (ski && picks.resorts.length) await ski.handlers.ski_shortlist!({ level: 'resort', names: picks.resorts.slice(0, 6).map((resort) => resort.name) });
+        if (ski && /\b(?:share|send)\b/i.test(text)) await ski.handlers.ski_share!({});
         setOpen(false);
         return;
       }
       if (target === 'now') {
         const now = await reach({ intent: 'now', href: '/now' }, 'now_filter');
-        await now?.handlers.now_filter?.({ what: nowWhatFrom(text) });
+        await now?.handlers.now_filter?.({ what: nowWhatFrom(text), miles: nowMilesFrom(text) });
         setOpen(false);
         return;
       }

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { rankRanges, rankResorts } from '@/lib/ski/match';
+import { interestWeights, rankRanges, rankResorts } from '@/lib/ski/match';
 import { useSkiPlan } from '@/lib/ski/store';
 import { findByName, rangeNames, resortNames, windowFromArgs } from '@/lib/ski/voice';
 import { formatSpan } from '@/lib/ski/window';
@@ -53,7 +53,9 @@ export function useSkiVoice(context: SkiContext | null, here: { rangeId?: string
         if (party) plan.setParty(party);
         if (!said && !party) return 'Error: say when they could go, for how long, or who is coming.';
         glow('ski:window');
-        const top = rankRanges(context.data.ranges, context.data.resorts, context.data.scene, window, context.weights).slice(0, 4).map((match) => match.range.name);
+        // Weighed for who's coming now, not the party of the last render.
+        const weights = party ? interestWeights(context.signals, party) : context.weights;
+        const top = rankRanges(context.data.ranges, context.data.resorts, context.data.scene, window, weights).slice(0, 4).map((match) => match.range.name);
         return `Set: ${formatSpan(window.from, window.to)}, ${window.nights} nights, ${(party ?? plan.party) === 'family' ? 'with kids' : 'adults'}. Best ranges for that: ${list(top)}.`;
       },
       ski_shortlist: async (args) => {

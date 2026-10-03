@@ -11,7 +11,7 @@ import type { Level } from '@/lib/ski/share';
 import { defaultWindow, useSkiPlan } from '@/lib/ski/store';
 import { useSkiData, type SkiData } from '@/lib/ski/useSkiData';
 import { addDays, formatSpan, isIsoDate, type TripWindow } from '@/lib/ski/window';
-import { allSignals } from '@/lib/vibe/signals';
+import { allSignals, type Signal } from '@/lib/vibe/signals';
 import styles from './ski.module.css';
 import { useGlow } from '@/lib/voice/glow';
 
@@ -19,6 +19,8 @@ export interface SkiContext {
   data: SkiData;
   window: TripWindow;
   weights: Weights;
+  /** What they like, so a change of party can re-weigh without waiting for a render. */
+  signals: readonly Signal[];
   hasProfile: boolean;
 }
 
@@ -33,7 +35,7 @@ export function useSkiContext(): SkiContext | null {
   const weights = useMemo(() => interestWeights(signals, party), [signals, party]);
   const window = useMemo(() => saved ?? defaultWindow(new Date()), [saved]);
   if (!hydrated || !data) return null;
-  return { data, window, weights, hasProfile: signals.length > 0 };
+  return { data, window, weights, signals, hasProfile: signals.length > 0 };
 }
 
 export const toneStyle = (tone: Tone) => ({ '--dot': TONE_COLOR[tone] }) as CSSProperties;

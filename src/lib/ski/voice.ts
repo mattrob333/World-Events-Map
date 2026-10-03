@@ -105,3 +105,23 @@ export function skiAskFromText(text: string, today: string): WindowArgs & { part
   else if (/\b(?:adults?|crew|friends|the boys|the girls|couple)\b/i.test(text)) out.party = 'crew';
   return out;
 }
+
+const GENERIC = new Set(['and', 'the', 'usa', 'canada', 'new']);
+const words = (value: string) => ` ${normalName(value)} `;
+
+/**
+ * Ranges and resorts named in typed words: "put the Alps and Japan on my
+ * list" names every Alps range and Japan; "Aspen" names Aspen Snowmass.
+ * Range names match on any distinctive word; resorts on their name or town.
+ */
+export function skiPicksFromText(text: string, ranges: readonly SkiRange[], resorts: readonly SkiResort[]): { ranges: SkiRange[]; resorts: SkiResort[] } {
+  const said = words(text);
+  const has = (key: string) => {
+    const norm = normalName(key);
+    return norm.length >= 4 && said.includes(` ${norm} `);
+  };
+  return {
+    ranges: ranges.filter((range) => normalName(range.name).split(' ').some((word) => !GENERIC.has(word) && has(word))),
+    resorts: resorts.filter((resort) => has(resort.name.split(':')[0] ?? resort.name) || has(resort.place)),
+  };
+}

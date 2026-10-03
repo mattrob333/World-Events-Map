@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { SKI_RANGES, SKI_RESORTS } from '@/lib/ski/data';
-import { findByName, rangeNames, resortNames, skiAskFromText, windowFromArgs } from '@/lib/ski/voice';
+import { findByName, rangeNames, resortNames, skiAskFromText, skiPicksFromText, windowFromArgs } from '@/lib/ski/voice';
 import { backendInstructions, liveInstructions, liveSessionConfig } from './session';
 import { INTENT_TOOLS, isVoiceIntent, routeFor, VOICE_TOOLS } from './tools';
-import { nowWhatFrom, readAsk, vibeTarget } from './vibe';
+import { nowMilesFrom, nowWhatFrom, readAsk, vibeTarget } from './vibe';
 
 const TODAY = '2026-10-03';
 
@@ -37,6 +37,11 @@ describe('Ask: the sun drives the pages', () => {
     expect(nowWhatFrom('I’m hungry')).toBe('food');
     expect(nowWhatFrom('live band somewhere')).toBe('music');
     expect(nowWhatFrom('anything fun')).toBe('surprise');
+    expect(readAsk('Put the Alps and Japan on my list, then send it to the crew')).toBe('ski');
+    expect(nowMilesFrom('drinks within five miles')).toBe(5);
+    expect(nowMilesFrom('a bar in walking distance')).toBe(1);
+    expect(nowMilesFrom('2 mi')).toBe(2);
+    expect(nowMilesFrom('somewhere fun')).toBeUndefined();
   });
 });
 
@@ -66,5 +71,13 @@ describe('ski voice', () => {
     expect(skiAskFromText('Ski trip January through March, me and the kids, a week', TODAY)).toEqual({ from: '2027-01-01', to: '2027-03-31', nights: 7, party: 'family' });
     expect(skiAskFromText('December to February with friends', TODAY)).toEqual({ from: '2026-12-01', to: '2027-02-28', party: 'crew' });
     expect(skiAskFromText('we may go skiing', TODAY)).toEqual({});
+  });
+
+  it('finds the ranges and resorts a typed ask names, and nothing else', () => {
+    const picks = skiPicksFromText('Put the Alps and Japan on my list, then send it to the crew', SKI_RANGES, SKI_RESORTS);
+    expect(picks.ranges.map((range) => range.name).sort()).toEqual(['Austrian Alps', 'French Alps', 'Italian Alps and Dolomites', 'Japan', 'Swiss Alps']);
+    expect(picks.resorts).toEqual([]);
+    expect(skiPicksFromText('Aspen in February', SKI_RANGES, SKI_RESORTS).resorts.map((resort) => resort.name).join()).toMatch(/Aspen/);
+    expect(skiPicksFromText('Ski trip January through March, me and the kids, a week', SKI_RANGES, SKI_RESORTS)).toEqual({ ranges: [], resorts: [] });
   });
 });

@@ -192,7 +192,7 @@ export function tripCrew(text: string): TripCrew | null {
 
 export type AskTarget = 'ski' | 'now' | 'trip';
 
-const SKI_WORDS = /\b(?:ski|skis|skiing|snowboard\w*|slopes|powder|apr[eè]s|lift tickets?)\b/i;
+const SKI_WORDS = /\b(?:ski|skis|skiing|snowboard\w*|slopes|powder|apr[eè]s|lift tickets?|shortlist|alps|dolomites|rockies|wasatch|andes|lapland|niseko|hakuba|whistler)\b/i;
 const NOW_WORDS = /\b(?:tonight|right now|now|near me|nearby|around here|this evening|open late)\b/i;
 
 /** Where a typed ask goes when the voice is off: skiing to the ski planner, tonight to Now, anything else to the trip designer. */
@@ -208,4 +208,13 @@ export function nowWhatFrom(text: string): 'drinks' | 'food' | 'music' | 'surpri
   if (/\b(?:eat|food|hungry|dinner|lunch|bite|snack|tacos?|pizza)\b/i.test(text)) return 'food';
   if (/\b(?:music|live|band|dj|danc\w*|club)\b/i.test(text)) return 'music';
   return 'surprise';
+}
+
+/** How far, from typed words: "within five miles", "2 mi", "walking distance". Only Now's 1, 2 and 5 miles. */
+export function nowMilesFrom(text: string): 1 | 2 | 5 | undefined {
+  if (/\bwalking distance\b|\bwalk(?:able)?\b/i.test(text)) return 1;
+  const match = /\b(1|one|a|2|two|5|five)\s*(?:mi|miles?)\b/i.exec(text);
+  if (!match) return undefined;
+  const n = { '1': 1, one: 1, a: 1, '2': 2, two: 2, '5': 5, five: 5 }[match[1]!.toLowerCase() as '1'];
+  return n as 1 | 2 | 5;
 }
