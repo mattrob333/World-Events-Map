@@ -79,6 +79,14 @@ export function MyTrips() {
             <Link href="/trips/new" className={styles.primaryAction}>+ Create new trip</Link>
           </div>
 
+          <Link href="/ski" className={`${styles.myTripRow} ${styles.skiRow}`}>
+            <span className={styles.intentText}>
+              <span>Plan a ski trip</span>
+              <span className={styles.intentDetail}>Pick your dates, swipe mountains and resorts, share it to vote</span>
+            </span>
+            <span className={styles.intentVerb}>Open <span aria-hidden="true">↗</span></span>
+          </Link>
+
           {!hydrated ? null : rows.length ? (
             <ul className={styles.myTripList}>
               {rows.map((row) => (

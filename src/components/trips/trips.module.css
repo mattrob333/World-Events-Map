@@ -566,6 +566,7 @@
   color: var(--color-bone);
   text-align: left;
 }
+.skiRow { margin-bottom: 12px; color: inherit; text-decoration: none; }
 .myTripRow:hover { background: var(--gradient-surface), var(--color-surface-3); }
 @media (max-width: 640px) {
   .sectionHeader:has(.primaryAction) { flex-direction: column; align-items: flex-start; }

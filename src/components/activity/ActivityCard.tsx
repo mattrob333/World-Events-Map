@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import Link from 'next/link';
+import { SPOT_RESORT } from '@/lib/ski/spots';
 import {
   Heart, Check, Copy, ExternalLink, Globe2, Hotel, MapPin, Plane, Plus, Share2, Sparkles, Ticket, X, CloudSun, BookOpen, WifiOff,
 } from 'lucide-react';
@@ -178,7 +179,8 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
     .sort((x, y) => (y.heat ?? 0) - (x.heat ?? 0))
     .slice(0, 4);
   const monthParam = month === 'now' ? now.getMonth() + 1 : month;
-  const planHref = `/trips/new?${new URLSearchParams({ place: a.id, month: String(monthParam) }).toString()}`;
+  const skiResort = SPOT_RESORT[a.id];
+  const planHref = skiResort ? `/ski/resort/${skiResort}` : `/trips/new?${new URLSearchParams({ place: a.id, month: String(monthParam) }).toString()}`;
 
   const toggleSave = () => toggleIntent({ verb: 'save', kind: 'spot', id: a.id, label: `${a.name} · ${a.place}`, href: `/?spot=${encodeURIComponent(a.id)}` });
   const toggleTrip = () => {
@@ -367,7 +369,7 @@ export function ActivityCard({ activities, units = 'imperial', now: nowProp }: {
         ) : null}
 
         <div className={styles.actions}>
-          <Link className={styles.primary} href={planHref}>Plan a trip here</Link>
+          <Link className={styles.primary} href={planHref}>{skiResort ? 'Plan a ski trip' : 'Plan a trip here'}</Link>
           {trip ? (
             <button type="button" className={styles.secondary} onClick={toggleTrip} aria-pressed={added}>
               {added ? <Check size={18} /> : <Plus size={18} />}
