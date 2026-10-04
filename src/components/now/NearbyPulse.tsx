@@ -533,7 +533,7 @@ export function NearbyPulse() {
     <main className={styles.page}>
       <section className={styles.stage} aria-label="Vibe Now: what’s busy around you">
         <div ref={box} className={styles.map} />
-        <a className={styles.credit} href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap · OpenFreeMap</a>
+        <a className={`${styles.credit} ${selected ? styles.creditLifted : ''}`} href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap · OpenFreeMap</a>
         {here ? (
           <button type="button" className={`${styles.locate} ${selected ? styles.locateLifted : ''}`} onClick={recenter} aria-label={drifted ? 'Update the map for where you are now' : 'Center the map on you'}>
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -546,9 +546,13 @@ export function NearbyPulse() {
         {drifted && !selected ? (
           <button type="button" className={styles.update} onClick={recenter}><span className={styles.updateLong}>You’ve moved · </span>Update the map</button>
         ) : null}
+        <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.top}>
-          <p className={styles.kicker}><i aria-hidden="true" /> VIBE NOW{placeLabel ? <span className={styles.where}> · {placeLabel}</span> : null}{clock ? <span className={styles.where}> · {clock}</span> : null}</p>
-          <h1 className={styles.status} aria-live="polite">{status}</h1>
+          <div className={styles.capsule}>
+            <p className={styles.kicker}><i aria-hidden="true" />Vibe now{clock ? <span className={styles.where}>{clock}</span> : null}</p>
+            <h1 className={styles.status} aria-live="polite">{status}</h1>
+            {placeLabel ? <p className={styles.place}>{placeLabel}</p> : null}
+          </div>
         </div>
         {picked && pickedNearby && <PlaceCard venue={pickedNearby} nowMinutes={nowMinutes} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
@@ -582,11 +586,11 @@ const WHATS: { value: PulseWhat; label: string }[] = [
   { value: 'music', label: 'Live music' },
 ];
 
-function Meter({ venue, compact = false }: { venue: PulseVenue; compact?: boolean }) {
+function Meter({ venue, compact = false, bare = false }: { venue: PulseVenue; compact?: boolean; bare?: boolean }) {
   return (
     <span className={compact ? styles.meterCompact : styles.meter}>
       <span className={styles.bar} aria-hidden="true"><i style={{ width: `${venue.busyness}%` }} /></span>
-      <span className={styles.pct}>{venue.busyness}%{venue.basis === 'live' ? <em> live</em> : null}</span>
+      {bare ? null : <span className={styles.pct}>{venue.busyness}%{venue.basis === 'live' ? <em> live</em> : null}</span>}
     </span>
   );
 }
@@ -630,8 +634,8 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
   if (usual !== undefined) {
     return (
       <div className={styles.proof}>
-        <p className={styles.proofLine}>Usually {usual}% busy at this hour.</p>
-        <Meter venue={{ ...venue, busyness: usual, basis: 'forecast' }} />
+        <p className={styles.proofHead}><span className={styles.proofBig}>{usual}%</span><span className={styles.proofLabel}>usually busy<br />at this hour</span></p>
+        <Meter venue={{ ...venue, busyness: usual, basis: 'forecast' }} bare />
         <p className={styles.proofSource}>{state?.status === 'ok' ? `${note} This is its usual for the hour.` : note}</p>
       </div>
     );
@@ -639,7 +643,8 @@ function LiveProof({ venue, state }: { venue: PulseVenue; state?: LiveState }) {
   // The map scan's own reading was live: keep its label, and say the re-check didn't add to it.
   return (
     <div className={styles.proof}>
-      <Meter venue={venue} />
+      <p className={styles.proofHead}><span className={styles.proofBig}>{venue.busyness}%</span><span className={styles.proofLabel}>{venue.basis === 'live' ? <>busy now<br /><em>live</em></> : <>busy at<br />this hour</>}</span></p>
+      <Meter venue={venue} bare />
       <p className={styles.proofSource}>{state?.status === 'ok' ? 'Live from the map’s scan a moment ago; BestTime couldn’t re-check it just now.' : note}</p>
     </div>
   );
@@ -676,27 +681,19 @@ function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue:
   const walkMinutes = walkable && venue.distanceMeters !== undefined ? Math.max(1, Math.ceil((venue.distanceMeters * 1.25) / 80)) : null;
   return (
     <article className={styles.picked} aria-live="polite">
-      <button type="button" className={styles.close} onClick={onClose} aria-label="Close">×</button>
-      <p className={styles.pickedKind}>{kind}</p>
+      <span className={styles.handle} aria-hidden="true" />
+      <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+      <div className={styles.sheetBody}>
+      <p className={styles.pickedKind}>{kind.split(' · ').map((part) => <span key={part}>{part}</span>)}</p>
       <h2>{venue.name}</h2>
       {closed ? <p className={styles.shut} role="status">{closed}{offMap ? ' It’s off the map.' : ' BestTime still reads it as busy right now, so check before you go.'}</p> : null}
-      {rating || facts?.price ? <p className={styles.facts}>{[rating, facts?.price].filter(Boolean).join(' · ')}</p> : null}
+      {rating || facts?.price ? <p className={styles.facts}>{facts?.rating ? <span className={styles.star} aria-hidden="true">★</span> : null}{[rating.replace(/^★ /, ''), facts?.price].filter(Boolean).join(' · ')}</p> : null}
       {address ? <p className={styles.address}>{address}</p> : null}
       {facts?.hoursToday && !facts.shut ? <p className={styles.today}>{facts.hoursTodayUsual ? 'Usual hours today' : 'Hours today'} · {facts.hoursToday}</p> : null}
       {closed && offMap ? null : <LiveProof venue={venue} state={live} />}
       {wink && !(closed && offMap) ? <p className={styles.wink}>{wink}</p> : null}
-      {closed && offMap ? null : (
-        <>
-          <p className={styles.getThere}>Get there</p>
-          <div className={styles.ways}>
-            {walkable ? <a className="btn btn-primary btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk{walkMinutes ? ` · about ${walkMinutes} min` : ''}</a> : null}
-            <a className={`btn btn-sm ${walkable ? 'btn-ghost' : 'btn-primary'}`} href={ways.uber} target="_blank" rel="noopener noreferrer">Uber</a>
-            <a className="btn btn-ghost btn-sm" href={ways.lyft} target="_blank" rel="noopener noreferrer">Lyft</a>
-            {walkable ? null : <a className="btn btn-ghost btn-sm" href={ways.walk} target="_blank" rel="noopener noreferrer">🚶 Walk</a>}
-            <a className="btn btn-ghost btn-sm" href={ways.drive} target="_blank" rel="noopener noreferrer"><SourceLogo source="google maps" size={14} className="mr-1.5" />Drive</a>
-          </div>
-        </>
-      )}
       {venue.hourly && !(closed && offMap) ? (
         <>
           <p className={styles.chartTitle}>Usually busy tonight</p>
@@ -714,6 +711,19 @@ function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue:
       {facts && (facts.type || facts.rating || facts.price || facts.website || facts.phone || facts.address || facts.hoursToday || closed) ? (
         <p className={styles.attribution}><SourceLogo source="google maps" size={12} className="mr-1" />Place details from Google Maps</p>
       ) : null}
+      </div>
+      {closed && offMap ? null : (
+        // Getting there stays in reach at the foot of the sheet: the one that fits first, then the rest.
+        <nav className={styles.ways} aria-label="Get there">
+          <a className={styles.wayPrimary} href={walkable ? ways.walk : ways.uber} target="_blank" rel="noopener noreferrer">
+            {walkable ? <>Walk{walkMinutes ? <small>about {walkMinutes} min</small> : null}</> : <>Ride with Uber<small>opens the app</small></>}
+          </a>
+          {walkable ? <a className={styles.way} href={ways.uber} target="_blank" rel="noopener noreferrer">Uber</a> : null}
+          <a className={styles.way} href={ways.lyft} target="_blank" rel="noopener noreferrer">Lyft</a>
+          {walkable ? null : <a className={styles.way} href={ways.walk} target="_blank" rel="noopener noreferrer">Walk</a>}
+          <a className={styles.way} href={ways.drive} target="_blank" rel="noopener noreferrer"><SourceLogo source="google maps" size={13} />Drive</a>
+        </nav>
+      )}
     </article>
   );
 }
