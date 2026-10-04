@@ -270,3 +270,13 @@
 /* With a place open, the credit rides above the sheet so it stays readable. */
 .creditLifted { bottom: calc(60% + 16px); z-index: 2; }
 @media (min-width: 720px) { .creditLifted { bottom: 6px; left: auto; right: 72px; } }
+/* Short screens (a phone on its side): the sheet takes nearly the whole map and scrolls as one,
+   the way there included, so the place itself never shrinks to a sliver. */
+@media (max-height: 560px) and (max-width: 1023px) {
+  .stage { height: max(74svh, 340px); }
+  .stage .picked { display: block; top: 8px; bottom: 8px; max-height: none; overflow-y: auto; overscroll-behavior: contain; }
+  .stage .picked .sheetBody { overflow: visible; }
+  .stage .picked .wayPrimary { min-height: 44px; }
+  .locateLifted { display: none; }
+  .creditLifted { top: 8px; right: 12px; bottom: auto; left: auto; }
+}
