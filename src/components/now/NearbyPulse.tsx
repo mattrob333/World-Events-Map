@@ -18,7 +18,7 @@ import styles from './nearby-pulse.module.css';
 import { glow, useGlow } from '@/lib/voice/glow';
 import { useVoicePage } from '@/lib/voice/registry';
 import { useHydrated } from '@/components/designer/useHydrated';
-import { clockAt, usePlanFrom, type PlanFrom } from '@/lib/now/planFrom';
+import { clockAt, offsetAt, usePlanFrom, type PlanFrom } from '@/lib/now/planFrom';
 import { PlanFromSearch } from './PlanFromSearch';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
@@ -461,7 +461,7 @@ export function NearbyPulse() {
     allRef.current = [];
     memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
       // The phone's weekday and hour only choose which day's hourly forecast to show.
-      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: (() => { const there = clockAt(new Date(), awayRef.current?.utcOffsetMinutes); return { day: (there.getDay() + 6) % 7, hour: there.getHours() }; })() }) })
+      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: (() => { const at = new Date(); const there = clockAt(at, offsetAt(awayRef.current, at)); return { day: (there.getDay() + 6) % 7, hour: there.getHours() }; })() }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
@@ -556,7 +556,7 @@ export function NearbyPulse() {
   }, [selected, details]);
 
   // Tonight is tonight where they'll be: the hotel's clock when planning from one.
-  const there = now ? clockAt(now, away?.utcOffsetMinutes) : null;
+  const there = now ? clockAt(now, offsetAt(away, now)) : null;
   const nowMinutes = there ? there.getHours() * 60 + there.getMinutes() : 0;
   // Busiest first (foot traffic is the point), nudged by their Vibe profile when they have one.
   // Distances in the list and on the card, from where they are now (on the phone), kept to the nearest 50 m so walking doesn't re-rank every step.

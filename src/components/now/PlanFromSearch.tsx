@@ -82,7 +82,7 @@ export function PlanFromSearch({ onPicked, autoFocus = false }: { onPicked?: (pl
           <p className={styles.note} role="status">Nothing found. Try the hotel’s full name with its town, or a street address.</p>
         )
       ) : null}
-      <p className={styles.privacy}>Searched with Google Places; we keep none of it. The place you pick stays on this device.</p>
+      <p className={styles.privacy}>Searched with Google Places. Our server remembers a search for a day at most, never tied to you. The place you pick stays on this device.</p>
     </div>
   );
 }

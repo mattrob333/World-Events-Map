@@ -4,13 +4,13 @@ import { dailyCalls, memberCharge, type MemberCharge } from './liveBusyness';
 
 const ENDPOINT = 'https://places.googleapis.com/v1/places:searchText';
 // Name, address, point and the local clock: enough to plan a night from a hotel, nothing more.
-const FIELDS = 'places.displayName,places.formattedAddress,places.location,places.utcOffsetMinutes';
+const FIELDS = 'places.displayName,places.formattedAddress,places.location,places.utcOffsetMinutes,places.timeZone';
 const TTL_MS = 24 * 60 * 60 * 1000;
 const MAX_RESULTS = 5;
 const MAX_QUERY = 120;
 
 /** A place they'll be staying or starting from: a hotel, an Airbnb's street, any address. */
-export type WherePlace = { name: string; address: string; lat: number; lng: number; utcOffsetMinutes?: number };
+export type WherePlace = { name: string; address: string; lat: number; lng: number; utcOffsetMinutes?: number; timeZone?: string };
 export type WhereResult = { places: WherePlace[]; reason?: 'budget' | 'unavailable' };
 
 /** One member's daily share of address lookups, separate from the venue lookups on the map. */
@@ -30,28 +30,50 @@ export function parseWhere(body: unknown): WherePlace[] {
   const out: WherePlace[] = [];
   for (const raw of places) {
     if (!raw || typeof raw !== 'object') continue;
-    const place = raw as { displayName?: { text?: unknown }; formattedAddress?: unknown; location?: { latitude?: unknown; longitude?: unknown }; utcOffsetMinutes?: unknown };
+    const place = raw as { displayName?: { text?: unknown }; formattedAddress?: unknown; location?: { latitude?: unknown; longitude?: unknown }; utcOffsetMinutes?: unknown; timeZone?: { id?: unknown } };
     const lat = place.location?.latitude;
     const lng = place.location?.longitude;
     const name = typeof place.displayName?.text === 'string' ? place.displayName.text.slice(0, 80) : '';
     const address = typeof place.formattedAddress === 'string' ? place.formattedAddress.slice(0, 160) : '';
     if (typeof lat !== 'number' || typeof lng !== 'number' || !Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180 || !name) continue;
     const offset = place.utcOffsetMinutes;
-    out.push({ name, address, lat, lng, ...(typeof offset === 'number' && Number.isInteger(offset) && Math.abs(offset) <= 14 * 60 ? { utcOffsetMinutes: offset } : {}) });
+    const zone = validZone(place.timeZone?.id);
+    out.push({ name, address, lat, lng, ...(typeof offset === 'number' && Number.isInteger(offset) && Math.abs(offset) <= 14 * 60 ? { utcOffsetMinutes: offset } : {}), ...(zone ? { timeZone: zone } : {}) });
     if (out.length === MAX_RESULTS) break;
   }
   return out;
 }
 
+/** An IANA zone this runtime knows ("America/Cancun"), or nothing. */
+function validZone(raw: unknown): string | undefined {
+  if (typeof raw !== 'string' || raw.length > 64 || !/^[A-Za-z0-9_+\-/]+$/.test(raw)) return undefined;
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: raw });
+    return raw;
+  } catch {
+    return undefined;
+  }
+}
+
+// Insertion order is age order (entries are only ever added fresh), so expired ones sit at the front.
 const cache = new Map<string, { at: number; places: WherePlace[] }>();
+
+function dropExpired(now: number) {
+  for (const [query, entry] of cache) {
+    if (now - entry.at < TTL_MS) break;
+    cache.delete(query);
+  }
+}
 
 /**
  * Finds a hotel or address with Google Places text search. Remembered for a
  * day per query (shared by everyone), then one call inside the member's own
- * daily share and the site's daily Places budget. The query isn't logged or
- * stored beyond that in-memory cache.
+ * daily share and the site's daily Places budget. The query isn't logged,
+ * isn't tied to the member, and leaves memory when its day is up.
  */
 export async function findWhere(query: string, key: string, charge: MemberCharge, now = Date.now()): Promise<WhereResult> {
+  // Nothing outlives its day: a searched address is gone from memory once it expires.
+  dropExpired(now);
   const hit = cache.get(query);
   if (hit && now - hit.at < TTL_MS) return { places: hit.places };
   if (!(await charge.take())) return { places: [], reason: 'budget' };
@@ -79,4 +101,8 @@ export async function findWhere(query: string, key: string, charge: MemberCharge
 
 export function resetWhereCacheForTests() {
   cache.clear();
+}
+
+export function whereCacheSizeForTests() {
+  return cache.size;
 }
