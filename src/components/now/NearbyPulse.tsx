@@ -17,6 +17,9 @@ import { letPageScroll } from '@/lib/geo/mapGestures';
 import styles from './nearby-pulse.module.css';
 import { glow, useGlow } from '@/lib/voice/glow';
 import { useVoicePage } from '@/lib/voice/registry';
+import { useHydrated } from '@/components/designer/useHydrated';
+import { clockAt, offsetAt, usePlanFrom, type PlanFrom } from '@/lib/now/planFrom';
+import { PlanFromSearch } from './PlanFromSearch';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/dark';
 /** How far the rounded search point can sit from them, so a small radius isn't lopsided (the server only searches these widths). */
@@ -124,6 +127,21 @@ export function NearbyPulse() {
   const [radius, setRadius] = useState<number>(PULSE_RADIUS_METERS);
   const [what, setWhat] = useState<PulseWhat>('surprise');
   const [now, setNow] = useState<Date | null>(null);
+  // Planning from somewhere else (a hotel they picked): the map, distances and clock are that place's.
+  const hydrated = useHydrated();
+  const savedFrom = usePlanFrom((s) => s.place);
+  const clearFrom = usePlanFrom((s) => s.clear);
+  const away = hydrated ? savedFrom : null;
+  const awayRef = useRef<PlanFrom | null>(away);
+  useEffect(() => { awayRef.current = away; });
+  const [choosing, setChoosing] = useState(false);
+  const stayRef = useRef<Marker | null>(null);
+  // One panel at a time: the chooser replaces an open place card, back at the top of the map.
+  const openChooser = () => {
+    setSelected(null);
+    setChoosing(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const active = useActiveProfile();
   // The sun sets the filters from what they say ("a bar within walking distance").
   useVoicePage(
@@ -263,6 +281,13 @@ export function NearbyPulse() {
 
   const locate = useCallback(() => {
     setNote(null);
+    const from = awayRef.current;
+    if (from) {
+      // Not where they are: where they'll be. No phone location needed.
+      setPosition(null);
+      setHere({ lat: from.lat, lng: from.lng });
+      return;
+    }
     if (!('geolocation' in navigator)) {
       setNote({ tone: 'warn', text: 'This browser can’t share your location.' });
       return;
@@ -286,6 +311,41 @@ export function NearbyPulse() {
     const timer = window.setTimeout(locate, 600);
     return () => window.clearTimeout(timer);
   }, [locate]);
+
+  // Picked a hotel, or went back to "where I am": search again from there.
+  const awayKey = away ? `${away.lat},${away.lng}` : '';
+  const lastAway = useRef<string | null>(null);
+  useEffect(() => {
+    if (!hydrated) return;
+    if (lastAway.current === null) {
+      lastAway.current = awayKey;
+      return;
+    }
+    if (lastAway.current === awayKey) return;
+    lastAway.current = awayKey;
+    youRef.current?.remove();
+    youRef.current = null;
+    setSelected(null);
+    locate();
+  }, [awayKey, hydrated, locate]);
+
+  // The hotel on the map: a warm pin with its name, so it's clear what the distances are from.
+  useEffect(() => {
+    const map = mapRef.current;
+    stayRef.current?.remove();
+    stayRef.current = null;
+    if (!away || !map || !mapReady) return;
+    let live = true;
+    void import('maplibre-gl').then(({ default: maplibregl }) => {
+      if (!live) return;
+      const pin = document.createElement('span');
+      pin.className = styles.stay;
+      pin.setAttribute('aria-label', `Planning from ${away.name}`);
+      pin.textContent = away.name;
+      stayRef.current = new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat([away.lng, away.lat]).addTo(map);
+    });
+    return () => { live = false; stayRef.current?.remove(); stayRef.current = null; };
+  }, [away, mapReady]);
 
   // Found them: dive in until the whole search radius fills the map (or, already there, glide to the
   // new search point or the new radius).
@@ -331,7 +391,7 @@ export function NearbyPulse() {
   }, [position, mapReady]);
 
   // Once they've shared it, keep the dot live while the page is open (stops when they leave).
-  const located = here !== null;
+  const located = here !== null && !away;
   useEffect(() => {
     if (!located || !('geolocation' in navigator)) return;
     let watch: number | null = null;
@@ -401,7 +461,7 @@ export function NearbyPulse() {
     allRef.current = [];
     memberFetch('/api/now/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, // The search centre is rounded (up to ~700 m off), so ask a little wider; the list below still keeps only what's within the radius of you.
       // The phone's weekday and hour only choose which day's hourly forecast to show.
-      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: { day: (new Date().getDay() + 6) % 7, hour: new Date().getHours() } }) })
+      body: JSON.stringify({ location: roundForSearch(here), what, radiusMeters: radius + ROUNDING_SLACK_METERS, clock: (() => { const at = new Date(); const there = clockAt(at, offsetAt(awayRef.current, at)); return { day: (there.getDay() + 6) % 7, hour: there.getHours() }; })() }) })
       .then(async (response) => {
         const body = (await response.json().catch(() => ({}))) as Partial<PulseResult> & { code?: string; error?: string };
         if (!live) return;
@@ -495,7 +555,9 @@ export function NearbyPulse() {
       .catch(() => setDetails((current) => ({ ...current, [id]: null })));
   }, [selected, details]);
 
-  const nowMinutes = now ? now.getHours() * 60 + now.getMinutes() : 0;
+  // Tonight is tonight where they'll be: the hotel's clock when planning from one.
+  const there = now ? clockAt(now, offsetAt(away, now)) : null;
+  const nowMinutes = there ? there.getHours() * 60 + there.getMinutes() : 0;
   // Busiest first (foot traffic is the point), nudged by their Vibe profile when they have one.
   // Distances in the list and on the card, from where they are now (on the phone), kept to the nearest 50 m so walking doesn't re-rank every step.
   const stepLat = position ? Math.round(position.lat * 2000) / 2000 : null;
@@ -526,7 +588,7 @@ export function NearbyPulse() {
   const picked = venues?.find((venue) => venue.id === selected) ?? null;
   const pickedNearby = picked ? nearby?.find((venue) => venue.id === picked.id) ?? picked : null;
   const miles = Math.round(radius / 1609);
-  const clock = now ? now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+  const clock = there ? there.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
   const status = stage === 'denied' ? 'Location is off' : stage === 'spinning' || stage === 'locating' ? 'Finding you…' : stage === 'flying' ? 'Diving in…' : venues === null || open === null ? 'Reading foot traffic…' : open.length ? `${open.length} ${open.length === 1 ? 'place' : 'places'} buzzing within ${miles} ${miles === 1 ? 'mile' : 'miles'}` : note?.tone === 'warn' || note?.signIn ? 'Vibe Now' : `Within ${miles} ${miles === 1 ? 'mile' : 'miles'} of you`;
 
   return (
@@ -549,12 +611,28 @@ export function NearbyPulse() {
         <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.top}>
           <div className={styles.capsule}>
-            <p className={styles.kicker}><i aria-hidden="true" />Vibe now{clock ? <span className={styles.where}>{clock}</span> : null}</p>
+            <p className={styles.kicker}><i aria-hidden="true" />{away ? 'Planning from' : 'Vibe now'}{clock ? <span className={styles.where}>{away ? `${clock} there` : clock}</span> : null}</p>
             <h1 className={styles.status} aria-live="polite">{status}</h1>
-            {placeLabel ? <p className={styles.place}>{placeLabel}</p> : null}
+            {away ? <p className={styles.place}>{away.name}</p> : placeLabel ? <p className={styles.place}>{placeLabel}</p> : null}
+            <div className={styles.fromActions}>
+              <button type="button" onClick={openChooser}>{away ? 'Change' : 'Staying somewhere else?'}</button>
+              {away ? <button type="button" onClick={clearFrom}>Use where I am</button> : null}
+            </div>
           </div>
         </div>
-        {picked && pickedNearby && <PlaceCard venue={pickedNearby} nowMinutes={nowMinutes} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
+        {choosing ? (
+          <div className={styles.chooser} role="dialog" aria-label="Plan from a hotel or address">
+            <div className={styles.chooserHead}>
+              <p>Where are you staying?</p>
+              <button type="button" className={styles.close} onClick={() => setChoosing(false)} aria-label="Close">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+              </button>
+            </div>
+            <p className={styles.chooserLede}>Plan tonight from your hotel before you get there: what’s busy around it and when each place closes, on its local clock.</p>
+            <PlanFromSearch autoFocus onPicked={() => setChoosing(false)} />
+          </div>
+        ) : null}
+        {picked && pickedNearby && <PlaceCard from={away ?? undefined} venue={pickedNearby} nowMinutes={nowMinutes} live={live[picked.id]} details={details[picked.id]} wink={winks.get(picked.id) ?? undefined} onClose={() => setSelected(null)} />}
         {note && (
           <div className={styles.note} data-tone={note.tone} role="status">
             <p>{note.text}</p>
@@ -657,9 +735,10 @@ type PlaceFacts = { type?: string; address?: string; hoursToday?: string; hoursT
  * it's busy, and one tap to get there (walk, ride or drive). Facts come from
  * BestTime and Google only; nothing is filled in.
  */
-function PlaceCard({ venue, nowMinutes, live, details, wink, onClose }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading' | 'paused'; wink?: string; onClose: () => void }) {
+function PlaceCard({ venue, nowMinutes, live, details, wink, onClose, from }: { venue: PulseVenue; nowMinutes: number; live?: LiveState; details?: PlaceFacts | null | 'loading' | 'paused'; wink?: string; onClose: () => void; from?: PlanFrom }) {
   const facts = typeof details === 'object' ? details : null;
-  const ways = wayThere(venue);
+  // From the hotel when planning from one: directions and rides start there.
+  const ways = wayThere(venue, from);
   const miles = venue.distanceMeters !== undefined ? venue.distanceMeters / 1609.34 : undefined;
   const walkable = miles !== undefined && miles <= 1.2;
   const closes = facts?.openAllNight || venue.openAllNight

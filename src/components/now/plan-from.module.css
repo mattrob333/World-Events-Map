@@ -1,0 +1,26 @@
+.root { display: grid; gap: 10px; }
+.form { display: flex; gap: 8px; }
+.input {
+  flex: 1 1 auto; min-width: 0; min-height: 48px; padding: 0 16px; border-radius: 999px;
+  background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.12); color: var(--color-bone); font-size: 16px;
+}
+.input::placeholder { color: var(--color-ink-subtle); }
+.input:focus-visible { outline: none; border-color: rgb(247 197 72 / 0.7); box-shadow: 0 0 0 3px rgb(247 197 72 / 0.15); }
+.go {
+  flex: none; min-height: 48px; padding: 0 18px; border-radius: 999px;
+  background: linear-gradient(100deg, #f7c548, #f26b2a 55%, #e4577e); color: #170d06; font-size: 15px; font-weight: 750;
+}
+.go:disabled { opacity: 0.45; }
+.go:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.results { display: grid; gap: 6px; }
+.result {
+  display: grid; gap: 2px; width: 100%; min-height: 56px; padding: 10px 14px; border-radius: 16px; text-align: left;
+  background: rgb(255 255 255 / 0.04); border: 1px solid rgb(255 255 255 / 0.07);
+}
+.result:hover { background: rgb(255 255 255 / 0.07); }
+.result:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.result strong { color: var(--color-bone); font-size: 15px; font-weight: 650; }
+.result small { color: var(--color-ink-muted); font-size: 12.5px; line-height: 1.35; }
+.note { color: var(--color-ink-soft); font-size: 13.5px; line-height: 1.4; }
+.note a { color: var(--color-saffron); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+.privacy { color: var(--color-ink-subtle); font-size: 11.5px; line-height: 1.4; }

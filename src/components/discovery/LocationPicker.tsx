@@ -1,6 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { PlanFromSearch } from '@/components/now/PlanFromSearch';
 import { VIEWER_CITIES } from '@/lib/location/browser-position';
 import type { useViewerLocation } from '@/lib/location/useViewerLocation';
 import styles from './discovery.module.css';
@@ -23,6 +25,9 @@ function buttonLabel(viewer: Viewer): string {
 export function LocationPicker({ viewer }: { viewer: Viewer }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  // A city to center on, or a hotel/address to plan tonight from (that opens Now).
+  const [mode, setMode] = useState<'city' | 'stay'>('city');
+  const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -32,7 +37,7 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
 
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    if (mode === 'city') inputRef.current?.focus();
     const onPointer = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
@@ -51,7 +56,7 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
       document.removeEventListener('pointerdown', onPointer);
       document.removeEventListener('keydown', onKey);
     };
-  }, [open]);
+  }, [open, mode]);
 
   const needle = query.trim().toLowerCase();
   const matches = VIEWER_CITIES.filter((city) => !needle || city.name.toLowerCase().includes(needle));
@@ -95,6 +100,16 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
       </button>
       {open && (
         <div id={panelId} className={styles.locationPanel} role="dialog" aria-label="Choose your location" onKeyDown={onListKey}>
+          <div className={styles.locationModes} role="group" aria-label="Where">
+            <button type="button" aria-pressed={mode === 'city'} onClick={() => setMode('city')}>City</button>
+            <button type="button" aria-pressed={mode === 'stay'} onClick={() => setMode('stay')}>Hotel or address</button>
+          </div>
+          {mode === 'stay' ? (
+            <>
+              <p className={styles.locationNote}>Staying somewhere? Find your hotel and Now shows what’s busy around it tonight, before you get there.</p>
+              <PlanFromSearch autoFocus onPicked={() => { setOpen(false); router.push('/now'); }} />
+            </>
+          ) : <>
           <button
             type="button"
             className={styles.locationDevice}
@@ -138,8 +153,9 @@ export function LocationPicker({ viewer }: { viewer: Viewer }) {
               ))}
             </ul>
           ) : (
-            <p className={styles.locationNote}>No match. These are the cities we can center on for now: {VIEWER_CITIES.map((city) => city.name.split(',')[0]).join(', ')}.</p>
+            <p className={styles.locationNote}>No match. These are the cities we can center on for now: {VIEWER_CITIES.map((city) => city.name.split(',')[0]).join(', ')}. For a hotel or street address, use Hotel or address above.</p>
           )}
+          </>}
         </div>
       )}
     </div>

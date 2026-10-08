@@ -1341,9 +1341,14 @@
 .locationList button:focus-visible { background: var(--color-surface-3); color: var(--color-bone); outline: none; }
 .locationList button[aria-current='true'] { color: var(--color-saffron); }
 .locationNote { margin: 0; font-size: 0.75rem; line-height: 1.4; color: var(--color-ink-muted); }
+/* Phones: the pill sits at the right of its row, so the panel opens leftward and stays on screen. */
 @media (max-width: 600px) {
-  .locationPanel { right: auto; left: 0; }
+  .locationPanel { right: 0; left: auto; width: min(340px, calc(100vw - 32px)); max-height: min(70vh, 560px); overflow-y: auto; }
 }
+.locationModes { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / 0.05); }
+.locationModes button { min-height: 36px; border-radius: 999px; font-size: 0.8125rem; font-weight: 650; color: var(--color-ink-muted); }
+.locationModes button[aria-pressed='true'] { background: var(--color-surface-3); color: var(--color-bone); }
+.locationModes button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .worldHeading[data-selected='true'] h2 {
   font-size: clamp(31px, 2.8vw, 41px);

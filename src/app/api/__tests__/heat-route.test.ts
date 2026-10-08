@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+// The catalog rolls past events forward when it loads, so freeze the clock before it does.
+vi.hoisted(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2026-09-25T12:00:00Z'));
+});
 vi.mock('server-only', () => ({}));
 // The news library is unavailable in tests: Heat must still work from Wikipedia and say so.
 vi.mock('@/lib/vibe/server/feedIndex', () => ({ feedIndex: async () => ({ byPlace: new Map(), status: { state: 'unavailable', since: null, stories: 0 } }) }));
