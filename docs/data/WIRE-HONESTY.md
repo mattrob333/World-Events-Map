@@ -20,8 +20,8 @@ Sanitized fixtures, not live responses:
 
 | File | What it proves |
 |---|---|
-| `src/lib/signals/__fixtures__/wire-honesty.json` | One **fresh** X reading and one **stale** Google Trends reading. Each has a `sourcePublishedAt` that is different from `observedAt` and from the wire's `asOf` time. Tests require those publication times to survive unchanged. |
+| `src/lib/signals/__fixtures__/wire-honesty.json` | Two **fresh** readings on the same curated event (X / social and Google Trends / search), plus one **stale** Google Trends reading. Each reading has a `sourcePublishedAt` that is different from its `observedAt` and from the wire's `asOf` time. Tests require those publication times to survive unchanged, and they require both fresh families to clear a material-change bar. `destinationId` is omitted — the entity registry has no destination id yet. |
 | `src/lib/signals/__fixtures__/hold-sources.json` | Synthetic Ticketmaster, PredictHQ, and Amadeus patches. The wire must return no cards for them. |
 | `src/lib/signals/__fixtures__/patches.ts` | Small numeric patches used to check metric mapping. Not live data. |
 
-The fresh fixture is still inside the 10-minute window at `asOf`, so it can rise or count as new. The stale fixture is hours older, so its card kind is `stale` while `sourcePublishedAt` stays `2026-09-22T11:05:00.000Z`.
+The two fresh observations sit inside the 10-minute window at `asOf`, so each family can rise (or count as new / changed). The stale fixture is hours older, so its card kind is `stale` while `sourcePublishedAt` stays `2026-09-22T11:05:00.000Z`. The stale Trends row is a separate older observation; it does not replace the fresh search family.
