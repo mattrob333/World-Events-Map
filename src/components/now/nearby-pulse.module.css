@@ -280,3 +280,31 @@
   .locateLifted { display: none; }
   .creditLifted { top: 8px; right: 12px; bottom: auto; left: auto; }
 }
+
+/* Planning from a hotel: its pin, the capsule's two small actions, and the search panel. */
+.stay {
+  display: inline-flex; align-items: center; gap: 6px; max-width: 180px; padding: 6px 12px 6px 8px; border-radius: 999px;
+  background: linear-gradient(100deg, #f7c548, #f26b2a); color: #170d06; font-size: 12.5px; font-weight: 750;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: 0 8px 20px -6px rgb(242 107 42 / 0.7);
+}
+.stay::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #170d06; }
+.fromActions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; pointer-events: auto; }
+.fromActions button {
+  min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 12.5px; font-weight: 650;
+  background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.1); color: var(--color-bone);
+}
+.fromActions button:first-child { color: var(--color-saffron); }
+.fromActions button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.chooser {
+  position: absolute; left: 8px; right: 8px; top: 8px; z-index: 6; display: grid; gap: 12px; padding: 16px 16px 14px;
+  max-height: calc(100% - 16px); overflow-y: auto; border-radius: 24px;
+  background: rgb(16 16 18 / 0.94); border: 1px solid rgb(255 255 255 / 0.08); box-shadow: 0 20px 50px -10px rgb(0 0 0 / 0.75);
+  -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%);
+  animation: sheetIn 0.28s var(--ease-glide, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.chooserHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chooserHead p { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--color-bone); }
+.chooserHead .close { position: relative; top: auto; right: auto; }
+.chooserLede { color: var(--color-ink-muted); font-size: 13.5px; line-height: 1.4; }
+@media (min-width: 720px) { .chooser { left: 16px; right: auto; width: 420px; top: 16px; } }
+@media (prefers-reduced-motion: reduce) { .chooser { animation: none; } }
