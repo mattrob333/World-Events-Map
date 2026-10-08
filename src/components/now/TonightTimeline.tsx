@@ -72,12 +72,13 @@ export function TonightTimeline({ tonight, selected, onPick, winks }: { tonight:
         ))}
       </div>
       <ol className={styles.rows}>
-        {tonight.rows.map(({ venue, from, to, minutesLeft }) => {
+        {tonight.rows.map(({ venue, from, to, minutesLeft }, index) => {
           const soon = minutesLeft !== null && minutesLeft <= 60;
           const closes = venue.openAllNight ? 'open all night' : closesLabel(venue.closesMinutes);
           return (
             <li key={venue.id}>
               <button type="button" className={styles.row} data-selected={selected === venue.id || undefined} onClick={() => onPick(venue)}>
+                <span className={styles.rank} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <span className={styles.rowName}>
                   <strong>{venue.name}</strong>
                   <small>
